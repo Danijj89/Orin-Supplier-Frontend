@@ -1,0 +1,129 @@
+.create-order {
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-bottom: 5%;
+}
+
+.create-order-stepper, .order-details-form {
+    padding: 24px 25%;
+}
+
+.order-details-form>div, .shipment-info>div {
+    margin: 10px 0;
+}
+
+.order-currency-dropdown {
+    min-width: 120px;
+    width: 160px;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+input[type=number]::-webkit-clear-button {
+    display: none;
+}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    display: none;
+}
+input[type=text]::-webkit-clear-button {
+    display: none !important;
+}
+
+.table-input {
+    border: none;
+    border-radius: 5px;
+    padding: 6px 4px;
+    font-size: 14px;
+    min-font-size: 12px;
+    margin: 0;
+}
+.table-row-item-reference {
+    width: 15%;
+    max-width: 200px;
+    padding: 4px !important;
+}
+.table-row-description {
+    width: 25%;
+    max-width: 400px;
+    padding: 4px !important;
+}
+.table-row-item-reference>div>div>input , .table-row-description>div>div>input {
+    width: 100%;
+}
+
+.table-row-custom-1, .table-row-custom-2 {
+    width: 15%;
+    max-width: 400px;
+    padding: 4px !important;
+}
+.table-row-custom-1>input, .table-row-custom-2>input {
+    width: 100%;
+}
+
+.table-row-quantity, .table-row-unit-price {
+    width: 10%;
+    max-width: 140px;
+    padding: 4px !important;
+}
+.table-row-quantity>input, .table-row-unit-price>input {
+    width: 100%;
+    text-align: right;
+}
+
+
+.table-row-units {
+    padding: 4px !important;
+    width: 5%;
+}
+.table-row-units>div>div>input {
+    width: 100%;
+    text-align: center;
+}
+
+.table-amount {
+    font-size: 16px;
+    min-font-size: 12px;
+    width: 20%;
+    max-width: 140px;
+    white-space: nowrap;
+}
+
+.table-row-delete-icon {
+    margin: 0;
+    width: 5%;
+}
+
+.order-preview {
+    padding: 1vw 10vw;
+}
+.order-preview>iframe {
+    margin: auto;
+    width: 100%;
+    min-width: 750px;
+    max-height: 480px;
+    height: 60vh;
+}
+.order-preview-loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    width: 100%;
+    min-width: 750px;
+    height: 400px;
+}
+.order-preview-download {
+    float: right;
+    clear: right;
+    margin: 1%;
+}
+
+
+
+
+
+
