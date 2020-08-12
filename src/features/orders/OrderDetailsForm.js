@@ -40,7 +40,6 @@ export default function OrderDetailsForm() {
     const onButtonNextClick = (data) => {
         data.createdBy = currentUser._id;
         data.company = currentCompany;
-        console.log(data);
         dispatch(submitOrderDetails(data));
     }
 

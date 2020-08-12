@@ -34,26 +34,22 @@ export default function OrderPreview() {
     }
 
     const onButtonExcelDownloadClick = async () => {
-        const { orderNumber, createdBy, orderDate } = orderDetails;
-        const file = await OrderService.downloadPO({
+        const { orderNumber, createdBy } = orderDetails;
+        const file = await OrderService.downloadPOExcel({
             orderNumber,
-            createdBy,
-            orderDate,
-            fmt: 'xlsx'
+            createdBy
         });
-        const filename = `${orderNumber}_${createdBy}_${orderDate}.xlsx`;
+        const filename = `${orderNumber}_${createdBy}.xlsx`;
         downloadFile(file, filename);
     }
 
     const onButtonPdfDownloadClick = async () => {
-        const { orderNumber, createdBy, orderDate } = orderDetails;
-        const file = await OrderService.downloadPO({
+        const { orderNumber, createdBy } = orderDetails;
+        const file = await OrderService.downloadPOPdf({
             orderNumber,
-            createdBy,
-            orderDate,
-            fmt: 'pdf'
+            createdBy
         });
-        const filename = `${orderNumber}_${createdBy}_${orderDate}.pdf`;
+        const filename = `${orderNumber}_${createdBy}.pdf`;
         downloadFile(file, filename);
     }
 

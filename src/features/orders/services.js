@@ -27,10 +27,20 @@ const addNewOrder = async (data) => {
     return await fetchWithAuth(configs);
 }
 
-const downloadPO = async (data) => {
+const downloadPOExcel = async (data) => {
     const configs = {
         method: 'post',
-        url: '/download/po',
+        url: '/download/po/excel',
+        responseType: 'blob',
+        data
+    };
+    return await fetchWithAuth(configs);
+}
+
+const downloadPOPdf = async (data) => {
+    const configs = {
+        method: 'post',
+        url: '/download/po/pdf',
         responseType: 'blob',
         data
     };
@@ -49,6 +59,7 @@ export default {
     fetchAllOrderOptions,
     generateOrderPreview,
     addNewOrder,
-    downloadPO,
+    downloadPOExcel,
+    downloadPOPdf,
     fetchAllOrdersByCurrentCompanyId
 };
