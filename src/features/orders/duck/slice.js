@@ -1,6 +1,6 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { LANGUAGE } from '../../../constants.js';
-import { fetchAllOrderOptions, fetchOrders, submitOrder, submitOrderForPreview } from './thunks.js';
+import { deleteOrder, fetchAllOrderOptions, fetchOrders, submitOrder, submitOrderForPreview } from './thunks.js';
 import { onUnitPriceChange, onUnitChange, onQuantityChange } from './helpers.js';
 
 const ordersAdapter = createEntityAdapter({
@@ -156,6 +156,10 @@ const ordersSlice = createSlice({
         [fetchOrders.fulfilled]: (state, action) => {
             state.status = 'IDLE';
             ordersAdapter.setAll(state, action.payload);
+        },
+        [deleteOrder.fulfilled]: (state, action) => {
+            state.status = 'IDLE';
+            ordersAdapter.removeOne(state, action.payload);
         }
     }
 });

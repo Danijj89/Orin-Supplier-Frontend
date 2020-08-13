@@ -24,12 +24,10 @@ export const ENGLISH = {
     },
     OrdersOverview: {
         newOrder: 'New Order',
-        column1: 'Status',
-        column2: 'Purchase Order',
-        column3: 'Quantity',
-        column4: 'Cargo Ready',
-        column5: 'Client',
-        column6: 'Notes'
+        columns: ['Status', 'Purchase Order', 'Quantity', 'Cargo Ready', 'Client', 'Notes'],
+        deleteOrderDialogMessage: 'Are you sure you want to delete this order?',
+        deleteOrderDialogCancelButton: 'Cancel',
+        deleteOrderDialogConfirmButton: 'Confirm'
     },
     createOrder: {
         steps: ['Order', 'Products', 'Review'],

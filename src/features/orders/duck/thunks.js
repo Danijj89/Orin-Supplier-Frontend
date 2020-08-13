@@ -27,3 +27,8 @@ export const fetchOrders = createAsyncThunk('orders/fetchOrders', async (_, { ge
     const { _id } = getState().home.company;
     return await OrderService.fetchAllOrdersByCurrentCompanyId(_id);
 });
+
+export const deleteOrder = createAsyncThunk('orders/deleteOrder', async (orderId) => {
+   return await OrderService.deleteOrder(orderId);
+});
+

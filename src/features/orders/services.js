@@ -55,11 +55,23 @@ const fetchAllOrdersByCurrentCompanyId = async (id) => {
     return await fetchWithAuth(configs);
 }
 
+const deleteOrder = async (orderId) => {
+    const configs = {
+        method: 'delete',
+        url: '/orders',
+        data: {
+            id: orderId
+        }
+    };
+    return await fetchWithAuth(configs);
+}
+
 export default {
     fetchAllOrderOptions,
     generateOrderPreview,
     addNewOrder,
     downloadPOExcel,
     downloadPOPdf,
-    fetchAllOrdersByCurrentCompanyId
+    fetchAllOrdersByCurrentCompanyId,
+    deleteOrder
 };
