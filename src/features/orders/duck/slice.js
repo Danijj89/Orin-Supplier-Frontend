@@ -12,10 +12,10 @@ const defaultRowValues = ['', '', '', '', 0, 'PCS', 0, 0];
 const getOrderDefaultValues = () => {
     return {
         orderDetails: {
-            orderNumber: '',
+            orderNumber: null,
             orderDate: new Date().toISOString().substr(0, 10),
-            from: '',
-            fromAddress: '',
+            from: null,
+            fromAddress: null,
             crd: new Date().toISOString().substr(0, 10),
             incoterm: null,
             paymentMethod: null,

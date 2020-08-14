@@ -7,9 +7,7 @@ import { prevStep } from './duck/slice.js';
 import { useHistory } from 'react-router-dom';
 import { submitOrder } from './duck/thunks.js';
 import { unwrapResult } from '@reduxjs/toolkit';
-import { downloadFile } from '../shared/utils.js';
 import DownloadButton from '../shared/DownloadButton.js';
-import SharedService from '../shared/services.js';
 
 const { buttonProductInfo, buttonSubmit } = LANGUAGE.orderPreview;
 

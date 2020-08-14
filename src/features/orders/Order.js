@@ -6,8 +6,6 @@ import { LANGUAGE } from '../../constants.js';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import DownloadButton from '../shared/DownloadButton.js';
-import { downloadFile } from '../shared/utils.js';
-import SharedService from '../shared/services.js';
 
 const { orderDetailsTab, documentsTab, generateDocumentButton } = LANGUAGE.order;
 

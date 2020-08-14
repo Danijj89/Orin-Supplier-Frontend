@@ -24,7 +24,7 @@ export default function CreateOrderDetailsForm() {
 
     const orderDetails = useSelector(selectNewOrderDetails);
     const { register, control, handleSubmit, watch, errors, formState } = useForm({
-        mode: 'onChange',
+        mode: 'onBlur',
         defaultValues: orderDetails
     });
 
@@ -57,6 +57,7 @@ export default function CreateOrderDetailsForm() {
                 inputRef={register({ required: true })}
                 fullWidth
                 autoFocus
+                required
             />
             <TextField
                 label={orderDate}
@@ -65,6 +66,7 @@ export default function CreateOrderDetailsForm() {
                 error={!!errors.orderDate}
                 inputRef={register({ required: true })}
                 fullWidth
+                required
             />
             <Controller
                 render={props => (
@@ -79,6 +81,7 @@ export default function CreateOrderDetailsForm() {
                                 label={from}
                                 variant="standard"
                                 error={!!errors.from}
+                                required
                             />
                         )}
                         onChange={(_, data) => props.onChange(data)}
@@ -100,6 +103,8 @@ export default function CreateOrderDetailsForm() {
                                 {...params}
                                 label={fromAddress}
                                 variant="standard"
+                                error={!!errors.fromAddress}
+                                required
                             />
                         )}
                         onChange={(_, data) => props.onChange(data)}
@@ -107,6 +112,7 @@ export default function CreateOrderDetailsForm() {
                 )}
                 name="fromAddress"
                 control={control}
+                rules={{ required: true }}
             />
             <TextField
                 label={crd}
