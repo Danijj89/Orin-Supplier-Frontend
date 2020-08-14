@@ -68,9 +68,7 @@ export const ENGLISH = {
     },
     orderPreview: {
         buttonProductInfo: 'Product Info',
-        buttonSubmit: 'Submit',
-        buttonDownloadExcel: 'Download Excel',
-        buttonDownloadPdf: 'Download PDF'
+        buttonSubmit: 'Submit'
     },
     orderInfoTile: {
         dateTitle: 'Purchase Order Date',

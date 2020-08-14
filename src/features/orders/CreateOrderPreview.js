@@ -7,10 +7,11 @@ import { prevStep } from './duck/slice.js';
 import { useHistory } from 'react-router-dom';
 import { submitOrder } from './duck/thunks.js';
 import { unwrapResult } from '@reduxjs/toolkit';
-import OrderService from './services.js';
 import { downloadFile } from '../shared/utils.js';
+import DownloadButton from '../shared/DownloadButton.js';
+import SharedService from '../shared/services.js';
 
-const { buttonProductInfo, buttonSubmit, buttonDownloadExcel, buttonDownloadPdf } = LANGUAGE.orderPreview;
+const { buttonProductInfo, buttonSubmit } = LANGUAGE.orderPreview;
 
 export default function CreateOrderPreview() {
 
@@ -33,24 +34,11 @@ export default function CreateOrderPreview() {
             .catch(err => console.log(err))
     }
 
-    const onButtonExcelDownloadClick = async () => {
-        const { orderNumber, createdBy } = orderDetails;
-        const file = await OrderService.downloadPOExcel({
-            orderNumber,
-            createdBy
-        });
-        const filename = `${orderNumber}_${createdBy}.xlsx`;
-        downloadFile(file, filename);
-    }
-
-    const onButtonPdfDownloadClick = async () => {
-        const { orderNumber, createdBy } = orderDetails;
-        const file = await OrderService.downloadPOPdf({
-            orderNumber,
-            createdBy
-        });
-        const filename = `${orderNumber}_${createdBy}.pdf`;
-        downloadFile(file, filename);
+    const handleDownload = async (extension) => {
+        const { fileName } = orderDetails;
+        const fileNameWithExtension = fileName + extension;
+        const file = await SharedService.downloadFile(fileNameWithExtension);
+        downloadFile(file, fileNameWithExtension);
     }
 
     let preview;
@@ -65,8 +53,7 @@ export default function CreateOrderPreview() {
     return (
         <div className="order-preview">
             <div className="order-preview-download">
-                <Button variant="contained" onClick={onButtonExcelDownloadClick}>{buttonDownloadExcel}</Button>
-                <Button variant="contained" onClick={onButtonPdfDownloadClick}>{buttonDownloadPdf}</Button>
+                <DownloadButton handleDownload={handleDownload} />
             </div>
             {preview}
             <div className="d-flex justify-content-around m-4">

@@ -26,7 +26,8 @@ const getOrderDefaultValues = () => {
             portOfDestination: '',
             shippingCarrier: '',
             createdBy: null,
-            company: null
+            company: null,
+            fileName: null
         },
         orderProductInfo: {
             columns: LANGUAGE.productTable.defaultColumns,
@@ -53,8 +54,7 @@ const initialState = ordersAdapter.getInitialState({
         ports: []
     },
     newOrder: getOrderDefaultValues(),
-    previewFileURL: null,
-    fileName: null
+    previewFileURL: null
 });
 
 const ordersSlice = createSlice({
@@ -134,7 +134,7 @@ const ordersSlice = createSlice({
         [submitOrderForPreview.fulfilled]: (state, action) => {
             state.status = 'IDLE';
             state.previewFileURL = action.payload.fileURL;
-            state.fileName = action.payload.fileName;
+            state.newOrder.orderDetails.fileName = action.payload.fileName;
         },
         [submitOrderForPreview.rejected]: (state, action) => {
             state.status = 'REJECTED';

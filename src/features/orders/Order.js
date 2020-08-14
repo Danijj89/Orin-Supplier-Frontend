@@ -57,7 +57,6 @@ export default function Order({match}) {
     const handleDownload = async (extension) => {
         const { fileName } = order;
         const fileNameWithExtension = fileName + extension;
-        console.log(extension);
         const file = await SharedService.downloadFile(fileNameWithExtension);
         downloadFile(file, fileNameWithExtension);
     }
