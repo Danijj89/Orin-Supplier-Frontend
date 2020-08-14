@@ -1,18 +1,19 @@
 import React, { useState } from 'react';
-import Card from '@material-ui/core/Card';
-import Typography from '@material-ui/core/Typography';
+import { useHistory } from 'react-router-dom';
+import { Card, Typography, Grid, Button, DialogTitle, DialogActions, Dialog } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { getStringFromTotalQuantityObject, yymmddToLocaleDate } from './helpers.js';
 import { LANGUAGE } from '../../constants.js';
-import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/Delete.js';
+import { useDispatch } from 'react-redux';
+import { deleteOrder } from './duck/thunks.js';
 
-const { dateTitle, crdTitle , editButton, incotermTitle , quantityTitle } = LANGUAGE.orderInfoTile;
+const { dateTitle, crdTitle , editButton, incotermTitle , quantityTitle,
+    deleteOrderDialogCancelButton, deleteOrderDialogConfirmButton, deleteOrderDialogMessage } = LANGUAGE.orderInfoTile;
 
 const useStyles = makeStyles({
     card: {
-        margin: '2% 1%',
+        margin: '2% 0',
         padding: '2%'
     },
     status: {
@@ -42,13 +43,24 @@ const useStyles = makeStyles({
 export default function OrderInfoTile({order}) {
     const classes = useStyles();
     const { status, poRef: orderNumber, date: orderDate, crd: cargoReadyDay, totalQ: totalQuantity, incoterm } = order;
+    const dispatch = useDispatch();
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const history = useHistory();
+
+    const onDialogOpen = () => setIsDialogOpen(true);
+    const onDialogClose = () => setIsDialogOpen(false);
+
+    const onDeleteClick = () => {
+        dispatch(deleteOrder(order._id));
+        history.push('/home/orders');
+    }
 
     return (
         <Card className={classes.card}>
             <Grid
                 container
             >
-                <Grid item xs={9}>
+                <Grid item xs={10}>
                     <Typography className={classes.status}>{status}</Typography>
                     <Typography className={classes.poRef}>{orderNumber}</Typography>
                     <div className={classes.info}>
@@ -74,12 +86,24 @@ export default function OrderInfoTile({order}) {
                 </Grid>
                 <Grid
                     container
+                    item
                     direction="column"
                     justify="space-between"
                     alignItems="flex-end"
                     xs
                 >
-                    <Button><DeleteIcon/></Button>
+                    <Button onClick={onDialogOpen}><DeleteIcon/></Button>
+                    <Dialog onClose={onDialogClose} open={isDialogOpen}>
+                        <DialogTitle id="simple-dialog-title">{deleteOrderDialogMessage}</DialogTitle>
+                        <DialogActions>
+                            <Button onClick={onDialogClose} color="primary" variant="outlined">
+                                {deleteOrderDialogCancelButton}
+                            </Button>
+                            <Button onClick={onDeleteClick} color="primary" variant="outlined">
+                                {deleteOrderDialogConfirmButton}
+                            </Button>
+                        </DialogActions>
+                    </Dialog>
                     <Button variant="outlined">{editButton}</Button>
                 </Grid>
             </Grid>

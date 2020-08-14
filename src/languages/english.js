@@ -77,7 +77,10 @@ export const ENGLISH = {
         crdTitle: 'CRD',
         quantityTitle: 'Quantity',
         incotermTitle: 'Incoterm',
-        editButton: 'Edit'
+        editButton: 'Edit',
+        deleteOrderDialogMessage: 'Are you sure you want to delete this order?',
+        deleteOrderDialogCancelButton: 'Cancel',
+        deleteOrderDialogConfirmButton: 'Confirm'
     },
     order: {
         orderDetailsTab: 'Order Details',
