@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import OrderService from './services.js';
 import OrderInfoTile from './OrderInfoTile.js';
-import { Container, Tabs, Tab, makeStyles, Button, CardMedia } from '@material-ui/core';
+import { Container, Tabs, Tab, Button } from '@material-ui/core';
 import { LANGUAGE } from '../../constants.js';
 import Grid from '@material-ui/core/Grid';
+import { makeStyles } from '@material-ui/core/styles';
+import DownloadButton from '../shared/DownloadButton.js';
+import { downloadFile } from '../shared/utils.js';
+import SharedService from '../shared/services.js';
 
-const { orderDetailsTab, documentsTab, downloadButton, generateDocumentButton } = LANGUAGE.order;
+const { orderDetailsTab, documentsTab, generateDocumentButton } = LANGUAGE.order;
 
 const useStyles = makeStyles({
     gridContainer: {
@@ -50,6 +54,14 @@ export default function Order({match}) {
         setTabValue(newValue);
     };
 
+    const handleDownload = async (extension) => {
+        const { fileName } = order;
+        const fileNameWithExtension = fileName + extension;
+        console.log(extension);
+        const file = await SharedService.downloadFile(fileNameWithExtension);
+        downloadFile(file, fileNameWithExtension);
+    }
+
 
     return (
         <Container>
@@ -60,8 +72,8 @@ export default function Order({match}) {
                 indicatorColor='primary'
                 textColor='primary'
             >
-                <Tab label={orderDetailsTab}/>
-                <Tab label={documentsTab}/>
+                <Tab label={orderDetailsTab} component="span"/>
+                <Tab label={documentsTab} component="span"/>
             </Tabs>
             <Grid
                 container
@@ -85,7 +97,7 @@ export default function Order({match}) {
                     alignItems="center"
                     xs
                 >
-                    <Button className={classes.sideButton} variant="contained">{downloadButton}</Button>
+                    <DownloadButton styles={classes.sideButton} handleDownload={handleDownload} />
                     <Button className={classes.sideButton} variant="contained">{generateDocumentButton}</Button>
                 </Grid>
             </Grid>
