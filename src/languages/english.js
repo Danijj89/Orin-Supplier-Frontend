@@ -85,7 +85,14 @@ export const ENGLISH = {
     order: {
         orderDetailsTab: 'Order Details',
         documentsTab: 'Documents',
-        downloadButton: 'Download Excel',
         generateDocumentButton: 'Generate Document'
+    },
+    shared: {
+        downloadButton: {
+            buttonText: 'Download',
+            dialogTitle: 'Select a file type you want to download',
+            dialogCancel: 'Cancel',
+            dialogConfirm: 'Download'
+        }
     }
 };
