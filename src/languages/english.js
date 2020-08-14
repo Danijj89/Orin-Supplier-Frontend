@@ -78,5 +78,11 @@ export const ENGLISH = {
         quantityTitle: 'Quantity',
         incotermTitle: 'Incoterm',
         editButton: 'Edit'
+    },
+    order: {
+        orderDetailsTab: 'Order Details',
+        documentsTab: 'Documents',
+        downloadButton: 'Download Excel',
+        generateDocumentButton: 'Generate Document'
     }
 };
