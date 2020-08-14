@@ -10,6 +10,8 @@ import {
 } from '@material-ui/core';
 import { LANGUAGE } from '../../constants.js';
 import { makeStyles } from '@material-ui/core/styles';
+import SharedService from './services.js';
+import { downloadFile } from './utils.js';
 
 const { buttonText, dialogTitle, dialogCancel, dialogConfirm } = LANGUAGE.shared.downloadButton;
 const downloadChoices = ['PDF', 'Excel'];
@@ -21,7 +23,7 @@ const useStyles = makeStyles({
     }
 })
 
-export default function DownloadButton({ styles, handleDownload }) {
+export default function DownloadButton({ styles, fileName }) {
     const classes = useStyles();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [downloadChoice, setDownloadChoice] = useState(extensions[0]);
@@ -29,6 +31,12 @@ export default function DownloadButton({ styles, handleDownload }) {
     const onDialogOpen = () => setIsDialogOpen(true);
     const onDialogClose = () => setIsDialogOpen(false);
     const onDownloadChoiceChange = (event) => setDownloadChoice(event.target.value);
+
+    const handleDownload = async (extension) => {
+        const fileNameWithExtension = fileName + extension;
+        const file = await SharedService.downloadFile(fileNameWithExtension);
+        downloadFile(file, fileNameWithExtension);
+    }
 
     return (
         <>

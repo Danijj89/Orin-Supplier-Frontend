@@ -34,13 +34,6 @@ export default function CreateOrderPreview() {
             .catch(err => console.log(err))
     }
 
-    const handleDownload = async (extension) => {
-        const { fileName } = orderDetails;
-        const fileNameWithExtension = fileName + extension;
-        const file = await SharedService.downloadFile(fileNameWithExtension);
-        downloadFile(file, fileNameWithExtension);
-    }
-
     let preview;
     if (status === 'PENDING') {
         preview = <div className="order-preview-loader"><div className="loader" /></div>;
@@ -53,7 +46,7 @@ export default function CreateOrderPreview() {
     return (
         <div className="order-preview">
             <div className="order-preview-download">
-                <DownloadButton handleDownload={handleDownload} />
+                <DownloadButton fileName={orderDetails.fileName} />
             </div>
             {preview}
             <div className="d-flex justify-content-around m-4">

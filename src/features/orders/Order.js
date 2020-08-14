@@ -54,14 +54,6 @@ export default function Order({match}) {
         setTabValue(newValue);
     };
 
-    const handleDownload = async (extension) => {
-        const { fileName } = order;
-        const fileNameWithExtension = fileName + extension;
-        const file = await SharedService.downloadFile(fileNameWithExtension);
-        downloadFile(file, fileNameWithExtension);
-    }
-
-
     return (
         <Container>
             {order && <OrderInfoTile order={order} />}
@@ -96,7 +88,7 @@ export default function Order({match}) {
                     alignItems="center"
                     xs
                 >
-                    <DownloadButton styles={classes.sideButton} handleDownload={handleDownload} />
+                    {order && <DownloadButton styles={classes.sideButton} fileName={order.fileName} />}
                     <Button className={classes.sideButton} variant="contained">{generateDocumentButton}</Button>
                 </Grid>
             </Grid>
