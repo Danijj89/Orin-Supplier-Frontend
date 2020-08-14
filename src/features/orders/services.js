@@ -50,7 +50,7 @@ const downloadPOPdf = async (data) => {
 const fetchAllOrdersByCurrentCompanyId = async (id) => {
     const configs = {
         method: 'get',
-        url: `/orders/${id}`
+        url: `/companies/${id}/orders`
     };
     return await fetchWithAuth(configs);
 }
@@ -66,6 +66,14 @@ const deleteOrder = async (orderId) => {
     return await fetchWithAuth(configs);
 }
 
+const fetchOrderById = async (orderId) => {
+    const configs = {
+        method: 'get',
+        url: `/orders/${orderId}`
+    };
+    return await fetchWithAuth(configs);
+}
+
 export default {
     fetchAllOrderOptions,
     generateOrderPreview,
@@ -73,5 +81,6 @@ export default {
     downloadPOExcel,
     downloadPOPdf,
     fetchAllOrdersByCurrentCompanyId,
-    deleteOrder
+    deleteOrder,
+    fetchOrderById
 };
