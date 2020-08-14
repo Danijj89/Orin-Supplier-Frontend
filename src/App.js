@@ -5,18 +5,27 @@ import Route from './features/shared/AppRoute.js';
 import OrderTableOverview from './features/orders/OrderTableOverview.js';
 import CreateOrder from './features/orders/CreateOrder.js';
 import Order from './features/orders/Order.js';
+import { createMuiTheme, MuiThemeProvider } from '@material-ui/core';
+
+const THEME = createMuiTheme({
+    typography: {
+        fontFamily: 'Poppins, Helvetica, sans-serif'
+    }
+})
 
 function App() {
   return (
-      <Router>
-        <Switch>
-            <Route exact path={['/', 'login']} component={LoginPage}/>
-            <Route exact path={['/home', '/home/orders']} component={OrderTableOverview} isPrivate />
-            <Route exact path={['/home/orders/create']} component={CreateOrder} isPrivate />
-            <Route exact path="/home/orders/:id" component={Order} isPrivate />
-            <Route component={LoginPage}/>
-        </Switch>
-      </Router>
+      <MuiThemeProvider theme={THEME}>
+          <Router>
+              <Switch>
+                  <Route exact path={['/', 'login']} component={LoginPage}/>
+                  <Route exact path={['/home', '/home/orders']} component={OrderTableOverview} isPrivate />
+                  <Route exact path={['/home/orders/create']} component={CreateOrder} isPrivate />
+                  <Route exact path="/home/orders/:id" component={Order} isPrivate />
+                  <Route component={LoginPage}/>
+              </Switch>
+          </Router>
+      </MuiThemeProvider>
   );
 }
 
