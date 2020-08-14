@@ -1,5 +1,6 @@
 import React from 'react';
 import { getStringFromTotalQuantityObject, yymmddToLocaleDate } from './helpers.js';
+import { useHistory } from 'react-router-dom';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -14,11 +15,16 @@ const useStyles = makeStyles({
 
 export default function OrderTableRow({order, onDialogOpen}) {
     const classes = useStyles();
+    const history = useHistory();
     const {status, poRef, totalQ, crd, from, remarks} = order;
     const renderedTotalQuantity = getStringFromTotalQuantityObject(totalQ);
 
+    const onRowClick = () => {
+        history.push(`/home/orders/${order._id}`);
+    }
+
     return (
-        <TableRow>
+        <TableRow hover onClick={onRowClick}>
             <TableCell className={classes.deleteButtonCell}>
                 <Button onClick={() => onDialogOpen(order._id)}><DeleteIcon/></Button>
             </TableCell>
