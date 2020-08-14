@@ -94,7 +94,7 @@ export default function OrderInfoTile({order}) {
                 >
                     <Button onClick={onDialogOpen}><DeleteIcon/></Button>
                     <Dialog onClose={onDialogClose} open={isDialogOpen}>
-                        <DialogTitle id="simple-dialog-title">{deleteOrderDialogMessage}</DialogTitle>
+                        <DialogTitle>{deleteOrderDialogMessage}</DialogTitle>
                         <DialogActions>
                             <Button onClick={onDialogClose} color="primary" variant="outlined">
                                 {deleteOrderDialogCancelButton}
