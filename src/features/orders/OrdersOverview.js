@@ -35,7 +35,7 @@ export default function OrdersOverview() {
     const dispatch = useDispatch();
     const orders = useSelector(selectAllOrders);
     const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(3);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [selectedOrderId, setSelectedOrderId] = useState(null);
 
@@ -86,7 +86,7 @@ export default function OrdersOverview() {
                 </Table>
             </TableContainer>
             <TablePagination
-                rowsPerPageOptions={[3, 25, 100]}
+                rowsPerPageOptions={[10, 25, 100]}
                 component="div"
                 count={orders.length}
                 rowsPerPage={rowsPerPage}
