@@ -19,6 +19,7 @@ export default function LoginForm({ onSignInClick }) {
                     type="email"
                     value={emailField}
                     onChange={onEmailChange}
+                    autoFocus
                 />
             </div>
             <div className="form-group">
