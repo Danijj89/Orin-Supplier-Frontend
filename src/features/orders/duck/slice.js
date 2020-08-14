@@ -53,7 +53,8 @@ const initialState = ordersAdapter.getInitialState({
         ports: []
     },
     newOrder: getOrderDefaultValues(),
-    previewFileURL: null
+    previewFileURL: null,
+    fileName: null
 });
 
 const ordersSlice = createSlice({
@@ -132,7 +133,8 @@ const ordersSlice = createSlice({
         },
         [submitOrderForPreview.fulfilled]: (state, action) => {
             state.status = 'IDLE';
-            state.previewFileURL = action.payload;
+            state.previewFileURL = action.payload.fileURL;
+            state.fileName = action.payload.fileName;
         },
         [submitOrderForPreview.rejected]: (state, action) => {
             state.status = 'REJECTED';

@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import OrderService from '../services.js';
+import { getFileName } from '../../shared/utils.js';
 
 export const fetchAllOrderOptions = createAsyncThunk('orders/fetchAllOrderOptions', async (companyId) => {
     return await OrderService.fetchAllOrderOptions(companyId);
@@ -8,7 +9,11 @@ export const submitOrderForPreview = createAsyncThunk('orders/submitOrderForPrev
     async (_, { getState }) => {
     const { newOrder } = getState().orders;
     const file = await OrderService.generateOrderPreview(newOrder);
-    return window.URL.createObjectURL(file);
+    const fileName = getFileName('PO', newOrder.orderDetails.orderNumber, newOrder.orderDetails.createdBy);
+    return {
+        fileURL: window.URL.createObjectURL(file),
+        fileName
+    };
 });
 
 export const submitOrder = createAsyncThunk('orders/submitOrder', async (_, { getState }) => {
