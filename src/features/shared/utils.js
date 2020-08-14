@@ -20,3 +20,7 @@ export function downloadFile(file, filename) {
     document.body.appendChild(link);
     link.click();
 }
+
+export function getFileName(doctype, id, author) {
+    return `${doctype}_${id}_${author}`;
+}
