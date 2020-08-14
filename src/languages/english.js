@@ -71,5 +71,12 @@ export const ENGLISH = {
         buttonSubmit: 'Submit',
         buttonDownloadExcel: 'Download Excel',
         buttonDownloadPdf: 'Download PDF'
+    },
+    orderInfoTile: {
+        dateTitle: 'Purchase Order Date',
+        crdTitle: 'CRD',
+        quantityTitle: 'Quantity',
+        incotermTitle: 'Incoterm',
+        editButton: 'Edit'
     }
 };
