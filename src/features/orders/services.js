@@ -74,6 +74,15 @@ const fetchOrderById = async (orderId) => {
     return await fetchWithAuth(configs);
 }
 
+const getPdfFilePreview = async (filename) => {
+    const configs = {
+        method: 'get',
+        url: `/orders/preview/${filename}`,
+        responseType: 'blob',
+    };
+    return await fetchWithAuth(configs);
+}
+
 export default {
     fetchAllOrderOptions,
     generateOrderPreview,
@@ -82,5 +91,6 @@ export default {
     downloadPOPdf,
     fetchAllOrdersByCurrentCompanyId,
     deleteOrder,
-    fetchOrderById
+    fetchOrderById,
+    getPdfFilePreview
 };
