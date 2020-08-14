@@ -6,7 +6,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCurrentCompany, selectCurrentUser } from '../home/slice.js';
-import ShippingInfo from './ShippingInfo.js';
+import CreateOrderShippingInfo from './CreateOrderShippingInfo.js';
 import { submitOrderDetails } from './duck/slice.js';
 import { useHistory } from 'react-router-dom';
 import { selectNewOrderDetails, selectPOAutocompleteOptions } from './duck/selectors.js';
@@ -16,7 +16,7 @@ const {
     paymentMethod, reference, remarks, buttonCancel, buttonNext
 } = LANGUAGE.orderDetailsForm;
 
-export default function OrderDetailsForm() {
+export default function CreateOrderDetailsForm() {
     const dispatch = useDispatch();
     const history = useHistory();
     const currentUser = useSelector(selectCurrentUser);
@@ -143,7 +143,7 @@ export default function OrderDetailsForm() {
                 inputRef={register}
                 fullWidth
             />
-            <ShippingInfo register={register} control={control} />
+            <CreateOrderShippingInfo register={register} control={control} />
             <div className="d-flex justify-content-around m-4">
                 <Button
                     variant="outlined"

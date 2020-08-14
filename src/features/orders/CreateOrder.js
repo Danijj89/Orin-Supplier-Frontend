@@ -1,16 +1,16 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import OrderDetailsForm from './OrderDetailsForm.js';
+import CreateOrderDetailsForm from './CreateOrderDetailsForm.js';
 import './styles.css';
 import { LANGUAGE } from '../../constants.js';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
-import OrderProductInfo from './OrderProductInfo.js';
+import CreateOrderProductInfo from './CreateOrderProductInfo.js';
 import { selectCurrentCompany } from '../home/slice.js';
 import { fetchAllOrderOptions } from './duck/thunks.js';
 import { selectOrderActiveStep, selectOrderSteps } from './duck/selectors.js';
-import OrderPreview from './OrderPreview.js';
+import CreateOrderPreview from './CreateOrderPreview.js';
 import { startNewOrder } from './duck/slice.js';
 
 const {newOrder} = LANGUAGE.createOrder;
@@ -46,9 +46,9 @@ export default function CreateOrder() {
             </div>
             <h4>{newOrder}</h4>
             <hr/>
-            {activeStep === 0 && <OrderDetailsForm />}
-            {activeStep === 1 && <OrderProductInfo />}
-            {activeStep === 2 && <OrderPreview />}
+            {activeStep === 0 && <CreateOrderDetailsForm />}
+            {activeStep === 1 && <CreateOrderProductInfo />}
+            {activeStep === 2 && <CreateOrderPreview />}
         </div>
     )
 }

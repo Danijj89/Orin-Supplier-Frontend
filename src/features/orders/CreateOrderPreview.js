@@ -12,7 +12,7 @@ import { downloadFile } from '../shared/utils.js';
 
 const { buttonProductInfo, buttonSubmit, buttonDownloadExcel, buttonDownloadPdf } = LANGUAGE.orderPreview;
 
-export default function OrderPreview() {
+export default function CreateOrderPreview() {
 
     const dispatch = useDispatch();
     const history = useHistory();

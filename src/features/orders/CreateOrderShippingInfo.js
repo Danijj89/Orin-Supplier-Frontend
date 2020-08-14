@@ -17,7 +17,7 @@ const {
     portOfDestination, shippingCarrier
 } = LANGUAGE.shippingInfo;
 
-export default function ShippingInfo({register, control}) {
+export default function CreateOrderShippingInfo({register, control}) {
     const mounted = useRef();
     const [hidden, setHidden] = useState(true);
 

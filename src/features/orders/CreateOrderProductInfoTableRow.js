@@ -9,7 +9,7 @@ import TableInputField from '../shared/TableInputField.js';
 import { useSelector } from 'react-redux';
 import { selectPOAutocompleteOptions } from './duck/selectors.js';
 
-export default function ProductTableRow(
+export default function CreateOrderProductInfoTableRow(
     {row, rowIdx, numColumns, onCellChange, onRowDeleteButtonClick, currency}) {
 
     const { itemReferences , productDescriptions, itemUnits } = useSelector(selectPOAutocompleteOptions);

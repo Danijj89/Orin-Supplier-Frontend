@@ -10,7 +10,7 @@ import {
     prevStep,
 } from './duck/slice.js';
 import './styles.css';
-import ProductTable from './ProductTable.js';
+import CreateOrderProductInfoTable from './CreateOrderProductInfoTable.js';
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -24,7 +24,7 @@ import { submitOrderForPreview } from './duck/thunks.js';
 const { currency, buttonOrderDetails, buttonReview,
     buttonAddColumn, addColumnDialog, dialogButtonCancel, maxColumnError } = LANGUAGE.orderProductInfo;
 
-export default function OrderProductInfo() {
+export default function CreateOrderProductInfo() {
     const dispatch = useDispatch();
     const { currencies } = useSelector(selectPOAutocompleteOptions);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -98,7 +98,7 @@ export default function OrderProductInfo() {
                     </DialogActions>
                 </Dialog>
             </div>
-            <ProductTable />
+            <CreateOrderProductInfoTable />
             <div className="d-flex justify-content-around m-4">
                 <Button variant="outlined" onClick={onButtonOrderDetailsClick}>{buttonOrderDetails}</Button>
                 <Button variant="contained" onClick={onButtonReviewClick}>{buttonReview}</Button>

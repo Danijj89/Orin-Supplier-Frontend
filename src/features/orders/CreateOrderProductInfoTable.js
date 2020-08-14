@@ -5,7 +5,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import TableBody from '@material-ui/core/TableBody';
-import ProductTableRow from './ProductTableRow.js';
+import CreateOrderProductInfoTableRow from './CreateOrderProductInfoTableRow.js';
 import Button from '@material-ui/core/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -22,7 +22,7 @@ import { getStringFromTotalQuantityObject } from './helpers.js';
 
 const { total } = LANGUAGE.productTable;
 
-export default function ProductTable() {
+export default function CreateOrderProductInfoTable() {
     const dispatch = useDispatch();
 
 
@@ -52,7 +52,7 @@ export default function ProductTable() {
     const onRowAddButtonClick = () => dispatch(addRow());
 
     const renderedRows = rows.map((row, index) =>
-        <ProductTableRow
+        <CreateOrderProductInfoTableRow
             key={index}
             row={row}
             rowIdx={index}
