@@ -4,7 +4,7 @@ import { LANGUAGE } from '../../constants';
 import LoginService from './services.js';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { setCurrentUserInfo } from '../home/slice.js';
+import { setSessionInfo } from '../home/slice.js';
 import LoginForm from './LoginForm.js';
 import LoginImage from './LoginImage.js';
 
@@ -16,13 +16,22 @@ export default function LoginPage() {
 
     const onSignInClick = async (event, data) => {
         event.preventDefault();
-        const { token, ...user } = await LoginService.signIn(data);
-        sessionStorage.setItem('token', token);
-        const { company, ...userWithoutCompany } = user;
-        sessionStorage.setItem('company', JSON.stringify(company));
-        sessionStorage.setItem('user', JSON.stringify(userWithoutCompany));
-        dispatch(setCurrentUserInfo(user));
-        history.push('/home');
+        try {
+            const { token, user, company, defaults } = await LoginService.signIn(data);
+            sessionStorage.setItem('token', token);
+            sessionStorage.setItem('company', JSON.stringify(company));
+            sessionStorage.setItem('user', JSON.stringify(user));
+            sessionStorage.setItem('defaults', JSON.stringify(defaults));
+            dispatch(setSessionInfo({
+                user,
+                company,
+                defaults
+            }));
+            history.push('/home');
+        } catch (err) {
+            console.log(err);
+            history.push('/login');
+        }
     }
 
     return (
