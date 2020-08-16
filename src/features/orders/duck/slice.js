@@ -5,7 +5,7 @@ import { onUnitPriceChange, onUnitChange, onQuantityChange } from './helpers.js'
 
 const ordersAdapter = createEntityAdapter({
     selectId: order => order._id,
-    sortComparer: (a, b) => b.crd.localeCompare(a.crd)
+    sortComparer: (a, b) => a.crd.localeCompare(b.crd)
 });
 
 const defaultRowValues = ['', '', '', '', 0, 'PCS', 0, 0];
@@ -13,10 +13,10 @@ const getOrderDefaultValues = () => {
     return {
         orderDetails: {
             orderNumber: null,
-            orderDate: new Date().toISOString().substr(0, 10),
+            orderDate: new Date().toISOString(),
             from: null,
             fromAddress: null,
-            crd: new Date().toISOString().substr(0, 10),
+            crd: new Date().toISOString(),
             incoterm: null,
             paymentMethod: null,
             reference: null,
@@ -157,7 +157,7 @@ const ordersSlice = createSlice({
         },
         [fetchOrders.fulfilled]: (state, action) => {
             state.status = 'IDLE';
-            ordersAdapter.setAll(state, action.payload);
+            ordersAdapter.upsertMany(state, action.payload);
         },
         [deleteOrder.fulfilled]: (state, action) => {
             state.status = 'IDLE';

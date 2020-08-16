@@ -25,7 +25,11 @@ export default function CreateOrderDetailsForm() {
     const orderDetails = useSelector(selectNewOrderDetails);
     const { register, control, handleSubmit, watch, errors, formState } = useForm({
         mode: 'onBlur',
-        defaultValues: orderDetails
+        defaultValues: {
+            ...orderDetails,
+            orderDate: orderDetails.orderDate.substr(0, 10),
+            crd: orderDetails.crd.substr(0, 10)
+        }
     });
 
     const { customers } = useSelector(selectPOAutocompleteOptions);

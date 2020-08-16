@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import OrderService from './services.js';
 import OrderInfoTile from './OrderInfoTile.js';
-import { Container, Tabs, Tab, Button } from '@material-ui/core';
+import { Container, Tabs, Tab } from '@material-ui/core';
 import { LANGUAGE } from '../../constants.js';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
