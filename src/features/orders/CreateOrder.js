@@ -26,28 +26,21 @@ export default function CreateOrder() {
     const classes = useStyles();
     const dispatch = useDispatch();
     const { _id } = useSelector(selectCurrentCompany);
+    const steps = useSelector(selectOrderSteps);
+    const activeStep = useSelector(selectOrderActiveStep);
 
     useEffect(() => {
         dispatch(startNewOrder());
         dispatch(fetchPOOptions(_id));
     }, [_id, dispatch]);
-
-    const steps = useSelector(selectOrderSteps);
-    const activeStep = useSelector(selectOrderActiveStep);
-
-    const renderedSteps = steps.map((label) => (
-        <Step key={label}>
-            <StepLabel>{label}</StepLabel>
-        </Step>
-    ));
-
+    
     return (
         <div className="create-order">
             <div className="create-order-stepper">
                 <DocumentStepper
                     styles={classes.stepper}
                     activeStep={activeStep}
-                    renderedSteps={renderedSteps}
+                    steps={steps}
                 />
             </div>
             <h4>{newOrder}</h4>
