@@ -13,7 +13,7 @@ import { startNewOrder } from './duck/slice.js';
 import { makeStyles } from '@material-ui/core/styles';
 import DocumentStepper from '../shared/DocumentStepper.js';
 
-const { newOrder } = LANGUAGE.order.createOrder;
+const {newOrder} = LANGUAGE.order.createOrder;
 
 const useStyles = makeStyles({
     stepper: {
@@ -25,7 +25,7 @@ const useStyles = makeStyles({
 export default function CreateOrder() {
     const classes = useStyles();
     const dispatch = useDispatch();
-    const { _id } = useSelector(selectCurrentCompany);
+    const {_id} = useSelector(selectCurrentCompany);
     const steps = useSelector(selectOrderSteps);
     const activeStep = useSelector(selectOrderActiveStep);
 
@@ -33,21 +33,19 @@ export default function CreateOrder() {
         dispatch(startNewOrder());
         dispatch(fetchPOOptions(_id));
     }, [_id, dispatch]);
-    
+
     return (
         <div className="create-order">
-            <div className="create-order-stepper">
-                <DocumentStepper
-                    styles={classes.stepper}
-                    activeStep={activeStep}
-                    steps={steps}
-                />
-            </div>
+            <DocumentStepper
+                styles={classes.stepper}
+                activeStep={activeStep}
+                steps={steps}
+            />
             <h4>{newOrder}</h4>
             <hr/>
-            {activeStep === 0 && <CreateOrderDetailsForm />}
-            {activeStep === 1 && <CreateOrderProductInfo />}
-            {activeStep === 2 && <CreateOrderPreview />}
+            {activeStep === 0 && <CreateOrderDetailsForm/>}
+            {activeStep === 1 && <CreateOrderProductInfo/>}
+            {activeStep === 2 && <CreateOrderPreview/>}
         </div>
     )
 }
