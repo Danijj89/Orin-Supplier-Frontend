@@ -82,15 +82,29 @@ export const ENGLISH = {
     },
     order: {
         orderDetailsTab: 'Order Details',
-        documentsTab: 'Documents',
-        generateDocumentButton: 'Generate Document'
+        documentsTab: 'Documents'
     },
     shared: {
         downloadButton: {
             buttonText: 'Download',
-            dialogTitle: 'Select a file type you want to download',
+            dialogTitle: 'Select the file type to download',
             dialogCancel: 'Cancel',
-            dialogConfirm: 'Download'
+            dialogConfirm: 'Download',
+            typeLabel: 'Document Type'
+        },
+        generateDocumentButton: {
+            buttonText: 'Generate Documents',
+            dialogTitle: 'Select the document to generate',
+            dialogCancel: 'Cancel',
+            dialogConfirm: 'Create',
+            typeLabel: 'Document Type'
+        }
+    },
+    defaults: {
+        documentNames: {
+            PO: 'Purchase Order',
+            CI: 'Commercial Invoice',
+            PL: 'Packing List'
         }
     }
 };

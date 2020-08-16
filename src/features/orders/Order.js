@@ -6,8 +6,9 @@ import { LANGUAGE } from '../../constants.js';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import DownloadButton from '../shared/DownloadButton.js';
+import DocumentGenerationButton from '../shared/DocumentGenerationButton.js';
 
-const { orderDetailsTab, documentsTab, generateDocumentButton } = LANGUAGE.order;
+const { orderDetailsTab, documentsTab } = LANGUAGE.order;
 
 const useStyles = makeStyles({
     gridContainer: {
@@ -87,7 +88,7 @@ export default function Order({match}) {
                     xs
                 >
                     {order && <DownloadButton styles={classes.sideButton} fileName={order.fileName} />}
-                    <Button className={classes.sideButton} variant="contained">{generateDocumentButton}</Button>
+                    {order && <DocumentGenerationButton styles={classes.sideButton} orderId={order._id} />}
                 </Grid>
             </Grid>
         </Container>

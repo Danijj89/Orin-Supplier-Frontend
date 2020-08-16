@@ -6,33 +6,34 @@ import {
     DialogTitle,
     FormControl,
     MenuItem,
-    Select
+    Select,
+    InputLabel
 } from '@material-ui/core';
 import { LANGUAGE } from '../../constants.js';
 import { makeStyles } from '@material-ui/core/styles';
 import SharedService from './services.js';
 import { downloadFile } from './utils.js';
 
-const { buttonText, dialogTitle, dialogCancel, dialogConfirm } = LANGUAGE.shared.downloadButton;
+const { buttonText, dialogTitle, dialogCancel, dialogConfirm, typeLabel } = LANGUAGE.shared.downloadButton;
 const downloadChoices = ['PDF', 'Excel'];
 const extensions = ['.pdf', '.xlsx'];
 
-const useStyles = makeStyles({
-    select: {
-        margin: '5%'
+const useStyles = makeStyles((theme) => ({
+    formControl: {
+        margin: theme.spacing(1)
     }
-})
+}));
 
 export default function DownloadButton({ styles, fileName }) {
     const classes = useStyles();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
-    const [downloadChoice, setDownloadChoice] = useState(extensions[0]);
+    const [extension, setExtension] = useState(extensions[0]);
 
     const onDialogOpen = () => setIsDialogOpen(true);
     const onDialogClose = () => setIsDialogOpen(false);
-    const onDownloadChoiceChange = (event) => setDownloadChoice(event.target.value);
+    const onDownloadChoiceChange = (event) => setExtension(event.target.value);
 
-    const handleDownload = async (extension) => {
+    const handleDownload = async () => {
         const fileNameWithExtension = fileName + extension;
         const file = await SharedService.downloadFile(fileNameWithExtension);
         downloadFile(file, fileNameWithExtension);
@@ -47,12 +48,13 @@ export default function DownloadButton({ styles, fileName }) {
             >{buttonText}</Button>
             <Dialog onClose={onDialogClose} open={isDialogOpen}>
                 <DialogTitle>{dialogTitle}</DialogTitle>
-                <FormControl variant="outlined">
+                <FormControl variant="outlined" className={classes.formControl}>
+                    <InputLabel id="download-button-select-label">{typeLabel}</InputLabel>
                     <Select
-                        value={downloadChoice}
+                        labelId="download-button-select-label"
+                        value={extension}
                         onChange={onDownloadChoiceChange}
-                        label={downloadChoices[0]}
-                        className={classes.select}
+                        label={typeLabel}
                     >
                         {downloadChoices.map((choice, index) =>
                             <MenuItem key={choice} value={extensions[index]}>{choice}</MenuItem>
@@ -63,7 +65,7 @@ export default function DownloadButton({ styles, fileName }) {
                     <Button onClick={onDialogClose} color="primary" variant="outlined">
                         {dialogCancel}
                     </Button>
-                    <Button onClick={() => handleDownload(downloadChoice)} color="primary" variant="outlined">
+                    <Button onClick={handleDownload} color="primary" variant="outlined">
                         {dialogConfirm}
                     </Button>
                 </DialogActions>
