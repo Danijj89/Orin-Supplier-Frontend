@@ -46,10 +46,8 @@ const initialState = ordersAdapter.getInitialState({
     activeStep: 0,
     autocomplete: {
         deliveryOptions: [],
-        currencies: [],
-        itemReferences: [],
-        productDescriptions: [],
-        itemUnits: [],
+        itemsRef: [],
+        itemDescriptionMap: {},
         customers: [],
         ports: []
     },
