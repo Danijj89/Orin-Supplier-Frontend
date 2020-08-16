@@ -15,7 +15,7 @@ const homeSlice = createSlice({
             const { user, company, defaults } = action.payload
             state.user = user;
             state.company = company;
-            state.defaults = defaults.filter();
+            state.defaults = defaults;
         }
     }
 });
