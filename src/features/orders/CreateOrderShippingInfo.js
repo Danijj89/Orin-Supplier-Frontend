@@ -22,7 +22,7 @@ export default function CreateOrderShippingInfo({register, control}) {
     const [hidden, setHidden] = useState(true);
 
     useEffect(() => {
-        if (mounted) window.scrollTo(0, document.body.scrollHeight);
+        if (mounted && !hidden) window.scrollTo(0, document.body.scrollHeight);
     }, [hidden]);
 
     const { deliveryOptions, ports } = useSelector(selectPOAutocompleteOptions);
