@@ -11,8 +11,7 @@ export const fetchWithAuth = async configs => {
     if (!newConfigs.headers) newConfigs.headers = {};
     newConfigs.headers['Authorization'] = `Bearer ${token}`;
     try {
-        const { data } = await axios(newConfigs);
-        return data;
+        return await axios(newConfigs);
     } catch (error) {
         const { status } = error.response;
         if (status === 403) {

@@ -5,26 +5,29 @@ const fetchOrderOptions = async (companyId) => {
         method: 'get',
         url: `/companies/${companyId}/document_autocomplete/po`
     };
-    return await fetchWithAuth(configs);
+    const { data } = await fetchWithAuth(configs);
+    return data;
 }
 
-const generateOrderPreview = async (data) => {
+const generateOrderPreview = async (order) => {
     const configs = {
         method: 'post',
         responseType: 'blob',
         url: '/orders/preview',
-        data
+        data: order
     };
-    return await fetchWithAuth(configs);
+    const { data } = await fetchWithAuth(configs);
+    return data;
 }
 
-const addNewOrder = async (data) => {
+const addNewOrder = async (order) => {
     const configs = {
         method: 'post',
         url: '/orders',
-        data
+        data: order
     };
-    return await fetchWithAuth(configs);
+    const { data } = await fetchWithAuth(configs);
+    return data;
 }
 
 const fetchAllOrdersByCurrentCompanyId = async (id) => {
@@ -32,7 +35,8 @@ const fetchAllOrdersByCurrentCompanyId = async (id) => {
         method: 'get',
         url: `/companies/${id}/orders`
     };
-    return await fetchWithAuth(configs);
+    const { data } = await fetchWithAuth(configs);
+    return data;
 }
 
 const deleteOrder = async (orderId) => {
@@ -43,7 +47,8 @@ const deleteOrder = async (orderId) => {
             id: orderId
         }
     };
-    return await fetchWithAuth(configs);
+    const { data } = await fetchWithAuth(configs);
+    return data;
 }
 
 const fetchOrderById = async (orderId) => {
@@ -51,7 +56,8 @@ const fetchOrderById = async (orderId) => {
         method: 'get',
         url: `/orders/${orderId}`
     };
-    return await fetchWithAuth(configs);
+    const { data } = await fetchWithAuth(configs);
+    return data;
 }
 
 const getPdfFilePreview = async (filename) => {
@@ -60,7 +66,8 @@ const getPdfFilePreview = async (filename) => {
         url: `/orders/preview/${filename}`,
         responseType: 'blob',
     };
-    return await fetchWithAuth(configs);
+    const { data } = await fetchWithAuth(configs);
+    return data;
 }
 
 export default {

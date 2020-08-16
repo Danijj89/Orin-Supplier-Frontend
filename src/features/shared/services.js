@@ -6,7 +6,8 @@ const downloadFile = async (fileName) => {
         url: `/download/${fileName}`,
         responseType: 'blob',
     };
-    return await fetchWithAuth(configs);
+    const { data } = await fetchWithAuth(configs);
+    return data;
 };
 
 const SharedService = {
