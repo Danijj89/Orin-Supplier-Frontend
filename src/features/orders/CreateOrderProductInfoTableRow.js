@@ -45,7 +45,7 @@ export default function CreateOrderProductInfoTableRow(
                 <Autocomplete
                     freeSolo
                     autoSelect
-                    options={row[0] ? itemDescriptionMap[row[0]] : []}
+                    options={itemDescriptionMap.hasOwnProperty(row[0]) ? itemDescriptionMap[row[0]] : []}
                     renderInput={params => (
                         <TableInputField
                             type="text"
