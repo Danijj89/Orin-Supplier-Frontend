@@ -20,13 +20,14 @@ import {
     selectNewOrderProductInfo
 } from './duck/selectors.js';
 import { submitOrderForPreview } from './duck/thunks.js';
+import { selectCurrentDefaults } from '../home/slice.js';
 
 const { currency, buttonOrderDetails, buttonReview,
     buttonAddColumn, addColumnDialog, dialogButtonCancel, maxColumnError } = LANGUAGE.orderProductInfo;
 
 export default function CreateOrderProductInfo() {
     const dispatch = useDispatch();
-    const { currencies } = useSelector(selectPOAutocompleteOptions);
+    const { currencies } = useSelector(selectCurrentDefaults);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const productInfo = useSelector(selectNewOrderProductInfo);
     const columns = productInfo.columns;

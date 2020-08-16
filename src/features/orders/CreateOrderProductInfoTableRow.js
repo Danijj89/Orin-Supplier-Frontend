@@ -8,11 +8,13 @@ import { getCurrencySymbol } from '../shared/utils.js';
 import TableInputField from '../shared/TableInputField.js';
 import { useSelector } from 'react-redux';
 import { selectPOAutocompleteOptions } from './duck/selectors.js';
+import { selectCurrentDefaults } from '../home/slice.js';
 
 export default function CreateOrderProductInfoTableRow(
     {row, rowIdx, numColumns, onCellChange, onRowDeleteButtonClick, currency}) {
 
-    const { itemReferences , productDescriptions, itemUnits } = useSelector(selectPOAutocompleteOptions);
+    const { itemsRef, itemDescriptionMap } = useSelector(selectPOAutocompleteOptions);
+    const { itemUnits } = useSelector(selectCurrentDefaults);
 
     return (
         <TableRow>
@@ -25,7 +27,7 @@ export default function CreateOrderProductInfoTableRow(
                 <Autocomplete
                     freeSolo
                     autoSelect
-                    options={itemReferences}
+                    options={itemsRef}
                     renderInput={params => (
                         <TableInputField
                             type="text"
@@ -43,7 +45,7 @@ export default function CreateOrderProductInfoTableRow(
                 <Autocomplete
                     freeSolo
                     autoSelect
-                    options={productDescriptions}
+                    options={row[0] ? itemDescriptionMap[row[0]] : []}
                     renderInput={params => (
                         <TableInputField
                             type="text"

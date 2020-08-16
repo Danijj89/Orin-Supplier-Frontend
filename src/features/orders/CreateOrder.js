@@ -8,7 +8,7 @@ import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import CreateOrderProductInfo from './CreateOrderProductInfo.js';
 import { selectCurrentCompany } from '../home/slice.js';
-import { fetchAllOrderOptions } from './duck/thunks.js';
+import { fetchPOOptions } from './duck/thunks.js';
 import { selectOrderActiveStep, selectOrderSteps } from './duck/selectors.js';
 import CreateOrderPreview from './CreateOrderPreview.js';
 import { startNewOrder } from './duck/slice.js';
@@ -21,7 +21,7 @@ export default function CreateOrder() {
 
     useEffect(() => {
         dispatch(startNewOrder());
-        dispatch(fetchAllOrderOptions(_id));
+        dispatch(fetchPOOptions(_id));
     }, [_id, dispatch]);
 
     const steps = useSelector(selectOrderSteps);

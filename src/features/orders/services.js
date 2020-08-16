@@ -1,9 +1,9 @@
 import { fetchWithAuth } from '../shared/fetchWithAuth.js';
 
-const fetchAllOrderOptions = async (companyId) => {
+const fetchOrderOptions = async (companyId) => {
     const configs = {
         method: 'get',
-        url: `/orders/${companyId}/options`
+        url: `/companies/${companyId}/document_autocomplete/po`
     };
     return await fetchWithAuth(configs);
 }
@@ -64,7 +64,7 @@ const getPdfFilePreview = async (filename) => {
 }
 
 export default {
-    fetchAllOrderOptions,
+    fetchOrderOptions,
     generateOrderPreview,
     addNewOrder,
     fetchAllOrdersByCurrentCompanyId,

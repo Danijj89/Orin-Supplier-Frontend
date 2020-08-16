@@ -2,8 +2,8 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import OrderService from '../services.js';
 import { getFileName } from '../../shared/utils.js';
 
-export const fetchAllOrderOptions = createAsyncThunk('orders/fetchAllOrderOptions', async (companyId) => {
-    return await OrderService.fetchAllOrderOptions(companyId);
+export const fetchPOOptions = createAsyncThunk('orders/fetchOrderOptions', async (companyId) => {
+    return await OrderService.fetchOrderOptions(companyId);
 });
 export const submitOrderForPreview = createAsyncThunk('orders/submitOrderForPreview',
     async (_, { getState }) => {

@@ -1,6 +1,6 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { LANGUAGE } from '../../../constants.js';
-import { deleteOrder, fetchAllOrderOptions, fetchOrders, submitOrder, submitOrderForPreview } from './thunks.js';
+import { deleteOrder, fetchPOOptions, fetchOrders, submitOrder, submitOrderForPreview } from './thunks.js';
 import { onUnitPriceChange, onUnitChange, onQuantityChange } from './helpers.js';
 
 const ordersAdapter = createEntityAdapter({
@@ -117,14 +117,14 @@ const ordersSlice = createSlice({
         }
     },
     extraReducers: {
-        [fetchAllOrderOptions.pending]: (state, action) => {
+        [fetchPOOptions.pending]: (state, action) => {
             state.status = 'PENDING';
         },
-        [fetchAllOrderOptions.fulfilled]: (state, action) => {
+        [fetchPOOptions.fulfilled]: (state, action) => {
             state.status = 'IDLE';
             state.autocomplete = action.payload;
         },
-        [fetchAllOrderOptions.rejected]: (state, action) => {
+        [fetchPOOptions.rejected]: (state, action) => {
             state.status = 'REJECTED';
             state.error = action.error.message;
         },
