@@ -30,7 +30,7 @@ const getOrderDefaultValues = () => {
             fileName: null
         },
         orderProductInfo: {
-            columns: LANGUAGE.productTable.defaultColumns,
+            columns: LANGUAGE.order.productTable.defaultColumns,
             rows: [defaultRowValues],
             currency: 'USD',
             totalPieces: {'PCS': 0},
@@ -42,7 +42,7 @@ const getOrderDefaultValues = () => {
 const initialState = ordersAdapter.getInitialState({
     status: 'IDLE',
     error: null,
-    steps: LANGUAGE.createOrder.steps,
+    steps: LANGUAGE.order.createOrder.steps,
     activeStep: 0,
     autocomplete: {
         deliveryOptions: [],

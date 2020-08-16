@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { LANGUAGE } from '../../constants';
 
 export default function LoginForm({ onSignInClick }) {
-    const { signIn, email, password } = LANGUAGE.loginForm;
+    const { signIn, email, password } = LANGUAGE.login.loginForm;
     const [emailField, setEmailField] = useState('');
     const [passwordField, setPasswordField] = useState('');
 

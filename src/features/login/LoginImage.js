@@ -4,7 +4,7 @@ import './styles.css';
 import loginImg from '../../images/login.png';
 
 export default function LoginImage() {
-    const { title, subText } = LANGUAGE.loginImage;
+    const { title, subText } = LANGUAGE.login.loginImage;
 
     return (
         <section className="loginImage d-flex justify-content-center">

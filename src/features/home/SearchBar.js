@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { LANGUAGE } from '../../constants.js';
 
 export default function SearchBar() {
-    const { search } = LANGUAGE.searchBar;
+    const { search } = LANGUAGE.home.searchBar;
     const [searchTerm, setSearchTerm] = useState('');
 
     const onSearchTermChange = e => setSearchTerm(e.target.value);

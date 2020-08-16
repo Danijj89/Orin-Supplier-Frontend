@@ -13,7 +13,7 @@ import { selectOrderActiveStep, selectOrderSteps } from './duck/selectors.js';
 import CreateOrderPreview from './CreateOrderPreview.js';
 import { startNewOrder } from './duck/slice.js';
 
-const {newOrder} = LANGUAGE.createOrder;
+const {newOrder} = LANGUAGE.order.createOrder;
 
 export default function CreateOrder() {
     const dispatch = useDispatch();

@@ -9,7 +9,7 @@ import LoginForm from './LoginForm.js';
 import LoginImage from './LoginImage.js';
 
 export default function LoginPage() {
-    const { signIn, missingAccountText, signUp } = LANGUAGE.login;
+    const { signIn, missingAccountText, signUp } = LANGUAGE.login.login;
     const history = useHistory();
     const dispatch = useDispatch();
 

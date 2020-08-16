@@ -29,7 +29,7 @@ const useStyles = makeStyles({
 });
 
 const { newOrder, columns, deleteOrderDialogMessage,
-    deleteOrderDialogCancelButton, deleteOrderDialogConfirmButton } = LANGUAGE.OrdersOverview;
+    deleteOrderDialogCancelButton, deleteOrderDialogConfirmButton } = LANGUAGE.order.OrdersOverview;
 
 export default function OrderTableOverview() {
     const classes = useStyles();

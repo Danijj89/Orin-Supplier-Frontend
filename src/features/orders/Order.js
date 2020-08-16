@@ -8,7 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import DownloadButton from '../shared/DownloadButton.js';
 import DocumentGenerationButton from '../shared/DocumentGenerationButton.js';
 
-const { orderDetailsTab, documentsTab } = LANGUAGE.order;
+const { orderDetailsTab, documentsTab } = LANGUAGE.order.order;
 
 const useStyles = makeStyles({
     gridContainer: {

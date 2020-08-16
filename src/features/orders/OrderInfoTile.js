@@ -9,7 +9,7 @@ import { useDispatch } from 'react-redux';
 import { deleteOrder } from './duck/thunks.js';
 
 const { dateTitle, crdTitle , editButton, incotermTitle , quantityTitle,
-    deleteOrderDialogCancelButton, deleteOrderDialogConfirmButton, deleteOrderDialogMessage } = LANGUAGE.orderInfoTile;
+    deleteOrderDialogCancelButton, deleteOrderDialogConfirmButton, deleteOrderDialogMessage } = LANGUAGE.order.orderInfoTile;
 
 const useStyles = makeStyles({
     card: {

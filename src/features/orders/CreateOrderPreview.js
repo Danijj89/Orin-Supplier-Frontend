@@ -9,7 +9,7 @@ import { submitOrder } from './duck/thunks.js';
 import { unwrapResult } from '@reduxjs/toolkit';
 import DownloadButton from '../shared/DownloadButton.js';
 
-const { buttonProductInfo, buttonSubmit } = LANGUAGE.orderPreview;
+const { buttonProductInfo, buttonSubmit } = LANGUAGE.order.orderPreview;
 
 export default function CreateOrderPreview() {
 

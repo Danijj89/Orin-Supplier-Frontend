@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import { selectCurrentCompany, selectCurrentUser } from './slice.js';
 
 export default function SidePanel() {
-    const { orders, clients, documents } = LANGUAGE.sidePanel;
+    const { orders, clients, documents } = LANGUAGE.home.sidePanel;
     const user = useSelector(selectCurrentUser);
     const company = useSelector(selectCurrentCompany);
     return (

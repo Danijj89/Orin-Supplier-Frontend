@@ -15,7 +15,7 @@ const {useState} = require('react');
 const {
     shippingInformation, deliveryMethod, portOfLoading,
     portOfDestination, shippingCarrier
-} = LANGUAGE.shippingInfo;
+} = LANGUAGE.order.shippingInfo;
 
 export default function CreateOrderShippingInfo({register, control}) {
     const mounted = useRef();

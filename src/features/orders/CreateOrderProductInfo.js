@@ -16,14 +16,13 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import {
-    selectPOAutocompleteOptions,
     selectNewOrderProductInfo
 } from './duck/selectors.js';
 import { submitOrderForPreview } from './duck/thunks.js';
 import { selectCurrentDefaults } from '../home/slice.js';
 
 const { currency, buttonOrderDetails, buttonReview,
-    buttonAddColumn, addColumnDialog, dialogButtonCancel, maxColumnError } = LANGUAGE.orderProductInfo;
+    buttonAddColumn, addColumnDialog, dialogButtonCancel, maxColumnError } = LANGUAGE.order.orderProductInfo;
 
 export default function CreateOrderProductInfo() {
     const dispatch = useDispatch();

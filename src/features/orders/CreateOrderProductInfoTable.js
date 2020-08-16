@@ -20,7 +20,7 @@ import { LANGUAGE } from '../../constants.js';
 import { selectNewOrderProductInfo } from './duck/selectors.js';
 import { getStringFromTotalQuantityObject } from './helpers.js';
 
-const { total } = LANGUAGE.productTable;
+const { total } = LANGUAGE.order.productTable;
 
 export default function CreateOrderProductInfoTable() {
     const dispatch = useDispatch();

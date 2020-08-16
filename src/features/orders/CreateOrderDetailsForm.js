@@ -14,7 +14,7 @@ import { selectNewOrderDetails, selectPOAutocompleteOptions } from './duck/selec
 const {
     orderNumber, orderDate, from, fromAddress, crd, incoterm,
     paymentMethod, reference, remarks, buttonCancel, buttonNext
-} = LANGUAGE.orderDetailsForm;
+} = LANGUAGE.order.orderDetailsForm;
 
 export default function CreateOrderDetailsForm() {
     const dispatch = useDispatch();
