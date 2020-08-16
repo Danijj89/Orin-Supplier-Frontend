@@ -6,17 +6,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import { deleteOrder, fetchOrders } from './duck/thunks.js';
 import { selectAllOrders } from './duck/slice.js';
 import { makeStyles } from '@material-ui/core/styles';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import TableBody from '@material-ui/core/TableBody';
-import Table from '@material-ui/core/Table';
-import TableCell from '@material-ui/core/TableCell';
-import TablePagination from '@material-ui/core/TablePagination';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogActions from '@material-ui/core/DialogActions';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
+import { TableContainer,
+    TableHead,
+    TableRow,
+    TableBody,
+    Table,
+    TableCell,
+    TablePagination,
+    DialogTitle,
+    DialogActions,
+    Button,
+    Dialog
+} from '@material-ui/core';
 
 const useStyles = makeStyles({
     container: {
@@ -34,7 +35,7 @@ export default function OrderTableOverview() {
     const classes = useStyles();
     const dispatch = useDispatch();
     const orders = useSelector(selectAllOrders);
-    const [page, setPage] = React.useState(0);
+    const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [selectedOrderId, setSelectedOrderId] = useState(null);
