@@ -48,7 +48,8 @@ const initialState = ordersAdapter.getInitialState({
         deliveryOptions: [],
         itemsRef: [],
         itemDescriptionMap: {},
-        customers: [],
+        customerNames: [],
+        customerAddressMap: {},
         ports: []
     },
     newOrder: getOrderDefaultValues(),
