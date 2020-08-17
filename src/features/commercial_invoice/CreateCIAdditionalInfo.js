@@ -1,28 +1,18 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { LANGUAGE } from '../../constants.js';
-import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
-import { useSelector } from 'react-redux';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import { Controller } from 'react-hook-form';
 import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
 import { DirectionsBoat, ExpandLess, ExpandMore } from '@material-ui/icons';
-import { selectPOAutocompleteOptions } from './duck/selectors.js';
+import { Controller } from 'react-hook-form';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import TextField from '@material-ui/core/TextField';
 
-const {
-    shippingInformation, deliveryMethod, portOfLoading,
-    portOfDestination, shippingCarrier
-} = LANGUAGE.order.shippingInfo;
-
-export default function CreateOrderShippingInfo({register, control}) {
+export default function CreateCIReferenceInfo({register, control}) {
     const mounted = useRef();
     const [hidden, setHidden] = useState(true);
 
     useEffect(() => {
         if (mounted && !hidden) window.scrollTo(0, document.body.scrollHeight);
     }, [hidden]);
-
-    const { deliveryOptions, ports } = useSelector(selectPOAutocompleteOptions);
 
     const onShippingInfoClick = () => setHidden(!hidden);
 
@@ -53,6 +43,22 @@ export default function CreateOrderShippingInfo({register, control}) {
                         <ExpandLess></ExpandLess>
                     </Typography>
                 </Button>
+                <TextField
+                    label={countryOfManufacture}
+                    type="text"
+                    name="com"
+                    inputRef={register}
+                    className={classes.field}
+                    fullWidth
+                />
+                <TextField
+                    label={additionalNotes}
+                    type="text"
+                    name="notes"
+                    inputRef={register}
+                    className={classes.field}
+                    fullWidth
+                />
                 <Controller
                     render={props => (
                         <Autocomplete
