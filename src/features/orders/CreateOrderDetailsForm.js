@@ -32,14 +32,13 @@ export default function CreateOrderDetailsForm() {
         }
     });
 
-    const { customers } = useSelector(selectPOAutocompleteOptions);
-    const customerNames = customers.map(customer => customer.name);
-
+    const { customerNames, customerAddressMap } = useSelector(selectPOAutocompleteOptions);
     const chosenCustomer = watch('from', []);
-    const chosenCustomerAddresses = chosenCustomer => {
-        const customer = customers.find(customer => customer.name === chosenCustomer);
-        return customer ? customer.addresses : [];
-    }
+
+    const chosenCustomerAddresses = chosenCustomer =>
+        customerAddressMap.hasOwnProperty(chosenCustomer)
+            ? customerAddressMap[chosenCustomer]
+            : [];
 
     const onButtonNextClick = (data) => {
         data.createdBy = currentUser._id;
