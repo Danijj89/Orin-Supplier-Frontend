@@ -30,7 +30,6 @@ export default function CreateOrder() {
     const activeStep = useSelector(selectOrderActiveStep);
 
     useEffect(() => {
-        dispatch(startNewOrder());
         dispatch(fetchPOOptions(_id));
     }, [_id, dispatch]);
 

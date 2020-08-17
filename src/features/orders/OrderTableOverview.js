@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { LANGUAGE } from '../../constants.js';
 import OrderTableRow from './OrderTableRow.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteOrder, fetchOrders } from './duck/thunks.js';
-import { selectAllOrders } from './duck/slice.js';
+import { selectAllOrders, startNewOrder } from './duck/slice.js';
+import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { TableContainer,
     TableHead,
@@ -25,6 +25,9 @@ const useStyles = makeStyles({
     },
     header: {
         fontWeight: 'bold'
+    },
+    newOrderButton: {
+        float: 'right'
     }
 });
 
@@ -34,6 +37,7 @@ const { newOrder, columns, deleteOrderDialogMessage,
 export default function OrderTableOverview() {
     const classes = useStyles();
     const dispatch = useDispatch();
+    const history = useHistory();
     const orders = useSelector(selectAllOrders);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -64,9 +68,18 @@ export default function OrderTableOverview() {
         onDialogClose();
     }
 
+    const onNewOrderClick = () => {
+        dispatch(startNewOrder());
+        history.push('/home/orders/create');
+    }
+
     return (
         <div className="container-fluid h-100 p-5">
-            <Link to="/home/orders/create" className="btn btn-primary my-2 float-right">{newOrder}</Link>
+            <Button
+                variant="outlined"
+                className={classes.newOrderButton}
+                onClick={onNewOrderClick}
+            >{newOrder}</Button>
             <TableContainer className={classes.container}>
                 <Table stickyHeader>
                     <TableHead>
