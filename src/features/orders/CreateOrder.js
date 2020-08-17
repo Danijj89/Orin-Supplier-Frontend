@@ -3,13 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import CreateOrderDetailsForm from './CreateOrderDetailsForm.js';
 import './styles.css';
 import { LANGUAGE } from '../../constants.js';
-import { Step, StepLabel } from '@material-ui/core';
 import CreateOrderProductInfo from './CreateOrderProductInfo.js';
 import { selectCurrentCompany } from '../home/slice.js';
 import { fetchPOOptions } from './duck/thunks.js';
 import { selectOrderActiveStep, selectOrderSteps } from './duck/selectors.js';
 import CreateOrderPreview from './CreateOrderPreview.js';
-import { startNewOrder } from './duck/slice.js';
 import { makeStyles } from '@material-ui/core/styles';
 import DocumentStepper from '../shared/DocumentStepper.js';
 
