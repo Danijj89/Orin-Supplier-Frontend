@@ -5,8 +5,8 @@ import { Container, Tabs, Tab } from '@material-ui/core';
 import { LANGUAGE } from '../../constants.js';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
-import DownloadButton from '../shared/DownloadButton.js';
-import DocumentGenerationButton from '../shared/DocumentGenerationButton.js';
+import DownloadButton from '../shared/buttons/DownloadButton.js';
+import DocumentGenerationButton from '../shared/buttons/DocumentGenerationButton.js';
 
 const { orderDetailsTab, documentsTab } = LANGUAGE.order.order;
 
