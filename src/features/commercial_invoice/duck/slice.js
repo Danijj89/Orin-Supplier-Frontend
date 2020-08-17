@@ -41,7 +41,13 @@ const initialState = commercialInvoiceAdapter.getInitialState({
         itemsRef: [],
         itemDescriptionMap: {},
         customerNames: [],
-        customerAddressMap: {}
+        customerAddressMap: {},
+        ordersRef: [],
+        orderItemMap: {
+            items: [],
+            totalQ: null,
+            totalA: null
+        }
     },
     newCI: getCIDefaultValues(),
     previewFileURL: null
