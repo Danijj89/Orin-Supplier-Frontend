@@ -9,10 +9,10 @@ import {
     Select,
     InputLabel
 } from '@material-ui/core';
-import { LANGUAGE } from '../../constants.js';
+import { LANGUAGE } from '../../../constants.js';
 import { makeStyles } from '@material-ui/core/styles';
-import SharedService from './services.js';
-import { downloadFile } from './utils.js';
+import SharedService from '../services.js';
+import { downloadFile } from '../utils.js';
 
 const { buttonText, dialogTitle, dialogCancel, dialogConfirm, typeLabel } = LANGUAGE.shared.downloadButton;
 const downloadChoices = ['PDF', 'Excel'];

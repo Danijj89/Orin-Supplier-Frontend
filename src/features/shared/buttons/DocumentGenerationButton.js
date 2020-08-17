@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { Button, Dialog, DialogActions, DialogTitle,
     FormControl, MenuItem, Select, InputLabel } from '@material-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectCurrentDefaults } from '../home/slice.js';
-import { LANGUAGE } from '../../constants.js';
+import { selectCurrentDefaults } from '../../home/slice.js';
+import { LANGUAGE } from '../../../constants.js';
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
-import { startNewCI } from '../commercial_invoice/duck/slice.js';
+import { startNewCI } from '../../commercial_invoice/duck/slice.js';
 
 const { buttonText, dialogCancel, dialogConfirm, dialogTitle, typeLabel } = LANGUAGE.shared.generateDocumentButton;
 const { documentNames } = LANGUAGE.defaults;
