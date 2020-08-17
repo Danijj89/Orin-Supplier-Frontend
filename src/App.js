@@ -23,7 +23,7 @@ function App() {
                   <Route exact path={['/home', '/home/orders']} component={OrderTableOverview} isPrivate />
                   <Route exact path={['/home/orders/create']} component={CreateOrder} isPrivate />
                   <Route exact path="/home/orders/:id" component={Order} isPrivate />
-                  <Route exact path={['/home/ci/create', '/home/ci/create/:orderId']} component={CreateCI} isPrivate />
+                  <Route exact path={['/home/ci/create', '/home/ci/create?order=:orderId']} component={CreateCI} isPrivate />
                   <Route component={LoginPage}/>
               </Switch>
           </Router>
