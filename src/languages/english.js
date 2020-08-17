@@ -111,6 +111,10 @@ export const ENGLISH = {
             additionalNotes: 'Additional Notes',
             salesContract: 'Sales Contract Number',
             paymentReference: 'Payment Reference'
+        },
+        createCIProductInfo: {
+            ordersLabel: 'Purchase Orders',
+            currencyLabel: 'Currencies'
         }
     },
     shared: {
