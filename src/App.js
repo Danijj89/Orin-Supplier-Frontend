@@ -6,6 +6,7 @@ import OrderTableOverview from './features/orders/OrderTableOverview.js';
 import CreateOrder from './features/orders/CreateOrder.js';
 import Order from './features/orders/Order.js';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core';
+import CreateCI from './features/commercial_invoice/CreateCI.js';
 
 const THEME = createMuiTheme({
     typography: {
@@ -22,6 +23,7 @@ function App() {
                   <Route exact path={['/home', '/home/orders']} component={OrderTableOverview} isPrivate />
                   <Route exact path={['/home/orders/create']} component={CreateOrder} isPrivate />
                   <Route exact path="/home/orders/:id" component={Order} isPrivate />
+                  <Route exact path={['/home/ci/create', '/home/ci/create/:orderId']} component={CreateCI} isPrivate />
                   <Route component={LoginPage}/>
               </Switch>
           </Router>

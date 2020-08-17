@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { Button, Dialog, DialogActions, DialogTitle,
     FormControl, MenuItem, Select, InputLabel } from '@material-ui/core';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { selectCurrentDefaults } from '../home/slice.js';
 import { LANGUAGE } from '../../constants.js';
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
+import { startNewCI } from '../commercial_invoice/duck/slice.js';
 
 const { buttonText, dialogCancel, dialogConfirm, dialogTitle, typeLabel } = LANGUAGE.shared.generateDocumentButton;
 const { documentNames } = LANGUAGE.defaults;
@@ -16,9 +17,10 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function DocumentGenerationButton({styles, orderId}) {
+export default function DocumentGenerationButton({styles, orderId, preAction}) {
     const classes = useStyles();
     const history = useHistory();
+    const dispatch = useDispatch();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const { docTypes: documentTypes } = useSelector(selectCurrentDefaults);
     const [document, setDocument] = useState(documentTypes[0]);
@@ -28,6 +30,14 @@ export default function DocumentGenerationButton({styles, orderId}) {
     const onDocumentTypeChange = (event) => setDocument(event.target.value);
 
     const handleGenerate = async () => {
+        switch (document) {
+            case 'CI':
+                dispatch(startNewCI());
+                break;
+            default:
+                console.log('Document type is not supported!');
+                throw new Error('Document type is not supported!');
+        }
         history.push(`/home/${document.toLowerCase()}/create${orderId ? `?order=${orderId}` : ''}`);
     };
 

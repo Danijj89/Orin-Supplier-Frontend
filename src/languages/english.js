@@ -90,6 +90,24 @@ export const ENGLISH = {
             documentsTab: 'Documents'
         },
     },
+    commercialInvoice: {
+        createCI: {
+            steps: ['Invoice Info', 'Products', 'Review'],
+            title: 'Commercial Invoice'
+        },
+        createCIDetailsForm: {
+            invoiceNumber: 'Invoice Number',
+            invoiceDate: 'Invoice Date',
+            importer: 'Importer',
+            importerAddress: 'Importer Address',
+            exporter: 'Exporter',
+            exporterAddress: 'Exporter Address',
+            countryOfManufacture: 'Country of Manufacture',
+            additionalNotes: 'Additional Notes',
+            buttonCancel: 'Cancel',
+            buttonNext: 'Next: Product Info'
+        }
+    },
     shared: {
         downloadButton: {
             buttonText: 'Download',
