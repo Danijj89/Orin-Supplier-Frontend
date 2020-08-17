@@ -23,6 +23,7 @@ const getCIDefaultValues = () => ({
     marks: null,
     createdBy: null,
     fileName: null,
+    companyId: null
     // columns: LANGUAGE.productTable.defaultColumns,
     // items: [defaultRowValues],
     // totalPieces: {'PCS': 0},
@@ -56,9 +57,9 @@ const commercialInvoiceSlice = createSlice({
         },
         submitCIDetails: (state, action) => {
             state.activeStep += 1;
-            Object.entries(action.payload).forEach((key, value) => {
+            for (const [key, value] of Object.entries(action.payload)) {
                 state.newCI[key] = value;
-            })
+            }
         }
     },
     extraReducers: {
