@@ -1,12 +1,46 @@
 import React, { useEffect, useRef, useState } from 'react';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import { DirectionsBoat, ExpandLess, ExpandMore } from '@material-ui/icons';
+import { Button, Typography, TextField, Container, Box } from '@material-ui/core';
+import { ExpandLess as IconExpandLess, ExpandMore as IconExpandMore, Notes as IconNotes } from '@material-ui/icons';
 import { Controller } from 'react-hook-form';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import TextField from '@material-ui/core/TextField';
+import { makeStyles } from '@material-ui/core/styles';
+import { LANGUAGE } from '../../constants.js';
 
-export default function CreateCIReferenceInfo({register, control}) {
+const {
+    title,
+    additionalNotes,
+    countryOfManufacture,
+    paymentReference,
+    salesContract
+} = LANGUAGE.commercialInvoice.createCIAdditionalInfo;
+
+const useStyles = makeStyles({
+    container: {
+        borderStyle: 'solid',
+        borderWidth: 1,
+        borderColor: '#109CF1',
+        borderRadius: 10,
+        marginTop: 10,
+        marginBot: 10,
+        padding: 0
+    },
+    title: {
+        display: 'flex',
+        justifyContent: 'space-between'
+    },
+    box: {
+        marginLeft: '5%',
+        marginRight: '5%',
+        marginBottom: '5%',
+    },
+    field: {
+        marginTop: 8,
+        marginBottom: 8
+    }
+})
+
+export default function CreateCIAdditionalInfo({register, control}) {
+    const classes = useStyles();
     const mounted = useRef();
     const [hidden, setHidden] = useState(true);
 
@@ -17,116 +51,56 @@ export default function CreateCIReferenceInfo({register, control}) {
     const onShippingInfoClick = () => setHidden(!hidden);
 
     return (
-        <div className="container-fluid border rounded border-primary p-3 shipment-info">
+        <Container className={classes.container}>
             {hidden &&
-            <Button id="shippingInfo" onClick={onShippingInfoClick} fullWidth>
-                <Typography variant="subtitle1">
-                    <DirectionsBoat></DirectionsBoat>
-                    &nbsp;{shippingInformation}
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <ExpandMore></ExpandMore>
-                </Typography>
+            <Button className={classes.title} onClick={onShippingInfoClick} fullWidth>
+                <IconNotes/>
+                <Typography variant="subtitle1">{title}</Typography>
+                <IconExpandMore/>
             </Button>}
             {!hidden &&
             <>
-                <Button id="shippingInfo" onClick={onShippingInfoClick} fullWidth>
-                    <Typography variant="subtitle1">
-                        <DirectionsBoat></DirectionsBoat>
-                        &nbsp;{shippingInformation}
-                        &nbsp;&nbsp;&nbsp;&nbsp;
-                        &nbsp;&nbsp;&nbsp;&nbsp;
-                        &nbsp;&nbsp;&nbsp;&nbsp;
-                        &nbsp;&nbsp;&nbsp;&nbsp;
-                        <ExpandLess></ExpandLess>
-                    </Typography>
+                <Button className={classes.title} onClick={onShippingInfoClick} fullWidth>
+                    <IconNotes/><Typography variant="subtitle1">{title}</Typography>
+                    <IconExpandLess/>
                 </Button>
-                <TextField
-                    label={countryOfManufacture}
-                    type="text"
-                    name="com"
-                    inputRef={register}
-                    className={classes.field}
-                    fullWidth
-                />
-                <TextField
-                    label={additionalNotes}
-                    type="text"
-                    name="notes"
-                    inputRef={register}
-                    className={classes.field}
-                    fullWidth
-                />
-                <Controller
-                    render={props => (
-                        <Autocomplete
-                            {...props}
-                            id="deliveryMethod"
-                            options={deliveryOptions}
-                            renderInput={params => (
-                                <TextField
-                                    {...params}
-                                    label={deliveryMethod}
-                                    variant="standard"
-                                />
-                            )}
-                            onChange={(_, data) => props.onChange(data)}
-                        />
-                    )}
-                    name="deliveryMethod"
-                    control={control}
-                />
-                <Controller
-                    render={props => (
-                        <Autocomplete
-                            freeSolo
-                            autoSelect
-                            {...props}
-                            options={ports}
-                            renderInput={params => (
-                                <TextField
-                                    {...params}
-                                    label={portOfLoading}
-                                    variant="standard"
-                                />
-                            )}
-                            onChange={(_, data) => props.onChange(data)}
-                        />
-                    )}
-                    name="portOfLoading"
-                    control={control}
-                />
-                <Controller
-                    render={props => (
-                        <Autocomplete
-                            freeSolo
-                            autoSelect
-                            {...props}
-                            options={ports}
-                            renderInput={params => (
-                                <TextField
-                                    {...params}
-                                    label={portOfDestination}
-                                    variant="standard"
-                                />
-                            )}
-                            onChange={(_, data) => props.onChange(data)}
-                        />
-                    )}
-                    name="portOfDestination"
-                    control={control}
-                />
-                <TextField
-                    label={shippingCarrier}
-                    type="text"
-                    name="shippingCarrier"
-                    inputRef={register}
-                    fullWidth
-                />
+                <Box className={classes.box}>
+                    <TextField
+                        label={countryOfManufacture}
+                        type="text"
+                        name="com"
+                        inputRef={register}
+                        className={classes.field}
+                        fullWidth
+                        autoFocus
+                    />
+                    <TextField
+                        label={additionalNotes}
+                        type="text"
+                        name="notes"
+                        inputRef={register}
+                        className={classes.field}
+                        fullWidth
+                    />
+                    <TextField
+                        label={salesContract}
+                        type="text"
+                        name="scRef"
+                        inputRef={register}
+                        className={classes.field}
+                        fullWidth
+                    />
+                    <TextField
+                        label={paymentReference}
+                        type="text"
+                        name="paymentRef"
+                        inputRef={register}
+                        className={classes.field}
+                        fullWidth
+                    />
+                </Box>
             </>
             }
-        </div>
+        </Container>
     )
 }

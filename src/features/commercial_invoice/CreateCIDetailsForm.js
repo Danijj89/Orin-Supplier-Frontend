@@ -10,10 +10,10 @@ import { selectNewCI } from './duck/selectors.js';
 import { makeStyles } from '@material-ui/core/styles';
 import { LANGUAGE } from '../../constants.js';
 import { submitCIDetails } from './duck/slice.js';
+import CreateCIAdditionalInfo from './CreateCIAdditionalInfo.js';
 
 const { invoiceNumber, invoiceDate, importer, importerAddress,
-    exporter, exporterAddress, countryOfManufacture,
-    additionalNotes, buttonCancel, buttonNext } = LANGUAGE.commercialInvoice.createCIDetailsForm;
+    exporter, exporterAddress, buttonCancel, buttonNext } = LANGUAGE.commercialInvoice.createCIDetailsForm;
 
 const useStyles = makeStyles({
     form: {
@@ -23,7 +23,7 @@ const useStyles = makeStyles({
         margin: '10px 0'
     },
     buttons: {
-        marginTop: 20
+        marginTop: '5%'
     }
 })
 
@@ -34,7 +34,7 @@ export default function CreateOrderDetailsForm() {
     const { _id: userId } = useSelector(selectCurrentUser);
     const { _id: companyId, name, address, addresses } = useSelector(selectCurrentCompany);
     const { customerNames, customerAddressMap } = useSelector(selectCIAutocompleteOptions);
-    const { ciRef, to, toAdd, date, com, notes } = useSelector(selectNewCI);
+    const { ciRef, to, toAdd, date, com, notes, scRef, paymentRef } = useSelector(selectNewCI);
 
     const { register, control, handleSubmit, watch, errors, formState } = useForm({
         mode: 'onBlur',
@@ -46,7 +46,9 @@ export default function CreateOrderDetailsForm() {
             to,
             toAdd,
             com,
-            notes
+            notes,
+            scRef,
+            paymentRef
         }
     });
 
@@ -169,23 +171,7 @@ export default function CreateOrderDetailsForm() {
                 rules={{ required: true }}
 
             />
-            <TextField
-                label={countryOfManufacture}
-                type="text"
-                name="com"
-                inputRef={register}
-                className={classes.field}
-                fullWidth
-            />
-            <TextField
-                label={additionalNotes}
-                type="text"
-                name="notes"
-                inputRef={register}
-                className={classes.field}
-                fullWidth
-            />
-            {/*<CreateOrderShippingInfo register={register} control={control} />*/}
+            <CreateCIAdditionalInfo register={register} control={control} />
             <Grid
                 container
                 justify="space-around"
