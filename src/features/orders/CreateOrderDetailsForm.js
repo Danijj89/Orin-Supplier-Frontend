@@ -34,8 +34,7 @@ export default function CreateOrderDetailsForm() {
 
     const { customerNames, customerAddressMap } = useSelector(selectPOAutocompleteOptions);
     const chosenCustomer = watch('from', []);
-
-    const chosenCustomerAddresses = chosenCustomer =>
+    const chosenCustomerAddresses = () =>
         customerAddressMap.hasOwnProperty(chosenCustomer)
             ? customerAddressMap[chosenCustomer]
             : [];
@@ -100,7 +99,7 @@ export default function CreateOrderDetailsForm() {
                         freeSolo
                         autoSelect
                         {...props}
-                        options={chosenCustomerAddresses(chosenCustomer)}
+                        options={chosenCustomerAddresses()}
                         renderInput={params => (
                             <TextField
                                 {...params}
