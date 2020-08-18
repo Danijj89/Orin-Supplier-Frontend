@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Card, Typography, Grid, Button, DialogTitle, DialogActions, Dialog } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { getStringFromTotalQuantityObject, yymmddToLocaleDate } from './helpers.js';
 import { LANGUAGE } from '../../constants.js';
 import DeleteIcon from '@material-ui/icons/Delete.js';
 import { useDispatch } from 'react-redux';
 import { deleteOrder } from './duck/thunks.js';
+import { getStringFromTotalQuantityObject, yymmddToLocaleDate } from '../shared/utils.js';
 
 const { dateTitle, crdTitle , editButton, incotermTitle , quantityTitle,
     deleteOrderDialogCancelButton, deleteOrderDialogConfirmButton, deleteOrderDialogMessage } = LANGUAGE.order.orderInfoTile;

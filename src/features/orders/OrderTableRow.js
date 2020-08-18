@@ -1,11 +1,11 @@
 import React from 'react';
-import { getStringFromTotalQuantityObject, yymmddToLocaleDate } from './helpers.js';
 import { useHistory } from 'react-router-dom';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
+import { getStringFromTotalQuantityObject, yymmddToLocaleDate } from '../shared/utils.js';
 
 const useStyles = makeStyles({
     deleteButtonCell: {
