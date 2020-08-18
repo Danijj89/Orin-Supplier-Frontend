@@ -57,7 +57,8 @@ export default function OrderTableOverview() {
         setPage(0);
     };
 
-    const onDialogOpen = (orderId) => {
+    const onDialogOpen = (event, orderId) => {
+        event.stopPropagation();
         setIsDialogOpen(true);
         setSelectedOrderId(orderId);
     }

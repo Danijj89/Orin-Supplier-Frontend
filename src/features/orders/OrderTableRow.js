@@ -26,7 +26,7 @@ export default function OrderTableRow({order, onDialogOpen}) {
     return (
         <TableRow hover onClick={onRowClick}>
             <TableCell className={classes.deleteButtonCell}>
-                <Button onClick={() => onDialogOpen(order._id)}><DeleteIcon/></Button>
+                <Button onClick={(e) => onDialogOpen(e, order._id)}><DeleteIcon/></Button>
             </TableCell>
             <TableCell>{status}</TableCell>
             <TableCell>{poRef}</TableCell>
