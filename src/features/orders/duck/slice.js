@@ -3,12 +3,13 @@ import { LANGUAGE } from '../../../constants.js';
 import { deleteOrder, fetchPOOptions, fetchOrders, submitOrder, submitOrderForPreview } from './thunks.js';
 import { onUnitPriceChange, onUnitChange, onQuantityChange } from './helpers.js';
 
+const defaultRowValues = ['', '', '', '', 0, 'PCS', 0, 0];
+
 const ordersAdapter = createEntityAdapter({
     selectId: order => order._id,
     sortComparer: (a, b) => a.crd.localeCompare(b.crd)
 });
 
-const defaultRowValues = ['', '', '', '', 0, 'PCS', 0, 0];
 const getOrderDefaultValues = () => {
     return {
         orderDetails: {

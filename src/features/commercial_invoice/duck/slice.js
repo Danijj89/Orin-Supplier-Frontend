@@ -2,7 +2,7 @@ import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { LANGUAGE } from '../../../constants.js';
 import { fetchCIOptions } from './thunks.js';
 
-const defaultRowValues = ['', '', '', '', 0, 'PCS', 0, 0];
+export const defaultRowValues = ['', '', '', '', 0, 'PCS', 0, 0];
 
 const commercialInvoiceAdapter = createEntityAdapter({
     selectId: ci => ci._id,
@@ -27,7 +27,7 @@ const getCIDefaultValues = () => ({
     createdBy: null,
     fileName: null,
     headers: LANGUAGE.commercialInvoice.createCIProductTable.defaultHeaders,
-    items: [defaultRowValues]
+    items: []
     // totalPieces: {'PCS': 0},
     // totalAmount: 0,
     // totalQ: { 'PCS': 0},

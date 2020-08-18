@@ -7,7 +7,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { LANGUAGE } from '../../constants.js';
 import { selectCIAutocompleteOptions, selectNewCI } from './duck/selectors.js';
 import CreateCIOrderSelector from './CreateCIOrderSelector.js';
-import { nextStep, prevStep } from './duck/slice.js';
+import { defaultRowValues, nextStep, prevStep } from './duck/slice.js';
 import CreateCIProductTable from './CreateCIProductTable.js';
 
 const { currencyLabel, buttonNext, buttonPrev } = LANGUAGE.commercialInvoice.createCIProductInfo;
@@ -41,14 +41,14 @@ export default function CreateCIProductInfo() {
     const onCurrencyChange = (event) => setCurrency(event.target.value);
 
     // table default values
-    const { headers : defaultHeaders, items: defaultRowValues } = useSelector(selectNewCI);
+    const { headers : defaultHeaders } = useSelector(selectNewCI);
     const [headers, setHeaders] = useState(defaultHeaders);
 
     const addOrderItemsToRows = (rows, orderRef) => {
         const items = orderItemMap[orderRef].items;
         const newRows = {
-            ...rows,
-            [orderRef]: []
+            [orderRef]: [],
+            ...rows
         };
         items.forEach(item => newRows[orderRef].push([
             item.ref,
@@ -65,7 +65,7 @@ export default function CreateCIProductInfo() {
 
     const [rows, setRows] = useState(currOrderRef
         ? addOrderItemsToRows({ custom: [] }, currOrderRef)
-        : { custom: defaultRowValues });
+        : { custom: [defaultRowValues] });
     const flattenRows = rows => [].concat.apply([], Object.entries(rows).map(([key, value]) => value));
     const [flattenedRows, setFlattenedRows] = useState(flattenRows(rows));
     const computeRowsForChosenOrders = (newRefs) => {
@@ -88,6 +88,15 @@ export default function CreateCIProductInfo() {
         setRows(computeRowsForChosenOrders(newOptions));
         setOrders(newOptions);
     }
+
+    const onRowAddButtonClick = () => {
+        const custom = rows.custom;
+        const newCustom = [...custom, defaultRowValues];
+        setRows({
+            ...rows,
+            custom: newCustom
+        });
+    };
 
 
     // const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -173,6 +182,9 @@ export default function CreateCIProductInfo() {
                 rows={flattenedRows}
                 setRows={setRows}
             />
+            <Grid item xs={12}>
+                <Button variant="outlined" onClick={onRowAddButtonClick}>Add</Button>
+            </Grid>
             <Grid
                 container
                 item
