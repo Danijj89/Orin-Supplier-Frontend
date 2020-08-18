@@ -16,7 +16,7 @@ const useStyles = makeStyles({
 export default function OrderTableRow({order, onDialogOpen}) {
     const classes = useStyles();
     const history = useHistory();
-    const {status, poRef, totalQ, crd, from, remarks} = order;
+    const {status, poRef, totalQ, crd, fromName, remarks} = order;
     const renderedTotalQuantity = getStringFromTotalQuantityObject(totalQ);
 
     const onRowClick = () => {
@@ -32,7 +32,7 @@ export default function OrderTableRow({order, onDialogOpen}) {
             <TableCell>{poRef}</TableCell>
             <TableCell>{renderedTotalQuantity}</TableCell>
             <TableCell>{yymmddToLocaleDate(crd)}</TableCell>
-            <TableCell>{from.name}</TableCell>
+            <TableCell>{fromName}</TableCell>
             <TableCell>{remarks}</TableCell>
         </TableRow>
     )

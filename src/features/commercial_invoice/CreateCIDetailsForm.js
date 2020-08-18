@@ -32,18 +32,18 @@ export default function CreateOrderDetailsForm() {
     const dispatch = useDispatch();
     const history = useHistory();
     const { _id: userId } = useSelector(selectCurrentUser);
-    const { _id: companyId, name, address, addresses } = useSelector(selectCurrentCompany);
+    const { _id: companyId, names, address, addresses } = useSelector(selectCurrentCompany);
     const { customerNames, customerAddressMap } = useSelector(selectCIAutocompleteOptions);
-    const { ciRef, to, toAdd, date, com, notes, scRef, paymentRef } = useSelector(selectNewCI);
+    const { ciRef, toName, toAdd, date, com, notes, scRef, paymentRef } = useSelector(selectNewCI);
 
     const { register, control, handleSubmit, watch, errors, formState } = useForm({
         mode: 'onBlur',
         defaultValues: {
             ciRef,
             date: date.substr(0, 10),
-            from: name,
+            fromName: names[0],
             fromAdd: address,
-            to,
+            toName,
             toAdd,
             com,
             notes,
@@ -52,7 +52,7 @@ export default function CreateOrderDetailsForm() {
         }
     });
 
-    const chosenCustomer = watch('to', []);
+    const chosenCustomer = watch('toName', []);
     const chosenCustomerAddresses = () =>
         customerAddressMap.hasOwnProperty(chosenCustomer)
             ? customerAddressMap[chosenCustomer]
@@ -60,12 +60,11 @@ export default function CreateOrderDetailsForm() {
 
     const onButtonNextClick = (data) => {
         data.createdBy = userId;
-        data.companyId = companyId;
+        data.from = companyId;
         dispatch(submitCIDetails(data));
     }
 
     const onButtonCancelClick = () => history.goBack();
-
 
     return (
         <form className={classes.form} onSubmit={handleSubmit(onButtonNextClick)} autoComplete="off">
@@ -90,38 +89,6 @@ export default function CreateOrderDetailsForm() {
                 fullWidth
                 required
             />
-            <TextField
-                label={importer}
-                type="text"
-                name="from"
-                inputRef={register({ required: true })}
-                className={classes.field}
-                fullWidth
-                disabled
-            />
-            <Controller
-                render={props => (
-                    <Autocomplete
-                        freeSolo
-                        autoSelect
-                        {...props}
-                        options={addresses}
-                        renderInput={params => (
-                            <TextField
-                                {...params}
-                                label={importerAddress}
-                                variant="standard"
-                                error={!!errors.fromAdd}
-                                required
-                            />
-                        )}
-                        onChange={(_, data) => props.onChange(data)}
-                    />
-                )}
-                name="fromAdd"
-                control={control}
-                rules={{ required: true }}
-            />
             <Controller
                 render={props => (
                     <Autocomplete
@@ -132,9 +99,9 @@ export default function CreateOrderDetailsForm() {
                         renderInput={params => (
                             <TextField
                                 {...params}
-                                label={exporter}
+                                label={importer}
                                 variant="standard"
-                                error={!!errors.to}
+                                error={!!errors.toName}
                                 className={classes.field}
                                 required
                             />
@@ -142,7 +109,7 @@ export default function CreateOrderDetailsForm() {
                         onChange={(_, data) => props.onChange(data)}
                     />
                 )}
-                name="to"
+                name="toName"
                 control={control}
                 rules={{ required: true }}
             />
@@ -156,7 +123,7 @@ export default function CreateOrderDetailsForm() {
                         renderInput={params => (
                             <TextField
                                 {...params}
-                                label={exporterAddress}
+                                label={importerAddress}
                                 variant="standard"
                                 error={!!errors.toAdd}
                                 className={classes.field}
@@ -167,6 +134,54 @@ export default function CreateOrderDetailsForm() {
                     />
                 )}
                 name="toAdd"
+                control={control}
+                rules={{ required: true }}
+            />
+            <Controller
+                render={props => (
+                    <Autocomplete
+                        freeSolo
+                        autoSelect
+                        {...props}
+                        options={names}
+                        renderInput={params => (
+                            <TextField
+                                {...params}
+                                label={exporter}
+                                variant="standard"
+                                error={!!errors.fromName}
+                                className={classes.field}
+                                required
+                            />
+                        )}
+                        onChange={(_, data) => props.onChange(data)}
+                    />
+                )}
+                name="fromName"
+                control={control}
+                rules={{ required: true }}
+            />
+            <Controller
+                render={props => (
+                    <Autocomplete
+                        freeSolo
+                        autoSelect
+                        {...props}
+                        options={addresses}
+                        renderInput={params => (
+                            <TextField
+                                {...params}
+                                label={exporterAddress}
+                                variant="standard"
+                                error={!!errors.fromAdd}
+                                className={classes.field}
+                                required
+                            />
+                        )}
+                        onChange={(_, data) => props.onChange(data)}
+                    />
+                )}
+                name="fromAdd"
                 control={control}
                 rules={{ required: true }}
 

@@ -15,7 +15,7 @@ export default function SidePanel() {
             <img src={logo} alt="Logo"/>
             <div className="my-5">
                 <div className="font-weight-bold m-2">{user.name}</div>
-                <div className="font-weight-light m-2">At: {company.name}</div>
+                <div className="font-weight-light m-2">At: {company.names[0]}</div>
             </div>
             <nav className="nav flex-column">
                 <Link className="nav-link" to="/home/orders">{orders}</Link>

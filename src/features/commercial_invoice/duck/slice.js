@@ -12,8 +12,9 @@ const commercialInvoiceAdapter = createEntityAdapter({
 const getCIDefaultValues = () => ({
     ciRef: null,
     from: null,
+    fromName: null,
     fromAdd: null,
-    to: null,
+    toName: null,
     toAdd: null,
     date: new Date().toISOString(),
     com: null,
@@ -25,7 +26,6 @@ const getCIDefaultValues = () => ({
     marks: null,
     createdBy: null,
     fileName: null,
-    companyId: null,
     headers: LANGUAGE.commercialInvoice.createCIProductTable.defaultHeaders,
     items: [defaultRowValues]
     // totalPieces: {'PCS': 0},
