@@ -2,6 +2,8 @@ import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { LANGUAGE } from '../../../constants.js';
 import { fetchCIOptions } from './thunks.js';
 
+const defaultRowValues = ['', '', '', '', 0, 'PCS', 0, 0];
+
 const commercialInvoiceAdapter = createEntityAdapter({
     selectId: ci => ci._id,
     sortComparer: (a, b) => b.date.localeCompare(a.date)
@@ -23,9 +25,9 @@ const getCIDefaultValues = () => ({
     marks: null,
     createdBy: null,
     fileName: null,
-    companyId: null
-    // columns: LANGUAGE.productTable.defaultColumns,
-    // items: [defaultRowValues],
+    companyId: null,
+    headers: LANGUAGE.commercialInvoice.createCIProductTable.defaultHeaders,
+    items: [defaultRowValues]
     // totalPieces: {'PCS': 0},
     // totalAmount: 0,
     // totalQ: { 'PCS': 0},
@@ -66,7 +68,17 @@ const commercialInvoiceSlice = createSlice({
             for (const [key, value] of Object.entries(action.payload)) {
                 state.newCI[key] = value;
             }
-        }
+        },
+        prevStep: (state, action) => {
+            if (state.activeStep > 0) {
+                state.activeStep -= 1;
+            }
+        },
+        nextStep: (state, action) => {
+            if (state.activeStep < 2) {
+                state.activeStep += 1;
+            }
+        },
     },
     extraReducers: {
         [fetchCIOptions.pending]: (state, action) => {
@@ -83,6 +95,6 @@ const commercialInvoiceSlice = createSlice({
     }
 });
 
-export const { startNewCI, submitCIDetails } = commercialInvoiceSlice.actions;
+export const { startNewCI, submitCIDetails, prevStep, nextStep } = commercialInvoiceSlice.actions;
 
 export default commercialInvoiceSlice.reducer;

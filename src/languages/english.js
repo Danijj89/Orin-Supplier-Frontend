@@ -114,7 +114,12 @@ export const ENGLISH = {
         },
         createCIProductInfo: {
             ordersLabel: 'Purchase Orders',
-            currencyLabel: 'Currencies'
+            currencyLabel: 'Currencies',
+            buttonPrev: 'Back: Invoice Details',
+            buttonNext:'Next: Review'
+        },
+        createCIProductTable: {
+            defaultHeaders: ['Item Ref', 'Product Description', null, null, 'Quantity', 'Unit', 'Unit Price', 'Amount']
         }
     },
     shared: {
