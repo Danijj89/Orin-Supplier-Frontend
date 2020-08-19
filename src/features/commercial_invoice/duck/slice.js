@@ -27,11 +27,9 @@ const getCIDefaultValues = () => ({
     createdBy: null,
     fileName: null,
     headers: LANGUAGE.commercialInvoice.createCIProductTable.defaultHeaders,
-    items: []
-    // totalPieces: {'PCS': 0},
-    // totalAmount: 0,
-    // totalQ: { 'PCS': 0},
-    // totalA: { type: Schema.Types.Decimal128, required: true, alias: 'totalAmount' }
+    items: [],
+    totalQ: null,
+    totalA: 0
 });
 
 const initialState = commercialInvoiceAdapter.getInitialState({

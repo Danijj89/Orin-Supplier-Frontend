@@ -119,7 +119,8 @@ export const ENGLISH = {
             buttonNext:'Next: Review'
         },
         createCIProductTable: {
-            defaultHeaders: ['Item Ref', 'Product Description', null, null, 'Quantity', 'Unit', 'Unit Price', 'Amount']
+            defaultHeaders: ['Item Ref', 'Product Description', null, null, 'Quantity', 'Unit', 'Unit Price', 'Amount'],
+            totalQuantity: 'Total:'
         }
     },
     shared: {

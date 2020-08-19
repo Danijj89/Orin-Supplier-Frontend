@@ -41,7 +41,7 @@ export default function CreateCIProductInfo() {
     const onCurrencyChange = (event) => setCurrency(event.target.value);
 
     // table default values
-    const { headers : defaultHeaders } = useSelector(selectNewCI);
+    const { headers: defaultHeaders } = useSelector(selectNewCI);
     const [headers, setHeaders] = useState(defaultHeaders);
 
     const addOrderItemsToRows = (rows, orderRef) => {
@@ -66,8 +66,6 @@ export default function CreateCIProductInfo() {
     const [rows, setRows] = useState(currOrderRef
         ? addOrderItemsToRows({ custom: [] }, currOrderRef)
         : { custom: [defaultRowValues] });
-    const flattenRows = rows => [].concat.apply([], Object.entries(rows).map(([key, value]) => value));
-    const [flattenedRows, setFlattenedRows] = useState(flattenRows(rows));
     const computeRowsForChosenOrders = (newRefs) => {
         const removed = orders.filter(order => !newRefs.includes(order));
         const added = newRefs.filter(ref => !orders.includes(ref));
@@ -80,15 +78,6 @@ export default function CreateCIProductInfo() {
         }
     }
 
-    useEffect(() => {
-        setFlattenedRows(flattenRows(rows))
-    }, [rows]);
-
-    const onChosenOrderChange = (newOptions) => {
-        setRows(computeRowsForChosenOrders(newOptions));
-        setOrders(newOptions);
-    }
-
     const onRowAddButtonClick = () => {
         const custom = rows.custom;
         const newCustom = [...custom, defaultRowValues];
@@ -97,6 +86,11 @@ export default function CreateCIProductInfo() {
             custom: newCustom
         });
     };
+
+    const onChosenOrderChange = (newOptions) => {
+        setRows(computeRowsForChosenOrders(newOptions));
+        setOrders(newOptions);
+    }
 
 
     // const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -152,38 +146,38 @@ export default function CreateCIProductInfo() {
                     </Select>
                 </FormControl>
             </Grid>
-                {/*<Button variant="outlined" onClick={onDialogOpen}>{buttonAddColumn}</Button>*/}
-                {/*<Dialog onClose={onDialogClose} open={isDialogOpen}>*/}
-                {/*    <DialogTitle id="simple-dialog-title">{addColumnDialog}</DialogTitle>*/}
-                {/*    <DialogContent>*/}
-                {/*        <TextField*/}
-                {/*            autoFocus*/}
-                {/*            fullWidth*/}
-                {/*            margin="dense"*/}
-                {/*            type="text"*/}
-                {/*            label={addColumnDialog}*/}
-                {/*            value={newColumnName}*/}
-                {/*            onChange={(e) => setNewColumnName(e.target.value)}*/}
-                {/*        />*/}
-                {/*    </DialogContent>*/}
-                {/*    <DialogActions>*/}
-                {/*        <Button onClick={onDialogClose} color="primary" variant="outlined">*/}
-                {/*            {dialogButtonCancel}*/}
-                {/*        </Button>*/}
-                {/*        <Button onClick={onButtonAddColumnClick} color="primary" variant="outlined">*/}
-                {/*            {buttonAddColumn}*/}
-                {/*        </Button>*/}
-                {/*    </DialogActions>*/}
-                {/*</Dialog>*/}
-            <CreateCIProductTable
-                currency={currency}
-                headers={headers}
-                setHeaders={setHeaders}
-                rows={flattenedRows}
-                setRows={setRows}
-            />
-            <Grid item xs={12}>
-                <Button variant="outlined" onClick={onRowAddButtonClick}>Add</Button>
+            {/*<Button variant="outlined" onClick={onDialogOpen}>{buttonAddColumn}</Button>*/}
+            {/*<Dialog onClose={onDialogClose} open={isDialogOpen}>*/}
+            {/*    <DialogTitle id="simple-dialog-title">{addColumnDialog}</DialogTitle>*/}
+            {/*    <DialogContent>*/}
+            {/*        <TextField*/}
+            {/*            autoFocus*/}
+            {/*            fullWidth*/}
+            {/*            margin="dense"*/}
+            {/*            type="text"*/}
+            {/*            label={addColumnDialog}*/}
+            {/*            value={newColumnName}*/}
+            {/*            onChange={(e) => setNewColumnName(e.target.value)}*/}
+            {/*        />*/}
+            {/*    </DialogContent>*/}
+            {/*    <DialogActions>*/}
+            {/*        <Button onClick={onDialogClose} color="primary" variant="outlined">*/}
+            {/*            {dialogButtonCancel}*/}
+            {/*        </Button>*/}
+            {/*        <Button onClick={onButtonAddColumnClick} color="primary" variant="outlined">*/}
+            {/*            {buttonAddColumn}*/}
+            {/*        </Button>*/}
+            {/*    </DialogActions>*/}
+            {/*</Dialog>*/}
+            <Grid item>
+                <CreateCIProductTable
+                    currency={currency}
+                    headers={headers}
+                    setHeaders={setHeaders}
+                    rows={rows}
+                    setRows={setRows}
+                    onRowAddButtonClick={onRowAddButtonClick}
+                />
             </Grid>
             <Grid
                 container

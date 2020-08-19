@@ -11,7 +11,19 @@ import TableInputField from '../shared/TableInputField.js';
 import { getCurrencySymbol } from '../shared/utils.js';
 
 export default function CreateProductTableRow(
-    {row, rowIdx, headers, onCellChange, onRowDeleteButtonClick, currency}) {
+    {
+        orderRef,
+        row,
+        rowIdx,
+        headers,
+        onCellChange,
+        onTextCellChange,
+        onRowDeleteClick,
+        currency,
+        onUnitPriceChange,
+        onUnitChange,
+        onQuantityChange
+    }) {
 
     const { itemsRef, itemDescriptionMap } = useSelector(selectPOAutocompleteOptions);
     const { itemUnits } = useSelector(selectCurrentDefaults);
@@ -19,7 +31,7 @@ export default function CreateProductTableRow(
     return (
         <TableRow>
             <TableCell className="table-row-delete-icon" padding="none">
-                <Button size="small" onClick={() => onRowDeleteButtonClick(rowIdx)}>
+                <Button size="small" onClick={() => onRowDeleteClick(orderRef, rowIdx)}>
                     <DeleteIcon fontSize="small"/>
                 </Button>
             </TableCell>
@@ -36,7 +48,7 @@ export default function CreateProductTableRow(
                             isAutocomplete
                         />
                     )}
-                    onChange={(_, data) => onCellChange(rowIdx, 0, data)}
+                    onChange={(_, data) => onCellChange(orderRef, rowIdx, 0, data, onTextCellChange)}
                     value={row[0]}
                     size="small"
                 />
@@ -54,7 +66,7 @@ export default function CreateProductTableRow(
                             isAutocomplete
                         />
                     )}
-                    onChange={(_, data) => onCellChange(rowIdx, 1, data)}
+                    onChange={(_, data) => onCellChange(orderRef, rowIdx, 1, data, onTextCellChange)}
                     value={row[1]}
                     size="small"
                 />
@@ -64,7 +76,7 @@ export default function CreateProductTableRow(
                     <TableInputField
                         type="text"
                         value={row[2]}
-                        onChange={(e) => onCellChange(rowIdx, 2, e.target.value)}
+                        onChange={(e) => onCellChange(orderRef, rowIdx, 2, e.target.value, onTextCellChange)}
                     />
                 </TableCell>
             }
@@ -73,7 +85,7 @@ export default function CreateProductTableRow(
                     <TableInputField
                         type="text"
                         value={row[3]}
-                        onChange={(e) => onCellChange(rowIdx, 3, e.target.value)}
+                        onChange={(e) => onCellChange(orderRef, rowIdx, 3, e.target.value, onTextCellChange)}
                     />
                 </TableCell>
             }
@@ -81,7 +93,7 @@ export default function CreateProductTableRow(
                 <TableInputField
                     type="number"
                     value={Number(row[4]).toString()}
-                    onChange={(e) => onCellChange(rowIdx, 4, e.target.value)}
+                    onChange={(e) => onCellChange(orderRef, rowIdx, 4, e.target.value, onQuantityChange)}
                 />
             </TableCell>
             <TableCell className="table-row-units">
@@ -95,7 +107,7 @@ export default function CreateProductTableRow(
                             isAutocomplete
                         />
                     )}
-                    onChange={(_, data) => onCellChange(rowIdx, 5, data)}
+                    onChange={(_, data) => onCellChange(orderRef, rowIdx, 5, data, onUnitChange)}
                     value={row[5]}
                     size="small"
                 />
@@ -104,7 +116,7 @@ export default function CreateProductTableRow(
                 <TableInputField
                     type="number"
                     value={Number(row[6]).toString()}
-                    onChange={(e) => onCellChange(rowIdx, 6, e.target.value)}
+                    onChange={(e) => onCellChange(orderRef, rowIdx, 6, e.target.value, onUnitPriceChange)}
                 />
             </TableCell>
             <TableCell align="right" className="table-amount">
