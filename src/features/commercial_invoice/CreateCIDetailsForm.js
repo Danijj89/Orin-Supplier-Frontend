@@ -11,6 +11,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { LANGUAGE } from '../../constants.js';
 import { submitCIDetails } from './duck/slice.js';
 import CreateCIAdditionalInfo from './CreateCIAdditionalInfo.js';
+import { getFileName } from '../shared/utils.js';
 
 const { invoiceNumber, invoiceDate, importer, importerAddress,
     exporter, exporterAddress, countryOfManufacture, buttonCancel, buttonNext } = LANGUAGE.commercialInvoice.createCIDetailsForm;
@@ -61,6 +62,7 @@ export default function CreateOrderDetailsForm() {
     const onButtonNextClick = (data) => {
         data.createdBy = userId;
         data.from = companyId;
+        data.fileName = getFileName('CI', data.ciRef, data.createdBy);
         dispatch(submitCIDetails(data));
     }
 

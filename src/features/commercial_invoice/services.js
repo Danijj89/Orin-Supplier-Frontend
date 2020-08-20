@@ -7,10 +7,22 @@ const fetchCIOptions = async (companyId) => {
     };
     const { data } = await fetchWithAuth(configs);
     return data;
+};
+
+const generateCIFiles = async (newCI) => {
+    const configs = {
+        method: 'get',
+        responseType: 'blob',
+        url: `/file/generate/ci`,
+        data: newCI
+    };
+    const { data } = await fetchWithAuth(configs);
+    return data;
 }
 
 const CIService =  {
-    fetchCIOptions
+    fetchCIOptions,
+    generateCIFiles
 };
 
 export default CIService;
