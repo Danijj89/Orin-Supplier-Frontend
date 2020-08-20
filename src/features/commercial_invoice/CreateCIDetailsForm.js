@@ -13,7 +13,7 @@ import { submitCIDetails } from './duck/slice.js';
 import CreateCIAdditionalInfo from './CreateCIAdditionalInfo.js';
 
 const { invoiceNumber, invoiceDate, importer, importerAddress,
-    exporter, exporterAddress, buttonCancel, buttonNext } = LANGUAGE.commercialInvoice.createCIDetailsForm;
+    exporter, exporterAddress, countryOfManufacture, buttonCancel, buttonNext } = LANGUAGE.commercialInvoice.createCIDetailsForm;
 
 const useStyles = makeStyles({
     form: {
@@ -184,7 +184,15 @@ export default function CreateOrderDetailsForm() {
                 name="fromAdd"
                 control={control}
                 rules={{ required: true }}
-
+            />
+            <TextField
+                label={countryOfManufacture}
+                type="text"
+                name="com"
+                inputRef={register}
+                className={classes.field}
+                fullWidth
+                autoFocus
             />
             <CreateCIAdditionalInfo register={register} control={control} />
             <Grid

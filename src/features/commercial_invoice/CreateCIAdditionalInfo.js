@@ -1,15 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Button, Typography, TextField, Container, Box } from '@material-ui/core';
 import { ExpandLess as IconExpandLess, ExpandMore as IconExpandMore, Notes as IconNotes } from '@material-ui/icons';
-import { Controller } from 'react-hook-form';
-import Autocomplete from '@material-ui/lab/Autocomplete';
 import { makeStyles } from '@material-ui/core/styles';
 import { LANGUAGE } from '../../constants.js';
 
 const {
     title,
     additionalNotes,
-    countryOfManufacture,
     paymentReference,
     salesContract
 } = LANGUAGE.commercialInvoice.createCIAdditionalInfo;
@@ -65,15 +62,6 @@ export default function CreateCIAdditionalInfo({register, control}) {
                     <IconExpandLess/>
                 </Button>
                 <Box className={classes.box}>
-                    <TextField
-                        label={countryOfManufacture}
-                        type="text"
-                        name="com"
-                        inputRef={register}
-                        className={classes.field}
-                        fullWidth
-                        autoFocus
-                    />
                     <TextField
                         label={additionalNotes}
                         type="text"

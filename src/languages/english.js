@@ -102,12 +102,12 @@ export const ENGLISH = {
             importerAddress: 'Importer Address',
             exporter: 'Exporter',
             exporterAddress: 'Exporter Address',
+            countryOfManufacture: 'Country of Manufacture',
             buttonCancel: 'Cancel',
             buttonNext: 'Next: Product Info'
         },
         createCIAdditionalInfo: {
             title: 'Additional Information (Optional)',
-            countryOfManufacture: 'Country of Manufacture',
             additionalNotes: 'Additional Notes',
             salesContract: 'Sales Contract Number',
             paymentReference: 'Payment Reference'
