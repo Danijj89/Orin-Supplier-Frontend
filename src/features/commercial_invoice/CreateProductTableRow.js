@@ -2,17 +2,13 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { selectPOAutocompleteOptions } from '../orders/duck/selectors.js';
 import { selectCurrentDefaults } from '../home/slice.js';
-import TableRow from '@material-ui/core/TableRow';
-import TableCell from '@material-ui/core/TableCell';
-import Button from '@material-ui/core/Button';
+import { TableRow, TableCell, Button, Typography } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete.js';
-import TableInputField from '../shared/TableInputField.js';
 import { getCurrencySymbol } from '../shared/utils.js';
 import { makeStyles } from '@material-ui/core/styles';
 import TableAutoCompleteFreeTextInput from '../shared/inputs/TableAutoCompleteFreeTextInput.js';
 import TableInput from '../shared/inputs/TableInput.js';
 import TableAutoCompleteTextInput from '../shared/inputs/TableAutoCompleteTextInput.js';
-import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles({
     deleteIcon: {
