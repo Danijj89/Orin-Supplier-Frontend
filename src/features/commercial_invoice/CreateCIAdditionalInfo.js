@@ -69,6 +69,7 @@ export default function CreateCIAdditionalInfo({register, control}) {
                         inputRef={register}
                         className={classes.field}
                         fullWidth
+                        autoFocus
                     />
                     <TextField
                         label={salesContract}

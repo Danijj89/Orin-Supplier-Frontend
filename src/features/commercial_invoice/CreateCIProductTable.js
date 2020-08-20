@@ -217,7 +217,7 @@ export default function CreateCIProductTable(
             <Grid
                 container
                 justify="space-between"
-                alignItems="center"
+                alignItems="flex-end"
                 item
                 xs={12}>
                 <Grid item>
@@ -231,6 +231,9 @@ export default function CreateCIProductTable(
                         {`${getCurrencySymbol(currency)} ${totalA}`}
                     </Typography>
                 </Grid>
+            </Grid>
+            <Grid item xs={12}>
+                <hr/>
             </Grid>
         </Grid>
 

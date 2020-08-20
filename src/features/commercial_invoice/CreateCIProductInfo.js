@@ -2,7 +2,15 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCurrentDefaults } from '../home/slice.js';
-import { FormControl, InputLabel, MenuItem, Select, Grid, Button } from '@material-ui/core';
+import {
+    FormControl,
+    InputLabel,
+    MenuItem,
+    Select,
+    Grid,
+    Button,
+    TextField
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { LANGUAGE } from '../../constants.js';
 import { selectCIAutocompleteOptions, selectNewCI } from './duck/selectors.js';
@@ -11,7 +19,7 @@ import { defaultRowValues, prevStep, submitTableInfo } from './duck/slice.js';
 import CreateCIProductTable from './CreateCIProductTable.js';
 import AddColumnButton from '../shared/buttons/addColumnButton.js';
 
-const { currencyLabel, buttonNext, buttonPrev } = LANGUAGE.commercialInvoice.createCIProductInfo;
+const { currencyLabel, marksLabel, buttonNext, buttonPrev } = LANGUAGE.commercialInvoice.createCIProductInfo;
 
 const useStyles = makeStyles((theme) => ({
     row: {
@@ -21,6 +29,10 @@ const useStyles = makeStyles((theme) => ({
     currenciesDropdown: {
         minWidth: 120,
         width: 160
+    },
+    marks: {
+        width: '100%',
+        border: 'none'
     }
 }));
 
@@ -102,6 +114,7 @@ export default function CreateCIProductInfo() {
 
     const [totalQ, setTotalQ] = useState(computeTotalQuantity(rows));
     const [totalA, setTotalA] = useState(computeTotalAmount(rows));
+    const [marks, setMarks] = useState('');
 
     const onRowAddButtonClick = () => {
         const custom = rows.custom;
@@ -132,7 +145,8 @@ export default function CreateCIProductInfo() {
             headers,
             items,
             totalQ,
-            totalA
+            totalA,
+            marks
         }
         dispatch(submitTableInfo(tableInfo));
         //dispatch(submitForPreview())
@@ -173,7 +187,7 @@ export default function CreateCIProductInfo() {
                 </FormControl>
                 <AddColumnButton currColNumbers={numActiveColumns} onConfirmClick={onAddColumnClick}/>
             </Grid>
-            <Grid item>
+            <Grid item xs={12} className={classes.row}>
                 <CreateCIProductTable
                     currency={currency}
                     headers={headers}
@@ -185,6 +199,23 @@ export default function CreateCIProductInfo() {
                     setTotalQ={setTotalQ}
                     totalA={totalA}
                     setTotalA={setTotalA}
+                />
+            </Grid>
+            <hr/>
+            <Grid
+                item
+                className={classes.row}
+                xs={12}
+            >
+                <TextField
+                    multiline
+                    placeholder={marksLabel}
+                    rows={3}
+                    fullWidth
+                    variant="outlined"
+                    rowsMax={Infinity}
+                    value={marks}
+                    onChange={(e) => setMarks(e.target.value)}
                 />
             </Grid>
             <Grid

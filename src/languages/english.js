@@ -115,6 +115,7 @@ export const ENGLISH = {
         createCIProductInfo: {
             ordersLabel: 'Purchase Orders',
             currencyLabel: 'Currencies',
+            marksLabel: 'Marks and Numbers',
             buttonPrev: 'Back: Invoice Details',
             buttonNext:'Next: Review'
         },

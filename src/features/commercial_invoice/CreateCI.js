@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCurrentCompany } from '../home/slice.js';
-import CreateOrderPreview from '../orders/CreateOrderPreview.js';
 import { fetchCIOptions } from './duck/thunks.js';
 import { selectCIActiveStep, selectCISteps } from './duck/selectors.js';
 import { makeStyles } from '@material-ui/core/styles';

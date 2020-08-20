@@ -194,7 +194,6 @@ export default function CreateOrderDetailsForm() {
                 inputRef={register}
                 className={classes.field}
                 fullWidth
-                autoFocus
             />
             <CreateCIAdditionalInfo register={register} control={control} />
             <Grid
