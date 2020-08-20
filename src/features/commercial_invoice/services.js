@@ -11,7 +11,7 @@ const fetchCIOptions = async (companyId) => {
 
 const generateCIFiles = async (newCI) => {
     const configs = {
-        method: 'get',
+        method: 'post',
         responseType: 'blob',
         url: `/file/generate/ci`,
         data: newCI

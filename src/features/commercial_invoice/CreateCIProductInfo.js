@@ -18,6 +18,7 @@ import CreateCIOrderSelector from './CreateCIOrderSelector.js';
 import { defaultRowValues, prevStep, submitTableInfo } from './duck/slice.js';
 import CreateCIProductTable from './CreateCIProductTable.js';
 import AddColumnButton from '../shared/buttons/addColumnButton.js';
+import { submitCIForPreview } from './duck/thunks.js';
 
 const { currencyLabel, marksLabel, buttonNext, buttonPrev } = LANGUAGE.commercialInvoice.createCIProductInfo;
 
@@ -149,7 +150,7 @@ export default function CreateCIProductInfo() {
             marks
         }
         dispatch(submitTableInfo(tableInfo));
-        //dispatch(submitForPreview())
+        dispatch(submitCIForPreview());
     };
 
     const mounted = useRef();
