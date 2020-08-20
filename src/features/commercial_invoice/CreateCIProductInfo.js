@@ -9,6 +9,7 @@ import { selectCIAutocompleteOptions, selectNewCI } from './duck/selectors.js';
 import CreateCIOrderSelector from './CreateCIOrderSelector.js';
 import { defaultRowValues, nextStep, prevStep } from './duck/slice.js';
 import CreateCIProductTable from './CreateCIProductTable.js';
+import AddColumnButton from '../shared/buttons/addColumnButton.js';
 
 const { currencyLabel, buttonNext, buttonPrev } = LANGUAGE.commercialInvoice.createCIProductInfo;
 
@@ -43,6 +44,13 @@ export default function CreateCIProductInfo() {
     // table default values
     const { headers: defaultHeaders } = useSelector(selectNewCI);
     const [headers, setHeaders] = useState(defaultHeaders);
+    const numActiveColumns = headers.reduce((acc, header) => header ? acc + 1 : acc, 0);
+    const onAddColumnClick = (newColumnName) => {
+        const newHeaders = [...headers];
+        if (!newHeaders[2]) newHeaders[2] = newColumnName;
+        else if (!newHeaders[3]) newHeaders[3] = newColumnName;
+        setHeaders(newHeaders);
+    }
 
     const addOrderItemsToRows = (rows, orderRef) => {
         const items = orderItemMap[orderRef].items;
@@ -92,29 +100,6 @@ export default function CreateCIProductInfo() {
         setOrders(newOptions);
     }
 
-
-    // const [isDialogOpen, setIsDialogOpen] = useState(false);
-    // const productInfo = useSelector(selectNewOrderProductInfo);
-    // const columns = productInfo.columns;
-    // const currCurrency = productInfo.currency;
-    //
-    // const onCurrencyChange = (newCurrency) => dispatch(changeCurrency(newCurrency))
-    //
-    // const onDialogOpen = () => {
-    //     if (columns.length < 8) {
-    //         setIsDialogOpen(true);
-    //     } else {
-    //         alert(maxColumnError);
-    //     }
-    // }
-    // const onDialogClose = () => setIsDialogOpen(false);
-    // const [newColumnName, setNewColumnName] = useState('');
-    // const onButtonAddColumnClick = () => {
-    //     dispatch(addColumn(newColumnName));
-    //     setNewColumnName('');
-    //     onDialogClose();
-    // }
-    //
     const onButtonOrderDetailsClick = () => dispatch(prevStep());
 
     const onButtonReviewClick = async () => {
@@ -131,8 +116,8 @@ export default function CreateCIProductInfo() {
                     onChosenOrderChange={onChosenOrderChange}
                 />
             </Grid>
-            <Grid item xs={12} className={classes.row}>
-                <FormControl variant="outlined" className={classes.currenciesDropdown}>
+            <Grid container item justify="space-between" alignItems="center" xs={12} className={classes.row}>
+                <FormControl variant="outlined" size="small" className={classes.currenciesDropdown}>
                     <InputLabel id="currencies-dropdown">{currencyLabel}</InputLabel>
                     <Select
                         labelId="currencies-dropdown"
@@ -145,30 +130,8 @@ export default function CreateCIProductInfo() {
                         )}
                     </Select>
                 </FormControl>
+                <AddColumnButton currColNumbers={numActiveColumns} onConfirmClick={onAddColumnClick}/>
             </Grid>
-            {/*<Button variant="outlined" onClick={onDialogOpen}>{buttonAddColumn}</Button>*/}
-            {/*<Dialog onClose={onDialogClose} open={isDialogOpen}>*/}
-            {/*    <DialogTitle id="simple-dialog-title">{addColumnDialog}</DialogTitle>*/}
-            {/*    <DialogContent>*/}
-            {/*        <TextField*/}
-            {/*            autoFocus*/}
-            {/*            fullWidth*/}
-            {/*            margin="dense"*/}
-            {/*            type="text"*/}
-            {/*            label={addColumnDialog}*/}
-            {/*            value={newColumnName}*/}
-            {/*            onChange={(e) => setNewColumnName(e.target.value)}*/}
-            {/*        />*/}
-            {/*    </DialogContent>*/}
-            {/*    <DialogActions>*/}
-            {/*        <Button onClick={onDialogClose} color="primary" variant="outlined">*/}
-            {/*            {dialogButtonCancel}*/}
-            {/*        </Button>*/}
-            {/*        <Button onClick={onButtonAddColumnClick} color="primary" variant="outlined">*/}
-            {/*            {buttonAddColumn}*/}
-            {/*        </Button>*/}
-            {/*    </DialogActions>*/}
-            {/*</Dialog>*/}
             <Grid item>
                 <CreateCIProductTable
                     currency={currency}

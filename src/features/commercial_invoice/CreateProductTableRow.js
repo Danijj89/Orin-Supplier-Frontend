@@ -6,9 +6,78 @@ import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/Delete.js';
-import Autocomplete from '@material-ui/lab/Autocomplete';
 import TableInputField from '../shared/TableInputField.js';
 import { getCurrencySymbol } from '../shared/utils.js';
+import { makeStyles } from '@material-ui/core/styles';
+import TableAutoCompleteFreeTextInput from '../shared/inputs/TableAutoCompleteFreeTextInput.js';
+import TableInput from '../shared/inputs/TableInput.js';
+import TableAutoCompleteTextInput from '../shared/inputs/TableAutoCompleteTextInput.js';
+import Typography from '@material-ui/core/Typography';
+
+const useStyles = makeStyles({
+    deleteIcon: {
+        margin: 0,
+        width: '5%'
+    },
+    itemReference: {
+        width: '15%',
+        maxWidth: 200,
+        padding: 4
+    },
+    description: {
+        width: '25%',
+        maxWidth: 400,
+        padding: 4
+    },
+    custom: {
+        width: '15%',
+        maxWidth: 400,
+        padding: 4
+    },
+    quantity: {
+        width: '10%',
+        maxWidth: 140,
+        padding: 4
+    },
+    unit: {
+        padding: 4,
+        width: '5%'
+    },
+    unitPrice: {
+        width: '10%',
+        maxWidth: 140,
+        padding: 4
+    },
+    amount: {
+        fontSize: 16,
+        minFontSize: 12,
+        width: '20%',
+        maxWidth: 140,
+        whiteSpace: 'nowrap',
+        textAlign: 'right'
+    }
+})
+
+const textInputStyle = {
+    border: 'none',
+    borderRadius: 5,
+    padding: '6px 8px',
+    fontSize: 14,
+    minFontSize: 12,
+    margin: 0,
+    width: '100%'
+};
+
+const numberInputStyle = {
+    ...textInputStyle,
+    textAlign: 'right'
+};
+
+const dropDownInputStyle = {
+    ...textInputStyle,
+    textAlign: 'center'
+};
+
 
 export default function CreateProductTableRow(
     {
@@ -24,103 +93,79 @@ export default function CreateProductTableRow(
         onUnitChange,
         onQuantityChange
     }) {
-
+    const classes = useStyles();
     const { itemsRef, itemDescriptionMap } = useSelector(selectPOAutocompleteOptions);
     const { itemUnits } = useSelector(selectCurrentDefaults);
 
     return (
         <TableRow>
-            <TableCell className="table-row-delete-icon" padding="none">
+            <TableCell className={classes.deleteIcon} padding="none">
                 <Button size="small" onClick={() => onRowDeleteClick(orderRef, rowIdx)}>
                     <DeleteIcon fontSize="small"/>
                 </Button>
             </TableCell>
-            <TableCell className="table-row-item-reference">
-                <Autocomplete
-                    freeSolo
-                    autoSelect
+            <TableCell className={classes.itemReference}>
+                <TableAutoCompleteFreeTextInput
                     options={itemsRef}
-                    renderInput={params => (
-                        <TableInputField
-                            type="text"
-                            InputProps={params.InputProps}
-                            inputProps={params.inputProps}
-                            isAutocomplete
-                        />
-                    )}
-                    onChange={(_, data) => onCellChange(orderRef, rowIdx, 0, data, onTextCellChange)}
+                    onChange={(data) => onCellChange(orderRef, rowIdx, 0, data, onTextCellChange)}
                     value={row[0]}
-                    size="small"
+                    styles={textInputStyle}
                 />
             </TableCell>
-            <TableCell className="table-row-description">
-                <Autocomplete
-                    freeSolo
-                    autoSelect
+            <TableCell className={classes.description}>
+                <TableAutoCompleteFreeTextInput
                     options={itemDescriptionMap.hasOwnProperty(row[0]) ? itemDescriptionMap[row[0]] : []}
-                    renderInput={params => (
-                        <TableInputField
-                            type="text"
-                            InputProps={params.InputProps}
-                            inputProps={params.inputProps}
-                            isAutocomplete
-                        />
-                    )}
-                    onChange={(_, data) => onCellChange(orderRef, rowIdx, 1, data, onTextCellChange)}
+                    onChange={(data) => onCellChange(orderRef, rowIdx, 1, data, onTextCellChange)}
                     value={row[1]}
-                    size="small"
+                    styles={textInputStyle}
                 />
             </TableCell>
             {
-                headers[2] && <TableCell className="table-row-custom-1">
-                    <TableInputField
+                headers[2] && <TableCell className={classes.custom}>
+                    <TableInput
                         type="text"
                         value={row[2]}
                         onChange={(e) => onCellChange(orderRef, rowIdx, 2, e.target.value, onTextCellChange)}
+                        styles={textInputStyle}
                     />
                 </TableCell>
             }
             {
-                headers[3] && <TableCell className="table-row-custom-2">
-                    <TableInputField
+                headers[3] && <TableCell className={classes.custom}>
+                    <TableInput
                         type="text"
                         value={row[3]}
                         onChange={(e) => onCellChange(orderRef, rowIdx, 3, e.target.value, onTextCellChange)}
+                        styles={textInputStyle}
                     />
                 </TableCell>
             }
-            <TableCell className="table-row-quantity">
-                <TableInputField
+            <TableCell className={classes.quantity}>
+                <TableInput
                     type="number"
                     value={Number(row[4]).toString()}
                     onChange={(e) => onCellChange(orderRef, rowIdx, 4, e.target.value, onQuantityChange)}
+                    styles={numberInputStyle}
                 />
             </TableCell>
-            <TableCell className="table-row-units">
-                <Autocomplete
+            <TableCell className={classes.unit}>
+                <TableAutoCompleteTextInput
                     options={itemUnits}
-                    renderInput={params => (
-                        <TableInputField
-                            type="text"
-                            InputProps={params.InputProps}
-                            inputProps={params.inputProps}
-                            isAutocomplete
-                        />
-                    )}
-                    onChange={(_, data) => onCellChange(orderRef, rowIdx, 5, data, onUnitChange)}
+                    onChange={(data) => onCellChange(orderRef, rowIdx, 5, data, onUnitChange)}
                     value={row[5]}
-                    size="small"
+                    styles={dropDownInputStyle}
                 />
             </TableCell>
-            <TableCell className="table-row-unit-price">
-                <TableInputField
+            <TableCell className={classes.unitPrice}>
+                <TableInput
                     type="number"
                     value={Number(row[6]).toString()}
                     onChange={(e) => onCellChange(orderRef, rowIdx, 6, e.target.value, onUnitPriceChange)}
+                    styles={numberInputStyle}
                 />
             </TableCell>
-            <TableCell align="right" className="table-amount">
-                {`${getCurrencySymbol(currency)} ${row[7]}`}
+            <TableCell className={classes.amount}>
+                <Typography>{`${getCurrencySymbol(currency)} ${row[7]}`}</Typography>
             </TableCell>
         </TableRow>
     )

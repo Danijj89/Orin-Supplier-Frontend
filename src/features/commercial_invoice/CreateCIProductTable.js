@@ -11,7 +11,7 @@ import {
     Button,
     Typography
 } from '@material-ui/core';
-import { Clear } from '@material-ui/icons';
+import { Clear as ClearIcon } from '@material-ui/icons';
 import { getCurrencySymbol, getStringFromTotalQuantityObject, roundTo2Decimal } from '../shared/utils.js';
 import { makeStyles } from '@material-ui/core/styles';
 import CreateProductTableRow from './CreateProductTableRow.js';
@@ -21,11 +21,23 @@ const { totalQuantity } = LANGUAGE.commercialInvoice.createCIProductTable;
 
 const useStyles = makeStyles((theme) => ({
     table: {
-        marginTop: 20
+        marginTop: 10
+    },
+    customColumn: {
+        paddingTop: 6,
+        paddingBottom: 6,
+        paddingLeft: 16,
+        paddingRight: 0,
+    },
+    deleteColumnIcon: {
+        margin: 0,
+        padding: 0,
+        width: 20,
+        height: 20
     },
     totals: {
-        marginRight: 10,
-        marginLeft: 10
+        marginRight: 16,
+        marginLeft: 40
     }
 }));
 
@@ -38,23 +50,27 @@ export default function CreateCIProductTable({ currency, headers, setHeaders, ro
     };
 
     const renderedHeaders = headers.map((header, index) => {
-        if ((index === 2 || index === 3)) {
+        if (index === 0 || index === 1) return <TableCell key={index}>{header}</TableCell>;
+        else if ((index === 2 || index === 3)) {
             if (headers[index]) {
                 return (
-                    <TableCell key={index}>
-                        {header}
-                        <IconButton
-                            onClick={() => onButtonDeleteColumnClick(index)}
-                        >
-                            <Clear/>
-                        </IconButton>
+                    <TableCell key={index} className={classes.customColumn}>
+                        <Grid container justify="space-between" alignItems="center">
+                            <Typography>{header}</Typography>
+                            <IconButton
+                                onClick={() => onButtonDeleteColumnClick(index)}
+                                size="small"
+                            >
+                                <ClearIcon className={classes.deleteColumnIcon}/>
+                            </IconButton>
+                        </Grid>
                     </TableCell>
                 )
             } else {
                 return null;
             }
         } else {
-            return <TableCell key={index}>{header}</TableCell>
+            return <TableCell key={index} align="right">{header}</TableCell>
         }
     })
 
@@ -218,10 +234,12 @@ export default function CreateCIProductTable({ currency, headers, setHeaders, ro
                     <Button variant="outlined" onClick={onRowAddButtonClick}>Add</Button>
                 </Grid>
                 <Grid item>
-                    <Typography component="span"
-                                className={classes.totals}>{`${totalQuantity} ${getStringFromTotalQuantityObject(totalQ)}`}</Typography>
-                    <Typography component="span"
-                                className={classes.totals}>{`${getCurrencySymbol(currency)} ${totalA}`}</Typography>
+                    <Typography component="span" className={classes.totals}>
+                        {`${totalQuantity} ${getStringFromTotalQuantityObject(totalQ)}`}
+                    </Typography>
+                    <Typography component="span" className={classes.totals}>
+                        {`${getCurrencySymbol(currency)} ${totalA}`}
+                    </Typography>
                 </Grid>
             </Grid>
         </Grid>

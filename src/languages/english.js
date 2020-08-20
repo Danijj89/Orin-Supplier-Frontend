@@ -137,6 +137,13 @@ export const ENGLISH = {
             dialogCancel: 'Cancel',
             dialogConfirm: 'Create',
             typeLabel: 'Document Type'
+        },
+        addColumnButton: {
+            buttonText: 'Add Column',
+            dialogTitle: 'Type The Column Name',
+            dialogCancel: 'Cancel',
+            dialogConfirm: 'Add',
+            errorMessage: 'Maximum number of columns reached'
         }
     },
     defaults: {
