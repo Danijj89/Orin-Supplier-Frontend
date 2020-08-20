@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCurrentDefaults } from '../home/slice.js';
@@ -7,7 +7,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { LANGUAGE } from '../../constants.js';
 import { selectCIAutocompleteOptions, selectNewCI } from './duck/selectors.js';
 import CreateCIOrderSelector from './CreateCIOrderSelector.js';
-import { defaultRowValues, nextStep, prevStep } from './duck/slice.js';
+import { defaultRowValues, prevStep, submitTableInfo } from './duck/slice.js';
 import CreateCIProductTable from './CreateCIProductTable.js';
 import AddColumnButton from '../shared/buttons/addColumnButton.js';
 
@@ -86,6 +86,23 @@ export default function CreateCIProductInfo() {
         }
     }
 
+    const computeTotalQuantity = (rows) => Object.values(rows).reduce((acc, items) => {
+        items.forEach(item => {
+            const unit = item[5];
+            const quantity = item[4];
+            acc.hasOwnProperty(unit) ? acc[unit] += quantity : acc[unit] = quantity
+        });
+        return acc;
+    }, {});
+
+    const computeTotalAmount = (rows) => Object.values(rows).reduce((acc, items) => {
+        items.forEach(item => acc += item[7]);
+        return acc;
+    }, 0);
+
+    const [totalQ, setTotalQ] = useState(computeTotalQuantity(rows));
+    const [totalA, setTotalA] = useState(computeTotalAmount(rows));
+
     const onRowAddButtonClick = () => {
         const custom = rows.custom;
         const newCustom = [...custom, defaultRowValues];
@@ -103,9 +120,33 @@ export default function CreateCIProductInfo() {
     const onButtonOrderDetailsClick = () => dispatch(prevStep());
 
     const onButtonReviewClick = async () => {
-        dispatch(nextStep());
-        // dispatch(submitOrderForPreview());
+        const items = [].concat.apply(
+            [],
+            Object.values(rows).reduce((acc, items) => {
+                acc.push(items);
+                return acc;
+            }, []));
+        const tableInfo = {
+            currency,
+            poRefs: orders,
+            headers,
+            items,
+            totalQ,
+            totalA
+        }
+        dispatch(submitTableInfo(tableInfo));
+        //dispatch(submitForPreview())
     };
+
+    const mounted = useRef();
+
+    useEffect(() => {
+        if (mounted.current !== Object.keys(rows).length) {
+            setTotalQ(computeTotalQuantity(rows));
+            setTotalA(computeTotalAmount(rows));
+        }
+        mounted.current = Object.keys(rows).length;
+    }, [rows]);
 
     return (
         <Grid container>
@@ -140,6 +181,10 @@ export default function CreateCIProductInfo() {
                     rows={rows}
                     setRows={setRows}
                     onRowAddButtonClick={onRowAddButtonClick}
+                    totalQ={totalQ}
+                    setTotalQ={setTotalQ}
+                    totalA={totalA}
+                    setTotalA={setTotalA}
                 />
             </Grid>
             <Grid

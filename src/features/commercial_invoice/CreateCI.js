@@ -10,6 +10,7 @@ import { Container, Typography } from '@material-ui/core';
 import { LANGUAGE } from '../../constants.js';
 import CreateCIDetailsForm from './CreateCIDetailsForm.js';
 import CreateCIProductInfo from './CreateCIProductInfo.js';
+import CreateCIPreview from './CreateCIPreview.js';
 
 const { title } = LANGUAGE.commercialInvoice.createCI;
 
@@ -38,7 +39,7 @@ export default function CreateCI() {
             <hr/>
             {activeStep === 0 && <CreateCIDetailsForm />}
             {activeStep === 1 && <CreateCIProductInfo />}
-            {activeStep === 2 && <CreateOrderPreview />}
+            {activeStep === 2 && <CreateCIPreview />}
         </Container>
     )
 }

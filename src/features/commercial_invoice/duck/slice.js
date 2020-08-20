@@ -20,12 +20,12 @@ const getCIDefaultValues = () => ({
     com: null,
     notes: null,
     scRef: null,
-    poRefs: [],
     paymentRef: null,
     currency: 'USD',
     marks: null,
     createdBy: null,
     fileName: null,
+    poRefs: [],
     headers: LANGUAGE.commercialInvoice.createCIProductTable.defaultHeaders,
     items: [],
     totalQ: null,
@@ -67,16 +67,17 @@ const commercialInvoiceSlice = createSlice({
                 state.newCI[key] = value;
             }
         },
+        submitTableInfo: (state, action) => {
+            state.activeStep += 1;
+            for (const [key, value] of Object.entries(action.payload)) {
+                state.newCI[key] = value;
+            }
+        },
         prevStep: (state, action) => {
             if (state.activeStep > 0) {
                 state.activeStep -= 1;
             }
-        },
-        nextStep: (state, action) => {
-            if (state.activeStep < 2) {
-                state.activeStep += 1;
-            }
-        },
+        }
     },
     extraReducers: {
         [fetchCIOptions.pending]: (state, action) => {
@@ -93,6 +94,6 @@ const commercialInvoiceSlice = createSlice({
     }
 });
 
-export const { startNewCI, submitCIDetails, prevStep, nextStep } = commercialInvoiceSlice.actions;
+export const { startNewCI, submitCIDetails, submitTableInfo, prevStep } = commercialInvoiceSlice.actions;
 
 export default commercialInvoiceSlice.reducer;

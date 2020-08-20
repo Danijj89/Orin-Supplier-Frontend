@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import {
     TableCell,
     IconButton,
@@ -41,7 +41,19 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function CreateCIProductTable({ currency, headers, setHeaders, rows, setRows, onRowAddButtonClick }) {
+export default function CreateCIProductTable(
+    {
+        currency,
+        headers,
+        setHeaders,
+        rows,
+        setRows,
+        onRowAddButtonClick,
+        totalQ,
+        setTotalQ,
+        totalA,
+        setTotalA
+    }) {
     const classes = useStyles();
 
     const onButtonDeleteColumnClick = idx => {
@@ -73,23 +85,6 @@ export default function CreateCIProductTable({ currency, headers, setHeaders, ro
             return <TableCell key={index} align="right">{header}</TableCell>
         }
     })
-
-    const computeTotalQuantity = (rows) => Object.values(rows).reduce((acc, items) => {
-        items.forEach(item => {
-            const unit = item[5];
-            const quantity = item[4];
-            acc.hasOwnProperty(unit) ? acc[unit] += quantity : acc[unit] = quantity
-        });
-        return acc;
-    }, {});
-
-    const computeTotalAmount = (rows) => Object.values(rows).reduce((acc, items) => {
-        items.forEach(item => acc += item[7]);
-        return acc;
-    }, 0);
-
-    const [totalQ, setTotalQ] = useState(computeTotalQuantity(rows));
-    const [totalA, setTotalA] = useState(computeTotalAmount(rows));
 
     const onCellChange = (orderRef, rowIdx, colIdx, val, func) => {
         const newRows = Object.entries(rows).reduce((result, [ref, items]) => {
@@ -199,13 +194,8 @@ export default function CreateCIProductTable({ currency, headers, setHeaders, ro
     useEffect(() => {
         if (mounted) {
             window.scrollTo(0, document.body.scrollHeight);
-            if (mounted.current !== Object.keys(rows).length) {
-                setTotalQ(computeTotalQuantity(rows));
-                setTotalA(computeTotalAmount(rows));
-            }
-            mounted.current = Object.keys(rows).length;
         }
-    }, [rows]);
+    }, [rows.custom.length]);
 
     return (
         <Grid container>
