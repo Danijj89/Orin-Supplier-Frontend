@@ -37,16 +37,13 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function CreateCIProductInfo() {
+export default function CreateCIProductInfo({ order }) {
     const classes = useStyles();
     const dispatch = useDispatch();
 
     // Order Selector logic
-    const { search } = useLocation();
-    const currOrderId = new URLSearchParams(search).get('order');
     const { orderItemMap } = useSelector(selectCIAutocompleteOptions);
-    // Get the poRef of the current order and put it in the fixed order option
-    const currOrderRef = Object.entries(orderItemMap).find(([key, value]) => value._id === currOrderId)[0];
+    const currOrderRef = order.poRef;
     const [orders, setOrders] = useState([currOrderRef]);
 
     // Currency dropdown

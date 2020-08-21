@@ -110,7 +110,9 @@ export const ENGLISH = {
             title: 'Additional Information (Optional)',
             additionalNotes: 'Additional Notes',
             salesContract: 'Sales Contract Number',
-            paymentReference: 'Payment Reference'
+            paymentReference: 'Payment Reference',
+            portOfLoading: 'Port of Loading',
+            portOfDestination: 'Port of Destination'
         },
         createCIProductInfo: {
             ordersLabel: 'Purchase Orders',

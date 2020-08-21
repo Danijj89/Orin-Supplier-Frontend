@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCurrentCompany } from '../home/slice.js';
 import { fetchCIOptions } from './duck/thunks.js';
@@ -10,6 +10,9 @@ import { LANGUAGE } from '../../constants.js';
 import CreateCIDetailsForm from './CreateCIDetailsForm.js';
 import CreateCIProductInfo from './CreateCIProductInfo.js';
 import CreateCIPreview from './CreateCIPreview.js';
+import { useLocation } from 'react-router-dom';
+import { selectAllOrders } from '../orders/duck/slice.js';
+import OrderService from '../orders/services.js';
 
 const { title } = LANGUAGE.commercialInvoice.createCI;
 
@@ -27,17 +30,32 @@ export default function CreateCI() {
     const steps = useSelector(selectCISteps);
     const activeStep = useSelector(selectCIActiveStep);
 
+    const { search } = useLocation();
+    const currOrderId = new URLSearchParams(search).get('order');
+    const orders = useSelector(selectAllOrders);
+    const [currOrder, setCurrOrder] = useState(null);
+
     useEffect(() => {
+        let mounted = true;
         dispatch(fetchCIOptions(_id));
-    }, [_id, dispatch]);
+        const fetchOrderById = async () => {
+            const order = await OrderService.fetchOrderById(currOrderId);
+            if (mounted) {
+                setCurrOrder(order);
+            }
+        };
+        if (orders?.length) setCurrOrder(orders.find(order => order._id === currOrderId));
+        else fetchOrderById().then();
+        return () => { mounted = false };
+    }, [_id, dispatch, currOrderId, orders, currOrder]);
 
     return (
         <Container>
             <DocumentStepper styles={classes.stepper} steps={steps} activeStep={activeStep} />
             <Typography variant="h5">{title}</Typography>
             <hr/>
-            {activeStep === 0 && <CreateCIDetailsForm />}
-            {activeStep === 1 && <CreateCIProductInfo />}
+            {currOrder && activeStep === 0 && <CreateCIDetailsForm order={currOrder}/>}
+            {currOrder && activeStep === 1 && <CreateCIProductInfo order={currOrder}/>}
             {activeStep === 2 && <CreateCIPreview />}
         </Container>
     )

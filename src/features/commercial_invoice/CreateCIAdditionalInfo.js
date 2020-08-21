@@ -3,12 +3,18 @@ import { Button, Typography, TextField, Container, Box } from '@material-ui/core
 import { ExpandLess as IconExpandLess, ExpandMore as IconExpandMore, Notes as IconNotes } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 import { LANGUAGE } from '../../constants.js';
+import { Controller } from 'react-hook-form';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import { useSelector } from 'react-redux';
+import { selectCIAutocompleteOptions } from './duck/selectors.js';
 
 const {
     title,
     additionalNotes,
     paymentReference,
-    salesContract
+    salesContract,
+    portOfLoading,
+    portOfDestination
 } = LANGUAGE.commercialInvoice.createCIAdditionalInfo;
 
 const useStyles = makeStyles({
@@ -40,6 +46,7 @@ export default function CreateCIAdditionalInfo({register, control}) {
     const classes = useStyles();
     const mounted = useRef();
     const [hidden, setHidden] = useState(true);
+    const { ports } = useSelector(selectCIAutocompleteOptions);
 
     useEffect(() => {
         if (mounted && !hidden) window.scrollTo(0, document.body.scrollHeight);
@@ -62,6 +69,49 @@ export default function CreateCIAdditionalInfo({register, control}) {
                     <IconExpandLess/>
                 </Button>
                 <Box className={classes.box}>
+                    <Controller
+                        render={props => (
+                            <Autocomplete
+                                freeSolo
+                                autoSelect
+                                {...props}
+                                options={ports}
+                                renderInput={params => (
+                                    <TextField
+                                        {...params}
+                                        label={portOfLoading}
+                                        variant="standard"
+                                        className={classes.field}
+                                        autoFocus
+                                    />
+                                )}
+                                onChange={(_, data) => props.onChange(data)}
+                            />
+                        )}
+                        name="pol"
+                        control={control}
+                    />
+                    <Controller
+                        render={props => (
+                            <Autocomplete
+                                freeSolo
+                                autoSelect
+                                {...props}
+                                options={ports}
+                                renderInput={params => (
+                                    <TextField
+                                        {...params}
+                                        label={portOfDestination}
+                                        variant="standard"
+                                        className={classes.field}
+                                    />
+                                )}
+                                onChange={(_, data) => props.onChange(data)}
+                            />
+                        )}
+                        name="pod"
+                        control={control}
+                    />
                     <TextField
                         label={additionalNotes}
                         type="text"
@@ -69,7 +119,6 @@ export default function CreateCIAdditionalInfo({register, control}) {
                         inputRef={register}
                         className={classes.field}
                         fullWidth
-                        autoFocus
                     />
                     <TextField
                         label={salesContract}

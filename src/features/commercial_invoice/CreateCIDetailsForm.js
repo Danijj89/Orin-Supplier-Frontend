@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { selectCurrentCompany, selectCurrentUser } from '../home/slice.js';
 import { selectCIAutocompleteOptions } from './duck/selectors.js';
 import { Controller, useForm } from 'react-hook-form';
@@ -12,6 +12,9 @@ import { LANGUAGE } from '../../constants.js';
 import { submitCIDetails } from './duck/slice.js';
 import CreateCIAdditionalInfo from './CreateCIAdditionalInfo.js';
 import { getFileName } from '../shared/utils.js';
+import { selectAllOrders } from '../orders/duck/slice.js';
+import OrderService from '../orders/services.js';
+import Order from '../orders/Order.js';
 
 const { invoiceNumber, invoiceDate, importer, importerAddress,
     exporter, exporterAddress, countryOfManufacture, buttonCancel, buttonNext } = LANGUAGE.commercialInvoice.createCIDetailsForm;
@@ -28,25 +31,33 @@ const useStyles = makeStyles({
     }
 })
 
-export default function CreateOrderDetailsForm() {
+export default function CreateOrderDetailsForm({ order }) {
     const classes = useStyles();
     const dispatch = useDispatch();
     const history = useHistory();
+
     const { _id: userId } = useSelector(selectCurrentUser);
-    const { _id: companyId, names, address, addresses } = useSelector(selectCurrentCompany);
+    const {
+        _id: companyId,
+        names: exporterNames,
+        address: exporterAddress,
+        addresses: exporterAddresses
+    } = useSelector(selectCurrentCompany);
     const { customerNames, customerAddressMap } = useSelector(selectCIAutocompleteOptions);
-    const { ciRef, toName, toAdd, date, com, notes, scRef, paymentRef } = useSelector(selectNewCI);
+    const { ciRef, date, com, notes, scRef, paymentRef } = useSelector(selectNewCI);
 
     const { register, control, handleSubmit, watch, errors, formState } = useForm({
         mode: 'onBlur',
         defaultValues: {
             ciRef,
             date: date.substr(0, 10),
-            fromName: names[0],
-            fromAdd: address,
-            toName,
-            toAdd,
+            fromName: exporterNames[0],
+            fromAdd: exporterAddress,
+            toName: order.fromName,
+            toAdd: order.fromAdd,
             com,
+            pol: order.pol,
+            pod: order.pod,
             notes,
             scRef,
             paymentRef
@@ -145,7 +156,7 @@ export default function CreateOrderDetailsForm() {
                         freeSolo
                         autoSelect
                         {...props}
-                        options={names}
+                        options={exporterNames}
                         renderInput={params => (
                             <TextField
                                 {...params}
@@ -169,7 +180,7 @@ export default function CreateOrderDetailsForm() {
                         freeSolo
                         autoSelect
                         {...props}
-                        options={addresses}
+                        options={exporterAddresses}
                         renderInput={params => (
                             <TextField
                                 {...params}

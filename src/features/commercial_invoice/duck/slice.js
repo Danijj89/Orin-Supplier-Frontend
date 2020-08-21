@@ -17,7 +17,9 @@ const getCIDefaultValues = () => ({
     toName: null,
     toAdd: null,
     date: new Date().toISOString(),
-    com: null,
+    com: 'China',
+    pol: null,
+    pod: null,
     notes: null,
     scRef: null,
     paymentRef: null,
@@ -47,7 +49,8 @@ const initialState = commercialInvoiceAdapter.getInitialState({
             items: [],
             totalQ: null,
             totalA: null
-        }
+        },
+        ports: []
     },
     newCI: getCIDefaultValues(),
     previewFileURL: null
