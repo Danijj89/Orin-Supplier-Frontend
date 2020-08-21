@@ -17,7 +17,7 @@ import OrderService from '../orders/services.js';
 import Order from '../orders/Order.js';
 
 const { invoiceNumber, invoiceDate, importer, importerAddress,
-    exporter, exporterAddress, countryOfManufacture, buttonCancel, buttonNext } = LANGUAGE.commercialInvoice.createCIDetailsForm;
+    exporter, exporterAddressLabel, countryOfManufacture, buttonCancel, buttonNext } = LANGUAGE.commercialInvoice.createCIDetailsForm;
 
 const useStyles = makeStyles({
     form: {
@@ -53,6 +53,7 @@ export default function CreateOrderDetailsForm({ order }) {
             date: date.substr(0, 10),
             fromName: exporterNames[0],
             fromAdd: exporterAddress,
+            to: order.from,
             toName: order.fromName,
             toAdd: order.fromAdd,
             com,
@@ -184,7 +185,7 @@ export default function CreateOrderDetailsForm({ order }) {
                         renderInput={params => (
                             <TextField
                                 {...params}
-                                label={exporterAddress}
+                                label={exporterAddressLabel}
                                 variant="standard"
                                 error={!!errors.fromAdd}
                                 className={classes.field}
