@@ -1,13 +1,14 @@
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { unwrapResult } from '@reduxjs/toolkit';
 import DownloadButton from '../shared/buttons/DownloadButton.js';
 import { Button, Grid } from '@material-ui/core';
-import React from 'react';
 import { selectCIError, selectCIFilePreview, selectCIStatus, selectNewCI } from './duck/selectors.js';
 import { prevStep } from './duck/slice.js';
 import { LANGUAGE } from '../../constants.js';
 import { makeStyles } from '@material-ui/core/styles';
+import { submitCI } from './duck/thunks.js';
 
 const { buttonPrev, buttonNext } = LANGUAGE.commercialInvoice.createCIPreview;
 
@@ -33,7 +34,7 @@ const useStyles = makeStyles({
     }
 })
 
-export default function CreateCIPreview() {
+export default function CreateCIPreview({ order }) {
     const classes = useStyles();
     const dispatch = useDispatch();
     const history = useHistory();
@@ -48,10 +49,10 @@ export default function CreateCIPreview() {
     }
 
     const onSubmit = () => {
-        // dispatch(submitOrder())
-        //     .then(unwrapResult)
-        //     .then(_ => history.push('/home/orders'))
-        //     .catch(err => console.log(err))
+        dispatch(submitCI())
+            .then(unwrapResult)
+            .then(_ => history.push(`/home/orders/${order._id}`))
+            .catch(err => console.log(err))
     }
 
     let preview;

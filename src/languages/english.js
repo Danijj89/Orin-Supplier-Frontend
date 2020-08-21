@@ -101,7 +101,7 @@ export const ENGLISH = {
             importer: 'Importer',
             importerAddress: 'Importer Address',
             exporter: 'Exporter',
-            exporterAddress: 'Exporter Address',
+            exporterAddressLabel: 'Exporter Address',
             countryOfManufacture: 'Country of Manufacture',
             buttonCancel: 'Cancel',
             buttonNext: 'Next: Product Info'

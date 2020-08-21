@@ -9,12 +9,22 @@ const fetchCIOptions = async (companyId) => {
     return data;
 };
 
-const generateCIFiles = async (newCI) => {
+const generateCIFiles = async (ci) => {
     const configs = {
         method: 'post',
         responseType: 'blob',
         url: `/file/generate/ci`,
-        data: newCI
+        data: ci
+    };
+    const { data } = await fetchWithAuth(configs);
+    return data;
+}
+
+const createNewCI = async (ci) => {
+    const configs = {
+        method: 'post',
+        url: `/ci`,
+        data: ci
     };
     const { data } = await fetchWithAuth(configs);
     return data;
@@ -22,7 +32,8 @@ const generateCIFiles = async (newCI) => {
 
 const CIService =  {
     fetchCIOptions,
-    generateCIFiles
+    generateCIFiles,
+    createNewCI
 };
 
 export default CIService;

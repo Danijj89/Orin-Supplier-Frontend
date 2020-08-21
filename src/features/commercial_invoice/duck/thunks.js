@@ -10,3 +10,8 @@ export const submitCIForPreview = createAsyncThunk('ci/submitCIForPreview', asyn
     const file = await CIService.generateCIFiles(newCI);
     return window.URL.createObjectURL(file);
 })
+
+export const submitCI = createAsyncThunk('ci/submitCI', async (_, { getState }) => {
+    const { newCI } = getState().ci;
+    return CIService.createNewCI(newCI);
+})

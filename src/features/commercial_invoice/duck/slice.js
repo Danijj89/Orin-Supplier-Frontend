@@ -1,6 +1,6 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { LANGUAGE } from '../../../constants.js';
-import { fetchCIOptions, submitCIForPreview } from './thunks.js';
+import { fetchCIOptions, submitCI, submitCIForPreview } from './thunks.js';
 
 export const defaultRowValues = ['', '', '', '', 0, 'PCS', 0, 0];
 
@@ -14,6 +14,7 @@ const getCIDefaultValues = () => ({
     from: null,
     fromName: null,
     fromAdd: null,
+    to: null,
     toName: null,
     toAdd: null,
     date: new Date().toISOString(),
@@ -102,6 +103,19 @@ const commercialInvoiceSlice = createSlice({
             state.previewFileURL = action.payload;
         },
         [submitCIForPreview.rejected]: (state, action) => {
+            state.status = 'REJECTED';
+            state.error = action.error.message;
+        },
+        [submitCI.pending]: (state, action) => {
+            state.status = 'PENDING';
+        },
+        [submitCI.fulfilled]: (state, action) => {
+            state.status = 'IDLE';
+            console.log(action.payload);
+            state.newOrder = getCIDefaultValues();
+            state.activeStep = 0;
+        },
+        [submitCI.rejected]: (state, action) => {
             state.status = 'REJECTED';
             state.error = action.error.message;
         },
