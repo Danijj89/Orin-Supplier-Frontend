@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCurrentCompany } from '../home/slice.js';
 import { fetchCIOptions } from './duck/thunks.js';
@@ -34,20 +34,21 @@ export default function CreateCI() {
     const currOrderId = new URLSearchParams(search).get('order');
     const orders = useSelector(selectAllOrders);
     const [currOrder, setCurrOrder] = useState(null);
+    const mounted = useRef();
 
     useEffect(() => {
-        let mounted = true;
+        mounted.current = true;
         dispatch(fetchCIOptions(_id));
         const fetchOrderById = async () => {
             const order = await OrderService.fetchOrderById(currOrderId);
-            if (mounted) {
+            if (mounted.current) {
                 setCurrOrder(order);
             }
         };
         if (orders?.length) setCurrOrder(orders.find(order => order._id === currOrderId));
         else fetchOrderById().then();
-        return () => { mounted = false };
-    }, [_id, dispatch, currOrderId, orders, currOrder]);
+        return () => { mounted.current = false };
+    }, [_id, dispatch, currOrderId, orders]);
 
     return (
         <Container>
