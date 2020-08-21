@@ -137,9 +137,10 @@ export default function CreateCIProductInfo({ order }) {
                 acc.push(items);
                 return acc;
             }, []));
+        const orderIds = orders.map(order => orderItemMap[order]._id);
         const tableInfo = {
             currency,
-            poRefs: orders,
+            poRefs: orderIds,
             headers,
             items,
             totalQ,
