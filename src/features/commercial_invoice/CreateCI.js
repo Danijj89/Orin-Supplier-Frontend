@@ -57,7 +57,7 @@ export default function CreateCI() {
             <hr/>
             {currOrder && activeStep === 0 && <CreateCIDetailsForm order={currOrder}/>}
             {currOrder && activeStep === 1 && <CreateCIProductInfo order={currOrder}/>}
-            {activeStep === 2 && <CreateCIPreview />}
+            {currOrder && activeStep === 2 && <CreateCIPreview order={currOrder}/>}
         </Container>
     )
 }
