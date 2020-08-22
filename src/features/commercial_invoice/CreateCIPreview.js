@@ -1,11 +1,10 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { unwrapResult } from '@reduxjs/toolkit';
 import DownloadButton from '../shared/buttons/DownloadButton.js';
 import { Button, Grid } from '@material-ui/core';
 import { selectCIError, selectCIFilePreview, selectCIStatus, selectNewCI } from './duck/selectors.js';
-import { prevStep } from './duck/slice.js';
+import { prevStep, startNewCI } from './duck/slice.js';
 import { LANGUAGE } from '../../constants.js';
 import { makeStyles } from '@material-ui/core/styles';
 import { submitCI } from './duck/thunks.js';
@@ -49,10 +48,9 @@ export default function CreateCIPreview({ order }) {
     }
 
     const onSubmit = () => {
-        dispatch(submitCI())
-            .then(unwrapResult)
-            .then(_ => history.push(`/home/orders/${order._id}`))
-            .catch(err => console.log(err))
+        dispatch(submitCI());
+        dispatch(startNewCI());
+        history.push(`/home/orders/${order._id}`);
     }
 
     let preview;

@@ -111,9 +111,6 @@ const commercialInvoiceSlice = createSlice({
         },
         [submitCI.fulfilled]: (state, action) => {
             state.status = 'IDLE';
-            console.log(action.payload);
-            state.newOrder = getCIDefaultValues();
-            state.activeStep = 0;
         },
         [submitCI.rejected]: (state, action) => {
             state.status = 'REJECTED';
