@@ -3,32 +3,11 @@ import OrderService from './services.js';
 import OrderInfoTile from './OrderInfoTile.js';
 import { Container, Tabs, Tab } from '@material-ui/core';
 import { LANGUAGE } from '../../constants.js';
-import Grid from '@material-ui/core/Grid';
-import { makeStyles } from '@material-ui/core/styles';
-import DownloadButton from '../shared/buttons/DownloadButton.js';
-import DocumentGenerationButton from '../shared/buttons/DocumentGenerationButton.js';
+import OrderDetails from './OrderDetails.js';
 
 const { orderDetailsTab, documentsTab } = LANGUAGE.order.order;
 
-const useStyles = makeStyles({
-    gridContainer: {
-        minHeight: 600,
-        height: '50%',
-        padding: '3% 0'
-    },
-    sideButton: {
-        marginBottom: '5%',
-        width: '80%',
-        minHeight: 50
-    },
-    preview: {
-        width: '100%',
-        height: '100%'
-    }
-})
-
-export default function Order({match}) {
-    const classes = useStyles();
+export default function Order({ match }) {
     const { id } = match.params;
     const [order, setOrder] = useState(null);
     const [tabValue, setTabValue] = useState(0);
@@ -55,42 +34,17 @@ export default function Order({match}) {
 
     return (
         <Container>
-            {order && <OrderInfoTile order={order} />}
+            { order && <OrderInfoTile order={ order }/> }
             <Tabs
-                value={tabValue}
-                onChange={onTabChange}
+                value={ tabValue }
+                onChange={ onTabChange }
                 indicatorColor='primary'
                 textColor='primary'
             >
-                <Tab label={orderDetailsTab} component="span"/>
-                <Tab label={documentsTab} component="span"/>
+                <Tab label={ orderDetailsTab } component="span"/>
+                <Tab label={ documentsTab } component="span"/>
             </Tabs>
-            <Grid
-                container
-                className={classes.gridContainer}
-            >
-                <Grid
-                    item
-                    xs={9}
-                >
-                    <iframe
-                        className={classes.preview}
-                        title='Order Details'
-                        src={preview}
-                    />
-                </Grid>
-                <Grid
-                    container
-                    item
-                    direction="column"
-                    justify="flex-start"
-                    alignItems="center"
-                    xs
-                >
-                    {order && <DownloadButton styles={classes.sideButton} fileName={order.fileName} />}
-                    {order && <DocumentGenerationButton styles={classes.sideButton} orderId={order._id} />}
-                </Grid>
-            </Grid>
+            {tabValue === 0 && <OrderDetails order={ order } preview={ preview }/>}
         </Container>
     )
 }
