@@ -4,6 +4,7 @@ import OrderInfoTile from './OrderInfoTile.js';
 import { Container, Tabs, Tab } from '@material-ui/core';
 import { LANGUAGE } from '../../constants.js';
 import OrderDetails from './OrderDetails.js';
+import OrderDocuments from './OrderDocuments.js';
 
 const { orderDetailsTab, documentsTab } = LANGUAGE.order.order;
 
@@ -26,7 +27,7 @@ export default function Order({ match }) {
             }
         };
         fetchData().then();
-    }, [id]);
+    }, []);
 
     const onTabChange = (event, newValue) => {
         setTabValue(newValue);
@@ -45,6 +46,7 @@ export default function Order({ match }) {
                 <Tab label={ documentsTab } component="span"/>
             </Tabs>
             {tabValue === 0 && <OrderDetails order={ order } preview={ preview }/>}
+            {tabValue === 1 && <OrderDocuments order={order} />}
         </Container>
     )
 }

@@ -89,6 +89,14 @@ export const ENGLISH = {
             orderDetailsTab: 'Order Details',
             documentsTab: 'Documents'
         },
+        orderDocuments: {
+            tableTitle: 'Generated Documents',
+            tableHeaders: ['Document Type', 'Created By', 'Date Created'],
+            docTypeMap: {
+                'CI': 'Commercial Invoice',
+                'PO': 'Purchase Order'
+            }
+        }
     },
     commercialInvoice: {
         createCI: {

@@ -30,10 +30,20 @@ const createNewCI = async (ci) => {
     return data;
 }
 
+const deleteCI = async (id) => {
+    const configs = {
+        method: 'delete',
+        url: `/ci/${id}`
+    };
+    const { data } = await fetchWithAuth(configs);
+    return data;
+}
+
 const CIService =  {
     fetchCIOptions,
     generateCIFiles,
-    createNewCI
+    createNewCI,
+    deleteCI
 };
 
 export default CIService;
