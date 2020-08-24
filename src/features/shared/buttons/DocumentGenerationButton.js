@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function DocumentGenerationButton({styles, orderId, preAction}) {
+export default function DocumentGenerationButton({styles, orderId}) {
     const classes = useStyles();
     const history = useHistory();
     const dispatch = useDispatch();
