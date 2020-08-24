@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     Grid,
     Paper,
@@ -8,7 +8,8 @@ import {
     Typography,
     TableBody,
     TableContainer,
-    Table
+    Table,
+    Button, Dialog, DialogTitle, DialogActions
 } from '@material-ui/core';
 import IconDelete from '@material-ui/icons/Delete';
 import DocumentGenerationButton from '../shared/buttons/DocumentGenerationButton.js';
@@ -17,7 +18,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import { yymmddToLocaleDate } from '../shared/utils.js';
 import CIService from '../commercial_invoice/services.js';
 
-const { tableTitle, tableHeaders, docTypeMap } = LANGUAGE.order.orderDocuments;
+const { tableTitle, tableHeaders, docTypeMap,
+    deleteDocumentMessage, deleteDocumentButtonCancel, deleteDocumentButtonConfirm } = LANGUAGE.order.orderDocuments;
 
 const useStyles = makeStyles({
     row: {
@@ -42,12 +44,19 @@ const headers = [
 
 export default function OrderDocuments({ order }) {
     const classes = useStyles();
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+    const onDialogOpen = () => setIsDialogOpen(true);
+    const onDialogClose = () => setIsDialogOpen(false);
 
     const onDeleteClick = async (docType, docId) => {
         switch(docType) {
-            case 'CI': return await CIService.deleteCI(docId);
+            case 'CI':
+                await CIService.deleteCI(docId);
+                break;
             default: alert('There was some error deleting the document. Please try again later.');
         }
+        setIsDialogOpen(false);
     }
 
     return (
@@ -82,11 +91,27 @@ export default function OrderDocuments({ order }) {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                { order && Object.entries(order.documents).map(([docType, doc], index) => (
+                                { order && Object.entries(order.documents).map(([docType, doc]) => (
                                     <TableRow key={docType}>
-                                        <TableCell
-                                            onClick={() => onDeleteClick(docType, doc._id)}
-                                        ><IconDelete /></TableCell>
+                                        <TableCell padding="checkbox">
+                                            <Button
+                                                onClick={onDialogOpen}
+                                                size="small"
+                                            >
+                                                <IconDelete />
+                                            </Button>
+                                            <Dialog onClose={onDialogClose} open={isDialogOpen}>
+                                                <DialogTitle>{deleteDocumentMessage}</DialogTitle>
+                                                <DialogActions>
+                                                    <Button onClick={onDialogClose} variant="outlined">
+                                                        {deleteDocumentButtonCancel}
+                                                    </Button>
+                                                    <Button onClick={() => onDeleteClick(docType, doc._id)} variant="outlined">
+                                                        {deleteDocumentButtonConfirm}
+                                                    </Button>
+                                                </DialogActions>
+                                            </Dialog>
+                                            </TableCell>
                                         <TableCell align={ headers[0].align }>{docTypeMap[docType]}</TableCell>
                                         <TableCell align={ headers[1].align }>{doc.createdBy.name}</TableCell>
                                         <TableCell align={ headers[2].align }>{yymmddToLocaleDate(doc.date)}</TableCell>

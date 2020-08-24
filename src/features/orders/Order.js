@@ -27,7 +27,7 @@ export default function Order({ match }) {
             }
         };
         fetchData().then();
-    }, []);
+    }, [id]);
 
     const onTabChange = (event, newValue) => {
         setTabValue(newValue);

@@ -95,7 +95,10 @@ export const ENGLISH = {
             docTypeMap: {
                 'CI': 'Commercial Invoice',
                 'PO': 'Purchase Order'
-            }
+            },
+            deleteDocumentMessage: 'Are you sure you want to delete this document?',
+            deleteDocumentButtonCancel: 'Cancel',
+            deleteDocumentButtonConfirm: 'Delete'
         }
     },
     commercialInvoice: {
