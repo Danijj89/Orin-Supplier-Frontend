@@ -123,9 +123,18 @@ const ordersSlice = createSlice({
             const { docType, doc } = action.payload;
             const { _id } = state.selectedOrder;
             state.selectedOrder.documents[docType] = doc;
-            const newDocuments = state.entities[_id].documents;
-            newDocuments[docType] = doc;
-            ordersAdapter.updateOne(state, { id: _id, changes: { documents: newDocuments }})
+            const entity = state.entities[_id];
+            if (entity) {
+            const newDocuments = entity.documents;
+                newDocuments[docType] = doc;
+                ordersAdapter.updateOne(state, { id: _id, changes: { documents: newDocuments }})
+            }
+        },
+        deleteOrderDocument: (state, action) => {
+            const { docType, id } = action.payload;
+            const { [docType]: type, ...rest} = state.selectedOrder.documents;
+            state.selectedOrder.documents = rest;
+            ordersAdapter.updateOne(state, { id, changes: { documents: rest }})
         }
     },
     extraReducers: {
@@ -179,7 +188,7 @@ const ordersSlice = createSlice({
 });
 
 export const { startNewOrder, submitOrderDetails, prevStep, nextStep, changeCellValue, deleteRow, addRow,
-    addColumn, deleteColumn, changeCurrency, selectOrder, updateOrderDocument } = ordersSlice.actions;
+    addColumn, deleteColumn, changeCurrency, selectOrder, updateOrderDocument, deleteOrderDocument } = ordersSlice.actions;
 
 export const {
     selectAll: selectAllOrders,

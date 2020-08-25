@@ -1,6 +1,6 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { LANGUAGE } from '../../../constants.js';
-import { fetchCIOptions, submitCI, submitCIForPreview } from './thunks.js';
+import { deleteCI, fetchCIOptions, submitCI, submitCIForPreview } from './thunks.js';
 
 export const defaultRowValues = ['', '', '', '', 0, 'PCS', 0, 0];
 
@@ -113,6 +113,16 @@ const commercialInvoiceSlice = createSlice({
             state.status = 'IDLE';
         },
         [submitCI.rejected]: (state, action) => {
+            state.status = 'REJECTED';
+            state.error = action.error.message;
+        },
+        [deleteCI.pending]: (state, action) => {
+            state.status = 'PENDING';
+        },
+        [deleteCI.fulfilled]: (state, action) => {
+            state.status = 'IDLE';
+        },
+        [deleteCI.rejected]: (state, action) => {
             state.status = 'REJECTED';
             state.error = action.error.message;
         },

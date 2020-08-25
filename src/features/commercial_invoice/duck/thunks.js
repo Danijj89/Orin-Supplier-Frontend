@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import CIService from '../services.js';
-import { updateOrderDocument } from '../../orders/duck/slice.js';
+import { deleteOrderDocument, updateOrderDocument } from '../../orders/duck/slice.js';
 
 export const fetchCIOptions = createAsyncThunk('ci/fetchCIOptions', async (companyId) => {
     return await CIService.fetchCIOptions(companyId);
@@ -17,4 +17,12 @@ export const submitCI = createAsyncThunk('ci/submitCI', async (_, { getState, di
     const ci = await CIService.createNewCI(newCI);
     dispatch(updateOrderDocument({ docType: 'CI', doc: ci }));
     return ci;
+})
+
+export const deleteCI = createAsyncThunk('ci/deleteCI', async (id, { getState, dispatch }) => {
+    const status = await CIService.deleteCI(id);
+    if (!status) return Promise.reject('Unable to delete CI');
+    const { selectedOrder } = getState().orders;
+    dispatch(deleteOrderDocument({ id: selectedOrder._id, docType: 'CI' }));
+    return status;
 })

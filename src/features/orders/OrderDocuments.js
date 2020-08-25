@@ -17,6 +17,8 @@ import { LANGUAGE } from '../../constants.js';
 import { makeStyles } from '@material-ui/core/styles';
 import { yymmddToLocaleDate } from '../shared/utils.js';
 import CIService from '../commercial_invoice/services.js';
+import { useDispatch } from 'react-redux';
+import { deleteCI } from '../commercial_invoice/duck/thunks.js';
 
 const { tableTitle, tableHeaders, docTypeMap,
     deleteDocumentMessage, deleteDocumentButtonCancel, deleteDocumentButtonConfirm } = LANGUAGE.order.orderDocuments;
@@ -44,6 +46,7 @@ const headers = [
 
 export default function OrderDocuments({ order }) {
     const classes = useStyles();
+    const dispatch = useDispatch();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 
     const onDialogOpen = () => setIsDialogOpen(true);
@@ -52,7 +55,7 @@ export default function OrderDocuments({ order }) {
     const onDeleteClick = async (docType, docId) => {
         switch(docType) {
             case 'CI':
-                await CIService.deleteCI(docId);
+                await dispatch(deleteCI(docId));
                 break;
             default: alert('There was some error deleting the document. Please try again later.');
         }
