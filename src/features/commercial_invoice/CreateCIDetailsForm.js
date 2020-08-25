@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { selectCurrentCompany, selectCurrentUser } from '../home/slice.js';
 import { selectCIAutocompleteOptions } from './duck/selectors.js';
 import { Controller, useForm } from 'react-hook-form';
@@ -12,9 +12,6 @@ import { LANGUAGE } from '../../constants.js';
 import { submitCIDetails } from './duck/slice.js';
 import CreateCIAdditionalInfo from './CreateCIAdditionalInfo.js';
 import { getFileName } from '../shared/utils.js';
-import { selectAllOrders } from '../orders/duck/slice.js';
-import OrderService from '../orders/services.js';
-import Order from '../orders/Order.js';
 
 const { invoiceNumber, invoiceDate, importer, importerAddress,
     exporter, exporterAddressLabel, countryOfManufacture, buttonCancel, buttonNext } = LANGUAGE.commercialInvoice.createCIDetailsForm;
