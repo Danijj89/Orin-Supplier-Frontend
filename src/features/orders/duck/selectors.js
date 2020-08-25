@@ -7,3 +7,4 @@ export const selectNewOrderProductInfo = state => state.orders.newOrder.orderPro
 export const selectPreviewFile = state => state.orders.previewFileURL;
 export const selectStatus = state => state.orders.status;
 export const selectError = state => state.orders.error;
+export const selectSelectedOrder = state => state.orders.selectedOrder;

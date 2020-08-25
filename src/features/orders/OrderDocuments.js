@@ -68,7 +68,7 @@ export default function OrderDocuments({ order }) {
                 item
                 xs={ 12 }
             >
-                <DocumentGenerationButton orderId={ order._id } styles={ classes.generateButton }/>
+                <DocumentGenerationButton order={ order } styles={ classes.generateButton }/>
             </Grid>
             <Grid className={ classes.row } item xs={ 12 }>
                 <Paper className={ classes.tableContainer }>

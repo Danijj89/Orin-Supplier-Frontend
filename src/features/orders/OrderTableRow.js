@@ -6,6 +6,8 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import { getStringFromTotalQuantityObject, yymmddToLocaleDate } from '../shared/utils.js';
+import { useDispatch } from 'react-redux';
+import { selectOrder } from './duck/slice.js';
 
 const useStyles = makeStyles({
     deleteButtonCell: {
@@ -16,17 +18,19 @@ const useStyles = makeStyles({
 export default function OrderTableRow({order, onDialogOpen}) {
     const classes = useStyles();
     const history = useHistory();
-    const {status, poRef, totalQ, crd, fromName, remarks} = order;
+    const dispatch = useDispatch();
+    const {_id: orderId , status, poRef, totalQ, crd, fromName, remarks} = order;
     const renderedTotalQuantity = getStringFromTotalQuantityObject(totalQ);
 
     const onRowClick = () => {
-        history.push(`/home/orders/${order._id}`);
+        dispatch(selectOrder(order));
+        history.push(`/home/orders/${orderId}`);
     }
 
     return (
         <TableRow hover onClick={onRowClick}>
             <TableCell className={classes.deleteButtonCell}>
-                <Button onClick={(e) => onDialogOpen(e, order._id)}><DeleteIcon/></Button>
+                <Button onClick={(e) => onDialogOpen(e, orderId)}><DeleteIcon/></Button>
             </TableCell>
             <TableCell>{status}</TableCell>
             <TableCell>{poRef}</TableCell>

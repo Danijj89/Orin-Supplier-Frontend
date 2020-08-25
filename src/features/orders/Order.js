@@ -5,19 +5,25 @@ import { Container, Tabs, Tab } from '@material-ui/core';
 import { LANGUAGE } from '../../constants.js';
 import OrderDetails from './OrderDetails.js';
 import OrderDocuments from './OrderDocuments.js';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectSelectedOrder } from './duck/selectors.js';
+import { selectOrder } from './duck/slice.js';
 
 const { orderDetailsTab, documentsTab } = LANGUAGE.order.order;
 
 export default function Order({ match }) {
+    const dispatch = useDispatch();
     const { id } = match.params;
-    const [order, setOrder] = useState(null);
+    const order = useSelector(selectSelectedOrder);
     const [tabValue, setTabValue] = useState(0);
     const [preview, setPreview] = useState(null);
 
     useEffect(() => {
-        const fetchData = async () => {
+        const fetchOrder = async () => {
             const order = await OrderService.fetchOrderById(id);
-            setOrder(order);
+            dispatch(selectOrder(order));
+        };
+        const fetchPreview = async () => {
             try {
                 const file = await OrderService.getPdfFilePreview(order.fileName);
                 setPreview(window.URL.createObjectURL(file));
@@ -25,9 +31,10 @@ export default function Order({ match }) {
                 document.querySelector('iframe').contentDocument.write('<h1>Content Not Found</h1>');
                 document.close();
             }
-        };
-        fetchData().then();
-    }, [id]);
+        }
+        if (!order) fetchOrder().then();
+        fetchPreview().then();
+    }, [id, dispatch, order]);
 
     const onTabChange = (event, newValue) => {
         setTabValue(newValue);

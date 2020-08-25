@@ -54,6 +54,7 @@ const initialState = ordersAdapter.getInitialState({
         ports: []
     },
     newOrder: getOrderDefaultValues(),
+    selectedOrder: null,
     previewFileURL: null
 });
 
@@ -114,6 +115,17 @@ const ordersSlice = createSlice({
         },
         changeCurrency: (state, action) => {
             state.newOrder.orderProductInfo.currency = action.payload;
+        },
+        selectOrder: (state, action) => {
+            state.selectedOrder = action.payload;
+        },
+        updateOrderDocument: (state, action) => {
+            const { docType, doc } = action.payload;
+            const { _id } = state.selectedOrder;
+            state.selectedOrder.documents[docType] = doc;
+            const newDocuments = state.entities[_id].documents;
+            newDocuments[docType] = doc;
+            ordersAdapter.updateOne(state, { id: _id, changes: { documents: newDocuments }})
         }
     },
     extraReducers: {
@@ -167,7 +179,7 @@ const ordersSlice = createSlice({
 });
 
 export const { startNewOrder, submitOrderDetails, prevStep, nextStep, changeCellValue, deleteRow, addRow,
-    addColumn, deleteColumn, changeCurrency } = ordersSlice.actions;
+    addColumn, deleteColumn, changeCurrency, selectOrder, updateOrderDocument } = ordersSlice.actions;
 
 export const {
     selectAll: selectAllOrders,
