@@ -173,7 +173,10 @@ export const ENGLISH = {
             dialogTitle: 'Select the document to generate',
             dialogCancel: 'Cancel',
             dialogConfirm: 'Create',
-            typeLabel: 'Document Type'
+            typeLabel: 'Document Type',
+            errors: {
+                pl: 'You need to create a Commercial Invoice first'
+            }
         },
         addColumnButton: {
             buttonText: 'Add Column',
