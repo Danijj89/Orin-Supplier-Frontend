@@ -130,7 +130,7 @@ export const ENGLISH = {
             currencyLabel: 'Currencies',
             marksLabel: 'Marks and Numbers',
             buttonPrev: 'Back: Invoice Details',
-            buttonNext:'Next: Review'
+            buttonNext: 'Next: Review'
         },
         createCIProductTable: {
             defaultHeaders: ['Item Ref', 'Product Description', null, null, 'Quantity', 'Unit', 'Unit Price', 'Amount'],
@@ -139,6 +139,24 @@ export const ENGLISH = {
         createCIPreview: {
             buttonPrev: 'Back: Product Info',
             buttonNext: 'Submit'
+        }
+    },
+    packingList: {
+        createPL: {
+            steps: ['Packing List', 'Product Info', 'Review']
+        },
+        createPLProductTable: {
+            defaultHeaders: [
+                'Item Ref',
+                'Product Description',
+                null,
+                null,
+                'Quantity',
+                'Packaging',
+                'Net Weight',
+                'Gross Weight',
+                'Dimension'
+            ]
         }
     },
     shared: {
