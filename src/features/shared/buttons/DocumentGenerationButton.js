@@ -18,13 +18,14 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function DocumentGenerationButton({styles, orderId}) {
+export default function DocumentGenerationButton({styles, order}) {
     const classes = useStyles();
     const history = useHistory();
     const dispatch = useDispatch();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const { docTypes: documentTypes } = useSelector(selectCurrentDefaults);
     const [document, setDocument] = useState(documentTypes[0]);
+    const { _id: orderId } = order;
 
     const onDialogOpen = () => setIsDialogOpen(true);
     const onDialogClose = () => setIsDialogOpen(false);

@@ -47,7 +47,7 @@ export default function OrderDetails({ order, preview }) {
                 xs={ 3 }
             >
                 { order && <DownloadButton styles={ classes.sideButton } fileName={ order.fileName }/> }
-                { order && <DocumentGenerationButton styles={ classes.sideButton } orderId={ order._id }/> }
+                { order && <DocumentGenerationButton styles={ classes.sideButton } order={ order }/> }
             </Grid>
         </Grid>
     )
