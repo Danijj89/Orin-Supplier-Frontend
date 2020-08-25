@@ -1,5 +1,6 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { LANGUAGE } from '../../../constants.js';
+import { fetchPLOptions } from './thunks.js';
 
 export const defaultRowValues = ['', '', '', '', { 'PCS': 0 }, { 'CTN': 0 }, 0, 0, 0];
 
@@ -39,8 +40,6 @@ const getPLDefaultValues = () => ({
 const initialState = packingListAdapter.getInitialState({
     status: 'IDLE',
     error: null,
-    steps: LANGUAGE.packingList.createPL.steps,
-    activeStep: 0,
     autocomplete: {
         itemsRef: [],
         itemDescriptionMap: {}
@@ -76,17 +75,17 @@ const packingListSlice = createSlice({
         // }
     },
     extraReducers: {
-        // [fetchCIOptions.pending]: (state, action) => {
-        //     state.status = 'PENDING';
-        // },
-        // [fetchCIOptions.fulfilled]: (state, action) => {
-        //     state.autocomplete = action.payload;
-        //     state.status = 'IDLE';
-        // },
-        // [fetchCIOptions.rejected]: (state, action) => {
-        //     state.status = 'REJECTED';
-        //     state.error = action.error.message;
-        // },
+        [fetchPLOptions.pending]: (state, action) => {
+            state.status = 'PENDING';
+        },
+        [fetchPLOptions.fulfilled]: (state, action) => {
+            state.autocomplete = action.payload;
+            state.status = 'IDLE';
+        },
+        [fetchPLOptions.rejected]: (state, action) => {
+            state.status = 'REJECTED';
+            state.error = action.error.message;
+        },
         // [submitCIForPreview.pending]: (state, action) => {
         //     state.status = 'PENDING';
         // },

@@ -143,7 +143,8 @@ export const ENGLISH = {
     },
     packingList: {
         createPL: {
-            steps: ['Packing List', 'Product Info', 'Review']
+            steps: ['Packing List', 'Product Info', 'Review'],
+            title: 'Packing List'
         },
         createPLProductTable: {
             defaultHeaders: [
