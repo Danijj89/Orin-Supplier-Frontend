@@ -70,7 +70,7 @@ const getPdfFilePreview = async (filename) => {
     return data;
 }
 
-export default {
+const OrderService = {
     fetchOrderOptions,
     generateOrderPreview,
     addNewOrder,
@@ -79,3 +79,5 @@ export default {
     fetchOrderById,
     getPdfFilePreview
 };
+
+export default OrderService;
