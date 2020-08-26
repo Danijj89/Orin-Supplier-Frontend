@@ -16,7 +16,6 @@ import DocumentGenerationButton from '../shared/buttons/DocumentGenerationButton
 import { LANGUAGE } from '../../constants.js';
 import { makeStyles } from '@material-ui/core/styles';
 import { yymmddToLocaleDate } from '../shared/utils.js';
-import CIService from '../commercial_invoice/services.js';
 import { useDispatch } from 'react-redux';
 import { deleteCI } from '../commercial_invoice/duck/thunks.js';
 

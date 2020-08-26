@@ -18,11 +18,15 @@ export default function Order({ match }) {
     const [tabValue, setTabValue] = useState(0);
 
     useEffect(() => {
+        const isDocumentsPopulated = (order) => {
+            const docs = Object.entries(order.documents);
+            return (docs.length === 0 || (docs.length > 0 && typeof docs[0][1] === 'object'));
+        }
         const fetchOrder = async () => {
             const order = await OrderService.fetchOrderById(id);
             dispatch(selectOrder(order));
         };
-        if (!order) fetchOrder().then();
+        if (!order || !isDocumentsPopulated(order)) fetchOrder().then();
     }, [id, dispatch, order]);
 
     const onTabChange = (event, newValue) => {
