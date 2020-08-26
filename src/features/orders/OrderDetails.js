@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Grid from '@material-ui/core/Grid';
 import DownloadButton from '../shared/buttons/DownloadButton.js';
 import DocumentGenerationButton from '../shared/buttons/DocumentGenerationButton.js';
 import { makeStyles } from '@material-ui/core/styles';
+import OrderService from './services.js';
 
 const useStyles = makeStyles({
     gridContainer: {
@@ -21,8 +22,25 @@ const useStyles = makeStyles({
     }
 })
 
-export default function OrderDetails({ order, preview }) {
+export default function OrderDetails({ order }) {
     const classes = useStyles();
+    const [preview, setPreview] = useState(null);
+
+    useEffect(() => {
+        const fetchPreview = async () => {
+            try {
+                const file = await OrderService.getPdfFilePreview(order.fileName);
+                setPreview(window.URL.createObjectURL(file));
+            } catch (err) {
+                document.querySelector('iframe').contentDocument.write('<h1>Content Not Found</h1>');
+                document.close();
+            }
+        }
+        if (order) {
+            fetchPreview().then();
+        }
+    }, [order])
+
     return (
         <Grid
             container
