@@ -63,7 +63,7 @@ const fetchOrderById = async (orderId) => {
 const getPdfFilePreview = async (filename) => {
     const configs = {
         method: 'get',
-        url: `/orders/preview/${filename}`,
+        url: `/orders/preview/${filename}.pdf`,
         responseType: 'blob',
     };
     const { data } = await fetchWithAuth(configs);
