@@ -183,7 +183,11 @@ export default function CreateCIProductInfo({ order }) {
                         )}
                     </Select>
                 </FormControl>
-                <AddColumnButton currColNumbers={numActiveColumns} onConfirmClick={onAddColumnClick}/>
+                <AddColumnButton
+                    currColNumbers={numActiveColumns}
+                    onConfirmClick={onAddColumnClick}
+                    maxNumColumns={8}
+                />
             </Grid>
             <Grid item xs={12} className={classes.row}>
                 <CreateCIProductTable

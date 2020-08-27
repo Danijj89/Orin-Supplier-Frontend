@@ -11,7 +11,7 @@ const useStyles = makeStyles({
     }
 })
 
-export default function AddColumnButton({ currColNumbers, onConfirmClick }) {
+export default function AddColumnButton({ currColNumbers, onConfirmClick, maxNumColumns }) {
     const classes = useStyles();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [newColumnName, setNewColumnName] = useState('');
@@ -19,7 +19,7 @@ export default function AddColumnButton({ currColNumbers, onConfirmClick }) {
 
     const onDialogOpen = () => {
         setIsDialogOpen(true);
-        if (currColNumbers > 7) setError(true);
+        if (currColNumbers === maxNumColumns) setError(true);
     }
     const onDialogClose = () => setIsDialogOpen(false);
 
