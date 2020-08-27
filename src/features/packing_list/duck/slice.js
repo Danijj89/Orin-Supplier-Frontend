@@ -45,6 +45,7 @@ const initialState = packingListAdapter.getInitialState({
         itemDescriptionMap: {}
     },
     newPL: getPLDefaultValues(),
+    currentCI: null,
     previewFileURL: null
 });
 
@@ -53,15 +54,16 @@ const packingListSlice = createSlice({
     initialState,
     reducers: {
         startNewPL: (state, action) => {
-            state.activeStep = 0;
             state.newCI = getPLDefaultValues();
-        }
-        // submitCIDetails: (state, action) => {
-        //     state.activeStep += 1;
-        //     for (const [key, value] of Object.entries(action.payload)) {
-        //         state.newCI[key] = value;
-        //     }
-        // },
+        },
+        setCurrentCI: (state, action) => {
+            state.currentCI = action.payload;
+        },
+        submitPLDetails: (state, action) => {
+            for (const [key, value] of Object.entries(action.payload)) {
+                state.newPL[key] = value;
+            }
+        },
         // submitTableInfo: (state, action) => {
         //     state.activeStep += 1;
         //     for (const [key, value] of Object.entries(action.payload)) {
@@ -110,6 +112,6 @@ const packingListSlice = createSlice({
     }
 });
 
-export const { startNewPL } = packingListSlice.actions;
+export const { startNewPL, setCurrentCI, submitPLDetails } = packingListSlice.actions;
 
 export default packingListSlice.reducer;

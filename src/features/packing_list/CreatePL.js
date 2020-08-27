@@ -11,6 +11,9 @@ import CreatePLDetailsForm from './CreatePLDetailsForm.js';
 import { selectSelectedOrder } from '../orders/duck/selectors.js';
 import { selectOrder } from '../orders/duck/slice.js';
 import CIService from '../commercial_invoice/services.js';
+import { selectCurrentCI } from './duck/selectors.js';
+import { setCurrentCI } from './duck/slice.js';
+import CreatePLProductInfo from './CreatePLProductInfo.js';
 
 const { steps, title } = LANGUAGE.packingList.createPL;
 
@@ -22,7 +25,7 @@ export default function CreatePL() {
     const order = useSelector(selectSelectedOrder);
     const { search } = useLocation();
     const currOrderId = new URLSearchParams(search).get('order');
-    const [ci, setCi] = useState(null);
+    const ci = useSelector(selectCurrentCI);
 
     const mounted = useRef();
 
@@ -32,15 +35,15 @@ export default function CreatePL() {
             if (!(order && order.documents.CI)) history.push(`/home`);
             dispatch(selectOrder(order));
         };
-        const fetchCIById = async (id) => await CIService.fetchCIById(id);
+        const fetchCIById = async (id) => {
+            const fetchedCI = await CIService.fetchCIById(id);
+            dispatch(setCurrentCI(fetchedCI));
+        };
         if (!mounted) {
             dispatch(fetchPLOptions(companyId));
         }
         if (!order) fetchOrderById().then();
-        if (order && !ci) {
-            const fetchedCI = fetchCIById(order.documents.CI._id).then();
-            setCi(fetchedCI);
-        }
+        if (order && !ci) fetchCIById(order.documents.CI._id).then();
     }, [companyId, dispatch, history, currOrderId, order, ci]);
 
     return (
@@ -48,8 +51,8 @@ export default function CreatePL() {
             <DocumentStepper steps={steps} activeStep={activeStep} />
             <Typography variant="h5">{title}</Typography>
             <hr/>
-            {ci && activeStep === 0 && <CreatePLDetailsForm ci={ci} setActiveStep={setActiveStep}/>}
-            {/*{currOrder && activeStep === 1 && <CreateCIProductInfo order={currOrder}/>}*/}
+            {activeStep === 0 && <CreatePLDetailsForm setActiveStep={setActiveStep}/>}
+            {activeStep === 1 && <CreatePLProductInfo setActiveStep={setActiveStep}/>}
             {/*{currOrder && activeStep === 2 && <CreateCIPreview order={currOrder}/>}*/}
         </Container>
     )
