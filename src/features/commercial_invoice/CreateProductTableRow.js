@@ -9,6 +9,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import TableAutoCompleteFreeTextInput from '../shared/inputs/TableAutoCompleteFreeTextInput.js';
 import TableInput from '../shared/inputs/TableInput.js';
 import TableAutoCompleteTextInput from '../shared/inputs/TableAutoCompleteTextInput.js';
+import { selectCIAutocompleteOptions } from './duck/selectors.js';
 
 const useStyles = makeStyles({
     deleteIcon: {
@@ -90,7 +91,7 @@ export default function CreateProductTableRow(
         onQuantityChange
     }) {
     const classes = useStyles();
-    const { itemsRef, itemDescriptionMap } = useSelector(selectPOAutocompleteOptions);
+    const { itemsRef, itemDescriptionMap } = useSelector(selectCIAutocompleteOptions);
     const { itemUnits } = useSelector(selectCurrentDefaults);
 
     return (
