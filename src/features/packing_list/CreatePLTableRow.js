@@ -120,8 +120,8 @@ export default function CreatePLTableRow(
                     <Grid container justify="flex-start" item xs={7}>
                         <TableInput
                             type="number"
-                            value={Number(item[4][1]).toString()}
-                            onChange={(e) => onCellChange(rowIdx, 4, e.target.value)}
+                            value={item[4][1].toString()}
+                            onChange={(e) => onCellChange(rowIdx, 4, Number(e.target.value))}
                             styles={numberInputStyle}
                         />
                     </Grid>
@@ -140,8 +140,8 @@ export default function CreatePLTableRow(
                     <Grid container justify="flex-start" item xs={7}>
                         <TableInput
                             type="number"
-                            value={Number(item[5][1]).toString()}
-                            onChange={(e) => onCellChange(rowIdx, 5, e.target.value)}
+                            value={item[5][1].toString()}
+                            onChange={(e) => onCellChange(rowIdx, 5, Number(e.target.value))}
                             styles={numberInputStyle}
                         />
                     </Grid>
@@ -158,24 +158,24 @@ export default function CreatePLTableRow(
             <TableCell className={classes.number}>
                 <TableInput
                     type="number"
-                    value={Number(item[6]).toString()}
-                    onChange={(e) => onCellChange(rowIdx, 6, e.target.value)}
+                    value={item[6].toString()}
+                    onChange={(e) => onCellChange(rowIdx, 6, Number(e.target.value))}
                     styles={numberInputStyle}
                 />
             </TableCell>
             <TableCell className={classes.number}>
                 <TableInput
                     type="number"
-                    value={Number(item[7]).toString()}
-                    onChange={(e) => onCellChange(rowIdx, 7, e.target.value)}
+                    value={item[7].toString()}
+                    onChange={(e) => onCellChange(rowIdx, 7, Number(e.target.value))}
                     styles={numberInputStyle}
                 />
             </TableCell>
             <TableCell className={classes.number}>
                 <TableInput
                     type="number"
-                    value={Number(item[8]).toString()}
-                    onChange={(e) => onCellChange(rowIdx, 8, e.target.value)}
+                    value={item[8].toString()}
+                    onChange={(e) => onCellChange(rowIdx, 8, Number(e.target.value))}
                     styles={numberInputStyle}
                 />
             </TableCell>
