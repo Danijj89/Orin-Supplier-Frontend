@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCurrentCompany } from '../home/slice.js';
@@ -27,8 +27,6 @@ export default function CreatePL() {
     const currOrderId = new URLSearchParams(search).get('order');
     const ci = useSelector(selectCurrentCI);
 
-    const mounted = useRef();
-
     useEffect(() => {
         const fetchOrderById = async () => {
             const order = await OrderService.fetchOrderById(currOrderId);
@@ -39,9 +37,7 @@ export default function CreatePL() {
             const fetchedCI = await CIService.fetchCIById(id);
             dispatch(setCurrentCI(fetchedCI));
         };
-        if (!mounted) {
-            dispatch(fetchPLOptions(companyId));
-        }
+        dispatch(fetchPLOptions(companyId));
         if (!order) fetchOrderById().then();
         if (order && !ci) fetchCIById(order.documents.CI._id).then();
     }, [companyId, dispatch, history, currOrderId, order, ci]);
