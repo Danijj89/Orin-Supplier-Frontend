@@ -35,13 +35,13 @@ const useStyles = makeStyles({
         padding: 4
     },
     combined: {
-        width: '15%',
+        width: '12%',
         maxWidth: 400,
         padding: 4
     },
     number: {
         padding: 4,
-        width: '5%'
+        width: '8%'
     }
 })
 
@@ -70,7 +70,7 @@ export default function CreatePLTableRow(
     { rowIdx, item, onItemDeleteClick, onCellChange, headers }) {
     const classes = useStyles();
     const { itemsRef, itemDescriptionMap } = useSelector(selectPLAutocompleteOptions);
-    const { itemUnits } = useSelector(selectCurrentDefaults);
+    const { itemUnits, packageUnits } = useSelector(selectCurrentDefaults);
 
     return (
         <TableRow>
@@ -147,7 +147,7 @@ export default function CreatePLTableRow(
                     </Grid>
                     <Grid container justify="flex-end" item xs={5}>
                         <TableAutoCompleteTextInput
-                            options={itemUnits}
+                            options={packageUnits}
                             onChange={(data) => onCellChange(rowIdx, 5, data)}
                             value={item[5][0]}
                             styles={dropDownInputStyle}
