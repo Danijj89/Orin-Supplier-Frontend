@@ -19,7 +19,7 @@ export default class UnitCounter {
         return {...this.#state};
     }
 
-    get toString() {
+    get stringRep() {
         return Object.entries(this.#state).map(([unit, amount]) =>
             `${amount} ${unit}`
         ).join(' + ');
