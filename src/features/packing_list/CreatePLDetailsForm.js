@@ -2,12 +2,13 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectNewPL } from './duck/selectors.js';
+import { selectCurrentCI, selectNewPL } from './duck/selectors.js';
 import { TextField, Grid, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { LANGUAGE } from '../../constants.js';
 import { submitPLDetails } from './duck/slice.js';
 import { selectCurrentUser } from '../home/slice.js';
+import { getFileName } from '../shared/utils.js';
 
 const { plRefLabel, dateLabel, notesLabel, cancelButton, nextButton } = LANGUAGE.packingList.createPLDetailsForm;
 
@@ -30,6 +31,7 @@ export default function CreateOrderDetailsForm({ setActiveStep }) {
 
     const { _id: userId } = useSelector(selectCurrentUser);
     const { plRef, date, notes } = useSelector(selectNewPL);
+    const ci = useSelector(selectCurrentCI);
     const { register, handleSubmit, errors, formState } = useForm({
         mode: 'onBlur',
         defaultValues: {
@@ -41,6 +43,17 @@ export default function CreateOrderDetailsForm({ setActiveStep }) {
 
     const onButtonNextClick = (data) => {
         data.createdBy = userId;
+        data.from = ci.from;
+        data.fromName = ci.fromName;
+        data.fromAdd = ci.fromAdd;
+        data.to = ci.to;
+        data.toName = ci.toName;
+        data.toAdd = ci.toAdd;
+        data.pol = ci.pol;
+        data.pod = ci.pod;
+        data.ciRef = ci.ciRef;
+        data.poRefs = ci.poRefs;
+        data.fileName = getFileName('PL', data.plRef, data.createdBy);
         dispatch(submitPLDetails(data));
         setActiveStep(prev => prev + 1);
     }
