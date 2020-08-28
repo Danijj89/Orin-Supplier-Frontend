@@ -140,6 +140,7 @@ export default function CreateCIProductInfo({ order }) {
         const tableInfo = {
             currency,
             poRefs: orderIds,
+            userOrderRefs: orders,
             headers,
             items,
             totalQ,
