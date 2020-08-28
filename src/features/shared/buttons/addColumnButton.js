@@ -8,6 +8,11 @@ const { buttonText, dialogTitle, dialogCancel, dialogConfirm, errorMessage } = L
 const useStyles = makeStyles({
     error: {
         color: 'red'
+    },
+    button: {
+        marginLeft: 8,
+        marginRight: 8,
+        height: 40
     }
 })
 
@@ -31,7 +36,11 @@ export default function AddColumnButton({ currColNumbers, onConfirmClick, maxNum
 
     return (
         <>
-            <Button variant="outlined" onClick={onDialogOpen}>{buttonText}</Button>
+            <Button
+                variant="outlined"
+                onClick={onDialogOpen}
+                className={classes.button}
+            >{buttonText}</Button>
             <Dialog onClose={onDialogClose} open={isDialogOpen}>
                 <DialogTitle>{dialogTitle}</DialogTitle>
                 {error && <DialogTitle className={classes.error}>{errorMessage}</DialogTitle>}
