@@ -1,8 +1,8 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { LANGUAGE } from '../../../constants.js';
-import { fetchPLOptions } from './thunks.js';
+import { fetchPLOptions, submitPLForPreview } from './thunks.js';
 
-export const defaultRowValues = ['', '', '', '', { 'PCS': 0 }, { 'CTN': 0 }, 0, 0, 0];
+export const defaultRowValues = ['', '', '', '', ['PCS', 0], ['CTN', 0], 0, 0, 0];
 
 const packingListAdapter = createEntityAdapter({
     selectId: pl => pl._id,
@@ -24,14 +24,14 @@ const getPLDefaultValues = () => ({
     poRefs: [],
     notes: '',
     marks: '',
-    measurementUnit: 'CMB',
+    measurementUnit: 'CBM',
     weightUnit: 'KGS',
     createdBy: null,
     fileName: null,
     headers: LANGUAGE.packingList.createPLProductTable.defaultHeaders,
     items: [],
     totalQ: null,
-    totalP: null,
+    totalP: { 'CTN': 0 },
     totalNW: 0,
     totalGW: 0,
     totalD: 0
@@ -54,7 +54,7 @@ const packingListSlice = createSlice({
     initialState,
     reducers: {
         startNewPL: (state, action) => {
-            state.newCI = getPLDefaultValues();
+            state.newPL = getPLDefaultValues();
         },
         setCurrentCI: (state, action) => {
             state.currentCI = action.payload;
@@ -64,17 +64,11 @@ const packingListSlice = createSlice({
                 state.newPL[key] = value;
             }
         },
-        // submitTableInfo: (state, action) => {
-        //     state.activeStep += 1;
-        //     for (const [key, value] of Object.entries(action.payload)) {
-        //         state.newCI[key] = value;
-        //     }
-        // },
-        // prevStep: (state, action) => {
-        //     if (state.activeStep > 0) {
-        //         state.activeStep -= 1;
-        //     }
-        // }
+        submitPLTableInfo: (state, action) => {
+            for (const [key, value] of Object.entries(action.payload)) {
+                state.newPL[key] = value;
+            }
+        }
     },
     extraReducers: {
         [fetchPLOptions.pending]: (state, action) => {
@@ -88,17 +82,17 @@ const packingListSlice = createSlice({
             state.status = 'REJECTED';
             state.error = action.error.message;
         },
-        // [submitCIForPreview.pending]: (state, action) => {
-        //     state.status = 'PENDING';
-        // },
-        // [submitCIForPreview.fulfilled]: (state, action) => {
-        //     state.status = 'IDLE';
-        //     state.previewFileURL = action.payload;
-        // },
-        // [submitCIForPreview.rejected]: (state, action) => {
-        //     state.status = 'REJECTED';
-        //     state.error = action.error.message;
-        // },
+        [submitPLForPreview.pending]: (state, action) => {
+            state.status = 'PENDING';
+        },
+        [submitPLForPreview.fulfilled]: (state, action) => {
+            state.status = 'IDLE';
+            state.previewFileURL = action.payload;
+        },
+        [submitPLForPreview.rejected]: (state, action) => {
+            state.status = 'REJECTED';
+            state.error = action.error.message;
+        }
         // [submitCI.pending]: (state, action) => {
         //     state.status = 'PENDING';
         // },
@@ -112,6 +106,6 @@ const packingListSlice = createSlice({
     }
 });
 
-export const { startNewPL, setCurrentCI, submitPLDetails } = packingListSlice.actions;
+export const { startNewPL, setCurrentCI, submitPLDetails, submitPLTableInfo } = packingListSlice.actions;
 
 export default packingListSlice.reducer;
