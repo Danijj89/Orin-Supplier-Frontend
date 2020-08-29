@@ -139,8 +139,8 @@ export default function CreateCIProductInfo({ order }) {
         const orderIds = orders.map(order => orderItemMap[order]._id);
         const tableInfo = {
             currency,
-            poRefs: orderIds,
-            userOrderRefs: orders,
+            poRefs: orders,
+            poIds: orderIds,
             headers,
             items,
             totalQ,

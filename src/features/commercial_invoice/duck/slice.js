@@ -29,7 +29,7 @@ const getCIDefaultValues = () => ({
     createdBy: null,
     fileName: null,
     poRefs: [],
-    userOrderRefs: [],
+    poIds: [],
     headers: LANGUAGE.commercialInvoice.createCIProductTable.defaultHeaders,
     items: [],
     totalQ: null,
