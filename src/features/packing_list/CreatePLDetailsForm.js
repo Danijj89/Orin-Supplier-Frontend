@@ -53,6 +53,7 @@ export default function CreateOrderDetailsForm({ setActiveStep }) {
         data.pod = ci.pod;
         data.ciRef = ci.ciRef;
         data.poRefs = ci.poRefs;
+        data.poIds = ci.poIds;
         data.fileName = getFileName('PL', data.plRef, data.createdBy);
         dispatch(submitPLDetails(data));
         setActiveStep(prev => prev + 1);

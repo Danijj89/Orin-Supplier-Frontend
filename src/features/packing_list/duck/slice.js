@@ -22,6 +22,7 @@ const getPLDefaultValues = () => ({
     pod: '',
     ciRef: null,
     poRefs: [],
+    poIds: [],
     notes: '',
     marks: '',
     measurementUnit: 'CBM',
