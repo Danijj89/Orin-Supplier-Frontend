@@ -58,47 +58,36 @@ export default function CreatePLProductTable(
 
     const onCellChange = (rowIdx, colIdx, val) => {
         const newItem = _.cloneDeep(items[rowIdx]);
-        if (colIdx >= 0 && colIdx <= 3) {
-            newItem[colIdx] = val;
-        } else if (colIdx === 4) {
-            if (typeof val === 'number') {
-                const unit = newItem[colIdx][0];
-                const diff = val - newItem[colIdx][1];
-                totalQ.addUnit(unit, diff);
-                newItem[colIdx][1] = val;
-            } else {
-                const prevUnit = newItem[colIdx][0];
-                const quantity = newItem[colIdx][1];
-                totalQ.subtractUnit(prevUnit, quantity);
-                totalQ.addUnit(val, quantity);
-                newItem[colIdx][0] = val;
-            }
+        if (colIdx === 4) {
+            const unit = newItem[5];
+            const diff = val - newItem[colIdx];
+            totalQ.addUnit(unit, diff);
             setValue('totalQ', new UnitCounter(totalQ));
         } else if (colIdx === 5) {
-            if (typeof val === 'number') {
-                const unit = newItem[colIdx][0];
-                const diff = val - newItem[colIdx][1];
-                totalP.addUnit(unit, diff);
-                newItem[colIdx][1] = val;
-            }
-            else {
-                const prevUnit = newItem[colIdx][0];
-                const quantity = newItem[colIdx][1];
-                totalP.subtractUnit(prevUnit, quantity);
-                totalP.addUnit(val, quantity);
-                newItem[colIdx][0] = val;
-            }
-            setValue('totalP', totalP);
+            const prevUnit = newItem[colIdx];
+            const quantity = newItem[4];
+            totalQ.subtractUnit(prevUnit, quantity);
+            totalQ.addUnit(val, quantity);
+            setValue('totalQ', new UnitCounter(totalQ));
         } else if (colIdx === 6) {
-            setValue('totalNW', totalNW - newItem[colIdx] + val);
-            newItem[colIdx] = val;
+            const unit = newItem[7];
+            const diff = val - newItem[colIdx];
+            totalP.addUnit(unit, diff);
+            setValue('totalP', totalP);
         } else if (colIdx === 7) {
-            setValue('totalGW', totalGW - newItem[colIdx] + val);
-            newItem[colIdx] = val;
+            const prevUnit = newItem[colIdx];
+            const quantity = newItem[6];
+            totalP.subtractUnit(prevUnit, quantity);
+            totalP.addUnit(val, quantity);
+            setValue('totalP', totalP);
         } else if (colIdx === 8) {
+            setValue('totalNW', totalNW - newItem[colIdx] + val);
+        } else if (colIdx === 9) {
+            setValue('totalGW', totalGW - newItem[colIdx] + val);
+        } else if (colIdx === 10) {
             setValue('totalD', totalD - newItem[colIdx] + val);
-            newItem[colIdx] = val;
         }
+        newItem[colIdx] = val;
         setValue('items', [...items.slice(0, rowIdx), newItem, ...items.slice(rowIdx + 1)]);
     }
 
@@ -158,11 +147,11 @@ export default function CreatePLProductTable(
                 </Button>
             </TableCell>
             <TableCell align="right">{ totalsText }</TableCell>
-            <TableCell align="right" className={classes.totals}>{ totalQ.stringRep }</TableCell>
-            <TableCell align="right" className={classes.totals}>{ totalP.stringRep }</TableCell>
-            <TableCell align="right" className={classes.totals}>{ `${ totalNW } ${ weightUnit }` }</TableCell>
-            <TableCell align="right" className={classes.totals}>{ `${ totalGW } ${ weightUnit }` }</TableCell>
-            <TableCell align="right" className={classes.totals}>{ `${ totalD } ${ measurementUnit }` }</TableCell>
+            <TableCell align="right" className={ classes.totals }>{ totalQ.stringRep }</TableCell>
+            <TableCell align="right" className={ classes.totals }>{ totalP.stringRep }</TableCell>
+            <TableCell align="right" className={ classes.totals }>{ `${ totalNW } ${ weightUnit }` }</TableCell>
+            <TableCell align="right" className={ classes.totals }>{ `${ totalGW } ${ weightUnit }` }</TableCell>
+            <TableCell align="right" className={ classes.totals }>{ `${ totalD } ${ measurementUnit }` }</TableCell>
         </TableRow>
     )
 

@@ -2,7 +2,7 @@ import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { LANGUAGE } from '../../../constants.js';
 import { fetchPLOptions, submitPLForPreview } from './thunks.js';
 
-export const defaultRowValues = ['', '', '', '', ['PCS', 0], ['CTN', 0], 0, 0, 0];
+export const defaultRowValues = ['', '', '', '', 0, 'PCS', 0, 'CTN', 0, 0, 0];
 
 const packingListAdapter = createEntityAdapter({
     selectId: pl => pl._id,

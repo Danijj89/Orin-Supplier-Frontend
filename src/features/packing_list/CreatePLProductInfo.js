@@ -62,8 +62,10 @@ export default function CreatePLProductInfo({ setActiveStep }) {
         item.description,
         '',
         '',
-        [item.unit, item.quantity],
-        ['CTN', 0],
+        item.quantity,
+        item.unit,
+        0,
+        'CTN',
         0,
         0,
         0
