@@ -18,10 +18,18 @@ const useStyles = makeStyles({
     downloadRow: {
         margin: '1%'
     },
+    loader: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        margin: 'auto',
+        width: '100%',
+        minWidth: 750,
+        height: 400
+    },
     fileViewer: {
         margin: 'auto',
         width: '100%',
-        // minWidth: '400',
         maxHeight: 480,
         height: '60vh'
     },
@@ -50,16 +58,17 @@ export default function CreateCIPreview({ order }) {
     const onSubmit = () => {
         dispatch(submitCI());
         dispatch(startNewCI());
-        history.push(`/home/orders/${order._id}`);
+        history.push(`/home/orders/${ order._id }`);
     }
 
     let preview;
     if (status === 'PENDING') {
-        preview = <div className="order-preview-loader">
-            <div className="loader"/>
-        </div>;
+        preview =
+            <div className={ classes.loader }>
+                <div className="loader"/>
+            </div>;
     } else if (status === 'IDLE') {
-        preview = <iframe className={classes.fileViewer} title="Order Preview" src={previewFileUrl}/>
+        preview = <iframe className={ classes.fileViewer } title="Order Preview" src={ previewFileUrl }/>
     } else if (status === 'REJECTED') {
         preview = <div>{ error }</div>
     }
@@ -71,30 +80,30 @@ export default function CreateCIPreview({ order }) {
         >
             <Grid
                 container
-                className={classes.downloadRow}
+                className={ classes.downloadRow }
                 item
                 justify="flex-end"
-                xs={12}
+                xs={ 12 }
             >
                 <DownloadButton fileName={ fileName }/>
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={ 12 }>
                 { preview }
             </Grid>
             <Grid
                 container
-                className={classes.buttonsRow}
+                className={ classes.buttonsRow }
                 justify="space-around"
                 item
-                xs={12}
+                xs={ 12 }
             >
                 <Button
-                    className={classes.button}
+                    className={ classes.button }
                     variant="outlined"
                     onClick={ onButtonProductInfoClick }
                 >{ buttonPrev }</Button>
                 <Button
-                    className={classes.button}
+                    className={ classes.button }
                     variant="contained"
                     onClick={ onSubmit }
                 >{ buttonNext }</Button>
