@@ -14,6 +14,7 @@ import CIService from '../commercial_invoice/services.js';
 import { selectCurrentCI } from './duck/selectors.js';
 import { setCurrentCI } from './duck/slice.js';
 import CreatePLProductInfo from './CreatePLProductInfo.js';
+import CreatePLPreview from './CreatePLPreview.js';
 
 const { steps, title } = LANGUAGE.packingList.createPL;
 
@@ -49,7 +50,7 @@ export default function CreatePL() {
             <hr/>
             {activeStep === 0 && <CreatePLDetailsForm setActiveStep={setActiveStep}/>}
             {activeStep === 1 && <CreatePLProductInfo setActiveStep={setActiveStep}/>}
-            {/*{currOrder && activeStep === 2 && <CreateCIPreview order={currOrder}/>}*/}
+            {activeStep === 2 && <CreatePLPreview setActiveStep={setActiveStep}/>}
         </Container>
     )
 }

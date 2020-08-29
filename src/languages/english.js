@@ -94,7 +94,8 @@ export const ENGLISH = {
             tableHeaders: ['Document Type', 'Created By', 'Date Created'],
             docTypeMap: {
                 'CI': 'Commercial Invoice',
-                'PO': 'Purchase Order'
+                'PO': 'Purchase Order',
+                'PL': 'Packing List'
             },
             deleteDocumentMessage: 'Are you sure you want to delete this document?',
             deleteDocumentButtonCancel: 'Cancel',
@@ -146,6 +147,20 @@ export const ENGLISH = {
             steps: ['Packing List', 'Product Info', 'Review'],
             title: 'Packing List'
         },
+        createPLDetailsForm: {
+            plRefLabel: 'Packing List Number',
+            dateLabel: 'Packing List Date',
+            notesLabel: 'Notes',
+            cancelButton: 'Cancel',
+            nextButton: 'Next: Product Data'
+        },
+        createPLProductInfo: {
+            measurementUnitLabel: 'Measurement Unit',
+            weightUnitLabel: 'Weight Unit',
+            marksLabel: 'Marks and Numbers',
+            prevButton: 'Back: Details',
+            nextButton: 'Next: Preview'
+        },
         createPLProductTable: {
             defaultHeaders: [
                 'Item Ref',
@@ -157,7 +172,13 @@ export const ENGLISH = {
                 'Net Weight',
                 'Gross Weight',
                 'Dimension'
-            ]
+            ],
+            addRowButton: 'Add',
+            totalsText: 'Totals:'
+        },
+        createPLPreview: {
+            prevButton: 'Back: Product Data',
+            submitButton: 'Submit'
         }
     },
     shared: {

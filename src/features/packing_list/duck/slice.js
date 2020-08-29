@@ -1,6 +1,6 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { LANGUAGE } from '../../../constants.js';
-import { fetchPLOptions, submitPLForPreview } from './thunks.js';
+import { fetchPLOptions, submitPL, submitPLForPreview } from './thunks.js';
 
 export const defaultRowValues = ['', '', '', '', 0, 'PCS', 0, 'CTN', 0, 0, 0];
 
@@ -92,17 +92,17 @@ const packingListSlice = createSlice({
         [submitPLForPreview.rejected]: (state, action) => {
             state.status = 'REJECTED';
             state.error = action.error.message;
-        }
-        // [submitCI.pending]: (state, action) => {
-        //     state.status = 'PENDING';
-        // },
-        // [submitCI.fulfilled]: (state, action) => {
-        //     state.status = 'IDLE';
-        // },
-        // [submitCI.rejected]: (state, action) => {
-        //     state.status = 'REJECTED';
-        //     state.error = action.error.message;
-        // },
+        },
+        [submitPL.pending]: (state, action) => {
+            state.status = 'PENDING';
+        },
+        [submitPL.fulfilled]: (state, action) => {
+            state.status = 'IDLE';
+        },
+        [submitPL.rejected]: (state, action) => {
+            state.status = 'REJECTED';
+            state.error = action.error.message;
+        },
     }
 });
 

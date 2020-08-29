@@ -20,9 +20,20 @@ const generatePLFiles = async (pl) => {
     return data;
 }
 
+const createNewPL = async (pl) => {
+    const configs = {
+        method: 'post',
+        url: `/pl`,
+        data: pl
+    };
+    const { data } = await fetchWithAuth(configs);
+    return data;
+}
+
 const PLService = {
     fetchPLOptions,
-    generatePLFiles
+    generatePLFiles,
+    createNewPL
 };
 
 export default PLService;
