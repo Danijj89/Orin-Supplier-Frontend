@@ -19,6 +19,7 @@ import { yymmddToLocaleDate } from '../shared/utils.js';
 import { useDispatch } from 'react-redux';
 import { deleteCI } from '../commercial_invoice/duck/thunks.js';
 import DownloadButton from '../shared/buttons/DownloadButton.js';
+import { deletePL } from '../packing_list/duck/thunks.js';
 
 const { tableTitle, tableHeaders, docTypeMap,
     deleteDocumentMessage, deleteDocumentButtonCancel, deleteDocumentButtonConfirm } = LANGUAGE.order.orderDocuments;
@@ -48,14 +49,23 @@ export default function OrderDocuments({ order }) {
     const classes = useStyles();
     const dispatch = useDispatch();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const [currDocType, setCurrDocType] = useState(null);
+    const [currDocId, setCurrDocId] = useState(null);
 
-    const onDialogOpen = () => setIsDialogOpen(true);
+    const onDialogOpen = (docType, docId) => {
+        setCurrDocType(docType);
+        setCurrDocId(docId);
+        setIsDialogOpen(true);
+    }
     const onDialogClose = () => setIsDialogOpen(false);
 
-    const onDeleteClick = async (docType, docId) => {
-        switch(docType) {
+    const onDeleteClick = async () => {
+        switch(currDocType) {
             case 'CI':
-                await dispatch(deleteCI(docId));
+                await dispatch(deleteCI(currDocId));
+                break;
+            case 'PL':
+                await dispatch(deletePL(currDocId));
                 break;
             default: alert('There was some error deleting the document. Please try again later.');
         }
@@ -99,7 +109,7 @@ export default function OrderDocuments({ order }) {
                                     <TableRow key={docType}>
                                         <TableCell padding="checkbox">
                                             <Button
-                                                onClick={onDialogOpen}
+                                                onClick={() => onDialogOpen(docType, doc._id)}
                                                 size="small"
                                             >
                                                 <IconDelete />
@@ -110,7 +120,7 @@ export default function OrderDocuments({ order }) {
                                                     <Button onClick={onDialogClose} variant="outlined">
                                                         {deleteDocumentButtonCancel}
                                                     </Button>
-                                                    <Button onClick={() => onDeleteClick(docType, doc._id)} variant="outlined">
+                                                    <Button onClick={onDeleteClick} variant="outlined">
                                                         {deleteDocumentButtonConfirm}
                                                     </Button>
                                                 </DialogActions>

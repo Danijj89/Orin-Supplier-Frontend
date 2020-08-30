@@ -30,10 +30,20 @@ const createNewPL = async (pl) => {
     return data;
 }
 
+const deletePL = async (id) => {
+    const configs = {
+        method: 'delete',
+        url: `/pl/${id}`
+    };
+    const { data } = await fetchWithAuth(configs);
+    return data;
+}
+
 const PLService = {
     fetchPLOptions,
     generatePLFiles,
-    createNewPL
+    createNewPL,
+    deletePL
 };
 
 export default PLService;

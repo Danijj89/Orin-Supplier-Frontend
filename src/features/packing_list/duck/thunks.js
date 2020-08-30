@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import PLService from '../services.js';
-import { updateOrderDocument } from '../../orders/duck/slice.js';
+import { deleteOrderDocument, updateOrderDocument } from '../../orders/duck/slice.js';
 
 export const fetchPLOptions = createAsyncThunk(
     'pl/fetchPLOptions',
@@ -25,3 +25,11 @@ export const submitPL = createAsyncThunk(
         return pl;
     }
 );
+
+export const deletePL = createAsyncThunk('pl/deletePL', async (id, { getState, dispatch }) => {
+    const status = await PLService.deletePL(id);
+    if (!status) return Promise.reject('Unable to delete PL');
+    const { selectedOrder } = getState().orders;
+    dispatch(deleteOrderDocument({ id: selectedOrder._id, docType: 'PL' }));
+    return status;
+})
