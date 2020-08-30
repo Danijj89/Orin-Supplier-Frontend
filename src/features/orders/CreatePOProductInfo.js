@@ -28,7 +28,7 @@ const useStyles = makeStyles({
 export default function CreatePOProductInfo({ setActiveStep }) {
     const classes = useStyles();
     const dispatch = useDispatch();
-    const { currencies, itemsUnits } = useSelector(selectCurrentDefaults);
+    const { currencies, itemUnits } = useSelector(selectCurrentDefaults);
     const { currency, items, headers, totalQ, totalA } = useSelector(selectNewPO);
 
     const { register, control, handleSubmit, errors,
@@ -39,7 +39,7 @@ export default function CreatePOProductInfo({ setActiveStep }) {
             currency,
             items,
             headers,
-            totalQ: new UnitCounter(itemsUnits, totalQ),
+            totalQ: new UnitCounter(itemUnits, totalQ),
             totalA
         }
     });
@@ -110,7 +110,11 @@ export default function CreatePOProductInfo({ setActiveStep }) {
                     />
                 </Grid>
             </Grid>
-            <CreatePOProductTable />
+            <CreatePOProductTable
+                watch={watch}
+                setValue={setValue}
+                numActiveColumns={numActiveColumns}
+            />
             <div className="d-flex justify-content-around m-4">
                 <Button variant="outlined" onClick={onPrevButtonClick}>{prevButton}</Button>
                 <Button
