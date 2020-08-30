@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectError, selectNewOrderDetails, selectPreviewFile, selectStatus } from './duck/selectors.js';
 import Button from '@material-ui/core/Button';
 import { LANGUAGE } from '../../constants.js';
-import { prevStep } from './duck/slice.js';
+import { prevStep, startNewOrder } from './duck/slice.js';
 import { useHistory } from 'react-router-dom';
 import { submitOrder } from './duck/thunks.js';
 import { unwrapResult } from '@reduxjs/toolkit';
@@ -11,7 +11,7 @@ import DownloadButton from '../shared/buttons/DownloadButton.js';
 
 const { buttonProductInfo, buttonSubmit } = LANGUAGE.order.orderPreview;
 
-export default function CreateOrderPreview() {
+export default function CreateOrderPreview({ setActiveStep }) {
 
     const dispatch = useDispatch();
     const history = useHistory();
@@ -21,15 +21,13 @@ export default function CreateOrderPreview() {
     const error = useSelector(selectError);
     const orderDetails = useSelector(selectNewOrderDetails);
 
-    const onButtonProductInfoClick = () => {
-        dispatch(prevStep());
-    }
+    const onButtonProductInfoClick = () =>
+        setActiveStep(prevStep => prevStep - 1);
 
     const onSubmit = () => {
-        dispatch(submitOrder())
-            .then(unwrapResult)
-            .then(_ => history.push('/home/orders'))
-            .catch(err => console.log(err))
+        dispatch(submitOrder());
+        dispatch(startNewOrder());
+        history.push('/home/orders');
     }
 
     let preview;

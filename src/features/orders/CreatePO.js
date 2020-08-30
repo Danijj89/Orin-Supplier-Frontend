@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import CreateOrderDetailsForm from './CreateOrderDetailsForm.js';
 import './styles.css';
@@ -11,7 +11,7 @@ import CreateOrderPreview from './CreateOrderPreview.js';
 import { makeStyles } from '@material-ui/core/styles';
 import DocumentStepper from '../shared/DocumentStepper.js';
 
-const {newOrder} = LANGUAGE.order.createOrder;
+const { newOrder, steps } = LANGUAGE.order.createOrder;
 
 const useStyles = makeStyles({
     stepper: {
@@ -20,29 +20,28 @@ const useStyles = makeStyles({
     }
 });
 
-export default function CreateOrder() {
+export default function CreatePO() {
     const classes = useStyles();
     const dispatch = useDispatch();
-    const {_id} = useSelector(selectCurrentCompany);
-    const steps = useSelector(selectOrderSteps);
-    const activeStep = useSelector(selectOrderActiveStep);
+    const { _id: companyId } = useSelector(selectCurrentCompany);
+    const [activeStep, setActiveStep] = useState(0);
 
     useEffect(() => {
-        dispatch(fetchPOOptions(_id));
-    }, [_id, dispatch]);
+        dispatch(fetchPOOptions(companyId));
+    }, [companyId, dispatch]);
 
     return (
         <div className="create-order">
             <DocumentStepper
-                styles={classes.stepper}
-                activeStep={activeStep}
-                steps={steps}
+                styles={ classes.stepper }
+                activeStep={ activeStep }
+                steps={ steps }
             />
-            <h4>{newOrder}</h4>
+            <h4>{ newOrder }</h4>
             <hr/>
-            {activeStep === 0 && <CreateOrderDetailsForm/>}
-            {activeStep === 1 && <CreateOrderProductInfo/>}
-            {activeStep === 2 && <CreateOrderPreview/>}
+            { activeStep === 0 && <CreateOrderDetailsForm setActiveStep={setActiveStep}/> }
+            { activeStep === 1 && <CreateOrderProductInfo setActiveStep={setActiveStep}/> }
+            { activeStep === 2 && <CreateOrderPreview setActiveStep={setActiveStep}/> }
         </div>
     )
 }

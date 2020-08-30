@@ -16,7 +16,7 @@ const {
     paymentMethod, reference, remarks, buttonCancel, buttonNext
 } = LANGUAGE.order.orderDetailsForm;
 
-export default function CreateOrderDetailsForm() {
+export default function CreateOrderDetailsForm({ setActiveStep }) {
     const dispatch = useDispatch();
     const history = useHistory();
     const currentUser = useSelector(selectCurrentUser);
@@ -43,11 +43,10 @@ export default function CreateOrderDetailsForm() {
         data.createdBy = currentUser._id;
         data.company = currentCompany;
         dispatch(submitOrderDetails(data));
+        setActiveStep(prevStep => prevStep + 1);
     }
 
-    const onButtonCancelClick = () => {
-        history.push('/home/orders');
-    }
+    const onButtonCancelClick = () => history.goBack();
 
     return (
         <form className="order-details-form" onSubmit={handleSubmit(onButtonNextClick)} autoComplete="off">

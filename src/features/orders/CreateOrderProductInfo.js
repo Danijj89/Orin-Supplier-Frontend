@@ -6,8 +6,7 @@ import { LANGUAGE } from '../../constants.js';
 import { useDispatch, useSelector } from 'react-redux';
 import {
     addColumn,
-    changeCurrency, nextStep,
-    prevStep,
+    changeCurrency,
 } from './duck/slice.js';
 import './styles.css';
 import CreateOrderProductInfoTable from './CreateOrderProductInfoTable.js';
@@ -24,7 +23,7 @@ import { selectCurrentDefaults } from '../home/slice.js';
 const { currency, buttonOrderDetails, buttonReview,
     buttonAddColumn, addColumnDialog, dialogButtonCancel, maxColumnError } = LANGUAGE.order.orderProductInfo;
 
-export default function CreateOrderProductInfo() {
+export default function CreateOrderProductInfo({ setActiveStep }) {
     const dispatch = useDispatch();
     const { currencies } = useSelector(selectCurrentDefaults);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -49,11 +48,12 @@ export default function CreateOrderProductInfo() {
         onDialogClose();
     }
 
-    const onButtonOrderDetailsClick = () => dispatch(prevStep());
+    const onButtonOrderDetailsClick = () =>
+        setActiveStep(prevStep => prevStep - 1);
 
     const onButtonReviewClick = async () => {
-        dispatch(nextStep());
         dispatch(submitOrderForPreview());
+        setActiveStep(prevStep => prevStep + 1);
     };
 
     return (

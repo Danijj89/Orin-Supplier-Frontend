@@ -43,8 +43,6 @@ const getOrderDefaultValues = () => {
 const initialState = ordersAdapter.getInitialState({
     status: 'IDLE',
     error: null,
-    steps: LANGUAGE.order.createOrder.steps,
-    activeStep: 0,
     autocomplete: {
         deliveryOptions: [],
         itemsRef: [],
@@ -68,19 +66,6 @@ const ordersSlice = createSlice({
         },
         submitOrderDetails: (state, action) => {
             state.newOrder.orderDetails = action.payload;
-            state.activeStep += 1;
-        },
-        prevStep: (state, action) => {
-            const {activeStep} = state;
-            if (activeStep > 0) {
-                state.activeStep -= 1;
-            }
-        },
-        nextStep: (state, action) => {
-            const {activeStep} = state;
-            if (activeStep < 2) {
-                state.activeStep += 1;
-            }
         },
         changeCellValue: (state, action) => {
             const { rowIdx, colIdx, val } = action.payload;
@@ -187,7 +172,7 @@ const ordersSlice = createSlice({
     }
 });
 
-export const { startNewOrder, submitOrderDetails, prevStep, nextStep, changeCellValue, deleteRow, addRow,
+export const { startNewOrder, submitOrderDetails, changeCellValue, deleteRow, addRow,
     addColumn, deleteColumn, changeCurrency, selectOrder, updateOrderDocument, deleteOrderDocument } = ordersSlice.actions;
 
 export const {
