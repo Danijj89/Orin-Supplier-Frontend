@@ -13,7 +13,7 @@ const generatePLFiles = async (pl) => {
     const configs = {
         method: 'post',
         responseType: 'blob',
-        url: `/file/generate/pl`,
+        url: `/file/pl`,
         data: pl
     };
     const { data } = await fetchWithAuth(configs);

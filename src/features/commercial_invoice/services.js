@@ -13,7 +13,7 @@ const generateCIFiles = async (ci) => {
     const configs = {
         method: 'post',
         responseType: 'blob',
-        url: `/file/generate/ci`,
+        url: `/file/ci`,
         data: ci
     };
     const { data } = await fetchWithAuth(configs);

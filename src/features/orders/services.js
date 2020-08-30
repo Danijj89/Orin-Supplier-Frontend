@@ -13,7 +13,7 @@ const generatePOFiles = async (order) => {
     const configs = {
         method: 'post',
         responseType: 'blob',
-        url: '/orders/preview',
+        url: '/file/po',
         data: order
     };
     const { data } = await fetchWithAuth(configs);
