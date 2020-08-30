@@ -112,7 +112,7 @@ export default function CreatePLProductInfo({ setActiveStep }) {
 
     const onPrevButtonClick = () => setActiveStep(prevStep => prevStep - 1);
 
-    const onButtonNextClick = async (data) => {
+    const onButtonNextClick = (data) => {
         data.totalQ = data.totalQ.data;
         data.totalP = data.totalP.data;
         dispatch(submitPLTableInfo(data));
