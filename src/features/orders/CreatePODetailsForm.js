@@ -58,7 +58,7 @@ export default function CreatePODetailsForm({ setActiveStep }) {
     });
 
     const { customerNames, customerAddressMap } = useSelector(selectPOAutocompleteOptions);
-    const chosenCustomer = watch('from', []);
+    const chosenCustomer = watch('fromName', []);
     const chosenCustomerAddresses = () =>
         customerAddressMap.hasOwnProperty(chosenCustomer)
             ? customerAddressMap[chosenCustomer]
