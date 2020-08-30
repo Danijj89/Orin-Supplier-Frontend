@@ -20,16 +20,25 @@ export default class UnitCounter {
     }
 
     get data() {
-        return {...this._data};
+        return { ...this._data };
+    }
+
+    get units() {
+        return this._units;
+    }
+
+    set units(units) {
+        this._units = [...units];
     }
 
     get stringRep() {
-        return Object.entries(this.data).map(([unit, amount]) =>
-            `${amount} ${unit}`
-        ).join(' + ');
+        return Object.entries(this.data)
+            .filter(([unit, amount]) => amount !== 0)
+            .map(([unit, amount]) =>`${ amount } ${ unit }`)
+            .join(' + ');
     }
 
     set data(data) {
-        this._data = {...data};
+        this._data = { ...data };
     }
 }

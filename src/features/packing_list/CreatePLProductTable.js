@@ -62,24 +62,24 @@ export default function CreatePLProductTable(
             const unit = newItem[5];
             const diff = val - newItem[colIdx];
             totalQ.addUnit(unit, diff);
-            setValue('totalQ', new UnitCounter(totalQ));
+            setValue('totalQ', new UnitCounter(totalQ.units, totalQ.data));
         } else if (colIdx === 5) {
             const prevUnit = newItem[colIdx];
             const quantity = newItem[4];
             totalQ.subtractUnit(prevUnit, quantity);
             totalQ.addUnit(val, quantity);
-            setValue('totalQ', new UnitCounter(totalQ));
+            setValue('totalQ', new UnitCounter(totalQ.units, totalQ.data));
         } else if (colIdx === 6) {
             const unit = newItem[7];
             const diff = val - newItem[colIdx];
             totalP.addUnit(unit, diff);
-            setValue('totalP', totalP);
+            setValue('totalP', new UnitCounter(totalP.units, totalP.data));
         } else if (colIdx === 7) {
             const prevUnit = newItem[colIdx];
             const quantity = newItem[6];
             totalP.subtractUnit(prevUnit, quantity);
             totalP.addUnit(val, quantity);
-            setValue('totalP', totalP);
+            setValue('totalP', new UnitCounter(totalP.units, totalP.data));
         } else if (colIdx === 8) {
             setValue('totalNW', totalNW - newItem[colIdx] + val);
         } else if (colIdx === 9) {
