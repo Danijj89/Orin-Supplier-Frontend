@@ -61,7 +61,6 @@ const ordersSlice = createSlice({
     initialState,
     reducers: {
         startNewOrder: (state, action) => {
-            state.activeStep = 0;
             state.newOrder = getOrderDefaultValues();
         },
         submitOrderDetails: (state, action) => {
@@ -152,7 +151,6 @@ const ordersSlice = createSlice({
         [submitOrder.fulfilled]: (state, action) => {
             state.status = 'IDLE';
             state.newOrder = getOrderDefaultValues();
-            state.activeStep = 0;
         },
         [submitOrder.rejected]: (state, action) => {
             state.status = 'REJECTED';

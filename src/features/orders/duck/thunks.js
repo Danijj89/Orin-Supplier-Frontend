@@ -25,7 +25,7 @@ export const submitOrder = createAsyncThunk('orders/submitOrder', async (_, { ge
     for (const [key, value] of Object.entries(orderProductInfo)) {
         data[key] = value;
     }
-    return  await OrderService.addNewOrder(data);
+    return await OrderService.addNewOrder(data);
 });
 
 export const fetchOrders = createAsyncThunk('orders/fetchOrders', async (_, { getState }) => {
