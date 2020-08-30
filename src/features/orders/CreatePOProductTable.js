@@ -17,7 +17,6 @@ import {
 import { Clear } from '@material-ui/icons';
 import { getCurrencySymbol, getStringFromTotalQuantityObject } from '../shared/utils.js';
 import { LANGUAGE } from '../../constants.js';
-import { selectNewOrderProductInfo } from './duck/selectors.js';
 
 const { total } = LANGUAGE.order.productTable;
 
