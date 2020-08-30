@@ -58,7 +58,7 @@ const ordersSlice = createSlice({
     initialState,
     reducers: {
         startNewOrder: (state, action) => {
-            state.newOrder = getOrderDefaultValues();
+            state.newPO = getOrderDefaultValues();
         },
         submitOrderDetails: (state, action) => {
             for (const [key, value] of Object.entries(action.payload)) {
