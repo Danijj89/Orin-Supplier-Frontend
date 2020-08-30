@@ -62,6 +62,10 @@ export const ENGLISH = {
             currencyLabel: 'Currency',
             prevButton: 'Order Details',
             nextButton: 'Next: Review',
+            errorMessages: {
+                items: 'You must fill at least one row of data.',
+                currency: 'You must select a currency.'
+            }
         },
         productTable: {
             defaultHeaders: ['Item Ref', 'Product Description', null, null, 'Quantity', 'Unit Price', 'Amount'],

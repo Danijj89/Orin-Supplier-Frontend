@@ -13,8 +13,9 @@ import UnitCounter from '../shared/classes/UnitCounter.js';
 import AddColumnButton from '../shared/buttons/addColumnButton.js';
 import { submitPOProductInfo } from './duck/slice.js';
 import { makeStyles } from '@material-ui/core/styles';
+import ErrorMessage from '../shared/displays/ErrorMessage.js';
 
-const { currencyLabel, prevButton, nextButton } = LANGUAGE.order.orderProductInfo;
+const { currencyLabel, prevButton, nextButton, errorMessages } = LANGUAGE.order.orderProductInfo;
 
 const useStyles = makeStyles({
     currency: {
@@ -31,7 +32,8 @@ export default function CreatePOProductInfo({ setActiveStep }) {
     const { currencies, itemUnits } = useSelector(selectCurrentDefaults);
     const { currency, items, headers, totalQ, totalA } = useSelector(selectNewPO);
 
-    const { register, control, handleSubmit, errors,
+    const {
+        register, control, handleSubmit, errors,
         formState, setValue, watch
     } = useForm({
         mode: 'onBlur',
@@ -44,11 +46,23 @@ export default function CreatePOProductInfo({ setActiveStep }) {
         }
     });
 
+    const validateItems = (items) => {
+        if (items.length > 0) {
+            const first = items[0];
+            for (let i = 0; i < first.length; i++) {
+                if (i === 2 || i === 3) continue;
+                if (!first[i]) return false;
+            }
+            return true;
+        }
+        return false;
+    }
+
     useEffect(() => {
-        register({ name: 'items'});
-        register({ name: 'headers'});
-        register({ name: 'totalQ'});
-        register({ name: 'totalA'});
+        register({ name: 'items' }, { validate: (items) => validateItems(items) || errorMessages.items});
+        register({ name: 'headers' });
+        register({ name: 'totalQ' });
+        register({ name: 'totalA' });
     }, [register]);
 
     const headersWatcher = watch('headers');
@@ -78,7 +92,7 @@ export default function CreatePOProductInfo({ setActiveStep }) {
                     item
                     justify="space-between"
                     alignItems="center"
-                    xs={12}
+                    xs={ 12 }
                 >
                     <Controller
                         render={ props => (
@@ -92,8 +106,7 @@ export default function CreatePOProductInfo({ setActiveStep }) {
                                         variant="outlined"
                                         error={ !!errors.currency }
                                         size="small"
-                                        className={classes.currency}
-                                        required
+                                        className={ classes.currency }
                                     />
                                 ) }
                                 onChange={ (_, data) => props.onChange(data) }
@@ -101,27 +114,36 @@ export default function CreatePOProductInfo({ setActiveStep }) {
                         ) }
                         name="currency"
                         control={ control }
-                        rules={ { required: true } }
+                        rules={ { required: errorMessages.currency } }
                     />
                     <AddColumnButton
-                        maxNumColumns={7}
-                        currColNumbers={numActiveColumns}
-                        onConfirmClick={onAddColumnClick}
+                        maxNumColumns={ 7 }
+                        currColNumbers={ numActiveColumns }
+                        onConfirmClick={ onAddColumnClick }
                     />
+                </Grid>
+                <Grid
+                    container
+                    item
+                    justify="center"
+                    alignItems="center"
+                    xs={ 12 }
+                >
+                    { errors.items && <ErrorMessage errors={ Object.values(errors) }/> }
                 </Grid>
             </Grid>
             <CreatePOProductTable
-                watch={watch}
-                setValue={setValue}
-                numActiveColumns={numActiveColumns}
+                watch={ watch }
+                setValue={ setValue }
+                numActiveColumns={ numActiveColumns }
             />
             <div className="d-flex justify-content-around m-4">
-                <Button variant="outlined" onClick={onPrevButtonClick}>{prevButton}</Button>
+                <Button variant="outlined" onClick={ onPrevButtonClick }>{ prevButton }</Button>
                 <Button
                     variant="contained"
                     type="submit"
-                    disabled={ !formState.isValid }
-                >{nextButton}</Button>
+                    // disabled={ !formState.isValid }
+                >{ nextButton }</Button>
             </div>
         </form>
     )

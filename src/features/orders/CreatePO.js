@@ -9,7 +9,7 @@ import { selectCurrentCompany } from '../home/slice.js';
 import { fetchPOOptions, submitPO } from './duck/thunks.js';
 import DocumentStepper from '../shared/DocumentStepper.js';
 import { Container, Typography } from '@material-ui/core';
-import DocumentPreview from '../shared/component/DocumentPreview.js';
+import DocumentPreview from '../shared/components/DocumentPreview.js';
 import { startNewOrder } from './duck/slice.js';
 import { selectNewPO, selectPOError, selectPOPreviewFile, selectPOStatus } from './duck/selectors.js';
 
