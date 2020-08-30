@@ -16,7 +16,7 @@ export const submitOrderForPreview = createAsyncThunk('orders/submitOrderForPrev
     };
 });
 
-export const submitOrder = createAsyncThunk('orders/submitOrder', async (_, { getState }) => {
+export const submitPO = createAsyncThunk('orders/submitOrder', async (_, { getState }) => {
     const { orderDetails, orderProductInfo } = getState().orders.newOrder;
     const data = {};
     for (const [key, value] of Object.entries(orderDetails)) {

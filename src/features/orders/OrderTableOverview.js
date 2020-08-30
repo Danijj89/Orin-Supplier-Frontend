@@ -18,7 +18,7 @@ import { TableContainer,
     Button,
     Dialog
 } from '@material-ui/core';
-import { selectStatus } from './duck/selectors.js';
+import { selectPOStatus } from './duck/selectors.js';
 
 const useStyles = makeStyles({
     container: {
@@ -44,7 +44,7 @@ export default function OrderTableOverview() {
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [selectedOrderId, setSelectedOrderId] = useState(null);
-    const status = useSelector(selectStatus);
+    const status = useSelector(selectPOStatus);
 
     const mounted = useRef();
     useEffect(() => {

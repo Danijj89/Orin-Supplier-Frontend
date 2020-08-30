@@ -1,37 +1,3 @@
-.create-order {
-    padding-left: 5%;
-    padding-right: 5%;
-    padding-bottom: 5%;
-}
-
-.order-details-form {
-    padding: 24px 25%;
-}
-
-.order-details-form>div, .shipment-info>div {
-    margin: 10px 0;
-}
-
-.order-currency-dropdown {
-    min-width: 120px;
-    width: 160px;
-}
-
-/* Firefox */
-input[type=number] {
-    -moz-appearance: textfield;
-}
-
-input[type=number]::-webkit-clear-button {
-    display: none;
-}
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
-    display: none;
-}
-input[type=text]::-webkit-clear-button {
-    display: none !important;
-}
 
 .table-input {
     border: none;

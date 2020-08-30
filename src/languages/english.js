@@ -39,17 +39,17 @@ export const ENGLISH = {
             newOrder: 'New Order'
         },
         orderDetailsForm: {
-            orderNumber: 'Order Number',
-            orderDate: 'Order Date',
-            from: 'Client',
-            fromAddress: 'Delivery Address',
-            crd: 'Cargo Ready Date',
-            incoterm: 'Incoterm',
-            paymentMethod: 'Payment Method',
-            reference: 'Order Name or Reference',
-            remarks: 'Remarks',
-            buttonCancel: 'Cancel',
-            buttonNext: 'Next: Product Info'
+            orderReferenceLabel: 'Order Number',
+            dateLabel: 'Order Date',
+            clientLabel: 'Client',
+            clientAddressLabel: 'Delivery Address',
+            crdLabel: 'Cargo Ready Date',
+            incotermLabel: 'Incoterm',
+            paymentMethodLabel: 'Payment Method',
+            referenceLabel: 'Order Name or Reference',
+            remarksLabel: 'Remarks',
+            cancelButton: 'Cancel',
+            nextButton: 'Next: Product Info'
         },
         shippingInfo: {
             shippingInformation: 'Shipping Information (Optional)',
@@ -59,17 +59,15 @@ export const ENGLISH = {
             shippingCarrier: 'Shipping Carrier'
         },
         orderProductInfo: {
-            currency: 'Currency',
-            buttonOrderDetails: 'Order Details',
-            buttonReview: 'Next: Review',
-            buttonAddColumn: 'Add Column',
-            addColumnDialog: 'Choose a Column Name',
-            dialogButtonCancel: 'Cancel',
-            maxColumnError: 'Maximum number of columns reached.'
+            currencyLabel: 'Currency',
+            prevButton: 'Order Details',
+            nextButton: 'Next: Review',
         },
         productTable: {
-            defaultColumns: ['Item Ref', 'Product Description', 'Quantity', 'Unit', 'Unit Price', 'Amount'],
-            total: 'Total:'
+            defaultHeaders: ['Item Ref', 'Product Description', null, null, 'Quantity', 'Unit Price', 'Amount'],
+            totals: 'Total:',
+            addRowButton: 'Add'
+
         },
         orderPreview: {
             buttonProductInfo: 'Product Info',
