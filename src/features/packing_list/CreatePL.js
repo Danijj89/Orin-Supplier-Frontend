@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectCurrentCompany } from '../home/slice.js';
 import { LANGUAGE } from '../../constants.js';
 import { fetchPLOptions } from './duck/thunks.js';
-import OrderService from '../orders/services.js';
+import POService from '../orders/services.js';
 import DocumentStepper from '../shared/DocumentStepper.js';
 import { Container, Typography } from '@material-ui/core';
 import CreatePLDetailsForm from './CreatePLDetailsForm.js';
@@ -30,7 +30,7 @@ export default function CreatePL() {
 
     useEffect(() => {
         const fetchOrderById = async () => {
-            const order = await OrderService.fetchOrderById(currOrderId);
+            const order = await POService.fetchOrderById(currOrderId);
             if (!(order && order.documents.CI)) history.push(`/home`);
             dispatch(selectOrder(order));
         };

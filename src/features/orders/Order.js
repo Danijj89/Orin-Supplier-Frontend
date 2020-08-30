@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import OrderService from './services.js';
+import POService from './services.js';
 import OrderInfoTile from './OrderInfoTile.js';
 import { Container, Tabs, Tab } from '@material-ui/core';
 import { LANGUAGE } from '../../constants.js';
@@ -23,7 +23,7 @@ export default function Order({ match }) {
             return (docs.length === 0 || (docs.length > 0 && typeof docs[0][1] === 'object'));
         }
         const fetchOrder = async () => {
-            const order = await OrderService.fetchOrderById(id);
+            const order = await POService.fetchOrderById(id);
             dispatch(selectOrder(order));
         };
         if (!order || !isDocumentsPopulated(order)) fetchOrder().then();

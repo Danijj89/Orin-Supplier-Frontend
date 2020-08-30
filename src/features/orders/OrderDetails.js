@@ -3,7 +3,7 @@ import Grid from '@material-ui/core/Grid';
 import DownloadButton from '../shared/buttons/DownloadButton.js';
 import DocumentGenerationButton from '../shared/buttons/DocumentGenerationButton.js';
 import { makeStyles } from '@material-ui/core/styles';
-import OrderService from './services.js';
+import POService from './services.js';
 
 const useStyles = makeStyles({
     gridContainer: {
@@ -29,7 +29,7 @@ export default function OrderDetails({ order }) {
     useEffect(() => {
         const fetchPreview = async () => {
             try {
-                const file = await OrderService.getPdfFilePreview(order.fileName);
+                const file = await POService.getPdfFilePreview(order.fileName);
                 setPreview(window.URL.createObjectURL(file));
             } catch (err) {
                 document.querySelector('iframe').contentDocument.write('<h1>Content Not Found</h1>');

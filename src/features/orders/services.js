@@ -9,7 +9,7 @@ const fetchOrderOptions = async (companyId) => {
     return data;
 }
 
-const generateOrderPreview = async (order) => {
+const generatePOFiles = async (order) => {
     const configs = {
         method: 'post',
         responseType: 'blob',
@@ -20,7 +20,7 @@ const generateOrderPreview = async (order) => {
     return data;
 }
 
-const addNewOrder = async (order) => {
+const createNewPO = async (order) => {
     const configs = {
         method: 'post',
         url: '/orders',
@@ -70,14 +70,14 @@ const getPdfFilePreview = async (filename) => {
     return data;
 }
 
-const OrderService = {
+const POService = {
     fetchOrderOptions,
-    generateOrderPreview,
-    addNewOrder,
+    generatePOFiles,
+    createNewPO,
     fetchAllOrdersByCurrentCompanyId,
     deleteOrder,
     fetchOrderById,
     getPdfFilePreview
 };
 
-export default OrderService;
+export default POService;

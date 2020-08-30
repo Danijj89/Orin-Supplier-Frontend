@@ -108,8 +108,7 @@ const ordersSlice = createSlice({
         },
         [submitOrderForPreview.fulfilled]: (state, action) => {
             state.status = 'IDLE';
-            state.previewFileURL = action.payload.fileURL;
-            state.newPO.fileName = action.payload.fileName;
+            state.previewFileURL = action.payload;
         },
         [submitOrderForPreview.rejected]: (state, action) => {
             state.status = 'REJECTED';

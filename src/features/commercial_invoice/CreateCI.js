@@ -11,7 +11,7 @@ import CreateCIProductInfo from './CreateCIProductInfo.js';
 import CreateCIPreview from './CreateCIPreview.js';
 import { useLocation } from 'react-router-dom';
 import { selectAllOrders } from '../orders/duck/slice.js';
-import OrderService from '../orders/services.js';
+import POService from '../orders/services.js';
 
 const { title } = LANGUAGE.commercialInvoice.createCI;
 
@@ -31,7 +31,7 @@ export default function CreateCI() {
         mounted.current = true;
         dispatch(fetchCIOptions(_id));
         const fetchOrderById = async () => {
-            const order = await OrderService.fetchOrderById(currOrderId);
+            const order = await POService.fetchOrderById(currOrderId);
             if (mounted.current) {
                 setCurrOrder(order);
             }
