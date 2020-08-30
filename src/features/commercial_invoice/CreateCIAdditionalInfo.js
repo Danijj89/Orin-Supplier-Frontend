@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Typography, TextField, Container, Box } from '@material-ui/core';
 import { ExpandLess as IconExpandLess, ExpandMore as IconExpandMore, Notes as IconNotes } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
@@ -44,28 +44,28 @@ const useStyles = makeStyles({
 
 export default function CreateCIAdditionalInfo({register, control}) {
     const classes = useStyles();
-    const mounted = useRef();
     const [hidden, setHidden] = useState(true);
     const { ports } = useSelector(selectCIAutocompleteOptions);
 
     useEffect(() => {
-        if (mounted && !hidden) window.scrollTo(0, document.body.scrollHeight);
+        if (!hidden) window.scrollTo(0, document.body.scrollHeight);
     }, [hidden]);
 
-    const onShippingInfoClick = () => setHidden(!hidden);
+    const onAdditionalInfoClick = () => setHidden(!hidden);
 
     return (
         <Container className={classes.container}>
             {hidden &&
-            <Button className={classes.title} onClick={onShippingInfoClick} fullWidth>
+            <Button className={classes.title} onClick={onAdditionalInfoClick} fullWidth>
                 <IconNotes/>
                 <Typography variant="subtitle1">{title}</Typography>
                 <IconExpandMore/>
             </Button>}
             {!hidden &&
             <>
-                <Button className={classes.title} onClick={onShippingInfoClick} fullWidth>
-                    <IconNotes/><Typography variant="subtitle1">{title}</Typography>
+                <Button className={classes.title} onClick={onAdditionalInfoClick} fullWidth>
+                    <IconNotes/>
+                    <Typography variant="subtitle1">{title}</Typography>
                     <IconExpandLess/>
                 </Button>
                 <Box className={classes.box}>
