@@ -2,33 +2,58 @@ import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { LANGUAGE } from '../../constants.js';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
+import { TextField, Button, Grid } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCurrentCompany, selectCurrentUser } from '../home/slice.js';
-import CreateOrderShippingInfo from './CreateOrderShippingInfo.js';
 import { submitOrderDetails } from './duck/slice.js';
 import { useHistory } from 'react-router-dom';
-import { selectNewOrderDetails, selectPOAutocompleteOptions } from './duck/selectors.js';
+import { selectNewPO, selectPOAutocompleteOptions } from './duck/selectors.js';
+import CreatePOShippingInfo from './CreatePOShippingInfo.js';
+import { getFileName } from '../shared/utils.js';
+import { makeStyles } from '@material-ui/core/styles';
 
-const {
-    orderNumber, orderDate, from, fromAddress, crd, incoterm,
-    paymentMethod, reference, remarks, buttonCancel, buttonNext
-} = LANGUAGE.order.orderDetailsForm;
+const { orderReferenceLabel, dateLabel, clientLabel, clientAddressLabel,
+crdLabel, incotermLabel, paymentMethodLabel, referenceLabel, remarksLabel,
+cancelButton, nextButton } = LANGUAGE.order.orderDetailsForm;
 
-export default function CreateOrderDetailsForm({ setActiveStep }) {
+const useStyles = makeStyles({
+    form: {
+        padding: '24px 25%'
+    },
+    field: {
+        margin: '10px 0'
+    },
+    buttons: {
+        marginTop: '5%'
+    },
+    button: {
+        width: '45%',
+        height: '50%',
+        margin: 'auto'
+    }
+})
+
+export default function CreatePODetailsForm({ setActiveStep }) {
+    const classes = useStyles();
     const dispatch = useDispatch();
     const history = useHistory();
-    const currentUser = useSelector(selectCurrentUser);
-    const currentCompany = useSelector(selectCurrentCompany);
+    const { _id: userId } = useSelector(selectCurrentUser);
+    const { _id: companyId, names, address } = useSelector(selectCurrentCompany);
 
-    const orderDetails = useSelector(selectNewOrderDetails);
+    const { poRef, fromName, fromAdd, date,
+        crd, incoterm, pay, orderRef, remarks } = useSelector(selectNewPO);
     const { register, control, handleSubmit, watch, errors, formState } = useForm({
         mode: 'onBlur',
         defaultValues: {
-            ...orderDetails,
-            orderDate: orderDetails.orderDate.substr(0, 10),
-            crd: orderDetails.crd.substr(0, 10)
+            poRef,
+            fromName,
+            fromAdd,
+            date: date.substr(0, 10),
+            crd: crd.substr(0, 10),
+            incoterm,
+            pay,
+            orderRef,
+            remarks
         }
     });
 
@@ -40,8 +65,11 @@ export default function CreateOrderDetailsForm({ setActiveStep }) {
             : [];
 
     const onButtonNextClick = (data) => {
-        data.createdBy = currentUser._id;
-        data.company = currentCompany;
+        data.createdBy = userId;
+        data.to = companyId;
+        data.toName = names[0];
+        data.toAdd = address;
+        data.fileName = getFileName('PO', data.poRef, data.createdBy);
         dispatch(submitOrderDetails(data));
         setActiveStep(prevStep => prevStep + 1);
     }
@@ -49,23 +77,25 @@ export default function CreateOrderDetailsForm({ setActiveStep }) {
     const onButtonCancelClick = () => history.goBack();
 
     return (
-        <form className="order-details-form" onSubmit={handleSubmit(onButtonNextClick)} autoComplete="off">
+        <form className={classes.form} onSubmit={handleSubmit(onButtonNextClick)} autoComplete="off">
             <TextField
-                label={orderNumber}
+                label={orderReferenceLabel}
                 type="text"
-                name="orderNumber"
-                error={!!errors.orderNumber}
+                name="poRef"
+                error={!!errors.poRef}
                 inputRef={register({ required: true })}
+                className={classes.field}
                 fullWidth
                 autoFocus
                 required
             />
             <TextField
-                label={orderDate}
+                label={dateLabel}
                 type="date"
-                name="orderDate"
-                error={!!errors.orderDate}
+                name="date"
+                error={!!errors.date}
                 inputRef={register({ required: true })}
+                className={classes.field}
                 fullWidth
                 required
             />
@@ -79,16 +109,17 @@ export default function CreateOrderDetailsForm({ setActiveStep }) {
                         renderInput={params => (
                             <TextField
                                 {...params}
-                                label={from}
+                                label={clientLabel}
                                 variant="standard"
-                                error={!!errors.from}
+                                error={!!errors.fromName}
+                                className={classes.field}
                                 required
                             />
                         )}
                         onChange={(_, data) => props.onChange(data)}
                     />
                 )}
-                name="from"
+                name="fromName"
                 control={control}
                 rules={{ required: true }}
             />
@@ -102,70 +133,82 @@ export default function CreateOrderDetailsForm({ setActiveStep }) {
                         renderInput={params => (
                             <TextField
                                 {...params}
-                                label={fromAddress}
+                                label={clientAddressLabel}
                                 variant="standard"
-                                error={!!errors.fromAddress}
+                                error={!!errors.fromAdd}
+                                className={classes.field}
                                 required
                             />
                         )}
                         onChange={(_, data) => props.onChange(data)}
                     />
                 )}
-                name="fromAddress"
+                name="fromAdd"
                 control={control}
                 rules={{ required: true }}
             />
             <TextField
-                label={crd}
+                label={crdLabel}
                 type="date"
                 name="crd"
                 inputRef={register}
+                className={classes.field}
                 fullWidth
             />
             <TextField
-                label={incoterm}
+                label={incotermLabel}
                 type="text"
                 name="incoterm"
                 inputRef={register}
+                className={classes.field}
                 fullWidth
             />
             <TextField
-                label={paymentMethod}
+                label={paymentMethodLabel}
                 type="text"
-                name="paymentMethod"
+                name="pay"
                 inputRef={register}
+                className={classes.field}
                 fullWidth
             />
             <TextField
-                label={reference}
+                label={referenceLabel}
                 type="text"
-                name="reference"
+                name="orderRef"
                 inputRef={register}
+                className={classes.field}
                 fullWidth
             />
             <TextField
-                label={remarks}
+                label={remarksLabel}
                 type="text"
                 name="remarks"
                 inputRef={register}
+                className={classes.field}
                 fullWidth
             />
-            <CreateOrderShippingInfo register={register} control={control} />
-            <div className="d-flex justify-content-around m-4">
+            <CreatePOShippingInfo register={register} control={control} />
+            <Grid
+                container
+                justify="space-between"
+                className={classes.buttons}
+            >
                 <Button
                     variant="outlined"
                     onClick={onButtonCancelClick}
+                    className={classes.button}
                 >
-                    {buttonCancel}
+                    {cancelButton}
                 </Button>
                 <Button
                     variant="contained"
+                    className={classes.button}
                     disabled={!formState.isValid}
                     type="submit"
                 >
-                    {buttonNext}
+                    {nextButton}
                 </Button>
-            </div>
+            </Grid>
         </form>
     )
 }
