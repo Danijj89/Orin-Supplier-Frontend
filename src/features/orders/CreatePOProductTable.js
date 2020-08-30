@@ -89,6 +89,7 @@ export default function CreatePOProductTable({ watch, setValue, numActiveColumns
             setValue('totalQ', new UnitCounter(totalQ.units, totalQ.data));
             const price = newItem[6];
             setValue('totalA', totalA + (price * diff));
+            newItem[7] = val * price;
         } else if (colIdx === 5) {
             const prevUnit = newItem[colIdx];
             const quantity = newItem[4];
@@ -99,6 +100,7 @@ export default function CreatePOProductTable({ watch, setValue, numActiveColumns
             const diff = val - newItem[colIdx];
             const quantity = newItem[4];
             setValue('totalA', totalA + (quantity * diff));
+            newItem[7] = val * quantity;
         }
         newItem[colIdx] = val;
         setValue('items', [...items.slice(0, rowIdx), newItem, ...items.slice(rowIdx + 1)]);
