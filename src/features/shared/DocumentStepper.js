@@ -11,7 +11,7 @@ const useStyles = makeStyles({
     }
 });
 
-export default function DocumentStepper({ activeStep, steps, styles }) {
+export default function DocumentStepper({ activeStep, steps }) {
     const classes = useStyles();
     const renderedSteps = steps.map((label) => (
         <Step key={label}>
@@ -24,7 +24,7 @@ export default function DocumentStepper({ activeStep, steps, styles }) {
             activeStep={activeStep}
             alternativeLabel
             children={renderedSteps}
-            className={styles ? styles : classes.stepper}
+            className={classes.stepper}
         >
         </Stepper>
     )
