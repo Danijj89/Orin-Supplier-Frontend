@@ -42,15 +42,13 @@ export default function DocumentGenerationButton({styles, order}) {
     const handleGenerate = async () => {
         switch (document) {
             case 'CI':
-                dispatch(startNewCI());
+                if (order.documents.hasOwnProperty('CI')) return setError(errors.ciExists);
+                else dispatch(startNewCI());
                 break;
             case 'PL':
-                if (order.documents.hasOwnProperty('CI')) {
-                    dispatch(startNewPL());
-                } else {
-                    setError(errors.pl);
-                    return;
-                }
+                if (!order.documents.hasOwnProperty('CI')) return setError(errors.ciFirst);
+                else if (order.documents.hasOwnProperty('PL')) return setError(errors.plExists);
+                else dispatch(startNewPL());
                 break;
             default:
                 console.log('Document type is not supported!');

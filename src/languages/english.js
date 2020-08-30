@@ -196,7 +196,9 @@ export const ENGLISH = {
             dialogConfirm: 'Create',
             typeLabel: 'Document Type',
             errors: {
-                pl: 'You need to create a Commercial Invoice first'
+                ciFirst: 'You need to create a Commercial Invoice first.',
+                ciExists: 'A Commercial Invoice already exists for this order.',
+                plExists: 'A Packing List already exists for this order'
             }
         },
         addColumnButton: {
