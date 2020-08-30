@@ -96,12 +96,12 @@ export default function CreatePLProductTable(
         setValue('headers', newHeaders);
     }
 
-    const onItemDeleteClick = (idx) => {
+    const onDeleteItemClick = (idx) => {
         const newItems = items.filter((item, index) => index !== idx);
         setValue('items', newItems);
     };
 
-    const onAddRowClick = () => setValue('items', [...items, defaultRowValues]);
+    const onAddItemClick = () => setValue('items', [...items, defaultRowValues]);
 
     const renderedHeaders = headers.map((header, index) => {
         if (index === 0 || index === 1) return <TableCell key={ index }>{ header }</TableCell>;
@@ -133,7 +133,7 @@ export default function CreatePLProductTable(
             key={ index }
             rowIdx={ index }
             item={ item }
-            onItemDeleteClick={ () => onItemDeleteClick(index) }
+            onItemDeleteClick={ () => onDeleteItemClick(index) }
             onCellChange={ onCellChange }
             headers={ headers }
         />
@@ -142,7 +142,7 @@ export default function CreatePLProductTable(
     const renderTableSpan = () => (
         <TableRow>
             <TableCell colSpan={ numActiveColumns - 5 } padding="none">
-                <Button variant="outlined" onClick={ onAddRowClick }>
+                <Button variant="outlined" onClick={ onAddItemClick }>
                     { addRowButton }
                 </Button>
             </TableCell>
