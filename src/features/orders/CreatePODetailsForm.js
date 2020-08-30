@@ -41,7 +41,7 @@ export default function CreatePODetailsForm({ setActiveStep }) {
     const { _id: companyId, names, address } = useSelector(selectCurrentCompany);
 
     const { poRef, fromName, fromAdd, date,
-        crd, incoterm, pay, orderRef, remarks } = useSelector(selectNewPO);
+        crd, incoterm, pay, orderRef, remarks, del, pol, pod, carrier } = useSelector(selectNewPO);
     const { register, control, handleSubmit, watch, errors, formState } = useForm({
         mode: 'onBlur',
         defaultValues: {
@@ -53,7 +53,11 @@ export default function CreatePODetailsForm({ setActiveStep }) {
             incoterm,
             pay,
             orderRef,
-            remarks
+            remarks,
+            del,
+            pol,
+            pod,
+            carrier
         }
     });
 
