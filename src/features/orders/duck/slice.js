@@ -150,7 +150,7 @@ const ordersSlice = createSlice({
         },
         [submitOrder.fulfilled]: (state, action) => {
             state.status = 'IDLE';
-            state.newOrder = getOrderDefaultValues();
+            ordersAdapter.upsertOne(state, action.payload);
         },
         [submitOrder.rejected]: (state, action) => {
             state.status = 'REJECTED';

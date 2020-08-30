@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { LANGUAGE } from '../../constants.js';
 import OrderTableRow from './OrderTableRow.js';
 import { useDispatch, useSelector } from 'react-redux';
@@ -18,6 +18,7 @@ import { TableContainer,
     Button,
     Dialog
 } from '@material-ui/core';
+import { selectStatus } from './duck/selectors.js';
 
 const useStyles = makeStyles({
     container: {
@@ -43,10 +44,17 @@ export default function OrderTableOverview() {
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [selectedOrderId, setSelectedOrderId] = useState(null);
+    const status = useSelector(selectStatus);
 
+    const mounted = useRef();
     useEffect(() => {
-        dispatch(fetchOrders());
-    }, [dispatch])
+        if (orders.length === 0) {
+            if (mounted.current !== status && status === 'IDLE') {
+                dispatch(fetchOrders());
+                mounted.current = status;
+            }
+        }
+    }, [dispatch, status, orders]);
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -81,7 +89,7 @@ export default function OrderTableOverview() {
                 className={classes.newOrderButton}
                 onClick={onNewOrderClick}
             >{newOrder}</Button>
-            <TableContainer className={classes.container}>
+            { status === 'IDLE' && <><TableContainer className={classes.container}>
                 <Table stickyHeader>
                     <TableHead>
                         <TableRow>
@@ -119,7 +127,7 @@ export default function OrderTableOverview() {
                         {deleteOrderDialogConfirmButton}
                     </Button>
                 </DialogActions>
-            </Dialog>
+            </Dialog></>}
         </div>
     )
 }
