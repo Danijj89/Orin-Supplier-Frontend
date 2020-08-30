@@ -11,13 +11,14 @@ import {
     Table,
     Button, Dialog, DialogTitle, DialogActions
 } from '@material-ui/core';
-import IconDelete from '@material-ui/icons/Delete';
+import { Delete as IconDelete } from '@material-ui/icons';
 import DocumentGenerationButton from '../shared/buttons/DocumentGenerationButton.js';
 import { LANGUAGE } from '../../constants.js';
 import { makeStyles } from '@material-ui/core/styles';
 import { yymmddToLocaleDate } from '../shared/utils.js';
 import { useDispatch } from 'react-redux';
 import { deleteCI } from '../commercial_invoice/duck/thunks.js';
+import DownloadButton from '../shared/buttons/DownloadButton.js';
 
 const { tableTitle, tableHeaders, docTypeMap,
     deleteDocumentMessage, deleteDocumentButtonCancel, deleteDocumentButtonConfirm } = LANGUAGE.order.orderDocuments;
@@ -90,6 +91,7 @@ export default function OrderDocuments({ order }) {
                                             { header.label }
                                         </TableCell>
                                     }) }
+                                    <TableCell padding="checkbox"/>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -117,6 +119,9 @@ export default function OrderDocuments({ order }) {
                                         <TableCell align={ headers[0].align }>{docTypeMap[docType]}</TableCell>
                                         <TableCell align={ headers[1].align }>{doc.createdBy.name}</TableCell>
                                         <TableCell align={ headers[2].align }>{yymmddToLocaleDate(doc.date)}</TableCell>
+                                        <TableCell>
+                                            <DownloadButton fileName={doc.fileName} icon={true}/>
+                                        </TableCell>
                                     </TableRow>
                                 )) }
                             </TableBody>

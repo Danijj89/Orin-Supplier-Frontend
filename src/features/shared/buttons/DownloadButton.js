@@ -7,8 +7,10 @@ import {
     FormControl,
     MenuItem,
     Select,
-    InputLabel
+    InputLabel,
+    Icon
 } from '@material-ui/core';
+import { GetApp as IconGetApp } from '@material-ui/icons';
 import { LANGUAGE } from '../../../constants.js';
 import { makeStyles } from '@material-ui/core/styles';
 import SharedService from '../services.js';
@@ -24,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function DownloadButton({ styles, fileName }) {
+export default function DownloadButton({ styles, fileName, icon }) {
     const classes = useStyles();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [extension, setExtension] = useState(extensions[0]);
@@ -43,9 +45,11 @@ export default function DownloadButton({ styles, fileName }) {
         <>
             <Button
                 className={styles}
-                variant="contained"
+                variant={ icon ? "text" : "contained" }
                 onClick={onDialogOpen}
-            >{buttonText}</Button>
+            >
+                {icon ? <IconGetApp /> : buttonText}
+            </Button>
             <Dialog onClose={onDialogClose} open={isDialogOpen}>
                 <DialogTitle>{dialogTitle}</DialogTitle>
                 <FormControl variant="outlined" className={classes.formControl}>
