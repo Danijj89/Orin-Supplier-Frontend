@@ -7,8 +7,7 @@ import {
     FormControl,
     MenuItem,
     Select,
-    InputLabel,
-    Icon
+    InputLabel
 } from '@material-ui/core';
 import { GetApp as IconGetApp } from '@material-ui/icons';
 import { LANGUAGE } from '../../../constants.js';

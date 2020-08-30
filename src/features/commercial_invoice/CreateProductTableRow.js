@@ -1,6 +1,5 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { selectPOAutocompleteOptions } from '../orders/duck/selectors.js';
 import { selectCurrentDefaults } from '../home/slice.js';
 import { TableRow, TableCell, Button, Typography } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete.js';
