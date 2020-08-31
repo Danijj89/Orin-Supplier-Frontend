@@ -24,7 +24,7 @@ let theme = createMuiTheme({
             main: '#FFFFFF'
         },
         backgroundSecondary: {
-            main: '#F5F5F5'
+            main: '#F1F1F1'
         }
     }
 });

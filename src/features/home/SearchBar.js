@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Container, TextField } from '@material-ui/core';
+import { Container, TextField, Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Search as IconSearch } from '@material-ui/icons';
 import Autocomplete from '@material-ui/lab/Autocomplete';
@@ -14,9 +14,13 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         padding: theme.spacing(1)
     },
+    paper: {
+        width: '100%',
+        borderRadius: 4
+    },
     searchFieldRoot: {
         backgroundColor: theme.palette.backgroundPrimary.main,
-        borderRadius: 0,
+        borderRadius: 4,
         '& label.Mui-focused': {
             color: 'white',
         },
@@ -67,30 +71,32 @@ export default function SearchBar() {
 
     return (
         <Container className={ classes.container }>
-            <Autocomplete
-                freeSolo
-                autoSelect
-                options={ refs }
-                renderInput={ params => (
-                    <TextField
-                        { ...params }
-                        variant="outlined"
-                        InputProps={ {
-                            ...params.InputProps,
-                            startAdornment: <IconSearch onClick={ onSubmit }/>,
-                            classes: { root: classes.searchFieldRoot }
-                        } }
-                        classes={ { root: classes.searchFieldRoot }}
-                    />
-                ) }
-                onChange={ (_, data) => onSearchTermChange(data) }
-                value={ searchTerm }
-                size="small"
-                fullWidth
-                onKeyUp={ (e) => {
-                    if (e.key === 'Enter') onSubmit();
-                } }
-            />
+            <Paper className={ classes.paper } elevation={2}>
+                <Autocomplete
+                    freeSolo
+                    autoSelect
+                    options={ refs }
+                    renderInput={ params => (
+                        <TextField
+                            { ...params }
+                            variant="outlined"
+                            InputProps={ {
+                                ...params.InputProps,
+                                startAdornment: <IconSearch onClick={ onSubmit }/>,
+                                classes: { root: classes.searchFieldRoot }
+                            } }
+                            classes={ { root: classes.searchFieldRoot }}
+                        />
+                    ) }
+                    onChange={ (_, data) => onSearchTermChange(data) }
+                    value={ searchTerm }
+                    size="small"
+                    fullWidth
+                    onKeyUp={ (e) => {
+                        if (e.key === 'Enter') onSubmit();
+                    } }
+                />
+            </Paper>
         </Container>
     );
 }

@@ -46,7 +46,7 @@ export const ENGLISH = {
             referenceLabel: 'Order Name or Reference',
             remarksLabel: 'Remarks',
             cancelButton: 'Cancel',
-            nextButton: 'Next: Product Info'
+            nextButton: 'Next'
         },
         shippingInfo: {
             shippingInformation: 'Shipping Information (Optional)',

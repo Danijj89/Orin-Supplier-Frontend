@@ -14,9 +14,8 @@ html, body, #root {
   font-family: Poppins, Helvetica, sans-serif;
 }
 
-body {
+body, #root  {
   margin: 0;
-  overflow: hidden;
 }
 
 .loader {

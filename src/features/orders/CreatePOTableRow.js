@@ -10,7 +10,7 @@ import TableAutoCompleteFreeTextInput from '../shared/inputs/TableAutoCompleteFr
 import TableInput from '../shared/inputs/TableInput.js';
 import TableAutoCompleteTextInput from '../shared/inputs/TableAutoCompleteTextInput.js';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
     deleteIcon: {
         margin: 0,
         width: '5%'
@@ -48,7 +48,7 @@ const useStyles = makeStyles({
         whiteSpace: 'nowrap',
         textAlign: 'right'
     }
-});
+}));
 
 const textInputStyle = {
     borderStyle: 'none',
@@ -57,7 +57,8 @@ const textInputStyle = {
     fontSize: 14,
     minFontSize: 12,
     margin: 0,
-    width: '100%'
+    width: '100%',
+    backgroundColor: '#F6F6F6'
 };
 
 const numberInputStyle = {
@@ -72,7 +73,7 @@ const dropDownInputStyle = {
 };
 
 export default function CreatePOTableRow(
-    { rowIdx, item, numColumns, onCellChange, onItemDeleteClick, currency, headers}) {
+    { rowIdx, item, onCellChange, onItemDeleteClick, currency, headers}) {
     const classes = useStyles();
     const { itemsRef, itemDescriptionMap } = useSelector(selectPOAutocompleteOptions);
     const { itemUnits } = useSelector(selectCurrentDefaults);
