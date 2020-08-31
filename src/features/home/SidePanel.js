@@ -1,9 +1,10 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import logo from '../../images/orinlogo.png';
 import { LANGUAGE } from '../../constants.js';
-import { useSelector } from 'react-redux';
-import { selectCurrentCompany, selectCurrentUser } from './slice.js';
-import { Container, CardMedia, Typography, Box, List, ListItem, ListItemText, Divider } from '@material-ui/core';
+import { useDispatch, useSelector } from 'react-redux';
+import { changeSelectedTab, selectCurrentCompany, selectCurrentTab, selectCurrentUser } from './slice.js';
+import { Container, CardMedia, Typography, Box, List, ListItem, ListItemText, Divider, Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import {
     ViewStreamOutlined as IconViewStream,
@@ -11,13 +12,13 @@ import {
     DescriptionOutlined as IconDescription
 } from '@material-ui/icons';
 
-const { userLabel, orders, clients, documents } = LANGUAGE.home.sidePanel;
+const { orders, clients, documents } = LANGUAGE.home.sidePanel;
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
     container: {
         padding: '5%',
         display: 'flex',
-        flexDirection: "column"
+        flexDirection: "column",
     },
     logo: {
         width: '60%',
@@ -27,35 +28,45 @@ const useStyles = makeStyles({
         margin: '48px 4px'
     },
     user: {
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        overflow: 'hidden',
+        whiteSpace: 'nowrap',
+        textOverflow: 'ellipsis',
     },
     company: {
-        fontWeight: 'light'
+        fontWeight: 'lighter',
+        color: theme.palette.primary.dark
     },
     tabs: {
         marginLeft: 4,
         paddingLeft: 0
     },
+    selected: {
+        '&$selected:hover': {
+            color: theme.palette.secondary.main
+        },
+        '&$selected': {
+            color: theme.palette.secondary.main,
+            backgroundColor: 'transparent',
+        }
+    },
     tabsText: {
         paddingLeft: 8
     }
-})
+}));
 
 export default function SidePanel() {
     const classes = useStyles();
+    const history = useHistory();
+    const dispatch = useDispatch();
     const user = useSelector(selectCurrentUser);
     const company = useSelector(selectCurrentCompany);
+    const selectedTab = useSelector(selectCurrentTab);
 
-    const ListItemLink = (props) => {
-        const Icon = props.icon;
-        return (
-            <ListItem button component="a" className={ classes.tabs } { ...props }>
-                <Icon {...props}/>
-                <ListItemText className={ classes.tabsText }>{ props.label }</ListItemText>
-            </ListItem>
-        )
+    const onTabClick = (tabName, href) => {
+        dispatch(changeSelectedTab(tabName));
+        history.push(href);
     }
-
 
     return (
         <Container className={ classes.container }>
@@ -66,24 +77,42 @@ export default function SidePanel() {
                 className={ classes.logo }
             />
             <Box className={ classes.userInfo }>
-                <Typography className={ classes.user }>{ `${ userLabel } ${ user.name }` }</Typography>
+                <Typography className={ classes.user }>{ user.name }</Typography>
                 <Typography className={ classes.company }>{ `${ company.names[0] }` }</Typography>
             </Box>
             <List>
-                <ListItem button component="a" href='/home/orders' className={ classes.tabs }>
-                    <IconViewStream />
+                <ListItem
+                    button
+                    component="a"
+                    onClick={() => onTabClick('orders', '/home/orders')}
+                    selected={ selectedTab === 'orders'}
+                    classes={ { root: classes.tabs, selected: classes.selected }}
+                >
+                    <IconViewStream className={ classes.icon }/>
                     <ListItemText className={ classes.tabsText }>{ orders }</ListItemText>
                 </ListItem>
-                <ListItem button component="a" href='#' className={ classes.tabs }>
-                    <IconPeople />
+                <ListItem
+                    button
+                    component="a"
+                    onClick={() => onTabClick('clients', '#')}
+                    classes={ { root: classes.tabs, selected: classes.selected }}
+                    selected={ selectedTab === 'clients'}
+                >
+                    <IconPeople className={ classes.icon }/>
                     <ListItemText className={ classes.tabsText }>{ clients }</ListItemText>
                 </ListItem>
-                <ListItem button component="a" href='#' className={ classes.tabs }>
-                    <IconDescription />
+                <ListItem
+                    button
+                    component="a"
+                    onClick={() => onTabClick('documents', '#')}
+                    classes={ { root: classes.tabs, selected: classes.selected }}
+                    selected={ selectedTab === 'documents'}
+                >
+                    <IconDescription className={ classes.icon }/>
                     <ListItemText className={ classes.tabsText }>{ documents }</ListItemText>
                 </ListItem>
             </List>
-            <Divider />
+            <Divider/>
         </Container>
     )
 }
