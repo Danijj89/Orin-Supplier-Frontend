@@ -9,16 +9,19 @@ import { getStringFromTotalQuantityObject, yymmddToLocaleDate } from '../shared/
 import { useDispatch } from 'react-redux';
 import { selectOrder } from './duck/slice.js';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
     deleteButtonCell: {
         padding: 0
+    },
+    deleteIcon: {
+        color: theme.palette.primary.main
     },
     wrapText: {
         whiteSpace: 'normal',
         wordBreak: 'break-word',
         textAlign: 'center'
     }
-})
+}));
 
 export default function OrderTableRow({ order, onDialogOpen }) {
     const classes = useStyles();
@@ -35,7 +38,9 @@ export default function OrderTableRow({ order, onDialogOpen }) {
     return (
         <TableRow hover onClick={ onRowClick }>
             <TableCell className={ classes.deleteButtonCell } padding="checkbox">
-                <Button onClick={ (e) => onDialogOpen(e, orderId) }><DeleteIcon/></Button>
+                <Button onClick={ (e) => onDialogOpen(e, orderId) }>
+                    <DeleteIcon className={classes.deleteIcon}/>
+                </Button>
             </TableCell>
             <TableCell align="center">{ status }</TableCell>
             <TableCell align="center">{ poRef }</TableCell>
