@@ -35,7 +35,10 @@ const useStyles = makeStyles((theme) => ({
     },
     company: {
         fontWeight: 'lighter',
-        color: theme.palette.primary.dark
+        color: theme.palette.primary.dark,
+        overflow: 'hidden',
+        whiteSpace: 'nowrap',
+        textOverflow: 'ellipsis',
     },
     tabs: {
         marginLeft: 4,
