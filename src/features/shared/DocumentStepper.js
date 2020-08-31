@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function DocumentStepper({ activeStep, steps }) {
     const classes = useStyles();
-    const renderedSteps = steps.map((label, index) => (
+    const renderedSteps = steps.map((label) => (
         <Step key={ label } classes={ { root: classes.step, completed: classes.completed } }>
             <StepLabel
                 classes={ {
@@ -50,7 +50,7 @@ export default function DocumentStepper({ activeStep, steps }) {
                 } }
                 StepIconProps={ {
                     classes: {
-                        root: classes.steps,
+                        root: classes.step,
                         completed: classes.completed,
                         active: classes.active,
                         text: classes.text
