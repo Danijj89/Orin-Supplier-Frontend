@@ -1,20 +1,34 @@
 import React from 'react';
 import SidePanel from './SidePanel.js';
 import SearchBar from './SearchBar.js';
+import { Grid } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+        height: '100%',
+        backgroundColor: theme.palette.backgroundSecondary.main,
+    },
+    leftPanel: {
+        backgroundColor: theme.palette.backgroundPrimary.main,
+    },
+    rightPanel: {
+        height: '100%',
+        minHeight: '100%'
+    }
+}));
 
 export default function HomeLayout({ children }) {
-
+    const classes = useStyles();
     return (
-        <section className="container-fluid h-100">
-            <div className="row h-100">
-                <div className="col-2 h-100">
-                    <SidePanel />
-                </div>
-                <div className="col-10 bg-light">
-                    <SearchBar />
-                    {children}
-                </div>
-            </div>
-        </section>
+        <Grid container className={ classes.root }>
+            <Grid item xs={ 2 } className={ classes.leftPanel }>
+                <SidePanel/>
+            </Grid>
+            <Grid item xs={ 10 } className={ classes.rightPanel }>
+                <SearchBar/>
+                { children }
+            </Grid>
+        </Grid>
     );
 }
