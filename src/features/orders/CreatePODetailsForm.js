@@ -42,7 +42,7 @@ export default function CreatePODetailsForm({ setActiveStep }) {
 
     const { poRef, fromName, fromAdd, date,
         crd, incoterm, pay, orderRef, remarks, del, pol, pod, carrier } = useSelector(selectNewPO);
-    const { register, control, handleSubmit, watch, errors, formState } = useForm({
+    const { register, control, handleSubmit, watch, errors } = useForm({
         mode: 'onSubmit',
         defaultValues: {
             poRef,

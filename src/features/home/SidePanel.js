@@ -4,7 +4,7 @@ import logo from '../../images/orinlogo.png';
 import { LANGUAGE } from '../../constants.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeSelectedTab, selectCurrentCompany, selectCurrentTab, selectCurrentUser } from './slice.js';
-import { Container, CardMedia, Typography, Box, List, ListItem, ListItemText, Divider, Paper } from '@material-ui/core';
+import { Container, CardMedia, Typography, Box, List, ListItem, ListItemText, Divider } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import {
     ViewStreamOutlined as IconViewStream,

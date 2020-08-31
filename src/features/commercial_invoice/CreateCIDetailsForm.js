@@ -50,7 +50,7 @@ export default function CreateOrderDetailsForm({ order }) {
     const { customerNames, customerAddressMap } = useSelector(selectCIAutocompleteOptions);
     const { ciRef, date, com, notes, scRef, paymentRef } = useSelector(selectNewCI);
 
-    const { register, control, handleSubmit, watch, errors, formState } = useForm({
+    const { register, control, handleSubmit, watch, errors } = useForm({
         mode: 'onSubmit',
         defaultValues: {
             ciRef,

@@ -37,7 +37,7 @@ export default function CreateOrderDetailsForm({ setActiveStep }) {
     const { _id: userId } = useSelector(selectCurrentUser);
     const { plRef, date, notes } = useSelector(selectNewPL);
     const ci = useSelector(selectCurrentCI);
-    const { register, handleSubmit, errors, formState } = useForm({
+    const { register, handleSubmit, errors } = useForm({
         mode: 'onBlur',
         defaultValues: {
             plRef,
