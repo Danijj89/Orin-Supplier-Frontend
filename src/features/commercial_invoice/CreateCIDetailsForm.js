@@ -13,8 +13,10 @@ import { submitCIDetails } from './duck/slice.js';
 import CreateCIAdditionalInfo from './CreateCIAdditionalInfo.js';
 import { getFileName } from '../shared/utils.js';
 
-const { invoiceNumber, invoiceDate, importer, importerAddress,
-    exporter, exporterAddressLabel, countryOfManufacture, buttonCancel, buttonNext } = LANGUAGE.commercialInvoice.createCIDetailsForm;
+const {
+    invoiceNumber, invoiceDate, importer, importerAddress,
+    exporter, exporterAddressLabel, countryOfManufacture, buttonCancel, buttonNext
+} = LANGUAGE.commercialInvoice.createCIDetailsForm;
 
 const useStyles = makeStyles({
     form: {
@@ -25,6 +27,11 @@ const useStyles = makeStyles({
     },
     buttons: {
         marginTop: '5%'
+    },
+    button: {
+        width: '45%',
+        height: '50%',
+        margin: 'auto'
     }
 })
 
@@ -44,7 +51,7 @@ export default function CreateOrderDetailsForm({ order }) {
     const { ciRef, date, com, notes, scRef, paymentRef } = useSelector(selectNewCI);
 
     const { register, control, handleSubmit, watch, errors, formState } = useForm({
-        mode: 'onBlur',
+        mode: 'onSubmit',
         defaultValues: {
             ciRef,
             date: date.substr(0, 10),
@@ -78,155 +85,146 @@ export default function CreateOrderDetailsForm({ order }) {
     const onButtonCancelClick = () => history.goBack();
 
     return (
-        <form className={classes.form} onSubmit={handleSubmit(onButtonNextClick)} autoComplete="off">
+        <form className={ classes.form } onSubmit={ handleSubmit(onButtonNextClick) } autoComplete="off">
             <TextField
-                label={invoiceNumber}
+                label={ invoiceNumber }
                 type="text"
                 name="ciRef"
-                error={!!errors.ciRef}
-                inputRef={register({ required: true })}
-                className={classes.field}
+                error={ !!errors.ciRef }
+                inputRef={ register({ required: true }) }
+                className={ classes.field }
                 fullWidth
                 autoFocus
-                required
             />
             <TextField
-                label={invoiceDate}
+                label={ invoiceDate }
                 type="date"
                 name="date"
-                error={!!errors.date}
-                inputRef={register({ required: true })}
-                className={classes.field}
+                error={ !!errors.date }
+                inputRef={ register({ required: true }) }
+                className={ classes.field }
                 fullWidth
-                required
             />
             <Controller
-                render={props => (
+                render={ props => (
                     <Autocomplete
                         freeSolo
                         autoSelect
-                        {...props}
-                        options={customerNames}
-                        renderInput={params => (
+                        { ...props }
+                        options={ customerNames }
+                        renderInput={ params => (
                             <TextField
-                                {...params}
-                                label={importer}
+                                { ...params }
+                                label={ importer }
                                 variant="standard"
-                                error={!!errors.toName}
-                                className={classes.field}
-                                required
+                                error={ !!errors.toName }
+                                className={ classes.field }
                             />
-                        )}
-                        onChange={(_, data) => props.onChange(data)}
+                        ) }
+                        onChange={ (_, data) => props.onChange(data) }
                     />
-                )}
+                ) }
                 name="toName"
-                control={control}
-                rules={{ required: true }}
+                control={ control }
+                rules={ { required: true } }
             />
             <Controller
-                render={props => (
+                render={ props => (
                     <Autocomplete
                         freeSolo
                         autoSelect
-                        {...props}
-                        options={chosenCustomerAddresses()}
-                        renderInput={params => (
+                        { ...props }
+                        options={ chosenCustomerAddresses() }
+                        renderInput={ params => (
                             <TextField
-                                {...params}
-                                label={importerAddress}
+                                { ...params }
+                                label={ importerAddress }
                                 variant="standard"
-                                error={!!errors.toAdd}
-                                className={classes.field}
-                                required
+                                error={ !!errors.toAdd }
+                                className={ classes.field }
                             />
-                        )}
-                        onChange={(_, data) => props.onChange(data)}
+                        ) }
+                        onChange={ (_, data) => props.onChange(data) }
                     />
-                )}
+                ) }
                 name="toAdd"
-                control={control}
-                rules={{ required: true }}
+                control={ control }
+                rules={ { required: true } }
             />
             <Controller
-                render={props => (
+                render={ props => (
                     <Autocomplete
                         freeSolo
                         autoSelect
-                        {...props}
-                        options={exporterNames}
-                        renderInput={params => (
+                        { ...props }
+                        options={ exporterNames }
+                        renderInput={ params => (
                             <TextField
-                                {...params}
-                                label={exporter}
+                                { ...params }
+                                label={ exporter }
                                 variant="standard"
-                                error={!!errors.fromName}
-                                className={classes.field}
-                                required
+                                error={ !!errors.fromName }
+                                className={ classes.field }
                             />
-                        )}
-                        onChange={(_, data) => props.onChange(data)}
+                        ) }
+                        onChange={ (_, data) => props.onChange(data) }
                     />
-                )}
+                ) }
                 name="fromName"
-                control={control}
-                rules={{ required: true }}
+                control={ control }
+                rules={ { required: true } }
             />
             <Controller
-                render={props => (
+                render={ props => (
                     <Autocomplete
                         freeSolo
                         autoSelect
-                        {...props}
-                        options={exporterAddresses}
-                        renderInput={params => (
+                        { ...props }
+                        options={ exporterAddresses }
+                        renderInput={ params => (
                             <TextField
-                                {...params}
-                                label={exporterAddressLabel}
+                                { ...params }
+                                label={ exporterAddressLabel }
                                 variant="standard"
-                                error={!!errors.fromAdd}
-                                className={classes.field}
-                                required
+                                error={ !!errors.fromAdd }
+                                className={ classes.field }
                             />
-                        )}
-                        onChange={(_, data) => props.onChange(data)}
+                        ) }
+                        onChange={ (_, data) => props.onChange(data) }
                     />
-                )}
+                ) }
                 name="fromAdd"
-                control={control}
-                rules={{ required: true }}
+                control={ control }
+                rules={ { required: true } }
             />
             <TextField
-                label={countryOfManufacture}
+                label={ countryOfManufacture }
                 type="text"
                 name="com"
-                inputRef={register}
-                className={classes.field}
+                inputRef={ register }
+                className={ classes.field }
                 fullWidth
             />
-            <CreateCIAdditionalInfo register={register} control={control} />
+            <CreateCIAdditionalInfo register={ register } control={ control }/>
             <Grid
                 container
                 justify="space-around"
-                className={classes.buttons}
+                className={ classes.buttons }
             >
-                <Grid item>
-                    <Button
-                        variant="outlined"
-                        onClick={onButtonCancelClick}
-                    >
-                        {buttonCancel}
-                    </Button>
-                </Grid>
-                <Grid item>
-                    <Button
-                        variant="contained"
-                        disabled={!formState.isValid}
-                        type="submit"
-                    >
-                        {buttonNext}
-                    </Button>
-                </Grid>
+                <Button
+                    variant="outlined"
+                    className={ classes.button }
+                    onClick={ onButtonCancelClick }
+                >
+                    { buttonCancel }
+                </Button>
+                <Button
+                    variant="contained"
+                    className={ classes.button }
+                    type="submit"
+                >
+                    { buttonNext }
+                </Button>
             </Grid>
         </form>
     )

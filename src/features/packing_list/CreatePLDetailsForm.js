@@ -21,6 +21,11 @@ const useStyles = makeStyles({
     },
     buttons: {
         marginTop: '5%'
+    },
+    button: {
+        width: '45%',
+        height: '50%',
+        margin: 'auto'
     }
 })
 
@@ -72,7 +77,6 @@ export default function CreateOrderDetailsForm({ setActiveStep }) {
                 className={ classes.field }
                 fullWidth
                 autoFocus
-                required
             />
             <TextField
                 label={ dateLabel }
@@ -98,23 +102,20 @@ export default function CreateOrderDetailsForm({ setActiveStep }) {
                 justify="space-around"
                 className={ classes.buttons }
             >
-                <Grid item>
-                    <Button
-                        variant="outlined"
-                        onClick={ onButtonCancelClick }
-                    >
-                        { cancelButton }
-                    </Button>
-                </Grid>
-                <Grid item>
-                    <Button
-                        variant="contained"
-                        disabled={ !formState.isValid }
-                        type="submit"
-                    >
-                        { nextButton }
-                    </Button>
-                </Grid>
+                <Button
+                    variant="outlined"
+                    className={classes.button}
+                    onClick={ onButtonCancelClick }
+                >
+                    { cancelButton }
+                </Button>
+                <Button
+                    variant="contained"
+                    className={classes.button}
+                    type="submit"
+                >
+                    { nextButton }
+                </Button>
             </Grid>
         </form>
     )

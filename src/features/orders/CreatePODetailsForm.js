@@ -43,7 +43,7 @@ export default function CreatePODetailsForm({ setActiveStep }) {
     const { poRef, fromName, fromAdd, date,
         crd, incoterm, pay, orderRef, remarks, del, pol, pod, carrier } = useSelector(selectNewPO);
     const { register, control, handleSubmit, watch, errors, formState } = useForm({
-        mode: 'onBlur',
+        mode: 'onSubmit',
         defaultValues: {
             poRef,
             fromName,
@@ -91,7 +91,6 @@ export default function CreatePODetailsForm({ setActiveStep }) {
                 className={classes.field}
                 fullWidth
                 autoFocus
-                required
             />
             <TextField
                 label={dateLabel}
@@ -101,7 +100,6 @@ export default function CreatePODetailsForm({ setActiveStep }) {
                 inputRef={register({ required: true })}
                 className={classes.field}
                 fullWidth
-                required
             />
             <Controller
                 render={props => (
@@ -117,7 +115,6 @@ export default function CreatePODetailsForm({ setActiveStep }) {
                                 variant="standard"
                                 error={!!errors.fromName}
                                 className={classes.field}
-                                required
                             />
                         )}
                         onChange={(_, data) => props.onChange(data)}
@@ -141,7 +138,6 @@ export default function CreatePODetailsForm({ setActiveStep }) {
                                 variant="standard"
                                 error={!!errors.fromAdd}
                                 className={classes.field}
-                                required
                             />
                         )}
                         onChange={(_, data) => props.onChange(data)}
@@ -207,7 +203,6 @@ export default function CreatePODetailsForm({ setActiveStep }) {
                 <Button
                     variant="contained"
                     className={classes.button}
-                    disabled={!formState.isValid}
                     type="submit"
                 >
                     {nextButton}
