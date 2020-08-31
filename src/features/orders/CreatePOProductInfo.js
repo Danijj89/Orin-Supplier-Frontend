@@ -32,11 +32,8 @@ export default function CreatePOProductInfo({ setActiveStep }) {
     const { currencies, itemUnits } = useSelector(selectCurrentDefaults);
     const { currency, items, headers, totalQ, totalA } = useSelector(selectNewPO);
 
-    const {
-        register, control, handleSubmit, errors,
-        formState, setValue, watch
-    } = useForm({
-        mode: 'onBlur',
+    const { register, control, handleSubmit, errors, setValue, watch } = useForm({
+        mode: 'onSubmit',
         defaultValues: {
             currency,
             items,
@@ -129,7 +126,7 @@ export default function CreatePOProductInfo({ setActiveStep }) {
                     alignItems="center"
                     xs={ 12 }
                 >
-                    { errors.items && <ErrorMessage errors={ Object.values(errors) }/> }
+                    { Object.keys(errors).length > 0 && <ErrorMessage errors={ Object.values(errors) }/> }
                 </Grid>
             </Grid>
             <CreatePOProductTable
@@ -142,7 +139,6 @@ export default function CreatePOProductInfo({ setActiveStep }) {
                 <Button
                     variant="contained"
                     type="submit"
-                    // disabled={ !formState.isValid }
                 >{ nextButton }</Button>
             </div>
         </form>

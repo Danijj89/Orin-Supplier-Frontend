@@ -161,7 +161,12 @@ export const ENGLISH = {
             weightUnitLabel: 'Weight Unit',
             marksLabel: 'Marks and Numbers',
             prevButton: 'Back: Details',
-            nextButton: 'Next: Preview'
+            nextButton: 'Next: Preview',
+            errorMessages: {
+                items: 'You must fill at least one row of data.',
+                mUnit: 'You must select a measurement unit.',
+                wUnit: 'You must select a weight unit.'
+            }
         },
         createPLProductTable: {
             defaultHeaders: [

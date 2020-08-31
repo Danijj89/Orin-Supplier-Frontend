@@ -12,6 +12,7 @@ import { submitPLTableInfo } from './duck/slice.js';
 import CreatePLProductTable from './CreatePLProductTable.js';
 import UnitCounter from '../shared/classes/UnitCounter.js';
 import { submitPLForPreview } from './duck/thunks.js';
+import ErrorMessage from '../shared/displays/ErrorMessage.js';
 
 
 const {
@@ -19,7 +20,8 @@ const {
     weightUnitLabel,
     marksLabel,
     prevButton,
-    nextButton
+    nextButton,
+    errorMessages
 } = LANGUAGE.packingList.createPLProductInfo;
 
 const useStyles = makeStyles((theme) => ({
@@ -72,10 +74,9 @@ export default function CreatePLProductInfo({ setActiveStep }) {
     ]);
 
     const {
-        register, control, handleSubmit, errors,
-        formState, setValue, watch
+        register, control, handleSubmit, errors, setValue, watch
     } = useForm({
-        mode: 'onBlur',
+        mode: 'onSubmit',
         defaultValues: {
             measurementUnit,
             weightUnit,
@@ -90,8 +91,20 @@ export default function CreatePLProductInfo({ setActiveStep }) {
         }
     });
 
+    const validateItems = (items) => {
+        if (items.length > 0) {
+            const first = items[0];
+            for (let i = 0; i < first.length; i++) {
+                if (i === 2 || i === 3) continue;
+                if (!first[i]) return false;
+            }
+            return true;
+        }
+        return false;
+    }
+
     useEffect(() => {
-        register({ name: 'items' });
+        register({ name: 'items' }, { validate: (items) => validateItems(items) || errorMessages.items});
         register({ name: 'headers' });
         register({ name: 'totalQ '});
         register({ name: 'totalP' });
@@ -119,6 +132,7 @@ export default function CreatePLProductInfo({ setActiveStep }) {
         dispatch(submitPLForPreview());
         setActiveStep(preStep => preStep + 1);
     };
+    console.log(errors);
 
     return (
         <form onSubmit={ handleSubmit(onButtonNextClick) } autoComplete="off">
@@ -145,7 +159,6 @@ export default function CreatePLProductInfo({ setActiveStep }) {
                                             error={ !!errors.measurementUnit }
                                             size="small"
                                             className={ classes.unitDropdown }
-                                            required
                                         />
                                     ) }
                                     onChange={ (_, data) => props.onChange(data) }
@@ -153,7 +166,7 @@ export default function CreatePLProductInfo({ setActiveStep }) {
                             ) }
                             name="measurementUnit"
                             control={ control }
-                            rules={ { required: true } }
+                            rules={ { required: errorMessages.mUnit } }
                         />
                         <Controller
                             render={ props => (
@@ -168,7 +181,6 @@ export default function CreatePLProductInfo({ setActiveStep }) {
                                             error={ !!errors.weightUnit }
                                             className={ classes.unitDropdown }
                                             size="small"
-                                            required
                                         />
                                     ) }
                                     onChange={ (_, data) => props.onChange(data) }
@@ -176,7 +188,7 @@ export default function CreatePLProductInfo({ setActiveStep }) {
                             ) }
                             name="weightUnit"
                             control={ control }
-                            rules={ { required: true } }
+                            rules={ { required: errorMessages.mUnit } }
                         />
                 </Grid>
                 <Grid
@@ -192,6 +204,17 @@ export default function CreatePLProductInfo({ setActiveStep }) {
                         maxNumColumns={ 9 }
                     />
                 </Grid>
+                { Object.keys(errors).length > 0 &&
+                <Grid
+                    container
+                    item
+                    justify="center"
+                    alignItems="center"
+                    xs={ 12 }
+                >
+                    <ErrorMessage errors={ Object.values(errors) }/>
+                </Grid>
+                }
                 <Grid item xs={ 12 } className={ classes.tableRow }>
                     <CreatePLProductTable
                         watch={ watch }
@@ -227,7 +250,6 @@ export default function CreatePLProductInfo({ setActiveStep }) {
                     <Button
                         variant="contained"
                         type="submit"
-                        disabled={ !formState.isValid }
                     >
                         { nextButton }
                     </Button>
