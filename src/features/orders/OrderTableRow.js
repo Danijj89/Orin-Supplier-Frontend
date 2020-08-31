@@ -12,32 +12,37 @@ import { selectOrder } from './duck/slice.js';
 const useStyles = makeStyles({
     deleteButtonCell: {
         padding: 0
+    },
+    wrapText: {
+        whiteSpace: 'normal',
+        wordBreak: 'break-word',
+        textAlign: 'center'
     }
 })
 
-export default function OrderTableRow({order, onDialogOpen}) {
+export default function OrderTableRow({ order, onDialogOpen }) {
     const classes = useStyles();
     const history = useHistory();
     const dispatch = useDispatch();
-    const {_id: orderId , status, poRef, totalQ, crd, fromName, remarks} = order;
+    const { _id: orderId, status, poRef, totalQ, crd, fromName, remarks } = order;
     const renderedTotalQuantity = getStringFromTotalQuantityObject(totalQ);
 
     const onRowClick = () => {
         dispatch(selectOrder(order));
-        history.push(`/home/orders/${orderId}`);
+        history.push(`/home/orders/${ orderId }`);
     }
 
     return (
-        <TableRow hover onClick={onRowClick}>
-            <TableCell className={classes.deleteButtonCell}>
-                <Button onClick={(e) => onDialogOpen(e, orderId)}><DeleteIcon/></Button>
+        <TableRow hover onClick={ onRowClick }>
+            <TableCell className={ classes.deleteButtonCell } padding="checkbox">
+                <Button onClick={ (e) => onDialogOpen(e, orderId) }><DeleteIcon/></Button>
             </TableCell>
-            <TableCell>{status}</TableCell>
-            <TableCell>{poRef}</TableCell>
-            <TableCell>{renderedTotalQuantity}</TableCell>
-            <TableCell>{yymmddToLocaleDate(crd)}</TableCell>
-            <TableCell>{fromName}</TableCell>
-            <TableCell>{remarks}</TableCell>
+            <TableCell align="center">{ status }</TableCell>
+            <TableCell align="center">{ poRef }</TableCell>
+            <TableCell className={ classes.wrapText }>{ renderedTotalQuantity }</TableCell>
+            <TableCell align="center">{ yymmddToLocaleDate(crd) }</TableCell>
+            <TableCell align="center">{ fromName }</TableCell>
+            <TableCell className={ classes.wrapText }>{ remarks }</TableCell>
         </TableRow>
     )
 }

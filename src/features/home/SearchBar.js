@@ -1,12 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Container, TextField, Button, InputAdornment } from '@material-ui/core';
+import { Container, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Search as IconSearch } from '@material-ui/icons';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectAllOrders } from '../orders/duck/slice.js';
-import { LANGUAGE } from '../../constants.js';
 import { fetchOrders } from '../orders/duck/thunks.js';
 import { selectPOStatus } from '../orders/duck/selectors.js';
 

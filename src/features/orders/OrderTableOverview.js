@@ -6,7 +6,8 @@ import { deleteOrder, fetchOrders } from './duck/thunks.js';
 import { selectAllOrders, startNewOrder } from './duck/slice.js';
 import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import { TableContainer,
+import {
+    TableContainer,
     TableHead,
     TableRow,
     TableBody,
@@ -16,24 +17,47 @@ import { TableContainer,
     DialogTitle,
     DialogActions,
     Button,
-    Dialog
+    Dialog,
+    Grid,
+    Paper,
+    Container
 } from '@material-ui/core';
 import { selectPOStatus } from './duck/selectors.js';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
     container: {
-        maxHeight: '70vh'
+        padding: theme.spacing(3)
+    },
+    paper: {
+        paddingLeft: theme.spacing(4),
+        paddingRight: theme.spacing(4),
+        paddingBottom: theme.spacing(4),
+        paddingTop: theme.spacing(1)
+    },
+    row: {
+        marginTop: theme.spacing(1),
+        marginBottom: theme.spacing(2)
     },
     header: {
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        color: theme.palette.primary.dark
     },
     newOrderButton: {
-        float: 'right'
+        color: 'white',
+        borderColor: theme.palette.secondary.main,
+        backgroundColor: theme.palette.secondary.light,
+        '&:hover': {
+            color: theme.palette.secondary.light,
+            backgroundColor: 'white',
+            borderColor: theme.palette.secondary.main,
+        }
     }
-});
+}));
 
-const { newOrder, columns, deleteOrderDialogMessage,
-    deleteOrderDialogCancelButton, deleteOrderDialogConfirmButton } = LANGUAGE.order.OrdersOverview;
+const {
+    newOrder, columns, deleteOrderDialogMessage,
+    deleteOrderDialogCancelButton, deleteOrderDialogConfirmButton
+} = LANGUAGE.order.OrdersOverview;
 
 export default function OrderTableOverview() {
     const classes = useStyles();
@@ -83,51 +107,64 @@ export default function OrderTableOverview() {
     }
 
     return (
-        <div className="container-fluid h-100 p-5">
-            <Button
-                variant="outlined"
-                className={classes.newOrderButton}
-                onClick={onNewOrderClick}
-            >{newOrder}</Button>
-            { status === 'IDLE' && <><TableContainer className={classes.container}>
-                <Table stickyHeader>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>&nbsp;</TableCell>
-                            {columns && columns.map((col, index) =>
-                                <TableCell key={index} align="center" className={classes.header}>
-                                    {col}
-                                </TableCell>
-                            )}
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {orders && orders.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                            .map((order, index) => <OrderTableRow key={index} order={order} onDialogOpen={onDialogOpen}/>)
-                        }
-                    </TableBody>
-                </Table>
-            </TableContainer>
-            <TablePagination
-                rowsPerPageOptions={[10, 25, 100]}
-                component="div"
-                count={orders.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onChangePage={handleChangePage}
-                onChangeRowsPerPage={handleChangeRowsPerPage}
-            />
-            <Dialog onClose={onDialogClose} open={isDialogOpen}>
-                <DialogTitle id="simple-dialog-title">{deleteOrderDialogMessage}</DialogTitle>
-                <DialogActions>
-                    <Button onClick={onDialogClose} color="primary" variant="outlined">
-                        {deleteOrderDialogCancelButton}
-                    </Button>
-                    <Button onClick={handleDeleteRow} color="primary" variant="outlined">
-                        {deleteOrderDialogConfirmButton}
-                    </Button>
-                </DialogActions>
-            </Dialog></>}
-        </div>
+        <Container className={ classes.container }>
+            <Paper className={ classes.paper }>
+                <Grid container>
+                    <Grid container item justify="flex-end" xs={ 12 } className={ classes.row }>
+                        <Button
+                            variant="outlined"
+                            className={ classes.newOrderButton }
+                            onClick={ onNewOrderClick }
+                        >
+                            { newOrder }
+                        </Button>
+                    </Grid>
+                    { status === 'IDLE' &&
+                    <Grid item xs={ 12 } className={ classes.row }>
+                        <TableContainer>
+                            <Table stickyHeader>
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell />
+                                        { columns && columns.map((col, index) =>
+                                            <TableCell key={ index } align="center" className={ classes.header }>
+                                                { col }
+                                            </TableCell>
+                                        ) }
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    { orders && orders.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                        .map((order, index) => <OrderTableRow key={ index } order={ order }
+                                                                              onDialogOpen={ onDialogOpen }/>)
+                                    }
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                        <TablePagination
+                            rowsPerPageOptions={ [10, 25, 100] }
+                            component="div"
+                            count={ orders.length }
+                            rowsPerPage={ rowsPerPage }
+                            page={ page }
+                            onChangePage={ handleChangePage }
+                            onChangeRowsPerPage={ handleChangeRowsPerPage }
+                        />
+                        <Dialog onClose={ onDialogClose } open={ isDialogOpen }>
+                            <DialogTitle id="simple-dialog-title">{ deleteOrderDialogMessage }</DialogTitle>
+                            <DialogActions>
+                                <Button onClick={ onDialogClose } color="primary" variant="outlined">
+                                    { deleteOrderDialogCancelButton }
+                                </Button>
+                                <Button onClick={ handleDeleteRow } color="primary" variant="outlined">
+                                    { deleteOrderDialogConfirmButton }
+                                </Button>
+                            </DialogActions>
+                        </Dialog>
+                    </Grid>
+                    }
+                </Grid>
+            </Paper>
+        </Container>
     )
 }

@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: theme.palette.backgroundSecondary.main,
     },
     leftPanel: {
-        backgroundColor: theme.palette.backgroundPrimary.main,
+        backgroundColor: theme.palette.backgroundPrimary.main
     },
     rightPanel: {
         height: '100%',

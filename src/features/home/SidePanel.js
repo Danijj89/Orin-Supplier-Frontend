@@ -45,7 +45,8 @@ const useStyles = makeStyles((theme) => ({
     },
     tabs: {
         marginLeft: 4,
-        paddingLeft: 0
+        paddingLeft: 0,
+        overflow: 'hidden'
     },
     selected: {
         '&$selected:hover': {
