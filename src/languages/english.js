@@ -18,6 +18,7 @@ export const ENGLISH = {
     },
     home: {
         sidePanel: {
+            userLabel: 'User:',
             orders: 'Orders',
             clients: 'Clients',
             documents: 'Documents'
