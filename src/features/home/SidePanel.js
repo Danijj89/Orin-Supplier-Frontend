@@ -4,7 +4,7 @@ import logo from '../../images/orinlogo.png';
 import { LANGUAGE } from '../../constants.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeSelectedTab, selectCurrentCompany, selectCurrentTab, selectCurrentUser } from './slice.js';
-import { Container, CardMedia, Typography, Box, List, ListItem, ListItemText, Divider } from '@material-ui/core';
+import { Container, CardMedia, Typography, Box, List, ListItem, ListItemText, Divider, Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import {
     ViewStreamOutlined as IconViewStream,
@@ -15,6 +15,9 @@ import {
 const { orders, clients, documents } = LANGUAGE.home.sidePanel;
 
 const useStyles = makeStyles((theme) => ({
+    root: {
+        height: '100%'
+    },
     container: {
         padding: '5%',
         display: 'flex',
@@ -72,50 +75,52 @@ export default function SidePanel() {
     }
 
     return (
-        <Container className={ classes.container }>
-            <CardMedia
-                component="img"
-                src={ logo }
-                alt="Logo"
-                className={ classes.logo }
-            />
-            <Box className={ classes.userInfo }>
-                <Typography className={ classes.user }>{ user.name }</Typography>
-                <Typography className={ classes.company }>{ `${ company.names[0] }` }</Typography>
-            </Box>
-            <List>
-                <ListItem
-                    button
-                    component="a"
-                    onClick={() => onTabClick('orders', '/home/orders')}
-                    selected={ selectedTab === 'orders'}
-                    classes={ { root: classes.tabs, selected: classes.selected }}
-                >
-                    <IconViewStream className={ classes.icon }/>
-                    <ListItemText className={ classes.tabsText }>{ orders }</ListItemText>
-                </ListItem>
-                <ListItem
-                    button
-                    component="a"
-                    onClick={() => onTabClick('clients', '#')}
-                    classes={ { root: classes.tabs, selected: classes.selected }}
-                    selected={ selectedTab === 'clients'}
-                >
-                    <IconPeople className={ classes.icon }/>
-                    <ListItemText className={ classes.tabsText }>{ clients }</ListItemText>
-                </ListItem>
-                <ListItem
-                    button
-                    component="a"
-                    onClick={() => onTabClick('documents', '#')}
-                    classes={ { root: classes.tabs, selected: classes.selected }}
-                    selected={ selectedTab === 'documents'}
-                >
-                    <IconDescription className={ classes.icon }/>
-                    <ListItemText className={ classes.tabsText }>{ documents }</ListItemText>
-                </ListItem>
-            </List>
-            <Divider/>
-        </Container>
+        <Paper className={ classes.root } elevation={3}>
+            <Container className={ classes.container }>
+                <CardMedia
+                    component="img"
+                    src={ logo }
+                    alt="Logo"
+                    className={ classes.logo }
+                />
+                <Box className={ classes.userInfo }>
+                    <Typography className={ classes.user }>{ user.name }</Typography>
+                    <Typography className={ classes.company }>{ `${ company.names[0] }` }</Typography>
+                </Box>
+                <List>
+                    <ListItem
+                        button
+                        component="a"
+                        onClick={() => onTabClick('orders', '/home/orders')}
+                        selected={ selectedTab === 'orders'}
+                        classes={ { root: classes.tabs, selected: classes.selected }}
+                    >
+                        <IconViewStream className={ classes.icon }/>
+                        <ListItemText className={ classes.tabsText }>{ orders }</ListItemText>
+                    </ListItem>
+                    <ListItem
+                        button
+                        component="a"
+                        onClick={() => onTabClick('clients', '#')}
+                        classes={ { root: classes.tabs, selected: classes.selected }}
+                        selected={ selectedTab === 'clients'}
+                    >
+                        <IconPeople className={ classes.icon }/>
+                        <ListItemText className={ classes.tabsText }>{ clients }</ListItemText>
+                    </ListItem>
+                    <ListItem
+                        button
+                        component="a"
+                        onClick={() => onTabClick('documents', '#')}
+                        classes={ { root: classes.tabs, selected: classes.selected }}
+                        selected={ selectedTab === 'documents'}
+                    >
+                        <IconDescription className={ classes.icon }/>
+                        <ListItemText className={ classes.tabsText }>{ documents }</ListItemText>
+                    </ListItem>
+                </List>
+                <Divider/>
+            </Container>
+        </Paper>
     )
 }

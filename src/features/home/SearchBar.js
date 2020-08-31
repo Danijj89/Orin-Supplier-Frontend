@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Container, TextField, Button } from '@material-ui/core';
+import { Container, TextField, Button, InputAdornment } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Search as IconSearch } from '@material-ui/icons';
 import Autocomplete from '@material-ui/lab/Autocomplete';
@@ -10,16 +10,33 @@ import { LANGUAGE } from '../../constants.js';
 import { fetchOrders } from '../orders/duck/thunks.js';
 import { selectPOStatus } from '../orders/duck/selectors.js';
 
-const { search } = LANGUAGE.home.searchBar;
-
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
     container: {
-        display: 'flex'
+        display: 'flex',
+        padding: theme.spacing(1)
     },
-    searchButton: {
-        backgroundColor: 'lightgrey'
+    searchFieldRoot: {
+        backgroundColor: theme.palette.backgroundPrimary.main,
+        borderRadius: 0,
+        '& label.Mui-focused': {
+            color: 'white',
+        },
+        '& .MuiInput-underline:after': {
+            borderBottomColor: 'white',
+        },
+        '& .MuiOutlinedInput-root': {
+            '& fieldset': {
+                borderColor: 'white',
+            },
+            '&:hover fieldset': {
+                borderColor: 'white',
+            },
+            '&.Mui-focused fieldset': {
+                borderColor: 'white',
+            },
+        },
     }
-})
+}));
 
 export default function SearchBar() {
     const classes = useStyles();
@@ -35,7 +52,7 @@ export default function SearchBar() {
     const onSubmit = () => {
         if (refs.includes(searchTerm)) {
             const poId = orders.find(order => order.poRef === searchTerm)._id;
-            history.push(`/home/orders/${poId}`);
+            history.push(`/home/orders/${ poId }`);
         }
     }
 
@@ -59,18 +76,22 @@ export default function SearchBar() {
                     <TextField
                         { ...params }
                         variant="outlined"
-                        InputProps={{...params.InputProps, startAdornment: <IconSearch onClick={onSubmit}/>}}
+                        InputProps={ {
+                            ...params.InputProps,
+                            startAdornment: <IconSearch onClick={ onSubmit }/>,
+                            classes: { root: classes.searchFieldRoot }
+                        } }
+                        classes={ { root: classes.searchFieldRoot }}
                     />
                 ) }
                 onChange={ (_, data) => onSearchTermChange(data) }
-                value={searchTerm}
-                fullWidth
+                value={ searchTerm }
                 size="small"
-                onKeyUp={(e) => {
+                fullWidth
+                onKeyUp={ (e) => {
                     if (e.key === 'Enter') onSubmit();
-                }}
+                } }
             />
-            <Button variant="outlined" className={classes.searchButton} onClick={onSubmit}>{ search }</Button>
         </Container>
     );
 }
