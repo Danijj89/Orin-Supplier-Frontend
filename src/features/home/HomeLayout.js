@@ -6,14 +6,17 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        height: '100%',
+        height: 'auto',
+        minHeight: '100%',
         backgroundColor: theme.palette.backgroundSecondary.main,
     },
     leftPanel: {
+        height: 'auto',
+        minHeight: '100%',
         backgroundColor: theme.palette.backgroundPrimary.main
     },
     rightPanel: {
-        height: '100%',
+        height: 'auto',
         minHeight: '100%'
     }
 }));
