@@ -8,12 +8,14 @@ import CreatePOProductTable from './CreatePOProductTable.js';
 import { submitOrderForPreview } from './duck/thunks.js';
 import { selectCurrentDefaults } from '../home/slice.js';
 import { selectNewPO } from './duck/selectors.js';
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import UnitCounter from '../shared/classes/UnitCounter.js';
 import AddColumnButton from '../shared/buttons/addColumnButton.js';
 import { submitPOProductInfo } from './duck/slice.js';
 import { makeStyles } from '@material-ui/core/styles';
 import ErrorMessage from '../shared/displays/ErrorMessage.js';
+import RHFThemedDropdown from '../shared/rhf/RHFThemedDropdown.js';
+import ThemedButton from '../shared/buttons/ThemedButton.js';
 
 const { currencyLabel, prevButton, nextButton, errorMessages } = LANGUAGE.order.orderProductInfo;
 
@@ -24,12 +26,6 @@ const useStyles = makeStyles((theme) => ({
     row: {
         paddingTop: theme.spacing(2),
         paddingBottom: theme.spacing(2)
-    },
-    currency: {
-        minWidth: 160,
-        width: 200,
-        marginLeft: 8,
-        marginRight: 8
     }
 }));
 
@@ -100,27 +96,13 @@ export default function CreatePOProductInfo({ setActiveStep }) {
                         alignItems="center"
                         xs={ 12 }
                     >
-                        <Controller
-                            render={ props => (
-                                <Autocomplete
-                                    { ...props }
-                                    options={ currencies }
-                                    renderInput={ params => (
-                                        <TextField
-                                            { ...params }
-                                            label={ currencyLabel }
-                                            variant="outlined"
-                                            error={ !!errors.currency }
-                                            size="small"
-                                            className={ classes.currency }
-                                        />
-                                    ) }
-                                    onChange={ (_, data) => props.onChange(data) }
-                                />
-                            ) }
+                        <RHFThemedDropdown
+                            options={ currencies }
+                            label={ currencyLabel }
+                            error={ errors.currency }
                             name="currency"
-                            control={ control }
-                            rules={ { required: errorMessages.currency } }
+                            control={control}
+                            errorMessage={ errorMessages.currency }
                         />
                         <AddColumnButton
                             maxNumColumns={ 7 }
@@ -146,11 +128,16 @@ export default function CreatePOProductInfo({ setActiveStep }) {
                     />
                 </Grid>
                 <Grid container className={classes.row} item justify="space-around" xs={12}>
-                    <Button variant="outlined" onClick={ onPrevButtonClick }>{ prevButton }</Button>
-                    <Button
+                    <ThemedButton
+                        variant="outlined"
+                        onClick={ onPrevButtonClick }
+                        text={prevButton}
+                    />
+                    <ThemedButton
                         variant="contained"
                         type="submit"
-                    >{ nextButton }</Button>
+                        text={nextButton}
+                    />
                 </Grid>
             </form>
         </Paper>

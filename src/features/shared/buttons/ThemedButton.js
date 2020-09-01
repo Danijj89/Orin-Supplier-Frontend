@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function Button({ onClick, text, styles, type, variant = 'contained', ...props }) {
+export default function ThemedButton({ onClick, text, styles, type, variant = 'contained', ...props }) {
     const classes = useStyles();
     const style = () => {
         if (variant === 'outlined') return classes.outlined;
