@@ -207,7 +207,8 @@ export const ENGLISH = {
         },
         addColumnButton: {
             buttonText: 'Add Column',
-            dialogTitle: 'Type The Column Name',
+            dialogTitle: 'Type A Column Name',
+            fieldLabel: 'Column Name',
             dialogCancel: 'Cancel',
             dialogConfirm: 'Add',
             errorMessage: 'Maximum number of columns reached'

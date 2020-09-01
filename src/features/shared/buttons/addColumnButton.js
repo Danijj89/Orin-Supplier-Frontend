@@ -1,20 +1,28 @@
 import React, { useState } from 'react';
-import { Button, Dialog, DialogTitle, DialogContent, TextField, DialogActions } from '@material-ui/core';
+import { Dialog, DialogTitle, DialogContent, TextField, DialogActions, Box } from '@material-ui/core';
 import { LANGUAGE } from '../../../constants.js';
 import { makeStyles } from '@material-ui/core/styles';
+import ThemedButton from './ThemedButton.js';
 
-const { buttonText, dialogTitle, dialogCancel, dialogConfirm, errorMessage } = LANGUAGE.shared.addColumnButton;
+const { buttonText, dialogTitle, fieldLabel, dialogCancel, dialogConfirm, errorMessage } = LANGUAGE.shared.addColumnButton;
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
     error: {
         color: 'red'
     },
-    button: {
-        marginLeft: 8,
-        marginRight: 8,
-        height: 40
+    title: {
+        fontSize: theme.typography.h6.fontSize,
+        textAlign: 'center'
+    },
+    buttons: {
+        display: 'flex',
+        justifyContent: 'space-around'
+    },
+    dialog: {
+        minWidth: 360,
+        minHeight: 200
     }
-})
+}));
 
 export default function AddColumnButton({ currColNumbers, onConfirmClick, maxNumColumns }) {
     const classes = useStyles();
@@ -35,39 +43,42 @@ export default function AddColumnButton({ currColNumbers, onConfirmClick, maxNum
     }
 
     return (
-        <>
-            <Button
+        <Box>
+            <ThemedButton
                 variant="outlined"
                 onClick={onDialogOpen}
-                className={classes.button}
-            >{buttonText}</Button>
-            <Dialog onClose={onDialogClose} open={isDialogOpen}>
-                <DialogTitle>{dialogTitle}</DialogTitle>
-                {error && <DialogTitle className={classes.error}>{errorMessage}</DialogTitle>}
+                styles={classes.button}
+                text={buttonText}
+            />
+            <Dialog onClose={onDialogClose} open={isDialogOpen} classes={ { paper: classes.dialog } }>
+                <DialogTitle disableTypography className={classes.title}>{dialogTitle}</DialogTitle>
+                {error && <DialogTitle className={classes.error} disableTypography>{errorMessage}</DialogTitle>}
                 <DialogContent>
                     <TextField
                         autoFocus
                         fullWidth
                         margin="dense"
                         type="text"
-                        label={dialogTitle}
+                        label={fieldLabel}
                         value={newColumnName}
+                        size="small"
                         onChange={(e) => setNewColumnName(e.target.value)}
                     />
                 </DialogContent>
-                <DialogActions>
-                    <Button onClick={onDialogClose} variant="outlined">
-                        {dialogCancel}
-                    </Button>
-                    <Button
+                <DialogActions className={ classes.buttons }>
+                    <ThemedButton
+                        onClick={onDialogClose}
+                        variant="outlined"
+                        text={dialogCancel}
+                    />
+                    <ThemedButton
                         onClick={onButtonAddColumnClick}
                         variant="outlined"
                         disabled={error}
-                    >
-                        {dialogConfirm}
-                    </Button>
+                        text={dialogConfirm}
+                    />
                 </DialogActions>
             </Dialog>
-        </>
+        </Box>
     )
 }
