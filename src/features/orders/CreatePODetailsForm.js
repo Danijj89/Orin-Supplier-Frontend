@@ -2,7 +2,7 @@ import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { LANGUAGE } from '../../constants.js';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import { TextField, Button, Grid, Paper } from '@material-ui/core';
+import { TextField, Grid, Paper } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCurrentCompany, selectCurrentUser } from '../home/slice.js';
 import { submitOrderDetails } from './duck/slice.js';

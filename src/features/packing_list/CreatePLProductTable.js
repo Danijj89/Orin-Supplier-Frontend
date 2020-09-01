@@ -97,7 +97,15 @@ export default function CreatePLProductTable(
     }
 
     const onDeleteItemClick = (idx) => {
-        const newItems = items.filter((item, index) => index !== idx);
+        const item = items[idx];
+        totalQ.subtractUnit(item[5], item[4]);
+        setValue('totalQ', new UnitCounter(totalQ.units, totalQ.data));
+        totalP.subtractUnit(item[7], item[6]);
+        setValue('totalP', new UnitCounter(totalP.units, totalP.data));
+        setValue('totalNW', totalNW - item[8]);
+        setValue('totalGW', totalGW - item[9]);
+        setValue('totalD', totalD - item[10]);
+        const newItems = items.filter((i, index) => index !== idx);
         setValue('items', newItems);
     };
 

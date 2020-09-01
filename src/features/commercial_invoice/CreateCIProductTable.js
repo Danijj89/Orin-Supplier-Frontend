@@ -131,7 +131,7 @@ export default function CreateCIProductTable(
         newTotalQ[oldUnit] -= quantity;
         // update to new value
         const newUnit = val;
-        item[colIdx] = newUnit;
+        newItem[colIdx] = newUnit;
         if (!newTotalQ[newUnit]) newTotalQ[newUnit] = quantity;
         else newTotalQ[newUnit] += quantity;
         setTotalQ(newTotalQ);
@@ -162,6 +162,11 @@ export default function CreateCIProductTable(
     }
 
     const onRowDeleteClick = (orderRef, index) => {
+        const item = rows[orderRef][index];
+        const newTotalQ = { ...totalQ };
+        newTotalQ[item[5]] -= item[4];
+        setTotalQ(newTotalQ);
+        setTotalA(prevTotalA => prevTotalA - item[4] * item[6]);
         const items = [...rows[orderRef].filter((item, i) => i !== index)];
         setRows({
             ...rows,

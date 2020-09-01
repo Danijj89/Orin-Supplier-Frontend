@@ -49,7 +49,11 @@ export default function CreatePOProductTable({ watch, setValue, numActiveColumns
     }
 
     const onDeleteItemClick = (idx) => {
-        const newItems = items.filter((item, index) => index !== idx);
+        const item = items[idx];
+        const newItems = items.filter((i, index) => index !== idx);
+        totalQ.subtractUnit(item[5], item[4]);
+        setValue('totalQ', new UnitCounter(totalQ.units, totalQ.data));
+        setValue('totalA', totalA - item[4] * item[6]);
         setValue('items', newItems);
     };
 
