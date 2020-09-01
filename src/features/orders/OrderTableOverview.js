@@ -42,16 +42,16 @@ const useStyles = makeStyles((theme) => ({
     },
     header: {
         fontWeight: 'bold',
-        color: theme.palette.primary.dark
+        color: theme.palette.tertiary.dark
     },
     newOrderButton: {
-        color: 'white',
-        borderColor: theme.palette.secondary.main,
-        backgroundColor: theme.palette.secondary.light,
+        color: theme.palette.secondary.main,
+        borderColor: theme.palette.primary.main,
+        backgroundColor: theme.palette.primary.light,
         '&:hover': {
-            color: theme.palette.secondary.light,
-            backgroundColor: 'white',
-            borderColor: theme.palette.secondary.main,
+            color: theme.palette.primary.light,
+            backgroundColor: theme.palette.secondary.main,
+            borderColor: theme.palette.primary.main,
         }
     }
 }));

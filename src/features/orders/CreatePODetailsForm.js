@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) =>({
         width: '45%',
         height: '50%',
         margin: 'auto',
-        backgroundColor: theme.palette.primary.light
+        backgroundColor: theme.palette.tertiary.light
     },
 }));
 

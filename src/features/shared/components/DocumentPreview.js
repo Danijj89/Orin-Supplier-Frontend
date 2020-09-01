@@ -3,16 +3,21 @@ import { LANGUAGE } from '../../../constants.js';
 import { Grid, Button } from '@material-ui/core';
 import DownloadButton from '../buttons/DownloadButton.js';
 import { makeStyles } from '@material-ui/core/styles';
+import Loader from './Loader.js';
 
 
 const { prevButton, submitButton } = LANGUAGE.packingList.createPLPreview;
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
     container: {
         padding: '1vw 10vw'
     },
-    downloadRow: {
-        margin: '1%'
+    row: {
+        margin: theme.spacing(3)
+    },
+    downloadButton: {
+        color: theme.palette.secondary.main,
+        backgroundColor: theme.palette.primary.main
     },
     loader: {
         display: 'flex',
@@ -23,20 +28,22 @@ const useStyles = makeStyles({
         minWidth: 750,
         height: 400
     },
+    viewer: {
+        margin: theme.spacing(1),
+        height: '50vh'
+    },
     fileViewer: {
-        margin: 'auto',
+        // margin: 'auto',
         width: '100%',
-        // minWidth: '400',
-        maxHeight: 480,
-        height: '60vh'
+        height: '100%'
     },
-    buttonsRow: {
-        margin: '5%'
+    buttonBack: {
+        width: '30%'
     },
-    button: {
-        minWidth: '15vw'
+    buttonSubmit: {
+        width: '30%'
     }
-})
+}));
 
 export default function DocumentPreview(
     { onPrevButtonClick, onSubmitButtonClick, previewFileUrl, status, error, fileName }) {
@@ -44,9 +51,7 @@ export default function DocumentPreview(
 
     let preview;
     if (status === 'PENDING') {
-        preview = <div className={classes.loader}>
-            <div className="loader"/>
-        </div>;
+        preview = <Loader />;
     } else if (status === 'IDLE') {
         preview = <iframe className={classes.fileViewer} title="Order Preview" src={previewFileUrl}/>
     } else if (status === 'REJECTED') {
@@ -60,30 +65,30 @@ export default function DocumentPreview(
         >
             <Grid
                 container
-                className={classes.downloadRow}
+                className={classes.row}
                 item
                 justify="flex-end"
                 xs={12}
             >
-                <DownloadButton fileName={ fileName }/>
+                <DownloadButton fileName={ fileName } styles={ classes.downloadButton }/>
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} className={ classes.viewer }>
                 { preview }
             </Grid>
             <Grid
                 container
-                className={classes.buttonsRow}
+                className={classes.row}
                 justify="space-around"
                 item
                 xs={12}
             >
                 <Button
-                    className={classes.button}
+                    className={classes.buttonBack}
                     variant="outlined"
                     onClick={ onPrevButtonClick }
                 >{ prevButton }</Button>
                 <Button
-                    className={classes.button}
+                    className={classes.buttonSubmit}
                     variant="contained"
                     onClick={ onSubmitButtonClick }
                 >{ submitButton }</Button>

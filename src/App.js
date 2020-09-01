@@ -15,11 +15,14 @@ let theme = createMuiTheme({
         fontFamily: 'Poppins, Helvetica, sans-serif'
     },
     palette: {
-        primary: grey,
-        secondary: {
+        primary: {
             main: '#109CF1',
             dark: '#098DE9'
         },
+        secondary: {
+            main: '#FFFFFF'
+        },
+        tertiary: grey,
         backgroundPrimary: {
             main: '#FFFFFF'
         },

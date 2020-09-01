@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
     },
     company: {
         fontWeight: 'lighter',
-        color: theme.palette.primary.dark,
+        color: theme.palette.tertiary.dark,
         overflow: 'hidden',
         whiteSpace: 'nowrap',
         textOverflow: 'ellipsis',
@@ -50,10 +50,10 @@ const useStyles = makeStyles((theme) => ({
     },
     selected: {
         '&$selected:hover': {
-            color: theme.palette.secondary.main
+            color: theme.palette.primary.main
         },
         '&$selected': {
-            color: theme.palette.secondary.main,
+            color: theme.palette.primary.main,
             backgroundColor: 'transparent',
         }
     },

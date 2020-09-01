@@ -11,12 +11,12 @@ const useStyles = makeStyles((theme) => ({
         paddingRight: theme.spacing(30),
     },
     step: {
-        color: theme.palette.primary.light,
+        color: theme.palette.tertiary.light,
         "& $completed": {
-            color: theme.palette.secondary.light
+            color: theme.palette.primary.light
         },
         "& $active": {
-            color: theme.palette.secondary.dark
+            color: theme.palette.primary.dark
         },
     },
     active: {},
@@ -24,16 +24,16 @@ const useStyles = makeStyles((theme) => ({
     disabled: {},
     alternativeLabel: {
         '&$label': {
-            color: theme.palette.secondary.light
+            color: theme.palette.primary.light
         },
         '&$active': {
-            color: theme.palette.secondary.dark
+            color: theme.palette.primary.dark
         }
     },
     label: {},
     labelContainer: {},
     text: {
-        fill: 'white'
+        fill: theme.palette.secondary.main
     }
 }));
 
