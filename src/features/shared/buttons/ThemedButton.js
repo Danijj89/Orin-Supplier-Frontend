@@ -26,12 +26,12 @@ const useStyles = makeStyles((theme) => ({
         '&:hover': {
             color: theme.palette.secondary.main,
             backgroundColor: theme.palette.primary.light,
-            borderColor: theme.palette.primary.main,
+            borderColor: theme.palette.primary.main
         }
     }
 }));
 
-export default function ThemedButton({ onClick, text, styles, type, variant = 'contained', ...props }) {
+export default function Button({ onClick, text, styles, type, variant = 'contained', ...props }) {
     const classes = useStyles();
     const style = () => {
         if (variant === 'outlined') return classes.outlined;
