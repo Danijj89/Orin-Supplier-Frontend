@@ -11,6 +11,7 @@ import { selectNewPO, selectPOAutocompleteOptions } from './duck/selectors.js';
 import CreatePOShippingInfo from './CreatePOShippingInfo.js';
 import { getFileName } from '../shared/utils.js';
 import { makeStyles } from '@material-ui/core/styles';
+import ThemedButton from '../shared/buttons/ThemedButton.js';
 
 const { orderReferenceLabel, dateLabel, clientLabel, clientAddressLabel,
 crdLabel, incotermLabel, paymentMethodLabel, referenceLabel, remarksLabel,
@@ -28,20 +29,17 @@ const useStyles = makeStyles((theme) =>({
         paddingRight: theme.spacing(15),
     },
     field: {
-        margin: '10px 0'
+        marginTop: theme.spacing(1),
+        marginBottom: theme.spacing(1)
     },
     buttons: {
-        marginTop: '5%'
+        marginTop: theme.spacing(5)
     },
     buttonCancel: {
-        width: '45%',
-        height: '50%',
-        margin: 'auto'
+        width: '40%',
     },
     buttonNext: {
-        width: '45%',
-        height: '50%',
-        margin: 'auto',
+        width: '40%',
         backgroundColor: theme.palette.tertiary.light
     },
 }));
@@ -204,23 +202,20 @@ export default function CreatePODetailsForm({ setActiveStep }) {
                 <CreatePOShippingInfo register={register} control={control} />
                 <Grid
                     container
-                    justify="space-between"
+                    justify="space-around"
                     className={classes.buttons}
                 >
-                    <Button
-                        variant="outlined"
+                    <ThemedButton
                         onClick={onButtonCancelClick}
-                        className={classes.buttonCancel}
-                    >
-                        {cancelButton}
-                    </Button>
-                    <Button
-                        variant="contained"
-                        className={classes.buttonNext}
+                        styles={classes.buttonCancel}
+                        text={cancelButton}
+                        variant="outlined"
+                    />
+                    <ThemedButton
                         type="submit"
-                    >
-                        {nextButton}
-                    </Button>
+                        styles={classes.buttonNext}
+                        text={nextButton}
+                    />
                 </Grid>
             </form>
         </Paper>

@@ -17,14 +17,14 @@ const {
     portOfDestination, shippingCarrier
 } = LANGUAGE.order.shippingInfo;
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
     container: {
         borderStyle: 'solid',
         borderWidth: 1,
-        borderColor: '#109CF1',
+        borderColor: theme.palette.primary.main,
         borderRadius: 10,
-        marginTop: 10,
-        marginBot: 10,
+        marginTop: theme.spacing(3),
+        marginBot: theme.spacing(3),
         padding: 0
     },
     title: {
@@ -40,7 +40,7 @@ const useStyles = makeStyles({
         marginTop: 8,
         marginBottom: 8
     }
-})
+}));
 
 export default function CreatePOShippingInfo({ register, control }) {
     const classes = useStyles();
@@ -62,7 +62,7 @@ export default function CreatePOShippingInfo({ register, control }) {
                 fullWidth
             >
                 <IconDirectionsBoat/>
-                <Typography variant="subtitle1">{ shippingInformation }</Typography>
+                <Typography variant="subtitle2">{ shippingInformation }</Typography>
                 <IconExpandMore/>
             </Button>
             }

@@ -24,6 +24,7 @@ import {
 } from '@material-ui/core';
 import { selectPOStatus } from './duck/selectors.js';
 import Loader from '../shared/components/Loader.js';
+import ThemedButton from '../shared/buttons/ThemedButton.js';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -43,16 +44,6 @@ const useStyles = makeStyles((theme) => ({
     header: {
         fontWeight: 'bold',
         color: theme.palette.tertiary.dark
-    },
-    newOrderButton: {
-        color: theme.palette.secondary.main,
-        borderColor: theme.palette.primary.main,
-        backgroundColor: theme.palette.primary.light,
-        '&:hover': {
-            color: theme.palette.primary.light,
-            backgroundColor: theme.palette.secondary.main,
-            borderColor: theme.palette.primary.main,
-        }
     }
 }));
 
@@ -113,13 +104,11 @@ export default function OrderTableOverview() {
             <Paper className={ classes.paper }>
                 <Grid container>
                     <Grid container item justify="flex-end" xs={ 12 } className={ classes.row }>
-                        <Button
-                            variant="outlined"
-                            className={ classes.newOrderButton }
-                            onClick={ onNewOrderClick }
-                        >
-                            { newOrder }
-                        </Button>
+                        <ThemedButton
+                            onClick={onNewOrderClick}
+                            text={newOrder}
+                            styles={ classes.newOrderButton }
+                        />
                     </Grid>
                     <Grid item xs={ 12 } className={ classes.row }>
                         { status === 'PENDING' && <Loader/> }

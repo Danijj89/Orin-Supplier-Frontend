@@ -3,23 +3,40 @@ import { Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        color: theme.palette.secondary.main,
+    outlined: {
+        color: theme.palette.primary.main,
         borderColor: theme.palette.primary.main,
-        backgroundColor: theme.palette.primary.light,
         '&:hover': {
             color: theme.palette.primary.light,
             backgroundColor: theme.palette.secondary.main,
+            borderColor: theme.palette.primary.light
+        }
+    },
+    text: {
+        color: theme.palette.primary.main,
+        borderColor: 'white'
+    },
+    contained: {
+        color: theme.palette.secondary.main,
+        borderColor: theme.palette.primary.dark,
+        backgroundColor: theme.palette.primary.main,
+        '&:hover': {
+            color: theme.palette.secondary.main,
+            backgroundColor: theme.palette.primary.light,
             borderColor: theme.palette.primary.main,
         }
     }
 }));
 
-export default function ThemedButton({ onClick, text, styles }) {
+export default function ThemedButton({ onClick, text, styles, type, variant = 'contained' }) {
     const classes = useStyles();
-
+    const style = () => {
+        if (variant === 'outlined') return classes.outlined;
+        if (variant === 'contained') return classes.contained;
+        if (variant === 'text') return classes.text;
+    }
     return (
-        <Button className={`${classes.root} ${styles}`} onClick={ onClick } variant="outlined">
+        <Button className={`${style()} ${styles}`} onClick={ onClick } variant="outlined" type={type}>
             { text }
         </Button>
     )
