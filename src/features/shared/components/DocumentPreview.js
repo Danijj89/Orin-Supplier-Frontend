@@ -4,6 +4,7 @@ import { Grid, Button } from '@material-ui/core';
 import DownloadButton from '../buttons/DownloadButton.js';
 import { makeStyles } from '@material-ui/core/styles';
 import Loader from './Loader.js';
+import ThemedButton from '../buttons/ThemedButton.js';
 
 
 const { prevButton, submitButton } = LANGUAGE.packingList.createPLPreview;
@@ -14,10 +15,6 @@ const useStyles = makeStyles((theme) => ({
     },
     row: {
         margin: theme.spacing(3)
-    },
-    downloadButton: {
-        color: theme.palette.secondary.main,
-        backgroundColor: theme.palette.primary.main
     },
     loader: {
         display: 'flex',
@@ -70,7 +67,7 @@ export default function DocumentPreview(
                 justify="flex-end"
                 xs={12}
             >
-                <DownloadButton fileName={ fileName } styles={ classes.downloadButton }/>
+                <DownloadButton fileName={ fileName }/>
             </Grid>
             <Grid item xs={12} className={ classes.viewer }>
                 { preview }
@@ -82,16 +79,18 @@ export default function DocumentPreview(
                 item
                 xs={12}
             >
-                <Button
-                    className={classes.buttonBack}
+                <ThemedButton
+                    styles={classes.buttonBack}
                     variant="outlined"
                     onClick={ onPrevButtonClick }
-                >{ prevButton }</Button>
-                <Button
-                    className={classes.buttonSubmit}
+                    text={prevButton}
+                />
+                <ThemedButton
+                    styles={classes.buttonSubmit}
                     variant="contained"
                     onClick={ onSubmitButtonClick }
-                >{ submitButton }</Button>
+                    text={submitButton}
+                />
             </Grid>
         </Grid>
     )

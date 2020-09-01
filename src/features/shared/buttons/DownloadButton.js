@@ -14,6 +14,7 @@ import { LANGUAGE } from '../../../constants.js';
 import { makeStyles } from '@material-ui/core/styles';
 import SharedService from '../services.js';
 import { downloadFile } from '../utils.js';
+import ThemedButton from './ThemedButton.js';
 
 const { buttonText, dialogTitle, dialogCancel, dialogConfirm, typeLabel } = LANGUAGE.shared.downloadButton;
 const downloadChoices = ['PDF', 'Excel'];
@@ -22,6 +23,10 @@ const extensions = ['.pdf', '.xlsx'];
 const useStyles = makeStyles((theme) => ({
     formControl: {
         margin: theme.spacing(1)
+    },
+    buttons: {
+        display: 'flex',
+        justifyContent: 'space-around'
     }
 }));
 
@@ -42,16 +47,15 @@ export default function DownloadButton({ styles, fileName, icon }) {
 
     return (
         <>
-            <Button
-                className={styles}
+            <ThemedButton
+                styles={styles}
                 variant={ icon ? "text" : "contained" }
                 onClick={onDialogOpen}
-            >
-                {icon ? <IconGetApp /> : buttonText}
-            </Button>
+                text={icon ? <IconGetApp /> : buttonText}
+            />
             <Dialog onClose={onDialogClose} open={isDialogOpen}>
                 <DialogTitle>{dialogTitle}</DialogTitle>
-                <FormControl variant="outlined" className={classes.formControl}>
+                <FormControl variant="outlined" className={classes.formControl} color="primary">
                     <InputLabel id="download-button-select-label">{typeLabel}</InputLabel>
                     <Select
                         labelId="download-button-select-label"
@@ -64,13 +68,17 @@ export default function DownloadButton({ styles, fileName, icon }) {
                         )}
                     </Select>
                 </FormControl>
-                <DialogActions>
-                    <Button onClick={onDialogClose} color="primary" variant="outlined">
-                        {dialogCancel}
-                    </Button>
-                    <Button onClick={handleDownload} color="primary" variant="outlined">
-                        {dialogConfirm}
-                    </Button>
+                <DialogActions className={classes.buttons}>
+                    <ThemedButton
+                        onClick={onDialogClose}
+                        variant="outlined"
+                        text={dialogCancel}
+                    />
+                    <ThemedButton
+                        onClick={handleDownload}
+                        variant="outlined"
+                        text={dialogConfirm}
+                    />
                 </DialogActions>
             </Dialog>
         </>
