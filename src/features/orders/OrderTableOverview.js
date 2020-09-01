@@ -23,6 +23,7 @@ import {
     Container
 } from '@material-ui/core';
 import { selectPOStatus } from './duck/selectors.js';
+import Loader from '../shared/components/Loader.js';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -32,7 +33,8 @@ const useStyles = makeStyles((theme) => ({
         paddingLeft: theme.spacing(4),
         paddingRight: theme.spacing(4),
         paddingBottom: theme.spacing(4),
-        paddingTop: theme.spacing(1)
+        paddingTop: theme.spacing(1),
+        minHeight: 800
     },
     row: {
         marginTop: theme.spacing(1),
@@ -119,50 +121,51 @@ export default function OrderTableOverview() {
                             { newOrder }
                         </Button>
                     </Grid>
-                    { status === 'IDLE' &&
                     <Grid item xs={ 12 } className={ classes.row }>
-                        <TableContainer>
-                            <Table stickyHeader>
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell />
-                                        { columns && columns.map((col, index) =>
-                                            <TableCell key={ index } align="center" className={ classes.header }>
-                                                { col }
-                                            </TableCell>
-                                        ) }
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    { orders && orders.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                        .map((order, index) => <OrderTableRow key={ index } order={ order }
-                                                                              onDialogOpen={ onDialogOpen }/>)
-                                    }
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
-                        <TablePagination
-                            rowsPerPageOptions={ [10, 25, 100] }
-                            component="div"
-                            count={ orders.length }
-                            rowsPerPage={ rowsPerPage }
-                            page={ page }
-                            onChangePage={ handleChangePage }
-                            onChangeRowsPerPage={ handleChangeRowsPerPage }
-                        />
-                        <Dialog onClose={ onDialogClose } open={ isDialogOpen }>
-                            <DialogTitle id="simple-dialog-title">{ deleteOrderDialogMessage }</DialogTitle>
-                            <DialogActions>
-                                <Button onClick={ onDialogClose } color="primary" variant="outlined">
-                                    { deleteOrderDialogCancelButton }
-                                </Button>
-                                <Button onClick={ handleDeleteRow } color="primary" variant="outlined">
-                                    { deleteOrderDialogConfirmButton }
-                                </Button>
-                            </DialogActions>
-                        </Dialog>
+                        { status === 'PENDING' && <Loader/> }
+                        { status === 'IDLE' &&
+                        <>
+                            <TableContainer>
+                                <Table stickyHeader>
+                                    <TableHead>
+                                        <TableRow>
+                                            <TableCell/>
+                                            { columns && columns.map((col, index) =>
+                                                <TableCell key={ index } align="center" className={ classes.header }>
+                                                    { col }
+                                                </TableCell>
+                                            ) }
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        { orders && orders.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                            .map((order, index) => <OrderTableRow key={ index } order={ order }
+                                                                                  onDialogOpen={ onDialogOpen }/>)
+                                        }
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                            <TablePagination
+                                rowsPerPageOptions={ [10, 25, 100] }
+                                component="div"
+                                count={ orders.length }
+                                rowsPerPage={ rowsPerPage }
+                                page={ page }
+                                onChangePage={ handleChangePage }
+                                onChangeRowsPerPage={ handleChangeRowsPerPage }
+                            />
+                            <Dialog onClose={ onDialogClose } open={ isDialogOpen }>
+                                <DialogTitle id="simple-dialog-title">{ deleteOrderDialogMessage }</DialogTitle>
+                                <DialogActions>
+                                    <Button onClick={ onDialogClose } color="primary" variant="outlined">
+                                        { deleteOrderDialogCancelButton }
+                                    </Button>
+                                    <Button onClick={ handleDeleteRow } color="primary" variant="outlined">
+                                        { deleteOrderDialogConfirmButton }
+                                    </Button>
+                                </DialogActions>
+                            </Dialog></> }
                     </Grid>
-                    }
                 </Grid>
             </Paper>
         </Container>
