@@ -35,34 +35,26 @@ const useStyles = makeStyles({
     }
 })
 
-export default function CreateOrderDetailsForm({ order }) {
+export default function CreateOrderDetailsForm({ setActiveStep }) {
     const classes = useStyles();
     const dispatch = useDispatch();
     const history = useHistory();
 
     const { _id: userId } = useSelector(selectCurrentUser);
-    const {
-        _id: companyId,
-        names: exporterNames,
-        address: exporterAddress,
-        addresses: exporterAddresses
-    } = useSelector(selectCurrentCompany);
+    const { names: exporterNames, addresses: exporterAddresses } = useSelector(selectCurrentCompany);
     const { customerNames, customerAddressMap } = useSelector(selectCIAutocompleteOptions);
-    const { ciRef, date, com, notes, scRef, paymentRef } = useSelector(selectNewCI);
+    const { ciRef, date, fromName, fromAdd, toName, toAdd, com, notes, scRef, paymentRef } = useSelector(selectNewCI);
 
     const { register, control, handleSubmit, watch, errors } = useForm({
         mode: 'onSubmit',
         defaultValues: {
             ciRef,
             date: date.substr(0, 10),
-            fromName: exporterNames[0],
-            fromAdd: exporterAddress,
-            to: order.from,
-            toName: order.fromName,
-            toAdd: order.fromAdd,
+            fromName,
+            fromAdd,
+            toName,
+            toAdd,
             com,
-            pol: order.pol,
-            pod: order.pod,
             notes,
             scRef,
             paymentRef
@@ -77,9 +69,9 @@ export default function CreateOrderDetailsForm({ order }) {
 
     const onButtonNextClick = (data) => {
         data.createdBy = userId;
-        data.from = companyId;
         data.fileName = getFileName('CI', data.ciRef, data.createdBy);
         dispatch(submitCIDetails(data));
+        setActiveStep(step => step + 1);
     }
 
     const onButtonCancelClick = () => history.goBack();
@@ -127,6 +119,7 @@ export default function CreateOrderDetailsForm({ order }) {
                 name="toName"
                 control={ control }
                 rules={ { required: true } }
+                defaultValue={toName}
             />
             <Controller
                 render={ props => (

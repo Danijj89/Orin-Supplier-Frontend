@@ -39,8 +39,6 @@ const getCIDefaultValues = () => ({
 const initialState = commercialInvoiceAdapter.getInitialState({
     status: 'IDLE',
     error: null,
-    steps: LANGUAGE.commercialInvoice.createCI.steps,
-    activeStep: 0,
     autocomplete: {
         itemsRef: [],
         itemDescriptionMap: {},
@@ -63,25 +61,29 @@ const commercialInvoiceSlice = createSlice({
     initialState,
     reducers: {
         startNewCI: (state, action) => {
-            state.activeStep = 0;
             state.newCI = getCIDefaultValues();
         },
         submitCIDetails: (state, action) => {
-            state.activeStep += 1;
             for (const [key, value] of Object.entries(action.payload)) {
                 state.newCI[key] = value;
             }
         },
         submitTableInfo: (state, action) => {
-            state.activeStep += 1;
             for (const [key, value] of Object.entries(action.payload)) {
                 state.newCI[key] = value;
             }
         },
-        prevStep: (state, action) => {
-            if (state.activeStep > 0) {
-                state.activeStep -= 1;
-            }
+        setCIDataFromPO: (state, action) => {
+            const { from, fromName, fromAdd, to, toName, toAdd, pol, pod } = action.payload;
+            state.newCI.from = to;
+            state.newCI.fromName = toName;
+            state.newCI.fromAdd = toAdd;
+            state.newCI.to = from;
+            state.newCI.toName = fromName;
+            state.newCI.toAdd = fromAdd;
+            state.newCI.pol = pol;
+            state.newCI.pod = pod;
+            //TODO also copy items
         }
     },
     extraReducers: {
@@ -130,6 +132,6 @@ const commercialInvoiceSlice = createSlice({
     }
 });
 
-export const { startNewCI, submitCIDetails, submitTableInfo, prevStep } = commercialInvoiceSlice.actions;
+export const { startNewCI, submitCIDetails, submitTableInfo, setCIDataFromPO } = commercialInvoiceSlice.actions;
 
 export default commercialInvoiceSlice.reducer;
