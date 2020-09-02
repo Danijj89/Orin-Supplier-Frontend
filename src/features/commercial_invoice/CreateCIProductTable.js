@@ -57,7 +57,7 @@ export default function CreateCIProductTable(
     const classes = useStyles();
 
     const onButtonDeleteColumnClick = idx => {
-        const newHeaders = headers.map((header, index) => index === idx ? '' : header);
+        const newHeaders = headers.map((header, index) => index === idx ? null : header);
         setHeaders(newHeaders);
     };
 
