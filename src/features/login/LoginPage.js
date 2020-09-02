@@ -85,9 +85,7 @@ export default function LoginPage() {
         }
     })
 
-
     const onSignInClick = async (data) => {
-        // event.preventDefault();
         try {
             const { token, user, company, defaults } = await LoginService.signIn(data);
             sessionStorage.setItem('token', token);
