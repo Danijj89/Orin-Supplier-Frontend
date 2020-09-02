@@ -1,19 +1,19 @@
 export const ENGLISH = {
     login: {
-        loginImage: {
-            title: 'Export has never been this easy',
-            subText: `Seamlessly accept client orders and generate 
-        professional and compliant export documentation`
-        },
         login: {
-            signIn: 'Sign In',
-            missingAccountText: 'Don\'t have an account?',
-            signUp: 'Sign up to be a free Beta User'
-        },
-        loginForm: {
-            email: 'Email',
-            password: 'Password',
-            signIn: 'Sign In'
+            title: 'Sign In',
+            footerText: 'Don\'t have an account?',
+            emailLabel: 'Email',
+            passwordLabel: 'Password',
+            signInButton: 'Sign In',
+            signUpText: 'Sign up to be a free Beta User',
+            imageTitle: 'Export has never been this easy',
+            imageSubText: 'Seamlessly accept client orders and generate professional and compliant export documentation',
+            errorMessages: {
+                emailRequired: 'You need to insert an email',
+                passwordRequired: 'You need to insert a password',
+                emailOrPasswordWrong: 'Email or Password does not match any existing one'
+            }
         }
     },
     home: {
