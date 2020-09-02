@@ -10,10 +10,10 @@ import Button from '@material-ui/core/Button';
 import { Clear as IconClear } from '@material-ui/icons';
 import { getCurrencySymbol } from '../shared/utils.js';
 import { LANGUAGE } from '../../constants.js';
-import { defaultRowValues } from '../packing_list/duck/slice.js';
 import { Grid, IconButton, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import UnitCounter from '../shared/classes/UnitCounter.js';
+import { defaultRowValues } from './duck/slice.js';
 
 const { totals, addRowButton } = LANGUAGE.order.productTable;
 

@@ -2,7 +2,7 @@ import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { LANGUAGE } from '../../../constants.js';
 import { deleteOrder, fetchPOOptions, fetchOrders, submitPO, submitOrderForPreview } from './thunks.js';
 
-const defaultRowValues = ['', '', '', '', 0, 'PCS', 0, 0];
+export const defaultRowValues = ['', '', '', '', 0, 'PCS', 0, 0];
 
 const ordersAdapter = createEntityAdapter({
     selectId: order => order._id,
