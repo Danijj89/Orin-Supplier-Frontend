@@ -1,6 +1,6 @@
 import React from 'react';
 import { LANGUAGE } from '../../../constants.js';
-import { Grid, Button } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import DownloadButton from '../buttons/DownloadButton.js';
 import { makeStyles } from '@material-ui/core/styles';
 import Loader from './Loader.js';

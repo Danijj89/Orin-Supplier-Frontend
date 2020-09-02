@@ -2,7 +2,7 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectCurrentCI, selectNewPL } from './duck/selectors.js';
+import { selectNewPL } from './duck/selectors.js';
 import { TextField, Grid, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { LANGUAGE } from '../../constants.js';

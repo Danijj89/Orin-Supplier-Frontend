@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import { TextField, Button, Grid, Paper } from '@material-ui/core';
+import { Grid, Paper } from '@material-ui/core';
 import { LANGUAGE } from '../../constants.js';
 import { useDispatch, useSelector } from 'react-redux';
 import './styles.css';

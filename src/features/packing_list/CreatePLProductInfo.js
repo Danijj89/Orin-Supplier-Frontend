@@ -7,7 +7,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCurrentDefaults } from '../home/slice.js';
 import AddColumnButton from '../shared/buttons/addColumnButton.js';
-import { selectCurrentCI, selectNewPL } from './duck/selectors.js';
+import { selectNewPL } from './duck/selectors.js';
 import { submitPLTableInfo } from './duck/slice.js';
 import CreatePLProductTable from './CreatePLProductTable.js';
 import UnitCounter from '../shared/classes/UnitCounter.js';
@@ -118,7 +118,6 @@ export default function CreatePLProductInfo({ setActiveStep }) {
         dispatch(submitPLForPreview());
         setActiveStep(preStep => preStep + 1);
     };
-    console.log(errors);
 
     return (
         <form onSubmit={ handleSubmit(onButtonNextClick) } autoComplete="off">

@@ -7,7 +7,7 @@ import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import { getStringFromTotalQuantityObject, yymmddToLocaleDate } from '../shared/utils.js';
 import { useDispatch } from 'react-redux';
-import { selectOrder } from './duck/slice.js';
+import { setCurrentPO } from './duck/slice.js';
 
 const useStyles = makeStyles((theme) => ({
     deleteButtonCell: {
@@ -31,7 +31,7 @@ export default function OrderTableRow({ order, onDialogOpen }) {
     const renderedTotalQuantity = getStringFromTotalQuantityObject(totalQ);
 
     const onRowClick = () => {
-        dispatch(selectOrder(order));
+        dispatch(setCurrentPO(order));
         history.push(`/home/orders/${ orderId }`);
     }
 

@@ -7,7 +7,7 @@ import OrderDetails from './OrderDetails.js';
 import OrderDocuments from './OrderDocuments.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectSelectedOrder } from './duck/selectors.js';
-import { selectOrder } from './duck/slice.js';
+import { setCurrentPO } from './duck/slice.js';
 
 const { orderDetailsTab, documentsTab } = LANGUAGE.order.order;
 
@@ -24,7 +24,7 @@ export default function Order({ match }) {
         }
         const fetchOrder = async () => {
             const order = await POService.fetchOrderById(id);
-            dispatch(selectOrder(order));
+            dispatch(setCurrentPO(order));
         };
         if (!order || !isDocumentsPopulated(order)) fetchOrder().then();
     }, [id, dispatch, order]);

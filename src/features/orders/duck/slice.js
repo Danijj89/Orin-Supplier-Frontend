@@ -49,7 +49,7 @@ const initialState = ordersAdapter.getInitialState({
         ports: []
     },
     newPO: getOrderDefaultValues(),
-    selectedOrder: null,
+    currentPO: null,
     previewFileURL: null
 });
 
@@ -70,13 +70,13 @@ const ordersSlice = createSlice({
                 state.newPO[key] = value;
             }
         },
-        selectOrder: (state, action) => {
-            state.selectedOrder = action.payload;
+        setCurrentPO: (state, action) => {
+            state.currentPO = action.payload;
         },
         updateOrderDocument: (state, action) => {
             const { docType, doc } = action.payload;
-            const { _id } = state.selectedOrder;
-            state.selectedOrder.documents[docType] = doc;
+            const { _id } = state.currentPO;
+            state.currentPO.documents[docType] = doc;
             const entity = state.entities[_id];
             if (entity) {
             const newDocuments = entity.documents;
@@ -86,8 +86,8 @@ const ordersSlice = createSlice({
         },
         deleteOrderDocument: (state, action) => {
             const { docType, id } = action.payload;
-            const { [docType]: type, ...rest} = state.selectedOrder.documents;
-            state.selectedOrder.documents = rest;
+            const { [docType]: type, ...rest} = state.currentPO.documents;
+            state.currentPO.documents = rest;
             ordersAdapter.updateOne(state, { id, changes: { documents: rest }})
         }
     },
@@ -140,7 +140,7 @@ const ordersSlice = createSlice({
 });
 
 export const { startNewOrder, submitOrderDetails, submitPOProductInfo,
-    selectOrder, updateOrderDocument, deleteOrderDocument } = ordersSlice.actions;
+    setCurrentPO, updateOrderDocument, deleteOrderDocument } = ordersSlice.actions;
 
 export const {
     selectAll: selectAllOrders,
