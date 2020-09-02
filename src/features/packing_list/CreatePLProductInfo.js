@@ -56,22 +56,8 @@ export default function CreatePLProductInfo({ setActiveStep }) {
     const { itemUnits, measurementUnits, weightUnits, packageUnits } = useSelector(selectCurrentDefaults);
     const {
         headers: defaultHeaders, measurementUnit, weightUnit, totalP,
-        totalNW, totalGW, totalD
+        totalNW, totalGW, totalD, items, totalQ
     } = useSelector(selectNewPL);
-    const { items: CIItems, totalQ } = useSelector(selectCurrentCI);
-    const initialItems = CIItems.map(item => [
-        item.ref,
-        item.description,
-        '',
-        '',
-        item.quantity,
-        item.unit,
-        0,
-        'CTN',
-        0,
-        0,
-        0
-    ]);
 
     const {
         register, control, handleSubmit, errors, setValue, watch
@@ -80,7 +66,7 @@ export default function CreatePLProductInfo({ setActiveStep }) {
         defaultValues: {
             measurementUnit,
             weightUnit,
-            items: initialItems,
+            items: items,
             headers: defaultHeaders,
             marks: '',
             totalQ: new UnitCounter(itemUnits, totalQ),

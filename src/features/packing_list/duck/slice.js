@@ -32,7 +32,7 @@ const getPLDefaultValues = () => ({
     headers: LANGUAGE.packingList.createPLProductTable.defaultHeaders,
     items: [],
     totalQ: null,
-    totalP: { 'CTN': 0 },
+    totalP: null,
     totalNW: 0,
     totalGW: 0,
     totalD: 0
@@ -59,6 +59,23 @@ const packingListSlice = createSlice({
         },
         setCurrentCI: (state, action) => {
             state.currentCI = action.payload;
+            const { from, fromName, fromAdd, to, toName, toAdd,
+                pol, pod, ciRef, poRefs, poIds, items, totalQ } = action.payload;
+            state.newPL.from = from;
+            state.newPL.fromName = fromName;
+            state.newPL.fromAdd = fromAdd;
+            state.newPL.to = to;
+            state.newPL.toName = toName;
+            state.newPL.toAdd = toAdd;
+            state.newPL.pol = pol;
+            state.newPL.pod = pod;
+            state.newPL.ciRef = ciRef;
+            state.newPL.poRefs = poRefs;
+            state.newPL.poIds = poIds;
+            state.newPL.totalQ = totalQ;
+            for (const item of items) {
+                state.newPL.items.push([item.ref, item.description, '', '', item.quantity, item.unit, 0, 'CTN', 0, 0, 0]);
+            }
         },
         submitPLDetails: (state, action) => {
             for (const [key, value] of Object.entries(action.payload)) {

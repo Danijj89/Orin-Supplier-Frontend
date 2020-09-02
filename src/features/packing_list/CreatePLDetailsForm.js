@@ -36,7 +36,6 @@ export default function CreateOrderDetailsForm({ setActiveStep }) {
 
     const { _id: userId } = useSelector(selectCurrentUser);
     const { plRef, date, notes } = useSelector(selectNewPL);
-    const ci = useSelector(selectCurrentCI);
     const { register, handleSubmit, errors } = useForm({
         mode: 'onBlur',
         defaultValues: {
@@ -48,17 +47,6 @@ export default function CreateOrderDetailsForm({ setActiveStep }) {
 
     const onButtonNextClick = (data) => {
         data.createdBy = userId;
-        data.from = ci.from;
-        data.fromName = ci.fromName;
-        data.fromAdd = ci.fromAdd;
-        data.to = ci.to;
-        data.toName = ci.toName;
-        data.toAdd = ci.toAdd;
-        data.pol = ci.pol;
-        data.pod = ci.pod;
-        data.ciRef = ci.ciRef;
-        data.poRefs = ci.poRefs;
-        data.poIds = ci.poIds;
         data.fileName = getFileName('PL', data.plRef, data.createdBy);
         dispatch(submitPLDetails(data));
         setActiveStep(prev => prev + 1);
