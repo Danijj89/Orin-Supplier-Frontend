@@ -73,8 +73,8 @@ export const ENGLISH = {
         'Unit Price',
         'Amount',
       ],
-      totals: 'Total:',
-      addRowButton: 'Add',
+      totals: '合计:',
+      addRowButton: '添加',
     },
     orderPreview: {
       buttonProductInfo: '货物详情',
@@ -149,7 +149,7 @@ export const ENGLISH = {
         'Unit Price',
         'Amount',
       ],
-      totalQuantity: 'Total:',
+      totalQuantity: '合计:',
     },
     createCIPreview: {
       buttonPrev: '上一步: 货物信息',
@@ -192,8 +192,8 @@ export const ENGLISH = {
         'Gross Weight',
         'Dimension',
       ],
-      addRowButton: 'Add',
-      totalsText: 'Totals:',
+      addRowButton: '添加',
+      totalsText: '合计:',
     },
     createPLPreview: {
       prevButton: '上一步: 货物信息',
