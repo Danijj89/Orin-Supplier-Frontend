@@ -18,6 +18,7 @@ import { defaultRowValues } from './duck/slice.js';
 import { LANGUAGE } from '../../constants.js';
 import _ from 'lodash';
 import UnitCounter from '../shared/classes/UnitCounter.js';
+import { roundTo2Decimal } from '../shared/utils.js';
 
 const { addRowButton, totalsText } = LANGUAGE.packingList.createPLProductTable;
 
@@ -59,6 +60,7 @@ export default function CreatePLProductTable(
     const onCellChange = (rowIdx, colIdx, val) => {
         const newItem = [...items[rowIdx]];
         if (colIdx === 4) {
+            val = parseInt(val);
             const unit = newItem[5];
             const diff = val - newItem[colIdx];
             totalQ.addUnit(unit, diff);
@@ -70,6 +72,7 @@ export default function CreatePLProductTable(
             totalQ.addUnit(val, quantity);
             setValue('totalQ', new UnitCounter(totalQ.units, totalQ.data));
         } else if (colIdx === 6) {
+            val = parseInt(val);
             const unit = newItem[7];
             const diff = val - newItem[colIdx];
             totalP.addUnit(unit, diff);
@@ -81,11 +84,14 @@ export default function CreatePLProductTable(
             totalP.addUnit(val, quantity);
             setValue('totalP', new UnitCounter(totalP.units, totalP.data));
         } else if (colIdx === 8) {
-            setValue('totalNW', totalNW - newItem[colIdx] + val);
+            val = roundTo2Decimal(val);
+            setValue('totalNW', roundTo2Decimal(totalNW - newItem[colIdx] + val));
         } else if (colIdx === 9) {
-            setValue('totalGW', totalGW - newItem[colIdx] + val);
+            val = roundTo2Decimal(val);
+            setValue('totalGW', roundTo2Decimal(totalGW - newItem[colIdx] + val));
         } else if (colIdx === 10) {
-            setValue('totalD', totalD - newItem[colIdx] + val);
+            val = roundTo2Decimal(val);
+            setValue('totalD', roundTo2Decimal(totalD - newItem[colIdx] + val));
         }
         newItem[colIdx] = val;
         setValue('items', [...items.slice(0, rowIdx), newItem, ...items.slice(rowIdx + 1)]);

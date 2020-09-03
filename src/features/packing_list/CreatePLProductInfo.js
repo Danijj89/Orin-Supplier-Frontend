@@ -78,19 +78,17 @@ export default function CreatePLProductInfo({ setActiveStep }) {
     });
 
     const validateItems = (items) => {
-        if (items.length > 0) {
-            const first = items[0];
-            for (let i = 0; i < first.length; i++) {
-                if (i === 2 || i === 3) continue;
-                if (!first[i]) return false;
+        for (const item of items) {
+            for (let i = 0; i < item.length; i++) {
+                if (i >= 1 && i <= 3) continue;
+                if (!item[i]) return errorMessages.missingItemInfo;
             }
-            return true;
         }
-        return false;
+        return true;
     }
 
     useEffect(() => {
-        register({ name: 'items' }, { validate: (items) => validateItems(items) || errorMessages.items});
+        register({ name: 'items' }, { validate: validateItems});
         register({ name: 'headers' });
         register({ name: 'totalQ '});
         register({ name: 'totalP' });
