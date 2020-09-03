@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { selectCurrentCompany, selectCurrentUser } from '../home/slice.js';
@@ -43,28 +43,38 @@ export default function CreateOrderDetailsForm({ setActiveStep }) {
     const { _id: userId } = useSelector(selectCurrentUser);
     const { names: exporterNames, addresses: exporterAddresses } = useSelector(selectCurrentCompany);
     const { customerNames, customerAddressMap } = useSelector(selectCIAutocompleteOptions);
-    const { ciRef, date, fromName, fromAdd, toName, toAdd, com, notes, scRef, paymentRef } = useSelector(selectNewCI);
+    const newCI = useSelector(selectNewCI);
 
-    const { register, control, handleSubmit, watch, errors } = useForm({
+    const { register, control, handleSubmit, watch, errors, setValue } = useForm({
         mode: 'onSubmit',
         defaultValues: {
-            ciRef,
-            date: date.substr(0, 10),
-            fromName,
-            fromAdd,
-            toName,
-            toAdd,
-            com,
-            notes,
-            scRef,
-            paymentRef
+            ciRef: newCI.ciRef,
+            date: newCI.date.substr(0, 10),
+            fromName: newCI.fromName,
+            fromAdd: newCI.fromAdd,
+            toName: newCI.toName,
+            toAdd: newCI.toAdd,
+            com: newCI.com,
+            notes: newCI.notes,
+            scRef: newCI.scRef,
+            paymentRef: newCI.paymentRef
         }
     });
 
-    const chosenCustomer = watch('toName', []);
+    const toName = watch('toName', []);
+
+
+    useEffect(() => {
+        setValue('fromName', newCI.fromName);
+        setValue('fromAdd', newCI.fromAdd);
+        setValue('toName', newCI.toName);
+        setValue('toAdd', newCI.toAdd);
+    }, [setValue, newCI]);
+
+
     const chosenCustomerAddresses = () =>
-        customerAddressMap.hasOwnProperty(chosenCustomer)
-            ? customerAddressMap[chosenCustomer]
+        customerAddressMap.hasOwnProperty(toName)
+            ? customerAddressMap[toName]
             : [];
 
     const onButtonNextClick = (data) => {
@@ -119,7 +129,7 @@ export default function CreateOrderDetailsForm({ setActiveStep }) {
                 name="toName"
                 control={ control }
                 rules={ { required: true } }
-                defaultValue={toName}
+                defaultValue={ toName }
             />
             <Controller
                 render={ props => (

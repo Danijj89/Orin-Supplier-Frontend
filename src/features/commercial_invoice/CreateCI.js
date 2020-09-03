@@ -64,7 +64,7 @@ export default function CreateCI() {
             <DocumentStepper steps={steps} activeStep={activeStep} />
             <Typography variant="h5">{title}</Typography>
             <hr/>
-            {order && activeStep === 0 && <CreateCIDetailsForm setActiveStep={setActiveStep}/>}
+            {activeStep === 0 && <CreateCIDetailsForm setActiveStep={setActiveStep}/>}
             {/*{currOrder && activeStep === 1 && <CreateCIProductInfo order={currOrder}/>}*/}
             {activeStep === 2 &&
             <DocumentPreview
