@@ -36,7 +36,7 @@ export default function OrderTableRow({ order, onDialogOpen }) {
 
     const onRowClick = () => {
         dispatch(setCurrentPO(order));
-        history.push(`/home/orders/${ orderId }`);
+        history.push(`/home/orders/${ orderId }/0`);
     }
 
 

@@ -8,14 +8,17 @@ import OrderDocuments from './OrderDocuments.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectSelectedOrder } from './duck/selectors.js';
 import { setCurrentPO } from './duck/slice.js';
+import { useHistory } from 'react-router-dom';
 
 const { orderDetailsTab, documentsTab } = LANGUAGE.order.order;
 
 export default function Order({ match }) {
     const dispatch = useDispatch();
-    const { id } = match.params;
+    const history = useHistory();
+    const { id, page } = match.params;
     const order = useSelector(selectSelectedOrder);
-    const [tabValue, setTabValue] = useState(0);
+    const initialPage = page === 0 || page === 1 ? page : 0;
+    const [tabValue, setTabValue] = useState(initialPage);
 
     useEffect(() => {
         const isDocumentsPopulated = (order) => {
@@ -31,6 +34,7 @@ export default function Order({ match }) {
 
     const onTabChange = (event, newValue) => {
         setTabValue(newValue);
+        history.push(`/home/orders/${id}/${newValue}`);
     };
 
     return (
@@ -45,8 +49,8 @@ export default function Order({ match }) {
                 <Tab label={ orderDetailsTab } component="span"/>
                 <Tab label={ documentsTab } component="span"/>
             </Tabs>
-            {tabValue === 0 && <OrderDetails order={ order } />}
-            {tabValue === 1 && <OrderDocuments order={order} />}
+            { tabValue === 0 && <OrderDetails order={ order }/> }
+            { tabValue === 1 && <OrderDocuments order={ order }/> }
         </Container>
     )
 }

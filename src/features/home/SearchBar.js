@@ -58,7 +58,7 @@ export default function SearchBar() {
   const onSubmit = () => {
     if (refs.includes(searchTerm)) {
       const poId = orders.find((order) => order.poRef === searchTerm)._id;
-      history.push(`/home/orders/${poId}`);
+      history.push(`/home/orders/${poId}/0`);
     }
   };
 

@@ -53,7 +53,7 @@ export default function CreatePL() {
     const onPreviewSubmitButtonClick = () => {
         dispatch(submitPL());
         dispatch(startNewPL());
-        history.push(`/home/orders/${order._id}`);
+        history.push(`/home/orders/${order._id}/1`);
     }
 
     return (

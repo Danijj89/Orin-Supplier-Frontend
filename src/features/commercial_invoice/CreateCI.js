@@ -34,7 +34,7 @@ export default function CreateCI() {
 
     const onPreviewSubmitButtonClick = () => {
         dispatch(submitCI());
-        history.push(`/home/orders/${ currOrderId }`);
+        history.push(`/home/orders/${ currOrderId }/1`);
     }
 
     return (
