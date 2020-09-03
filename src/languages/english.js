@@ -233,6 +233,9 @@ export const ENGLISH = {
                 'CI': 'CI',
                 'PL': 'PL'
             }
+        },
+        featureInProgressTag: {
+            title: 'Feature in Progress'
         }
     },
     defaults: {

@@ -233,6 +233,9 @@ export const CHINESE = {
                 'CI': 'CI',
                 'PL': 'PL'
             }
+        },
+        featureInProgressTag: {
+            title: 'Feature in Progress'
         }
     },
     defaults: {

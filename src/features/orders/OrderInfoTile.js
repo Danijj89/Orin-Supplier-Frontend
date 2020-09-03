@@ -7,7 +7,8 @@ import DeleteIcon from '@material-ui/icons/Delete.js';
 import { useDispatch } from 'react-redux';
 import { deleteOrder } from './duck/thunks.js';
 import { getStringFromTotalQuantityObject, yymmddToLocaleDate } from '../shared/utils.js';
-import DocumentTag from '../shared/DocumentTag.js';
+import DocumentTag from '../shared/displays/DocumentTag.js';
+import FeatureInProgressTag from '../shared/displays/FeatureInProgressTag.js';
 
 const { dateTitle, crdTitle , editButton, incotermTitle , quantityTitle,
     deleteOrderDialogCancelButton, deleteOrderDialogConfirmButton, deleteOrderDialogMessage } = LANGUAGE.order.orderInfoTile;
@@ -38,6 +39,12 @@ const useStyles = makeStyles({
     },
     value: {
         display: 'inline-block',
+    },
+    edit: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        width: 55
     }
 })
 
@@ -113,7 +120,9 @@ export default function OrderInfoTile({order}) {
                             </Button>
                         </DialogActions>
                     </Dialog>
-                    <Button variant="outlined">{editButton}</Button>
+                    <Button variant="outlined">
+                        <Typography className={classes.edit}>{editButton}<FeatureInProgressTag /></Typography>
+                    </Button>
                 </Grid>
                 <Grid
                     container

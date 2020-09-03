@@ -26,6 +26,7 @@ import {
   PeopleOutlined as IconPeople,
   DescriptionOutlined as IconDescription,
 } from '@material-ui/icons';
+import FeatureInProgressTag from '../shared/displays/FeatureInProgressTag.js';
 
 const { orders, clients, documents } = LANGUAGE.home.sidePanel;
 
@@ -125,6 +126,7 @@ export default function SidePanel() {
           >
             <IconPeople className={classes.icon} />
             <ListItemText className={classes.tabsText}>{clients}</ListItemText>
+            <FeatureInProgressTag />
           </ListItem>
           <ListItem
             button
@@ -137,6 +139,7 @@ export default function SidePanel() {
             <ListItemText className={classes.tabsText}>
               {documents}
             </ListItemText>
+            <FeatureInProgressTag />
           </ListItem>
         </List>
         <Divider />
