@@ -130,7 +130,12 @@ export const ENGLISH = {
             currencyLabel: 'Currencies',
             marksLabel: 'Marks and Numbers',
             buttonPrev: 'Back: Invoice Details',
-            buttonNext: 'Next: Review'
+            buttonNext: 'Next: Review',
+            errorMessages: {
+                items: 'You must fill at least one row of data.',
+                poRefs: 'You must reference at least one Purchase Order.',
+                currency: 'You must select a currency.'
+            }
         },
         createCIProductTable: {
             defaultHeaders: ['Item Ref', 'Product Description', null, null, 'Quantity', 'Unit', 'Unit Price', 'Amount'],
