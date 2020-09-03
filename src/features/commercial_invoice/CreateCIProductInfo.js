@@ -181,7 +181,7 @@ export default function CreateCIProductInfo({ setActiveStep }) {
                     alignItems="center"
                     xs={ 12 }
                 >
-                    { Object.keys(errors).length > 0 && <ErrorMessage errors={ Object.values(errors) }/> }
+                    { Object.keys(errors).length > 0 && <ErrorMessage errors={ Object.values(errors).map(err => err.message) }/> }
                 </Grid>
                 <Grid item xs={ 12 } className={ classes.row }>
                     <CreateCIProductTable

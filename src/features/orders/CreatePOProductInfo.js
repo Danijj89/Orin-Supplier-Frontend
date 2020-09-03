@@ -114,7 +114,7 @@ export default function CreatePOProductInfo({ setActiveStep }) {
                         alignItems="center"
                         xs={ 12 }
                     >
-                        { Object.keys(errors).length > 0 && <ErrorMessage errors={ Object.values(errors) }/> }
+                        { Object.keys(errors).length > 0 && <ErrorMessage errors={ Object.values(errors).map(err => err.message) }/> }
                     </Grid>
                 </Grid>
                 <Grid item className={ classes.row }>

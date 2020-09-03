@@ -13,12 +13,13 @@ const useStyles = makeStyles({
 
 export default function ErrorMessage({ errors }) {
     const classes = useStyles();
+    console.log(errors);
 
     return (
         <List>
             {errors && errors.map((error, index) =>
                 <ListItem key={index} className={classes.listItem}>
-                    <ListItemText primary={error.message} className={classes.error}/>
+                    <ListItemText primary={error} className={classes.error}/>
                 </ListItem>
             )}
         </List>

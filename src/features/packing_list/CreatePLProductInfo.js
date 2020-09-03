@@ -194,7 +194,7 @@ export default function CreatePLProductInfo({ setActiveStep }) {
                     alignItems="center"
                     xs={ 12 }
                 >
-                    <ErrorMessage errors={ Object.values(errors) }/>
+                    <ErrorMessage errors={ Object.values(errors).map(err => err.message) }/>
                 </Grid>
                 }
                 <Grid item xs={ 12 } className={ classes.tableRow }>
