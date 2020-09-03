@@ -8,7 +8,7 @@ import TableBody from '@material-ui/core/TableBody';
 import CreatePOTableRow from './CreatePOTableRow.js';
 import Button from '@material-ui/core/Button';
 import { Clear as IconClear } from '@material-ui/icons';
-import { getCurrencySymbol } from '../shared/utils.js';
+import { getCurrencySymbol, roundTo2Decimal } from '../shared/utils.js';
 import { LANGUAGE } from '../../constants.js';
 import { Grid, IconButton, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -87,13 +87,14 @@ export default function CreatePOProductTable({ watch, setValue, numActiveColumns
     const onCellChange = (rowIdx, colIdx, val) => {
         const newItem = [...items[rowIdx]];
         if (colIdx === 4) {
+            val = parseInt(val);
             const unit = newItem[5];
             const diff = val - newItem[colIdx];
             totalQ.addUnit(unit, diff);
             setValue('totalQ', new UnitCounter(totalQ.units, totalQ.data));
             const price = newItem[6];
-            setValue('totalA', totalA + (price * diff));
-            newItem[7] = val * price;
+            setValue('totalA', roundTo2Decimal(totalA + (price * diff)));
+            newItem[7] = roundTo2Decimal(val * price);
         } else if (colIdx === 5) {
             const prevUnit = newItem[colIdx];
             const quantity = newItem[4];
@@ -101,10 +102,11 @@ export default function CreatePOProductTable({ watch, setValue, numActiveColumns
             totalQ.addUnit(val, quantity);
             setValue('totalQ', new UnitCounter(totalQ.units, totalQ.data));
         } else if (colIdx === 6) {
+            val = roundTo2Decimal(val);
             const diff = val - newItem[colIdx];
             const quantity = newItem[4];
-            setValue('totalA', totalA + (quantity * diff));
-            newItem[7] = val * quantity;
+            setValue('totalA', roundTo2Decimal(totalA + (quantity * diff)));
+            newItem[7] = roundTo2Decimal(val * quantity);
         }
         newItem[colIdx] = val;
         setValue('items', [...items.slice(0, rowIdx), newItem, ...items.slice(rowIdx + 1)]);

@@ -96,7 +96,6 @@ export default function CreateCIProductTable(
             setValue('totalA', roundTo2Decimal(totalA + (price * diff)));
             newItem[7] = roundTo2Decimal(val * price);
         } else if (colIdx === 5) {
-            val = roundTo2Decimal(val);
             const prevUnit = newItem[colIdx];
             const quantity = newItem[4];
             totalQ.subtractUnit(prevUnit, quantity);
