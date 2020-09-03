@@ -29,7 +29,7 @@ export const submitPL = createAsyncThunk(
 export const deletePL = createAsyncThunk('pl/deletePL', async (id, { getState, dispatch }) => {
     const status = await PLService.deletePL(id);
     if (!status) return Promise.reject('Unable to delete PL');
-    const { selectedOrder } = getState().orders;
-    dispatch(deleteOrderDocument({ id: selectedOrder._id, docType: 'PL' }));
+    const { currentPO } = getState().orders;
+    dispatch(deleteOrderDocument({ id: currentPO._id, docType: 'PL' }));
     return status;
 })
