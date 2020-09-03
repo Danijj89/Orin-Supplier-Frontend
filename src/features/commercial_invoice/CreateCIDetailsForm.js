@@ -43,38 +43,32 @@ export default function CreateOrderDetailsForm({ setActiveStep }) {
     const { _id: userId } = useSelector(selectCurrentUser);
     const { names: exporterNames, addresses: exporterAddresses } = useSelector(selectCurrentCompany);
     const { customerNames, customerAddressMap } = useSelector(selectCIAutocompleteOptions);
-    const newCI = useSelector(selectNewCI);
+    const { ciRef, date, fromName, fromAdd, toName,
+        toAdd, com, notes, scRef, paymentRef, pol, pod } = useSelector(selectNewCI);
 
-    const { register, control, handleSubmit, watch, errors, setValue } = useForm({
+    const { register, control, handleSubmit, watch, errors } = useForm({
         mode: 'onSubmit',
         defaultValues: {
-            ciRef: newCI.ciRef,
-            date: newCI.date.substr(0, 10),
-            fromName: newCI.fromName,
-            fromAdd: newCI.fromAdd,
-            toName: newCI.toName,
-            toAdd: newCI.toAdd,
-            com: newCI.com,
-            notes: newCI.notes,
-            scRef: newCI.scRef,
-            paymentRef: newCI.paymentRef
+            ciRef,
+            date: date.substr(0, 10),
+            fromName,
+            fromAdd,
+            toName,
+            toAdd,
+            com,
+            notes,
+            scRef,
+            paymentRef,
+            pol,
+            pod
         }
     });
 
-    const toName = watch('toName', []);
-
-
-    useEffect(() => {
-        setValue('fromName', newCI.fromName);
-        setValue('fromAdd', newCI.fromAdd);
-        setValue('toName', newCI.toName);
-        setValue('toAdd', newCI.toAdd);
-    }, [setValue, newCI]);
-
+    const importerName = watch('toName', []);
 
     const chosenCustomerAddresses = () =>
-        customerAddressMap.hasOwnProperty(toName)
-            ? customerAddressMap[toName]
+        customerAddressMap.hasOwnProperty(importerName)
+            ? customerAddressMap[importerName]
             : [];
 
     const onButtonNextClick = (data) => {
@@ -129,7 +123,6 @@ export default function CreateOrderDetailsForm({ setActiveStep }) {
                 name="toName"
                 control={ control }
                 rules={ { required: true } }
-                defaultValue={ toName }
             />
             <Controller
                 render={ props => (

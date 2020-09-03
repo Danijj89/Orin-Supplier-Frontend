@@ -1,13 +1,13 @@
 import { fetchWithAuth } from '../shared/fetchWithAuth.js';
 
-const fetchCIOptions = async (companyId) => {
+const fetchNewCIData = async (companyId, orderId) => {
     const configs = {
         method: 'get',
-        url: `/companies/${companyId}/document_autocomplete/ci`
+        url: `/companies/${companyId}/ci/new/${orderId}`
     };
     const { data } = await fetchWithAuth(configs);
     return data;
-};
+}
 
 const generateCIFiles = async (ci) => {
     const configs = {
@@ -53,7 +53,8 @@ const CIService =  {
     generateCIFiles,
     createNewCI,
     deleteCI,
-    fetchCIById
+    fetchCIById,
+    fetchNewCIData
 };
 
 export default CIService;

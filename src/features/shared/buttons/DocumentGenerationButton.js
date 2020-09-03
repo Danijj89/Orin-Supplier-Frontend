@@ -6,8 +6,8 @@ import { selectCurrentDefaults } from '../../home/slice.js';
 import { LANGUAGE } from '../../../constants.js';
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
-import { startNewCI } from '../../commercial_invoice/duck/slice.js';
 import { startNewPL } from '../../packing_list/duck/slice.js';
+import { startNewCI } from '../../commercial_invoice/duck/thunks.js';
 
 const { buttonText, dialogCancel, dialogConfirm, dialogTitle, typeLabel, errors } = LANGUAGE.shared.generateDocumentButton;
 const { documentNames } = LANGUAGE.defaults;
@@ -43,7 +43,7 @@ export default function DocumentGenerationButton({styles, order}) {
         switch (document) {
             case 'CI':
                 if (order.documents.hasOwnProperty('CI')) return setError(errors.ciExists);
-                else dispatch(startNewCI());
+                else dispatch(startNewCI(orderId));
                 break;
             case 'PL':
                 if (!order.documents.hasOwnProperty('CI')) return setError(errors.ciFirst);
