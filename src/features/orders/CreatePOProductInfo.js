@@ -46,19 +46,17 @@ export default function CreatePOProductInfo({ setActiveStep }) {
     });
 
     const validateItems = (items) => {
-        if (items.length > 0) {
-            const first = items[0];
-            for (let i = 0; i < first.length; i++) {
-                if (i === 2 || i === 3) continue;
-                if (!first[i]) return false;
+        for (const item of items) {
+            for (let i = 0; i < item.length; i++) {
+                if (i >= 1 && i <= 3) continue;
+                if (!item[i]) return errorMessages.missingItemInfo;
             }
-            return true;
         }
-        return false;
+        return true;
     }
 
     useEffect(() => {
-        register({ name: 'items' }, { validate: (items) => validateItems(items) || errorMessages.items});
+        register({ name: 'items' }, { validate: validateItems });
         register({ name: 'headers' });
         register({ name: 'totalQ' });
         register({ name: 'totalA' });
@@ -84,12 +82,12 @@ export default function CreatePOProductInfo({ setActiveStep }) {
     };
 
     return (
-        <Paper className={classes.paper}>
+        <Paper className={ classes.paper }>
             <form onSubmit={ handleSubmit(onNextButtonClick) } autoComplete="off">
                 <Grid container>
                     <Grid
                         container
-                        className={classes.row}
+                        className={ classes.row }
                         item
                         justify="space-between"
                         alignItems="center"
@@ -100,7 +98,7 @@ export default function CreatePOProductInfo({ setActiveStep }) {
                             label={ currencyLabel }
                             error={ errors.currency }
                             name="currency"
-                            control={control}
+                            control={ control }
                             errorMessage={ errorMessages.currency }
                         />
                         <AddColumnButton
@@ -119,23 +117,23 @@ export default function CreatePOProductInfo({ setActiveStep }) {
                         { Object.keys(errors).length > 0 && <ErrorMessage errors={ Object.values(errors) }/> }
                     </Grid>
                 </Grid>
-                <Grid item className={classes.row}>
+                <Grid item className={ classes.row }>
                     <CreatePOProductTable
                         watch={ watch }
                         setValue={ setValue }
                         numActiveColumns={ numActiveColumns }
                     />
                 </Grid>
-                <Grid container className={classes.row} item justify="space-around" xs={12}>
+                <Grid container className={ classes.row } item justify="space-around" xs={ 12 }>
                     <ThemedButton
                         variant="outlined"
                         onClick={ onPrevButtonClick }
-                        text={prevButton}
+                        text={ prevButton }
                     />
                     <ThemedButton
                         variant="contained"
                         type="submit"
-                        text={nextButton}
+                        text={ nextButton }
                     />
                 </Grid>
             </form>
