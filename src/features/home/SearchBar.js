@@ -10,93 +10,96 @@ import { fetchOrders } from '../orders/duck/thunks.js';
 import { selectPOStatus } from '../orders/duck/selectors.js';
 
 const useStyles = makeStyles((theme) => ({
-    container: {
-        display: 'flex',
-        padding: theme.spacing(1)
+  container: {
+    display: 'flex',
+    paddingLeft: theme.spacing(3),
+    paddingRight: theme.spacing(3),
+    paddingBottom: theme.spacing(1),
+    paddingTop: theme.spacing(1),
+  },
+  paper: {
+    width: '100%',
+    borderRadius: 4,
+  },
+  searchFieldRoot: {
+    backgroundColor: theme.palette.backgroundPrimary.main,
+    borderRadius: 4,
+    '& label.Mui-focused': {
+      color: 'white',
     },
-    paper: {
-        width: '100%',
-        borderRadius: 4
+    '& .MuiInput-underline:after': {
+      borderBottomColor: 'white',
     },
-    searchFieldRoot: {
-        backgroundColor: theme.palette.backgroundPrimary.main,
-        borderRadius: 4,
-        '& label.Mui-focused': {
-            color: 'white',
-        },
-        '& .MuiInput-underline:after': {
-            borderBottomColor: 'white',
-        },
-        '& .MuiOutlinedInput-root': {
-            '& fieldset': {
-                borderColor: 'white',
-            },
-            '&:hover fieldset': {
-                borderColor: 'white',
-            },
-            '&.Mui-focused fieldset': {
-                borderColor: 'white',
-            },
-        },
-    }
+    '& .MuiOutlinedInput-root': {
+      '& fieldset': {
+        borderColor: 'white',
+      },
+      '&:hover fieldset': {
+        borderColor: 'white',
+      },
+      '&.Mui-focused fieldset': {
+        borderColor: 'white',
+      },
+    },
+  },
 }));
 
 export default function SearchBar() {
-    const classes = useStyles();
-    const dispatch = useDispatch();
-    const history = useHistory();
-    const [searchTerm, setSearchTerm] = useState('');
-    const orders = useSelector(selectAllOrders);
-    const refs = orders.map(order => order.poRef);
-    const status = useSelector(selectPOStatus);
+  const classes = useStyles();
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const [searchTerm, setSearchTerm] = useState('');
+  const orders = useSelector(selectAllOrders);
+  const refs = orders.map((order) => order.poRef);
+  const status = useSelector(selectPOStatus);
 
-    const onSearchTermChange = val => setSearchTerm(val);
+  const onSearchTermChange = (val) => setSearchTerm(val);
 
-    const onSubmit = () => {
-        if (refs.includes(searchTerm)) {
-            const poId = orders.find(order => order.poRef === searchTerm)._id;
-            history.push(`/home/orders/${ poId }`);
-        }
+  const onSubmit = () => {
+    if (refs.includes(searchTerm)) {
+      const poId = orders.find((order) => order.poRef === searchTerm)._id;
+      history.push(`/home/orders/${poId}`);
     }
+  };
 
-    const mounted = useRef();
-    useEffect(() => {
-        if (orders.length === 0) {
-            if (mounted.current !== status && status === 'IDLE') {
-                dispatch(fetchOrders());
-                mounted.current = status;
-            }
-        }
-    }, [dispatch, orders, status]);
+  const mounted = useRef();
+  useEffect(() => {
+    if (orders.length === 0) {
+      if (mounted.current !== status && status === 'IDLE') {
+        dispatch(fetchOrders());
+        mounted.current = status;
+      }
+    }
+  }, [dispatch, orders, status]);
 
-    return (
-        <Container className={ classes.container }>
-            <Paper className={ classes.paper } elevation={2}>
-                <Autocomplete
-                    freeSolo
-                    autoSelect
-                    options={ refs }
-                    renderInput={ params => (
-                        <TextField
-                            { ...params }
-                            variant="outlined"
-                            InputProps={ {
-                                ...params.InputProps,
-                                startAdornment: <IconSearch onClick={ onSubmit }/>,
-                                classes: { root: classes.searchFieldRoot }
-                            } }
-                            classes={ { root: classes.searchFieldRoot }}
-                        />
-                    ) }
-                    onChange={ (_, data) => onSearchTermChange(data) }
-                    value={ searchTerm }
-                    size="small"
-                    fullWidth
-                    onKeyUp={ (e) => {
-                        if (e.key === 'Enter') onSubmit();
-                    } }
-                />
-            </Paper>
-        </Container>
-    );
+  return (
+    <Container className={classes.container}>
+      <Paper className={classes.paper} elevation={2}>
+        <Autocomplete
+          freeSolo
+          autoSelect
+          options={refs}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              variant="outlined"
+              InputProps={{
+                ...params.InputProps,
+                startAdornment: <IconSearch onClick={onSubmit} />,
+                classes: { root: classes.searchFieldRoot },
+              }}
+              classes={{ root: classes.searchFieldRoot }}
+            />
+          )}
+          onChange={(_, data) => onSearchTermChange(data)}
+          value={searchTerm}
+          size="small"
+          fullWidth
+          onKeyUp={(e) => {
+            if (e.key === 'Enter') onSubmit();
+          }}
+        />
+      </Paper>
+    </Container>
+  );
 }

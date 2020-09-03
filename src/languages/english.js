@@ -1,90 +1,106 @@
 export const ENGLISH = {
+  login: {
     login: {
-        login: {
-            title: 'Sign In',
-            footerText: 'Don\'t have an account?',
-            emailLabel: 'Email',
-            passwordLabel: 'Password',
-            signInButton: 'Sign In',
-            signUpText: 'Sign up to be a free Beta User',
-            imageTitle: 'Export has never been this easy',
-            imageSubText: 'Seamlessly accept client orders and generate professional and compliant export documentation',
-            errorMessages: {
-                emailRequired: 'You need to insert an email',
-                passwordRequired: 'You need to insert a password',
-                emailOrPasswordWrong: 'Email or Password does not match any existing one'
-            }
-        }
+      title: 'Sign In',
+      footerText: "Don't have an account?",
+      emailLabel: 'Email',
+      passwordLabel: 'Password',
+      signInButton: 'Sign In',
+      signUpText: 'Sign up to be a free Beta User',
+      imageTitle: 'Export has never been this easy',
+      imageSubText:
+        'Seamlessly accept client orders and generate professional and compliant export documentation',
+      errorMessages: {
+        emailRequired: 'You need to insert an email',
+        passwordRequired: 'You need to insert a password',
+        emailOrPasswordWrong:
+          'Email or Password does not match any existing one',
+      },
     },
-    home: {
-        sidePanel: {
-            orders: 'Orders',
-            clients: 'Clients',
-            documents: 'Documents'
-        }
+  },
+  home: {
+    sidePanel: {
+      orders: 'Orders',
+      clients: 'Clients',
+      documents: 'Documents',
+    },
+  },
+  order: {
+    OrdersOverview: {
+      newOrder: 'New Order',
+      columns: [
+        'Status',
+        'Purchase Order',
+        'Quantity',
+        'Cargo Ready',
+        'Client',
+        'Notes',
+      ],
+      deleteOrderDialogMessage: 'Are you sure you want to delete this order?',
+      deleteOrderDialogCancelButton: 'Cancel',
+      deleteOrderDialogConfirmButton: 'Confirm',
+    },
+    createOrder: {
+      steps: ['Order', 'Products', 'Review'],
+      newOrder: 'New Order',
+    },
+    orderDetailsForm: {
+      orderReferenceLabel: 'Order Number',
+      dateLabel: 'Order Date',
+      clientLabel: 'Client',
+      clientAddressLabel: 'Delivery Address',
+      crdLabel: 'Cargo Ready Date',
+      incotermLabel: 'Incoterm',
+      paymentMethodLabel: 'Payment Method',
+      referenceLabel: 'Order Name or Reference',
+      remarksLabel: 'Remarks',
+      cancelButton: 'Cancel',
+      nextButton: 'Next',
+    },
+    shippingInfo: {
+      shippingInformation: 'Shipping Information (Optional)',
+      deliveryMethod: 'Delivery Method',
+      portOfLoading: 'Port of Loading',
+      portOfDestination: 'Port of Destination',
+      shippingCarrier: 'Shipping Carrier',
+    },
+    orderProductInfo: {
+      currencyLabel: 'Currency',
+      prevButton: 'Order Details',
+      nextButton: 'Next: Review',
+      errorMessages: {
+        items: 'You must fill at least one row of data.',
+        currency: 'You must select a currency.',
+      },
+    },
+    productTable: {
+      defaultHeaders: [
+        'Item Ref',
+        'Product Description',
+        null,
+        null,
+        'Quantity',
+        'Unit Price',
+        'Amount',
+      ],
+      totals: 'Total:',
+      addRowButton: 'Add',
+    },
+    orderPreview: {
+      buttonProductInfo: 'Product Info',
+      buttonSubmit: 'Submit',
+    },
+    orderInfoTile: {
+      dateTitle: 'Purchase Order Date',
+      crdTitle: 'CRD',
+      quantityTitle: 'Quantity',
+      incotermTitle: 'Incoterm',
+      editButton: 'Edit',
+      deleteOrderDialogMessage: 'Are you sure you want to delete this order?',
+      deleteOrderDialogCancelButton: 'Cancel',
+      deleteOrderDialogConfirmButton: 'Confirm',
     },
     order: {
-        OrdersOverview: {
-            newOrder: 'New Order',
-            columns: ['Status', 'Purchase Order', 'Quantity', 'Cargo Ready', 'Client', 'Notes'],
-            deleteOrderDialogMessage: 'Are you sure you want to delete this order?',
-            deleteOrderDialogCancelButton: 'Cancel',
-            deleteOrderDialogConfirmButton: 'Confirm'
-        },
-        createOrder: {
-            steps: ['Order', 'Products', 'Review'],
-            newOrder: 'New Order'
-        },
-        orderDetailsForm: {
-            orderReferenceLabel: 'Order Number',
-            dateLabel: 'Order Date',
-            clientLabel: 'Client',
-            clientAddressLabel: 'Delivery Address',
-            crdLabel: 'Cargo Ready Date',
-            incotermLabel: 'Incoterm',
-            paymentMethodLabel: 'Payment Method',
-            referenceLabel: 'Order Name or Reference',
-            remarksLabel: 'Remarks',
-            cancelButton: 'Cancel',
-            nextButton: 'Next'
-        },
-        shippingInfo: {
-            shippingInformation: 'Shipping Information (Optional)',
-            deliveryMethod: 'Delivery Method',
-            portOfLoading: 'Port of Loading',
-            portOfDestination: 'Port of Destination',
-            shippingCarrier: 'Shipping Carrier'
-        },
-        orderProductInfo: {
-            currencyLabel: 'Currency',
-            prevButton: 'Order Details',
-            nextButton: 'Next: Review',
-            errorMessages: {
-                items: 'You must fill at least one row of data.',
-                currency: 'You must select a currency.'
-            }
-        },
-        productTable: {
-            defaultHeaders: ['Item Ref', 'Product Description', null, null, 'Quantity', 'Unit Price', 'Amount'],
-            totals: 'Total:',
-            addRowButton: 'Add'
-
-        },
-        orderPreview: {
-            buttonProductInfo: 'Product Info',
-            buttonSubmit: 'Submit'
-        },
-        orderInfoTile: {
-            dateTitle: 'Purchase Order Date',
-            crdTitle: 'CRD',
-            quantityTitle: 'Quantity',
-            incotermTitle: 'Incoterm',
-            editButton: 'Edit',
-            deleteOrderDialogMessage: 'Are you sure you want to delete this order?',
-            deleteOrderDialogCancelButton: 'Cancel',
-            deleteOrderDialogConfirmButton: 'Confirm'
-        },
-        order: {
             orderDetailsTab: 'Order Details',
             documentsTab: 'Documents'
         },
