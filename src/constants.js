@@ -1,8 +1,10 @@
 import { ENGLISH } from './languages/english';
-import { CHINESE } from './languages/chinese';
+import { CHINESE as chineseLanguage } from './languages/chinese';
+import { CHINESE as chineseLocale } from './locales.js';
 
 // The language package used for the application
-export const LANGUAGE = CHINESE;
+export const LANGUAGE = chineseLanguage;
+export const LOCALE = chineseLocale;
 
 const SERVER_URI =
   process.env.NODE_ENV === 'production'

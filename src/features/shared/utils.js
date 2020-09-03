@@ -1,3 +1,4 @@
+import { LOCALE } from '../../constants.js';
 
 export function roundTo2Decimal(n) {
     return Math.round(n * 1e2) / 1e2;
@@ -33,5 +34,5 @@ export const getStringFromTotalQuantityObject = (totalQuantity) => {
 };
 export const yymmddToLocaleDate = (date) => {
     const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' }
-    return new Date(date).toLocaleString('en-EN', dateOptions);
+    return new Date(date).toLocaleString(LOCALE, dateOptions);
 }
