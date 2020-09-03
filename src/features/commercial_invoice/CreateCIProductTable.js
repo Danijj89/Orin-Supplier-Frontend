@@ -12,7 +12,7 @@ import {
     Typography
 } from '@material-ui/core';
 import { Clear as ClearIcon } from '@material-ui/icons';
-import { getCurrencySymbol, roundTo2Decimal } from '../shared/utils.js';
+import { getCurrencySymbol } from '../shared/utils.js';
 import { makeStyles } from '@material-ui/core/styles';
 import CreateCITableRow from './CreateCITableRow.js';
 import { LANGUAGE } from '../../constants.js';
@@ -94,19 +94,23 @@ export default function CreateCIProductTable(
             const price = newItem[6];
             setValue('totalA', totalA + (price * diff));
             newItem[7] = val * price;
+            newItem[colIdx] = val;
         } else if (colIdx === 5) {
             const prevUnit = newItem[colIdx];
             const quantity = newItem[4];
             totalQ.subtractUnit(prevUnit, quantity);
             totalQ.addUnit(val, quantity);
             setValue('totalQ', new UnitCounter(totalQ.units, totalQ.data));
+            newItem[colIdx] = val;
         } else if (colIdx === 6) {
             const diff = val - newItem[colIdx];
             const quantity = newItem[4];
             setValue('totalA', totalA + (quantity * diff));
             newItem[7] = val * quantity;
+            newItem[colIdx] = val;
+        } else {
+            newItem[colIdx] = val;
         }
-        newItem[colIdx] = val;
         const newItems = [
             ...items[orderRef].slice(0, rowIdx),
             newItem,

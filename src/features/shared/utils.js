@@ -1,6 +1,6 @@
 
 export function roundTo2Decimal(n) {
-    return Math.round(n * 1e2) / 1e2;
+    return Math.round(Number(n) * 1e2) / 1e2;
 }
 
 export function getCurrencySymbol(currency) {

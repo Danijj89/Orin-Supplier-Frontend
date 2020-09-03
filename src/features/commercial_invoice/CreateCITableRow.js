@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { selectCurrentDefaults } from '../home/slice.js';
 import { TableRow, TableCell, Button, Typography, Grid } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete.js';
-import { getCurrencySymbol } from '../shared/utils.js';
+import { getCurrencySymbol, roundTo2Decimal } from '../shared/utils.js';
 import { makeStyles } from '@material-ui/core/styles';
 import TableAutoCompleteFreeTextInput from '../shared/inputs/TableAutoCompleteFreeTextInput.js';
 import TableInput from '../shared/inputs/TableInput.js';
@@ -135,7 +135,7 @@ export default function CreateCITableRow(
                         <TableInput
                             type="number"
                             value={item[4].toString()}
-                            onChange={(e) => onCellChange(orderRef, rowIdx, 4, Number(e.target.value))}
+                            onChange={(e) => onCellChange(orderRef, rowIdx, 4, parseInt(e.target.value))}
                             styles={numberInputStyle}
                         />
                     </Grid>
@@ -153,7 +153,7 @@ export default function CreateCITableRow(
                 <TableInput
                     type="number"
                     value={item[6].toString()}
-                    onChange={(e) => onCellChange(orderRef, rowIdx, 6, Number(e.target.value))}
+                    onChange={(e) => onCellChange(orderRef, rowIdx, 6, roundTo2Decimal(e.target.value))}
                     styles={numberInputStyle}
                 />
             </TableCell>

@@ -78,7 +78,7 @@ export default function CreateCIProductInfo({ setActiveStep }) {
             headers,
             marks,
             totalQ: new UnitCounter(itemUnits, totalQ),
-            totalA,
+            totalA: totalA,
         }
     });
 
