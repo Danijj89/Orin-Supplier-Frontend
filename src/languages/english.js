@@ -13,8 +13,7 @@ export const ENGLISH = {
             errorMessages: {
                 emailRequired: 'You need to insert an email',
                 passwordRequired: 'You need to insert a password',
-                emailOrPasswordWrong:
-                    'Email or Password does not match any existing one',
+                emailOrPasswordWrong: 'Email or Password does not match any existing one',
             },
         },
     },
@@ -28,14 +27,7 @@ export const ENGLISH = {
     order: {
         OrdersOverview: {
             newOrder: 'New Order',
-            columns: [
-                'Status',
-                'Purchase Order',
-                'Quantity',
-                'Cargo Ready',
-                'Client',
-                'Notes',
-            ],
+            columns: ['Status', 'Purchase Order', 'Quantity', 'Cargo Ready', 'Client', 'Notes',],
             deleteOrderDialogMessage: 'Are you sure you want to delete this order?',
             deleteOrderDialogCancelButton: 'Cancel',
             deleteOrderDialogConfirmButton: 'Confirm',
@@ -69,8 +61,8 @@ export const ENGLISH = {
             prevButton: 'Order Details',
             nextButton: 'Next: Review',
             errorMessages: {
-                items: 'You must fill at least one row of data.',
                 currency: 'You must select a currency.',
+                missingItemInfo: 'Some item is missing information.'
             },
         },
         productTable: {
@@ -182,7 +174,7 @@ export const ENGLISH = {
             prevButton: 'Back: Details',
             nextButton: 'Next: Preview',
             errorMessages: {
-                items: 'You must fill at least one row of data.',
+                missingItemInfo: 'Some item is missing information.',
                 mUnit: 'You must select a measurement unit.',
                 wUnit: 'You must select a weight unit.'
             }
