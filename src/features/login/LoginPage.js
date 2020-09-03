@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import logo from '../../images/orinlogo.png';
 import { LANGUAGE } from '../../constants';
 import LoginService from './services.js';
@@ -76,16 +76,18 @@ export default function LoginPage() {
     const classes = useStyles();
     const history = useHistory();
     const dispatch = useDispatch();
+    const [error, setError] = useState(null);
 
     const { register, errors, handleSubmit } = useForm({
         mode: 'onSubmit',
         defaultValues: {
             email: null,
-            password: null
+            password: null,
         }
     })
 
     const onSignInClick = async (data) => {
+        setError(null);
         try {
             const { token, user, company, defaults } = await LoginService.signIn(data);
             sessionStorage.setItem('token', token);
@@ -99,10 +101,15 @@ export default function LoginPage() {
             }));
             history.push('/home');
         } catch (err) {
-            console.log(err);
-            history.push('/login');
+            const { message } = err.response.data;
+            setError(message);
         }
     }
+
+
+
+    const isError = Object.keys(errors).length > 0 || error;
+    const allErrors = Object.values(errors).map(err => err.message).concat([error]);
 
     return (
         <Grid container className={ classes.container }>
@@ -110,7 +117,7 @@ export default function LoginPage() {
                 <CardMedia className={ classes.logo } component="img" src={ logo } alt="Logo"/>
                 <Typography variant="h3">{ title }</Typography>
                 <form className={ classes.form } onSubmit={ handleSubmit(onSignInClick) } autoComplete="off">
-                    { Object.keys(errors).length > 0 && <ErrorMessage errors={ Object.values(errors) }/> }
+                    { isError && <ErrorMessage errors={ allErrors }/> }
                     <TextField
                         name="email"
                         type="email"
