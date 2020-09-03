@@ -226,6 +226,13 @@ export const ENGLISH = {
             dialogCancel: 'Cancel',
             dialogConfirm: 'Add',
             errorMessage: 'Maximum number of columns reached'
+        },
+        documentTag: {
+            docTypesAcronyms: {
+                'PO': 'PO',
+                'CI': 'CI',
+                'PL': 'PL'
+            }
         }
     },
     defaults: {

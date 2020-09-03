@@ -227,6 +227,13 @@ export const CHINESE = {
             dialogConfirm: '添加',
             errorMessage: '已经达到最多直行数目',
         },
+        documentTag: {
+            docTypesAcronyms: {
+                'PO': 'PO',
+                'CI': 'CI',
+                'PL': 'PL'
+            }
+        }
     },
     defaults: {
         documentNames: {

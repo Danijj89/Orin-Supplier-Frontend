@@ -1,6 +1,9 @@
 import React from 'react';
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { LANGUAGE } from '../../constants.js';
+
+const { docTypesAcronyms } = LANGUAGE.shared.documentTag;
 
 const useStyles = makeStyles({
   text: {
@@ -20,8 +23,9 @@ const useStyles = makeStyles({
 
 export default function DocumentTag({ docType }) {
   const classes = useStyles();
+  console.log(docType);
 
   return (
-    <Typography className={classes.text}>{docType.toUpperCase()}</Typography>
+    <Typography className={classes.text}>{docTypesAcronyms[docType]}</Typography>
   );
 }
