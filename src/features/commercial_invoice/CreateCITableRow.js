@@ -135,7 +135,7 @@ export default function CreateCITableRow(
                         <TableInput
                             type="number"
                             value={item[4].toString()}
-                            onChange={(e) => onCellChange(orderRef, rowIdx, 4, parseInt(e.target.value))}
+                            onChange={(e) => onCellChange(orderRef, rowIdx, 4, Number(e.target.value))}
                             styles={numberInputStyle}
                         />
                     </Grid>
@@ -153,7 +153,7 @@ export default function CreateCITableRow(
                 <TableInput
                     type="number"
                     value={item[6].toString()}
-                    onChange={(e) => onCellChange(orderRef, rowIdx, 6, roundTo2Decimal(e.target.value))}
+                    onChange={(e) => onCellChange(orderRef, rowIdx, 6, Number(e.target.value))}
                     styles={numberInputStyle}
                 />
             </TableCell>

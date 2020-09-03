@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function TableInput({ type, value, onChange, styles }) {
+export default function TableInput({ type, value, onChange, styles, ...props}) {
 
     const moveCursorToEnd = (e) => {
         const target = e.currentTarget;
@@ -13,6 +13,7 @@ export default function TableInput({ type, value, onChange, styles }) {
 
     return (
         <input
+            {...props}
             type={ type }
             value={ value }
             onChange={ (e) => onChange(e) }
