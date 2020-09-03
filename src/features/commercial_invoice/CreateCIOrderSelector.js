@@ -1,21 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 import { Chip, Paper } from '@material-ui/core';
 import { LANGUAGE } from '../../constants.js';
-import { useSelector } from 'react-redux';
-import { selectCIAutocompleteOptions } from './duck/selectors.js';
 
 const { ordersLabel } = LANGUAGE.commercialInvoice.createCIProductInfo;
 
-export default function CreateCIOrderSelector({ orders, onChosenOrderChange , currOrderRef }) {
-
-    const { ordersRef } = useSelector(selectCIAutocompleteOptions);
-    const [orderOptions, setOrderOptions] = useState([...ordersRef.filter(ref => currOrderRef !== ref)]);
-
-    useEffect(() => {
-        setOrderOptions([...ordersRef.filter(option => !orders.includes(option))]);
-    }, [orders, ordersRef])
+export default function CreateCIOrderSelector({ poRefs, poRefsOptions, onChosenOrderChange }) {
 
     return (
         <Paper>
@@ -23,9 +14,9 @@ export default function CreateCIOrderSelector({ orders, onChosenOrderChange , cu
                 freeSolo
                 multiple
                 autoSelect
-                options={orderOptions}
+                options={poRefsOptions}
                 onChange={(_, newRefs) => onChosenOrderChange(newRefs)}
-                value={orders}
+                value={poRefs}
                 renderInput={params => (
                     <TextField
                         {...params}
