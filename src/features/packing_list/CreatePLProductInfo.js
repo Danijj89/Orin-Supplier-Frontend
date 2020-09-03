@@ -100,7 +100,6 @@ export default function CreatePLProductInfo({ setActiveStep }) {
     }, [register])
 
     const headersWatcher = watch('headers');
-
     const numActiveColumns = headersWatcher.reduce((acc, header) => header ? acc + 1 : acc, 0);
     const onAddColumnClick = (newColumnName) => {
         const newHeaders = [...headersWatcher];
@@ -204,7 +203,6 @@ export default function CreatePLProductInfo({ setActiveStep }) {
                     <CreatePLProductTable
                         watch={ watch }
                         setValue={ setValue }
-                        headers={ headersWatcher }
                         numActiveColumns={ numActiveColumns }
                     />
                 </Grid>

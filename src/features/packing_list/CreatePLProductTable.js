@@ -43,7 +43,6 @@ export default function CreatePLProductTable(
     {
         watch,
         setValue,
-        headers,
         numActiveColumns
     }) {
     const classes = useStyles();
@@ -55,9 +54,10 @@ export default function CreatePLProductTable(
     const totalNW = watch('totalNW');
     const totalGW = watch('totalGW');
     const totalD = watch('totalD');
+    const headers = watch('headers');
 
     const onCellChange = (rowIdx, colIdx, val) => {
-        const newItem = _.cloneDeep(items[rowIdx]);
+        const newItem = [...items[rowIdx]];
         if (colIdx === 4) {
             const unit = newItem[5];
             const diff = val - newItem[colIdx];
