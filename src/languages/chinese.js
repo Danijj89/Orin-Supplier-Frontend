@@ -1,18 +1,36 @@
 export const CHINESE = {
+  // login: {
+  //   loginImage: {
+  //     title: '外贸出口从未如此轻松',
+  //     subText: `轻松的管理客户、订单、和自动化外贸单证。我们帮您们减少外贸的繁琐工作、为您们抽出更多时间赢取新业务 `,
+  //   },
+  //   login: {
+  //     signIn: '登入',
+  //     missingAccountText: '没账户?',
+  //     signUp: '申请成为我们的测试者',
+  //   },
+  //   loginForm: {
+  //     email: '邮件',
+  //     password: '密码',
+  //     signIn: '登入',
+  //   },
+  // },
   login: {
-    loginImage: {
-      title: '外贸出口从未如此轻松',
-      subText: `轻松的管理客户、订单、和自动化外贸单证。我们帮您们减少外贸的繁琐工作、为您们抽出更多时间赢取新业务 `,
-    },
     login: {
-      signIn: '登入',
-      missingAccountText: '没账户?',
-      signUp: '申请成为我们的测试者',
-    },
-    loginForm: {
-      email: '邮件',
-      password: '密码',
-      signIn: '登入',
+      title: '登入',
+      footerText: '没账户?',
+      emailLabel: '邮件',
+      passwordLabel: '密码',
+      signInButton: '登入',
+      signUpText: '申请成为我们的测试者',
+      imageTitle: '外贸出口从未如此轻松',
+      imageSubText:
+        '轻松的管理客户、订单、和自动化外贸单证。我们帮您们减少外贸的繁琐工作、为您们抽出更多时间赢取新业务 ',
+      errorMessages: {
+        emailRequired: '请输入邮件',
+        passwordRequired: '请输入密码',
+        emailOrPasswordWrong: '邮件或密码不符合',
+      },
     },
   },
   home: {
