@@ -49,7 +49,6 @@ const fetchCIById = async (id) => {
 }
 
 const CIService =  {
-    fetchCIOptions,
     generateCIFiles,
     createNewCI,
     deleteCI,

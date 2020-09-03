@@ -7,7 +7,6 @@ import { Container, Typography } from '@material-ui/core';
 import { LANGUAGE } from '../../constants.js';
 import CreateCIDetailsForm from './CreateCIDetailsForm.js';
 import CreateCIProductInfo from './CreateCIProductInfo.js';
-import { selectSelectedOrder } from '../orders/duck/selectors.js';
 import DocumentPreview from '../shared/components/DocumentPreview.js';
 import { selectCIError, selectCIFilePreview, selectCIStatus, selectNewCI } from './duck/selectors.js';
 
@@ -17,7 +16,6 @@ export default function CreateCI() {
     const history = useHistory();
     const dispatch = useDispatch();
     const [activeStep, setActiveStep] = useState(0);
-    const order = useSelector(selectSelectedOrder);
 
     const { search } = useLocation();
     const currOrderId = new URLSearchParams(search).get('order');
@@ -28,18 +26,15 @@ export default function CreateCI() {
     const newCI = useSelector(selectNewCI);
 
     useEffect(() => {
-        if (!newCI) {
-            dispatch(startNewCI(currOrderId));
-        }
-    }, [dispatch, newCI, currOrderId]);
+        dispatch(startNewCI(currOrderId));
+    }, [dispatch, currOrderId]);
 
     const onPreviewPrevButtonClick = () =>
         setActiveStep(step => step - 1);
 
     const onPreviewSubmitButtonClick = () => {
         dispatch(submitCI());
-        dispatch(startNewCI());
-        history.push(`/home/orders/${ order._id }`);
+        history.push(`/home/orders/${ currOrderId }`);
     }
 
     return (

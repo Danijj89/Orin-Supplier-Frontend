@@ -3,13 +3,23 @@ import CIService from '../services.js';
 import { deleteOrderDocument, updateOrderDocument } from '../../orders/duck/slice.js';
 
 export const submitCIForPreview = createAsyncThunk('ci/submitCIForPreview', async (_, { getState }) => {
-    const { newCI } = getState().ci;
+    const newCI = {...getState().ci.newCI };
+    newCI.items = [].concat.apply(
+        [], Object.values(newCI.items).reduce((acc, items) => {
+        acc.push(items);
+        return acc;
+    }, []));
     const file = await CIService.generateCIFiles(newCI);
     return window.URL.createObjectURL(file);
 })
 
 export const submitCI = createAsyncThunk('ci/submitCI', async (_, { getState, dispatch }) => {
-    const { newCI } = getState().ci;
+    const newCI = {...getState().ci.newCI };
+    newCI.items = [].concat.apply(
+        [], Object.values(newCI.items).reduce((acc, items) => {
+            acc.push(items);
+            return acc;
+        }, []));
     const ci = await CIService.createNewCI(newCI);
     dispatch(updateOrderDocument({ docType: 'CI', doc: ci }));
     return ci;

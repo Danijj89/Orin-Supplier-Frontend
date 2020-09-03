@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { selectCurrentDefaults } from '../home/slice.js';
-import { TableRow, TableCell, Button, Typography } from '@material-ui/core';
+import { TableRow, TableCell, Button, Typography, Grid } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete.js';
 import { getCurrencySymbol } from '../shared/utils.js';
 import { makeStyles } from '@material-ui/core/styles';
@@ -30,14 +30,10 @@ const useStyles = makeStyles({
         maxWidth: 400,
         padding: 4
     },
-    quantity: {
-        width: '10%',
-        maxWidth: 140,
+    combined: {
+        width: '15%',
+        maxWidth: 400,
         padding: 4
-    },
-    unit: {
-        padding: 4,
-        width: '5%'
     },
     unitPrice: {
         width: '10%',
@@ -71,23 +67,20 @@ const numberInputStyle = {
 
 const dropDownInputStyle = {
     ...textInputStyle,
-    textAlign: 'center'
+    textAlign: 'center',
+    width: 50
 };
 
 
-export default function CreateProductTableRow(
+export default function CreateCITableRow(
     {
         orderRef,
-        row,
         rowIdx,
+        item,
         headers,
         onCellChange,
-        onTextCellChange,
-        onRowDeleteClick,
-        currency,
-        onUnitPriceChange,
-        onUnitChange,
-        onQuantityChange
+        onItemDeleteClick,
+        currency
     }) {
     const classes = useStyles();
     const { itemsRef, itemDescriptionMap } = useSelector(selectCIAutocompleteOptions);
@@ -96,23 +89,23 @@ export default function CreateProductTableRow(
     return (
         <TableRow>
             <TableCell className={classes.deleteIcon} padding="none">
-                <Button size="small" onClick={() => onRowDeleteClick(orderRef, rowIdx)}>
+                <Button size="small" onClick={onItemDeleteClick}>
                     <DeleteIcon fontSize="small"/>
                 </Button>
             </TableCell>
             <TableCell className={classes.itemReference}>
                 <TableAutoCompleteFreeTextInput
                     options={itemsRef}
-                    onChange={(data) => onCellChange(orderRef, rowIdx, 0, data, onTextCellChange)}
-                    value={row[0]}
+                    onChange={(data) => onCellChange(orderRef, rowIdx, 0, data)}
+                    value={item[0]}
                     styles={textInputStyle}
                 />
             </TableCell>
             <TableCell className={classes.description}>
                 <TableAutoCompleteFreeTextInput
-                    options={itemDescriptionMap.hasOwnProperty(row[0]) ? itemDescriptionMap[row[0]] : []}
-                    onChange={(data) => onCellChange(orderRef, rowIdx, 1, data, onTextCellChange)}
-                    value={row[1]}
+                    options={itemDescriptionMap.hasOwnProperty(item[0]) ? itemDescriptionMap[item[0]] : []}
+                    onChange={(data) => onCellChange(orderRef, rowIdx, 1, data)}
+                    value={item[1]}
                     styles={textInputStyle}
                 />
             </TableCell>
@@ -120,8 +113,8 @@ export default function CreateProductTableRow(
                 headers[2] && <TableCell className={classes.custom}>
                     <TableInput
                         type="text"
-                        value={row[2]}
-                        onChange={(e) => onCellChange(orderRef, rowIdx, 2, e.target.value, onTextCellChange)}
+                        value={item[2]}
+                        onChange={(e) => onCellChange(orderRef, rowIdx, 2, e.target.value)}
                         styles={textInputStyle}
                     />
                 </TableCell>
@@ -130,38 +123,42 @@ export default function CreateProductTableRow(
                 headers[3] && <TableCell className={classes.custom}>
                     <TableInput
                         type="text"
-                        value={row[3]}
-                        onChange={(e) => onCellChange(orderRef, rowIdx, 3, e.target.value, onTextCellChange)}
+                        value={item[3]}
+                        onChange={(e) => onCellChange(orderRef, rowIdx, 3, e.target.value)}
                         styles={textInputStyle}
                     />
                 </TableCell>
             }
-            <TableCell className={classes.quantity}>
-                <TableInput
-                    type="number"
-                    value={Number(row[4]).toString()}
-                    onChange={(e) => onCellChange(orderRef, rowIdx, 4, e.target.value, onQuantityChange)}
-                    styles={numberInputStyle}
-                />
-            </TableCell>
-            <TableCell className={classes.unit}>
-                <TableAutoCompleteTextInput
-                    options={itemUnits}
-                    onChange={(data) => onCellChange(orderRef, rowIdx, 5, data, onUnitChange)}
-                    value={row[5]}
-                    styles={dropDownInputStyle}
-                />
+            <TableCell className={classes.combined}>
+                <Grid container>
+                    <Grid container justify="flex-start" item xs={7}>
+                        <TableInput
+                            type="number"
+                            value={item[4].toString()}
+                            onChange={(e) => onCellChange(orderRef, rowIdx, 4, Number(e.target.value))}
+                            styles={numberInputStyle}
+                        />
+                    </Grid>
+                    <Grid container justify="flex-end" item xs={5}>
+                        <TableAutoCompleteTextInput
+                            options={itemUnits}
+                            onChange={(data) => onCellChange(orderRef, rowIdx, 5, data)}
+                            value={item[5]}
+                            styles={dropDownInputStyle}
+                        />
+                    </Grid>
+                </Grid>
             </TableCell>
             <TableCell className={classes.unitPrice}>
                 <TableInput
                     type="number"
-                    value={Number(row[6]).toString()}
-                    onChange={(e) => onCellChange(orderRef, rowIdx, 6, e.target.value, onUnitPriceChange)}
+                    value={item[6].toString()}
+                    onChange={(e) => onCellChange(orderRef, rowIdx, 6, Number(e.target.value))}
                     styles={numberInputStyle}
                 />
             </TableCell>
             <TableCell className={classes.amount}>
-                <Typography>{`${getCurrencySymbol(currency)} ${row[7]}`}</Typography>
+                <Typography>{`${getCurrencySymbol(currency)} ${item[7]}`}</Typography>
             </TableCell>
         </TableRow>
     )
