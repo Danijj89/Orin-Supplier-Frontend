@@ -1,4 +1,4 @@
-export const ENGLISH = {
+export const CHINESE = {
   login: {
     loginImage: {
       title: '外贸出口从未如此轻松',
