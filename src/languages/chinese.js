@@ -90,9 +90,7 @@ export const CHINESE = {
             quantityTitle: '数量:',
             incotermTitle: '贸易条款:',
             editButton: '编辑',
-            deleteOrderDialogMessage: '您确定要删除订单吗?',
-            deleteOrderDialogCancelButton: '取消',
-            deleteOrderDialogConfirmButton: '确定',
+            deleteOrderDialogMessage: '您确定要删除订单吗?'
         },
         order: {
             orderDetailsTab: '订单详情',
@@ -102,7 +100,7 @@ export const CHINESE = {
             title: 'Order Progress',
             editButton: 'Edit',
             headers: ['采购', '生产', '验检'],
-            rowLabels: ['Status:', 'Estimated Completion:', 'Actual Completion:']
+            rowLabels: ['状态', '预计完成', '实际完成']
         },
         orderDocuments: {
             tableTitle: '已生成的单据',
@@ -248,6 +246,14 @@ export const CHINESE = {
         deleteButton: {
             cancelButton: 'Cancel',
             confirmButton: 'Confirm'
+        },
+        statusButtonMenu: {
+            orderStatusLabelsMap: {
+                'Not Started': '未开始',
+                'In Progress': '进行中',
+                'Completed': '完毕',
+                'Exception': '意外/延迟'
+            }
         }
     },
     defaults: {

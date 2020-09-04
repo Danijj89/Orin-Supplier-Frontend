@@ -22,7 +22,6 @@ const useStyles = makeStyles({
 
 export default function DocumentTag({ docType }) {
   const classes = useStyles();
-  console.log(docType);
 
   return (
     <Typography className={classes.text}>{docTypesAcronyms[docType]}</Typography>

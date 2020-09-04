@@ -6,7 +6,8 @@ const useStyles = makeStyles((theme) => ({
     custom: {
         padding: theme.spacing(0.5),
         borderRadius: 6,
-        whiteSpace: 'nowrap'
+        whiteSpace: 'nowrap',
+        minWidth: 80
     },
     notStarted: {
         backgroundColor: '#DDDDDD'
@@ -25,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function StatusTooltip({ status }) {
+export default function StatusTooltip({ status, ...props }) {
     const classes = useStyles();
 
     const getStatusColor = (status) => {
@@ -44,6 +45,7 @@ export default function StatusTooltip({ status }) {
     const color = getStatusColor(status);
     return (
         <Typography
+            {...props}
             variant="subtitle2"
             className={ `${classes.custom} ${color}` }
         >

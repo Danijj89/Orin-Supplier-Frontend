@@ -13,15 +13,15 @@ import UnitCounter from '../shared/classes/UnitCounter.js';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 
 const {
-    title, orderLabel, dateTitle, crdTitle, editButton, incotermTitle, quantityTitle,
-    deleteOrderDialogCancelButton, deleteOrderDialogConfirmButton, deleteOrderDialogMessage
+    title, orderLabel, dateTitle, crdTitle, editButton, incotermTitle, quantityTitle, deleteOrderDialogMessage
 } = LANGUAGE.order.orderInfoTile;
 
 const useStyles = makeStyles((theme) => ({
     card: {
         margin: theme.spacing(2),
         height: 260,
-        minHeight: 240
+        minHeight: 240,
+        minWidth: 360
     },
     titleRow: {
         paddingTop: theme.spacing(1),

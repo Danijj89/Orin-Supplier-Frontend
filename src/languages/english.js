@@ -90,9 +90,7 @@ export const ENGLISH = {
             quantityTitle: 'Quantity:',
             incotermTitle: 'Incoterm:',
             editButton: 'Edit',
-            deleteOrderDialogMessage: 'Are you sure you want to delete this order?',
-            deleteOrderDialogCancelButton: 'Cancel',
-            deleteOrderDialogConfirmButton: 'Confirm',
+            deleteOrderDialogMessage: 'Are you sure you want to delete this order?'
         },
         order: {
             orderDetailsTab: 'Order Details',
@@ -248,6 +246,14 @@ export const ENGLISH = {
         deleteButton: {
             cancelButton: 'Cancel',
             confirmButton: 'Confirm'
+        },
+        statusButtonMenu: {
+            orderStatusLabelsMap: {
+                'Not Started': 'Not Started',
+                'In Progress': 'In Progress',
+                'Completed': 'Completed',
+                'Exception': 'Exception'
+            }
         }
     },
     defaults: {

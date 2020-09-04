@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
         paddingLeft: theme.spacing(5),
         paddingRight: theme.spacing(5),
         paddingTop: theme.spacing(2),
-        paddingBottom: theme.spacing(2),
+        paddingBottom: theme.spacing(2)
     },
     details: {
         padding: theme.spacing(2)
@@ -49,18 +49,18 @@ export default function Order({ match }) {
 
     const onTabChange = (event, newValue) => {
         setTabValue(newValue);
-        history.push(`/home/orders/${id}/${newValue}`);
+        history.push(`/home/orders/${ id }/${ newValue }`);
     };
 
     return (
         <Grid container className={ classes.container }>
-            <Grid item xs={6}>
+            <Grid item xs={ 6 }>
                 { order && <OrderInfoTile order={ order }/> }
             </Grid>
-            <Grid item xs={6}>
-                { order && <OrderStatusInfoTile status={order.status} /> }
+            <Grid item xs={ 6 }>
+                { order && <OrderStatusInfoTile status={ order.status }/> }
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={ 12 }>
                 <Tabs
                     value={ tabValue }
                     onChange={ onTabChange }
