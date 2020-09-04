@@ -24,7 +24,10 @@ import { deletePL } from '../packing_list/duck/thunks.js';
 const { tableTitle, tableHeaders, docTypeMap,
     deleteDocumentMessage, deleteDocumentButtonCancel, deleteDocumentButtonConfirm } = LANGUAGE.order.orderDocuments;
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
+    container: {
+        padding: theme.spacing(2)
+    },
     row: {
         marginTop: '3%'
     },
@@ -37,7 +40,7 @@ const useStyles = makeStyles({
     header: {
         fontWeight: 'bold'
     }
-})
+}));
 
 const headers = [
     { align: 'left', label: tableHeaders[0] },
@@ -73,7 +76,7 @@ export default function OrderDocuments({ order }) {
     }
 
     return (
-        <Grid container>
+        <Grid container className={ classes.container }>
             <Grid
                 container
                 className={ classes.row }

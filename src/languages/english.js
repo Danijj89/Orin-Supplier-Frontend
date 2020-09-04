@@ -27,7 +27,7 @@ export const ENGLISH = {
     order: {
         OrdersOverview: {
             newOrder: 'New Order',
-            columns: ['Procurement', 'Production', 'QA', 'Purchase Order', 'Quantity', 'Cargo Ready', 'Client', 'Notes',],
+            columns: ['Purchase Order', 'Quantity', 'Cargo Ready', 'Client', 'Procurement', 'Production', 'QA', 'Notes'],
             deleteOrderDialogMessage: 'Are you sure you want to delete this order?',
             deleteOrderDialogCancelButton: 'Cancel',
             deleteOrderDialogConfirmButton: 'Confirm',
@@ -95,6 +95,12 @@ export const ENGLISH = {
         order: {
             orderDetailsTab: 'Order Details',
             documentsTab: 'Documents'
+        },
+        orderStatusInfoTile: {
+            title: 'Order Progress',
+            editButton: 'Edit',
+            headers: ['Procurement', 'Production', 'QA'],
+            rowLabels: ['Status:', 'Estimated Completion:', 'Actual Completion:']
         },
         orderDocuments: {
             tableTitle: 'Generated Documents',

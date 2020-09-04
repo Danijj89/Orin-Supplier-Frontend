@@ -27,7 +27,7 @@ export const CHINESE = {
     order: {
         OrdersOverview: {
             newOrder: '新订单',
-            columns: ['Procurement', 'Production', 'QA', '订单', '数量', '货好日期', '客户', '备注'],
+            columns: ['订单', '数量', '货好日期', '客户', '采购', '生产', '验检', '备注'],
             deleteOrderDialogMessage: '您确定要删除订单吗?',
             deleteOrderDialogCancelButton: '取消',
             deleteOrderDialogConfirmButton: '确定',
@@ -95,6 +95,12 @@ export const CHINESE = {
         order: {
             orderDetailsTab: '订单详情',
             documentsTab: '单证',
+        },
+        orderStatusInfoTile: {
+            title: 'Order Progress',
+            editButton: 'Edit',
+            headers: ['采购', '生产', '验检'],
+            rowLabels: ['Status:', 'Estimated Completion:', 'Actual Completion:']
         },
         orderDocuments: {
             tableTitle: '已生成的单据',

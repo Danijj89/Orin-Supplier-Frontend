@@ -48,21 +48,21 @@ export default function OrderTableRow({ order, onDialogOpen }) {
           <DeleteIcon color="disabled" className={classes.deleteIcon} />
         </Button>
       </TableCell>
-      <TableCell align="center">
-          <StatusTooltip status={status.procurement} />
-      </TableCell>
-        <TableCell align="center">
-            <StatusTooltip status={status.production} />
-        </TableCell>
-        <TableCell align="center">
-            <StatusTooltip status={status.qa} />
-        </TableCell>
       <TableCell align="center">{poRef}</TableCell>
       <TableCell className={classes.wrapText}>
         {renderedTotalQuantity}
       </TableCell>
       <TableCell align="center">{yymmddToLocaleDate(crd)}</TableCell>
       <TableCell align="center">{fromName}</TableCell>
+        <TableCell align="center">
+            <StatusTooltip status={status.procurement.status} />
+        </TableCell>
+        <TableCell align="center">
+            <StatusTooltip status={status.production.status} />
+        </TableCell>
+        <TableCell align="center">
+            <StatusTooltip status={status.qa.status} />
+        </TableCell>
       <TableCell className={classes.wrapText}>{remarks}</TableCell>
     </TableRow>
   );

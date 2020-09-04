@@ -5,11 +5,11 @@ import DocumentGenerationButton from '../shared/buttons/DocumentGenerationButton
 import { makeStyles } from '@material-ui/core/styles';
 import POService from './services.js';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
     gridContainer: {
         minHeight: 600,
         height: '50%',
-        padding: '3% 0'
+        padding: theme.spacing(2)
     },
     sideButton: {
         marginBottom: '5%',
@@ -20,7 +20,7 @@ const useStyles = makeStyles({
         width: '100%',
         height: '100%'
     }
-})
+}));
 
 export default function OrderDetails({ order }) {
     const classes = useStyles();

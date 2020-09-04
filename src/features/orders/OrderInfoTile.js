@@ -13,10 +13,12 @@ import FeatureInProgressTag from '../shared/displays/FeatureInProgressTag.js';
 const { dateTitle, crdTitle , editButton, incotermTitle , quantityTitle,
     deleteOrderDialogCancelButton, deleteOrderDialogConfirmButton, deleteOrderDialogMessage } = LANGUAGE.order.orderInfoTile;
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
     card: {
-        margin: '2% 0',
-        padding: '2%'
+        margin: theme.spacing(2),
+        padding: theme.spacing(2),
+        height: 260,
+        minHeight: 240
     },
     status: {
         display: 'inline-block',
@@ -46,7 +48,7 @@ const useStyles = makeStyles({
         justifyContent: 'space-between',
         width: 55
     }
-})
+}));
 
 export default function OrderInfoTile({order}) {
     const classes = useStyles();
@@ -72,12 +74,11 @@ export default function OrderInfoTile({order}) {
     }
 
     return (
-        <Card className={classes.card}>
+        <Card className={classes.card} elevation={3}>
             <Grid
                 container
             >
                 <Grid item xs={10}>
-                    <Typography className={classes.status}>{status}</Typography>
                     <Typography className={classes.poRef}>{orderNumber}</Typography>
                     <div className={classes.info}>
                         <Typography className={classes.title}>{`${dateTitle}:`}&nbsp;</Typography>
