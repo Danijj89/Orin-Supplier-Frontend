@@ -222,7 +222,7 @@ export const CHINESE = {
         addColumnButton: {
             buttonText: '添加直行',
             dialogTitle: '填写直行名称',
-            fieldLabel: 'Column Name',
+            fieldLabel: '直行名称',
             dialogCancel: '取消',
             dialogConfirm: '添加',
             errorMessage: '已经达到最多直行数目',
