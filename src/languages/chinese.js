@@ -27,7 +27,7 @@ export const CHINESE = {
     order: {
         OrdersOverview: {
             newOrder: '新订单',
-            columns: ['状态', '订单', '数量', '货好日期', '客户', '备注'],
+            columns: ['Procurement', 'Production', 'QA', '订单', '数量', '货好日期', '客户', '备注'],
             deleteOrderDialogMessage: '您确定要删除订单吗?',
             deleteOrderDialogCancelButton: '取消',
             deleteOrderDialogConfirmButton: '确定',

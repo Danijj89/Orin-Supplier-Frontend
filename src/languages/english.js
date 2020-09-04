@@ -27,7 +27,7 @@ export const ENGLISH = {
     order: {
         OrdersOverview: {
             newOrder: 'New Order',
-            columns: ['Status', 'Purchase Order', 'Quantity', 'Cargo Ready', 'Client', 'Notes',],
+            columns: ['Procurement', 'Production', 'QA', 'Purchase Order', 'Quantity', 'Cargo Ready', 'Client', 'Notes',],
             deleteOrderDialogMessage: 'Are you sure you want to delete this order?',
             deleteOrderDialogCancelButton: 'Cancel',
             deleteOrderDialogConfirmButton: 'Confirm',

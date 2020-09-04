@@ -11,6 +11,7 @@ import {
 } from '../shared/utils.js';
 import { useDispatch } from 'react-redux';
 import { setCurrentPO } from './duck/slice.js';
+import StatusTooltip from '../shared/displays/StatusTooltip.js';
 
 const useStyles = makeStyles((theme) => ({
   deleteButtonCell: {
@@ -47,7 +48,15 @@ export default function OrderTableRow({ order, onDialogOpen }) {
           <DeleteIcon color="disabled" className={classes.deleteIcon} />
         </Button>
       </TableCell>
-      <TableCell align="center">{status}</TableCell>
+      <TableCell align="center">
+          <StatusTooltip status={status.procurement} />
+      </TableCell>
+        <TableCell align="center">
+            <StatusTooltip status={status.production} />
+        </TableCell>
+        <TableCell align="center">
+            <StatusTooltip status={status.qa} />
+        </TableCell>
       <TableCell align="center">{poRef}</TableCell>
       <TableCell className={classes.wrapText}>
         {renderedTotalQuantity}
