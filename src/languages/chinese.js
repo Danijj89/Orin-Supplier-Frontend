@@ -100,9 +100,9 @@ export const CHINESE = {
             tableTitle: '已生成的单据',
             tableHeaders: ['单据类型', '制作者', '生成日期'],
             docTypeMap: {
-                'CI': '业务发票',
-                'PO': '订单',
-                'PL': '装箱单',
+                CI: '业务发票',
+                PO: '订单',
+                PL: '装箱单',
             },
             deleteDocumentMessage: '您确定要删除此单据吗?',
             deleteDocumentButtonCancel: '取消',
@@ -140,15 +140,15 @@ export const CHINESE = {
             buttonPrev: '上一步: 发票信息',
             buttonNext: '下一步: 审核',
             errorMessages: {
-                poRefs: 'You must reference at least one Purchase Order.',
-                currency: 'You must select a currency.',
-                atLeastOneOrder: 'You must choose at least one Purchase Order.',
-                missingItemInfo: 'Some item is missing information.'
-            }
+                poRefs: '必须起码填写一个订单号.',
+                currency: '必须选择货币.',
+                atLeastOneOrder: '必须起码填写一个订单号.',
+                missingItemInfo: '有列行缺少信息，请补充并继续',
+            },
         },
         createCIProductTable: {
             totalQuantity: '合计:',
-            addRowButton: 'Add'
+            addRowButton: '添加',
         },
         createCIPreview: {
             buttonPrev: '上一步: 货物信息',
@@ -222,21 +222,21 @@ export const CHINESE = {
         addColumnButton: {
             buttonText: '添加直行',
             dialogTitle: '填写直行名称',
-            fieldLabel: 'Column Name',
+            fieldLabel: '直行名称',
             dialogCancel: '取消',
             dialogConfirm: '添加',
             errorMessage: '已经达到最多直行数目',
         },
         documentTag: {
             docTypesAcronyms: {
-                'PO': 'PO',
-                'CI': 'CI',
-                'PL': 'PL'
-            }
+                PO: 'PO',
+                CI: 'CI',
+                PL: 'PL',
+            },
         },
         featureInProgressTag: {
-            title: 'Feature in Progress'
-        }
+            title: '开发功能中',
+        },
     },
     defaults: {
         documentNames: {
