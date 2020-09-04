@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
     },
     edit: {
         width: '10%',
-        minWidth: 50,
+        minWidth: 70,
         height: '80%'
     },
 }));
@@ -89,7 +89,7 @@ export default function OrderInfoTile({ order }) {
                     </Grid>
                     <Grid container item justify="flex-end" alignItems="center" xs={ 5 }>
                         <DeleteButton onDeleteClick={ onDeleteClick } deleteMessage={ deleteOrderDialogMessage }/>
-                        <ThemedButton text={ editButton } variant="outlined" styles={ classes.edit }/>
+                        <ThemedButton icon={FeatureInProgressTag} text={ editButton } variant="outlined" styles={ classes.edit }/>
                     </Grid>
                 </Grid>
                 <Grid item xs={ 12 }>

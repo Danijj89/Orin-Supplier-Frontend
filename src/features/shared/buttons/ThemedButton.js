@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function ThemedButton({ onClick, text, styles, type, variant = 'contained', ...props }) {
+export default function ThemedButton({ onClick, text, styles, type, variant = 'contained', icon: Icon, ...props }) {
     const classes = useStyles();
     const style = () => {
         if (variant === 'outlined') return classes.outlined;
@@ -41,6 +41,7 @@ export default function ThemedButton({ onClick, text, styles, type, variant = 'c
     return (
         <Button className={`${ classes.button } ${style()} ${styles}`} onClick={ onClick } variant="outlined" type={type} {...props}>
             { text }
+            {Icon ? <Icon /> : null}
         </Button>
     )
 }
