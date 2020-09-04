@@ -83,10 +83,12 @@ export const ENGLISH = {
             buttonSubmit: 'Submit',
         },
         orderInfoTile: {
-            dateTitle: 'Purchase Order Date',
-            crdTitle: 'CRD',
-            quantityTitle: 'Quantity',
-            incotermTitle: 'Incoterm',
+            title: 'Order Overview',
+            orderLabel: 'Order Number:',
+            dateTitle: 'Purchase Order Date:',
+            crdTitle: 'CRD:',
+            quantityTitle: 'Quantity:',
+            incotermTitle: 'Incoterm:',
             editButton: 'Edit',
             deleteOrderDialogMessage: 'Are you sure you want to delete this order?',
             deleteOrderDialogCancelButton: 'Cancel',
@@ -242,6 +244,10 @@ export const ENGLISH = {
         },
         featureInProgressTag: {
             title: 'Feature in Progress'
+        },
+        deleteButton: {
+            cancelButton: 'Cancel',
+            confirmButton: 'Confirm'
         }
     },
     defaults: {

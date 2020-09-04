@@ -83,10 +83,12 @@ export const CHINESE = {
             buttonSubmit: '确定并完成',
         },
         orderInfoTile: {
-            dateTitle: '订单日期',
-            crdTitle: '货好日期',
-            quantityTitle: '数量',
-            incotermTitle: '贸易条款',
+            title: 'Order Overview',
+            orderLabel: 'Order Number:',
+            dateTitle: '订单日期:',
+            crdTitle: '货好日期:',
+            quantityTitle: '数量:',
+            incotermTitle: '贸易条款:',
             editButton: '编辑',
             deleteOrderDialogMessage: '您确定要删除订单吗?',
             deleteOrderDialogCancelButton: '取消',
@@ -243,6 +245,10 @@ export const CHINESE = {
         featureInProgressTag: {
             title: '开发功能中',
         },
+        deleteButton: {
+            cancelButton: 'Cancel',
+            confirmButton: 'Confirm'
+        }
     },
     defaults: {
         documentNames: {

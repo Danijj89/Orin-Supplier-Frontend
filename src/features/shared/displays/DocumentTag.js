@@ -15,7 +15,6 @@ const useStyles = makeStyles({
     borderWidth: 1,
     borderColor: 'lightgrey',
     borderRadius: '5%',
-    marginTop: 8,
     marginLeft: 8,
     textAlign: 'center',
   },

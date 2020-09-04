@@ -29,7 +29,8 @@ const useStyles = makeStyles((theme) => ({
         paddingTop: theme.spacing(1),
         paddingBottom: theme.spacing(1),
         paddingLeft: theme.spacing(2),
-        paddingRight: theme.spacing(2)
+        paddingRight: theme.spacing(2),
+        height: 52
     },
     title: {
         color: theme.palette.tertiary['700'],
