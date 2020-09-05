@@ -48,6 +48,12 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         flexFlow: 'column',
         flex: '1 1 auto'
+    },
+    editCancel: {
+        color: 'red'
+    },
+    editConfirm: {
+        color: 'green'
     }
 }));
 
