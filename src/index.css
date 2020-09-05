@@ -1,7 +1,5 @@
-body {
-  margin: 0;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+* {
+  box-sizing: border-box;
 }
 
 code {
@@ -14,22 +12,28 @@ html, body, #root {
   font-family: Poppins, Helvetica, sans-serif;
 }
 
-body, #root  {
+body  {
   margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Firefox */
-input[type=number] {
-  -moz-appearance: textfield;
+#root {
+  margin: 0
 }
 
-input[type=number]::-webkit-clear-button {
-  display: none;
-}
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
-  display: none;
-}
-input[type=text]::-webkit-clear-button {
-  display: none !important;
-}
+/*!* Firefox *!*/
+/*input[type=number] {*/
+/*  -moz-appearance: textfield;*/
+/*}*/
+
+/*input[type=number]::-webkit-clear-button {*/
+/*  display: none;*/
+/*}*/
+/*input[type=number]::-webkit-inner-spin-button,*/
+/*input[type=number]::-webkit-outer-spin-button {*/
+/*  display: none;*/
+/*}*/
+/*input[type=text]::-webkit-clear-button {*/
+/*  display: none !important;*/
+/*}*/

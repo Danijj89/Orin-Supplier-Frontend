@@ -97,9 +97,7 @@ export const CHINESE = {
             dateTitle: '订单日期:',
             crdTitle: '货好日期:',
             quantityTitle: '数量:',
-            incotermTitle: '贸易条款:',
-            editButton: '编辑',
-            deleteOrderDialogMessage: '您确定要删除订单吗?',
+            incotermTitle: '贸易条款:'
         },
         order: {
             orderDetailsTab: '订单详情',
@@ -123,6 +121,9 @@ export const CHINESE = {
             deleteDocumentButtonCancel: '取消',
             deleteDocumentButtonConfirm: '删除',
         },
+        orderInfoCard: {
+            editButton: '编辑'
+        }
     },
     commercialInvoice: {
         createCI: {

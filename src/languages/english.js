@@ -99,10 +99,7 @@ export const ENGLISH = {
             dateTitle: 'Purchase Order Date:',
             crdTitle: 'CRD:',
             quantityTitle: 'Quantity:',
-            incotermTitle: 'Incoterm:',
-            editButton: 'Edit',
-            deleteOrderDialogMessage:
-                'Are you sure you want to delete this order?',
+            incotermTitle: 'Incoterm:'
         },
         order: {
             orderDetailsTab: 'Order Details',
@@ -131,6 +128,9 @@ export const ENGLISH = {
             deleteDocumentButtonCancel: 'Cancel',
             deleteDocumentButtonConfirm: 'Delete',
         },
+        orderInfoCard: {
+            editButton: 'Edit'
+        }
     },
     commercialInvoice: {
         createCI: {
@@ -271,7 +271,7 @@ export const ENGLISH = {
                 Completed: 'Completed',
                 Exception: 'Exception',
             },
-        },
+        }
     },
     defaults: {
         documentNames: {
