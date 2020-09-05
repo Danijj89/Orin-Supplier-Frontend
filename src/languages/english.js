@@ -107,7 +107,6 @@ export const ENGLISH = {
         },
         orderStatusInfoTile: {
             title: 'Order Progress',
-            editButton: 'Edit',
             headers: ['Procurement', 'Production', 'QA'],
             rowLabels: [
                 'Status:',
@@ -268,8 +267,8 @@ export const ENGLISH = {
             orderStatusLabelsMap: {
                 'Not Started': 'Not Started',
                 'In Progress': 'In Progress',
-                Completed: 'Completed',
-                Exception: 'Exception',
+                'Completed': 'Completed',
+                'Exception': 'Exception',
             },
         }
     },

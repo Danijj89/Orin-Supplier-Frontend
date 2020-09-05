@@ -105,7 +105,6 @@ export const CHINESE = {
         },
         orderStatusInfoTile: {
             title: '订单进行中',
-            editButton: '编辑',
             headers: ['采购', '生产', '验检'],
             rowLabels: ['状态', '预计完成', '实际完成'],
         },
@@ -261,8 +260,8 @@ export const CHINESE = {
             orderStatusLabelsMap: {
                 'Not Started': '未开始',
                 'In Progress': '进行中',
-                Completed: '完毕',
-                Exception: '意外/延迟',
+                'Completed': '完毕',
+                'Exception': '意外/延迟',
             },
         },
     },

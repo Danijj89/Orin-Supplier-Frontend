@@ -3,9 +3,6 @@ import { Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
-    button: {
-        minWidth: 100
-    },
     outlined: {
         color: theme.palette.primary.main,
         borderColor: theme.palette.primary.main,
@@ -31,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function ThemedButton({ onClick, text, styles, type, variant = 'contained', icon: Icon, ...props }) {
+export default function ThemedButton({ text, styles, children, variant = 'contained', ...props}) {
     const classes = useStyles();
     const style = () => {
         if (variant === 'outlined') return classes.outlined;
@@ -39,9 +36,11 @@ export default function ThemedButton({ onClick, text, styles, type, variant = 'c
         if (variant === 'text') return classes.text;
     }
     return (
-        <Button className={`${ classes.button } ${style()} ${styles}`} onClick={ onClick } variant="outlined" type={type} {...props}>
+        <Button
+            className={ `${ classes.button } ${ style() } ${ styles }` }
+            variant="outlined" {...props}>
             { text }
-            {Icon ? <Icon /> : null}
+            { children }
         </Button>
     )
 }
