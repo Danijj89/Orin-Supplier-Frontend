@@ -1,57 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import {
-    Grid,
-    Typography,
-    Card,
-    Divider,
     TableContainer,
     Table,
     TableHead,
     TableBody,
     TableRow,
-    TableCell,
-    IconButton,
-    TextField
+    TableCell as MuiTableCell,
 } from '@material-ui/core';
 import { LANGUAGE } from '../../constants.js';
-import ThemedButton from '../shared/buttons/ThemedButton.js';
-import { makeStyles } from '@material-ui/core/styles';
-import StatusTooltip from '../shared/displays/StatusTooltip.js';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 import { convertDateStringToyymmdd, yymmddToLocaleDate } from '../shared/utils.js';
-import { useForm } from 'react-hook-form';
-import { Clear as IconClear, Check as IconCheck } from '@material-ui/icons';
-import StatusButtonMenu from '../shared/StatusButtonMenu.js';
+import { Controller, useForm } from 'react-hook-form';
+import StatusButtonMenu from './StatusButtonMenu.js';
 import { useDispatch } from 'react-redux';
 import { updateOrderStatus } from './duck/thunks.js';
+import OrderInfoCard from './OrderInfoCard.js';
+import { CalendarToday as IconCalendar } from '@material-ui/icons';
+import { KeyboardDatePicker } from '@material-ui/pickers';
 
-const { title, editButton, headers, rowLabels } = LANGUAGE.order.orderStatusInfoTile;
+const { title, headers, rowLabels } = LANGUAGE.order.orderStatusInfoTile;
 
 const useStyles = makeStyles((theme) => ({
-    card: {
-        margin: theme.spacing(2),
-        height: 260,
-        minHeight: 240,
-        minWidth: 360
-    },
-    titleRow: {
-        paddingTop: theme.spacing(1),
-        paddingBottom: theme.spacing(1),
-        paddingLeft: theme.spacing(2),
-        paddingRight: theme.spacing(2),
-        height: 52
-    },
-    title: {
-        color: theme.palette.tertiary['700'],
-        fontWeight: 'bold'
-    },
     column1: {
         color: theme.palette.tertiary['600'],
-        borderBottom: 'none'
-    },
-    edit: {
-        width: '10%',
-        minWidth: 50,
-        height: '80%'
+        borderBottom: 'none',
+        textAlign: 'left'
     },
     tableContainer: {
         padding: theme.spacing(2)
@@ -59,46 +32,74 @@ const useStyles = makeStyles((theme) => ({
     header: {
         color: theme.palette.tertiary['700'],
         fontWeight: 'bold',
-        borderBottom: 'none'
+        borderBottom: 'none',
+        textAlign: 'center'
     },
     date: {
         fontSize: '0.8rem',
-        borderBottom: 'none'
-    },
-    tooltip: {
-        borderBottom: 'none'
+        borderBottom: 'none',
+        textAlign: 'center'
     },
     dropdown: {
         borderBottom: 'none',
         paddingLeft: theme.spacing(1),
         paddingRight: theme.spacing(1),
-        maxWidth: 90
+        maxWidth: 90,
+        textAlign: 'center'
     },
     datepicker: {
-        borderBottom: 'none',
-        paddingLeft: theme.spacing(1),
-        paddingRight: theme.spacing(1)
+        maxWidth: 120
     },
     datepickerInput: {
-        width: 90
+        fontSize: 12,
     },
-    editCancel: {
-        color: 'red'
-    },
-    editConfirm: {
-        color: 'green'
-    }
 }));
+
+const TableCell = withStyles((theme) => ({
+    root: {
+        borderBottom: 'none',
+        maxWidth: 90,
+        paddingLeft: theme.spacing(1),
+        paddingRight: theme.spacing(1),
+    }
+}))(MuiTableCell);
+
+
+const DateTableCell = ({ name, control }) => {
+    const classes = useStyles();
+    return (
+        <TableCell>
+            <Controller
+                render={ props =>
+                    <KeyboardDatePicker
+                        {...props}
+                        disableToolbar
+                        variant="inline"
+                        format="MM/dd/yyyy"
+                        margin="none"
+                        InputProps={ {
+                            classes: {
+                                input: classes.datepickerInput
+                            }
+                        } }
+                        keyboardIcon={ <IconCalendar style={{ fontSize: 10 }}/> }
+                        className={ classes.datepicker }
+                    />
+                }
+                control={ control }
+                name={name}
+            />
+        </TableCell>
+    )
+}
 
 export default function OrderStatusInfoTile({ order }) {
     const classes = useStyles();
     const dispatch = useDispatch();
     const { procurement, production, qa } = order.status;
-    const [edit, setEdit] = useState(false);
-
-
-
-    const { register, setValue, watch, handleSubmit } = useForm({
+    const [isEdit, setIsEdit] = useState(false);
+    
+    const { register, control, setValue, watch, handleSubmit } = useForm({
         mode: 'onSubmit',
         defaultValues: {
             procurementStatus: procurement.status,
@@ -110,7 +111,8 @@ export default function OrderStatusInfoTile({ order }) {
             procurementActual: procurement.actual ? convertDateStringToyymmdd(procurement.actual) : null,
             productionActual: production.actual ? convertDateStringToyymmdd(production.actual) : null,
             qaActual: qa.actual ? convertDateStringToyymmdd(qa.actual) : null
-        }
+        },
+        shouldUnregister: false
     });
 
     useEffect(() => {
@@ -124,192 +126,169 @@ export default function OrderStatusInfoTile({ order }) {
     const qaStatus = watch('qaStatus');
 
     const BorderLessHeaderCell = ({ header }) =>
-        <TableCell align="center" classes={ { root: classes.header } }>
+        <TableCell className={ classes.header } >
             { header }
         </TableCell>
 
     const BorderLessRowTitleCell = ({ label }) =>
-        <TableCell align="left" className={ classes.column1 }>
+        <TableCell className={ classes.column1 }>
             { label }
         </TableCell>
 
-    const BorderLessTooltipCell = ({ status }) =>
-        <TableCell align="center" className={ classes.tooltip }>
-            <StatusTooltip status={ status }/>
-        </TableCell>
-
     const BorderLessCell = ({ value }) =>
-        <TableCell align="center" className={ classes.date }>
+        <TableCell className={ classes.date }>
             { getDateRep(value) }
         </TableCell>
 
-    const BorderLessDropdown = ({ value, name }) =>
-        <TableCell align="center" className={ classes.dropdown } padding="none">
-            <StatusButtonMenu onMenuItemClick={ onStatusClick } value={ value } name={name}/>
-        </TableCell>
-
-    const BorderLessDatepicker = ({ name, value }) =>
-        <TableCell align="center" className={ classes.datepicker } padding="none">
-            <TextField type="date" inputRef={ register } name={ name }
-                       style={{ width: '80%'}} size="small"/>
+    const BorderLessDropdown = ({ status, name, disabled = false }) =>
+        <TableCell className={ classes.dropdown }>
+            <StatusButtonMenu
+                disabled={disabled}
+                onItemClick={onStatusClick}
+                status={status}
+                name={name}/>
         </TableCell>
 
     const getDateRep = (val) => {
         if (val) return yymmddToLocaleDate(val);
-        return yymmddToLocaleDate(Date.now());
+        return '-';
     }
 
-    const onEditClick = () => setEdit(true);
-    const onEditCancelClick = () => setEdit(false);
-    const onStatusClick = (step, newStatus) => setValue(step, newStatus);
+    const onEditClick = () => setIsEdit(true);
+    const onEditCancelClick = () => setIsEdit(false);
+    const onStatusClick = (step, newStatus) => {
+        if (newStatus === 'Completed') {
+            const actual = step.substring(0, step.length - 6) + "Actual";
+            setValue(actual, yymmddToLocaleDate(new Date()));
+        }
+        setValue(step, newStatus);
+    }
 
     const onSubmitClick = (data) => {
+        console.log(data);
         const dataToSend = {
             _id: order.status._id,
             procurement: {
                 status: data.procurementStatus,
-                estimated: data.procurementEstimated ? new Date(data.procurementEstimated) : null,
-                actual: data.procurementActual ? new Date(data.procurementActual) : null
+                estimated: data.procurementEstimated,
+                actual: data.procurementActual
             },
             production: {
                 status: data.productionStatus,
-                estimated: data.productionEstimated ? new Date(data.productionEstimated) : null,
-                actual: data.productionActual ? new Date(data.productionActual) : null
+                estimated: data.productionEstimated,
+                actual: data.productionActual
             },
             qa: {
                 status: data.qaStatus,
-                estimated: data.qaEstimated ? new Date(data.qaEstimated) : null,
-                actual: data.qaActual ? new Date(data.qaActual) : null
+                estimated: data.qaEstimated,
+                actual: data.qaActual
             }
         };
         dispatch(updateOrderStatus({ orderId: order._id, data: dataToSend }));
-        setEdit(false);
+        setIsEdit(false);
     };
 
     return (
-        <Card className={ classes.card } elevation={ 3 }>
+        <OrderInfoCard
+            title={ title }
+            isEdit={ isEdit }
+            onEdit={ onEditClick }
+            onCancel={ onEditCancelClick }
+            onConfirm={ handleSubmit(onSubmitClick) }
+        >
+            { !isEdit &&
+            <TableContainer>
+                <Table size="small">
+                    <TableHead>
+                        <TableRow>
+                            <BorderLessHeaderCell/>
+                            { headers.map((header, index) =>
+                                <BorderLessHeaderCell key={ index } header={ header }/>) }
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        <TableRow>
+                            <BorderLessRowTitleCell label={ rowLabels[0] }/>
+                            <BorderLessDropdown status={ procurement.status } disabled/>
+                            <BorderLessDropdown status={ production.status } disabled/>
+                            <BorderLessDropdown status={ qa.status } disabled/>
+                        </TableRow>
+                        <TableRow>
+                            <BorderLessRowTitleCell label={ rowLabels[1] }/>
+                            <BorderLessCell value={ procurement.estimated }/>
+                            <BorderLessCell value={ production.estimated }/>
+                            <BorderLessCell value={ qa.estimated }/>
+                        </TableRow>
+                        <TableRow>
+                            <BorderLessRowTitleCell label={ rowLabels[2] }/>
+                            <BorderLessCell value={ procurement.actual }/>
+                            <BorderLessCell value={ production.actual }/>
+                            <BorderLessCell value={ qa.actual }/>
+                        </TableRow>
+                    </TableBody>
+                </Table>
+            </TableContainer> }
+            { isEdit &&
             <form onSubmit={ handleSubmit(onSubmitClick) } autoComplete="off">
-                <Grid container>
-                    <Grid
-                        container
-                        item xs={ 12 }
-                        className={ classes.titleRow }
-                    >
-                        <Grid container item justify="flex-start" alignItems="center" xs={ 7 }>
-                            <Typography variant="h5" className={ classes.title }>{ title }</Typography>
-                        </Grid>
-                        { !edit &&
-                        <Grid container item justify="flex-end" alignItems="center" xs={ 5 }>
-                            <ThemedButton
-                                variant="outlined"
-                                text={ editButton }
-                                styles={ classes.edit }
-                                onClick={ onEditClick }
-                            />
-                        </Grid>
-                        }
-                        { edit &&
-                        <Grid container item justify="flex-end" alignItems="center" xs={ 5 }>
-                            <IconButton
-                                className={ classes.editCancel }
-                                onClick={ onEditCancelClick }
-                                size="small"
-                            >
-                                <IconClear/>
-                            </IconButton>
-                            <IconButton
-                                className={ classes.editConfirm }
-                                size="small"
-                                type="submit"
-                            >
-                                <IconCheck/>
-                            </IconButton>
-                        </Grid>
-                        }
-                    </Grid>
-                    <Grid item xs={ 12 }>
-                        <Divider/>
-                    </Grid>
-                    <Grid item xs={ 12 } className={ classes.tableContainer }>
-
-                        <TableContainer>
-                            <Table size="small">
-                                <TableHead>
-                                    <TableRow>
-                                        <BorderLessHeaderCell/>
-                                        { headers.map((header, index) =>
-                                            <BorderLessHeaderCell key={ index } header={ header }/>) }
-                                    </TableRow>
-                                </TableHead>
-                                { !edit &&
-                                <TableBody>
-                                    <TableRow>
-                                        <BorderLessRowTitleCell label={ rowLabels[0] }/>
-                                        <BorderLessTooltipCell status={ procurement.status }/>
-                                        <BorderLessTooltipCell status={ production.status }/>
-                                        <BorderLessTooltipCell status={ qa.status }/>
-                                    </TableRow>
-                                    <TableRow>
-                                        <BorderLessRowTitleCell label={ rowLabels[1] }/>
-                                        <BorderLessCell value={ procurement.estimated }/>
-                                        <BorderLessCell value={ production.estimated }/>
-                                        <BorderLessCell value={ qa.estimated }/>
-                                    </TableRow>
-                                    <TableRow>
-                                        <BorderLessRowTitleCell label={ rowLabels[2] }/>
-                                        <BorderLessCell value={ procurement.actual }/>
-                                        <BorderLessCell value={ production.actual }/>
-                                        <BorderLessCell value={ qa.actual }/>
-                                    </TableRow>
-                                </TableBody> }
-                                { edit &&
-                                <TableBody>
-                                    <TableRow>
-                                        <BorderLessRowTitleCell label={ rowLabels[0] }/>
-                                        <BorderLessDropdown
-                                            name="procurementStatus"
-                                            value={ procurementStatus }
-                                        />
-                                        <BorderLessDropdown
-                                            name="productionStatus"
-                                            value={ productionStatus }
-                                        />
-                                        <BorderLessDropdown
-                                            name="qaStatus"
-                                            value={ qaStatus }
-                                        />
-                                    </TableRow>
-                                    <TableRow>
-                                        <BorderLessRowTitleCell label={ rowLabels[1] }/>
-                                        <BorderLessDatepicker
-                                            name="procurementEstimated"
-                                        />
-                                        <BorderLessDatepicker
-                                            name="productionEstimated"
-                                        />
-                                        <BorderLessDatepicker
-                                            name="qaEstimated"
-                                        />
-                                    </TableRow>
-                                    <TableRow>
-                                        <BorderLessRowTitleCell label={ rowLabels[2] }/>
-                                        <BorderLessDatepicker
-                                            name="procurementActual"
-                                        />
-                                        <BorderLessDatepicker
-                                            name="productionActual"
-                                        />
-                                        <BorderLessDatepicker
-                                            name="qaActual"
-                                        />
-                                    </TableRow>
-                                </TableBody>
-                                }
-                            </Table>
-                        </TableContainer>
-                    </Grid>
-                </Grid>
-            </form>
-        </Card>
+                <TableContainer>
+                    <Table size="small">
+                        <TableHead>
+                            <TableRow>
+                                <BorderLessHeaderCell/>
+                                { headers.map((header, index) =>
+                                    <BorderLessHeaderCell key={ index } header={ header }/>) }
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            <TableRow>
+                                <BorderLessRowTitleCell label={ rowLabels[0] }/>
+                                <BorderLessDropdown
+                                    name="procurementStatus"
+                                    status={ procurementStatus }
+                                />
+                                <BorderLessDropdown
+                                    name="productionStatus"
+                                    status={ productionStatus }
+                                />
+                                <BorderLessDropdown
+                                    name="qaStatus"
+                                    status={ qaStatus }
+                                />
+                            </TableRow>
+                            <TableRow>
+                                <BorderLessRowTitleCell label={ rowLabels[1] }/>
+                                <DateTableCell
+                                    name="procurementEstimated"
+                                    control={ control }
+                                />
+                                <DateTableCell
+                                    name="productionEstimated"
+                                    control={ control }
+                                />
+                                <DateTableCell
+                                    name="qaEstimated"
+                                    control={ control }
+                                />
+                            </TableRow>
+                            <TableRow>
+                                <BorderLessRowTitleCell label={ rowLabels[2] }/>
+                                <DateTableCell
+                                    name="procurementActual"
+                                    control={ control }
+                                />
+                                <DateTableCell
+                                    name="productionActual"
+                                    control={ control }
+                                />
+                                <DateTableCell
+                                    name="qaActual"
+                                    control={ control }
+                                />
+                            </TableRow>
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            </form> }
+        </OrderInfoCard>
     )
 }

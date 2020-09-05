@@ -11,6 +11,7 @@ import { setCurrentPO } from './duck/slice.js';
 import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import OrderStatusInfoTile from './OrderStatusInfoTile.js';
+import OrderInfoCard from './OrderInfoCard.js';
 
 const { orderDetailsTab, documentsTab } = LANGUAGE.order.order;
 

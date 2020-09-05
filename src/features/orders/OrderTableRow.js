@@ -11,7 +11,7 @@ import {
 } from '../shared/utils.js';
 import { useDispatch } from 'react-redux';
 import { setCurrentPO } from './duck/slice.js';
-import StatusTooltip from '../shared/displays/StatusTooltip.js';
+import StatusButtonMenu from './StatusButtonMenu.js';
 
 const useStyles = makeStyles((theme) => ({
   deleteButtonCell: {
@@ -55,13 +55,13 @@ export default function OrderTableRow({ order, onDialogOpen }) {
       <TableCell align="center">{yymmddToLocaleDate(crd)}</TableCell>
       <TableCell align="center">{fromName}</TableCell>
         <TableCell align="center">
-            <StatusTooltip status={status.procurement.status} />
+            <StatusButtonMenu disabled status={status.procurement.status} />
         </TableCell>
         <TableCell align="center">
-            <StatusTooltip status={status.production.status} />
+            <StatusButtonMenu disabled status={status.production.status} />
         </TableCell>
         <TableCell align="center">
-            <StatusTooltip status={status.qa.status} />
+            <StatusButtonMenu disabled status={status.qa.status} />
         </TableCell>
       <TableCell className={classes.wrapText}>{remarks}</TableCell>
     </TableRow>
