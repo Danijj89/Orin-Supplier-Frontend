@@ -43,8 +43,6 @@ const useStyles = makeStyles((theme) => ({
         paddingBottom: theme.spacing(1),
         paddingLeft: theme.spacing(2),
         paddingRight: theme.spacing(2),
-        justifyContent: 'center',
-        alignItems: 'center',
         display: 'flex',
         flexFlow: 'column',
         flex: '1 1 auto'

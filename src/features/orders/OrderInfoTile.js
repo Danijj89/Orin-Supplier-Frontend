@@ -16,11 +16,19 @@ const {
 
 const useStyles = makeStyles((theme) => ({
     row: {
-        marginBottom: theme.spacing(0.5)
+        marginBottom: theme.spacing(0.5),
+        display: 'flex',
+        justifyContent: 'flex-start',
+        alignItems: 'center'
     },
     rowLabel: {
         color: theme.palette.tertiary['600'],
-        marginRight: theme.spacing(2),
+        marginRight: theme.spacing(2)
+    },
+    documentTags: {
+        display: 'flex',
+        justifyContent: 'flex-end',
+        alignItems: 'center'
     }
 }));
 
@@ -36,23 +44,25 @@ export default function OrderInfoTile({ order }) {
     } = order;
 
     const FormattedTypography = ({ label, value }) =>
-        <Grid container justify="flex-start" alignItems="center" item xs={ 12 } className={ classes.row }>
+        <Grid item xs={ 12 } className={ classes.row }>
             <Typography className={ classes.rowLabel }>{ label }</Typography>
             <Typography>{ value }</Typography>
         </Grid>
 
     return (
         <OrderInfoCard title={ title }>
-            <FormattedTypography label={ orderLabel } value={ orderNumber }/>
-            <FormattedTypography label={ dateTitle } value={ yymmddToLocaleDate(orderDate) }/>
-            <FormattedTypography label={ crdTitle } value={ yymmddToLocaleDate(cargoReadyDay) }/>
-            <FormattedTypography label={ quantityTitle }
-                                 value={ new UnitCounter([], totalQuantity).stringRep }/>
-            <FormattedTypography label={ incotermTitle } value={ incoterm }/>
-            <Grid container justify="flex-end" alignItems="flex-start" item xs={ 12 }>
-                { documents && Object.entries(documents).map(([docType, docId], index) =>
-                    <DocumentTag key={ index } docType={ docType }/>
-                ) }
+            <Grid container>
+                <FormattedTypography label={ orderLabel } value={ orderNumber }/>
+                <FormattedTypography label={ dateTitle } value={ yymmddToLocaleDate(orderDate) }/>
+                <FormattedTypography label={ crdTitle } value={ yymmddToLocaleDate(cargoReadyDay) }/>
+                <FormattedTypography label={ quantityTitle }
+                                     value={ new UnitCounter([], totalQuantity).stringRep }/>
+                <FormattedTypography label={ incotermTitle } value={ incoterm }/>
+                <Grid className={ classes.documentTags } item xs={ 12 }>
+                    { documents && Object.entries(documents).map(([docType, docId], index) =>
+                        <DocumentTag key={ index } docType={ docType }/>
+                    ) }
+                </Grid>
             </Grid>
         </OrderInfoCard>
     )
