@@ -98,7 +98,7 @@ export default function OrderStatusInfoTile({ order }) {
     const dispatch = useDispatch();
     const { procurement, production, qa } = order.status;
     const [isEdit, setIsEdit] = useState(false);
-    
+
     const { register, control, setValue, watch, handleSubmit } = useForm({
         mode: 'onSubmit',
         defaultValues: {
@@ -159,7 +159,7 @@ export default function OrderStatusInfoTile({ order }) {
     const onStatusClick = (step, newStatus) => {
         if (newStatus === 'Completed') {
             const actual = step.substring(0, step.length - 6) + "Actual";
-            setValue(actual, yymmddToLocaleDate(new Date()));
+            setValue(actual, convertDateStringToyymmdd(new Date().toISOString()));
         }
         setValue(step, newStatus);
     }
