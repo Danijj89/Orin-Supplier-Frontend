@@ -27,7 +27,16 @@ export const CHINESE = {
     order: {
         OrdersOverview: {
             newOrder: '新订单',
-            columns: ['订单', '数量', '货好日期', '客户', '采购', '生产', '验检', '备注'],
+            columns: [
+                '订单',
+                '数量',
+                '货好日期',
+                '客户',
+                '采购',
+                '生产',
+                '验检',
+                '备注',
+            ],
             deleteOrderDialogMessage: '您确定要删除订单吗?',
             deleteOrderDialogCancelButton: '取消',
             deleteOrderDialogConfirmButton: '确定',
@@ -37,10 +46,10 @@ export const CHINESE = {
             newOrder: '新订单',
         },
         orderDetailsForm: {
-            orderReferenceLabel: '订单号',
+            orderReferenceLabel: '订单号*',
             dateLabel: '订单日期',
-            clientLabel: '客户',
-            clientAddressLabel: '交货地址',
+            clientLabel: '客户*',
+            clientAddressLabel: '交货地址*',
             crdLabel: '货好日期',
             incotermLabel: '贸易条款',
             paymentMethodLabel: '付款模式',
@@ -83,24 +92,24 @@ export const CHINESE = {
             buttonSubmit: '确定并完成',
         },
         orderInfoTile: {
-            title: 'Order Overview',
-            orderLabel: 'Order Number:',
+            title: '订单详情',
+            orderLabel: '订单号码:',
             dateTitle: '订单日期:',
             crdTitle: '货好日期:',
             quantityTitle: '数量:',
             incotermTitle: '贸易条款:',
             editButton: '编辑',
-            deleteOrderDialogMessage: '您确定要删除订单吗?'
+            deleteOrderDialogMessage: '您确定要删除订单吗?',
         },
         order: {
             orderDetailsTab: '订单详情',
             documentsTab: '单证',
         },
         orderStatusInfoTile: {
-            title: 'Order Progress',
-            editButton: 'Edit',
+            title: '订单进行中',
+            editButton: '编辑',
             headers: ['采购', '生产', '验检'],
-            rowLabels: ['状态', '预计完成', '实际完成']
+            rowLabels: ['状态', '预计完成', '实际完成'],
         },
         orderDocuments: {
             tableTitle: '已生成的单据',
@@ -121,7 +130,7 @@ export const CHINESE = {
             title: '业务发票',
         },
         createCIDetailsForm: {
-            invoiceNumber: '发票号码',
+            invoiceNumber: '发票号码*',
             invoiceDate: '发票日期',
             importer: '进口商',
             importerAddress: '进口商地址',
@@ -167,7 +176,7 @@ export const CHINESE = {
             title: '装箱单',
         },
         createPLDetailsForm: {
-            plRefLabel: '装箱单号',
+            plRefLabel: '装箱单号*',
             dateLabel: '装箱单日期',
             notesLabel: '备注',
             cancelButton: '取消',
@@ -245,16 +254,16 @@ export const CHINESE = {
         },
         deleteButton: {
             cancelButton: 'Cancel',
-            confirmButton: 'Confirm'
+            confirmButton: 'Confirm',
         },
         statusButtonMenu: {
             orderStatusLabelsMap: {
                 'Not Started': '未开始',
                 'In Progress': '进行中',
-                'Completed': '完毕',
-                'Exception': '意外/延迟'
-            }
-        }
+                Completed: '完毕',
+                Exception: '意外/延迟',
+            },
+        },
     },
     defaults: {
         documentNames: {

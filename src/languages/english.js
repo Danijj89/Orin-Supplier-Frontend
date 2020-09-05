@@ -13,7 +13,8 @@ export const ENGLISH = {
             errorMessages: {
                 emailRequired: 'You need to insert an email',
                 passwordRequired: 'You need to insert a password',
-                emailOrPasswordWrong: 'Email or Password does not match any existing one',
+                emailOrPasswordWrong:
+                    'Email or Password does not match any existing one',
             },
         },
     },
@@ -27,8 +28,18 @@ export const ENGLISH = {
     order: {
         OrdersOverview: {
             newOrder: 'New Order',
-            columns: ['Purchase Order', 'Quantity', 'Cargo Ready', 'Client', 'Procurement', 'Production', 'QA', 'Notes'],
-            deleteOrderDialogMessage: 'Are you sure you want to delete this order?',
+            columns: [
+                'Purchase Order',
+                'Quantity',
+                'Cargo Ready',
+                'Client',
+                'Procurement',
+                'Production',
+                'QA',
+                'Notes',
+            ],
+            deleteOrderDialogMessage:
+                'Are you sure you want to delete this order?',
             deleteOrderDialogCancelButton: 'Cancel',
             deleteOrderDialogConfirmButton: 'Confirm',
         },
@@ -37,10 +48,10 @@ export const ENGLISH = {
             newOrder: 'New Order',
         },
         orderDetailsForm: {
-            orderReferenceLabel: 'Order Number',
+            orderReferenceLabel: 'Order Number*',
             dateLabel: 'Order Date',
-            clientLabel: 'Client',
-            clientAddressLabel: 'Delivery Address',
+            clientLabel: 'Client*',
+            clientAddressLabel: 'Delivery Address*',
             crdLabel: 'Cargo Ready Date',
             incotermLabel: 'Incoterm',
             paymentMethodLabel: 'Payment Method',
@@ -62,7 +73,7 @@ export const ENGLISH = {
             nextButton: 'Next: Review',
             errorMessages: {
                 currency: 'You must select a currency.',
-                missingItemInfo: 'Some item is missing information.'
+                missingItemInfo: 'Some item is missing information.',
             },
         },
         productTable: {
@@ -90,38 +101,44 @@ export const ENGLISH = {
             quantityTitle: 'Quantity:',
             incotermTitle: 'Incoterm:',
             editButton: 'Edit',
-            deleteOrderDialogMessage: 'Are you sure you want to delete this order?'
+            deleteOrderDialogMessage:
+                'Are you sure you want to delete this order?',
         },
         order: {
             orderDetailsTab: 'Order Details',
-            documentsTab: 'Documents'
+            documentsTab: 'Documents',
         },
         orderStatusInfoTile: {
             title: 'Order Progress',
             editButton: 'Edit',
             headers: ['Procurement', 'Production', 'QA'],
-            rowLabels: ['Status:', 'Estimated Completion:', 'Actual Completion:']
+            rowLabels: [
+                'Status:',
+                'Estimated Completion:',
+                'Actual Completion:',
+            ],
         },
         orderDocuments: {
             tableTitle: 'Generated Documents',
             tableHeaders: ['Document Type', 'Created By', 'Date Created'],
             docTypeMap: {
-                'CI': 'Commercial Invoice',
-                'PO': 'Purchase Order',
-                'PL': 'Packing List'
+                CI: 'Commercial Invoice',
+                PO: 'Purchase Order',
+                PL: 'Packing List',
             },
-            deleteDocumentMessage: 'Are you sure you want to delete this document?',
+            deleteDocumentMessage:
+                'Are you sure you want to delete this document?',
             deleteDocumentButtonCancel: 'Cancel',
-            deleteDocumentButtonConfirm: 'Delete'
-        }
+            deleteDocumentButtonConfirm: 'Delete',
+        },
     },
     commercialInvoice: {
         createCI: {
             steps: ['Invoice Info', 'Products', 'Review'],
-            title: 'Commercial Invoice'
+            title: 'Commercial Invoice',
         },
         createCIDetailsForm: {
-            invoiceNumber: 'Invoice Number',
+            invoiceNumber: 'Invoice Number*',
             invoiceDate: 'Invoice Date',
             importer: 'Importer',
             importerAddress: 'Importer Address',
@@ -129,7 +146,7 @@ export const ENGLISH = {
             exporterAddressLabel: 'Exporter Address',
             countryOfManufacture: 'Country of Manufacture',
             buttonCancel: 'Cancel',
-            buttonNext: 'Next: Product Info'
+            buttonNext: 'Next: Product Info',
         },
         createCIAdditionalInfo: {
             title: 'Additional Information (Optional)',
@@ -137,7 +154,7 @@ export const ENGLISH = {
             salesContract: 'Sales Contract Number',
             paymentReference: 'Payment Reference',
             portOfLoading: 'Port of Loading',
-            portOfDestination: 'Port of Destination'
+            portOfDestination: 'Port of Destination',
         },
         createCIProductInfo: {
             ordersLabel: 'Purchase Orders',
@@ -149,29 +166,29 @@ export const ENGLISH = {
                 poRefs: 'You must reference at least one Purchase Order.',
                 currency: 'You must select a currency.',
                 atLeastOneOrder: 'You must choose at least one Purchase Order.',
-                missingItemInfo: 'Some item is missing information.'
-            }
+                missingItemInfo: 'Some item is missing information.',
+            },
         },
         createCIProductTable: {
             totals: 'Total:',
-            addRowButton: 'Add'
+            addRowButton: 'Add',
         },
         createCIPreview: {
             buttonPrev: 'Back: Product Info',
-            buttonNext: 'Submit'
-        }
+            buttonNext: 'Submit',
+        },
     },
     packingList: {
         createPL: {
             steps: ['Packing List', 'Product Info', 'Review'],
-            title: 'Packing List'
+            title: 'Packing List',
         },
         createPLDetailsForm: {
-            plRefLabel: 'Packing List Number',
+            plRefLabel: 'Packing List Number*',
             dateLabel: 'Packing List Date',
             notesLabel: 'Notes',
             cancelButton: 'Cancel',
-            nextButton: 'Next: Product Data'
+            nextButton: 'Next: Product Data',
         },
         createPLProductInfo: {
             measurementUnitLabel: 'Measurement Unit',
@@ -182,8 +199,8 @@ export const ENGLISH = {
             errorMessages: {
                 missingItemInfo: 'Some item is missing information.',
                 mUnit: 'You must select a measurement unit.',
-                wUnit: 'You must select a weight unit.'
-            }
+                wUnit: 'You must select a weight unit.',
+            },
         },
         createPLProductTable: {
             defaultHeaders: [
@@ -195,15 +212,15 @@ export const ENGLISH = {
                 'Packaging',
                 'Net Weight',
                 'Gross Weight',
-                'Dimension'
+                'Dimension',
             ],
             addRowButton: 'Add',
-            totalsText: 'Totals:'
+            totalsText: 'Totals:',
         },
         createPLPreview: {
             prevButton: 'Back: Product Data',
-            submitButton: 'Submit'
-        }
+            submitButton: 'Submit',
+        },
     },
     shared: {
         downloadButton: {
@@ -211,7 +228,7 @@ export const ENGLISH = {
             dialogTitle: 'Select the file type to download',
             dialogCancel: 'Cancel',
             dialogConfirm: 'Download',
-            typeLabel: 'Document Type'
+            typeLabel: 'Document Type',
         },
         generateDocumentButton: {
             buttonText: 'Generate Documents',
@@ -222,8 +239,8 @@ export const ENGLISH = {
             errors: {
                 ciFirst: 'You need to create a Commercial Invoice first.',
                 ciExists: 'A Commercial Invoice already exists for this order.',
-                plExists: 'A Packing List already exists for this order'
-            }
+                plExists: 'A Packing List already exists for this order',
+            },
         },
         addColumnButton: {
             buttonText: 'Add Column',
@@ -231,36 +248,36 @@ export const ENGLISH = {
             fieldLabel: 'Column Name',
             dialogCancel: 'Cancel',
             dialogConfirm: 'Add',
-            errorMessage: 'Maximum number of columns reached'
+            errorMessage: 'Maximum number of columns reached',
         },
         documentTag: {
             docTypesAcronyms: {
-                'PO': 'PO',
-                'CI': 'CI',
-                'PL': 'PL'
-            }
+                PO: 'PO',
+                CI: 'CI',
+                PL: 'PL',
+            },
         },
         featureInProgressTag: {
-            title: 'Feature in Progress'
+            title: 'Feature in Progress',
         },
         deleteButton: {
             cancelButton: 'Cancel',
-            confirmButton: 'Confirm'
+            confirmButton: 'Confirm',
         },
         statusButtonMenu: {
             orderStatusLabelsMap: {
                 'Not Started': 'Not Started',
                 'In Progress': 'In Progress',
-                'Completed': 'Completed',
-                'Exception': 'Exception'
-            }
-        }
+                Completed: 'Completed',
+                Exception: 'Exception',
+            },
+        },
     },
     defaults: {
         documentNames: {
             PO: 'Purchase Order',
             CI: 'Commercial Invoice',
-            PL: 'Packing List'
-        }
-    }
+            PL: 'Packing List',
+        },
+    },
 };
