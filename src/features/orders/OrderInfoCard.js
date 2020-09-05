@@ -1,8 +1,9 @@
 import React from 'react';
-import { Card, Divider, Grid, Typography } from '@material-ui/core';
+import { Card, Divider, Grid, Typography, Box, IconButton } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { LANGUAGE } from '../../constants.js';
+import { Check as IconCheck, Clear as IconClear } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -33,8 +34,8 @@ const useStyles = makeStyles((theme) => ({
     title: {
         fontWeight: 'bold'
     },
-    edit: {
-        width: '10%',
+    buttons: {
+        display: 'flex',
         height: '80%'
     },
     bottomPanel: {
@@ -52,11 +53,11 @@ const useStyles = makeStyles((theme) => ({
 
 const { editButton } = LANGUAGE.order.orderInfoCard;
 
-export default function OrderInfoCard({ title, onEdit, children }) {
+export default function OrderInfoCard({ title, onEdit, isEdit, onCancel, onConfirm, children }) {
     const classes = useStyles();
 
     return (
-        <Card className={ classes.root } elevation={3}>
+        <Card className={ classes.root } elevation={ 3 }>
             <Grid container className={ classes.container }>
                 <Grid
                     item
@@ -68,12 +69,29 @@ export default function OrderInfoCard({ title, onEdit, children }) {
                         className={ classes.title }
                     >{ title }
                     </Typography>
-                    {onEdit && <ThemedButton
-                        onClick={ onEdit }
-                        text={ editButton }
-                        variant="outlined"
-                        styles={ classes.edit }
-                    /> }
+                    { !isEdit && onEdit && <Box className={ classes.buttons }>
+                        <ThemedButton
+                            onClick={ onEdit }
+                            text={ editButton }
+                            variant="outlined"
+                        />
+                    </Box> }
+                    { isEdit && <Box className={ classes.buttons }>
+                        <IconButton
+                            className={ classes.editCancel }
+                            onClick={ onCancel }
+                            size="small"
+                        >
+                            <IconClear/>
+                        </IconButton>
+                        <IconButton
+                            className={ classes.editConfirm }
+                            onClick={ onConfirm }
+                            size="small"
+                        >
+                            <IconCheck/>
+                        </IconButton>
+                    </Box> }
                 </Grid>
                 <Divider/>
                 <Grid item className={ classes.bottomPanel } xs={ 12 }>
