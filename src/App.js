@@ -13,6 +13,8 @@ import {
 import CreateCI from './features/commercial_invoice/CreateCI.js';
 import CreatePL from './features/packing_list/CreatePL.js';
 import { grey } from '@material-ui/core/colors';
+import DateFnsUtils from '@date-io/date-fns';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 
 let theme = createMuiTheme({
     typography: {
@@ -40,6 +42,7 @@ theme = responsiveFontSizes(theme);
 function App() {
     return (
         <MuiThemeProvider theme={ theme }>
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <Router>
                 <Switch>
                     <Route exact path={ ['/', 'login'] } component={ LoginPage }/>
@@ -76,6 +79,7 @@ function App() {
                     <Route component={ LoginPage }/>
                 </Switch>
             </Router>
+            </MuiPickersUtilsProvider>
         </MuiThemeProvider>
     );
 }
