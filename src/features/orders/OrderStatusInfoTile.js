@@ -17,10 +17,12 @@ import { LANGUAGE } from '../../constants.js';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { makeStyles } from '@material-ui/core/styles';
 import StatusTooltip from '../shared/displays/StatusTooltip.js';
-import { yymmddToLocaleDate } from '../shared/utils.js';
+import { convertDateStringToyymmdd, yymmddToLocaleDate } from '../shared/utils.js';
 import { useForm } from 'react-hook-form';
 import { Clear as IconClear, Check as IconCheck } from '@material-ui/icons';
 import StatusButtonMenu from '../shared/StatusButtonMenu.js';
+import { useDispatch } from 'react-redux';
+import { updateOrderStatus } from './duck/thunks.js';
 
 const { title, editButton, headers, rowLabels } = LANGUAGE.order.orderStatusInfoTile;
 
@@ -88,10 +90,12 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function OrderStatusInfoTile({ status }) {
+export default function OrderStatusInfoTile({ order }) {
     const classes = useStyles();
-    const { procurement, production, qa } = status;
+    const dispatch = useDispatch();
+    const { procurement, production, qa } = order.status;
     const [edit, setEdit] = useState(false);
+
 
 
     const { register, setValue, watch, handleSubmit } = useForm({
@@ -100,12 +104,12 @@ export default function OrderStatusInfoTile({ status }) {
             procurementStatus: procurement.status,
             productionStatus: production.status,
             qaStatus: qa.status,
-            procurementEstimated: procurement.estimated,
-            productionEstimated: production.estimated,
-            qaEstimated: qa.estimated,
-            procurementActual: procurement.actual,
-            productionActual: production.actual,
-            qaActual: qa.actual
+            procurementEstimated: procurement.estimated ? convertDateStringToyymmdd(procurement.estimated) : null,
+            productionEstimated: production.estimated ? convertDateStringToyymmdd(production.estimated) : null,
+            qaEstimated: qa.estimated ? convertDateStringToyymmdd(qa.estimated) : null,
+            procurementActual: procurement.actual ? convertDateStringToyymmdd(procurement.actual) : null,
+            productionActual: production.actual ? convertDateStringToyymmdd(production.actual) : null,
+            qaActual: qa.actual ? convertDateStringToyymmdd(qa.actual) : null
         }
     });
 
@@ -144,7 +148,7 @@ export default function OrderStatusInfoTile({ status }) {
             <StatusButtonMenu onMenuItemClick={ onStatusClick } value={ value } name={name}/>
         </TableCell>
 
-    const BorderLessDatepicker = ({ name }) =>
+    const BorderLessDatepicker = ({ name, value }) =>
         <TableCell align="center" className={ classes.datepicker } padding="none">
             <TextField type="date" inputRef={ register } name={ name }
                        style={{ width: '80%'}} size="small"/>
@@ -157,14 +161,29 @@ export default function OrderStatusInfoTile({ status }) {
 
     const onEditClick = () => setEdit(true);
     const onEditCancelClick = () => setEdit(false);
-    const onStatusClick = (step, newStatus) => {
-        console.log(procurementStatus)
-        console.log(step);
-        console.log(newStatus);
-        setValue(step, newStatus);
-    }
-    const onSubmitClick = (data) => {
+    const onStatusClick = (step, newStatus) => setValue(step, newStatus);
 
+    const onSubmitClick = (data) => {
+        const dataToSend = {
+            _id: order.status._id,
+            procurement: {
+                status: data.procurementStatus,
+                estimated: data.procurementEstimated ? new Date(data.procurementEstimated) : null,
+                actual: data.procurementActual ? new Date(data.procurementActual) : null
+            },
+            production: {
+                status: data.productionStatus,
+                estimated: data.productionEstimated ? new Date(data.productionEstimated) : null,
+                actual: data.productionActual ? new Date(data.productionActual) : null
+            },
+            qa: {
+                status: data.qaStatus,
+                estimated: data.qaEstimated ? new Date(data.qaEstimated) : null,
+                actual: data.qaActual ? new Date(data.qaActual) : null
+            }
+        };
+        dispatch(updateOrderStatus({ orderId: order._id, data: dataToSend }));
+        setEdit(false);
     };
 
     return (

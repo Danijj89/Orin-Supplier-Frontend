@@ -1,6 +1,13 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { LANGUAGE } from '../../../constants.js';
-import { deleteOrder, fetchPOOptions, fetchOrders, submitPO, submitOrderForPreview } from './thunks.js';
+import {
+    deleteOrder,
+    fetchPOOptions,
+    fetchOrders,
+    submitPO,
+    submitOrderForPreview,
+    updateOrderStatus
+} from './thunks.js';
 
 export const defaultRowValues = ['', '', '', '', 0, 'PCS', 0, 0];
 
@@ -135,6 +142,12 @@ const ordersSlice = createSlice({
         [deleteOrder.fulfilled]: (state, action) => {
             state.status = 'IDLE';
             ordersAdapter.removeOne(state, action.payload);
+        },
+        [updateOrderStatus.fulfilled]: (state, action) => {
+            const { _id, status } = action.payload;
+            state.status = 'IDLE';
+            ordersAdapter.updateOne(state, { id: _id, changes: { status: status }});
+            state.currentPO = action.payload;
         }
     }
 });

@@ -25,3 +25,8 @@ export const deleteOrder = createAsyncThunk('orders/deleteOrder', async (orderId
    return await POService.deleteOrder(orderId);
 });
 
+export const updateOrderStatus = createAsyncThunk('orders/updateOrderStatus',
+    async ({ orderId, data }) => {
+        return POService.updateOrderStatus(orderId, data);
+    }
+)

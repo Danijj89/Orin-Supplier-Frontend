@@ -58,7 +58,7 @@ export default function Order({ match }) {
                 { order && <OrderInfoTile order={ order }/> }
             </Grid>
             <Grid item xs={ 6 }>
-                { order && <OrderStatusInfoTile status={ order.status }/> }
+                { order && <OrderStatusInfoTile order={ order }/> }
             </Grid>
             <Grid item xs={ 12 }>
                 <Tabs

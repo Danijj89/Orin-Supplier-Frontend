@@ -70,6 +70,16 @@ const getPdfFilePreview = async (filename) => {
     return data;
 }
 
+const updateOrderStatus = async (id, updatedStatus) => {
+    const configs = {
+        method: 'put',
+        url: `/orders/${id}/status`,
+        data: updatedStatus
+    };
+    const { data } = await fetchWithAuth(configs);
+    return data;
+}
+
 const POService = {
     fetchOrderOptions,
     generatePOFiles,
@@ -77,7 +87,8 @@ const POService = {
     fetchAllOrdersByCurrentCompanyId,
     deleteOrder,
     fetchOrderById,
-    getPdfFilePreview
+    getPdfFilePreview,
+    updateOrderStatus
 };
 
 export default POService;

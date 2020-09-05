@@ -36,3 +36,5 @@ export const yymmddToLocaleDate = (date) => {
     const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' }
     return new Date(date).toLocaleString(LOCALE, dateOptions);
 }
+
+export const convertDateStringToyymmdd = (dateString) => dateString.substr(0, 10);
