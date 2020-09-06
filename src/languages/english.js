@@ -77,15 +77,6 @@ export const ENGLISH = {
             },
         },
         productTable: {
-            defaultHeaders: [
-                'Item Ref',
-                'Product Description',
-                null,
-                null,
-                'Quantity',
-                'Unit Price',
-                'Amount',
-            ],
             totals: 'Total:',
             addRowButton: 'Add',
         },

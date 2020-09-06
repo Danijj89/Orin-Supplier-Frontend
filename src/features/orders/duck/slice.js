@@ -1,48 +1,16 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import { LANGUAGE } from '../../../constants.js';
 import {
     deleteOrder,
-    fetchPOOptions,
     fetchOrders,
     submitPO,
     submitOrderForPreview,
-    updateOrderStatus
+    updateOrderStatus, startNewPO
 } from './thunks.js';
-
-export const defaultRowValues = ['', '', '', '', 0, 'PCS', 0, 0];
 
 const ordersAdapter = createEntityAdapter({
     selectId: order => order._id,
     sortComparer: (a, b) => a.crd.localeCompare(b.crd)
 });
-
-const getOrderDefaultValues = () => {
-    return {
-        poRef: null,
-        fromName: null,
-        fromAdd: null,
-        to: null,
-        toName: null,
-        toAdd: null,
-        date: new Date().toISOString(),
-        incoterm: null,
-        crd: new Date().toISOString(),
-        pol: '',
-        pod: '',
-        pay: null,
-        del: 'Ocean',
-        carrier: '',
-        orderRef: null,
-        remarks: null,
-        currency: 'USD',
-        headers: LANGUAGE.order.productTable.defaultHeaders,
-        items: [defaultRowValues],
-        totalQ: {'PCS': 0},
-        totalA: 0,
-        createdBy: null,
-        fileName: null
-    }
-}
 
 const initialState = ordersAdapter.getInitialState({
     status: 'IDLE',
@@ -55,7 +23,7 @@ const initialState = ordersAdapter.getInitialState({
         customerAddressMap: {},
         ports: []
     },
-    newPO: getOrderDefaultValues(),
+    newPO: null,
     currentPO: null,
     previewFileURL: null
 });
@@ -64,9 +32,6 @@ const ordersSlice = createSlice({
     name: 'orders',
     initialState,
     reducers: {
-        startNewOrder: (state, action) => {
-            state.newPO = getOrderDefaultValues();
-        },
         submitOrderDetails: (state, action) => {
             for (const [key, value] of Object.entries(action.payload)) {
                 state.newPO[key] = value;
@@ -99,14 +64,16 @@ const ordersSlice = createSlice({
         }
     },
     extraReducers: {
-        [fetchPOOptions.pending]: (state, action) => {
+        [startNewPO.pending]: (state, action) => {
             state.status = 'PENDING';
         },
-        [fetchPOOptions.fulfilled]: (state, action) => {
+        [startNewPO.fulfilled]: (state, action) => {
             state.status = 'IDLE';
-            state.autocomplete = action.payload;
+            const { newPO, ...rest } = action.payload;
+            state.autocomplete = rest;
+            state.newPO = newPO;
         },
-        [fetchPOOptions.rejected]: (state, action) => {
+        [startNewPO.rejected]: (state, action) => {
             state.status = 'REJECTED';
             state.error = action.error.message;
         },
@@ -152,7 +119,7 @@ const ordersSlice = createSlice({
     }
 });
 
-export const { startNewOrder, submitOrderDetails, submitPOProductInfo,
+export const { submitOrderDetails, submitPOProductInfo,
     setCurrentPO, updateOrderDocument, deleteOrderDocument } = ordersSlice.actions;
 
 export const {

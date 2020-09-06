@@ -1,9 +1,13 @@
 import { fetchWithAuth } from '../shared/fetchWithAuth.js';
 
-const fetchOrderOptions = async (companyId) => {
+const fetchNewPOData = async (userId, companyId) => {
     const configs = {
         method: 'get',
-        url: `/companies/${companyId}/document_autocomplete/po`
+        url: `/orders/new`,
+        params: {
+            user: userId,
+            company: companyId
+        }
     };
     const { data } = await fetchWithAuth(configs);
     return data;
@@ -81,14 +85,14 @@ const updateOrderStatus = async (id, updatedStatus) => {
 }
 
 const POService = {
-    fetchOrderOptions,
     generatePOFiles,
     createNewPO,
     fetchAllOrdersByCurrentCompanyId,
     deleteOrder,
     fetchOrderById,
     getPdfFilePreview,
-    updateOrderStatus
+    updateOrderStatus,
+    fetchNewPOData
 };
 
 export default POService;

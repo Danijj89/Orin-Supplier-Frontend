@@ -2,8 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import { LANGUAGE } from '../../constants.js';
 import OrderTableRow from './OrderTableRow.js';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteOrder, fetchOrders } from './duck/thunks.js';
-import { selectAllOrders, startNewOrder } from './duck/slice.js';
+import { deleteOrder, fetchOrders, startNewPO } from './duck/thunks.js';
+import { selectAllOrders } from './duck/slice.js';
 import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import {
@@ -95,7 +95,7 @@ export default function OrderTableOverview() {
     }
 
     const onNewOrderClick = () => {
-        dispatch(startNewOrder());
+        dispatch(startNewPO());
         history.push('/home/orders/create');
     }
 

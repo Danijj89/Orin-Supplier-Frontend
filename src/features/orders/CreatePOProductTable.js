@@ -13,7 +13,8 @@ import { LANGUAGE } from '../../constants.js';
 import { Grid, IconButton, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import UnitCounter from '../shared/classes/UnitCounter.js';
-import { defaultRowValues } from './duck/slice.js';
+import { useSelector } from 'react-redux';
+import { selectPOAutocompleteOptions } from './duck/selectors.js';
 
 const { totals, addRowButton } = LANGUAGE.order.productTable;
 
@@ -37,6 +38,7 @@ const useStyles = makeStyles({
 
 export default function CreatePOProductTable({ watch, setValue, numActiveColumns }) {
     const classes = useStyles();
+    const { defaultPORowValues } = useSelector(selectPOAutocompleteOptions);
     const currency = watch('currency');
     const items = watch('items');
     const totalQ = watch('totalQ');
@@ -57,7 +59,7 @@ export default function CreatePOProductTable({ watch, setValue, numActiveColumns
         setValue('items', newItems);
     };
 
-    const onAddItemClick = () => setValue('items', [...items, defaultRowValues]);
+    const onAddItemClick = () => setValue('items', [...items, defaultPORowValues]);
 
     const renderedHeaders = headers.map((header, index) => {
         if (index === 0 || index === 1) return <TableCell key={ index }>{ header }</TableCell>;

@@ -5,12 +5,10 @@ import CreatePODetailsForm from './CreatePODetailsForm.js';
 import './styles.css';
 import { LANGUAGE } from '../../constants.js';
 import CreatePOProductInfo from './CreatePOProductInfo.js';
-import { selectCurrentCompany } from '../home/slice.js';
-import { fetchPOOptions, submitPO } from './duck/thunks.js';
+import { startNewPO, submitPO } from './duck/thunks.js';
 import DocumentStepper from '../shared/DocumentStepper.js';
 import { Container, Typography } from '@material-ui/core';
 import DocumentPreview from '../shared/components/DocumentPreview.js';
-import { startNewOrder } from './duck/slice.js';
 import { selectNewPO, selectPOError, selectPOPreviewFile, selectPOStatus } from './duck/selectors.js';
 
 const { newOrder, steps } = LANGUAGE.order.createOrder;
@@ -18,23 +16,23 @@ const { newOrder, steps } = LANGUAGE.order.createOrder;
 export default function CreatePO() {
     const dispatch = useDispatch();
     const history = useHistory();
-    const { _id: companyId } = useSelector(selectCurrentCompany);
     const [activeStep, setActiveStep] = useState(0);
     const previewFileUrl = useSelector(selectPOPreviewFile);
     const status = useSelector(selectPOStatus);
     const error = useSelector(selectPOError);
-    const { fileName } = useSelector(selectNewPO);
+    const newPO = useSelector(selectNewPO);
 
     useEffect(() => {
-        dispatch(fetchPOOptions(companyId));
-    }, [companyId, dispatch]);
+        if (!newPO) {
+            dispatch(startNewPO());
+        }
+    }, [dispatch, newPO]);
 
     const onPreviewPrevButtonClick = () =>
         setActiveStep(prevStep => prevStep - 1);
 
     const onPreviewSubmitButtonClick = () => {
         dispatch(submitPO());
-        dispatch(startNewOrder());
         history.push('/home/orders');
     }
 
@@ -43,7 +41,7 @@ export default function CreatePO() {
             <DocumentStepper activeStep={ activeStep } steps={ steps }/>
             <Typography variant="h5">{ newOrder }</Typography>
             <hr/>
-            { activeStep === 0 && <CreatePODetailsForm setActiveStep={ setActiveStep }/> }
+            { newPO && activeStep === 0 && <CreatePODetailsForm setActiveStep={ setActiveStep }/> }
             { activeStep === 1 && <CreatePOProductInfo setActiveStep={ setActiveStep }/> }
             { activeStep === 2 &&
             <DocumentPreview
@@ -52,7 +50,7 @@ export default function CreatePO() {
                 previewFileUrl={previewFileUrl}
                 status={status}
                 error={error}
-                fileName={fileName}
+                fileName={newPO.fileName}
             /> }
         </Container>
     )

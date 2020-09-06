@@ -75,15 +75,6 @@ export const CHINESE = {
             },
         },
         productTable: {
-            defaultHeaders: [
-                'Item Ref',
-                'Product Description',
-                null,
-                null,
-                'Quantity',
-                'Unit Price',
-                'Amount',
-            ],
             totals: '合计:',
             addRowButton: '添加',
         },
