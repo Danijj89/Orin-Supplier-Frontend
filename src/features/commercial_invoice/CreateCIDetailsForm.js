@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { selectCurrentCompany, selectCurrentUser } from '../home/slice.js';
+import { selectCurrentCompany } from '../home/slice.js';
 import { selectCIAutocompleteOptions } from './duck/selectors.js';
 import { Controller, useForm } from 'react-hook-form';
 import { TextField, Button, Grid } from '@material-ui/core';
@@ -40,7 +40,6 @@ export default function CreateOrderDetailsForm({ setActiveStep }) {
     const dispatch = useDispatch();
     const history = useHistory();
 
-    const { _id: userId } = useSelector(selectCurrentUser);
     const { names: exporterNames, addresses: exporterAddresses } = useSelector(selectCurrentCompany);
     const { customerNames, customerAddressMap } = useSelector(selectCIAutocompleteOptions);
     const { ciRef, date, fromName, fromAdd, toName,
@@ -72,7 +71,6 @@ export default function CreateOrderDetailsForm({ setActiveStep }) {
             : [];
 
     const onButtonNextClick = (data) => {
-        data.createdBy = userId;
         data.fileName = getFileName('CI', data.ciRef, data.createdBy);
         dispatch(submitCIDetails(data));
         setActiveStep(step => step + 1);

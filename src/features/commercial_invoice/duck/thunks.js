@@ -35,6 +35,6 @@ export const deleteCI = createAsyncThunk('ci/deleteCI', async (id, { getState, d
 
 export const startNewCI = createAsyncThunk('ci/startNewCI',
     async (orderId, { getState }) => {
-    const { _id: companyId } = getState().home.company;
-    return CIService.fetchNewCIData(companyId, orderId);
+    const { user, company } = getState().home;
+    return CIService.fetchNewCIData(user._id, company._id, orderId);
 })

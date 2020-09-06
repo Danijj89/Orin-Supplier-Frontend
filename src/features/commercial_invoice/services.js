@@ -1,9 +1,14 @@
 import { fetchWithAuth } from '../shared/fetchWithAuth.js';
 
-const fetchNewCIData = async (companyId, orderId) => {
+const fetchNewCIData = async (userId, companyId, orderId) => {
     const configs = {
         method: 'get',
-        url: `/companies/${companyId}/ci/new/${orderId}`
+        url: '/ci/new',
+        params: {
+            user: userId,
+            company: companyId,
+            po: orderId
+        }
     };
     const { data } = await fetchWithAuth(configs);
     return data;
