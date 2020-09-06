@@ -22,18 +22,18 @@ body  {
   margin: 0
 }
 
-/*!* Firefox *!*/
-/*input[type=number] {*/
-/*  -moz-appearance: textfield;*/
-/*}*/
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
 
-/*input[type=number]::-webkit-clear-button {*/
-/*  display: none;*/
-/*}*/
-/*input[type=number]::-webkit-inner-spin-button,*/
-/*input[type=number]::-webkit-outer-spin-button {*/
-/*  display: none;*/
-/*}*/
-/*input[type=text]::-webkit-clear-button {*/
-/*  display: none !important;*/
-/*}*/
+input[type=number]::-webkit-clear-button {
+  display: none;
+}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  display: none;
+}
+input[type=text]::-webkit-clear-button {
+  display: none !important;
+}
