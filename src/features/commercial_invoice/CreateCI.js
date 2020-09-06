@@ -26,8 +26,10 @@ export default function CreateCI() {
     const newCI = useSelector(selectNewCI);
 
     useEffect(() => {
-        dispatch(startNewCI(currOrderId));
-    }, [dispatch, currOrderId]);
+        if (!newCI && status === 'IDLE') {
+            dispatch(startNewCI(currOrderId));
+        }
+    }, [dispatch, currOrderId, status, newCI]);
 
     const onPreviewPrevButtonClick = () =>
         setActiveStep(step => step - 1);

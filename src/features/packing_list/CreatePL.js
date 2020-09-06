@@ -26,7 +26,7 @@ export default function CreatePL() {
     const newPL = useSelector(selectNewPL);
 
     useEffect(() => {
-        if (!newPL) dispatch(startNewPL(currOrderId));
+        if (!newPL && status === 'IDLE') dispatch(startNewPL(currOrderId));
     }, [dispatch, currOrderId, newPL]);
 
     const onPreviewPrevButtonClick = () =>

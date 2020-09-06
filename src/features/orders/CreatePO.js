@@ -23,10 +23,10 @@ export default function CreatePO() {
     const newPO = useSelector(selectNewPO);
 
     useEffect(() => {
-        if (!newPO) {
+        if (!newPO && status === 'IDLE') {
             dispatch(startNewPO());
         }
-    }, [dispatch, newPO]);
+    }, [dispatch, newPO, status]);
 
     const onPreviewPrevButtonClick = () =>
         setActiveStep(prevStep => prevStep - 1);
