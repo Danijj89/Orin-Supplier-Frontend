@@ -63,13 +63,9 @@ export default function OrderTableOverview() {
     const [selectedOrderId, setSelectedOrderId] = useState(null);
     const status = useSelector(selectPOStatus);
 
-    const mounted = useRef();
     useEffect(() => {
-        if (orders.length === 0) {
-            if (mounted.current !== status && status === 'IDLE') {
-                dispatch(fetchOrders());
-                mounted.current = status;
-            }
+        if (orders.length === 0 && status === 'IDLE') {
+            dispatch(fetchOrders());
         }
     }, [dispatch, status, orders]);
 
