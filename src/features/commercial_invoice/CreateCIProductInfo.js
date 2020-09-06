@@ -138,8 +138,11 @@ export default function CreateCIProductInfo({ setActiveStep }) {
         setPoRefsOptions([...ordersRef.filter(option => !newOptions.includes(option))]);
     }
 
-    const onPrevButtonClick = () =>
+    const onPrevButtonClick = (data) => {
+        dispatch(submitTableInfo(data));
         setActiveStep(step => step - 1);
+    }
+
 
     const onNextButtonClick = async (data) => {
         data.poIds = data.poRefs.map(ref => orderItemMap[ref]._id);
@@ -214,7 +217,7 @@ export default function CreateCIProductInfo({ setActiveStep }) {
                     justify="space-around"
                     xs={ 12 }
                 >
-                    <Button variant="outlined" onClick={ onPrevButtonClick }>{ buttonPrev }</Button>
+                    <Button variant="outlined" onClick={ handleSubmit(onPrevButtonClick) }>{ buttonPrev }</Button>
                     <Button variant="contained" type="submit">{ buttonNext }</Button>
                 </Grid>
             </Grid>

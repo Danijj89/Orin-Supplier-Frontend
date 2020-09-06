@@ -106,7 +106,10 @@ export default function CreatePLProductInfo({ setActiveStep }) {
         setValue('headers', newHeaders, { shouldValidate: true });
     }
 
-    const onPrevButtonClick = () => setActiveStep(prevStep => prevStep - 1);
+    const onPrevButtonClick = (data) => {
+        dispatch(submitPLTableInfo(data));
+        setActiveStep(prevStep => prevStep - 1);
+    }
 
     const onButtonNextClick = (data) => {
         data.totalQ = data.totalQ.data;
@@ -227,13 +230,8 @@ export default function CreatePLProductInfo({ setActiveStep }) {
                     justify="space-around"
                     xs={ 12 }
                 >
-                    <Button variant="outlined" onClick={ onPrevButtonClick }>{ prevButton }</Button>
-                    <Button
-                        variant="contained"
-                        type="submit"
-                    >
-                        { nextButton }
-                    </Button>
+                    <Button variant="outlined" onClick={ handleSubmit(onPrevButtonClick) }>{ prevButton }</Button>
+                    <Button variant="contained" type="submit">{ nextButton }</Button>
                 </Grid>
             </Grid>
         </form>

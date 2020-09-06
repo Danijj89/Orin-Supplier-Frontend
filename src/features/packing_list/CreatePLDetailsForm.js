@@ -7,7 +7,6 @@ import { TextField, Grid, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { LANGUAGE } from '../../constants.js';
 import { submitPLDetails } from './duck/slice.js';
-import { selectCurrentUser } from '../home/slice.js';
 import { getFileName } from '../shared/utils.js';
 
 const { plRefLabel, dateLabel, notesLabel, cancelButton, nextButton } = LANGUAGE.packingList.createPLDetailsForm;
@@ -34,7 +33,6 @@ export default function CreateOrderDetailsForm({ setActiveStep }) {
     const dispatch = useDispatch();
     const history = useHistory();
 
-    const { _id: userId } = useSelector(selectCurrentUser);
     const { plRef, date, notes } = useSelector(selectNewPL);
     const { register, handleSubmit, errors } = useForm({
         mode: 'onSubmit',
@@ -46,7 +44,6 @@ export default function CreateOrderDetailsForm({ setActiveStep }) {
     });
 
     const onButtonNextClick = (data) => {
-        data.createdBy = userId;
         data.fileName = getFileName('PL', data.plRef, data.createdBy);
         dispatch(submitPLDetails(data));
         setActiveStep(prev => prev + 1);

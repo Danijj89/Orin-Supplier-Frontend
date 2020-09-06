@@ -4,7 +4,6 @@ import { LANGUAGE } from '../../constants.js';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { TextField, Grid, Paper } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectCurrentCompany, selectCurrentUser } from '../home/slice.js';
 import { submitOrderDetails } from './duck/slice.js';
 import { useHistory } from 'react-router-dom';
 import { selectNewPO, selectPOAutocompleteOptions } from './duck/selectors.js';
@@ -58,8 +57,6 @@ export default function CreatePODetailsForm({ setActiveStep }) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
-  const { _id: userId } = useSelector(selectCurrentUser);
-  const { _id: companyId, names, address } = useSelector(selectCurrentCompany);
 
   const {
     poRef,
@@ -105,10 +102,6 @@ export default function CreatePODetailsForm({ setActiveStep }) {
       : [];
 
   const onButtonNextClick = (data) => {
-    data.createdBy = userId;
-    data.to = companyId;
-    data.toName = names[0];
-    data.toAdd = address;
     data.fileName = getFileName('PO', data.poRef, data.createdBy);
     dispatch(submitOrderDetails(data));
     setActiveStep((prevStep) => prevStep + 1);

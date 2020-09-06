@@ -71,8 +71,11 @@ export default function CreatePOProductInfo({ setActiveStep }) {
         setValue('headers', newHeaders, { shouldValidate: true });
     }
 
-    const onPrevButtonClick = () =>
+    const onPrevButtonClick = (data) => {
+        dispatch(submitPOProductInfo(data));
         setActiveStep(prevStep => prevStep - 1);
+    }
+
 
     const onNextButtonClick = (data) => {
         data.totalQ = data.totalQ.data;
@@ -127,7 +130,7 @@ export default function CreatePOProductInfo({ setActiveStep }) {
                 <Grid container className={ classes.row } item justify="space-around" xs={ 12 }>
                     <ThemedButton
                         variant="outlined"
-                        onClick={ onPrevButtonClick }
+                        onClick={ handleSubmit(onPrevButtonClick) }
                         text={ prevButton }
                     />
                     <ThemedButton
