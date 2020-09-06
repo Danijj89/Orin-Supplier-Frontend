@@ -28,8 +28,8 @@ export const submitCI = createAsyncThunk('ci/submitCI', async (_, { getState, di
 export const deleteCI = createAsyncThunk('ci/deleteCI', async (id, { getState, dispatch }) => {
     const status = await CIService.deleteCI(id);
     if (!status) return Promise.reject('Unable to delete CI');
-    const { currentPO } = getState().orders;
-    dispatch(deleteOrderDocument({ id: currentPO._id, docType: 'CI' }));
+    const { currentPOId } = getState().orders;
+    dispatch(deleteOrderDocument({ id: currentPOId, docType: 'CI' }));
     return status;
 })
 

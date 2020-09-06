@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectCurrentCompany } from '../home/slice.js';
 import { LANGUAGE } from '../../constants.js';
 import { startNewPL, submitPL } from './duck/thunks.js';
 import DocumentStepper from '../shared/DocumentStepper.js';
 import { Container, Typography } from '@material-ui/core';
 import CreatePLDetailsForm from './CreatePLDetailsForm.js';
-import { selectSelectedOrder } from '../orders/duck/selectors.js';
 import { selectNewPL, selectPLError, selectPLPreviewFile, selectPLStatus } from './duck/selectors.js';
 import CreatePLProductInfo from './CreatePLProductInfo.js';
 import DocumentPreview from '../shared/components/DocumentPreview.js';

@@ -4,12 +4,16 @@ import {
     fetchOrders,
     submitPO,
     submitOrderForPreview,
-    updateOrderStatus, startNewPO
+    updateOrderStatus, startNewPO, fetchSelectedOrderById
 } from './thunks.js';
 
 const ordersAdapter = createEntityAdapter({
     selectId: order => order._id,
-    sortComparer: (a, b) => a.crd.localeCompare(b.crd)
+    sortComparer: (a, b) => {
+        console.log(a);
+        console.log(b);
+        a.crd.localeCompare(b.crd)
+    }
 });
 
 const initialState = ordersAdapter.getInitialState({
@@ -24,7 +28,7 @@ const initialState = ordersAdapter.getInitialState({
         ports: []
     },
     newPO: null,
-    currentPO: null,
+    currentPOId: null,
     previewFileURL: null
 });
 
@@ -42,25 +46,23 @@ const ordersSlice = createSlice({
                 state.newPO[key] = value;
             }
         },
-        setCurrentPO: (state, action) => {
-            state.currentPO = action.payload;
+        setCurrentPOId: (state, action) => {
+            state.currentPOId = action.payload;
         },
         updateOrderDocument: (state, action) => {
             const { docType, doc } = action.payload;
-            const { _id } = state.currentPO;
-            state.currentPO.documents[docType] = doc;
-            const entity = state.entities[_id];
-            if (entity) {
-            const newDocuments = entity.documents;
+            const { currentPOId } = state;
+            const currentPO = state.entities[currentPOId];
+            if (currentPO) {
+                const newDocuments = currentPO.documents;
                 newDocuments[docType] = doc;
-                ordersAdapter.updateOne(state, { id: _id, changes: { documents: newDocuments }})
+                ordersAdapter.updateOne(state, { id: currentPOId, changes: { documents: newDocuments } })
             }
         },
         deleteOrderDocument: (state, action) => {
             const { docType, id } = action.payload;
-            const { [docType]: type, ...rest} = state.currentPO.documents;
-            state.currentPO.documents = rest;
-            ordersAdapter.updateOne(state, { id, changes: { documents: rest }})
+            const { [docType]: type, ...rest } = state.entities[id].documents;
+            ordersAdapter.updateOne(state, { id, changes: { documents: rest } })
         }
     },
     extraReducers: {
@@ -106,6 +108,10 @@ const ordersSlice = createSlice({
             state.status = 'IDLE';
             ordersAdapter.upsertMany(state, action.payload);
         },
+        [fetchOrders.rejected]: (state, action) => {
+            state.status = 'REJECTED';
+            state.error = action.error.message;
+        },
         [deleteOrder.fulfilled]: (state, action) => {
             state.status = 'IDLE';
             ordersAdapter.removeOne(state, action.payload);
@@ -113,14 +119,28 @@ const ordersSlice = createSlice({
         [updateOrderStatus.fulfilled]: (state, action) => {
             const { _id, status } = action.payload;
             state.status = 'IDLE';
-            ordersAdapter.updateOne(state, { id: _id, changes: { status: status }});
-            state.currentPO = action.payload;
-        }
+            ordersAdapter.updateOne(state, { id: _id, changes: { status: status } });
+        },
+        [fetchSelectedOrderById.pending]: (state, action) => {
+            state.status = 'PENDING';
+        },
+        [fetchSelectedOrderById.fulfilled]: (state, action) => {
+            state.status = 'IDLE';
+            const { _id: id } = action.payload;
+            state.currentPOId = id;
+            ordersAdapter.updateOne(state, { id, changes: action.payload })
+        },
+        [fetchSelectedOrderById.rejected]: (state, action) => {
+            state.status = 'REJECTED';
+            state.error = action.error.message;
+        },
     }
 });
 
-export const { submitOrderDetails, submitPOProductInfo,
-    setCurrentPO, updateOrderDocument, deleteOrderDocument } = ordersSlice.actions;
+export const {
+    submitOrderDetails, submitPOProductInfo,
+    setCurrentPOId, updateOrderDocument, deleteOrderDocument
+} = ordersSlice.actions;
 
 export const {
     selectAll: selectAllOrders,

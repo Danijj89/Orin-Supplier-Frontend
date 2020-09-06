@@ -32,4 +32,9 @@ export const startNewPO = createAsyncThunk('orders/startNewPO',
     async (_, { getState }) => {
         const { user, company } = getState().home;
         return POService.fetchNewPOData(user._id, company._id);
-    })
+    });
+
+export const fetchSelectedOrderById = createAsyncThunk('orders/fetchOrderById',
+    async (id, { dispatch }) => {
+    return await POService.fetchOrderById(id);
+});

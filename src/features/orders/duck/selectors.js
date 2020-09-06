@@ -4,4 +4,4 @@ export const selectNewPO = state => state.orders.newPO;
 export const selectPOPreviewFile = state => state.orders.previewFileURL;
 export const selectPOStatus = state => state.orders.status;
 export const selectPOError = state => state.orders.error;
-export const selectSelectedOrder = state => state.orders.currentPO;
+export const selectCurrentPOId = state => state.orders.currentPOId;

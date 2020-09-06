@@ -10,7 +10,7 @@ import {
   yymmddToLocaleDate,
 } from '../shared/utils.js';
 import { useDispatch } from 'react-redux';
-import { setCurrentPO } from './duck/slice.js';
+import { setCurrentPOId } from './duck/slice.js';
 import StatusButtonMenu from './StatusButtonMenu.js';
 
 const useStyles = makeStyles((theme) => ({
@@ -36,7 +36,7 @@ export default function OrderTableRow({ order, onDialogOpen }) {
 
 
     const onRowClick = () => {
-        dispatch(setCurrentPO(order));
+        dispatch(setCurrentPOId(orderId));
         history.push(`/home/orders/${ orderId }/0`);
     }
 
