@@ -6,8 +6,8 @@ import { selectCurrentDefaults } from '../../home/slice.js';
 import { LANGUAGE } from '../../../constants.js';
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
-import { startNewPL } from '../../packing_list/duck/slice.js';
 import { startNewCI } from '../../commercial_invoice/duck/thunks.js';
+import { startNewPL } from '../../packing_list/duck/thunks.js';
 
 const { buttonText, dialogCancel, dialogConfirm, dialogTitle, typeLabel, errors } = LANGUAGE.shared.generateDocumentButton;
 const { documentNames } = LANGUAGE.defaults;
@@ -29,7 +29,7 @@ export default function DocumentGenerationButton({styles, order}) {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const { docTypes: documentTypes } = useSelector(selectCurrentDefaults);
     const [document, setDocument] = useState(documentTypes[0]);
-    const { _id: orderId } = order;
+    const { _id: orderId, documents } = order;
     const [error, setError] = useState('');
 
     const onDialogOpen = () => setIsDialogOpen(true);
@@ -48,7 +48,7 @@ export default function DocumentGenerationButton({styles, order}) {
             case 'PL':
                 if (!order.documents.hasOwnProperty('CI')) return setError(errors.ciFirst);
                 else if (order.documents.hasOwnProperty('PL')) return setError(errors.plExists);
-                else dispatch(startNewPL());
+                else dispatch(startNewPL(orderId));
                 break;
             default:
                 console.log('Document type is not supported!');

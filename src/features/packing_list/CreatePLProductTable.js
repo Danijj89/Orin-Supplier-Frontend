@@ -14,11 +14,11 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 import IconClear from '@material-ui/icons/Clear';
 import CreatePLTableRow from './CreatePLTableRow.js';
-import { defaultRowValues } from './duck/slice.js';
 import { LANGUAGE } from '../../constants.js';
-import _ from 'lodash';
 import UnitCounter from '../shared/classes/UnitCounter.js';
 import { roundTo2Decimal } from '../shared/utils.js';
+import { useSelector } from 'react-redux';
+import { selectPLAutocompleteOptions } from './duck/selectors.js';
 
 const { addRowButton, totalsText } = LANGUAGE.packingList.createPLProductTable;
 
@@ -47,6 +47,7 @@ export default function CreatePLProductTable(
         numActiveColumns
     }) {
     const classes = useStyles();
+    const { defaultPLRowValues } = useSelector(selectPLAutocompleteOptions);
     const measurementUnit = watch('measurementUnit');
     const weightUnit = watch('weightUnit');
     const items = watch('items');
@@ -115,7 +116,7 @@ export default function CreatePLProductTable(
         setValue('items', newItems);
     };
 
-    const onAddItemClick = () => setValue('items', [...items, defaultRowValues]);
+    const onAddItemClick = () => setValue('items', [...items, defaultPLRowValues]);
 
     const renderedHeaders = headers.map((header, index) => {
         if (index === 0 || index === 1) return <TableCell key={ index }>{ header }</TableCell>;

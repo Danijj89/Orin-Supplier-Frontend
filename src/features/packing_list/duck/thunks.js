@@ -2,19 +2,13 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import PLService from '../services.js';
 import { deleteOrderDocument, updateOrderDocument } from '../../orders/duck/slice.js';
 
-export const fetchPLOptions = createAsyncThunk(
-    'pl/fetchPLOptions',
-    async (companyId) => {
-    return await PLService.fetchPLOptions(companyId);
-});
-
 export const submitPLForPreview = createAsyncThunk(
     'pl/submitPLForPreview',
     async (_, { getState }) => {
         const { newPL } = getState().pl;
         const file = await PLService.generatePLFiles(newPL);
         return window.URL.createObjectURL(file);
-});
+    });
 
 export const submitPL = createAsyncThunk(
     'pl/submitPL',
@@ -32,4 +26,10 @@ export const deletePL = createAsyncThunk('pl/deletePL', async (id, { getState, d
     const { currentPO } = getState().orders;
     dispatch(deleteOrderDocument({ id: currentPO._id, docType: 'PL' }));
     return status;
-})
+});
+
+export const startNewPL = createAsyncThunk('pl/startNewPL',
+    async (orderId, { getState }) => {
+        const { user, company } = getState().home;
+        return PLService.fetchNewPLData(user._id, company._id, orderId);
+    });

@@ -193,17 +193,6 @@ export const ENGLISH = {
             },
         },
         createPLProductTable: {
-            defaultHeaders: [
-                'Item Ref',
-                'Product Description',
-                null,
-                null,
-                'Quantity',
-                'Packaging',
-                'Net Weight',
-                'Gross Weight',
-                'Dimension',
-            ],
             addRowButton: 'Add',
             totalsText: 'Totals:',
         },

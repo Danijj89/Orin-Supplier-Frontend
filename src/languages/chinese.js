@@ -186,17 +186,6 @@ export const CHINESE = {
             },
         },
         createPLProductTable: {
-            defaultHeaders: [
-                'Item Ref',
-                'Product Description',
-                null,
-                null,
-                'Quantity',
-                'Packaging',
-                'Net Weight',
-                'Gross Weight',
-                'Dimension',
-            ],
             addRowButton: '添加',
             totalsText: '合计:',
         },

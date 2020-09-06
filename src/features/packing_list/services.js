@@ -1,5 +1,19 @@
 import { fetchWithAuth } from '../shared/fetchWithAuth.js';
 
+const fetchNewPLData = async (userId, companyId, orderId) => {
+    const configs = {
+        method: 'get',
+        url: '/pl/new',
+        params: {
+            user: userId,
+            company: companyId,
+            po: orderId
+        }
+    };
+    const { data } = await fetchWithAuth(configs);
+    return data;
+}
+
 const fetchPLOptions = async (companyId) => {
     const configs = {
         method: 'get',
@@ -43,7 +57,8 @@ const PLService = {
     fetchPLOptions,
     generatePLFiles,
     createNewPL,
-    deletePL
+    deletePL,
+    fetchNewPLData
 };
 
 export default PLService;
