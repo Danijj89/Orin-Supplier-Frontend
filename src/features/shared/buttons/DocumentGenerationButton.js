@@ -29,7 +29,7 @@ export default function DocumentGenerationButton({styles, order}) {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const { docTypes: documentTypes } = useSelector(selectCurrentDefaults);
     const [document, setDocument] = useState(documentTypes[0]);
-    const { _id: orderId, documents } = order;
+    const { _id: orderId } = order;
     const [error, setError] = useState('');
 
     const onDialogOpen = () => setIsDialogOpen(true);

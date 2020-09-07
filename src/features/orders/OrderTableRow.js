@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     padding: 0,
   },
   deleteIcon: {
-    color: theme.palette.tertiary.main,
+    color: theme.palette.tertiary.A100,
   },
   wrapText: {
     whiteSpace: 'normal',

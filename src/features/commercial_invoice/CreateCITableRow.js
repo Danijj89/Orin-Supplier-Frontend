@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { selectCurrentDefaults } from '../home/slice.js';
 import { TableRow, TableCell, Button, Typography, Grid } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete.js';
-import { getCurrencySymbol, roundTo2Decimal } from '../shared/utils.js';
+import { getCurrencySymbol } from '../shared/utils.js';
 import { makeStyles } from '@material-ui/core/styles';
 import TableAutoCompleteFreeTextInput from '../shared/inputs/TableAutoCompleteFreeTextInput.js';
 import TableInput from '../shared/inputs/TableInput.js';

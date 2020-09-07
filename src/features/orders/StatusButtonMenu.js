@@ -24,19 +24,7 @@ const useStyles = makeStyles((theme) => ({
         color: '#FFFFFF',
         fontSize: 12,
         minFontSize: 10,
-    },
-    notStarted: {
-        color: '#818E9B',
-    },
-    inProgress: {
-        color: '#109CF1',
-    },
-    completed: {
-        color: '#2ED47A',
-    },
-    exception: {
-        color: '#F7685B',
-    },
+    }
 }));
 
 const statusColors = {

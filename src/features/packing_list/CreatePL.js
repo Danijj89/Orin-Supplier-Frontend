@@ -25,7 +25,7 @@ export default function CreatePL() {
 
     useEffect(() => {
         if (!newPL && status === 'IDLE') dispatch(startNewPL(currOrderId));
-    }, [dispatch, currOrderId, newPL]);
+    }, [dispatch, currOrderId, newPL, status]);
 
     const onPreviewPrevButtonClick = () =>
         setActiveStep(prevStep => prevStep - 1);

@@ -9,11 +9,7 @@ import {
 
 const ordersAdapter = createEntityAdapter({
     selectId: order => order._id,
-    sortComparer: (a, b) => {
-        console.log(a);
-        console.log(b);
-        a.crd.localeCompare(b.crd)
-    }
+    sortComparer: (a, b) => a.crd.localeCompare(b.crd)
 });
 
 const initialState = ordersAdapter.getInitialState({

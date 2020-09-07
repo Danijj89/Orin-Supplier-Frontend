@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { LANGUAGE } from '../../constants.js';
 import OrderTableRow from './OrderTableRow.js';
 import { useDispatch, useSelector } from 'react-redux';

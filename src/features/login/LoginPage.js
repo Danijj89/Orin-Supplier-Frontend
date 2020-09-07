@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import logo from '../../images/orinlogo.png';
 import { LANGUAGE } from '../../constants';
 import LoginService from './services.js';
