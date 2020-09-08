@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { LANGUAGE } from '../../constants.js';
 import OrderTableRow from './OrderTableRow.js';
 import { useDispatch, useSelector } from 'react-redux';
@@ -63,10 +63,15 @@ export default function OrderTableOverview() {
     const [selectedOrderId, setSelectedOrderId] = useState(null);
     const status = useSelector(selectPOStatus);
 
+    const mounted = useRef();
     useEffect(() => {
-        if (orders.length === 0 && status === 'IDLE') {
-            dispatch(fetchOrders());
+        if (orders.length === 0) {
+            if (mounted.current !== status && status === 'IDLE') {
+                dispatch(fetchOrders());
+                mounted.current = status;
+            }
         }
+        if (orders.length === 0 && status === 'IDLE') dispatch(fetchOrders());
     }, [dispatch, status, orders]);
 
     const handleChangePage = (event, newPage) => {
@@ -101,8 +106,8 @@ export default function OrderTableOverview() {
                 <Grid container>
                     <Grid container item justify="flex-end" xs={ 12 } className={ classes.row }>
                         <ThemedButton
-                            onClick={onNewOrderClick}
-                            text={newOrder}
+                            onClick={ onNewOrderClick }
+                            text={ newOrder }
                             styles={ classes.newOrderButton }
                         />
                     </Grid>

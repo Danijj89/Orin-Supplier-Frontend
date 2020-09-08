@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Container, TextField, Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -62,9 +62,16 @@ export default function SearchBar() {
     }
   };
 
+  const mounted = useRef();
   useEffect(() => {
-    if (orders.length === 0 && status === 'IDLE') dispatch(fetchOrders());
-  }, [dispatch, orders, status]);
+    if (orders.length === 0) {
+      if (mounted.current !== status && status === 'IDLE') {
+        dispatch(fetchOrders());
+        mounted.current = status;
+      }
+    }
+      if (orders.length === 0 && status === 'IDLE') dispatch(fetchOrders());
+  }, [dispatch, status, orders]);
 
   return (
     <Container className={classes.container}>
