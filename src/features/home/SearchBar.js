@@ -70,7 +70,6 @@ export default function SearchBar() {
         mounted.current = status;
       }
     }
-      if (orders.length === 0 && status === 'IDLE') dispatch(fetchOrders());
   }, [dispatch, status, orders]);
 
   return (

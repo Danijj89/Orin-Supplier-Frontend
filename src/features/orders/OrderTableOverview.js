@@ -71,7 +71,6 @@ export default function OrderTableOverview() {
                 mounted.current = status;
             }
         }
-        if (orders.length === 0 && status === 'IDLE') dispatch(fetchOrders());
     }, [dispatch, status, orders]);
 
     const handleChangePage = (event, newPage) => {
