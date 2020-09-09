@@ -21,6 +21,7 @@ export const ENGLISH = {
     home: {
         sidePanel: {
             orders: 'Orders',
+            shipments: 'Shipments',
             clients: 'Clients',
             inventory: 'Inventory',
         },
@@ -200,6 +201,11 @@ export const ENGLISH = {
             prevButton: 'Back: Product Data',
             submitButton: 'Submit',
         },
+    },
+    shipments: {
+        overview: {
+            addShipmentButton: 'New Shipment'
+        }
     },
     shared: {
         downloadButton: {

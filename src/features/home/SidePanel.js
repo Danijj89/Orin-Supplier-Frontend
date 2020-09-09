@@ -25,10 +25,11 @@ import {
     ViewStreamOutlined as IconViewStream,
     PeopleOutlined as IconPeople,
     OpenInBrowserOutlined as IconDescription,
+    DirectionsBoatOutlined as IconBoat
 } from '@material-ui/icons';
 import FeatureInProgressTag from '../shared/displays/FeatureInProgressTag.js';
 
-const { orders, clients, inventory } = LANGUAGE.home.sidePanel;
+const { orders, clients, inventory, shipments } = LANGUAGE.home.sidePanel;
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -54,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
     },
     company: {
         fontWeight: 'lighter',
-        color: theme.palette.tertiary.dark,
+        color: theme.palette.tertiary.A700,
         overflow: 'hidden',
         whiteSpace: 'nowrap',
         textOverflow: 'ellipsis',
@@ -127,18 +128,24 @@ export default function SidePanel() {
                     <ListItem
                         button
                         component="a"
-                        onClick={() => onTabClick('clients', '#')}
-                        classes={{
-                            root: classes.tabs,
-                            selected: classes.selected,
-                        }}
-                        selected={selectedTab === 'clients'}
+                        onClick={ () => onTabClick('shipments', '/home/shipments') }
+                        classes={ { root: classes.tabs, selected: classes.selected } }
+                        selected={ selectedTab === 'shipments' }
                     >
-                        <IconPeople className={classes.icon} />
-                        <ListItemText className={classes.tabsText}>
-                            {clients}
-                        </ListItemText>
-                        <FeatureInProgressTag />
+                        <IconBoat className={ classes.icon }/>
+                        <ListItemText className={ classes.tabsText }>{ shipments }</ListItemText>
+                        <FeatureInProgressTag/>
+                    </ListItem>
+                    <ListItem
+                        button
+                        component="a"
+                        onClick={ () => onTabClick('clients', '#') }
+                        classes={ { root: classes.tabs, selected: classes.selected } }
+                        selected={ selectedTab === 'clients' }
+                    >
+                        <IconPeople className={ classes.icon }/>
+                        <ListItemText className={ classes.tabsText }>{ clients }</ListItemText>
+                        <FeatureInProgressTag/>
                     </ListItem>
                     <ListItem
                         button

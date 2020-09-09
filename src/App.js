@@ -15,6 +15,7 @@ import CreatePL from './features/packing_list/CreatePL.js';
 import { grey } from '@material-ui/core/colors';
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import ShipmentOverview from './features/shipments/ShipmentOverview.js';
 
 let theme = createMuiTheme({
     typography: {
@@ -74,6 +75,12 @@ function App() {
                         exact
                         path={ ['/home/pl/create', '/home/pl/create?order=:orderId'] }
                         component={ CreatePL }
+                        isPrivate
+                    />
+                    <Route
+                        exact
+                        path="/home/shipments"
+                        component={ ShipmentOverview }
                         isPrivate
                     />
                     <Route component={ LoginPage }/>

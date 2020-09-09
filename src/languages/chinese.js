@@ -20,6 +20,7 @@ export const CHINESE = {
     home: {
         sidePanel: {
             orders: '订单',
+            shipments: 'Shipments',
             clients: '客户',
             inventory: '库存',
         },

@@ -107,7 +107,6 @@ export default function OrderTableOverview() {
                         <ThemedButton
                             onClick={ onNewOrderClick }
                             text={ newOrder }
-                            styles={ classes.newOrderButton }
                         />
                     </Grid>
                     <Grid item xs={ 12 } className={ classes.row }>
