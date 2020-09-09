@@ -22,7 +22,7 @@ export const ENGLISH = {
         sidePanel: {
             orders: 'Orders',
             clients: 'Clients',
-            documents: 'Documents',
+            inventory: 'Inventory',
         },
     },
     order: {
@@ -90,7 +90,7 @@ export const ENGLISH = {
             dateTitle: 'Purchase Order Date:',
             crdTitle: 'CRD:',
             quantityTitle: 'Quantity:',
-            incotermTitle: 'Incoterm:'
+            incotermTitle: 'Incoterm:',
         },
         order: {
             orderDetailsTab: 'Order Details',
@@ -119,8 +119,8 @@ export const ENGLISH = {
             deleteDocumentButtonConfirm: 'Delete',
         },
         orderInfoCard: {
-            editButton: 'Edit'
-        }
+            editButton: 'Edit',
+        },
     },
     commercialInvoice: {
         createCI: {
@@ -247,10 +247,10 @@ export const ENGLISH = {
             orderStatusLabelsMap: {
                 'Not Started': 'Not Started',
                 'In Progress': 'In Progress',
-                'Completed': 'Completed',
-                'Exception': 'Exception',
+                Completed: 'Completed',
+                Exception: 'Exception',
             },
-        }
+        },
     },
     defaults: {
         documentNames: {

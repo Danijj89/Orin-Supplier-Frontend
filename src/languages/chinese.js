@@ -21,7 +21,7 @@ export const CHINESE = {
         sidePanel: {
             orders: '订单',
             clients: '客户',
-            documents: '单证',
+            inventory: '库存',
         },
     },
     order: {
@@ -49,7 +49,7 @@ export const CHINESE = {
             orderReferenceLabel: '订单号*',
             dateLabel: '订单日期',
             clientLabel: '客户*',
-            clientAddressLabel: '交货地址*',
+            clientAddressLabel: '客户地址*',
             crdLabel: '货好日期',
             incotermLabel: '贸易条款',
             paymentMethodLabel: '付款模式',
@@ -88,14 +88,14 @@ export const CHINESE = {
             dateTitle: '订单日期:',
             crdTitle: '货好日期:',
             quantityTitle: '数量:',
-            incotermTitle: '贸易条款:'
+            incotermTitle: '贸易条款:',
         },
         order: {
             orderDetailsTab: '订单详情',
             documentsTab: '单证',
         },
         orderStatusInfoTile: {
-            title: '订单进行中',
+            title: '订单进度',
             headers: ['采购', '生产', '验检'],
             rowLabels: ['状态', '预计完成', '实际完成'],
         },
@@ -112,8 +112,8 @@ export const CHINESE = {
             deleteDocumentButtonConfirm: '删除',
         },
         orderInfoCard: {
-            editButton: '编辑'
-        }
+            editButton: '编辑',
+        },
     },
     commercialInvoice: {
         createCI: {
@@ -142,7 +142,7 @@ export const CHINESE = {
         createCIProductInfo: {
             ordersLabel: '订单号码',
             currencyLabel: '货币',
-            marksLabel: '麦头（M/N)',
+            marksLabel: '唛头',
             buttonPrev: '上一步: 发票信息',
             buttonNext: '下一步: 审核',
             errorMessages: {
@@ -176,7 +176,7 @@ export const CHINESE = {
         createPLProductInfo: {
             measurementUnitLabel: '计量单位',
             weightUnitLabel: '重量单位',
-            marksLabel: '麦头（M/N)',
+            marksLabel: '唛头',
             prevButton: '上一步: 装箱单信息',
             nextButton: '下一步: 审核',
             errorMessages: {
@@ -233,15 +233,15 @@ export const CHINESE = {
             title: '开发功能中',
         },
         deleteButton: {
-            cancelButton: 'Cancel',
-            confirmButton: 'Confirm',
+            cancelButton: '取消',
+            confirmButton: '确定',
         },
         statusButtonMenu: {
             orderStatusLabelsMap: {
                 'Not Started': '未开始',
                 'In Progress': '进行中',
-                'Completed': '完毕',
-                'Exception': '意外/延迟',
+                Completed: '完毕',
+                Exception: '意外/延迟',
             },
         },
     },
