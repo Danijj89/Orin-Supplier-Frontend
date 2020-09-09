@@ -8,7 +8,6 @@ import { submitOrderDetails } from './duck/slice.js';
 import { useHistory } from 'react-router-dom';
 import { selectNewPO, selectPOAutocompleteOptions } from './duck/selectors.js';
 import CreatePOShippingInfo from './CreatePOShippingInfo.js';
-import { getFileName } from '../shared/utils.js';
 import { makeStyles } from '@material-ui/core/styles';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 
@@ -102,7 +101,6 @@ export default function CreatePODetailsForm({ setActiveStep }) {
       : [];
 
   const onButtonNextClick = (data) => {
-    data.fileName = getFileName('PO', data.poRef, data.createdBy);
     dispatch(submitOrderDetails(data));
     setActiveStep((prevStep) => prevStep + 1);
   };

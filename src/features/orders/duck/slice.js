@@ -6,6 +6,7 @@ import {
     submitOrderForPreview,
     updateOrderStatus, startNewPO, fetchSelectedOrderById
 } from './thunks.js';
+import { getFileName } from '../../shared/utils.js';
 
 const ordersAdapter = createEntityAdapter({
     selectId: order => order._id,
@@ -33,9 +34,11 @@ const ordersSlice = createSlice({
     initialState,
     reducers: {
         submitOrderDetails: (state, action) => {
+            const { poRef } = action.payload;
             for (const [key, value] of Object.entries(action.payload)) {
                 state.newPO[key] = value;
             }
+            state.newPO.fileName = getFileName('PO', poRef, state.newPO.createdBy);
         },
         submitPOProductInfo: (state, action) => {
             for (const [key, value] of Object.entries(action.payload)) {
@@ -92,6 +95,7 @@ const ordersSlice = createSlice({
         [submitPO.fulfilled]: (state, action) => {
             state.status = 'IDLE';
             ordersAdapter.upsertOne(state, action.payload);
+            state.newPO = null;
         },
         [submitPO.rejected]: (state, action) => {
             state.status = 'REJECTED';

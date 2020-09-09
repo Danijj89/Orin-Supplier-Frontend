@@ -44,7 +44,6 @@ export default function CreateOrderDetailsForm({ setActiveStep }) {
     });
 
     const onButtonNextClick = (data) => {
-        data.fileName = getFileName('PL', data.plRef, data.createdBy);
         dispatch(submitPLDetails(data));
         setActiveStep(prev => prev + 1);
     }

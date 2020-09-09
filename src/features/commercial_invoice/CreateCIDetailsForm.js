@@ -7,7 +7,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { TextField, Button, Grid } from '@material-ui/core';
 import { Autocomplete } from '@material-ui/lab';
 import { selectNewCI } from './duck/selectors.js';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/st\yles';
 import { LANGUAGE } from '../../constants.js';
 import { submitCIDetails } from './duck/slice.js';
 import CreateCIAdditionalInfo from './CreateCIAdditionalInfo.js';
@@ -71,7 +71,6 @@ export default function CreateOrderDetailsForm({ setActiveStep }) {
             : [];
 
     const onButtonNextClick = (data) => {
-        data.fileName = getFileName('CI', data.ciRef, data.createdBy);
         dispatch(submitCIDetails(data));
         setActiveStep(step => step + 1);
     }
