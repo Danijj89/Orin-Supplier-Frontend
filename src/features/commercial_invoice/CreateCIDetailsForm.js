@@ -11,7 +11,6 @@ import { makeStyles } from '@material-ui/core/st\yles';
 import { LANGUAGE } from '../../constants.js';
 import { submitCIDetails } from './duck/slice.js';
 import CreateCIAdditionalInfo from './CreateCIAdditionalInfo.js';
-import { getFileName } from '../shared/utils.js';
 
 const {
     invoiceNumber, invoiceDate, importer, importerAddress,

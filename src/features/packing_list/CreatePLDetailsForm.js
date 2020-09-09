@@ -7,7 +7,6 @@ import { TextField, Grid, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { LANGUAGE } from '../../constants.js';
 import { submitPLDetails } from './duck/slice.js';
-import { getFileName } from '../shared/utils.js';
 
 const { plRefLabel, dateLabel, notesLabel, cancelButton, nextButton } = LANGUAGE.packingList.createPLDetailsForm;
 
