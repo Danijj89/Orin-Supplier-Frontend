@@ -1,6 +1,6 @@
 import { fetchWithAuth } from '../../shared/fetchWithAuth.js';
 
-const fetchNewShipmentData = async ({ userId, companyId }) => {
+const fetchNewShipmentData = async (userId, companyId) => {
     const configs = {
         method: 'get',
         url: '/shipments/new',

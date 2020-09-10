@@ -13,8 +13,9 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 import Loader from '../shared/components/Loader.js';
 import { LANGUAGE } from '../../constants.js';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectStatus } from './duck/selectors.js';
+import { startNewShipment } from './duck/thunks.js';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -33,10 +34,11 @@ const { addShipmentButton } = LANGUAGE.shipments.overview;
 export default function ShipmentOverview() {
     const classes = useStyles();
     const history = useHistory();
+    const dispatch = useDispatch();
     const status = useSelector(selectStatus);
 
     const onNewShipment = () => {
-        
+        dispatch(startNewShipment());
         history.push('/home/shipments/new');
     }
 
@@ -45,7 +47,7 @@ export default function ShipmentOverview() {
             <Grid container>
                 <Grid item xs={ 12 } className={ classes.buttonsRow }>
                     <ThemedButton
-                        // onClick={ onNewOrderClick }
+                        onClick={ onNewShipment }
                         text={ addShipmentButton }
                     />
                 </Grid>

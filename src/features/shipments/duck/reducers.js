@@ -1,4 +1,5 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
+import { startNewShipment } from './thunks.js';
 
 const shipmentsAdapter = createEntityAdapter({
     selectId: shipment => shipment._id,
@@ -8,13 +9,29 @@ const shipmentsAdapter = createEntityAdapter({
 const initialState = shipmentsAdapter.getInitialState({
     status: 'IDLE',
     error: null,
-    autocomplete: {}
+    autocomplete: {
+        orders: []
+    },
+    newShipment: null
 });
 
 const shipmentsSlice = createSlice({
     name: 'shipments',
     initialState,
-    reducers: {}
+    reducers: {},
+    extraReducers: {
+        [startNewShipment.pending]: (state, action) => {
+            state.status = 'PENDING';
+        },
+        [startNewShipment.fulfilled]: (state, action) => {
+            state.status = 'IDLE';
+            state.autocomplete = action.payload;
+        },
+        [startNewShipment.rejected]: (state, action) => {
+            state.status = 'REJECTED';
+            state.error = action.error.message;
+        }
+    }
 });
 
 export const {} = shipmentsSlice.actions;
