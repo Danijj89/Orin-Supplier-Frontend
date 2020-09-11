@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import DocumentStepper from '../shared/DocumentStepper.js';
 import { Container, Typography } from '@material-ui/core';
 import { LANGUAGE } from '../../constants.js';
-import CreateShipmentOrdersPicker from './CreateShipmentOrdersPicker.js';
+import CreateShipmentOrdersPicker from './CreateShipmentOrders.js';
 
 const { steps, titleLabel } = LANGUAGE.shipments.createShipment;
 
