@@ -205,6 +205,18 @@ export const ENGLISH = {
     shipments: {
         overview: {
             addShipmentButton: 'New Shipment'
+        },
+        createShipment: {
+            steps: ['Orders', 'Details', 'Product Info', 'Review'],
+            titleLabel: 'New Shipment'
+        },
+        createShipmentOrders: {
+            chipTitleLabel: 'Orders',
+            detailsTitleLabel: 'Order Details',
+            clientDropdownLabel: 'Clients',
+            orderRefLabel: 'Order No.:',
+            cancelButton: 'Cancel',
+            nextButton: 'Next'
         }
     },
     shared: {

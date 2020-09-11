@@ -10,7 +10,8 @@ const initialState = shipmentsAdapter.getInitialState({
     status: 'IDLE',
     error: null,
     autocomplete: {
-        companyOrderMap: {
+        clients: ['company 1', 'company 2', 'company 3'],
+        clientOrderMap: {
             'company 1': [ { poRef: '123'}, { poRef: '234'}, {poRef:'345'}],
             'company 2': [ { poRef: '123'}, {poRef:'345'}],
             'company 3': [ { poRef: '123'}, { poRef: '234'}],
