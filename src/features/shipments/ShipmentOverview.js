@@ -38,7 +38,7 @@ export default function ShipmentOverview() {
     const status = useSelector(selectStatus);
 
     const onNewShipment = () => {
-        dispatch(startNewShipment());
+        // dispatch(startNewShipment());
         history.push('/home/shipments/new');
     }
 
