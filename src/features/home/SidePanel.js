@@ -107,7 +107,7 @@ export default function SidePanel() {
                     </Typography>
                     <Typography
                         className={classes.company}
-                    >{`${company.names[0]}`}</Typography>
+                    >{`${company.name}`}</Typography>
                 </Box>
                 <List>
                     <ListItem

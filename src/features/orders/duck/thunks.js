@@ -1,6 +1,12 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import POService from '../services.js';
 
+export const fetchOrders = createAsyncThunk('orders/fetchOrders',
+    async (_, { getState }) => {
+        const { _id } = getState().home.company;
+        return await POService.fetchOrdersByCompanyId(_id);
+    });
+
 export const submitOrderForPreview = createAsyncThunk('orders/submitOrderForPreview',
     async (_, { getState }) => {
     const { newPO } = getState().orders;
@@ -13,10 +19,6 @@ export const submitPO = createAsyncThunk('orders/submitOrder', async (_, { getSt
     return await POService.createNewPO(newPO);
 });
 
-export const fetchOrders = createAsyncThunk('orders/fetchOrders', async (_, { getState }) => {
-    const { _id } = getState().home.company;
-    return await POService.fetchAllOrdersByCurrentCompanyId(_id);
-});
 
 export const deleteOrder = createAsyncThunk('orders/deleteOrder', async (orderId) => {
    return await POService.deleteOrder(orderId);

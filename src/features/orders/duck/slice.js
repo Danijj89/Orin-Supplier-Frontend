@@ -1,10 +1,6 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import {
-    deleteOrder,
     fetchOrders,
-    submitPO,
-    submitOrderForPreview,
-    updateOrderStatus, startNewPO, fetchSelectedOrderById
 } from './thunks.js';
 import { getFileName } from '../../shared/utils.js';
 
@@ -33,74 +29,38 @@ const ordersSlice = createSlice({
     name: 'orders',
     initialState,
     reducers: {
-        submitOrderDetails: (state, action) => {
-            const { poRef } = action.payload;
-            for (const [key, value] of Object.entries(action.payload)) {
-                state.newPO[key] = value;
-            }
-            state.newPO.fileName = getFileName('PO', poRef, state.newPO.createdBy);
-        },
-        submitPOProductInfo: (state, action) => {
-            for (const [key, value] of Object.entries(action.payload)) {
-                state.newPO[key] = value;
-            }
-        },
-        setCurrentPOId: (state, action) => {
-            state.currentPOId = action.payload;
-        },
-        updateOrderDocument: (state, action) => {
-            const { docType, doc } = action.payload;
-            const { currentPOId } = state;
-            const currentPO = state.entities[currentPOId];
-            if (currentPO) {
-                const newDocuments = currentPO.documents;
-                newDocuments[docType] = doc;
-                ordersAdapter.updateOne(state, { id: currentPOId, changes: { documents: newDocuments } })
-            }
-        },
-        deleteOrderDocument: (state, action) => {
-            const { docType, id } = action.payload;
-            const { [docType]: type, ...rest } = state.entities[id].documents;
-            ordersAdapter.updateOne(state, { id, changes: { documents: rest } })
-        }
+        // submitOrderDetails: (state, action) => {
+        //     const { poRef } = action.payload;
+        //     for (const [key, value] of Object.entries(action.payload)) {
+        //         state.newPO[key] = value;
+        //     }
+        //     state.newPO.fileName = getFileName('PO', poRef, state.newPO.createdBy);
+        // },
+        // submitPOProductInfo: (state, action) => {
+        //     for (const [key, value] of Object.entries(action.payload)) {
+        //         state.newPO[key] = value;
+        //     }
+        // },
+        // setCurrentPOId: (state, action) => {
+        //     state.currentPOId = action.payload;
+        // },
+        // updateOrderDocument: (state, action) => {
+        //     const { docType, doc } = action.payload;
+        //     const { currentPOId } = state;
+        //     const currentPO = state.entities[currentPOId];
+        //     if (currentPO) {
+        //         const newDocuments = currentPO.documents;
+        //         newDocuments[docType] = doc;
+        //         ordersAdapter.updateOne(state, { id: currentPOId, changes: { documents: newDocuments } })
+        //     }
+        // },
+        // deleteOrderDocument: (state, action) => {
+        //     const { docType, id } = action.payload;
+        //     const { [docType]: type, ...rest } = state.entities[id].documents;
+        //     ordersAdapter.updateOne(state, { id, changes: { documents: rest } })
+        // }
     },
     extraReducers: {
-        [startNewPO.pending]: (state, action) => {
-            state.status = 'PENDING';
-        },
-        [startNewPO.fulfilled]: (state, action) => {
-            state.status = 'IDLE';
-            const { newPO, ...rest } = action.payload;
-            state.autocomplete = rest;
-            state.newPO = newPO;
-        },
-        [startNewPO.rejected]: (state, action) => {
-            state.status = 'REJECTED';
-            state.error = action.error.message;
-        },
-        [submitOrderForPreview.pending]: (state, action) => {
-            state.status = 'PENDING';
-        },
-        [submitOrderForPreview.fulfilled]: (state, action) => {
-            state.status = 'IDLE';
-            state.previewFileURL = action.payload;
-        },
-        [submitOrderForPreview.rejected]: (state, action) => {
-            state.status = 'REJECTED';
-            state.error = action.error.message;
-        },
-        [submitPO.pending]: (state, action) => {
-            state.status = 'PENDING';
-        },
-        [submitPO.fulfilled]: (state, action) => {
-            state.status = 'IDLE';
-            ordersAdapter.upsertOne(state, action.payload);
-            state.newPO = null;
-        },
-        [submitPO.rejected]: (state, action) => {
-            state.status = 'REJECTED';
-            state.error = action.error.message;
-        },
         [fetchOrders.pending]: (state, action) => {
             state.status = 'PENDING';
         },
@@ -112,28 +72,64 @@ const ordersSlice = createSlice({
             state.status = 'REJECTED';
             state.error = action.error.message;
         },
-        [deleteOrder.fulfilled]: (state, action) => {
-            state.status = 'IDLE';
-            ordersAdapter.removeOne(state, action.payload);
-        },
-        [updateOrderStatus.fulfilled]: (state, action) => {
-            const { _id, status } = action.payload;
-            state.status = 'IDLE';
-            ordersAdapter.updateOne(state, { id: _id, changes: { status: status } });
-        },
-        [fetchSelectedOrderById.pending]: (state, action) => {
-            state.status = 'PENDING';
-        },
-        [fetchSelectedOrderById.fulfilled]: (state, action) => {
-            state.status = 'IDLE';
-            const { _id: id } = action.payload;
-            state.currentPOId = id;
-            ordersAdapter.updateOne(state, { id, changes: action.payload })
-        },
-        [fetchSelectedOrderById.rejected]: (state, action) => {
-            state.status = 'REJECTED';
-            state.error = action.error.message;
-        },
+        // [startNewPO.pending]: (state, action) => {
+        //     state.status = 'PENDING';
+        // },
+        // [startNewPO.fulfilled]: (state, action) => {
+        //     state.status = 'IDLE';
+        //     const { newPO, ...rest } = action.payload;
+        //     state.autocomplete = rest;
+        //     state.newPO = newPO;
+        // },
+        // [startNewPO.rejected]: (state, action) => {
+        //     state.status = 'REJECTED';
+        //     state.error = action.error.message;
+        // },
+        // [submitOrderForPreview.pending]: (state, action) => {
+        //     state.status = 'PENDING';
+        // },
+        // [submitOrderForPreview.fulfilled]: (state, action) => {
+        //     state.status = 'IDLE';
+        //     state.previewFileURL = action.payload;
+        // },
+        // [submitOrderForPreview.rejected]: (state, action) => {
+        //     state.status = 'REJECTED';
+        //     state.error = action.error.message;
+        // },
+        // [submitPO.pending]: (state, action) => {
+        //     state.status = 'PENDING';
+        // },
+        // [submitPO.fulfilled]: (state, action) => {
+        //     state.status = 'IDLE';
+        //     ordersAdapter.upsertOne(state, action.payload);
+        //     state.newPO = null;
+        // },
+        // [submitPO.rejected]: (state, action) => {
+        //     state.status = 'REJECTED';
+        //     state.error = action.error.message;
+        // },
+        // [deleteOrder.fulfilled]: (state, action) => {
+        //     state.status = 'IDLE';
+        //     ordersAdapter.removeOne(state, action.payload);
+        // },
+        // [updateOrderStatus.fulfilled]: (state, action) => {
+        //     const { _id, status } = action.payload;
+        //     state.status = 'IDLE';
+        //     ordersAdapter.updateOne(state, { id: _id, changes: { status: status } });
+        // },
+        // [fetchSelectedOrderById.pending]: (state, action) => {
+        //     state.status = 'PENDING';
+        // },
+        // [fetchSelectedOrderById.fulfilled]: (state, action) => {
+        //     state.status = 'IDLE';
+        //     const { _id: id } = action.payload;
+        //     state.currentPOId = id;
+        //     ordersAdapter.updateOne(state, { id, changes: action.payload })
+        // },
+        // [fetchSelectedOrderById.rejected]: (state, action) => {
+        //     state.status = 'REJECTED';
+        //     state.error = action.error.message;
+        // },
     }
 });
 
