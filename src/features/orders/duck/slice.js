@@ -40,13 +40,13 @@ const ordersSlice = createSlice({
     name: 'orders',
     initialState,
     reducers: {
-        // submitOrderDetails: (state, action) => {
-        //     const { poRef } = action.payload;
-        //     for (const [key, value] of Object.entries(action.payload)) {
-        //         state.newPO[key] = value;
-        //     }
-        //     state.newPO.fileName = getFileName('PO', poRef, state.newPO.createdBy);
-        // },
+        submitOrderDetails: (state, action) => {
+            const { poRef } = action.payload;
+            for (const [key, value] of Object.entries(action.payload)) {
+                state.newOrder[key] = value;
+            }
+            state.newOrder.fileName = getFileName('PO', poRef, state.newOrder.createdBy);
+        },
         // submitPOProductInfo: (state, action) => {
         //     for (const [key, value] of Object.entries(action.payload)) {
         //         state.newPO[key] = value;

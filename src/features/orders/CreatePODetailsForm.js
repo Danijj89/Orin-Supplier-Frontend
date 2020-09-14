@@ -6,7 +6,7 @@ import { TextField, Grid, Paper } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { submitOrderDetails } from './duck/slice.js';
 import { useHistory } from 'react-router-dom';
-import { selectNewPO, selectPOAutocompleteOptions } from './duck/selectors.js';
+import { selectNewOrder, selectPOAutocompleteOptions } from './duck/selectors.js';
 import CreatePOShippingInfo from './CreatePOShippingInfo.js';
 import { makeStyles } from '@material-ui/core/styles';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
@@ -57,50 +57,36 @@ export default function CreatePODetailsForm({ setActiveStep }) {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const {
-    poRef,
-    fromName,
-    fromAdd,
-    date,
-    crd,
-    incoterm,
-    pay,
-    orderRef,
-    remarks,
-    del,
-    pol,
-    pod,
-    carrier,
-  } = useSelector(selectNewPO);
-  const { register, control, handleSubmit, watch, errors } = useForm({
+  const newOrder = useSelector(selectNewOrder);
+  const { register, control, handleSubmit, watch, errors, setValue } = useForm({
     mode: 'onSubmit',
     defaultValues: {
-      poRef,
-      fromName,
-      fromAdd,
-      date: date.substr(0, 10),
-      crd: crd.substr(0, 10),
-      incoterm,
-      pay,
-      orderRef,
-      remarks,
-      del,
-      pol,
-      pod,
-      carrier,
+      poRef: newOrder.poRef,
+      to: newOrder.to,
+      toName: newOrder.toName,
+      toAdd: newOrder.toAdd,
+      date: newOrder.date.substr(0, 10),
+      crd: newOrder.crd.substr(0, 10),
+      incoterm: newOrder.incoterm,
+      pay: newOrder.pay,
+      remarks: newOrder.remarks,
+      del: newOrder.del,
+      pol: newOrder.pol,
+      pod: newOrder.pod,
+      carrier: newOrder.carrier
     },
   });
 
-  const { customerNames, customerAddressMap } = useSelector(
-    selectPOAutocompleteOptions
-  );
-  const chosenCustomer = watch('fromName', []);
+  const { customerMap } = useSelector(selectPOAutocompleteOptions);
+  const chosenCustomer = watch('toName');
+  const customerNames = Object.keys(customerMap);
   const chosenCustomerAddresses = () =>
-    customerAddressMap.hasOwnProperty(chosenCustomer)
-      ? customerAddressMap[chosenCustomer]
-      : [];
+      customerMap && customerMap.hasOwnProperty(chosenCustomer)
+          ? customerMap[chosenCustomer].addresses
+          : [];
 
   const onButtonNextClick = (data) => {
+    data.to = customerMap[chosenCustomer].id;
     dispatch(submitOrderDetails(data));
     setActiveStep((prevStep) => prevStep + 1);
   };
@@ -132,8 +118,6 @@ export default function CreatePODetailsForm({ setActiveStep }) {
         <Controller
           render={(props) => (
             <Autocomplete
-              freeSolo
-              autoSelect
               {...props}
               options={customerNames}
               renderInput={(params) => (
@@ -141,22 +125,20 @@ export default function CreatePODetailsForm({ setActiveStep }) {
                   {...params}
                   label={clientLabel}
                   variant="standard"
-                  error={!!errors.fromName}
+                  error={!!errors.toName}
                   className={classes.field}
                 />
               )}
               onChange={(_, data) => props.onChange(data)}
             />
           )}
-          name="fromName"
+          name="toName"
           control={control}
           rules={{ required: true }}
         />
         <Controller
           render={(props) => (
             <Autocomplete
-              freeSolo
-              autoSelect
               {...props}
               options={chosenCustomerAddresses()}
               renderInput={(params) => (
@@ -164,14 +146,14 @@ export default function CreatePODetailsForm({ setActiveStep }) {
                   {...params}
                   label={clientAddressLabel}
                   variant="standard"
-                  error={!!errors.fromAdd}
+                  error={!!errors.toAdd}
                   className={classes.field}
                 />
               )}
               onChange={(_, data) => props.onChange(data)}
             />
           )}
-          name="fromAdd"
+          name="toAdd"
           control={control}
           rules={{ required: true }}
         />
