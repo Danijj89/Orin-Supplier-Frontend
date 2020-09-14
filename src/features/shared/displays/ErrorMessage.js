@@ -13,7 +13,6 @@ const useStyles = makeStyles({
 
 export default function ErrorMessage({ errors }) {
     const classes = useStyles();
-    console.log(errors);
 
     return (
         <List>

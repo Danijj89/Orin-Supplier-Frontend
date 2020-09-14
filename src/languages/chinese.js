@@ -69,7 +69,7 @@ export const CHINESE = {
             currencyLabel: '货币',
             saveItemsLabel: 'Save New Items To Inventory',
             prevButton: '订单详情',
-            nextButton: '下一步: 核审',
+            nextButton: '确定并完成',
             errorMessages: {
                 items: '必须完整的填写起码一行资料.',
                 currency: '必须选择货币.',
@@ -78,10 +78,6 @@ export const CHINESE = {
         productTable: {
             totals: '合计:',
             addRowButton: '添加',
-        },
-        orderPreview: {
-            buttonProductInfo: '货物详情',
-            buttonSubmit: '确定并完成',
         },
         orderInfoTile: {
             title: '订单详情',
@@ -156,11 +152,7 @@ export const CHINESE = {
         createCIProductTable: {
             totalQuantity: '合计:',
             addRowButton: '添加',
-        },
-        createCIPreview: {
-            buttonPrev: '上一步: 货物信息',
-            buttonNext: '确定并完成',
-        },
+        }
     },
     packingList: {
         createPL: {
@@ -189,11 +181,7 @@ export const CHINESE = {
         createPLProductTable: {
             addRowButton: '添加',
             totalsText: '合计:',
-        },
-        createPLPreview: {
-            prevButton: '上一步: 货物信息',
-            submitButton: '确定并完成',
-        },
+        }
     },
     shared: {
         downloadButton: {

@@ -71,7 +71,7 @@ export const ENGLISH = {
             currencyLabel: 'Currency',
             saveItemsLabel: 'Save New Items To Inventory',
             prevButton: 'Order Details',
-            nextButton: 'Next: Review',
+            nextButton: 'Submit',
             errorMessages: {
                 currency: 'You must select a currency.',
                 missingItemInfo: 'Some item is missing information.',
@@ -80,10 +80,6 @@ export const ENGLISH = {
         productTable: {
             totals: 'Total:',
             addRowButton: 'Add',
-        },
-        orderPreview: {
-            buttonProductInfo: 'Product Info',
-            buttonSubmit: 'Submit',
         },
         orderInfoTile: {
             title: 'Order Overview',
@@ -163,11 +159,7 @@ export const ENGLISH = {
         createCIProductTable: {
             totals: 'Total:',
             addRowButton: 'Add',
-        },
-        createCIPreview: {
-            buttonPrev: 'Back: Product Info',
-            buttonNext: 'Submit',
-        },
+        }
     },
     packingList: {
         createPL: {
@@ -196,11 +188,7 @@ export const ENGLISH = {
         createPLProductTable: {
             addRowButton: 'Add',
             totalsText: 'Totals:',
-        },
-        createPLPreview: {
-            prevButton: 'Back: Product Data',
-            submitButton: 'Submit',
-        },
+        }
     },
     shipments: {
         overview: {
