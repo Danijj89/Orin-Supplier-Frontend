@@ -135,7 +135,6 @@ export default function LoginPage() {
                         inputRef={ register({ required: errorMessages.passwordRequired }) }
                         className={ classes.field }
                         label={ passwordLabel }
-                        autoFocus
                         fullWidth
                     />
                     <ThemedButton
