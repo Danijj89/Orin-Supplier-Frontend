@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
 export default function CreatePOShippingInfo({ register, control }) {
   const classes = useStyles();
   const [hidden, setHidden] = useState(true);
-  const { deliveryOptions, ports } = useSelector(selectPOAutocompleteOptions);
+  const { deliveryMethods, ports } = useSelector(selectPOAutocompleteOptions);
 
   useEffect(() => {
     if (!hidden) window.scrollTo(0, document.body.scrollHeight);
@@ -91,7 +91,7 @@ export default function CreatePOShippingInfo({ register, control }) {
               render={(props) => (
                 <Autocomplete
                   {...props}
-                  options={deliveryOptions}
+                  options={deliveryMethods}
                   renderInput={(params) => (
                     <TextField
                       {...params}
