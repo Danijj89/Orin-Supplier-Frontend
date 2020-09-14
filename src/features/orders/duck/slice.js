@@ -1,8 +1,20 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import {
-    fetchOrders,
+    fetchOrders, startNewOrder,
 } from './thunks.js';
 import { getFileName } from '../../shared/utils.js';
+
+const defaultRowValues = ['', '', '', '', 0, 'PCS', 0, 0];
+
+const defaultTableHeaders = [
+    'Item Ref',
+    'Product Description',
+    null,
+    null,
+    'Quantity',
+    'Unit Price',
+    'Amount'
+]
 
 const ordersAdapter = createEntityAdapter({
     selectId: order => order._id,
@@ -20,9 +32,8 @@ const initialState = ordersAdapter.getInitialState({
         customerAddressMap: {},
         ports: []
     },
-    newPO: null,
-    currentPOId: null,
-    previewFileURL: null
+    newOrder: null,
+    currentPOId: null
 });
 
 const ordersSlice = createSlice({
@@ -72,19 +83,21 @@ const ordersSlice = createSlice({
             state.status = 'REJECTED';
             state.error = action.error.message;
         },
-        // [startNewPO.pending]: (state, action) => {
-        //     state.status = 'PENDING';
-        // },
-        // [startNewPO.fulfilled]: (state, action) => {
-        //     state.status = 'IDLE';
-        //     const { newPO, ...rest } = action.payload;
-        //     state.autocomplete = rest;
-        //     state.newPO = newPO;
-        // },
-        // [startNewPO.rejected]: (state, action) => {
-        //     state.status = 'REJECTED';
-        //     state.error = action.error.message;
-        // },
+        [startNewOrder.pending]: (state, action) => {
+            state.status = 'PENDING';
+        },
+        [startNewOrder.fulfilled]: (state, action) => {
+            state.status = 'IDLE';
+            const { newOrder, ...rest } = action.payload;
+            state.autocomplete = rest;
+            newOrder.headers = defaultTableHeaders;
+            newOrder.unallocated = [defaultRowValues];
+            state.newOrder = newOrder;
+        },
+        [startNewOrder.rejected]: (state, action) => {
+            state.status = 'REJECTED';
+            state.error = action.error.message;
+        },
         // [submitOrderForPreview.pending]: (state, action) => {
         //     state.status = 'PENDING';
         // },

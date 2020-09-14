@@ -1,4 +1,4 @@
-import { fetchWithAuth } from '../shared/fetchWithAuth.js';
+import { fetchWithAuth } from '../../shared/fetchWithAuth.js';
 
 const fetchOrdersByCompanyId = async (id) => {
     const configs = {
@@ -12,18 +12,18 @@ const fetchOrdersByCompanyId = async (id) => {
     return data;
 }
 
-// const fetchNewPOData = async (userId, companyId) => {
-//     const configs = {
-//         method: 'get',
-//         url: `/orders/new`,
-//         params: {
-//             user: userId,
-//             company: companyId
-//         }
-//     };
-//     const { data } = await fetchWithAuth(configs);
-//     return data;
-// }
+const fetchNewOrderData = async (userId, companyId) => {
+    const configs = {
+        method: 'get',
+        url: `/orders/new`,
+        params: {
+            user: userId,
+            company: companyId
+        }
+    };
+    const { data } = await fetchWithAuth(configs);
+    return data;
+}
 //
 // const generatePOFiles = async (order) => {
 //     const configs = {
@@ -89,6 +89,7 @@ const fetchOrdersByCompanyId = async (id) => {
 
 const POService = {
     fetchOrdersByCompanyId,
+    fetchNewOrderData,
     // generatePOFiles,
     // createNewPO,
     //
@@ -96,7 +97,6 @@ const POService = {
     // fetchOrderById,
     // getPdfFilePreview,
     // updateOrderStatus,
-    // fetchNewPOData
 };
 
 export default POService;
