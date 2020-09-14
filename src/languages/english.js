@@ -75,11 +75,18 @@ export const ENGLISH = {
             errorMessages: {
                 currency: 'You must select a currency.',
                 missingItemInfo: 'Some item is missing information.',
-            },
+            }
         },
         productTable: {
             totals: 'Total:',
             addRowButton: 'Add',
+            headerLabelsMap: {
+                'Item Ref': 'Item Ref',
+                'Product Description': 'Product Description',
+                'Quantity': 'Quantity',
+                'Unit Price': 'Unit Price',
+                'Amount': 'Amount'
+            }
         },
         orderInfoTile: {
             title: 'Order Overview',

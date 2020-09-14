@@ -73,11 +73,18 @@ export const CHINESE = {
             errorMessages: {
                 items: '必须完整的填写起码一行资料.',
                 currency: '必须选择货币.',
-            },
+            }
         },
         productTable: {
             totals: '合计:',
             addRowButton: '添加',
+            headerLabelsMap: {
+                'Item Ref': 'Item Ref',
+                'Product Description': 'Product Description',
+                'Quantity': 'Quantity',
+                'Unit Price': 'Unit Price',
+                'Amount': 'Amount'
+            }
         },
         orderInfoTile: {
             title: '订单详情',
@@ -181,6 +188,29 @@ export const CHINESE = {
         createPLProductTable: {
             addRowButton: '添加',
             totalsText: '合计:',
+        }
+    },
+    shipments: {
+        overview: {
+            addShipmentButton: 'New Shipment'
+        },
+        createShipment: {
+            steps: ['Orders', 'Details', 'Product Info', 'Review'],
+            titleLabel: 'New Shipment'
+        },
+        createShipmentOrders: {
+            chipTitleLabel: 'Orders',
+            detailsTitleLabel: 'Order Details',
+            clientDropdownLabel: 'Clients',
+            orderNumberLabel: 'Order No.:',
+            orderDateLabel: 'Date:',
+            clientNameLabel: 'Client:',
+            orderCRDLabel: 'CRD:',
+            quantityLabel: 'Quantity:',
+            incotermLabel: 'Incoterm:',
+            remarksLabel: 'Remarks:',
+            cancelButton: 'Cancel',
+            nextButton: 'Next'
         }
     },
     shared: {

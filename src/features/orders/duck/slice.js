@@ -12,7 +12,7 @@ const defaultTableHeaders = [
     'Quantity',
     'Unit Price',
     'Amount'
-]
+];
 
 const ordersAdapter = createEntityAdapter({
     selectId: order => order._id,

@@ -16,7 +16,7 @@ import UnitCounter from '../shared/classes/UnitCounter.js';
 import { useSelector } from 'react-redux';
 import { selectDefaultRowValues, selectPOAutocompleteOptions } from './duck/selectors.js';
 
-const { totals, addRowButton } = LANGUAGE.order.productTable;
+const { totals, addRowButton, headerLabelsMap } = LANGUAGE.order.productTable;
 
 const useStyles = makeStyles({
     customColumn: {
@@ -63,7 +63,7 @@ export default function CreatePOProductTable({ watch, setValue, numActiveColumns
     const onAddItemClick = () => setValue('unallocated', [...items, defaultRowValues]);
 
     const renderedHeaders = headers.map((header, index) => {
-        if (index === 0 || index === 1) return <TableCell key={ index }>{ header }</TableCell>;
+        if (index === 0 || index === 1) return <TableCell key={ index }>{ headerLabelsMap[header] }</TableCell>;
         else if ((index === 2 || index === 3)) {
             if (headers[index]) {
                 return (
@@ -83,7 +83,7 @@ export default function CreatePOProductTable({ watch, setValue, numActiveColumns
                 return null;
             }
         } else {
-            return <TableCell key={ index } align="right">{ header }</TableCell>
+            return <TableCell key={ index } align="right">{ headerLabelsMap[header] }</TableCell>
         }
     })
 

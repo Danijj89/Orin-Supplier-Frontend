@@ -7,7 +7,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectAllOrders } from '../orders/duck/slice.js';
 import { fetchOrders } from '../orders/duck/thunks.js';
-import { selectPOStatus } from '../orders/duck/selectors.js';
+import { selectOrderStatus } from '../orders/duck/selectors.js';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -51,7 +51,7 @@ export default function SearchBar() {
   const [searchTerm, setSearchTerm] = useState('');
   const orders = useSelector(selectAllOrders);
   const refs = orders.map((order) => order.poRef);
-  const status = useSelector(selectPOStatus);
+  const status = useSelector(selectOrderStatus);
 
   const onSearchTermChange = (val) => setSearchTerm(val);
 
