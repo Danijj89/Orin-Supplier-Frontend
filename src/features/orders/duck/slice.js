@@ -1,10 +1,8 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import {
-    fetchOrders, startNewOrder,
+    fetchOrders, startNewOrder, submitOrder,
 } from './thunks.js';
 import { getFileName } from '../../shared/utils.js';
-
-const defaultRowValues = ['', '', '', '', 0, 'PCS', 0, 0];
 
 const defaultTableHeaders = [
     'Item Ref',
@@ -24,16 +22,10 @@ const ordersAdapter = createEntityAdapter({
 const initialState = ordersAdapter.getInitialState({
     status: 'IDLE',
     error: null,
-    autocomplete: {
-        deliveryOptions: [],
-        itemsRef: [],
-        itemDescriptionMap: {},
-        customerNames: [],
-        customerAddressMap: {},
-        ports: []
-    },
+    autocomplete: null,
+    defaultRowValues: ['', '', '', '', 0, 'PCS', 0, 0],
     newOrder: null,
-    currentPOId: null
+    currentOrderId: null
 });
 
 const ordersSlice = createSlice({
@@ -47,11 +39,11 @@ const ordersSlice = createSlice({
             }
             state.newOrder.fileName = getFileName('PO', poRef, state.newOrder.createdBy);
         },
-        // submitPOProductInfo: (state, action) => {
-        //     for (const [key, value] of Object.entries(action.payload)) {
-        //         state.newPO[key] = value;
-        //     }
-        // },
+        submitPOProductInfo: (state, action) => {
+            for (const [key, value] of Object.entries(action.payload)) {
+                state.newOrder[key] = value;
+            }
+        },
         // setCurrentPOId: (state, action) => {
         //     state.currentPOId = action.payload;
         // },
@@ -91,10 +83,24 @@ const ordersSlice = createSlice({
             const { newOrder, ...rest } = action.payload;
             state.autocomplete = rest;
             newOrder.headers = defaultTableHeaders;
-            newOrder.unallocated = [defaultRowValues];
+            newOrder.unallocated = [state.defaultRowValues];
             state.newOrder = newOrder;
         },
         [startNewOrder.rejected]: (state, action) => {
+            state.status = 'REJECTED';
+            state.error = action.error.message;
+        },
+        [submitOrder.pending]: (state, action) => {
+            state.status = 'PENDING';
+        },
+        [submitOrder.fulfilled]: (state, action) => {
+            const { _id } = action.payload;
+            state.status = 'IDLE';
+            ordersAdapter.upsertOne(state, action.payload);
+            state.newOrder = null;
+            state.currentOrderId = _id;
+        },
+        [submitOrder.rejected]: (state, action) => {
             state.status = 'REJECTED';
             state.error = action.error.message;
         },
@@ -109,18 +115,7 @@ const ordersSlice = createSlice({
         //     state.status = 'REJECTED';
         //     state.error = action.error.message;
         // },
-        // [submitPO.pending]: (state, action) => {
-        //     state.status = 'PENDING';
-        // },
-        // [submitPO.fulfilled]: (state, action) => {
-        //     state.status = 'IDLE';
-        //     ordersAdapter.upsertOne(state, action.payload);
-        //     state.newPO = null;
-        // },
-        // [submitPO.rejected]: (state, action) => {
-        //     state.status = 'REJECTED';
-        //     state.error = action.error.message;
-        // },
+
         // [deleteOrder.fulfilled]: (state, action) => {
         //     state.status = 'IDLE';
         //     ordersAdapter.removeOne(state, action.payload);

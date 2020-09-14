@@ -75,8 +75,8 @@ const dropDownInputStyle = {
 export default function CreatePOTableRow(
     { rowIdx, item, onCellChange, onItemDeleteClick, currency, headers}) {
     const classes = useStyles();
-    const { itemsRef, itemDescriptionMap } = useSelector(selectPOAutocompleteOptions);
     const { itemUnits } = useSelector(selectCurrentDefaults);
+    const { itemRefs, itemMap } = useSelector(selectPOAutocompleteOptions);
 
     return (
         <TableRow>
@@ -87,7 +87,7 @@ export default function CreatePOTableRow(
             </TableCell>
             <TableCell className={classes.itemReference}>
                 <TableAutoCompleteFreeTextInput
-                    options={itemsRef}
+                    options={itemRefs}
                     onChange={(data) => onCellChange(rowIdx, 0, data)}
                     value={item[0]}
                     styles={textInputStyle}
@@ -95,7 +95,7 @@ export default function CreatePOTableRow(
             </TableCell>
             <TableCell className={classes.description}>
                 <TableAutoCompleteFreeTextInput
-                    options={itemDescriptionMap.hasOwnProperty(item[0]) ? itemDescriptionMap[item[0]] : []}
+                    options={itemMap.hasOwnProperty(item[0]) ? itemMap[item[0]].descriptions : []}
                     onChange={(data) => onCellChange(rowIdx, 1, data)}
                     value={item[1]}
                     styles={textInputStyle}

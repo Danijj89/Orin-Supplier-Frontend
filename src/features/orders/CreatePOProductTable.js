@@ -14,7 +14,7 @@ import { Grid, IconButton, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import UnitCounter from '../shared/classes/UnitCounter.js';
 import { useSelector } from 'react-redux';
-import { selectPOAutocompleteOptions } from './duck/selectors.js';
+import { selectDefaultRowValues, selectPOAutocompleteOptions } from './duck/selectors.js';
 
 const { totals, addRowButton } = LANGUAGE.order.productTable;
 
@@ -38,9 +38,10 @@ const useStyles = makeStyles({
 
 export default function CreatePOProductTable({ watch, setValue, numActiveColumns }) {
     const classes = useStyles();
-    const { defaultPORowValues } = useSelector(selectPOAutocompleteOptions);
+    const defaultRowValues = useSelector(selectDefaultRowValues);
+    const { itemMap } = useSelector(selectPOAutocompleteOptions);
     const currency = watch('currency');
-    const items = watch('items');
+    const items = watch('unallocated');
     const totalQ = watch('totalQ');
     const totalA = watch('totalA');
     const headers = watch('headers');
@@ -56,10 +57,10 @@ export default function CreatePOProductTable({ watch, setValue, numActiveColumns
         totalQ.subtractUnit(item[5], item[4]);
         setValue('totalQ', new UnitCounter(totalQ.units, totalQ.data));
         setValue('totalA', totalA - item[4] * item[6]);
-        setValue('items', newItems);
+        setValue('unallocated', newItems);
     };
 
-    const onAddItemClick = () => setValue('items', [...items, defaultPORowValues]);
+    const onAddItemClick = () => setValue('unallocated', [...items, defaultRowValues]);
 
     const renderedHeaders = headers.map((header, index) => {
         if (index === 0 || index === 1) return <TableCell key={ index }>{ header }</TableCell>;
@@ -88,7 +89,10 @@ export default function CreatePOProductTable({ watch, setValue, numActiveColumns
 
     const onCellChange = (rowIdx, colIdx, val) => {
         const newItem = [...items[rowIdx]];
-        if (colIdx === 4) {
+        if (colIdx === 0 && itemMap.hasOwnProperty(val)) {
+            newItem[1] = itemMap[val].defaultD;
+        }
+        else if (colIdx === 4) {
             val = parseInt(val);
             const unit = newItem[5];
             const diff = val - newItem[colIdx];
@@ -111,7 +115,7 @@ export default function CreatePOProductTable({ watch, setValue, numActiveColumns
             newItem[7] = roundTo2Decimal(val * quantity);
         }
         newItem[colIdx] = val;
-        setValue('items', [...items.slice(0, rowIdx), newItem, ...items.slice(rowIdx + 1)]);
+        setValue('unallocated', [...items.slice(0, rowIdx), newItem, ...items.slice(rowIdx + 1)]);
     }
 
     const renderedRows = items.map((item, index) =>

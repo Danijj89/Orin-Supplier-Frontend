@@ -45,8 +45,8 @@ export const ENGLISH = {
             deleteOrderDialogConfirmButton: 'Confirm',
         },
         createOrder: {
-            steps: ['Order', 'Products', 'Review'],
-            newOrder: 'New Order',
+            steps: ['Order', 'Products'],
+            titleLabel: 'New Order',
         },
         orderDetailsForm: {
             orderReferenceLabel: 'Order Number*',
@@ -56,7 +56,6 @@ export const ENGLISH = {
             crdLabel: 'Cargo Ready Date',
             incotermLabel: 'Incoterm',
             paymentMethodLabel: 'Payment Method',
-            referenceLabel: 'Order Name or Reference',
             remarksLabel: 'Remarks',
             cancelButton: 'Cancel',
             nextButton: 'Next',
@@ -70,6 +69,7 @@ export const ENGLISH = {
         },
         orderProductInfo: {
             currencyLabel: 'Currency',
+            saveItemsLabel: 'Save New Items To Inventory',
             prevButton: 'Order Details',
             nextButton: 'Next: Review',
             errorMessages: {
@@ -214,7 +214,13 @@ export const ENGLISH = {
             chipTitleLabel: 'Orders',
             detailsTitleLabel: 'Order Details',
             clientDropdownLabel: 'Clients',
-            orderRefLabel: 'Order No.:',
+            orderNumberLabel: 'Order No.:',
+            orderDateLabel: 'Date:',
+            clientNameLabel: 'Client:',
+            orderCRDLabel: 'CRD:',
+            quantityLabel: 'Quantity:',
+            incotermLabel: 'Incoterm:',
+            remarksLabel: 'Remarks:',
             cancelButton: 'Cancel',
             nextButton: 'Next'
         }

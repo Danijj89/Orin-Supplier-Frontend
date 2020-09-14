@@ -1,7 +1,7 @@
 
 export const selectPOAutocompleteOptions = state => state.orders.autocomplete;
 export const selectNewOrder = state => state.orders.newOrder;
-export const selectPOPreviewFile = state => state.orders.previewFileURL;
-export const selectPOStatus = state => state.orders.status;
-export const selectPOError = state => state.orders.error;
-export const selectCurrentPOId = state => state.orders.currentPOId;
+export const selectOrderStatus = state => state.orders.status;
+export const selectOrderError = state => state.orders.error;
+export const selectCurrentOrderId = state => state.orders.currentOrderId;
+export const selectDefaultRowValues = state => state.orders.defaultRowValues;

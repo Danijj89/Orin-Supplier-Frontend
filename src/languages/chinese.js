@@ -43,8 +43,8 @@ export const CHINESE = {
             deleteOrderDialogConfirmButton: '确定',
         },
         createOrder: {
-            steps: ['订单', '产品', '审核'],
-            newOrder: '新订单',
+            steps: ['订单', '产品'],
+            titleLabel: '新订单',
         },
         orderDetailsForm: {
             orderReferenceLabel: '订单号*',
@@ -54,7 +54,6 @@ export const CHINESE = {
             crdLabel: '货好日期',
             incotermLabel: '贸易条款',
             paymentMethodLabel: '付款模式',
-            referenceLabel: '订单名称以及编号',
             remarksLabel: '备注',
             cancelButton: '取消',
             nextButton: '下一步',
@@ -68,6 +67,7 @@ export const CHINESE = {
         },
         orderProductInfo: {
             currencyLabel: '货币',
+            saveItemsLabel: 'Save New Items To Inventory',
             prevButton: '订单详情',
             nextButton: '下一步: 核审',
             errorMessages: {

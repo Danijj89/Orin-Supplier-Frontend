@@ -7,22 +7,15 @@ export const fetchOrders = createAsyncThunk('orders/fetchOrders',
         return await POService.fetchOrdersByCompanyId(_id);
     });
 
-export const startNewOrder = createAsyncThunk('orders/startNewPO',
+export const startNewOrder = createAsyncThunk('orders/startNewOrder',
     async (_, { getState }) => {
         const { user, company } = getState().home;
         return POService.fetchNewOrderData(user._id, company._id);
     });
 
-export const submitOrderForPreview = createAsyncThunk('orders/submitOrderForPreview',
-    async (_, { getState }) => {
-    const { newPO } = getState().orders;
-    const file = await POService.generatePOFiles(newPO);
-    return window.URL.createObjectURL(file);
-});
-
-export const submitPO = createAsyncThunk('orders/submitOrder', async (_, { getState }) => {
-    const { newPO } = getState().orders;
-    return await POService.createNewPO(newPO);
+export const submitOrder = createAsyncThunk('orders/submitOrder', async (_, { getState }) => {
+    const { newOrder } = getState().orders;
+    return POService.createNewOrder(newOrder);
 });
 
 

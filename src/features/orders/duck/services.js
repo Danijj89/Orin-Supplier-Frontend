@@ -24,6 +24,16 @@ const fetchNewOrderData = async (userId, companyId) => {
     const { data } = await fetchWithAuth(configs);
     return data;
 }
+
+const createNewOrder = async (order) => {
+    const configs = {
+        method: 'post',
+        url: '/orders',
+        data: order
+    };
+    const { data } = await fetchWithAuth(configs);
+    return data;
+}
 //
 // const generatePOFiles = async (order) => {
 //     const configs = {
@@ -36,15 +46,7 @@ const fetchNewOrderData = async (userId, companyId) => {
 //     return data;
 // }
 //
-// const createNewPO = async (order) => {
-//     const configs = {
-//         method: 'post',
-//         url: '/orders',
-//         data: order
-//     };
-//     const { data } = await fetchWithAuth(configs);
-//     return data;
-// }
+
 //
 // const deleteOrder = async (orderId) => {
 //     const configs = {
@@ -90,8 +92,9 @@ const fetchNewOrderData = async (userId, companyId) => {
 const POService = {
     fetchOrdersByCompanyId,
     fetchNewOrderData,
+    createNewOrder,
     // generatePOFiles,
-    // createNewPO,
+
     //
     // deleteOrder,
     // fetchOrderById,

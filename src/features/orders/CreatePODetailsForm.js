@@ -19,7 +19,6 @@ const {
   crdLabel,
   incotermLabel,
   paymentMethodLabel,
-  referenceLabel,
   remarksLabel,
   cancelButton,
   nextButton,
@@ -58,7 +57,7 @@ export default function CreatePODetailsForm({ setActiveStep }) {
   const history = useHistory();
 
   const newOrder = useSelector(selectNewOrder);
-  const { register, control, handleSubmit, watch, errors, setValue } = useForm({
+  const { register, control, handleSubmit, watch, errors } = useForm({
     mode: 'onSubmit',
     defaultValues: {
       poRef: newOrder.poRef,
@@ -177,14 +176,6 @@ export default function CreatePODetailsForm({ setActiveStep }) {
           label={paymentMethodLabel}
           type="text"
           name="pay"
-          inputRef={register}
-          className={classes.field}
-          fullWidth
-        />
-        <TextField
-          label={referenceLabel}
-          type="text"
-          name="orderRef"
           inputRef={register}
           className={classes.field}
           fullWidth
