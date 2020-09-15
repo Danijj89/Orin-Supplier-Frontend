@@ -13,7 +13,7 @@ import {
     convertDateStringToyymmdd,
     yymmddToLocaleDate,
 } from '../shared/utils.js';
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import StatusButtonMenu from './StatusButtonMenu.js';
 import { useDispatch } from 'react-redux';
 import { updateOrderStatus } from './duck/thunks.js';
@@ -67,29 +67,24 @@ const TableCell = withStyles((theme) => ({
     },
 }))(MuiTableCell);
 
-const DateTableCell = ({ name, control }) => {
+const DateTableCell = ({ name, value, onDateChange }) => {
     const classes = useStyles();
     return (
         <TableCell>
-            <Controller
-                render={(props) => (
-                    <KeyboardDatePicker
-                        {...props}
-                        disableToolbar
-                        variant="inline"
-                        format="MM/dd/yyyy"
-                        margin="none"
-                        InputProps={{
-                            classes: {
-                                input: classes.datepickerInput,
-                            },
-                        }}
-                        keyboardIcon={<IconCalendar style={{ fontSize: 10 }} />}
-                        className={classes.datepicker}
-                    />
-                )}
-                control={control}
-                name={name}
+            <KeyboardDatePicker
+                disableToolbar
+                variant="inline"
+                format="MM/dd/yyyy"
+                margin="none"
+                InputProps={{
+                    classes: {
+                        input: classes.datepickerInput,
+                    },
+                }}
+                keyboardIcon={<IconCalendar style={{ fontSize: 10 }} />}
+                className={classes.datepicker}
+                onChange={(e) => onDateChange(name, e) }
+                value={value}
             />
         </TableCell>
     );
@@ -98,44 +93,27 @@ const DateTableCell = ({ name, control }) => {
 export default function OrderStatusInfoTile({ order }) {
     const classes = useStyles();
     const dispatch = useDispatch();
-    const { procurement, production, qa } = order.status;
     const [isEdit, setIsEdit] = useState(false);
 
-    const { register, control, setValue, watch, handleSubmit } = useForm({
+    const { register, setValue, watch, handleSubmit, getValues } = useForm({
         mode: 'onSubmit',
         defaultValues: {
-            procurementStatus: procurement.status,
-            productionStatus: production.status,
-            qaStatus: qa.status,
-            procurementEstimated: procurement.estimated
-                ? convertDateStringToyymmdd(procurement.estimated)
-                : null,
-            productionEstimated: production.estimated
-                ? convertDateStringToyymmdd(production.estimated)
-                : null,
-            qaEstimated: qa.estimated
-                ? convertDateStringToyymmdd(qa.estimated)
-                : null,
-            procurementActual: procurement.actual
-                ? convertDateStringToyymmdd(procurement.actual)
-                : null,
-            productionActual: production.actual
-                ? convertDateStringToyymmdd(production.actual)
-                : null,
-            qaActual: qa.actual ? convertDateStringToyymmdd(qa.actual) : null,
+            procurement: order.procurementS,
+            production: order.productionS,
+            qa: order.qaS,
         },
         shouldUnregister: false,
     });
 
     useEffect(() => {
-        register({ name: 'procurementStatus' }, { required: true });
-        register({ name: 'productionStatus' }, { required: true });
-        register({ name: 'qaStatus' }, { required: true });
+        register({ name: 'procurement' }, { required: true });
+        register({ name: 'production' }, { required: true });
+        register({ name: 'qa' }, { required: true });
     }, [register]);
 
-    const procurementStatus = watch('procurementStatus');
-    const productionStatus = watch('productionStatus');
-    const qaStatus = watch('qaStatus');
+    const procurement = watch('procurement');
+    const production = watch('production');
+    const qa = watch('qa');
 
     const BorderLessHeaderCell = ({ header }) => (
         <TableCell className={classes.header}>{header}</TableCell>
@@ -168,37 +146,25 @@ export default function OrderStatusInfoTile({ order }) {
     const onEditClick = () => setIsEdit(true);
     const onEditCancelClick = () => setIsEdit(false);
     const onStatusClick = (step, newStatus) => {
+        const stepData = {...getValues(step)};
+        stepData.status = newStatus;
         if (newStatus === 'Completed') {
-            const actual = step.substring(0, step.length - 6) + 'Actual';
-            setValue(
-                actual,
-                convertDateStringToyymmdd(new Date().toISOString())
-            );
+            stepData.actual = convertDateStringToyymmdd(new Date().toISOString());
         }
-        setValue(step, newStatus);
+        setValue(step, stepData);
     };
+    const onEstimatedDateChange = (step, newDate) => {
+        const stepData = getValues(step);
+        setValue(step, {...stepData, estimated: newDate});
+    }
+
+    const onActualDateChange = (step, newDate) => {
+        const stepData = getValues(step);
+        setValue(step, {...stepData, actual: newDate});
+    }
 
     const onSubmitClick = (data) => {
-        console.log(data);
-        const dataToSend = {
-            _id: order.status._id,
-            procurement: {
-                status: data.procurementStatus,
-                estimated: data.procurementEstimated,
-                actual: data.procurementActual,
-            },
-            production: {
-                status: data.productionStatus,
-                estimated: data.productionEstimated,
-                actual: data.productionActual,
-            },
-            qa: {
-                status: data.qaStatus,
-                estimated: data.qaEstimated,
-                actual: data.qaActual,
-            },
-        };
-        dispatch(updateOrderStatus({ orderId: order._id, data: dataToSend }));
+        dispatch(updateOrderStatus({ orderId: order._id, data }));
         setIsEdit(false);
     };
 
@@ -277,16 +243,16 @@ export default function OrderStatusInfoTile({ order }) {
                                         label={rowLabels[0]}
                                     />
                                     <BorderLessDropdown
-                                        name="procurementStatus"
-                                        status={procurementStatus}
+                                        name="procurement"
+                                        status={procurement.status}
                                     />
                                     <BorderLessDropdown
-                                        name="productionStatus"
-                                        status={productionStatus}
+                                        name="production"
+                                        status={production.status}
                                     />
                                     <BorderLessDropdown
-                                        name="qaStatus"
-                                        status={qaStatus}
+                                        name="qa"
+                                        status={qa.status}
                                     />
                                 </TableRow>
                                 <TableRow>
@@ -294,16 +260,19 @@ export default function OrderStatusInfoTile({ order }) {
                                         label={rowLabels[1]}
                                     />
                                     <DateTableCell
-                                        name="procurementEstimated"
-                                        control={control}
+                                        name="procurement"
+                                        onDateChange={onEstimatedDateChange}
+                                        value={procurement.estimated}
                                     />
                                     <DateTableCell
-                                        name="productionEstimated"
-                                        control={control}
+                                        name="production"
+                                        onDateChange={onEstimatedDateChange}
+                                        value={production.estimated}
                                     />
                                     <DateTableCell
-                                        name="qaEstimated"
-                                        control={control}
+                                        name="qa"
+                                        onDateChange={onEstimatedDateChange}
+                                        value={qa.estimated}
                                     />
                                 </TableRow>
                                 <TableRow>
@@ -311,16 +280,19 @@ export default function OrderStatusInfoTile({ order }) {
                                         label={rowLabels[2]}
                                     />
                                     <DateTableCell
-                                        name="procurementActual"
-                                        control={control}
+                                        name="procurement"
+                                        onDateChange={onActualDateChange}
+                                        value={procurement.actual}
                                     />
                                     <DateTableCell
-                                        name="productionActual"
-                                        control={control}
+                                        name="production"
+                                        onDateChange={onActualDateChange}
+                                        value={production.actual}
                                     />
                                     <DateTableCell
-                                        name="qaActual"
-                                        control={control}
+                                        name="qa"
+                                        onDateChange={onActualDateChange}
+                                        value={qa.actual}
                                     />
                                 </TableRow>
                             </TableBody>
