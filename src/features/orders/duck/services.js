@@ -34,7 +34,17 @@ const createNewOrder = async (order) => {
     const { data } = await fetchWithAuth(configs);
     return data;
 }
-//
+
+const updateOrderStatus = async (id, updatedStatus) => {
+    const configs = {
+        method: 'put',
+        url: `/orders/${id}/status`,
+        data: updatedStatus
+    };
+    const { data } = await fetchWithAuth(configs);
+    return data;
+}
+
 // const generatePOFiles = async (order) => {
 //     const configs = {
 //         method: 'post',
@@ -79,27 +89,20 @@ const createNewOrder = async (order) => {
 //     return data;
 // }
 //
-// const updateOrderStatus = async (id, updatedStatus) => {
-//     const configs = {
-//         method: 'put',
-//         url: `/orders/${id}/status`,
-//         data: updatedStatus
-//     };
-//     const { data } = await fetchWithAuth(configs);
-//     return data;
-// }
+
 
 const POService = {
     fetchOrdersByCompanyId,
     fetchNewOrderData,
     createNewOrder,
+    updateOrderStatus,
     // generatePOFiles,
 
     //
     // deleteOrder,
     // fetchOrderById,
     // getPdfFilePreview,
-    // updateOrderStatus,
+
 };
 
 export default POService;

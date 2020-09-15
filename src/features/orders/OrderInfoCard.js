@@ -13,6 +13,7 @@ const useStyles = makeStyles((theme) => ({
         minWidth: 360,
         display: 'flex',
         flexFlow: 'column',
+        overflow: 'auto'
     },
     container: {
         height: '100%',

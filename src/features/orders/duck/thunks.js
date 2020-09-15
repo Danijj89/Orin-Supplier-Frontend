@@ -18,16 +18,19 @@ export const submitOrder = createAsyncThunk('orders/submitOrder', async (_, { ge
     return POService.createNewOrder(newOrder);
 });
 
+export const updateOrderStatus = createAsyncThunk('orders/updateOrderStatus',
+    async ({ orderId, data }) => {
+        const statuses = await POService.updateOrderStatus(orderId, data);
+        return { id: orderId, statuses };
+    }
+);
+
 
 export const deleteOrder = createAsyncThunk('orders/deleteOrder', async (orderId) => {
    return await POService.deleteOrder(orderId);
 });
 
-export const updateOrderStatus = createAsyncThunk('orders/updateOrderStatus',
-    async ({ orderId, data }) => {
-        return POService.updateOrderStatus(orderId, data);
-    }
-);
+
 
 export const fetchSelectedOrderById = createAsyncThunk('orders/fetchSelectedOrderById',
     async (id, { dispatch }) => {

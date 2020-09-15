@@ -1,6 +1,6 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import {
-    fetchOrders, startNewOrder, submitOrder,
+    fetchOrders, startNewOrder, submitOrder, updateOrderStatus,
 } from './thunks.js';
 import { getFileName } from '../../shared/utils.js';
 
@@ -44,9 +44,9 @@ const ordersSlice = createSlice({
                 state.newOrder[key] = value;
             }
         },
-        // setCurrentPOId: (state, action) => {
-        //     state.currentPOId = action.payload;
-        // },
+        setCurrentPOId: (state, action) => {
+            state.currentPOId = action.payload;
+        },
         // updateOrderDocument: (state, action) => {
         //     const { docType, doc } = action.payload;
         //     const { currentPOId } = state;
@@ -104,6 +104,16 @@ const ordersSlice = createSlice({
             state.status = 'REJECTED';
             state.error = action.error.message;
         },
+        [updateOrderStatus.fulfilled]: (state, action) => {
+            const { id, statuses } = action.payload;
+            state.status = 'IDLE';
+            const changes = {
+                procurementS: statuses.procurementS,
+                productionS: statuses.productionS,
+                qaS: statuses.qaS
+            };
+            ordersAdapter.updateOne(state, { id, changes });
+        },
         // [submitOrderForPreview.pending]: (state, action) => {
         //     state.status = 'PENDING';
         // },
@@ -120,11 +130,7 @@ const ordersSlice = createSlice({
         //     state.status = 'IDLE';
         //     ordersAdapter.removeOne(state, action.payload);
         // },
-        // [updateOrderStatus.fulfilled]: (state, action) => {
-        //     const { _id, status } = action.payload;
-        //     state.status = 'IDLE';
-        //     ordersAdapter.updateOne(state, { id: _id, changes: { status: status } });
-        // },
+
         // [fetchSelectedOrderById.pending]: (state, action) => {
         //     state.status = 'PENDING';
         // },

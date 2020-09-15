@@ -93,6 +93,10 @@ export const CHINESE = {
             crdTitle: '货好日期:',
             quantityTitle: '数量:',
             incotermTitle: '贸易条款:',
+            remarksLabel: 'Remarks',
+            companyNameLabel: 'To:',
+            companyAddressLabel: 'Address:',
+            totalAmountLabel: 'Amount:'
         },
         order: {
             orderDetailsTab: '订单详情',

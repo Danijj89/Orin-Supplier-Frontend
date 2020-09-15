@@ -91,10 +91,14 @@ export const ENGLISH = {
         orderInfoTile: {
             title: 'Order Overview',
             orderLabel: 'Order Number:',
-            dateTitle: 'Purchase Order Date:',
+            dateTitle: 'Date:',
             crdTitle: 'CRD:',
             quantityTitle: 'Quantity:',
             incotermTitle: 'Incoterm:',
+            remarksLabel: 'Remarks:',
+            companyNameLabel: 'To:',
+            companyAddressLabel: 'Address:',
+            totalAmountLabel: 'Amount:'
         },
         order: {
             orderDetailsTab: 'Order Details',
