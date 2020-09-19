@@ -37,8 +37,8 @@ export default function OrderInfoTile({ order }) {
 
     const FormattedTypography = ({ label, value }) =>
         <Grid item xs={ 6 } className={ classes.row }>
-            <Typography className={ classes.rowLabel } variant="subtitle2">{ label }</Typography>
-            <Typography variant="subtitle2">{ value }</Typography>
+            <Typography className={ classes.rowLabel } variant="body2">{ label }</Typography>
+            <Typography variant="body2">{ value }</Typography>
         </Grid>
 
     return (
