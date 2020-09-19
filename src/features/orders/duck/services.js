@@ -45,6 +45,18 @@ const updateOrderStatus = async (id, updatedStatus) => {
     return data;
 }
 
+const deleteOrder = async (orderId) => {
+    const configs = {
+        method: 'delete',
+        url: '/orders',
+        data: {
+            id: orderId
+        }
+    };
+    const { data } = await fetchWithAuth(configs);
+    return data;
+}
+
 // const generatePOFiles = async (order) => {
 //     const configs = {
 //         method: 'post',
@@ -58,17 +70,7 @@ const updateOrderStatus = async (id, updatedStatus) => {
 //
 
 //
-// const deleteOrder = async (orderId) => {
-//     const configs = {
-//         method: 'delete',
-//         url: '/orders',
-//         data: {
-//             id: orderId
-//         }
-//     };
-//     const { data } = await fetchWithAuth(configs);
-//     return data;
-// }
+
 //
 // const fetchOrderById = async (orderId) => {
 //     const configs = {
@@ -96,10 +98,11 @@ const POService = {
     fetchNewOrderData,
     createNewOrder,
     updateOrderStatus,
+    deleteOrder,
     // generatePOFiles,
 
     //
-    // deleteOrder,
+
     // fetchOrderById,
     // getPdfFilePreview,
 

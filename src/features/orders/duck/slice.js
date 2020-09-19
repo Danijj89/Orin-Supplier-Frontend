@@ -1,10 +1,11 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import {
+    deleteOrder,
     fetchOrders, startNewOrder, submitOrder, updateOrderStatus,
 } from './thunks.js';
 import { getFileName } from '../../shared/utils.js';
 
-const defaultTableHeaders = [
+export const defaultTableHeaders = [
     'Item Ref',
     'Product Description',
     null,
@@ -104,6 +105,9 @@ const ordersSlice = createSlice({
             state.status = 'REJECTED';
             state.error = action.error.message;
         },
+        [updateOrderStatus.pending]: (state, action) => {
+            state.status = 'PENDING';
+        },
         [updateOrderStatus.fulfilled]: (state, action) => {
             const { id, statuses } = action.payload;
             state.status = 'IDLE';
@@ -113,6 +117,22 @@ const ordersSlice = createSlice({
                 qaS: statuses.qaS
             };
             ordersAdapter.updateOne(state, { id, changes });
+        },
+        [updateOrderStatus.rejected]: (state, action) => {
+            state.status = 'ERROR';
+            state.error = action.error.message;
+        },
+        [deleteOrder.pending]: (state, action) => {
+            state.status = 'PENDING';
+            ordersAdapter.removeOne(state, action.payload);
+        },
+        [deleteOrder.fulfilled]: (state, action) => {
+            state.status = 'IDLE';
+            ordersAdapter.removeOne(state, action.payload);
+        },
+        [deleteOrder.rejected]: (state, action) => {
+            state.status = 'ERROR';
+            ordersAdapter.removeOne(state, action.payload);
         },
         // [submitOrderForPreview.pending]: (state, action) => {
         //     state.status = 'PENDING';
@@ -126,10 +146,7 @@ const ordersSlice = createSlice({
         //     state.error = action.error.message;
         // },
 
-        // [deleteOrder.fulfilled]: (state, action) => {
-        //     state.status = 'IDLE';
-        //     ordersAdapter.removeOne(state, action.payload);
-        // },
+
 
         // [fetchSelectedOrderById.pending]: (state, action) => {
         //     state.status = 'PENDING';

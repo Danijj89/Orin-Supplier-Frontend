@@ -26,7 +26,7 @@ export const CHINESE = {
         },
     },
     order: {
-        OrdersOverview: {
+        ordersOverview: {
             newOrder: '新订单',
             columns: [
                 '订单',
@@ -41,6 +41,10 @@ export const CHINESE = {
             deleteOrderDialogMessage: '您确定要删除订单吗?',
             deleteOrderDialogCancelButton: '取消',
             deleteOrderDialogConfirmButton: '确定',
+        },
+        orderTableRow: {
+            deleteOrderDialogMessage:
+                'Are you sure you want to delete this order?',
         },
         createOrder: {
             steps: ['订单', '产品'],
@@ -122,6 +126,10 @@ export const CHINESE = {
         orderInfoCard: {
             editButton: '编辑',
         },
+        orderProductTable: {
+            tableTitleLabel: 'Product Table',
+            editButtonLabel: 'Edit'
+        }
     },
     commercialInvoice: {
         createCI: {

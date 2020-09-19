@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { LANGUAGE } from '../../constants.js';
 import OrderTableRow from './OrderTableRow.js';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteOrder, fetchOrders, startNewPO } from './duck/thunks.js';
+import { fetchOrders, startNewOrder } from './duck/thunks.js';
 import { selectAllOrders } from './duck/slice.js';
 import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
@@ -14,15 +14,11 @@ import {
     Table,
     TableCell,
     TablePagination,
-    DialogTitle,
-    DialogActions,
-    Button,
-    Dialog,
     Grid,
     Paper,
     Container
 } from '@material-ui/core';
-import { selectPOStatus } from './duck/selectors.js';
+import { selectOrderStatus } from './duck/selectors.js';
 import Loader from '../shared/components/Loader.js';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 
@@ -43,14 +39,11 @@ const useStyles = makeStyles((theme) => ({
     },
     header: {
         fontWeight: 'bold',
-        color: theme.palette.tertiary.dark
+        color: theme.palette.tertiary['600']
     }
 }));
 
-const {
-    newOrder, columns, deleteOrderDialogMessage,
-    deleteOrderDialogCancelButton, deleteOrderDialogConfirmButton
-} = LANGUAGE.order.OrdersOverview;
+const { newOrder, columns } = LANGUAGE.order.ordersOverview;
 
 export default function OrderTableOverview() {
     const classes = useStyles();
@@ -59,9 +52,7 @@ export default function OrderTableOverview() {
     const orders = useSelector(selectAllOrders);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
-    const [isDialogOpen, setIsDialogOpen] = useState(false);
-    const [selectedOrderId, setSelectedOrderId] = useState(null);
-    const status = useSelector(selectPOStatus);
+    const status = useSelector(selectOrderStatus);
 
     const mounted = useRef();
     useEffect(() => {
@@ -82,20 +73,8 @@ export default function OrderTableOverview() {
         setPage(0);
     };
 
-    const onDialogOpen = (event, orderId) => {
-        event.stopPropagation();
-        setIsDialogOpen(true);
-        setSelectedOrderId(orderId);
-    }
-    const onDialogClose = () => setIsDialogOpen(false);
-
-    const handleDeleteRow = () => {
-        dispatch(deleteOrder(selectedOrderId));
-        onDialogClose();
-    }
-
     const onNewOrderClick = () => {
-        dispatch(startNewPO());
+        dispatch(startNewOrder());
         history.push('/home/orders/create');
     }
 
@@ -127,8 +106,7 @@ export default function OrderTableOverview() {
                                     </TableHead>
                                     <TableBody>
                                         { orders && orders.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                            .map((order, index) => <OrderTableRow key={ index } order={ order }
-                                                                                  onDialogOpen={ onDialogOpen }/>)
+                                            .map((order, index) => <OrderTableRow key={ index } order={ order }/>)
                                         }
                                     </TableBody>
                                 </Table>
@@ -141,18 +119,7 @@ export default function OrderTableOverview() {
                                 page={ page }
                                 onChangePage={ handleChangePage }
                                 onChangeRowsPerPage={ handleChangeRowsPerPage }
-                            />
-                            <Dialog onClose={ onDialogClose } open={ isDialogOpen }>
-                                <DialogTitle id="simple-dialog-title">{ deleteOrderDialogMessage }</DialogTitle>
-                                <DialogActions>
-                                    <Button onClick={ onDialogClose } color="primary" variant="outlined">
-                                        { deleteOrderDialogCancelButton }
-                                    </Button>
-                                    <Button onClick={ handleDeleteRow } color="primary" variant="outlined">
-                                        { deleteOrderDialogConfirmButton }
-                                    </Button>
-                                </DialogActions>
-                            </Dialog></> }
+                            /></> }
                     </Grid>
                 </Grid>
             </Paper>

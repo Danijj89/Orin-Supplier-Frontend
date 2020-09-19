@@ -27,7 +27,7 @@ export const ENGLISH = {
         },
     },
     order: {
-        OrdersOverview: {
+        ordersOverview: {
             newOrder: 'New Order',
             columns: [
                 'Purchase Order',
@@ -38,11 +38,11 @@ export const ENGLISH = {
                 'Production',
                 'QA',
                 'Notes',
-            ],
+            ]
+        },
+        orderTableRow: {
             deleteOrderDialogMessage:
                 'Are you sure you want to delete this order?',
-            deleteOrderDialogCancelButton: 'Cancel',
-            deleteOrderDialogConfirmButton: 'Confirm',
         },
         createOrder: {
             steps: ['Order', 'Products'],
@@ -129,6 +129,10 @@ export const ENGLISH = {
         orderInfoCard: {
             editButton: 'Edit',
         },
+        orderProductTable: {
+            tableTitleLabel: 'Product Table',
+            editButtonLabel: 'Edit'
+        }
     },
     commercialInvoice: {
         createCI: {
