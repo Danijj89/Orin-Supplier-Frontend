@@ -9,7 +9,8 @@ const { cancelButton, confirmButton } = LANGUAGE.shared.deleteButton;
 const useStyles = makeStyles((theme) => ({
     button: {
         width: '10%',
-        minWidth: 50
+        minWidth: 50,
+        color: theme.palette.tertiary['500']
     }
 }));
 
@@ -17,13 +18,17 @@ export default function DeleteButton({ onDeleteClick, deleteMessage }) {
     const classes = useStyles();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-    const onDialogOpen = () => setIsDialogOpen(true);
+    const onDialogOpen = (e) => {
+        e.stopPropagation();
+        setIsDialogOpen(true);
+    }
+
     const onDialogClose = () => setIsDialogOpen(false);
 
     return (
         <>
             <Button
-                onClick={onDialogOpen}
+                onClick={(e) => onDialogOpen(e)}
                 size="small"
                 color="inherit"
                 className={ classes.button }
@@ -36,7 +41,7 @@ export default function DeleteButton({ onDeleteClick, deleteMessage }) {
                     <Button onClick={ onDialogClose } variant="outlined">
                         { cancelButton }
                     </Button>
-                    <Button onClick={ onDeleteClick } variant="outlined">
+                    <Button onClick={(e) => onDeleteClick(e)} variant="outlined">
                         { confirmButton }
                     </Button>
                 </DialogActions>
