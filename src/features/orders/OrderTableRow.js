@@ -10,7 +10,7 @@ import {
 import { useDispatch } from 'react-redux';
 import { setCurrentPOId } from './duck/slice.js';
 import StatusButtonMenu from './StatusButtonMenu.js';
-import DeleteButton from '../shared/buttons/DeleteButton.js';
+import DeleteButtonWithDialog from '../shared/buttons/DeleteButtonWithDialog.js';
 import { deleteOrder } from './duck/thunks.js';
 import { LANGUAGE } from '../../constants.js';
 
@@ -50,7 +50,7 @@ export default function OrderTableRow({ order }) {
     return (
         <TableRow hover onClick={ onRowClick }>
             <TableCell className={ classes.deleteButtonCell } padding="checkbox">
-                <DeleteButton
+                <DeleteButtonWithDialog
                     onDeleteClick={onDeleteClick}
                     deleteMessage={deleteOrderDialogMessage}
                 />

@@ -26,12 +26,18 @@ export const updateOrderStatus = createAsyncThunk('orders/updateOrderStatus',
 );
 
 export const deleteOrder = createAsyncThunk('orders/deleteOrder', async (orderId) => {
-   return await POService.deleteOrder(orderId);
+    return await POService.deleteOrder(orderId);
 });
 
+export const fetchOrderOptions = createAsyncThunk('orders/fetchOrderOptions',
+    async (_, { getState }) => {
+        const { company } = getState().home;
+        return POService.fetchOrderOptions(company._id);
+    }
+);
 
 
 export const fetchSelectedOrderById = createAsyncThunk('orders/fetchSelectedOrderById',
     async (id, { dispatch }) => {
-    return await POService.fetchOrderById(id);
-});
+        return await POService.fetchOrderById(id);
+    });

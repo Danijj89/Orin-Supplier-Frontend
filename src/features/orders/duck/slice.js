@@ -1,6 +1,6 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import {
-    deleteOrder,
+    deleteOrder, fetchOrderOptions,
     fetchOrders, startNewOrder, submitOrder, updateOrderStatus,
 } from './thunks.js';
 import { getFileName } from '../../shared/utils.js';
@@ -119,20 +119,30 @@ const ordersSlice = createSlice({
             ordersAdapter.updateOne(state, { id, changes });
         },
         [updateOrderStatus.rejected]: (state, action) => {
-            state.status = 'ERROR';
+            state.status = 'REJECTED';
             state.error = action.error.message;
         },
         [deleteOrder.pending]: (state, action) => {
             state.status = 'PENDING';
-            ordersAdapter.removeOne(state, action.payload);
         },
         [deleteOrder.fulfilled]: (state, action) => {
             state.status = 'IDLE';
             ordersAdapter.removeOne(state, action.payload);
         },
         [deleteOrder.rejected]: (state, action) => {
-            state.status = 'ERROR';
-            ordersAdapter.removeOne(state, action.payload);
+            state.status = 'REJECTED';
+            state.error = action.error.message;
+        },
+        [fetchOrderOptions.pending]: (state, action) => {
+            state.status = 'PENDING';
+        },
+        [fetchOrderOptions.fulfilled]: (state, action) => {
+            state.status = 'IDLE';
+            state.autocomplete = action.payload;
+        },
+        [fetchOrderOptions.rejected]: (state, action) => {
+            state.status = 'REJECTED';
+            state.error = action.error.message;
         },
         // [submitOrderForPreview.pending]: (state, action) => {
         //     state.status = 'PENDING';
@@ -145,7 +155,6 @@ const ordersSlice = createSlice({
         //     state.status = 'REJECTED';
         //     state.error = action.error.message;
         // },
-
 
 
         // [fetchSelectedOrderById.pending]: (state, action) => {
