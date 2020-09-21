@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function DeleteButton({ onDeleteClick, deleteMessage }) {
+export default function DeleteButtonWithDialog({ onDeleteClick, deleteMessage }) {
     const classes = useStyles();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 
