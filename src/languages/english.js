@@ -131,7 +131,12 @@ export const ENGLISH = {
         },
         orderProductTable: {
             tableTitleLabel: 'Product Table',
-            editButtonLabel: 'Edit'
+            editButtonLabel: 'Edit',
+            addRowButton: 'Add',
+            errorMessages: {
+                currencyRequired: 'You must select a currency.',
+                missingItemInfo: 'Some item is missing information.'
+            }
         }
     },
     commercialInvoice: {
@@ -278,6 +283,11 @@ export const ENGLISH = {
                 Exception: 'Exception',
             },
         },
+        dropdowns: {
+            currency: {
+                label: 'Currency'
+            }
+        }
     },
     defaults: {
         documentNames: {

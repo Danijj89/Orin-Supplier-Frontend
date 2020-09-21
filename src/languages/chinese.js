@@ -128,7 +128,12 @@ export const CHINESE = {
         },
         orderProductTable: {
             tableTitleLabel: 'Product Table',
-            editButtonLabel: 'Edit'
+            editButtonLabel: 'Edit',
+            addRowButton: 'Add',
+            errorMessages: {
+                currencyRequired: 'You must select a currency.',
+                missingItemInfo: 'Some item is missing information.'
+            }
         }
     },
     commercialInvoice: {
