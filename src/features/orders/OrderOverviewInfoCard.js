@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function OrderInfoTile({ order }) {
+export default function OrderOverviewInfoCard({ order }) {
     const classes = useStyles();
     const currencySymbol = getCurrencySymbol(order.currency);
 

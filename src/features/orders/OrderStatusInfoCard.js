@@ -90,7 +90,7 @@ const DateTableCell = ({ name, value, onDateChange }) => {
     );
 };
 
-export default function OrderStatusInfoTile({ order }) {
+export default function OrderStatusInfoCard({ order }) {
     const classes = useStyles();
     const dispatch = useDispatch();
     const [isEdit, setIsEdit] = useState(false);

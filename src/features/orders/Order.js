@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import OrderInfoTile from './OrderInfoTile.js';
+import OrderOverviewInfoCard from './OrderOverviewInfoCard.js';
 import { Grid, Tabs, Tab } from '@material-ui/core';
 import { LANGUAGE } from '../../constants.js';
 import OrderDocuments from './OrderDocuments.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import OrderStatusInfoTile from './OrderStatusInfoTile.js';
+import OrderStatusInfoCard from './OrderStatusInfoCard.js';
 import { selectOrderById } from './duck/slice.js';
 import OrderProductTable from './OrderProductTable.js';
 import { fetchOrderOptions } from './duck/thunks.js';
@@ -46,10 +46,10 @@ export default function Order({ match }) {
     return (
         <Grid container className={ classes.container }>
             <Grid item xs={ 6 }>
-                { order && <OrderInfoTile order={ order }/> }
+                { order && <OrderOverviewInfoCard order={ order }/> }
             </Grid>
             <Grid item xs={ 6 }>
-                { order && <OrderStatusInfoTile order={ order }/> }
+                { order && <OrderStatusInfoCard order={ order }/> }
             </Grid>
             <Grid item xs={ 12 }>
                 <Tabs
