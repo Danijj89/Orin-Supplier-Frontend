@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Switch } from 'react-router-dom';
 import LoginPage from './features/login/LoginPage.js';
 import Route from './features/shared/AppRoute.js';
-import OrderTableOverview from './features/orders/OrderTableOverview.js';
+import OrdersOverview from './features/orders/OrdersOverview.js';
 import CreatePO from './features/orders/CreatePO.js';
 import Order from './features/orders/Order.js';
 import {
@@ -51,7 +51,7 @@ function App() {
                     <Route
                         exact
                         path={ ['/home', '/home/orders'] }
-                        component={ OrderTableOverview }
+                        component={ OrdersOverview }
                         isPrivate
                     />
                     <Route

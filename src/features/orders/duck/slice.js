@@ -69,7 +69,7 @@ const ordersSlice = createSlice({
             state.status = 'PENDING';
         },
         [fetchOrders.fulfilled]: (state, action) => {
-            state.status = 'IDLE';
+            state.status = 'FULFILLED';
             ordersAdapter.upsertMany(state, action.payload);
         },
         [fetchOrders.rejected]: (state, action) => {
@@ -80,7 +80,7 @@ const ordersSlice = createSlice({
             state.status = 'PENDING';
         },
         [startNewOrder.fulfilled]: (state, action) => {
-            state.status = 'IDLE';
+            state.status = 'FULFILLED';
             const { newOrder, ...rest } = action.payload;
             state.autocomplete = rest;
             newOrder.headers = defaultTableHeaders;
