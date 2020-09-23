@@ -15,6 +15,18 @@ export const defaultTableHeaders = [
     'Amount'
 ];
 
+export const defaultRowValues = {
+    _id: null,
+    ref: '',
+    description: '',
+    custom1: '',
+    custom2: '',
+    quantity: 0,
+    unit: 'PCS',
+    price: 0,
+    total: 0
+};
+
 const ordersAdapter = createEntityAdapter({
     selectId: order => order._id,
     sortComparer: (a, b) => a.crd.localeCompare(b.crd)
@@ -24,7 +36,6 @@ const initialState = ordersAdapter.getInitialState({
     status: 'IDLE',
     error: null,
     autocomplete: null,
-    defaultRowValues: ['', '', '', '', 0, 'PCS', 0, 0],
     newOrder: null,
     currentOrderId: null
 });
@@ -48,6 +59,9 @@ const ordersSlice = createSlice({
         setCurrentPOId: (state, action) => {
             state.currentPOId = action.payload;
         },
+        cleanNewOrder: (state, action) => {
+            state.newOrder = null;
+        }
         // updateOrderDocument: (state, action) => {
         //     const { docType, doc } = action.payload;
         //     const { currentPOId } = state;
@@ -84,7 +98,7 @@ const ordersSlice = createSlice({
             const { newOrder, ...rest } = action.payload;
             state.autocomplete = rest;
             newOrder.headers = defaultTableHeaders;
-            newOrder.unallocated = [state.defaultRowValues];
+            newOrder.unallocated = [defaultRowValues];
             state.newOrder = newOrder;
         },
         [startNewOrder.rejected]: (state, action) => {
@@ -175,7 +189,7 @@ const ordersSlice = createSlice({
 
 export const {
     submitOrderDetails, submitPOProductInfo,
-    setCurrentPOId, updateOrderDocument, deleteOrderDocument
+    setCurrentPOId, cleanNewOrder, updateOrderDocument, deleteOrderDocument
 } = ordersSlice.actions;
 
 export const {

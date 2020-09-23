@@ -4,7 +4,7 @@ import { LANGUAGE } from '../../constants.js';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { TextField, Grid, Paper } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
-import { submitOrderDetails } from './duck/slice.js';
+import { cleanNewOrder, submitOrderDetails } from './duck/slice.js';
 import { useHistory } from 'react-router-dom';
 import { selectNewOrder, selectPOAutocompleteOptions } from './duck/selectors.js';
 import CreatePOShippingInfo from './CreatePOShippingInfo.js';
@@ -90,7 +90,10 @@ export default function CreatePODetailsForm({ setActiveStep }) {
     setActiveStep((prevStep) => prevStep + 1);
   };
 
-  const onButtonCancelClick = () => history.goBack();
+  const onButtonCancelClick = () => {
+    dispatch(cleanNewOrder());
+    history.goBack();
+  }
 
   return (
     <Paper className={classes.paper}>
