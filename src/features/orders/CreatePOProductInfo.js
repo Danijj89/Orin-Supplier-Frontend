@@ -44,7 +44,7 @@ export default function CreatePOProductInfo({ setActiveStep }) {
         mode: 'onSubmit',
         defaultValues: {
             currency: newOrder.currency,
-            unallocated: newOrder.unallocated,
+            items: newOrder.items,
             headers: newOrder.headers,
             totalQ: new UnitCounter(itemUnits, newOrder.totalQ),
             totalA: newOrder.totalA,
@@ -63,7 +63,7 @@ export default function CreatePOProductInfo({ setActiveStep }) {
     }
 
     useEffect(() => {
-        register({ name: 'unallocated' }, { validate: validateItems });
+        register({ name: 'items' }, { validate: validateItems });
         register({ name: 'headers' });
         register({ name: 'totalQ' });
         register({ name: 'totalA' });

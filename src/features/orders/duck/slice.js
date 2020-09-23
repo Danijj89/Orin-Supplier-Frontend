@@ -98,7 +98,7 @@ const ordersSlice = createSlice({
             const { newOrder, ...rest } = action.payload;
             state.autocomplete = rest;
             newOrder.headers = defaultTableHeaders;
-            newOrder.unallocated = [defaultRowValues];
+            newOrder.items = [defaultRowValues];
             state.newOrder = newOrder;
             state.currentOrderId = null;
         },

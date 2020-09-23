@@ -41,7 +41,7 @@ export default function CreatePOProductTable({ watch, setValue, numActiveColumns
     const classes = useStyles();
     const { itemMap } = useSelector(selectPOAutocompleteOptions);
     const currency = watch('currency');
-    const items = watch('unallocated');
+    const items = watch('items');
     const totalQ = watch('totalQ');
     const totalA = watch('totalA');
     const headers = watch('headers');
@@ -57,10 +57,10 @@ export default function CreatePOProductTable({ watch, setValue, numActiveColumns
         totalQ.subtractUnit(item[5], item[4]);
         setValue('totalQ', new UnitCounter(totalQ.units, totalQ.data));
         setValue('totalA', totalA - item[4] * item[6]);
-        setValue('unallocated', newItems);
+        setValue('items', newItems);
     };
 
-    const onAddItemClick = () => setValue('unallocated', [...items, defaultRowValues]);
+    const onAddItemClick = () => setValue('items', [...items, defaultRowValues]);
 
     const renderedHeaders = headers.map((header, index) => {
         if (index === 0 || index === 1) return <TableCell key={ index }>{ headerLabelsMap[header] }</TableCell>;
@@ -117,7 +117,7 @@ export default function CreatePOProductTable({ watch, setValue, numActiveColumns
             newItem.total = roundTo2Decimal(val * newItem.quantity);
         }
         newItem[key] = val;
-        setValue('unallocated', [...items.slice(0, rowIdx), newItem, ...items.slice(rowIdx + 1)]);
+        setValue('items', [...items.slice(0, rowIdx), newItem, ...items.slice(rowIdx + 1)]);
     }
 
     const renderedRows = items.map((item, index) =>
