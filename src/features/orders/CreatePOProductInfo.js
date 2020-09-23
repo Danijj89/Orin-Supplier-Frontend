@@ -56,10 +56,8 @@ export default function CreatePOProductInfo({ setActiveStep }) {
 
     const validateItems = (items) => {
         for (const item of items) {
-            for (let i = 0; i < item.length; i++) {
-                if (i >= 1 && i <= 3) continue;
-                if (!item[i]) return errorMessages.missingItemInfo;
-            }
+            if (!(item.ref && item.description && item.quantity && item.unit && item.price))
+                return errorMessages.missingItemInfo;
         }
         return true;
     }
@@ -78,14 +76,13 @@ export default function CreatePOProductInfo({ setActiveStep }) {
         const newHeaders = [...headersWatcher];
         if (!newHeaders[2]) newHeaders[2] = newColumnName;
         else if (!newHeaders[3]) newHeaders[3] = newColumnName;
-        setValue('headers', newHeaders, { shouldValidate: true });
+        setValue('headers', newHeaders);
     }
 
     const onPrevButtonClick = () => {
         clearErrors();
         const data = getValues();
         data.totalQ = data.totalQ.data;
-        console.log(data);
         dispatch(submitPOProductInfo(data));
         setActiveStep(prevStep => prevStep - 1);
     }

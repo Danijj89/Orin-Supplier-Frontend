@@ -100,6 +100,7 @@ const ordersSlice = createSlice({
             newOrder.headers = defaultTableHeaders;
             newOrder.unallocated = [defaultRowValues];
             state.newOrder = newOrder;
+            state.currentOrderId = null;
         },
         [startNewOrder.rejected]: (state, action) => {
             state.status = 'REJECTED';

@@ -28,7 +28,7 @@ export const ENGLISH = {
     },
     order: {
         ordersOverview: {
-            newOrder: 'New Order',
+            newOrderButton: 'New Order',
             columns: [
                 'Purchase Order',
                 'Quantity',

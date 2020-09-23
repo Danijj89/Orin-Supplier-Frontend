@@ -15,6 +15,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import UnitCounter from '../shared/classes/UnitCounter.js';
 import { useSelector } from 'react-redux';
 import { selectDefaultRowValues, selectPOAutocompleteOptions } from './duck/selectors.js';
+import { defaultRowValues } from './duck/slice.js';
 
 const { totals, addRowButton, headerLabelsMap } = LANGUAGE.order.productTable;
 
@@ -38,7 +39,6 @@ const useStyles = makeStyles({
 
 export default function CreatePOProductTable({ watch, setValue, numActiveColumns }) {
     const classes = useStyles();
-    const defaultRowValues = useSelector(selectDefaultRowValues);
     const { itemMap } = useSelector(selectPOAutocompleteOptions);
     const currency = watch('currency');
     const items = watch('unallocated');
@@ -87,34 +87,36 @@ export default function CreatePOProductTable({ watch, setValue, numActiveColumns
         }
     })
 
-    const onCellChange = (rowIdx, colIdx, val) => {
-        const newItem = [...items[rowIdx]];
-        if (colIdx === 0 && itemMap.hasOwnProperty(val)) {
-            newItem[1] = itemMap[val].defaultD;
+    const onCellChange = (rowIdx, key, val) => {
+        const newItem = {...items[rowIdx]};
+        if (key === 'ref') {
+            if (itemMap.hasOwnProperty(val)) {
+                newItem.description = itemMap[val].defaultD;
+                newItem._id = itemMap[val]._id;
+            } else {
+                newItem.description = '';
+                newItem._id = null;
+            }
         }
-        else if (colIdx === 4) {
+        else if (key === 'quantity') {
             val = parseInt(val);
-            const unit = newItem[5];
-            const diff = val - newItem[colIdx];
-            totalQ.addUnit(unit, diff);
+            const diff = val - newItem.quantity;
+            totalQ.addUnit(newItem.unit, diff);
             setValue('totalQ', new UnitCounter(totalQ.units, totalQ.data));
-            const price = newItem[6];
-            setValue('totalA', roundTo2Decimal(totalA + (price * diff)));
-            newItem[7] = roundTo2Decimal(val * price);
-        } else if (colIdx === 5) {
-            const prevUnit = newItem[colIdx];
-            const quantity = newItem[4];
-            totalQ.subtractUnit(prevUnit, quantity);
-            totalQ.addUnit(val, quantity);
+            setValue('totalA', roundTo2Decimal(totalA + (newItem.price * diff)));
+            newItem.total = roundTo2Decimal(val * newItem.price);
+        } else if (key === 'unit') {
+            const prevUnit = newItem.unit;
+            totalQ.subtractUnit(prevUnit, newItem.quantity);
+            totalQ.addUnit(val, newItem.quantity);
             setValue('totalQ', new UnitCounter(totalQ.units, totalQ.data));
-        } else if (colIdx === 6) {
+        } else if (key === 'price') {
             val = roundTo2Decimal(val);
-            const diff = val - newItem[colIdx];
-            const quantity = newItem[4];
-            setValue('totalA', roundTo2Decimal(totalA + (quantity * diff)));
-            newItem[7] = roundTo2Decimal(val * quantity);
+            const diff = val - newItem.price;
+            setValue('totalA', roundTo2Decimal(totalA + (newItem.quantity * diff)));
+            newItem.total = roundTo2Decimal(val * newItem.quantity);
         }
-        newItem[colIdx] = val;
+        newItem[key] = val;
         setValue('unallocated', [...items.slice(0, rowIdx), newItem, ...items.slice(rowIdx + 1)]);
     }
 

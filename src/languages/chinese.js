@@ -27,7 +27,7 @@ export const CHINESE = {
     },
     order: {
         ordersOverview: {
-            newOrder: '新订单',
+            newOrderButton: '新订单',
             columns: [
                 '订单',
                 '数量',

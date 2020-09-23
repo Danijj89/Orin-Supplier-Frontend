@@ -88,16 +88,16 @@ export default function CreatePOTableRow(
             <TableCell className={classes.itemReference}>
                 <TableAutoCompleteFreeTextInput
                     options={itemRefs}
-                    onChange={(data) => onCellChange(rowIdx, 0, data)}
-                    value={item[0]}
+                    onChange={(data) => onCellChange(rowIdx, 'ref', data)}
+                    value={item.ref}
                     styles={textInputStyle}
                 />
             </TableCell>
             <TableCell className={classes.description}>
                 <TableAutoCompleteFreeTextInput
-                    options={itemMap.hasOwnProperty(item[0]) ? itemMap[item[0]].descriptions : []}
-                    onChange={(data) => onCellChange(rowIdx, 1, data)}
-                    value={item[1]}
+                    options={itemMap.hasOwnProperty(item.ref) ? itemMap[item.ref].descriptions : []}
+                    onChange={(data) => onCellChange(rowIdx, 'description', data)}
+                    value={item.description}
                     styles={textInputStyle}
                 />
             </TableCell>
@@ -105,8 +105,8 @@ export default function CreatePOTableRow(
                 headers[2] && <TableCell className={classes.custom}>
                     <TableInput
                         type="text"
-                        value={item[2]}
-                        onChange={(e) => onCellChange(rowIdx, 2, e.target.value)}
+                        value={item.custom1}
+                        onChange={(e) => onCellChange(rowIdx, 'custom1', e.target.value)}
                         styles={textInputStyle}
                     />
                 </TableCell>
@@ -115,8 +115,8 @@ export default function CreatePOTableRow(
                 headers[3] && <TableCell className={classes.custom}>
                     <TableInput
                         type="text"
-                        value={item[3]}
-                        onChange={(e) => onCellChange(rowIdx, 3, e.target.value)}
+                        value={item.custom2}
+                        onChange={(e) => onCellChange(rowIdx, 'custom2', e.target.value)}
                         styles={textInputStyle}
                     />
                 </TableCell>
@@ -126,16 +126,16 @@ export default function CreatePOTableRow(
                     <Grid container justify="flex-start" item xs={7}>
                         <TableInput
                             type="number"
-                            value={item[4].toString()}
-                            onChange={(e) => onCellChange(rowIdx, 4, Number(e.target.value))}
+                            value={item.quantity.toString()}
+                            onChange={(e) => onCellChange(rowIdx, 'quantity', Number(e.target.value))}
                             styles={numberInputStyle}
                         />
                     </Grid>
                     <Grid container justify="flex-end" item xs={5}>
                         <TableAutoCompleteTextInput
                             options={itemUnits}
-                            onChange={(data) => onCellChange(rowIdx, 5, data)}
-                            value={item[5]}
+                            onChange={(data) => onCellChange(rowIdx, 'unit', data)}
+                            value={item.unit}
                             styles={dropDownInputStyle}
                         />
                     </Grid>
@@ -144,13 +144,13 @@ export default function CreatePOTableRow(
             <TableCell className={classes.unitPrice}>
                 <TableInput
                     type="number"
-                    value={item[6].toString()}
-                    onChange={(e) => onCellChange(rowIdx, 6, Number(e.target.value))}
+                    value={item.price.toString()}
+                    onChange={(e) => onCellChange(rowIdx, 'price', Number(e.target.value))}
                     styles={numberInputStyle}
                 />
             </TableCell>
             <TableCell align="right" className={classes.amount}>
-                {`${getCurrencySymbol(currency)} ${item[7]}`}
+                {`${getCurrencySymbol(currency)} ${item.total}`}
             </TableCell>
         </TableRow>
     )
