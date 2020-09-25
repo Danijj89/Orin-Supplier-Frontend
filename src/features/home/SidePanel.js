@@ -24,12 +24,11 @@ import { makeStyles } from '@material-ui/core/styles';
 import {
     ViewStreamOutlined as IconViewStream,
     PeopleOutlined as IconPeople,
-    OpenInBrowserOutlined as IconDescription,
-    DirectionsBoatOutlined as IconBoat
+    DirectionsBoatOutlined as IconBoat,
+    LocalOfferOutlined as IconTag,
+    MoreHorizOutlined as IconSettings
 } from '@material-ui/icons';
 import FeatureInProgressTag from '../shared/displays/FeatureInProgressTag.js';
-
-const { orders, clients, inventory, shipments } = LANGUAGE.home.sidePanel;
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -78,6 +77,8 @@ const useStyles = makeStyles((theme) => ({
         paddingLeft: 8,
     },
 }));
+
+const { orders, clients, products, shipments, settings } = LANGUAGE.home.sidePanel;
 
 export default function SidePanel() {
     const classes = useStyles();
@@ -128,18 +129,7 @@ export default function SidePanel() {
                     <ListItem
                         button
                         component="a"
-                        onClick={ () => onTabClick('shipments', '/home/shipments') }
-                        classes={ { root: classes.tabs, selected: classes.selected } }
-                        selected={ selectedTab === 'shipments' }
-                    >
-                        <IconBoat className={ classes.icon }/>
-                        <ListItemText className={ classes.tabsText }>{ shipments }</ListItemText>
-                        <FeatureInProgressTag/>
-                    </ListItem>
-                    <ListItem
-                        button
-                        component="a"
-                        onClick={ () => onTabClick('clients', '#') }
+                        onClick={ () => onTabClick('clients', '/home/clients') }
                         classes={ { root: classes.tabs, selected: classes.selected } }
                         selected={ selectedTab === 'clients' }
                     >
@@ -150,21 +140,49 @@ export default function SidePanel() {
                     <ListItem
                         button
                         component="a"
-                        onClick={() => onTabClick('inventory', '#')}
+                        onClick={ () => onTabClick('shipments', '#') }
+                        classes={ { root: classes.tabs, selected: classes.selected } }
+                        selected={ selectedTab === 'shipments' }
+                    >
+                        <IconBoat className={ classes.icon }/>
+                        <ListItemText className={ classes.tabsText }>{ shipments }</ListItemText>
+                        <FeatureInProgressTag/>
+                    </ListItem>
+                    <ListItem
+                        button
+                        component="a"
+                        onClick={() => onTabClick('products', '#')}
                         classes={{
                             root: classes.tabs,
                             selected: classes.selected,
                         }}
-                        selected={selectedTab === 'inventory'}
+                        selected={selectedTab === 'products'}
                     >
-                        <IconDescription className={classes.icon} />
+                        <IconTag className={classes.icon} />
                         <ListItemText className={classes.tabsText}>
-                            {inventory}
+                            {products}
+                        </ListItemText>
+                        <FeatureInProgressTag />
+                    </ListItem>
+                    <Divider />
+                    <ListItem
+                        button
+                        component="a"
+                        onClick={() => onTabClick('settings', '/home/settings')}
+                        classes={{
+                            root: classes.tabs,
+                            selected: classes.selected,
+                        }}
+                        selected={selectedTab === 'settings'}
+                    >
+                        <IconSettings className={classes.icon} />
+                        <ListItemText className={classes.tabsText}>
+                            {settings}
                         </ListItemText>
                         <FeatureInProgressTag />
                     </ListItem>
                 </List>
-                <Divider />
+
             </Container>
         </Paper>
     );

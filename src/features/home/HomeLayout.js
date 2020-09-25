@@ -1,6 +1,5 @@
 import React from 'react';
 import SidePanel from './SidePanel.js';
-import SearchBar from './SearchBar.js';
 import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -29,7 +28,6 @@ export default function HomeLayout({ children }) {
                 <SidePanel/>
             </Grid>
             <Grid item xs={ 10 } className={ classes.rightPanel }>
-                <SearchBar/>
                 { children }
             </Grid>
         </Grid>
