@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import homeReducer from '../features/home/slice.js';
+import homeReducer from '../features/home/duck/slice.js';
 import ordersReducer from '../features/orders/duck/slice.js';
 import commercialInvoiceReducer from '../features/commercial_invoice/duck/slice.js';
 import packingListReducer from '../features/packing_list/duck/slice.js';

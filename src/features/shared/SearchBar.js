@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SearchBar() {
+export default function SearchBar({options}) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
@@ -76,8 +76,6 @@ export default function SearchBar() {
     <Container className={classes.container}>
       <Paper className={classes.paper} elevation={2}>
         <Autocomplete
-          freeSolo
-          autoSelect
           options={refs}
           renderInput={(params) => (
             <TextField
