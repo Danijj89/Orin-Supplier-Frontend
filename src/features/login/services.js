@@ -15,7 +15,7 @@ const signIn = async (data) => {
         const { data } = await axios(configs);
         return data;
     } catch (error) {
-            return Promise.reject(error);
+        return Promise.reject(error);
     }
 }
 

@@ -4,13 +4,18 @@ import { LANGUAGE } from '../../constants';
 import LoginService from './services.js';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { setSessionInfo } from '../home/slice.js';
+import { setSessionInfo } from '../home/duck/slice.js';
 import { Grid, CardMedia, Typography, TextField } from '@material-ui/core';
 import ErrorMessage from '../shared/displays/ErrorMessage.js';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { useForm } from 'react-hook-form';
 import { makeStyles } from '@material-ui/core/styles';
 import loginImg from '../../images/login.png';
+import {
+    SESSION_APP_DEFAULTS,
+    SESSION_COMPANY, SESSION_COOKIE,
+    SESSION_USER
+} from '../../app/sessionKeys.js';
 
 const {
     title, emailLabel, errorMessages,
@@ -89,16 +94,12 @@ export default function LoginPage() {
     const onSignInClick = async (data) => {
         setError(null);
         try {
-            const { token, user, company, defaults } = await LoginService.signIn(data);
-            sessionStorage.setItem('token', token);
-            sessionStorage.setItem('company', JSON.stringify(company));
-            sessionStorage.setItem('user', JSON.stringify(user));
-            sessionStorage.setItem('defaults', JSON.stringify(defaults));
-            dispatch(setSessionInfo({
-                user,
-                company,
-                defaults
-            }));
+            const { user, company, defaults } = await LoginService.signIn(data);
+            sessionStorage.setItem(SESSION_COOKIE, '1');
+            sessionStorage.setItem(SESSION_COMPANY, JSON.stringify(company));
+            sessionStorage.setItem(SESSION_USER, JSON.stringify(user));
+            sessionStorage.setItem(SESSION_APP_DEFAULTS, JSON.stringify(defaults));
+            dispatch(setSessionInfo({ user, company, defaults }));
             history.push('/home');
         } catch (err) {
             const { message } = err.response.data;

@@ -6,8 +6,9 @@ import OrdersOverview from '../features/orders/OrdersOverview.js';
 import { MuiThemeProvider, } from '@material-ui/core';
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
-import appTheme from './theme.js';
+import appTheme from './themes/theme.js';
 import HomeLayout from '../features/home/HomeLayout.js';
+import Settings from '../features/home/Settings.js';
 
 export default function App() {
     return (
@@ -24,8 +25,8 @@ export default function App() {
                         />
                         <Route
                             exact
-                            path="/home/clients"
-                            component={ OrdersOverview }
+                            path="/home/settings/:tab"
+                            component={ Settings }
                             isPrivate
                         />
                     </HomeLayout>
