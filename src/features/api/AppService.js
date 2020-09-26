@@ -9,7 +9,8 @@ const signIn = async (data) => {
         headers: {
             'content-type': 'application/json'
         },
-        ...AXIOS_REQUEST_CONFIG
+        withCredentials: true,
+        ...AXIOS_REQUEST_CONFIG,
     }
     try {
         const { data } = await axios(configs);
@@ -17,8 +18,10 @@ const signIn = async (data) => {
     } catch (error) {
         return Promise.reject(error);
     }
-}
+};
 
-export default {
+const AppService = {
     signIn
-}
+};
+
+export default AppService;

@@ -1,14 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import logo from '../../images/orinlogo.png';
 import { LANGUAGE } from '../../constants.js';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-    changeSelectedTab,
-    selectCurrentCompany,
-    selectCurrentTab,
-    selectCurrentUser,
-} from './slice.js';
 import {
     Container,
     CardMedia,
@@ -29,6 +22,9 @@ import {
     MoreHorizOutlined as IconSettings
 } from '@material-ui/icons';
 import FeatureInProgressTag from '../shared/displays/FeatureInProgressTag.js';
+import { SESSION_COMPANY, SESSION_USER } from '../../app/sessionKeys.js';
+import { useSelector } from 'react-redux';
+import { selectCurrentCompany, selectCurrentUser } from './duck/slice.js';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -83,13 +79,12 @@ const { orders, clients, products, shipments, settings } = LANGUAGE.home.sidePan
 export default function SidePanel() {
     const classes = useStyles();
     const history = useHistory();
-    const dispatch = useDispatch();
     const user = useSelector(selectCurrentUser);
     const company = useSelector(selectCurrentCompany);
-    const selectedTab = useSelector(selectCurrentTab);
+    const [tab, setTab] = useState('orders');
 
     const onTabClick = (tabName, href) => {
-        dispatch(changeSelectedTab(tabName));
+        setTab(tabName);
         history.push(href);
     };
 
@@ -108,14 +103,14 @@ export default function SidePanel() {
                     </Typography>
                     <Typography
                         className={classes.company}
-                    >{`${company.name}`}</Typography>
+                    >{`${company.legalAddress.name}`}</Typography>
                 </Box>
                 <List>
                     <ListItem
                         button
                         component="a"
                         onClick={() => onTabClick('orders', '/home/orders')}
-                        selected={selectedTab === 'orders'}
+                        selected={tab === 'orders'}
                         classes={{
                             root: classes.tabs,
                             selected: classes.selected,
@@ -131,7 +126,7 @@ export default function SidePanel() {
                         component="a"
                         onClick={ () => onTabClick('clients', '/home/clients') }
                         classes={ { root: classes.tabs, selected: classes.selected } }
-                        selected={ selectedTab === 'clients' }
+                        selected={ tab === 'clients' }
                     >
                         <IconPeople className={ classes.icon }/>
                         <ListItemText className={ classes.tabsText }>{ clients }</ListItemText>
@@ -142,7 +137,7 @@ export default function SidePanel() {
                         component="a"
                         onClick={ () => onTabClick('shipments', '#') }
                         classes={ { root: classes.tabs, selected: classes.selected } }
-                        selected={ selectedTab === 'shipments' }
+                        selected={ tab === 'shipments' }
                     >
                         <IconBoat className={ classes.icon }/>
                         <ListItemText className={ classes.tabsText }>{ shipments }</ListItemText>
@@ -156,7 +151,7 @@ export default function SidePanel() {
                             root: classes.tabs,
                             selected: classes.selected,
                         }}
-                        selected={selectedTab === 'products'}
+                        selected={tab === 'products'}
                     >
                         <IconTag className={classes.icon} />
                         <ListItemText className={classes.tabsText}>
@@ -164,16 +159,18 @@ export default function SidePanel() {
                         </ListItemText>
                         <FeatureInProgressTag />
                     </ListItem>
-                    <Divider />
+                </List>
+                <Divider />
+                <List>
                     <ListItem
                         button
                         component="a"
-                        onClick={() => onTabClick('settings', '/home/settings')}
+                        onClick={() => onTabClick('settings', '/home/settings/account')}
                         classes={{
                             root: classes.tabs,
                             selected: classes.selected,
                         }}
-                        selected={selectedTab === 'settings'}
+                        selected={tab === 'settings'}
                     >
                         <IconSettings className={classes.icon} />
                         <ListItemText className={classes.tabsText}>
@@ -182,7 +179,6 @@ export default function SidePanel() {
                         <FeatureInProgressTag />
                     </ListItem>
                 </List>
-
             </Container>
         </Paper>
     );

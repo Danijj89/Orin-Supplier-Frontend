@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import logo from '../../images/orinlogo.png';
 import { LANGUAGE } from '../../constants';
-import LoginService from './services.js';
+import AppService from '../api/AppService.js';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setSessionInfo } from '../home/duck/slice.js';
@@ -16,6 +16,7 @@ import {
     SESSION_COMPANY, SESSION_COOKIE,
     SESSION_USER
 } from '../../app/sessionKeys.js';
+import App from '../../app/App.js';
 
 const {
     title, emailLabel, errorMessages,
@@ -94,7 +95,7 @@ export default function LoginPage() {
     const onSignInClick = async (data) => {
         setError(null);
         try {
-            const { user, company, defaults } = await LoginService.signIn(data);
+            const { user, company, defaults } = await AppService.signIn(data);
             sessionStorage.setItem(SESSION_COOKIE, '1');
             sessionStorage.setItem(SESSION_COMPANY, JSON.stringify(company));
             sessionStorage.setItem(SESSION_USER, JSON.stringify(user));
