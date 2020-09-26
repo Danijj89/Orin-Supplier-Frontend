@@ -23,8 +23,52 @@ export const ENGLISH = {
             orders: 'Orders',
             shipments: 'Shipments',
             clients: 'Clients',
-            inventory: 'Inventory',
+            products: 'Products',
+            settings: 'Settings'
         },
+        settings: {
+            tabsLabelMap: {
+                account: 'Account',
+                colleagues: 'Colleagues',
+                company: 'Company'
+            }
+        },
+        accountSettingsTab: {
+            titleLabel: 'AccountSettingsTab preferences',
+            nameLabel: 'Your Name',
+            emailLabel: 'Email',
+            resetPasswordButtonLabel: 'Reset Password',
+            saveButtonLabel: 'Save'
+        },
+        companySettingsTab: {
+            addressesTitleLabel: 'Addresses',
+            addressTableHeadersMap: {
+                type: 'Type',
+                name: 'Entity Name',
+                address: 'Address',
+                city: 'City',
+                state: 'State',
+                country: 'Country',
+                zip: 'Zip',
+                phone: 'Phone'
+            }
+        },
+        newAddressDialogButton: {
+            addAddressButtonLabel: 'Add Address',
+            newAddressTitleLabel: 'New Address',
+            typeLabel: 'Address Type',
+            nameLabel: 'Company Name',
+            addressLabel: 'Address line 1',
+            address2Label: 'Address line 2',
+            cityLabel: 'City',
+            administrativeLabel: 'State',
+            countryLabel: 'Country',
+            zipLabel: 'Zip',
+            phoneLabel: 'Phone',
+            emailLabel: 'Email',
+            cancelButtonLabel: 'Cancel',
+            saveButtonLabel: 'Create Address'
+        }
     },
     order: {
         ordersOverview: {
@@ -101,8 +145,7 @@ export const ENGLISH = {
             totalAmountLabel: 'Amount:'
         },
         order: {
-            orderDetailsTab: 'Order Details',
-            documentsTab: 'Documents',
+            tabsLabel: ['Order Details', 'Product Table']
         },
         orderStatusInfoTile: {
             title: 'Order Progress',
@@ -136,7 +179,8 @@ export const ENGLISH = {
             errorMessages: {
                 currencyRequired: 'You must select a currency.',
                 missingItemInfo: 'Some item is missing information.'
-            }
+            },
+            totalsLabel: 'Total:'
         }
     },
     commercialInvoice: {

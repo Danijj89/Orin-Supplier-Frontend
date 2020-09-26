@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Container, Tab, Tabs } from '@material-ui/core';
 import { LANGUAGE } from '../../constants.js';
-import AccountTab from './AccountTab.js';
+import AccountSettingsTab from './AccountSettingsTab.js';
+import CompanySettingsTab from './CompanySettingsTab.js';
 
 const { tabsLabelMap } = LANGUAGE.home.settings;
 
@@ -28,7 +29,8 @@ export default function Settings({ match }) {
             >
                 {tabs.map(tab => <Tab key={tab} label={tab} value={tab} component="span" />)}
             </Tabs>
-            { tabValue === tabs[0] && <AccountTab />}
+            { tabValue === tabs[0] && <AccountSettingsTab />}
+            { tabValue === tabs[2] && <CompanySettingsTab />}
         </Container>
 
     )

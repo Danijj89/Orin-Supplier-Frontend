@@ -38,7 +38,9 @@ export default function ThemedButton({ text, styles, children, variant = 'contai
     return (
         <Button
             className={ `${ classes.button } ${ style() } ${ styles }` }
-            variant="outlined" {...props}>
+            variant={variant}
+            {...props}
+        >
             { text }
             { children }
         </Button>

@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { SESSION_APP_DEFAULTS, SESSION_COMPANY, SESSION_USER } from '../../../app/sessionKeys.js';
-import { updateCurrentUser } from './thunks.js';
+import { addNewAddress, updateCurrentUser } from './thunks.js';
 
 const initialState = {
     user: JSON.parse(sessionStorage.getItem(SESSION_USER)),
@@ -30,6 +30,18 @@ const homeSlice = createSlice({
             state.status = 'IDLE';
         },
         [updateCurrentUser.rejected]: (state, action) => {
+            state.status = 'ERROR';
+            state.error = action.error.message;
+        },
+        [addNewAddress.pending]: (state, action) => {
+            state.status = 'PENDING';
+        },
+        [addNewAddress.fulfilled]: (state, action) => {
+            state.company.addresses.push(action.payload);
+            sessionStorage.setItem(SESSION_COMPANY, JSON.stringify(state.company));
+            state.status = 'IDLE';
+        },
+        [addNewAddress.rejected]: (state, action) => {
             state.status = 'ERROR';
             state.error = action.error.message;
         }
