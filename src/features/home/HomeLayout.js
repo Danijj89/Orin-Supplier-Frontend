@@ -7,19 +7,21 @@ const useStyles = makeStyles((theme) => ({
     root: {
         height: 'auto',
         minHeight: '100%',
-        backgroundColor: theme.palette.backgroundSecondary.main
+        backgroundColor: theme.palette.backgroundSecondary.main,
+        flexWrap: 'nowrap'
     },
     leftPanel: {
         height: 'auto',
         minHeight: '100%',
         backgroundColor: theme.palette.backgroundPrimary.main,
-        maxWidth: '20%',
-        minWidth: 200
+        width: 220,
+        minWidth: 220
     },
     rightPanel: {
         height: 'auto',
         minHeight: '100%',
-        flex: 1
+        minWidth: 1000,
+        flex: '1 0 auto'
     }
 }));
 

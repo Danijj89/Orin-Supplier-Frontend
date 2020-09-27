@@ -22,7 +22,6 @@ import {
     MoreHorizOutlined as IconSettings
 } from '@material-ui/icons';
 import FeatureInProgressTag from '../shared/displays/FeatureInProgressTag.js';
-import { SESSION_COMPANY, SESSION_USER } from '../../app/sessionKeys.js';
 import { useSelector } from 'react-redux';
 import { selectCurrentCompany, selectCurrentUser } from './duck/slice.js';
 
