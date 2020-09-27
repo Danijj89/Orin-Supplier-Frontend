@@ -7,7 +7,6 @@ import { Container, Typography } from '@material-ui/core';
 import { LANGUAGE } from '../../constants.js';
 import CreateCIDetailsForm from './CreateCIDetailsForm.js';
 import CreateCIProductInfo from './CreateCIProductInfo.js';
-import DocumentPreview from '../shared/components/DocumentPreview.js';
 import { selectCIError, selectCIFilePreview, selectCIStatus, selectNewCI } from './duck/selectors.js';
 
 const { title, steps } = LANGUAGE.commercialInvoice.createCI;
@@ -46,15 +45,6 @@ export default function CreateCI() {
             <hr/>
             {newCI && activeStep === 0 && <CreateCIDetailsForm setActiveStep={setActiveStep}/>}
             {activeStep === 1 && <CreateCIProductInfo setActiveStep={setActiveStep}/>}
-            {activeStep === 2 &&
-            <DocumentPreview
-                onPrevButtonClick={onPreviewPrevButtonClick}
-                onSubmitButtonClick={onPreviewSubmitButtonClick}
-                previewFileUrl={previewFileUrl}
-                status={status}
-                error={error}
-                fileName={newCI.fileName}
-            />}
         </Container>
     )
 }

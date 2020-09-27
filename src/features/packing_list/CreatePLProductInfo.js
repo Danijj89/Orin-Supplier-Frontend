@@ -5,7 +5,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { Autocomplete } from '@material-ui/lab';
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectCurrentDefaults } from '../home/slice.js';
+import { selectCurrentDefaults } from '../home/duck/slice.js';
 import AddColumnButton from '../shared/buttons/addColumnButton.js';
 import { selectNewPL } from './duck/selectors.js';
 import { submitPLTableInfo } from './duck/slice.js';

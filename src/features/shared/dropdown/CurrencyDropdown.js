@@ -2,7 +2,7 @@ import React from 'react';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { TextField } from '@material-ui/core';
 import { useSelector } from 'react-redux';
-import { selectCurrentDefaults } from '../../home/slice.js';
+import { selectCurrentDefaults } from '../../home/duck/slice.js';
 import { LANGUAGE } from '../../../constants.js';
 import { makeStyles } from '@material-ui/core/styles';
 

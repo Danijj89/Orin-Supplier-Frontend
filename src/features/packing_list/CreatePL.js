@@ -8,7 +8,6 @@ import { Container, Typography } from '@material-ui/core';
 import CreatePLDetailsForm from './CreatePLDetailsForm.js';
 import { selectNewPL, selectPLError, selectPLPreviewFile, selectPLStatus } from './duck/selectors.js';
 import CreatePLProductInfo from './CreatePLProductInfo.js';
-import DocumentPreview from '../shared/components/DocumentPreview.js';
 
 const { steps, title } = LANGUAGE.packingList.createPL;
 
@@ -42,14 +41,6 @@ export default function CreatePL() {
             <hr/>
             { newPL && activeStep === 0 && <CreatePLDetailsForm setActiveStep={setActiveStep}/>}
             {activeStep === 1 && <CreatePLProductInfo setActiveStep={setActiveStep}/>}
-            {activeStep === 2 && <DocumentPreview
-                onPrevButtonClick={onPreviewPrevButtonClick}
-                onSubmitButtonClick={onPreviewSubmitButtonClick}
-                previewFileUrl={previewFileUrl}
-                status={status}
-                error={error}
-                fileName={newPL.fileName}
-            />}
         </Container>
     )
 }

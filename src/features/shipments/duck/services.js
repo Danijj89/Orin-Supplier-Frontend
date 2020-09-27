@@ -1,4 +1,4 @@
-import { fetchWithAuth } from '../../shared/fetchWithAuth.js';
+import { fetchWithAuth } from '../../api/fetchWithAuth.js';
 
 const fetchNewShipmentData = async (userId, companyId) => {
     const configs = {

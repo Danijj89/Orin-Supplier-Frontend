@@ -4,7 +4,7 @@ import { LANGUAGE } from '../../constants.js';
 import { useDispatch, useSelector } from 'react-redux';
 import './styles.css';
 import CreatePOProductTable from './CreatePOProductTable.js';
-import { selectCurrentDefaults } from '../home/slice.js';
+import { selectCurrentDefaults } from '../home/duck/slice.js';
 import { selectNewOrder } from './duck/selectors.js';
 import { useForm } from 'react-hook-form';
 import UnitCounter from '../shared/classes/UnitCounter.js';

@@ -12,7 +12,7 @@ import { useSelector } from 'react-redux';
 import { selectPLAutocompleteOptions } from './duck/selectors.js';
 import TableInput from '../shared/inputs/TableInput.js';
 import TableAutoCompleteTextInput from '../shared/inputs/TableAutoCompleteTextInput.js';
-import { selectCurrentDefaults } from '../home/slice.js';
+import { selectCurrentDefaults } from '../home/duck/slice.js';
 
 const useStyles = makeStyles({
     deleteIcon: {

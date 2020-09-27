@@ -8,6 +8,9 @@ import { LANGUAGE } from '../../constants.js';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { defaultTableHeaders } from './duck/slice.js';
 import { useForm } from 'react-hook-form';
+import UnitCounter from '../shared/classes/UnitCounter.js';
+import { useSelector } from 'react-redux';
+import { selectCurrentDefaults } from '../home/duck/slice.js';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -55,46 +58,36 @@ const { tableTitleLabel, editButtonLabel, errorMessages } = LANGUAGE.order.order
 export default function OrderProductTable({ order }) {
     const classes = useStyles();
     const [isEdit, setIsEdit] = useState(false);
-    const { unallocated: unallocatedItems, allocated: allocatedItems, currency: initialCurrency } = order;
+    const { itemUnits } = useSelector(selectCurrentDefaults);
+    const { items: initialItems, currency: initialCurrency, totalQ: initialTotalQ, totalA: initialTotalA } = order;
 
     const getHeaders = () => {
         const headers = [...defaultTableHeaders];
-        if (order.hasOwnProperty('customColumns') && order.customColumns[0]) {
-            headers[2] = order.customColumns[0];
+        if (order.hasOwnProperty('custom1')) {
+            headers[2] = order.custom1;
         }
-        if (order.hasOwnProperty('customColumns') && order.customColumns[1]) {
-            headers[3] = order.customColumns[1];
+        if (order.hasOwnProperty('custom2')) {
+            headers[3] = order.custom2;
         }
         return headers;
     }
     const initialHeaders = getHeaders();
 
-    const initialUnallocatedItems = unallocatedItems.map(row => [
-        row.ref,
-        row.description,
-        row.customValues[0],
-        row.customValues[1],
-        row.quantity,
-        row.unit,
-        row.price,
-        row.total
-    ]);
-
     const { register, setValue, errors, watch, handleSubmit } = useForm({
         mode: 'onSubmit',
         defaultValues: {
             headers: initialHeaders,
-            unallocated: initialUnallocatedItems,
-            currency: initialCurrency
+            items: initialItems,
+            currency: initialCurrency,
+            totalQ: new UnitCounter(itemUnits, initialTotalQ),
+            totalA: initialTotalA
         }
     });
 
     const validateItems = (items) => {
         for (const item of items) {
-            for (let i = 0; i < item.length; i++) {
-                if (i >= 1 && i <= 3) continue;
-                if (!item[i]) return errorMessages.missingItemInfo;
-            }
+            if (!(item.ref && item.description && item.quantity && item.unit && item.price))
+                return errorMessages.missingItemInfo;
         }
         return true;
     }
@@ -103,6 +96,8 @@ export default function OrderProductTable({ order }) {
         register({ name: 'headers' });
         register({ name: 'unallocated' }, { validate: items => validateItems(items) });
         register({ name: 'currency' }, { required: errorMessages.currencyRequired });
+        register({ name: 'totalQ' });
+        register({ name: 'totalA' });
     }, [register]);
 
     const onEditClick = () => setIsEdit(true);
@@ -144,8 +139,10 @@ export default function OrderProductTable({ order }) {
                     { !isEdit &&
                     <OrderProductTableView
                         headers={ initialHeaders }
-                        items={ initialUnallocatedItems }
+                        items={ initialItems }
                         currency={ initialCurrency }
+                        totalQ={ initialTotalQ }
+                        totalA={ initialTotalA }
                     /> }
                     { isEdit &&
                     <OrderProductTableEdit

@@ -10,8 +10,8 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 import { FiberManualRecord as IconCircle } from '@material-ui/icons';
 import { useSelector } from 'react-redux';
-import { selectCurrentDefaults } from '../home/slice.js';
 import { LANGUAGE } from '../../constants.js';
+import { SESSION_APP_DEFAULTS } from '../../app/sessionKeys.js';
 
 const { orderStatusLabelsMap } = LANGUAGE.shared.statusButtonMenu;
 
@@ -43,7 +43,7 @@ export default function StatusButtonMenu({
 }) {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = useState(null);
-    const { orderStatuses } = useSelector(selectCurrentDefaults);
+    const { orderStatuses } = sessionStorage.getItem(SESSION_APP_DEFAULTS);
 
     const getStatusColor = (status) => statusColors[status];
     const currentColor = getStatusColor(status);

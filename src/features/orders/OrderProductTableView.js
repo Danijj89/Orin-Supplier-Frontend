@@ -10,6 +10,7 @@ import {
 } from '@material-ui/core';
 import { getCurrencySymbol } from '../shared/utils.js';
 import { makeStyles } from '@material-ui/core/styles';
+import { LANGUAGE } from '../../constants.js';
 
 const useStyles = makeStyles((theme) => ({
     header: {
@@ -18,9 +19,12 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function OrderProductTableView({ headers, items, currency }) {
+const { totalsLabel } = LANGUAGE.order.orderProductTable;
+
+export default function OrderProductTableView({ headers, items, currency, totalQ, totalA }) {
     const classes = useStyles();
 
+    const numHeaders = headers.reduce((acc, header) => header ? acc + 1: acc, 0);
     const renderedHeaders = headers.map((header) => {
         if (!header) return null;
         else return <TableCell className={ classes.header } key={ header }>{ header }</TableCell>;
@@ -38,15 +42,22 @@ export default function OrderProductTableView({ headers, items, currency }) {
                 <TableBody>
                     { items.map((item, idx) =>
                         <TableRow key={ idx }>
-                            <TableCell>{ item[0] }</TableCell>
-                            <TableCell>{ item[1] }</TableCell>
-                            { headers[2] && <TableCell>{ item[2] }</TableCell> }
-                            { headers[3] && <TableCell>{ item[3] }</TableCell> }
+                            <TableCell>{ item.ref }</TableCell>
+                            <TableCell>{ item.description }</TableCell>
+                            { headers[2] && <TableCell>{ item.custom1 }</TableCell> }
+                            { headers[3] && <TableCell>{ item.custom2 }</TableCell> }
                             <TableCell>{ `${ item[4] } ${ item[5] }` }</TableCell>
                             <TableCell>{ `${ getCurrencySymbol(currency) } ${ item[6] }` }</TableCell>
                             <TableCell>{ `${ getCurrencySymbol(currency) } ${ item[7] }` }</TableCell>
                         </TableRow>)
                     }
+                    <TableRow>
+                        <TableCell colSpan={ numHeaders - 3 } padding="none">
+                        </TableCell>
+                        <TableCell align="right">{ totalsLabel }</TableCell>
+                        <TableCell align="right" className={ classes.totals }>{ totalQ.stringRep }</TableCell>
+                        <TableCell colSpan={2} align="right" className={ classes.totals }>{ `${getCurrencySymbol(currency)} ${totalA}` }</TableCell>
+                    </TableRow>
                 </TableBody>
             </Table>
         </TableContainer>

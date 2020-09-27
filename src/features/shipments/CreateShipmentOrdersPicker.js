@@ -55,17 +55,20 @@ export default function CreateShipmentOrdersPicker({ setValue, watch, setSelecte
     const [client, setClient] = useState(null);
     const orders = watch('orders');
 
-    const onAddOrder = (companyName, order) => {
+    const onAddOrder = (order) => {
+        setValue('orders', [...orders, order]);
+        setOrderOptions(prevOrders => prevOrders.filter(o => o.poRef !== order.poRef));
     }
 
     const onDeleteOrderChip = (order) => {
-
+        setValue('orders', orders.filter(o => o.poRef !== order.poRef));
+        setOrderOptions(prevOrders => [...prevOrders, order]);
     }
 
-    const onClientChange = (client) => {
+    const onClientChange = (newClient) => {
         if (client) setValue('orders', []);
-        setClient(client);
-        setOrderOptions(clientOrderMap[client]);
+        setClient(newClient);
+        setOrderOptions(clientOrderMap[newClient]);
     }
 
     return (

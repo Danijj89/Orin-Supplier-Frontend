@@ -1,6 +1,5 @@
 import { ENGLISH as englishLanguage } from './languages/english';
-import { CHINESE as chineseLanguage } from './languages/chinese';
-import { CHINESE as chineseLocale, ENGLISH as englishLocale } from './locales.js';
+import { ENGLISH as englishLocale } from './locales.js';
 
 // The language package used for the application
 export const LANGUAGE = englishLanguage;

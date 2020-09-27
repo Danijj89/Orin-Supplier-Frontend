@@ -10,8 +10,7 @@ import OrderStatusInfoCard from './OrderStatusInfoCard.js';
 import { selectOrderById } from './duck/slice.js';
 import OrderProductTable from './OrderProductTable.js';
 import { fetchOrderOptions } from './duck/thunks.js';
-
-const { orderDetailsTab, documentsTab } = LANGUAGE.order.order;
+import OrderDetails from './OrderDetails.js';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -24,6 +23,8 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(2)
     }
 }));
+
+const { tabsLabel } = LANGUAGE.order.order;
 
 export default function Order({ match }) {
     const classes = useStyles();
@@ -45,12 +46,6 @@ export default function Order({ match }) {
 
     return (
         <Grid container className={ classes.container }>
-            <Grid item xs={ 6 }>
-                { order && <OrderOverviewInfoCard order={ order }/> }
-            </Grid>
-            <Grid item xs={ 6 }>
-                { order && <OrderStatusInfoCard order={ order }/> }
-            </Grid>
             <Grid item xs={ 12 }>
                 <Tabs
                     value={ tabValue }
@@ -59,11 +54,12 @@ export default function Order({ match }) {
                     textColor='primary'
                     className={ classes.details }
                 >
-                    <Tab label={ orderDetailsTab } component="span"/>
-                    <Tab label={ documentsTab } component="span"/>
+                    {tabsLabel.map(tab => <Tab key={tab} label={tab} component="span" />)}
                 </Tabs>
-                { order && tabValue === 0 && <OrderProductTable order={order}/> }
-                {/*{ tabValue === 1 && <OrderDocuments order={ order }/> }*/}
+            </Grid>
+            <Grid item xs={12}>
+                { order && tabValue === 0 && <OrderDetails order={order}/> }
+                { order && tabValue === 1 && <OrderProductTable order={ order }/> }
             </Grid>
         </Grid>
     )

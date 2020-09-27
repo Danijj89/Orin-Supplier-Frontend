@@ -22,7 +22,7 @@ const {
     emailLabel,
     cancelButtonLabel,
     saveButtonLabel
-} = LANGUAGE.home.newAddressDialogButton;
+} = LANGUAGE.home.newAddressButton;
 
 export default function NewAddressDialogButton() {
     const dispatch = useDispatch();

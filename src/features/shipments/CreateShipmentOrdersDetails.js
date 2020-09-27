@@ -2,6 +2,7 @@ import React from 'react';
 import { Paper, Box, Typography, Divider } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { LANGUAGE } from '../../constants.js';
+import UnitCounter from '../shared/classes/UnitCounter.js';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -34,7 +35,8 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const { detailsTitleLabel, orderRefLabel } = LANGUAGE.shipments.createShipmentOrders;
+const { detailsTitleLabel, orderNumberLabel, clientNameLabel, orderDateLabel,
+    orderCRDLabel, incotermLabel, quantityLabel, remarksLabel} = LANGUAGE.shipments.createShipmentOrders;
 
 export default function CreateShipmentOrdersDetails({ selectedOrder }) {
     const classes = useStyles();
@@ -51,9 +53,14 @@ export default function CreateShipmentOrdersDetails({ selectedOrder }) {
             <Divider/>
             { selectedOrder &&
             <Box className={ classes.bottomPanel }>
-                <DetailRow label={ orderRefLabel } value={ selectedOrder.poRef }/>
-            </Box>
-            }
+                {selectedOrder.poRef && <DetailRow label={ orderNumberLabel } value={ selectedOrder.poRef }/>}
+                {selectedOrder.date && <DetailRow label={ orderDateLabel } value={ selectedOrder.date }/>}
+                {selectedOrder.toName && <DetailRow label={ clientNameLabel } value={ selectedOrder.toName }/>}
+                {selectedOrder.crd && <DetailRow label={ orderCRDLabel } value={ selectedOrder.crd }/>}
+                {selectedOrder.incoterm && <DetailRow label={ incotermLabel } value={ selectedOrder.incoterm }/>}
+                {selectedOrder.totalQ && <DetailRow label={ quantityLabel } value={ new UnitCounter([], selectedOrder.poRef).stringRep }/>}
+                {selectedOrder.remarks && <DetailRow label={ remarksLabel } value={ selectedOrder.remarks }/>}
+            </Box> }
         </Paper>
     )
 }

@@ -4,7 +4,7 @@ import { Delete as DeleteIcon } from '@material-ui/icons';
 import { getCurrencySymbol } from '../shared/utils.js';
 import { useSelector } from 'react-redux';
 import { selectPOAutocompleteOptions } from './duck/selectors.js';
-import { selectCurrentDefaults } from '../home/slice.js';
+import { selectCurrentDefaults } from '../home/duck/slice.js';
 import { makeStyles } from '@material-ui/core/styles';
 import TableAutoCompleteFreeTextInput from '../shared/inputs/TableAutoCompleteFreeTextInput.js';
 import TableInput from '../shared/inputs/TableInput.js';

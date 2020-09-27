@@ -10,8 +10,19 @@ const updateUser = async (id, update) => {
     return data;
 };
 
+const resetPassword = async (id, password) => {
+    const configs = {
+        method: 'put',
+        url: `users/${id}/password`,
+        data: password
+    };
+    const { data } = await fetchWithAuth(configs);
+    return data;
+};
+
 const UserService = {
-    updateUser
+    updateUser,
+    resetPassword
 };
 
 export default UserService;

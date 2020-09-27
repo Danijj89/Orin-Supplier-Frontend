@@ -1,4 +1,4 @@
-import { fetchWithAuth } from './fetchWithAuth.js';
+import { fetchWithAuth } from '../api/fetchWithAuth.js';
 
 const downloadFile = async (fileName) => {
     const configs = {

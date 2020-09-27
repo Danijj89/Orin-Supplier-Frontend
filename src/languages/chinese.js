@@ -103,8 +103,7 @@ export const CHINESE = {
             totalAmountLabel: 'Amount:'
         },
         order: {
-            orderDetailsTab: '订单详情',
-            documentsTab: '单证',
+            tabsLabel: ['订单详情', 'Product Table']
         },
         orderStatusInfoTile: {
             title: '订单进度',
@@ -133,7 +132,8 @@ export const CHINESE = {
             errorMessages: {
                 currencyRequired: 'You must select a currency.',
                 missingItemInfo: 'Some item is missing information.'
-            }
+            },
+            totalsLabel: 'Total:'
         }
     },
     commercialInvoice: {

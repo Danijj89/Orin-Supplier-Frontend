@@ -9,7 +9,7 @@ import { startNewOrder } from './duck/thunks.js';
 import DocumentStepper from '../shared/DocumentStepper.js';
 import { Container, Typography, Divider } from '@material-ui/core';
 import { selectCurrentOrderId, selectNewOrder, selectOrderError, selectOrderStatus } from './duck/selectors.js';
-import Loader from '../shared/components/Loader.js';
+import Loader from '../shared/displays/Loader.js';
 
 const { titleLabel, steps } = LANGUAGE.order.createOrder;
 

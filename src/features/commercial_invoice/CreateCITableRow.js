@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { selectCurrentDefaults } from '../home/slice.js';
+import { selectCurrentDefaults } from '../home/duck/slice.js';
 import { TableRow, TableCell, Button, Typography, Grid } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete.js';
 import { getCurrencySymbol } from '../shared/utils.js';

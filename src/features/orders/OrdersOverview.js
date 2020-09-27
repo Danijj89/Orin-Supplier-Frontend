@@ -19,7 +19,7 @@ import {
     Container
 } from '@material-ui/core';
 import { selectNewOrder, selectOrderStatus } from './duck/selectors.js';
-import Loader from '../shared/components/Loader.js';
+import Loader from '../shared/displays/Loader.js';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 
 const useStyles = makeStyles((theme) => ({
