@@ -17,7 +17,7 @@ const {
 
 export default function ResetPasswordButton({ userId }) {
     const dispatch = useDispatch();
-    const { register, errors, handleSubmit } = useForm({
+    const { register, errors, handleSubmit, formState } = useForm({
         mode: 'onSubmit'
     });
 
@@ -32,6 +32,7 @@ export default function ResetPasswordButton({ userId }) {
             dialogTitle={ dialogTitle }
             onConfirm={ handleSubmit(onConfirm) }
             confirmButtonLabel={ confirmButtonLabel }
+            isError={!formState.isValid}
         >
             <>
                 <TextField

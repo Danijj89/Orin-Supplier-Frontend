@@ -14,7 +14,8 @@ export default function ButtonWithDialog(
         cancelButtonLabel = cancelLabel,
         confirmButtonLabel = confirmLabel,
         buttonVariant = 'contained',
-        buttonStyle
+        buttonStyle,
+        isError
     }) {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -22,7 +23,9 @@ export default function ButtonWithDialog(
     const onCancel = () => setIsDialogOpen(false);
     const onConfirmClick = () => {
         onConfirm();
-        setIsDialogOpen(false);
+        if (!isError) {
+            setIsDialogOpen(false);
+        }
     };
 
     return (
