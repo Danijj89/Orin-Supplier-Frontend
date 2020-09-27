@@ -16,7 +16,6 @@ import {
     SESSION_COMPANY, SESSION_COOKIE,
     SESSION_USER
 } from '../../app/sessionKeys.js';
-import App from '../../app/App.js';
 
 const {
     title, emailLabel, errorMessages,
@@ -95,8 +94,8 @@ export default function LoginPage() {
     const onSignInClick = async (data) => {
         setError(null);
         try {
-            const { user, company, defaults } = await AppService.signIn(data);
-            sessionStorage.setItem(SESSION_COOKIE, '1');
+            const { user, company, defaults, expires } = await AppService.signIn(data);
+            sessionStorage.setItem(SESSION_COOKIE, JSON.stringify(new Date(Date.now() + expires)));
             sessionStorage.setItem(SESSION_COMPANY, JSON.stringify(company));
             sessionStorage.setItem(SESSION_USER, JSON.stringify(user));
             sessionStorage.setItem(SESSION_APP_DEFAULTS, JSON.stringify(defaults));
@@ -142,7 +141,7 @@ export default function LoginPage() {
                     <ThemedButton
                         type="submit"
                         variant="contained"
-                        text={ signInButton }
+                        label={ signInButton }
                         styles={ classes.button }
                     />
                 </form>

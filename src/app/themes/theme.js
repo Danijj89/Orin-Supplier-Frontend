@@ -3,7 +3,7 @@ import { grey } from '@material-ui/core/colors';
 
 let appTheme = createMuiTheme({
     typography: {
-        fontFamily: 'Poppins, Helvetica, sans-serif',
+        fontFamily: 'Poppins, Helvetica, sans-serif'
     },
     palette: {
         primary: {

@@ -7,6 +7,7 @@ const useStyles = makeStyles((theme) => ({
     root: {
         height: 'auto',
         minHeight: '100%',
+        minWidth: '100%',
         backgroundColor: theme.palette.backgroundSecondary.main,
         flexWrap: 'nowrap'
     },
@@ -20,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     rightPanel: {
         height: 'auto',
         minHeight: '100%',
-        minWidth: 1000,
+        width: 800,
         flex: '1 0 auto'
     }
 }));
