@@ -141,9 +141,8 @@ export default function LoginPage() {
                     <ThemedButton
                         type="submit"
                         variant="contained"
-                        label={ signInButton }
                         styles={ classes.button }
-                    />
+                    >{ signInButton }</ThemedButton>
                 </form>
                 <Typography component="span">{ footerText }&nbsp;</Typography>
                 <Typography className={ classes.footerTextTwo } component="span">{ signUpText }</Typography>

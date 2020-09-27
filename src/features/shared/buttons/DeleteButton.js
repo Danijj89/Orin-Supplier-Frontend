@@ -23,7 +23,12 @@ export default function DeleteButton({ onDeleteClick, deleteMessage }) {
         setIsDialogOpen(true);
     }
 
-    const onDialogClose = () => setIsDialogOpen(false);
+    const onCancel = () => setIsDialogOpen(false);
+    const onConfirm = (e) => {
+        e.stopPropagation();
+        onDeleteClick();
+        setIsDialogOpen(false);
+    };
 
     return (
         <>
@@ -35,13 +40,13 @@ export default function DeleteButton({ onDeleteClick, deleteMessage }) {
             >
                 <IconDelete/>
             </Button>
-            <Dialog onClose={ onDialogClose } open={ isDialogOpen }>
+            <Dialog onClose={ onCancel } open={ isDialogOpen }>
                 <DialogTitle>{ deleteMessage }</DialogTitle>
                 <DialogActions>
-                    <ThemedButton onClick={ onDialogClose } variant="outlined">
+                    <ThemedButton onClick={ onCancel } variant="outlined">
                         { cancelButton }
                     </ThemedButton>
-                    <ThemedButton onClick={(e) => onDeleteClick(e)}>
+                    <ThemedButton onClick={(e) => onConfirm(e)}>
                         { confirmButton }
                     </ThemedButton>
                 </DialogActions>
