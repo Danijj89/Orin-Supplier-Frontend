@@ -1,9 +1,21 @@
-import { ENGLISH as englishLanguage } from './languages/english';
-import { ENGLISH as englishLocale } from './locales.js';
+import { ENGLISH } from './languages/english/english.js';
+import { ENGLISH_ERRORS } from './languages/english/errors.js';
+import { CHINESE } from './languages/chinese/chinese.js';
+
+const locales = navigator.languages === undefined ? [navigator.language] : navigator.languages;
+const currentLocale = locales.includes('zh') ? 'zh' : 'en';
+const languages = {
+  en: ENGLISH,
+  zh: CHINESE
+}
+const errors = {
+  en: ENGLISH_ERRORS
+};
 
 // The language package used for the application
-export const LANGUAGE = englishLanguage;
-export const LOCALE = englishLocale;
+export const LANGUAGE = languages[currentLocale];
+export const LOCALE = currentLocale;
+export const ERRORS = errors[currentLocale];
 
 const SERVER_URI =
   process.env.NODE_ENV === 'production'
