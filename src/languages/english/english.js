@@ -49,7 +49,8 @@ export const ENGLISH = {
                 country: 'Country',
                 zip: 'Zip',
                 phone: 'Phone'
-            }
+            },
+            deleteDialogTitle: 'Are you sure you want to delete this address?'
         },
         newAddressButton: {
             addAddressButtonLabel: 'Add Address',
@@ -290,6 +291,12 @@ export const ENGLISH = {
                 confirmLabel: 'Confirm'
             }
         },
+        buttons: {
+            deleteButton: {
+                cancelButton: 'Cancel',
+                confirmButton: 'Confirm',
+            },
+        },
         downloadButton: {
             buttonText: 'Download',
             dialogTitle: 'Select the file type to download',
@@ -326,10 +333,6 @@ export const ENGLISH = {
         },
         featureInProgressTag: {
             title: 'Feature in Progress',
-        },
-        deleteButton: {
-            cancelButton: 'Cancel',
-            confirmButton: 'Confirm',
         },
         statusButtonMenu: {
             orderStatusLabelsMap: {
