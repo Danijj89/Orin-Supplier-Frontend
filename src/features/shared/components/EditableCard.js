@@ -54,11 +54,11 @@ const useStyles = makeStyles((theme) => ({
 
 const { editButtonLabel } = LANGUAGE.shared.components.editableCard;
 
-export default function EditableCard({ title, onEdit, isEdit, onCancel, onConfirm, children }) {
+export default function EditableCard({ title, onEdit, isEdit, onCancel, onConfirm, children, styles }) {
     const classes = useStyles();
 
     return (
-        <Card className={ classes.root } elevation={ 3 }>
+        <Card className={ `${ classes.root } ${ styles }` } elevation={ 3 }>
             <Grid container className={ classes.container }>
                 <Grid
                     item
@@ -73,9 +73,8 @@ export default function EditableCard({ title, onEdit, isEdit, onCancel, onConfir
                     { !isEdit && onEdit && <Box className={ classes.buttons }>
                         <ThemedButton
                             onClick={ onEdit }
-                            label={ editButtonLabel }
                             variant="outlined"
-                        />
+                        >{ editButtonLabel }</ThemedButton>
                     </Box> }
                     { isEdit && <Box className={ classes.buttons }>
                         <IconButton

@@ -12,7 +12,9 @@ export default function ButtonWithDialog(
         children,
         onConfirm,
         cancelButtonLabel = cancelLabel,
-        confirmButtonLabel = confirmLabel
+        confirmButtonLabel = confirmLabel,
+        buttonVariant = 'contained',
+        buttonStyle
     }) {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -25,10 +27,9 @@ export default function ButtonWithDialog(
 
     return (
         <Box>
-            <ThemedButton
-                label={ buttonLabel }
-                onClick={ onButtonClick }
-            />
+            <ThemedButton onClick={ onButtonClick } variant={buttonVariant} styles={buttonStyle}>
+                { buttonLabel }
+            </ThemedButton>
             <Dialog onClose={ onCancel } open={ isDialogOpen }>
                 <DialogTitle>{ dialogTitle }</DialogTitle>
                 <Divider/>
@@ -36,8 +37,8 @@ export default function ButtonWithDialog(
                     { children }
                 </DialogContent>
                 <DialogActions>
-                    <ThemedButton label={ cancelButtonLabel } onClick={ onCancel }/>
-                    <ThemedButton label={ confirmButtonLabel } onClick={ onConfirmClick }/>
+                    <ThemedButton onClick={ onCancel }>{ cancelButtonLabel }</ThemedButton>
+                    <ThemedButton onClick={ onConfirmClick }>{ confirmButtonLabel }</ThemedButton>
                 </DialogActions>
             </Dialog>
         </Box>

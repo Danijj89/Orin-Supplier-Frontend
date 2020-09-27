@@ -3,18 +3,18 @@ import { Button, Dialog, DialogActions, DialogTitle } from '@material-ui/core';
 import { Delete as IconDelete } from '@material-ui/icons';
 import { LANGUAGE } from '../../../constants.js';
 import { makeStyles } from '@material-ui/core/styles';
+import ThemedButton from './ThemedButton.js';
 
-const { cancelButton, confirmButton } = LANGUAGE.shared.deleteButton;
+const { cancelButton, confirmButton } = LANGUAGE.shared.buttons.deleteButton;
 
 const useStyles = makeStyles((theme) => ({
     button: {
-        width: '10%',
         minWidth: 50,
         color: theme.palette.tertiary['500']
     }
 }));
 
-export default function DeleteButtonWithDialog({ onDeleteClick, deleteMessage }) {
+export default function DeleteButton({ onDeleteClick, deleteMessage }) {
     const classes = useStyles();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -38,12 +38,12 @@ export default function DeleteButtonWithDialog({ onDeleteClick, deleteMessage })
             <Dialog onClose={ onDialogClose } open={ isDialogOpen }>
                 <DialogTitle>{ deleteMessage }</DialogTitle>
                 <DialogActions>
-                    <Button onClick={ onDialogClose } variant="outlined">
+                    <ThemedButton onClick={ onDialogClose } variant="outlined">
                         { cancelButton }
-                    </Button>
-                    <Button onClick={(e) => onDeleteClick(e)} variant="outlined">
+                    </ThemedButton>
+                    <ThemedButton onClick={(e) => onDeleteClick(e)}>
                         { confirmButton }
-                    </Button>
+                    </ThemedButton>
                 </DialogActions>
             </Dialog>
         </>
