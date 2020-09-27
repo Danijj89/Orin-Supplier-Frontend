@@ -11,10 +11,10 @@ import {
     TableBody
 } from '@material-ui/core';
 import { useSelector } from 'react-redux';
-import { selectCurrentCompany } from './duck/slice.js';
 import { LANGUAGE } from '../../constants.js';
 import NewAddressDialogButton from './NewAddressDialogButton.js';
 import EditableCard from '../shared/components/EditableCard.js';
+import { selectCurrentCompany } from './duck/selectors.js';
 
 const { addressesTitleLabel, addressTableHeadersMap } = LANGUAGE.home.companySettingsTab;
 

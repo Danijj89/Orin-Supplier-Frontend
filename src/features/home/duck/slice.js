@@ -19,6 +19,10 @@ const homeSlice = createSlice({
             state.user = user;
             state.company = company;
             state.defaults = defaults;
+        },
+        cleanError: (state, action) => {
+            state.status = 'IDLE';
+            state.error = null;
         }
     },
     extraReducers: {
@@ -31,7 +35,7 @@ const homeSlice = createSlice({
             state.status = 'IDLE';
         },
         [updateCurrentUser.rejected]: (state, action) => {
-            state.status = 'ERROR';
+            state.status = 'REJECTED';
             state.error = action.error.message;
         },
         [addNewAddress.pending]: (state, action) => {
@@ -43,7 +47,7 @@ const homeSlice = createSlice({
             state.status = 'IDLE';
         },
         [addNewAddress.rejected]: (state, action) => {
-            state.status = 'ERROR';
+            state.status = 'REJECTED';
             state.error = action.error.message;
         },
         [resetPassword.pending]: (state, action) => {
@@ -53,16 +57,12 @@ const homeSlice = createSlice({
             state.status = 'IDLE';
         },
         [resetPassword.rejected]: (state, action) => {
-            state.status = 'ERROR';
-            state.error = action.error.message;
+            state.status = 'REJECTED';
+            state.error = action.payload.message;
         }
     }
 });
 
-export const selectCurrentUser = state => state.home.user;
-export const selectCurrentCompany = state => state.home.company;
-export const selectCurrentDefaults = state => state.home.defaults;
-
-export const { setSessionInfo } = homeSlice.actions;
+export const { setSessionInfo, cleanError } = homeSlice.actions;
 
 export default homeSlice.reducer;

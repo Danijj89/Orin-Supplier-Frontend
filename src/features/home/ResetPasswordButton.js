@@ -22,7 +22,6 @@ export default function ResetPasswordButton({ userId }) {
     });
 
     const onConfirm = (data) => {
-        console.log(data);
         data.id = userId;
         dispatch(resetPassword(data));
     };

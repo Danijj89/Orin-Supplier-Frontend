@@ -15,8 +15,7 @@ export const fetchWithAuth = async configs => {
             sessionStorage.clear();
             window.location.replace('/login');
         }
-        else{
-            console.log(error);
+        else {
             return Promise.reject(error);
         }
     }

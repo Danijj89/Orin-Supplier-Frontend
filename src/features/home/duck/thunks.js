@@ -9,9 +9,13 @@ export const updateCurrentUser = createAsyncThunk('home/updateCurrentUser',
     });
 
 export const resetPassword = createAsyncThunk('home/resetPassword',
-    async (data) => {
+    async (data, { rejectWithValue }) => {
         const { id, ...rest } = data;
-        return await UserService.resetPassword(id, rest);
+        try {
+            return await UserService.resetPassword(id, rest);
+        } catch (err) {
+            return rejectWithValue(err.response.data);
+        }
     });
 
 export const addNewAddress = createAsyncThunk('home/addNewAddress',

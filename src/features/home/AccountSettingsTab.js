@@ -1,19 +1,23 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, TextField } from '@material-ui/core';
 import { LANGUAGE } from '../../constants.js';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectCurrentUser } from './duck/slice.js';
 import { updateCurrentUser } from './duck/thunks.js';
 import EditableCard from '../shared/components/EditableCard.js';
 import TextWithLabel from '../shared/displays/TextWithLabel.js';
 import ResetPasswordButton from './ResetPasswordButton.js';
+import { selectCurrentUser, selectError, selectStatus } from './duck/selectors.js';
+import ErrorMessage from '../shared/displays/ErrorMessage.js';
+import { cleanError } from './duck/slice.js';
 
 const { titleLabel, nameLabel, emailLabel } = LANGUAGE.home.accountSettingsTab;
 
 export default function AccountSettingsTab() {
     const dispatch = useDispatch();
     const user = useSelector(selectCurrentUser);
+    const status = useSelector(selectStatus);
+    const error = useSelector(selectError);
     const [isEdit, setIsEdit] = useState(false);
 
     const { register, errors, handleSubmit } = useForm({
@@ -34,6 +38,10 @@ export default function AccountSettingsTab() {
         setIsEdit(false);
     }
 
+    useEffect(() => {
+        return () => dispatch(cleanError());
+    }, [dispatch]);
+
     return (
         <EditableCard
             title={ titleLabel }
@@ -44,6 +52,7 @@ export default function AccountSettingsTab() {
         >
             { !isEdit &&
             <Container>
+                {status === 'REJECTED' && <ErrorMessage errors={[error]} />}
                 <TextWithLabel label={nameLabel} text={user.name}/>
                 <TextWithLabel label={emailLabel} text={user.email}/>
                 <ResetPasswordButton userId={user._id}/>

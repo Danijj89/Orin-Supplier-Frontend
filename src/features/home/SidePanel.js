@@ -23,7 +23,7 @@ import {
 } from '@material-ui/icons';
 import FeatureInProgressTag from '../shared/displays/FeatureInProgressTag.js';
 import { useSelector } from 'react-redux';
-import { selectCurrentCompany, selectCurrentUser } from './duck/slice.js';
+import { selectCurrentCompany, selectCurrentUser } from './duck/selectors.js';
 
 const useStyles = makeStyles((theme) => ({
     root: {

@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { LANGUAGE } from '../../constants.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { addNewAddress } from './duck/thunks.js';
-import { selectCurrentCompany } from './duck/slice.js';
+import { selectCurrentCompany } from './duck/selectors.js';
 
 const {
     addAddressButtonLabel,
