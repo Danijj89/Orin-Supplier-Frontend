@@ -4,10 +4,11 @@ import { SESSION_COOKIE } from '../../app/sessionKeys.js';
 
 export default ({ component: Component, isPrivate, ...rest }) => {
     const signed = sessionStorage.getItem(SESSION_COOKIE);
-    if (isPrivate && !signed) {
+    const expired = new Date() > new Date(JSON.parse(signed));
+    if (isPrivate && expired) {
         return <Redirect to='/login' />
     }
-    if (!isPrivate && signed) {
+    if (!isPrivate && !expired) {
         return <Redirect to='/home' />
     }
     return (

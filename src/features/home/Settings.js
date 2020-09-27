@@ -14,7 +14,6 @@ export default function Settings({ match }) {
     const [tabValue, setTabValue] = useState(tab);
 
     const onTabChange = (e, newValue) => {
-        console.log(newValue);
         setTabValue(newValue);
         history.push(`/home/settings/${newValue}`);
     }
@@ -29,7 +28,7 @@ export default function Settings({ match }) {
             >
                 {tabs.map(tab => <Tab key={tab} label={tab} value={tab} component="span" />)}
             </Tabs>
-            { tabValue === tabs[0] && <AccountSettingsTab />}
+            { tabValue === tabs[0] && <AccountSettingsTab /> }
             { tabValue === tabs[2] && <CompanySettingsTab />}
         </Container>
 

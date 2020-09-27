@@ -34,11 +34,9 @@ export const ENGLISH = {
             }
         },
         accountSettingsTab: {
-            titleLabel: 'AccountSettingsTab preferences',
+            titleLabel: 'Account preferences',
             nameLabel: 'Your Name',
-            emailLabel: 'Email',
-            resetPasswordButtonLabel: 'Reset Password',
-            saveButtonLabel: 'Save'
+            emailLabel: 'Email'
         },
         companySettingsTab: {
             addressesTitleLabel: 'Addresses',
@@ -53,7 +51,7 @@ export const ENGLISH = {
                 phone: 'Phone'
             }
         },
-        newAddressDialogButton: {
+        newAddressButton: {
             addAddressButtonLabel: 'Add Address',
             newAddressTitleLabel: 'New Address',
             typeLabel: 'Address Type',
@@ -68,6 +66,14 @@ export const ENGLISH = {
             emailLabel: 'Email',
             cancelButtonLabel: 'Cancel',
             saveButtonLabel: 'Create Address'
+        },
+        resetPasswordButton: {
+            buttonLabel: 'Reset Password',
+            dialogTitle: 'Reset Password',
+            confirmButtonLabel: 'Reset',
+            passwordLabel: 'Old Password',
+            newPasswordLabel: 'New Password',
+            confirmPasswordLabel: 'Confirm Password'
         }
     },
     order: {
@@ -168,9 +174,6 @@ export const ENGLISH = {
                 'Are you sure you want to delete this document?',
             deleteDocumentButtonCancel: 'Cancel',
             deleteDocumentButtonConfirm: 'Delete',
-        },
-        orderInfoCard: {
-            editButton: 'Edit',
         },
         orderProductTable: {
             tableTitleLabel: 'Product Table',
@@ -278,6 +281,15 @@ export const ENGLISH = {
         }
     },
     shared: {
+        components: {
+            editableCard: {
+                editButtonLabel: 'Edit'
+            },
+            buttonWithDialog: {
+                cancelLabel: 'Cancel',
+                confirmLabel: 'Confirm'
+            }
+        },
         downloadButton: {
             buttonText: 'Download',
             dialogTitle: 'Select the file type to download',

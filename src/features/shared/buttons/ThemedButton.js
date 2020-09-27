@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function ThemedButton({ text, styles, children, variant = 'contained', ...props}) {
+export default function ThemedButton({ label, styles, children, variant = 'contained', ...props}) {
     const classes = useStyles();
     const style = () => {
         if (variant === 'outlined') return classes.outlined;
@@ -41,7 +41,7 @@ export default function ThemedButton({ text, styles, children, variant = 'contai
             variant={variant}
             {...props}
         >
-            { text }
+            { label }
             { children }
         </Button>
     )
