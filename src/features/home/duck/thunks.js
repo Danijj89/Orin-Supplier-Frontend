@@ -53,3 +53,14 @@ export const updateAddress = createAsyncThunk('home/updateAddress',
             return rejectWithValue(err.response.data);
         }
     });
+
+export const updateDefaultAddress = createAsyncThunk('home/updateDefaultAddress',
+    async (data, { rejectWithValue }) => {
+        try {
+            const { companyId, addressId } = data;
+            await CompanyService.updateDefaultAddress(companyId, addressId);
+            return addressId;
+        } catch (err) {
+            return rejectWithValue(err.response.data);
+        }
+    });

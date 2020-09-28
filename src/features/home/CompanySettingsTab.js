@@ -17,7 +17,7 @@ import EditableCard from '../shared/components/EditableCard.js';
 import { selectCurrentCompany, selectError, selectStatus } from './duck/selectors.js';
 import { makeStyles } from '@material-ui/core/styles';
 import DeleteButton from '../shared/buttons/DeleteButton.js';
-import { addNewAddress, deleteAddress, updateAddress } from './duck/thunks.js';
+import { addNewAddress, deleteAddress, updateAddress, updateDefaultAddress } from './duck/thunks.js';
 import ErrorMessage from '../shared/displays/ErrorMessage.js';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { Edit as IconEdit } from '@material-ui/icons';
@@ -66,7 +66,7 @@ export default function CompanySettingsTab() {
         dispatch(addNewAddress(rest));
     };
 
-    const onSetDefaultAddress = (addressId) => dispatch(updateAddress({ companyId: company._id, addressId}));
+    const onSetDefaultAddress = (addressId) => dispatch(updateDefaultAddress({ companyId: company._id, addressId}));
 
     return (
         <>
@@ -137,7 +137,7 @@ export default function CompanySettingsTab() {
                                             <TableCell>
                                                 {company.defaultAddress === address._id
                                                     ? <ThemedButton disabled>{defaultAddressButtonLabel}</ThemedButton>
-                                                    : <ThemedButton onClick={onSetDefaultAddress}>{setDefaultButtonLabel}</ThemedButton>
+                                                    : <ThemedButton onClick={() => onSetDefaultAddress(address._id)}>{setDefaultButtonLabel}</ThemedButton>
                                                 }
                                             </TableCell>
                                         </TableRow>
