@@ -38,11 +38,21 @@ const updateDefaultAddress = async (companyId, addressId) => {
     return data;
 };
 
+const fetchCompany = async (id) => {
+    const configs = {
+        method: 'get',
+        url: `companies/${id}`,
+    };
+    const { data } = await fetchWithAuth(configs);
+    return data;
+};
+
 const CompanyService = {
     addNewAddress,
     deleteAddress,
     updateAddress,
-    updateDefaultAddress
+    updateDefaultAddress,
+    fetchCompany
 };
 
 export default CompanyService;

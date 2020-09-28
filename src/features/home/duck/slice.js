@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { SESSION_APP_DEFAULTS, SESSION_COMPANY, SESSION_USER } from '../../../app/sessionKeys.js';
 import {
     addNewAddress,
-    deleteAddress,
+    deleteAddress, fetchCompany,
     resetPassword,
     updateAddress,
     updateCurrentUser,
@@ -11,8 +11,8 @@ import {
 
 const initialState = {
     user: JSON.parse(sessionStorage.getItem(SESSION_USER)),
-    company: JSON.parse(sessionStorage.getItem(SESSION_COMPANY)),
     defaults: JSON.parse(sessionStorage.getItem(SESSION_APP_DEFAULTS)),
+    company: null,
     status: 'IDLE',
     error: null,
 };
@@ -22,9 +22,8 @@ const homeSlice = createSlice({
     initialState,
     reducers: {
         setSessionInfo: (state, action) => {
-            const { user, company, defaults } = action.payload
+            const { user, defaults } = action.payload
             state.user = user;
-            state.company = company;
             state.defaults = defaults;
         },
         cleanError: (state, action) => {
@@ -51,7 +50,6 @@ const homeSlice = createSlice({
         [addNewAddress.fulfilled]: (state, action) => {
             const { addresses } = action.payload;
             state.company.addresses = addresses;
-            sessionStorage.setItem(SESSION_COMPANY, JSON.stringify(state.company));
             state.status = 'IDLE';
         },
         [addNewAddress.rejected]: (state, action) => {
@@ -74,7 +72,6 @@ const homeSlice = createSlice({
         [deleteAddress.fulfilled]: (state, action) => {
             const id = action.payload;
             state.company.addresses = state.company.addresses.filter(add => add._id !== id);
-            sessionStorage.setItem(SESSION_COMPANY, JSON.stringify(state.company));
             state.status = 'IDLE';
         },
         [deleteAddress.rejected]: (state, action) => {
@@ -87,7 +84,6 @@ const homeSlice = createSlice({
         [updateAddress.fulfilled]: (state, action) => {
             const { id, ...newAddress } = action.payload;
             state.company.addresses = state.company.addresses.map(address => address._id === id ? newAddress : address);
-            sessionStorage.setItem(SESSION_COMPANY, JSON.stringify(state.company));
             state.status = 'IDLE';
         },
         [updateAddress.rejected]: (state, action) => {
@@ -99,10 +95,20 @@ const homeSlice = createSlice({
         },
         [updateDefaultAddress.fulfilled]: (state, action) => {
             state.company.defaultAddress = action.payload;
-            sessionStorage.setItem(SESSION_COMPANY, JSON.stringify(state.company));
             state.status = 'IDLE';
         },
         [updateDefaultAddress.rejected]: (state, action) => {
+            state.status = 'REJECTED';
+            state.error = action.payload.message;
+        },
+        [fetchCompany.pending]: (state, action) => {
+            state.status = 'PENDING';
+        },
+        [fetchCompany.fulfilled]: (state, action) => {
+            state.company = action.payload;
+            state.status = 'FULFILLED';
+        },
+        [fetchCompany.rejected]: (state, action) => {
             state.status = 'REJECTED';
             state.error = action.payload.message;
         }

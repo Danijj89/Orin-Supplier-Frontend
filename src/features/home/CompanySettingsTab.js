@@ -44,10 +44,9 @@ const { addressesTitleLabel,
     newAddressButtonLabel
 } = LANGUAGE.home.companySettingsTab;
 
-export default function CompanySettingsTab() {
+export default function CompanySettingsTab({ company }) {
     const classes = useStyles();
     const dispatch = useDispatch();
-    const company = useSelector(selectCurrentCompany);
     const status = useSelector(selectStatus);
     const error = useSelector(selectError);
     const [isEdit, setIsEdit] = useState(false);

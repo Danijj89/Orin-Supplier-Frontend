@@ -94,12 +94,11 @@ export default function LoginPage() {
     const onSignInClick = async (data) => {
         setError(null);
         try {
-            const { user, company, defaults, expires } = await AppService.signIn(data);
+            const { user, defaults, expires } = await AppService.signIn(data);
             sessionStorage.setItem(SESSION_COOKIE, JSON.stringify(new Date(Date.now() + expires)));
-            sessionStorage.setItem(SESSION_COMPANY, JSON.stringify(company));
             sessionStorage.setItem(SESSION_USER, JSON.stringify(user));
             sessionStorage.setItem(SESSION_APP_DEFAULTS, JSON.stringify(defaults));
-            dispatch(setSessionInfo({ user, company, defaults }));
+            dispatch(setSessionInfo({ user, defaults }));
             history.push('/home');
         } catch (err) {
             const { message } = err.response.data;
