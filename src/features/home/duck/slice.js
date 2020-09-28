@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { SESSION_APP_DEFAULTS, SESSION_COMPANY, SESSION_USER } from '../../../app/sessionKeys.js';
+import { SESSION_APP_DEFAULTS, SESSION_USER } from '../../../app/sessionKeys.js';
 import {
     addNewAddress,
     deleteAddress, fetchCompany,

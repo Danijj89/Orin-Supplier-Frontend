@@ -7,15 +7,14 @@ import { updateCurrentUser } from './duck/thunks.js';
 import EditableCard from '../shared/components/EditableCard.js';
 import TextWithLabel from '../shared/displays/TextWithLabel.js';
 import ResetPasswordButton from './ResetPasswordButton.js';
-import { selectCurrentUser, selectError, selectStatus } from './duck/selectors.js';
+import { selectError, selectStatus } from './duck/selectors.js';
 import ErrorMessage from '../shared/displays/ErrorMessage.js';
 import { cleanError } from './duck/slice.js';
 
 const { titleLabel, nameLabel, emailLabel } = LANGUAGE.home.accountSettingsTab;
 
-export default function AccountSettingsTab() {
+export default function AccountSettingsTab({ user }) {
     const dispatch = useDispatch();
-    const user = useSelector(selectCurrentUser);
     const status = useSelector(selectStatus);
     const error = useSelector(selectError);
     const [isEdit, setIsEdit] = useState(false);

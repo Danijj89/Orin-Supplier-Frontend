@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { LANGUAGE } from '../../constants.js';
 import AddressDialogButton from './AddressDialogButton.js';
 import EditableCard from '../shared/components/EditableCard.js';
-import { selectCurrentCompany, selectError, selectStatus } from './duck/selectors.js';
+import { selectError, selectStatus } from './duck/selectors.js';
 import { makeStyles } from '@material-ui/core/styles';
 import DeleteButton from '../shared/buttons/DeleteButton.js';
 import { addNewAddress, deleteAddress, updateAddress, updateDefaultAddress } from './duck/thunks.js';

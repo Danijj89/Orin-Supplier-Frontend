@@ -11,11 +11,7 @@ import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { useForm } from 'react-hook-form';
 import { makeStyles } from '@material-ui/core/styles';
 import loginImg from '../../images/login.png';
-import {
-    SESSION_APP_DEFAULTS,
-    SESSION_COMPANY, SESSION_COOKIE,
-    SESSION_USER
-} from '../../app/sessionKeys.js';
+import { SESSION_APP_DEFAULTS, SESSION_COOKIE, SESSION_USER } from '../../app/sessionKeys.js';
 
 const {
     title, emailLabel, errorMessages,
