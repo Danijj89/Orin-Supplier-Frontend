@@ -55,7 +55,7 @@ export default function CompanySettingsTab() {
     const onEdit = () => setIsEdit(true);
     const onEditCancel = () => setIsEdit(false);
 
-    const onDeleteAddress = (companyId, addressId) => dispatch(deleteAddress({ companyId, addressId }));
+    const onDeleteAddress = (addressId) => dispatch(deleteAddress({ companyId: company._id, addressId }));
     const onEditAddressConfirm = (data) => {
         data.companyId = company._id;
         dispatch(updateAddress(data));
@@ -65,6 +65,8 @@ export default function CompanySettingsTab() {
         rest.companyId = company._id;
         dispatch(addNewAddress(rest));
     };
+
+    const onSetDefaultAddress = (addressId) => dispatch(updateAddress({ companyId: company._id, addressId}));
 
     return (
         <>
@@ -105,11 +107,11 @@ export default function CompanySettingsTab() {
                                     { company.addresses.map((address, index) => (
                                         <TableRow key={ index }>
                                             <TableCell>
-                                                { company.defaultIdx === index
+                                                { company.defaultAddress === address._id
                                                     ? null
                                                     : <DeleteButton
                                                         deleteMessage={ deleteDialogTitle }
-                                                        onDeleteClick={ () => onDeleteAddress(company._id, address._id) }
+                                                        onDeleteClick={ () => onDeleteAddress(address._id) }
                                                     />
                                                 }
                                             </TableCell>
@@ -133,9 +135,9 @@ export default function CompanySettingsTab() {
                                                 </AddressDialogButton>
                                             </TableCell>
                                             <TableCell>
-                                                {company.defaultIdx === index
+                                                {company.defaultAddress === address._id
                                                     ? <ThemedButton disabled>{defaultAddressButtonLabel}</ThemedButton>
-                                                    : <ThemedButton>{setDefaultButtonLabel}</ThemedButton>
+                                                    : <ThemedButton onClick={onSetDefaultAddress}>{setDefaultButtonLabel}</ThemedButton>
                                                 }
                                             </TableCell>
                                         </TableRow>

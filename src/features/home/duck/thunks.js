@@ -52,4 +52,4 @@ export const updateAddress = createAsyncThunk('home/updateAddress',
         } catch (err) {
             return rejectWithValue(err.response.data);
         }
-    })
+    });
