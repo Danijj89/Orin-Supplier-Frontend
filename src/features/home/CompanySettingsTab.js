@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     Card,
     Typography,
@@ -19,6 +19,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { addNewAddress, deleteAddress, updateAddress, updateDefaultAddress } from './duck/thunks.js';
 import ErrorMessage from '../shared/displays/ErrorMessage.js';
 import AddressTableRow from './AddressTableRow.js';
+import { cleanError } from './duck/slice.js';
 
 const useStyles = makeStyles((theme) => ({
     top: {
@@ -48,18 +49,28 @@ export default function CompanySettingsTab({ company }) {
     const onEdit = () => setIsEdit(true);
     const onEditCancel = () => setIsEdit(false);
 
-    const onDeleteAddress = (addressId) => dispatch(deleteAddress({ companyId: company._id, addressId }));
+    const onDeleteAddress = (addressId) =>
+        dispatch(deleteAddress({ companyId: company._id, addressId }));
+
     const onEditAddressConfirm = (data) => {
         data.companyId = company._id;
         dispatch(updateAddress(data));
     };
+
     const onAddAddressConfirm = (data) => {
         const { id, ...rest } = data;
         rest.companyId = company._id;
         dispatch(addNewAddress(rest));
     };
 
-    const onSetDefaultAddress = (addressId) => dispatch(updateDefaultAddress({ companyId: company._id, addressId}));
+    const onSetDefaultAddress = (addressId) =>
+        dispatch(updateDefaultAddress({ companyId: company._id, addressId}));
+
+    useEffect(() => {
+        if (status === 'REJECTED') {
+            return () => dispatch(cleanError());
+        }
+    }, [dispatch, status]);
 
     return (
         <>

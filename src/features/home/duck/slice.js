@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { SESSION_APP_DEFAULTS, SESSION_USER } from '../../../app/sessionKeys.js';
 import {
     addNewAddress,
-    deleteAddress, fetchCompany,
+    deleteAddress, fetchCompany, fetchUsersByCompanyId,
     resetPassword,
     updateAddress,
     updateCurrentUser,
@@ -13,6 +13,7 @@ const initialState = {
     user: JSON.parse(sessionStorage.getItem(SESSION_USER)),
     defaults: JSON.parse(sessionStorage.getItem(SESSION_APP_DEFAULTS)),
     company: null,
+    companyUsers: [],
     status: 'IDLE',
     error: null,
 };
@@ -38,7 +39,6 @@ const homeSlice = createSlice({
         [updateCurrentUser.fulfilled]: (state, action) => {
             state.user = action.payload;
             sessionStorage.setItem(SESSION_USER, JSON.stringify(state.user));
-            state.status = 'IDLE';
         },
         [updateCurrentUser.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -50,7 +50,6 @@ const homeSlice = createSlice({
         [addNewAddress.fulfilled]: (state, action) => {
             const { addresses } = action.payload;
             state.company.addresses = addresses;
-            state.status = 'IDLE';
         },
         [addNewAddress.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -58,9 +57,6 @@ const homeSlice = createSlice({
         },
         [resetPassword.pending]: (state, action) => {
             state.status = 'PENDING';
-        },
-        [resetPassword.fulfilled]: (state, action) => {
-            state.status = 'IDLE';
         },
         [resetPassword.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -72,7 +68,6 @@ const homeSlice = createSlice({
         [deleteAddress.fulfilled]: (state, action) => {
             const id = action.payload;
             state.company.addresses = state.company.addresses.filter(add => add._id !== id);
-            state.status = 'IDLE';
         },
         [deleteAddress.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -84,7 +79,6 @@ const homeSlice = createSlice({
         [updateAddress.fulfilled]: (state, action) => {
             const { id, ...newAddress } = action.payload;
             state.company.addresses = state.company.addresses.map(address => address._id === id ? newAddress : address);
-            state.status = 'IDLE';
         },
         [updateAddress.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -95,7 +89,6 @@ const homeSlice = createSlice({
         },
         [updateDefaultAddress.fulfilled]: (state, action) => {
             state.company.defaultAddress = action.payload;
-            state.status = 'IDLE';
         },
         [updateDefaultAddress.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -109,6 +102,17 @@ const homeSlice = createSlice({
             state.status = 'FULFILLED';
         },
         [fetchCompany.rejected]: (state, action) => {
+            state.status = 'REJECTED';
+            state.error = action.payload.message;
+        },
+        [fetchUsersByCompanyId.pending]: (state, action) => {
+            state.status = 'PENDING';
+        },
+        [fetchUsersByCompanyId.fulfilled]: (state, action) => {
+            state.companyUsers = action.payload;
+            state.status = 'FULFILLED';
+        },
+        [fetchUsersByCompanyId.rejected]: (state, action) => {
             state.status = 'REJECTED';
             state.error = action.payload.message;
         }

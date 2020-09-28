@@ -79,6 +79,10 @@ export const ENGLISH = {
             passwordLabel: 'Old Password',
             newPasswordLabel: 'New Password',
             confirmPasswordLabel: 'Confirm Password'
+        },
+        companyUsersSettingsTab: {
+            titleLabel: 'Colleagues preferences',
+            inviteButtonLabel: 'invite new'
         }
     },
     order: {

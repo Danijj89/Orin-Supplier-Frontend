@@ -38,8 +38,10 @@ export default function AccountSettingsTab({ user }) {
     }
 
     useEffect(() => {
-        return () => dispatch(cleanError());
-    }, [dispatch]);
+        if (status === 'REJECTED') {
+            return () => dispatch(cleanError());
+        }
+    }, [dispatch, status]);
 
     return (
         <EditableCard
@@ -47,29 +49,29 @@ export default function AccountSettingsTab({ user }) {
             isEdit={ isEdit }
             onEdit={ onEdit }
             onCancel={ onCancel }
-            onConfirm={handleSubmit(onSave)}
+            onConfirm={ handleSubmit(onSave) }
         >
             { !isEdit &&
             <Container>
-                {status === 'REJECTED' && <ErrorMessage errors={[error]} />}
-                <TextWithLabel label={nameLabel} text={user.name}/>
-                <TextWithLabel label={emailLabel} text={user.email}/>
-                <ResetPasswordButton userId={user._id}/>
+                { status === 'REJECTED' && <ErrorMessage errors={ [error] }/> }
+                <TextWithLabel label={ nameLabel } text={ user.name }/>
+                <TextWithLabel label={ emailLabel } text={ user.email }/>
+                <ResetPasswordButton userId={ user._id }/>
             </Container> }
             { isEdit &&
             <Container>
                 <TextField
-                    label={nameLabel}
+                    label={ nameLabel }
                     name="name"
-                    inputRef={ register({ required: true})}
-                    error={ !!errors.name}
+                    inputRef={ register({ required: true }) }
+                    error={ !!errors.name }
                     autoFocus
                 />
                 <TextField
-                    label={emailLabel}
+                    label={ emailLabel }
                     name="email"
-                    inputRef={ register({ required: true})}
-                    error={ !!errors.email}
+                    inputRef={ register({ required: true }) }
+                    error={ !!errors.email }
                 />
             </Container> }
         </EditableCard>
