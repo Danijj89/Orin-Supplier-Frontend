@@ -10,11 +10,13 @@ const useStyles = makeStyles((theme) => ({
             color: theme.palette.primary.light,
             backgroundColor: theme.palette.secondary.main,
             borderColor: theme.palette.primary.light
-        }
+        },
+        whiteSpace: 'nowrap'
     },
     text: {
         color: theme.palette.primary.main,
-        borderColor: 'white'
+        borderColor: 'white',
+        whiteSpace: 'nowrap'
     },
     contained: {
         color: theme.palette.secondary.main,
@@ -24,7 +26,8 @@ const useStyles = makeStyles((theme) => ({
             color: theme.palette.secondary.main,
             backgroundColor: theme.palette.primary.light,
             borderColor: theme.palette.primary.main
-        }
+        },
+        whiteSpace: 'nowrap'
     }
 }));
 

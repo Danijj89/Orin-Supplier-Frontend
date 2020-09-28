@@ -16,11 +16,9 @@ import AddressDialogButton from './AddressDialogButton.js';
 import EditableCard from '../shared/components/EditableCard.js';
 import { selectError, selectStatus } from './duck/selectors.js';
 import { makeStyles } from '@material-ui/core/styles';
-import DeleteButton from '../shared/buttons/DeleteButton.js';
 import { addNewAddress, deleteAddress, updateAddress, updateDefaultAddress } from './duck/thunks.js';
 import ErrorMessage from '../shared/displays/ErrorMessage.js';
-import ThemedButton from '../shared/buttons/ThemedButton.js';
-import { Edit as IconEdit } from '@material-ui/icons';
+import AddressTableRow from './AddressTableRow.js';
 
 const useStyles = makeStyles((theme) => ({
     top: {
@@ -31,14 +29,10 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const { addressesTitleLabel,
+const {
+    addressesTitleLabel,
     addressTableHeadersMap,
-    deleteDialogTitle,
-    defaultAddressButtonLabel,
-    setDefaultButtonLabel,
     addressDialogCancelLabel,
-    editAddressDialogConfirmLabel,
-    editAddressDialogTitleLabel,
     newAddressDialogConfirmLabel,
     newAddressDialogTitleLabel,
     newAddressButtonLabel
@@ -104,42 +98,14 @@ export default function CompanySettingsTab({ company }) {
                                 </TableHead>
                                 <TableBody>
                                     { company.addresses.map((address, index) => (
-                                        <TableRow key={ index }>
-                                            <TableCell>
-                                                { company.defaultAddress === address._id
-                                                    ? null
-                                                    : <DeleteButton
-                                                        deleteMessage={ deleteDialogTitle }
-                                                        onDeleteClick={ () => onDeleteAddress(address._id) }
-                                                    />
-                                                }
-                                            </TableCell>
-                                            <TableCell>{ address.type }</TableCell>
-                                            <TableCell>{ address.name }</TableCell>
-                                            <TableCell>{ address.address }</TableCell>
-                                            <TableCell>{ address.city }</TableCell>
-                                            <TableCell>{ address.administrative }</TableCell>
-                                            <TableCell>{ address.country }</TableCell>
-                                            <TableCell>{ address.zip }</TableCell>
-                                            <TableCell>{ address.phone }</TableCell>
-                                            <TableCell>
-                                                <AddressDialogButton
-                                                    address={address}
-                                                    cancelButtonLabel={addressDialogCancelLabel}
-                                                    dialogTitle={editAddressDialogTitleLabel}
-                                                    confirmButtonLabel={editAddressDialogConfirmLabel}
-                                                    onConfirm={onEditAddressConfirm}
-                                                >
-                                                    <IconEdit fontSize="small"/>
-                                                </AddressDialogButton>
-                                            </TableCell>
-                                            <TableCell>
-                                                {company.defaultAddress === address._id
-                                                    ? <ThemedButton disabled>{defaultAddressButtonLabel}</ThemedButton>
-                                                    : <ThemedButton onClick={() => onSetDefaultAddress(address._id)}>{setDefaultButtonLabel}</ThemedButton>
-                                                }
-                                            </TableCell>
-                                        </TableRow>
+                                        <AddressTableRow
+                                            key={address._id}
+                                            defaultAddress={company.defaultAddress}
+                                            address={address}
+                                            onDeleteAddress={() => onDeleteAddress(address._id)}
+                                            onEditAddressConfirm={onEditAddressConfirm}
+                                            onSetDefaultAddress={() => onSetDefaultAddress(address._id)}
+                                        />
                                     )) }
                                 </TableBody>
                             </Table>
