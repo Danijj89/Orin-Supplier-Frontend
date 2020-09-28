@@ -15,7 +15,9 @@ export default function ButtonWithDialog(
         confirmButtonLabel = confirmLabel,
         buttonVariant = 'contained',
         buttonStyle,
-        isError
+        isError,
+        disabled,
+        ...props
     }) {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -30,7 +32,13 @@ export default function ButtonWithDialog(
 
     return (
         <Box>
-            <ThemedButton onClick={ onButtonClick } variant={buttonVariant} styles={buttonStyle}>
+            <ThemedButton
+                onClick={ onButtonClick }
+                variant={buttonVariant}
+                styles={buttonStyle}
+                disabled={disabled}
+                {...props}
+            >
                 { buttonLabel }
             </ThemedButton>
             <Dialog onClose={ onCancel } open={ isDialogOpen }>

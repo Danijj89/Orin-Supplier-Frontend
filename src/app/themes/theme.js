@@ -20,7 +20,7 @@ let appTheme = createMuiTheme({
         backgroundSecondary: {
             main: '#F1F1F1',
         },
-    },
+    }
 });
 appTheme = responsiveFontSizes(appTheme);
 

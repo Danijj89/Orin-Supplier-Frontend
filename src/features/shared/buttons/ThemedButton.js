@@ -34,7 +34,7 @@ export default function ThemedButton({ styles, children, variant = 'contained', 
         if (variant === 'outlined') return classes.outlined;
         if (variant === 'contained') return classes.contained;
         if (variant === 'text') return classes.text;
-    }
+    };
     return (
         <Button
             className={ `${ classes.button } ${ style() } ${ styles }` }

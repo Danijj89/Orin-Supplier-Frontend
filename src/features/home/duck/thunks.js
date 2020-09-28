@@ -3,9 +3,13 @@ import UserService from '../../api/UserService.js';
 import CompanyService from '../../api/CompanyService.js';
 
 export const updateCurrentUser = createAsyncThunk('home/updateCurrentUser',
-    async (data) => {
+    async (data, { rejectWithValue }) => {
         const { id, ...update } = data;
-        return await UserService.updateUser(id, update);
+        try {
+            return await UserService.updateUser(id, update);
+        } catch (err) {
+            return rejectWithValue(err.response.data);
+        }
     });
 
 export const resetPassword = createAsyncThunk('home/resetPassword',
@@ -19,8 +23,33 @@ export const resetPassword = createAsyncThunk('home/resetPassword',
     });
 
 export const addNewAddress = createAsyncThunk('home/addNewAddress',
-    async (data) => {
-        const { id, ...address } = data;
-        await CompanyService.addNewAddress(id, address);
-        return address;
+    async (data, { rejectWithValue }) => {
+        const { companyId, ...address } = data;
+        try {
+            return await CompanyService.addNewAddress(companyId, address);
+        } catch (err) {
+            return rejectWithValue(err.response.data);
+        }
     });
+
+export const deleteAddress = createAsyncThunk('home/deleteAddress',
+    async (data, { rejectWithValue }) => {
+        try {
+            const { companyId, addressId } = data;
+            await CompanyService.deleteAddress(companyId, addressId);
+            return addressId;
+        } catch (err) {
+            return rejectWithValue(err.response.data);
+        }
+    });
+
+export const updateAddress = createAsyncThunk('home/updateAddress',
+    async (data, { rejectWithValue }) => {
+        try {
+            const { companyId, id, ...update } = data;
+            await CompanyService.updateAddress(companyId, id, update);
+            return { id, ...update };
+        } catch (err) {
+            return rejectWithValue(err.response.data);
+        }
+    })

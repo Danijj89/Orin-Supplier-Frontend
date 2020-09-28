@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { SESSION_APP_DEFAULTS, SESSION_COMPANY, SESSION_USER } from '../../../app/sessionKeys.js';
-import { addNewAddress, resetPassword, updateCurrentUser } from './thunks.js';
+import { addNewAddress, deleteAddress, resetPassword, updateAddress, updateCurrentUser } from './thunks.js';
 
 const initialState = {
     user: JSON.parse(sessionStorage.getItem(SESSION_USER)),
@@ -36,19 +36,20 @@ const homeSlice = createSlice({
         },
         [updateCurrentUser.rejected]: (state, action) => {
             state.status = 'REJECTED';
-            state.error = action.error.message;
+            state.error = action.payload.message;
         },
         [addNewAddress.pending]: (state, action) => {
             state.status = 'PENDING';
         },
         [addNewAddress.fulfilled]: (state, action) => {
-            state.company.addresses.push(action.payload);
+            const { addresses } = action.payload;
+            state.company.addresses = addresses;
             sessionStorage.setItem(SESSION_COMPANY, JSON.stringify(state.company));
             state.status = 'IDLE';
         },
         [addNewAddress.rejected]: (state, action) => {
             state.status = 'REJECTED';
-            state.error = action.error.message;
+            state.error = action.payload.message;
         },
         [resetPassword.pending]: (state, action) => {
             state.status = 'PENDING';
@@ -57,6 +58,32 @@ const homeSlice = createSlice({
             state.status = 'IDLE';
         },
         [resetPassword.rejected]: (state, action) => {
+            state.status = 'REJECTED';
+            state.error = action.payload.message;
+        },
+        [deleteAddress.pending]: (state, action) => {
+            state.status = 'PENDING';
+        },
+        [deleteAddress.fulfilled]: (state, action) => {
+            const id = action.payload;
+            state.company.addresses = state.company.addresses.filter(add => add._id !== id);
+            sessionStorage.setItem(SESSION_COMPANY, JSON.stringify(state.company));
+            state.status = 'IDLE';
+        },
+        [deleteAddress.rejected]: (state, action) => {
+            state.status = 'REJECTED';
+            state.error = action.payload.message;
+        },
+        [updateAddress.pending]: (state, action) => {
+            state.status = 'PENDING';
+        },
+        [updateAddress.fulfilled]: (state, action) => {
+            const { id, ...newAddress } = action.payload;
+            state.company.addresses = state.company.addresses.map(address => address._id === id ? newAddress : address);
+            sessionStorage.setItem(SESSION_COMPANY, JSON.stringify(state.company));
+            state.status = 'IDLE';
+        },
+        [updateAddress.rejected]: (state, action) => {
             state.status = 'REJECTED';
             state.error = action.payload.message;
         }

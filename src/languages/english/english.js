@@ -50,11 +50,17 @@ export const ENGLISH = {
                 zip: 'Zip',
                 phone: 'Phone'
             },
-            deleteDialogTitle: 'Are you sure you want to delete this address?'
+            deleteDialogTitle: 'Are you sure you want to delete this address?',
+            defaultAddressButtonLabel: 'Default',
+            setDefaultButtonLabel: 'Set Default',
+            newAddressButtonLabel: 'New Address',
+            addressDialogCancelLabel: 'Cancel',
+            newAddressDialogConfirmLabel: 'Create Address',
+            editAddressDialogConfirmLabel: 'Update Address',
+            newAddressDialogTitleLabel: 'New Address',
+            editAddressDialogTitleLabel: 'Edit Address'
         },
         newAddressButton: {
-            addAddressButtonLabel: 'Add Address',
-            newAddressTitleLabel: 'New Address',
             typeLabel: 'Address Type',
             nameLabel: 'Company Name',
             addressLabel: 'Address line 1',
@@ -65,8 +71,6 @@ export const ENGLISH = {
             zipLabel: 'Zip',
             phoneLabel: 'Phone',
             emailLabel: 'Email',
-            cancelButtonLabel: 'Cancel',
-            saveButtonLabel: 'Create Address'
         },
         resetPasswordButton: {
             buttonLabel: 'Reset Password',

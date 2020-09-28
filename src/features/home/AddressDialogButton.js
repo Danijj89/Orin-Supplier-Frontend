@@ -1,15 +1,10 @@
 import React, { useState } from 'react';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
-import { Dialog, DialogActions, DialogContent, DialogTitle, Divider, Paper, TextField } from '@material-ui/core';
+import { Dialog, DialogActions, DialogContent, DialogTitle, Divider, TextField } from '@material-ui/core';
 import { useForm } from 'react-hook-form';
 import { LANGUAGE } from '../../constants.js';
-import { useDispatch, useSelector } from 'react-redux';
-import { addNewAddress } from './duck/thunks.js';
-import { selectCurrentCompany } from './duck/selectors.js';
 
 const {
-    addAddressButtonLabel,
-    newAddressTitleLabel,
     typeLabel,
     nameLabel,
     addressLabel,
@@ -19,37 +14,45 @@ const {
     countryLabel,
     zipLabel,
     phoneLabel,
-    emailLabel,
-    cancelButtonLabel,
-    saveButtonLabel
+    emailLabel
 } = LANGUAGE.home.newAddressButton;
 
-export default function NewAddressDialogButton() {
-    const dispatch = useDispatch();
-    const { _id } = useSelector(selectCurrentCompany);
+export default function AddressDialogButton(
+    { children, cancelButtonLabel, confirmButtonLabel, onConfirm, address, dialogTitle, ...props }) {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 
     const { register, errors, handleSubmit } = useForm({
-        mode: 'onSubmit'
+        mode: 'onSubmit',
+        defaultValues: {
+            id: address?._id,
+            type: address?.type,
+            name: address?.name,
+            address: address?.address,
+            address2: address?.address2,
+            city: address?.city,
+            administrative: address?.administrative,
+            country: address?.country,
+            zip: address?.zip,
+            phone: address?.phone,
+            email: address?.email
+        }
     });
 
     const onAddAddress = () => setIsDialogOpen(true);
     const onAddressDialogCancel = () => setIsDialogOpen(false);
     const onCreateAddress = (data) => {
-        data.id = _id;
-        dispatch(addNewAddress(data));
+        onConfirm(data);
         setIsDialogOpen(false);
-    }
+    };
 
     return (
         <>
-            <ThemedButton
-                text={ addAddressButtonLabel }
-                onClick={ onAddAddress }
-            />
+            <ThemedButton onClick={ onAddAddress } {...props}>
+                { children }
+            </ThemedButton>
             <Dialog onClose={ onAddressDialogCancel } open={ isDialogOpen }>
                 <form onSubmit={handleSubmit(onCreateAddress)}>
-                    <DialogTitle>{ newAddressTitleLabel }</DialogTitle>
+                    <DialogTitle>{ dialogTitle }</DialogTitle>
                     <Divider/>
                     <DialogContent>
                         <TextField
@@ -123,8 +126,8 @@ export default function NewAddressDialogButton() {
                         />
                     </DialogContent>
                     <DialogActions>
-                        <ThemedButton text={ cancelButtonLabel } onClick={ onAddressDialogCancel }/>
-                        <ThemedButton text={ saveButtonLabel } type="submit"/>
+                        <ThemedButton onClick={ onAddressDialogCancel }>{cancelButtonLabel}</ThemedButton>
+                        <ThemedButton type="submit">{confirmButtonLabel}</ThemedButton>
                     </DialogActions>
                 </form>
             </Dialog>
