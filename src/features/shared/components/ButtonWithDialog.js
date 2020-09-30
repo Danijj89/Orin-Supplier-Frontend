@@ -41,7 +41,7 @@ export default function ButtonWithDialog(
             >
                 { buttonLabel }
             </ThemedButton>
-            <Dialog onClose={ onCancel } open={ isDialogOpen }>
+            <Dialog open={ isDialogOpen }>
                 <DialogTitle>{ dialogTitle }</DialogTitle>
                 <Divider/>
                 <DialogContent>
