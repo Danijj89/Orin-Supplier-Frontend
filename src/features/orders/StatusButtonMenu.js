@@ -10,7 +10,7 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 import { FiberManualRecord as IconCircle } from '@material-ui/icons';
 import { LANGUAGE } from '../../constants.js';
-import { orderStatuses } from '../shared/constants.js';
+import { orderStatusesOptions } from '../shared/constants.js';
 
 const { orderStatusLabelsMap } = LANGUAGE.shared.statusButtonMenu;
 
@@ -42,7 +42,7 @@ export default function StatusButtonMenu({
 }) {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = useState(null);
-    const { orderStatuses: statuses } = orderStatuses;
+    const { orderStatuses: statuses } = orderStatusesOptions;
 
     const getStatusColor = (status) => statusColors[status];
     const currentColor = getStatusColor(status);

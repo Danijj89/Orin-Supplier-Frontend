@@ -4,9 +4,10 @@ import { LANGUAGE } from '../../constants.js';
 import { useForm } from 'react-hook-form';
 import TextField from '../shared/inputs/TextField.js';
 import FormContainer from '../shared/components/FormContainer.js';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { createClient } from './duck/thunks.js';
-import { selectCompanyUsers } from '../home/duck/selectors.js';
+import RHFAutoComplete from '../shared/rhf/RHFAutocomplete.js';
+import { incotermOptions } from '../shared/constants.js';
 
 const {
     newClientButtonLabel,
@@ -20,21 +21,20 @@ const {
     newClientSourceLabel,
     newClientTaxNumberLabel,
     newClientConfirmButtonLabel
-} = LANGUAGE.client.clientOverview;
+} = LANGUAGE.client.clientOverview.clientFormButton;
 
-export default function ClientFormButton({ userId, companyId, client }) {
+export default function ClientFormButton({ userId, companyId, client, users }) {
     const dispatch = useDispatch();
-    const users = useSelector(selectCompanyUsers);
-    const { register, errors, formState, handleSubmit } = useForm({
+    const { register, errors, formState, handleSubmit, control } = useForm({
         mode: 'onSubmit',
         defaultValues: {
             name: client?.name,
-            assignedTo: client?.assignedTo,
+            assignedTo: client?.assignedTo || users.find(user => user._id === userId),
             contactName: client?.contact.name,
             contactEmail: client?.contact.email,
             taxNumber: client?.taxNumber,
             source: client?.source,
-            incoterm: client?.incoterm,
+            incoterm: client?.incoterm || 'FOB',
             payment: client?.payment,
             createdBy: userId,
             clientOf: companyId,
@@ -43,7 +43,10 @@ export default function ClientFormButton({ userId, companyId, client }) {
     });
 
     const onSubmit = (data) => {
-        dispatch(createClient(data))
+        const { contactName, contactEmail, ...client } = data;
+        client.assignedTo = client.assignedTo._id;
+        client.contacts = [{ name: contactName, email: contactEmail }];
+        dispatch(createClient(client))
     };
 
     return (
@@ -62,11 +65,15 @@ export default function ClientFormButton({ userId, companyId, client }) {
                     error={ !!errors.name }
                     required
                 />
-                <TextField
+                <RHFAutoComplete
                     name="assignedTo"
                     label={ newClientAssignedToLabel }
-                    inputRef={ register }
                     error={ !!errors.assignedTo }
+                    control={ control }
+                    rules={ { required: true } }
+                    options={ users }
+                    getOptionLabel={ option => option.name }
+                    defaultValue={ null }
                 />
                 <TextField
                     name="contactName"
@@ -92,11 +99,14 @@ export default function ClientFormButton({ userId, companyId, client }) {
                     inputRef={ register }
                     error={ !!errors.source }
                 />
-                <TextField
+                <RHFAutoComplete
                     name="incoterm"
                     label={ newClientIncotermLabel }
-                    inputRef={ register }
                     error={ !!errors.incoterm }
+                    control={ control }
+                    rules={ { required: true } }
+                    options={ incotermOptions }
+                    defaultValue={ null }
                 />
                 <TextField
                     name="payment"

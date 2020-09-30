@@ -23,9 +23,7 @@ const homeSlice = createSlice({
     initialState,
     reducers: {
         setSessionInfo: (state, action) => {
-            const user = action.payload
-            state.user = user;
-            state.company = user.company;
+            state.user = action.payload
         },
         cleanError: (state, action) => {
             state.status = 'IDLE';

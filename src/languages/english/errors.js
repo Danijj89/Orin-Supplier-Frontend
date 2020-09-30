@@ -5,5 +5,5 @@ export const ENGLISH_ERRORS = {
     DELETE_COMPANY_DEFAULT_ADDRESS: 'Unable to delete company address. Given address is the default address.',
     NO_ENTITY: `The current entity doesn't exist.`,
     PASSWORD_MISMATCH: 'Passwords don\'t match.',
-    DEFAULT: 'Error occurred. No customized error has been created.'
+    DEFAULT: 'Error occurred. Please try again later.'
 };

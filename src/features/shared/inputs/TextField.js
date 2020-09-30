@@ -56,10 +56,10 @@ export default function TextField({ label, labelPositionTop, required, ...props 
                 { required && <span className={ classes.required }>*</span> }
             </Typography>
             <MuiTextField
-                className={ styles }
-                InputProps={ { disableUnderline: true } }
-                required={ required }
                 { ...props }
+                className={ styles }
+                InputProps={ { ...props.InputProps, disableUnderline: true } }
+                required={ required }
             />
         </Box>
     )

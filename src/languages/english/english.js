@@ -197,18 +197,25 @@ export const ENGLISH = {
     },
     client: {
         clientOverview: {
-            newClientButtonLabel: 'New Client',
-            newClientDialogTitleLabel: 'Add new client',
-            newClientNameLabel: 'Company Name',
-            newClientAssignedToLabel: 'Assigned To',
-            newClientContactNameLabel: 'Primary Contact Name',
-            newClientContactEmailLabel: 'Primary Contact Email',
-            newClientTaxNumberLabel: 'Tax Number',
-            newClientSourceLabel: 'Source',
-            newClientIncotermLabel: 'Default Incoterm',
-            newClientPaymentTermLabel: 'Default Payment Term',
-            newClientConfirmButtonLabel: 'Add Client'
-        }
+            clientFormButton: {
+                newClientButtonLabel: 'New Client',
+                newClientDialogTitleLabel: 'Add new client',
+                newClientNameLabel: 'Company Name',
+                newClientAssignedToLabel: 'Assigned To',
+                newClientContactNameLabel: 'Primary Contact Name',
+                newClientContactEmailLabel: 'Primary Contact Email',
+                newClientTaxNumberLabel: 'Tax Number',
+                newClientSourceLabel: 'Source',
+                newClientIncotermLabel: 'Default Incoterm',
+                newClientPaymentTermLabel: 'Default Payment Term',
+                newClientConfirmButtonLabel: 'Add Client',
+            },
+            headers: {
+                name: 'Company Name',
+                contactName: 'Contact',
+
+            }
+        },
     },
     commercialInvoice: {
         createCI: {

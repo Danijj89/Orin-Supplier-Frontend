@@ -2,29 +2,44 @@ import React, { useEffect } from 'react';
 import { Grid } from '@material-ui/core';
 import ClientFormButton from './ClientFormButton.js';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectAllClients, selectError, selectStatus } from './duck/selectors.js';
+import { selectAllClients, selectStatus } from './duck/selectors.js';
 import { fetchClients } from './duck/thunks.js';
-import { selectCurrentUser } from '../home/duck/selectors.js';
+import { selectAutocompleteOptions, selectCurrentUser } from '../home/duck/selectors.js';
+import { DataGrid } from '@material-ui/data-grid';
+import { LANGUAGE } from '../../constants.js';
+
+const {} = LANGUAGE.client.clientOverview;
 
 export default function ClientOverview() {
     const dispatch = useDispatch();
     const user = useSelector(selectCurrentUser);
     const clients = useSelector(selectAllClients);
+    const autocomplete = useSelector(selectAutocompleteOptions);
     const status = useSelector(selectStatus);
-    const error = useSelector(selectError);
 
     useEffect(() => {
         if (status === 'IDLE' && !clients?.length) {
-            dispatch(fetchClients(user.company._id));
+            dispatch(fetchClients(user.company));
         }
-    }, [dispatch, user.company._id, status, clients.length]);
+    }, [dispatch, user.company, status, clients.length]);
+
+    const columns = [
+        { field: '_id', hide: true },
+        // { field: 'name', headerName: }
+    ]
 
     return (
         <Grid container>
-            <Grid container item justify="flex-end" xs={12}>
-                <ClientFormButton userId={user._id} companyId={user.company._id}/>
+            <Grid container item justify="flex-end" xs={ 12 }>
+                { autocomplete &&
+                <ClientFormButton
+                    userId={ user._id }
+                    companyId={ user.company }
+                    users={ autocomplete.users }
+                /> }
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={ 12 }>
+                {/*<DataGrid rows={} columns={} />*/ }
             </Grid>
         </Grid>
     )
