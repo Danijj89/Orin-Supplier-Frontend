@@ -7,7 +7,7 @@ import { MuiThemeProvider, } from '@material-ui/core';
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import appTheme from './themes/theme.js';
-import HomeLayout from '../features/home/HomeLayout.js';
+import Home from '../features/home/Home.js';
 import Settings from '../features/home/Settings.js';
 import ClientOverview from '../features/clients/ClientOverview.js';
 
@@ -17,7 +17,7 @@ export default function App() {
             <MuiPickersUtilsProvider utils={ DateFnsUtils }>
                 <Switch>
                     <Route exact path={ ['/', '/login'] } component={ LoginPage }/>
-                    <HomeLayout>
+                    <Home>
                         <Route
                             exact
                             path={ ['/home', '/home/orders'] }
@@ -36,7 +36,7 @@ export default function App() {
                             component={ ClientOverview }
                             isPrivate
                         />
-                    </HomeLayout>
+                    </Home>
                     <Route component={ LoginPage }/>
                 </Switch>
             </MuiPickersUtilsProvider>

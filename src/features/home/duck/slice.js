@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { SESSION_APP_DEFAULTS, SESSION_USER } from '../../../app/sessionKeys.js';
 import {
     addNewAddress,
-    deleteAddress, fetchCompany, fetchUsersByCompanyId,
+    deleteAddress, fetchAutocompleteOptions, fetchCompany, fetchUsersByCompanyId,
     resetPassword,
     updateAddress,
     updateCurrentUser,
@@ -25,6 +25,7 @@ const homeSlice = createSlice({
         setSessionInfo: (state, action) => {
             const { user, defaults } = action.payload
             state.user = user;
+            state.company = user.company;
             state.defaults = defaults;
         },
         cleanError: (state, action) => {
@@ -113,6 +114,18 @@ const homeSlice = createSlice({
             state.status = 'FULFILLED';
         },
         [fetchUsersByCompanyId.rejected]: (state, action) => {
+            state.status = 'REJECTED';
+            state.error = action.payload.message;
+        },
+        [fetchAutocompleteOptions.pending]: (state, action) => {
+            state.status = 'PENDING';
+        },
+        [fetchAutocompleteOptions.fulfilled]: (state, action) => {
+            const { companyUsers } = action.payload;
+            state.companyUsers = companyUsers;
+            state.status = 'FULFILLED';
+        },
+        [fetchAutocompleteOptions.rejected]: (state, action) => {
             state.status = 'REJECTED';
             state.error = action.payload.message;
         }

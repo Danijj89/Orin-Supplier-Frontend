@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import SidePanel from './SidePanel.js';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectCurrentUser } from './duck/selectors.js';
+import { fetchAutocompleteOptions } from './duck/thunks.js';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -26,8 +29,15 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function HomeLayout({ children }) {
+export default function Home({ children }) {
     const classes = useStyles();
+    const dispatch = useDispatch();
+    const user = useSelector(selectCurrentUser);
+
+    useEffect(() => {
+        dispatch(fetchAutocompleteOptions(user.company._id))
+    }, [dispatch, user.company._id]);
+
     return (
         <Grid container className={ classes.root }>
             <Grid item className={ classes.leftPanel }>

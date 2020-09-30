@@ -4,8 +4,9 @@ import { LANGUAGE } from '../../constants.js';
 import { useForm } from 'react-hook-form';
 import TextField from '../shared/inputs/TextField.js';
 import FormContainer from '../shared/components/FormContainer.js';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { createClient } from './duck/thunks.js';
+import { selectCompanyUsers } from '../home/duck/selectors.js';
 
 const {
     newClientButtonLabel,
@@ -23,6 +24,7 @@ const {
 
 export default function ClientFormButton({ userId, companyId, client }) {
     const dispatch = useDispatch();
+    const users = useSelector(selectCompanyUsers);
     const { register, errors, formState, handleSubmit } = useForm({
         mode: 'onSubmit',
         defaultValues: {

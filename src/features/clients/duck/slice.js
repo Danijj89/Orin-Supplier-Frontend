@@ -8,7 +8,7 @@ export const clientsAdapter = createEntityAdapter({
 
 const initialState = clientsAdapter.getInitialState({
     status: 'IDLE',
-    error: null,
+    error: null
 });
 
 const ordersSlice = createSlice({
