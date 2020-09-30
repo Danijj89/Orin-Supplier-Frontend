@@ -11,7 +11,7 @@ import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { useForm } from 'react-hook-form';
 import { makeStyles } from '@material-ui/core/styles';
 import loginImg from '../../images/login.png';
-import { SESSION_APP_DEFAULTS, SESSION_COOKIE, SESSION_USER } from '../../app/sessionKeys.js';
+import { SESSION_COOKIE, SESSION_USER } from '../../app/sessionKeys.js';
 
 const {
     title, emailLabel, errorMessages,
@@ -90,11 +90,10 @@ export default function LoginPage() {
     const onSignInClick = async (data) => {
         setError(null);
         try {
-            const { user, defaults, expires } = await AppService.signIn(data);
+            const { user, expires } = await AppService.signIn(data);
             sessionStorage.setItem(SESSION_COOKIE, JSON.stringify(new Date(Date.now() + expires)));
             sessionStorage.setItem(SESSION_USER, JSON.stringify(user));
-            sessionStorage.setItem(SESSION_APP_DEFAULTS, JSON.stringify(defaults));
-            dispatch(setSessionInfo({ user, defaults }));
+            dispatch(setSessionInfo(user));
             history.push('/home');
         } catch (err) {
             const { message } = err.response.data;

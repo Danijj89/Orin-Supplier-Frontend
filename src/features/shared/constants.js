@@ -1,0 +1,12 @@
+export const documentTypes = ['CI', 'PL'];
+export const deliveryMethods = ['Ocean', 'Air'];
+export const itemUnits = ['PCS', 'CTN'];
+export const packageUnits = ['CTN', 'PLT'];
+export const weightUnits = ['KGS'];
+export const measurementUnits = ['CBM'];
+export const currencies = ['USD', 'CNY', 'EUR'];
+export const orderStatuses = ['Not Started', 'In Progress', 'Completed', 'Exception'];
+export const incoterms = ['EXW', 'FCA', 'FAS', 'FOB', 'CFR', 'CIF', 'CPT', 'CIP', 'DPU', 'DAP', 'DDP'];
+export const salesStatus = ['New', 'Working', 'Closed', 'Blocked'];
+export const leadTypes = ['Cold', 'Warm', 'Hot'];
+export const leadPotentials = ['Low', 'Medium', 'High'];

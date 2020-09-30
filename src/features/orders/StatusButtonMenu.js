@@ -9,9 +9,8 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { FiberManualRecord as IconCircle } from '@material-ui/icons';
-import { useSelector } from 'react-redux';
 import { LANGUAGE } from '../../constants.js';
-import { SESSION_APP_DEFAULTS } from '../../app/sessionKeys.js';
+import { orderStatuses } from '../shared/constants.js';
 
 const { orderStatusLabelsMap } = LANGUAGE.shared.statusButtonMenu;
 
@@ -43,7 +42,7 @@ export default function StatusButtonMenu({
 }) {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = useState(null);
-    const { orderStatuses } = sessionStorage.getItem(SESSION_APP_DEFAULTS);
+    const { orderStatuses: statuses } = orderStatuses;
 
     const getStatusColor = (status) => statusColors[status];
     const currentColor = getStatusColor(status);
@@ -72,7 +71,7 @@ export default function StatusButtonMenu({
                 open={Boolean(anchorEl)}
                 onClose={onMenuClose}
             >
-                {orderStatuses.map((status, i) => (
+                {statuses.map((status, i) => (
                     <MenuItem key={i} onClick={() => onItemClick(name, status)}>
                         <ListItemIcon style={{ color: getStatusColor(status) }}>
                             <IconCircle fontSize="small" />

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Redirect } from 'react-router-dom';
 import { Container, Tab, Tabs } from '@material-ui/core';
 import { LANGUAGE } from '../../constants.js';
 import AccountSettingsTab from './AccountSettingsTab.js';
@@ -16,7 +16,7 @@ export default function Settings({ match }) {
     const { tab } = match.params;
     const history = useHistory();
     const tabs = Object.keys(tabsLabelMap);
-    const [tabValue, setTabValue] = useState(tab);
+    const [tabValue, setTabValue] = useState(tab || 'account');
     const status = useSelector(selectStatus);
     const company = useSelector(selectCurrentCompany);
     const user = useSelector(selectCurrentUser);
@@ -29,10 +29,10 @@ export default function Settings({ match }) {
 
     useEffect(() => {
         if (status === 'IDLE') {
-            if (company === null) dispatch(fetchCompany(user.company._id));
-            if (!users?.length) dispatch(fetchUsersByCompanyId(user.company._id));
+            if (company === null) dispatch(fetchCompany(user.company));
+            if (!users?.length) dispatch(fetchUsersByCompanyId(user.company));
         }
-    }, [dispatch, company, status, users, user.company._id]);
+    }, [dispatch, company, status, users, user.company]);
 
     return (
         <Container>

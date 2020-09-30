@@ -26,7 +26,7 @@ export default function App() {
                         />
                         <Route
                             exact
-                            path="/home/settings/:tab"
+                            path={ ['/home/settings', '/home/settings/:tab'] }
                             component={ Settings }
                             isPrivate
                         />

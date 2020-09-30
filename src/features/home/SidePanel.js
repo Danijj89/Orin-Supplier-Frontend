@@ -23,7 +23,7 @@ import {
 } from '@material-ui/icons';
 import FeatureInProgressTag from '../shared/displays/FeatureInProgressTag.js';
 import { useSelector } from 'react-redux';
-import { selectCurrentUser } from './duck/selectors.js';
+import { selectCurrentCompany, selectCurrentUser } from './duck/selectors.js';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -75,10 +75,9 @@ const useStyles = makeStyles((theme) => ({
 
 const { orders, clients, products, shipments, settings } = LANGUAGE.home.sidePanel;
 
-export default function SidePanel() {
+export default function SidePanel({ user, company }) {
     const classes = useStyles();
     const history = useHistory();
-    const user = useSelector(selectCurrentUser);
     const [tab, setTab] = useState('orders');
 
     const onTabClick = (tabName, href) => {
@@ -101,7 +100,7 @@ export default function SidePanel() {
                     </Typography>
                     <Typography
                         className={classes.company}
-                    >{`${user.company.legalAddress.name}`}</Typography>
+                    >{`${company.legalAddress.name}`}</Typography>
                 </Box>
                 <List>
                     <ListItem
