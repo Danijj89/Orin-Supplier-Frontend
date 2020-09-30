@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory, Redirect } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { Container, Tab, Tabs } from '@material-ui/core';
 import { LANGUAGE } from '../../constants.js';
 import AccountSettingsTab from './AccountSettingsTab.js';
 import CompanySettingsTab from './CompanySettingsTab.js';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchCompany, fetchUsersByCompanyId } from './duck/thunks.js';
+import { fetchUsersByCompanyId } from './duck/thunks.js';
 import { selectCompanyUsers, selectCurrentCompany, selectCurrentUser, selectStatus } from './duck/selectors.js';
 import CompanyUsersSettingsTab from './CompanyUsersSettingsTab.js';
 
@@ -28,11 +28,10 @@ export default function Settings({ match }) {
     };
 
     useEffect(() => {
-        if (status === 'IDLE') {
-            if (company === null) dispatch(fetchCompany(user.company));
-            if (!users?.length) dispatch(fetchUsersByCompanyId(user.company));
+        if (status === 'IDLE' && !users?.length) {
+            dispatch(fetchUsersByCompanyId(user.company))
         }
-    }, [dispatch, company, status, users, user.company]);
+    }, [dispatch, status, users, user.company]);
 
     return (
         <Container>

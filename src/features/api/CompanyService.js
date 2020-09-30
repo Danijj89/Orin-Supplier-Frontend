@@ -38,15 +38,6 @@ const updateDefaultAddress = async (companyId, addressId) => {
     return data;
 };
 
-const fetchCompany = async (id) => {
-    const configs = {
-        method: 'get',
-        url: `companies/${id}`,
-    };
-    const { data } = await fetchWithAuth(configs);
-    return data;
-};
-
 const fetchAutocompleteOptions = async (id) => {
     const configs = {
         method: 'get',
@@ -61,7 +52,6 @@ const CompanyService = {
     deleteAddress,
     updateAddress,
     updateDefaultAddress,
-    fetchCompany,
     fetchAutocompleteOptions
 };
 

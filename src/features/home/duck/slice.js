@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { SESSION_USER } from '../../../app/sessionKeys.js';
 import {
     addNewAddress,
-    deleteAddress, fetchAutocompleteOptions, fetchCompany, fetchUsersByCompanyId,
+    deleteAddress, fetchAutocompleteOptions, fetchUsersByCompanyId,
     resetPassword,
     updateAddress,
     updateCurrentUser,
@@ -39,6 +39,7 @@ const homeSlice = createSlice({
         [updateCurrentUser.fulfilled]: (state, action) => {
             state.user = action.payload;
             sessionStorage.setItem(SESSION_USER, JSON.stringify(state.user));
+            state.status = 'IDLE';
         },
         [updateCurrentUser.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -50,6 +51,7 @@ const homeSlice = createSlice({
         [addNewAddress.fulfilled]: (state, action) => {
             const { addresses } = action.payload;
             state.company.addresses = addresses;
+            state.status = 'IDLE';
         },
         [addNewAddress.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -57,6 +59,9 @@ const homeSlice = createSlice({
         },
         [resetPassword.pending]: (state, action) => {
             state.status = 'PENDING';
+        },
+        [resetPassword.fulfilled]: (state, action) => {
+            state.status = 'IDLE';
         },
         [resetPassword.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -68,6 +73,7 @@ const homeSlice = createSlice({
         [deleteAddress.fulfilled]: (state, action) => {
             const id = action.payload;
             state.company.addresses = state.company.addresses.filter(add => add._id !== id);
+            state.status = 'IDLE';
         },
         [deleteAddress.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -79,6 +85,7 @@ const homeSlice = createSlice({
         [updateAddress.fulfilled]: (state, action) => {
             const { id, ...newAddress } = action.payload;
             state.company.addresses = state.company.addresses.map(address => address._id === id ? newAddress : address);
+            state.status = 'IDLE';
         },
         [updateAddress.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -89,19 +96,9 @@ const homeSlice = createSlice({
         },
         [updateDefaultAddress.fulfilled]: (state, action) => {
             state.company.defaultAddress = action.payload;
+            state.status = 'IDLE';
         },
         [updateDefaultAddress.rejected]: (state, action) => {
-            state.status = 'REJECTED';
-            state.error = action.payload.message;
-        },
-        [fetchCompany.pending]: (state, action) => {
-            state.status = 'PENDING';
-        },
-        [fetchCompany.fulfilled]: (state, action) => {
-            state.company = action.payload;
-            state.status = 'FULFILLED';
-        },
-        [fetchCompany.rejected]: (state, action) => {
             state.status = 'REJECTED';
             state.error = action.payload.message;
         },
@@ -123,7 +120,7 @@ const homeSlice = createSlice({
             const { autocomplete, company } = action.payload;
             state.autocomplete = autocomplete;
             state.company = company;
-            state.status = 'FULFILLED';
+            state.status = 'IDLE';
         },
         [fetchAutocompleteOptions.rejected]: (state, action) => {
             state.status = 'REJECTED';
