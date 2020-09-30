@@ -195,6 +195,21 @@ export const ENGLISH = {
             totalsLabel: 'Total:'
         }
     },
+    client: {
+        clientOverview: {
+            newClientButtonLabel: 'New Client',
+            newClientDialogTitleLabel: 'Add new client',
+            newClientNameLabel: 'Company Name',
+            newClientAssignedToLabel: 'Assigned To',
+            newClientContactNameLabel: 'Primary Contact Name',
+            newClientContactEmailLabel: 'Primary Contact Email',
+            newClientTaxNumberLabel: 'Tax Number',
+            newClientSourceLabel: 'Source',
+            newClientIncotermLabel: 'Default Incoterm',
+            newClientPaymentTermLabel: 'Default Payment Term',
+            newClientConfirmButtonLabel: 'Add Client'
+        }
+    },
     commercialInvoice: {
         createCI: {
             steps: ['Invoice Info', 'Products', 'Review'],

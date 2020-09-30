@@ -9,11 +9,12 @@ import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import appTheme from './themes/theme.js';
 import HomeLayout from '../features/home/HomeLayout.js';
 import Settings from '../features/home/Settings.js';
+import ClientOverview from '../features/clients/ClientOverview.js';
 
 export default function App() {
     return (
         <MuiThemeProvider theme={ appTheme }>
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <MuiPickersUtilsProvider utils={ DateFnsUtils }>
                 <Switch>
                     <Route exact path={ ['/', '/login'] } component={ LoginPage }/>
                     <HomeLayout>
@@ -27,6 +28,12 @@ export default function App() {
                             exact
                             path="/home/settings/:tab"
                             component={ Settings }
+                            isPrivate
+                        />
+                        <Route
+                            exact
+                            path="/home/clients"
+                            component={ ClientOverview }
                             isPrivate
                         />
                     </HomeLayout>

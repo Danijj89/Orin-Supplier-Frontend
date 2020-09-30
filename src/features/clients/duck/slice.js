@@ -1,30 +1,43 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
+import { createClient, fetchClients } from './thunks.js';
 
-const ordersAdapter = createEntityAdapter({
+export const clientsAdapter = createEntityAdapter({
     selectId: client => client._id,
-    sortComparer: (a, b) => a.crd.localeCompare(b.crd)
+    sortComparer: (a, b) => a.name.localeCompare(b.name)
 });
 
-const initialState = ordersAdapter.getInitialState({
+const initialState = clientsAdapter.getInitialState({
     status: 'IDLE',
     error: null,
-    autocomplete: null,
-    newOrder: null,
-    currentOrderId: null
 });
 
 const ordersSlice = createSlice({
-    name: 'orders',
+    name: 'clients',
     initialState,
     reducers: {},
-    extraReducers: {}
+    extraReducers: {
+        [fetchClients.pending]: (state, action) => {
+            state.status = 'PENDING';
+        },
+        [fetchClients.fulfilled]: (state, action) => {
+            clientsAdapter.upsertMany(state, action.payload);
+            state.status = 'FULFILLED';
+        },
+        [fetchClients.rejected]: (state, action) => {
+            state.status = 'REJECTED';
+            state.error = action.payload.message;
+        },
+        [createClient.pending]: (state, action) => {
+            state.status = 'PENDING';
+        },
+        [createClient.fulfilled]: (state, action) => {
+            clientsAdapter.upsertOne(state, action.payload);
+        },
+        [createClient.rejected]: (state, action) => {
+            state.status = 'REJECTED';
+            state.error = action.payload.message;
+        },
+    }
 });
-
-export const { hello } = ordersSlice.actions;
-
-export const {
-    selectAll: selectAllOrders,
-    selectById: selectOrderById
-} = ordersAdapter.getSelectors(state => state.orders);
 
 export default ordersSlice.reducer;
