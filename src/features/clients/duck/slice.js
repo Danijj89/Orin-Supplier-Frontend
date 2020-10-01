@@ -32,6 +32,7 @@ const ordersSlice = createSlice({
         },
         [createClient.fulfilled]: (state, action) => {
             clientsAdapter.upsertOne(state, action.payload);
+            state.status = 'IDLE';
         },
         [createClient.rejected]: (state, action) => {
             state.status = 'REJECTED';

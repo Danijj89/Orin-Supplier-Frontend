@@ -18,7 +18,7 @@ const {
 export default function ResetPasswordButton({ userId }) {
     const dispatch = useDispatch();
     const { register, errors, handleSubmit, formState } = useForm({
-        mode: 'onSubmit'
+        mode: 'onChange'
     });
 
     const onConfirm = (data) => {

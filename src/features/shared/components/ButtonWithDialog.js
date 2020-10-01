@@ -24,8 +24,8 @@ export default function ButtonWithDialog(
     const onButtonClick = () => setIsDialogOpen(true);
     const onCancel = () => setIsDialogOpen(false);
     const onConfirmClick = () => {
-        onConfirm();
         if (!isError) {
+            onConfirm();
             setIsDialogOpen(false);
         }
     };

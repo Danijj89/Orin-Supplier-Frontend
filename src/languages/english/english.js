@@ -214,12 +214,12 @@ export const ENGLISH = {
             tableHeaders: [
                 'Company Name',
                 'Contact',
+                'Email',
                 'Last order',
-                'Order Frequency',
                 'Sales YTD',
                 'Order Count YTD',
-                'Order Count PY',
-                'Sales'
+                'Sales',
+                'Notes'
             ]
         },
     },

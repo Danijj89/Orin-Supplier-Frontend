@@ -27,7 +27,7 @@ const {
 export default function ClientFormButton({ userId, companyId, client, users }) {
     const dispatch = useDispatch();
     const { register, errors, formState, handleSubmit, control } = useForm({
-        mode: 'onSubmit',
+        mode: 'onChange',
         defaultValues: {
             name: client?.name,
             assignedTo: client?.assignedTo || users.find(user => user._id === userId),
@@ -72,7 +72,6 @@ export default function ClientFormButton({ userId, companyId, client, users }) {
                     label={ newClientAssignedToLabel }
                     error={ !!errors.assignedTo }
                     control={ control }
-                    rules={ { required: true } }
                     options={ users }
                     getOptionLabel={ option => option.name }
                     defaultValue={ null }
@@ -106,9 +105,7 @@ export default function ClientFormButton({ userId, companyId, client, users }) {
                     label={ newClientIncotermLabel }
                     error={ !!errors.incoterm }
                     control={ control }
-                    rules={ { required: true } }
                     options={ incotermOptions }
-                    defaultValue={ null }
                 />
                 <TextField
                     name="payment"

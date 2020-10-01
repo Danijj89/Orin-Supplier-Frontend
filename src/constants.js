@@ -8,14 +8,14 @@ const languages = {
   en: ENGLISH,
   zh: CHINESE
 }
-const errors = {
+const backendErrors = {
   en: ENGLISH_ERRORS
 };
 
 // The language package used for the application
 export const LANGUAGE = languages[currentLocale];
 export const LOCALE = currentLocale;
-export const ERRORS = errors[currentLocale];
+export const BACKEND_ERRORS = backendErrors[currentLocale];
 
 const SERVER_URI =
   process.env.NODE_ENV === 'production'

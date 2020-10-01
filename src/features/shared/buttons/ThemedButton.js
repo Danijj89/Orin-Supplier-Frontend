@@ -14,6 +14,7 @@ const useStyles = makeStyles((theme) => ({
         whiteSpace: 'nowrap'
     },
     text: {
+        minWidth: 50,
         color: theme.palette.primary.main,
         borderColor: 'white',
         whiteSpace: 'nowrap'
@@ -32,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ThemedButton({ styles, children, variant = 'contained', ...props}) {
-    const classes = useStyles();
+    const classes = useStyles(variant);
     const style = () => {
         if (variant === 'outlined') return classes.outlined;
         if (variant === 'contained') return classes.contained;
@@ -40,9 +41,9 @@ export default function ThemedButton({ styles, children, variant = 'contained', 
     };
     return (
         <Button
-            className={ `${ classes.button } ${ style() } ${ styles }` }
-            variant={variant}
             {...props}
+            className={ `${ style() } ${ styles }` }
+            variant={variant}
         >
             { children }
         </Button>
