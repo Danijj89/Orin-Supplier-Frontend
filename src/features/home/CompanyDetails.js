@@ -39,7 +39,7 @@ const {
     newAddressButtonLabel
 } = LANGUAGE.home.companySettingsTab;
 
-export default function CompanySettingsTab({ company }) {
+export default function CompanyDetails({ company }) {
     const classes = useStyles();
     const dispatch = useDispatch();
     const status = useSelector(selectStatus);

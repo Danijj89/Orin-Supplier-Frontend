@@ -1,5 +1,5 @@
 import React from 'react';
-import ButtonWithDialog from '../shared/components/ButtonWithDialog.js';
+import ButtonDialog from '../shared/components/ButtonDialog.js';
 import { LANGUAGE } from '../../constants.js';
 import { useForm } from 'react-hook-form';
 import TextField from '../shared/inputs/TextField.js';
@@ -52,7 +52,7 @@ export default function ClientFormButton({ userId, companyId, client, users }) {
     };
 
     return (
-        <ButtonWithDialog
+        <ButtonDialog
             buttonLabel={ newClientButtonLabel }
             dialogTitle={ newClientDialogTitleLabel }
             isError={ !formState.isValid }
@@ -123,6 +123,6 @@ export default function ClientFormButton({ userId, companyId, client, users }) {
                     error={ !!errors.notes }
                 />
             </FormContainer>
-        </ButtonWithDialog>
+        </ButtonDialog>
     )
 }

@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Container, Tab, Tabs } from '@material-ui/core';
 import { LANGUAGE } from '../../constants.js';
-import AccountSettingsTab from './AccountSettingsTab.js';
-import CompanySettingsTab from './CompanySettingsTab.js';
+import AccountDetails from './AccountDetails.js';
+import CompanyDetails from './CompanyDetails.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchUsersByCompanyId } from './duck/thunks.js';
 import { selectCompanyUsers, selectCurrentCompany, selectCurrentUser, selectStatus } from './duck/selectors.js';
-import CompanyUsersSettingsTab from './CompanyUsersSettingsTab.js';
+import CompanyUsers from './CompanyUsers.js';
 
 const { tabsLabelMap } = LANGUAGE.home.settings;
 
@@ -43,9 +43,9 @@ export default function Settings({ match }) {
             >
                 {tabs.map(tab => <Tab key={tab} label={tab} value={tab} component="span" />)}
             </Tabs>
-            { tabValue === tabs[0] && <AccountSettingsTab user={user}/> }
-            { users && tabValue === tabs[1] && <CompanyUsersSettingsTab users={users}/> }
-            { company && tabValue === tabs[2] && <CompanySettingsTab company={company}/>}
+            { tabValue === tabs[0] && <AccountDetails user={user}/> }
+            { users && tabValue === tabs[1] && <CompanyUsers users={users}/> }
+            { company && tabValue === tabs[2] && <CompanyDetails company={company}/>}
         </Container>
     )
 }

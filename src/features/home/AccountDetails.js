@@ -13,7 +13,7 @@ import { cleanError } from './duck/slice.js';
 
 const { titleLabel, nameLabel, emailLabel } = LANGUAGE.home.accountSettingsTab;
 
-export default function AccountSettingsTab({ user }) {
+export default function AccountDetails({ user }) {
     const dispatch = useDispatch();
     const status = useSelector(selectStatus);
     const error = useSelector(selectError);

@@ -325,6 +325,9 @@ export const ENGLISH = {
             buttonWithDialog: {
                 cancelLabel: 'Cancel',
                 confirmLabel: 'Confirm'
+            },
+            infoCard: {
+                editButtonLabel: 'Edit'
             }
         },
         buttons: {

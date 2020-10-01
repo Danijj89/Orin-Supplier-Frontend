@@ -6,7 +6,7 @@ import ThemedButton from '../shared/buttons/ThemedButton.js';
 
 const { titleLabel, inviteButtonLabel } = LANGUAGE.home.companyUsersSettingsTab;
 
-export default function CompanyUsersSettingsTab({ users }) {
+export default function CompanyUsers({ users }) {
 
     return (
         <Card>

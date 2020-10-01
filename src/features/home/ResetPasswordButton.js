@@ -1,6 +1,6 @@
 import React from 'react';
 import { LANGUAGE } from '../../constants.js';
-import ButtonWithDialog from '../shared/components/ButtonWithDialog.js';
+import ButtonDialog from '../shared/components/ButtonDialog.js';
 import { TextField } from '@material-ui/core';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
@@ -27,7 +27,7 @@ export default function ResetPasswordButton({ userId }) {
     };
 
     return (
-        <ButtonWithDialog
+        <ButtonDialog
             buttonLabel={ buttonLabel }
             dialogTitle={ dialogTitle }
             onConfirm={ handleSubmit(onConfirm) }
@@ -61,6 +61,6 @@ export default function ResetPasswordButton({ userId }) {
                     fullWidth
                 />
             </>
-        </ButtonWithDialog>
+        </ButtonDialog>
     )
 }
