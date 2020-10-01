@@ -1,24 +1,18 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import Table from '../shared/components/Table.js';
 import { ChatBubble as IconChatFull, ChatBubbleOutline as IconChatEmpty } from '@material-ui/icons';
 import { LANGUAGE } from '../../constants.js';
-import { makeStyles } from '@material-ui/core/styles';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
-
-const useStyles = makeStyles((theme) => ({
-    icon: {
-        color: theme.palette.primary.main,
-        '&:hover': {
-            color: theme.palette.primary.light,
-            backgroundColor: theme.palette.tertiary['200']
-        }
-    }
-}));
 
 const { tableHeaders } = LANGUAGE.client.clientOverview;
 
 export default function ClientsTable({ clients }) {
-    const classes = useStyles();
+    const history = useHistory();
+
+    const onRowClick = (params) => {
+        history.push(`/home/clients/${params.getValue('id')}`);
+    };
 
     const rows = clients.map(client => {
         const contact = client.contacts.find(contact => contact._id === client.defaultContact);
@@ -56,6 +50,6 @@ export default function ClientsTable({ clients }) {
     ];
 
     return (
-        <Table rows={rows} columns={columns}/>
+        <Table rows={rows} columns={columns} onRowClick={onRowClick}/>
     )
 }

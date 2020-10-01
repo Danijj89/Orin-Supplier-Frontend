@@ -60,68 +60,70 @@ export default function ClientFormButton({ userId, companyId, client, users }) {
             confirmButtonLabel={ newClientConfirmButtonLabel }
         >
             <FormContainer>
-                <TextField
-                    name="name"
-                    label={ newClientNameLabel }
-                    inputRef={ register({ required: true }) }
-                    error={ !!errors.name }
-                    required
-                />
-                <RHFAutoComplete
-                    name="assignedTo"
-                    label={ newClientAssignedToLabel }
-                    error={ !!errors.assignedTo }
-                    control={ control }
-                    options={ users }
-                    getOptionLabel={ option => option.name }
-                    defaultValue={ null }
-                />
-                <TextField
-                    name="contactName"
-                    label={ newClientContactNameLabel }
-                    inputRef={ register }
-                    error={ !!errors.contactName }
-                />
-                <TextField
-                    name="contactEmail"
-                    label={ newClientContactEmailLabel }
-                    inputRef={ register }
-                    error={ !!errors.contactEmail }
-                />
-                <TextField
-                    name="taxNumber"
-                    label={ newClientTaxNumberLabel }
-                    inputRef={ register }
-                    error={ !!errors.taxNumber }
-                />
-                <TextField
-                    name="source"
-                    label={ newClientSourceLabel }
-                    inputRef={ register }
-                    error={ !!errors.source }
-                />
-                <RHFAutoComplete
-                    name="incoterm"
-                    label={ newClientIncotermLabel }
-                    error={ !!errors.incoterm }
-                    control={ control }
-                    options={ incotermOptions }
-                />
-                <TextField
-                    name="payment"
-                    label={ newClientPaymentTermLabel }
-                    inputRef={ register }
-                    error={ !!errors.payment }
-                />
-                <TextField
-                    name="notes"
-                    multiline
-                    rows={4}
-                    rowsMax={8}
-                    label={ newClientNotesLabel }
-                    inputRef={ register }
-                    error={ !!errors.notes }
-                />
+                <>
+                    <TextField
+                        name="name"
+                        label={ newClientNameLabel }
+                        inputRef={ register({ required: true }) }
+                        error={ !!errors.name }
+                        required
+                    />
+                    <RHFAutoComplete
+                        name="assignedTo"
+                        label={ newClientAssignedToLabel }
+                        error={ !!errors.assignedTo }
+                        control={ control }
+                        options={ users }
+                        getOptionLabel={ option => option.name }
+                        defaultValue={ null }
+                    />
+                    <TextField
+                        name="contactName"
+                        label={ newClientContactNameLabel }
+                        inputRef={ register }
+                        error={ !!errors.contactName }
+                    />
+                    <TextField
+                        name="contactEmail"
+                        label={ newClientContactEmailLabel }
+                        inputRef={ register }
+                        error={ !!errors.contactEmail }
+                    />
+                    <TextField
+                        name="taxNumber"
+                        label={ newClientTaxNumberLabel }
+                        inputRef={ register }
+                        error={ !!errors.taxNumber }
+                    />
+                    <TextField
+                        name="source"
+                        label={ newClientSourceLabel }
+                        inputRef={ register }
+                        error={ !!errors.source }
+                    />
+                    <RHFAutoComplete
+                        name="incoterm"
+                        label={ newClientIncotermLabel }
+                        error={ !!errors.incoterm }
+                        control={ control }
+                        options={ incotermOptions }
+                    />
+                    <TextField
+                        name="payment"
+                        label={ newClientPaymentTermLabel }
+                        inputRef={ register }
+                        error={ !!errors.payment }
+                    />
+                    <TextField
+                        name="notes"
+                        multiline
+                        rows={ 4 }
+                        rowsMax={ 8 }
+                        label={ newClientNotesLabel }
+                        inputRef={ register }
+                        error={ !!errors.notes }
+                    />
+                </>
             </FormContainer>
         </ButtonDialog>
     )

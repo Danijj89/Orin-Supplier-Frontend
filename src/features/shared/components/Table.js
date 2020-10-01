@@ -15,24 +15,30 @@ const useStyles = makeStyles((theme) => ({
             display: 'none',
         },
         '& .MuiDataGrid-colCellTitle': {
-            display: 'flex',
             color: theme.palette.tertiary['600'],
             fontWeight: 'bold'
         }
     }
 }));
 
-export default function Table({ rows, columns, className }) {
+export default function Table({ rows, columns, className, onRowClick }) {
     const classes = useStyles();
 
     return (
         <Card className={ clsx(classes.container, className) }>
-            <DataGrid className={ classes.root } rows={ rows } columns={ columns }/>
+            <DataGrid
+                className={ classes.root }
+                rows={ rows }
+                columns={ columns }
+                onRowClick={onRowClick}
+            />
         </Card>
     )
 };
 
 Table.propTypes = {
     rows: PropTypes.array.isRequired,
-    columns: PropTypes.array.isRequired
+    columns: PropTypes.array.isRequired,
+    className: PropTypes.string,
+    onRowClick: PropTypes.func
 };
