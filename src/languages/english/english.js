@@ -208,13 +208,19 @@ export const ENGLISH = {
                 newClientSourceLabel: 'Source',
                 newClientIncotermLabel: 'Default Incoterm',
                 newClientPaymentTermLabel: 'Default Payment Term',
+                newClientNotesLabel: 'Notes',
                 newClientConfirmButtonLabel: 'Add Client',
             },
-            headers: {
-                name: 'Company Name',
-                contactName: 'Contact',
-
-            }
+            tableHeaders: [
+                'Company Name',
+                'Contact',
+                'Last order',
+                'Order Frequency',
+                'Sales YTD',
+                'Order Count YTD',
+                'Order Count PY',
+                'Sales'
+            ]
         },
     },
     commercialInvoice: {

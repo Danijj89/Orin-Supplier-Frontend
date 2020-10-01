@@ -8,7 +8,7 @@ import { selectAutocompleteOptions, selectCurrentUser } from '../home/duck/selec
 import { DataGrid } from '@material-ui/data-grid';
 import { LANGUAGE } from '../../constants.js';
 
-const {} = LANGUAGE.client.clientOverview;
+const { tableHeaders } = LANGUAGE.client.clientOverview;
 
 export default function ClientOverview() {
     const dispatch = useDispatch();
@@ -25,8 +25,10 @@ export default function ClientOverview() {
 
     const columns = [
         { field: '_id', hide: true },
-        // { field: 'name', headerName: }
-    ]
+        { field: 'name', headerName: tableHeaders[0] },
+        { field: 'contactName', headerName: tableHeaders[1] },
+        { field: ''}
+    ];
 
     return (
         <Grid container>

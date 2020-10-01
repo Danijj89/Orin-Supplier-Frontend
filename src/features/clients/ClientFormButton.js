@@ -20,7 +20,8 @@ const {
     newClientPaymentTermLabel,
     newClientSourceLabel,
     newClientTaxNumberLabel,
-    newClientConfirmButtonLabel
+    newClientConfirmButtonLabel,
+    newClientNotesLabel
 } = LANGUAGE.client.clientOverview.clientFormButton;
 
 export default function ClientFormButton({ userId, companyId, client, users }) {
@@ -36,6 +37,7 @@ export default function ClientFormButton({ userId, companyId, client, users }) {
             source: client?.source,
             incoterm: client?.incoterm || 'FOB',
             payment: client?.payment,
+            notes: client?.notes,
             createdBy: userId,
             clientOf: companyId,
             clientSince: new Date()
@@ -113,6 +115,15 @@ export default function ClientFormButton({ userId, companyId, client, users }) {
                     label={ newClientPaymentTermLabel }
                     inputRef={ register }
                     error={ !!errors.payment }
+                />
+                <TextField
+                    name="notes"
+                    multiline
+                    rows={4}
+                    rowsMax={8}
+                    label={ newClientNotesLabel }
+                    inputRef={ register }
+                    error={ !!errors.notes }
                 />
             </FormContainer>
         </ButtonWithDialog>

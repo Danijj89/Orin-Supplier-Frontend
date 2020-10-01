@@ -7,7 +7,7 @@ const useStyles = makeStyles((theme) => ({
         margin: '4px 8px',
         whiteSpace: 'nowrap',
         display: 'flex',
-        alignItems: props => props.labelPositionTop
+        alignItems: props => props.labelPositionTop || props.multiline
             ? 'flex-start'
             : 'center',
         flexDirection: props => props.labelPositionTop
@@ -22,7 +22,9 @@ const useStyles = makeStyles((theme) => ({
     },
     input: {
         width: 240,
-        height: 32,
+        height: props => props.multiline
+            ? null
+            : 32,
         borderWidth: 1,
         borderStyle: 'solid',
         borderRadius: 8,
@@ -41,9 +43,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function TextField({ label, labelPositionTop, required, ...props }) {
-    const classes = useStyles({ labelPositionTop });
-    const styles = `${ classes.input } ${ props.className } ${props.error ? classes.inputInvalid : '' }`
+export default function TextField({ label, labelPositionTop, required, error, className, multiline, ...props }) {
+    const classes = useStyles({ labelPositionTop, multiline });
+    const styles = `${ classes.input } ${ className } ${ error ? classes.inputInvalid : '' }`
 
 
     return (
@@ -60,6 +62,8 @@ export default function TextField({ label, labelPositionTop, required, ...props 
                 className={ styles }
                 InputProps={ { ...props.InputProps, disableUnderline: true } }
                 required={ required }
+                error={ error }
+                multiline={multiline}
             />
         </Box>
     )
