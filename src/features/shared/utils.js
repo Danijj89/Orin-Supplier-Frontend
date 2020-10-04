@@ -32,7 +32,7 @@ export const getStringFromTotalQuantityObject = (totalQuantity) => {
         .map(([key, value], _) => value === 0 ? '' : `${value} ${key}`)
         .join(' + ');
 };
-export const yymmddToLocaleDate = (date) => {
+export const dateToLocaleDate = (date) => {
     const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' }
     return new Date(date).toLocaleString(LOCALE, dateOptions);
 }

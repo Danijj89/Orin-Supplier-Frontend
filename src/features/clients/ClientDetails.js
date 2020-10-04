@@ -3,12 +3,12 @@ import InfoCard from '../shared/components/InfoCard.js';
 import ButtonDialog from '../shared/components/ButtonDialog.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectClientById, selectStatus } from './duck/selectors.js';
-import { Container } from '@material-ui/core';
+import { Container, Paper, Tab, Tabs } from '@material-ui/core';
 import { fetchClientById } from './duck/thunks.js';
 import Loader from '../shared/displays/Loader.js';
 import ColumnInfoDisplay from '../shared/components/ColumnInfoDisplay.js';
 import { LANGUAGE } from '../../constants.js';
-import { convertDateStringToyymmdd, yymmddToLocaleDate } from '../shared/utils.js';
+import { dateToLocaleDate } from '../shared/utils.js';
 
 const {
     assignedToLabel,
@@ -39,7 +39,7 @@ export default function ClientDetails({ match }) {
         client?.source,
         client?.incoterm,
         client?.payment,
-        yymmddToLocaleDate(client?.clientSince)
+        dateToLocaleDate(client?.clientSince)
     ];
 
     useEffect(() => {
@@ -61,7 +61,8 @@ export default function ClientDetails({ match }) {
                     rightData={rightData}
                 />
             </InfoCard> }
+            <Paper>
+            </Paper>
         </Container>
-
     )
 }

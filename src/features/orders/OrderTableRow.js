@@ -5,7 +5,7 @@ import TableCell from '@material-ui/core/TableCell';
 import { makeStyles } from '@material-ui/core/styles';
 import {
     getStringFromTotalQuantityObject,
-    yymmddToLocaleDate,
+    dateToLocaleDate,
 } from '../shared/utils.js';
 import { useDispatch } from 'react-redux';
 import { setCurrentPOId } from './duck/slice.js';
@@ -59,7 +59,7 @@ export default function OrderTableRow({ order }) {
             <TableCell className={ classes.wrapText }>
                 { renderedTotalQuantity }
             </TableCell>
-            <TableCell align="center">{ yymmddToLocaleDate(crd) }</TableCell>
+            <TableCell align="center">{ dateToLocaleDate(crd) }</TableCell>
             <TableCell align="center">{ fromName }</TableCell>
             <TableCell align="center">
                 <StatusButtonMenu disabled status={ procurementS.status }/>

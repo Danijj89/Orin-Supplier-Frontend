@@ -1,5 +1,5 @@
 import React from 'react';
-import { getCurrencySymbol, yymmddToLocaleDate } from '../shared/utils.js';
+import { getCurrencySymbol, dateToLocaleDate } from '../shared/utils.js';
 import UnitCounter from '../shared/classes/UnitCounter.js';
 import { Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -36,8 +36,8 @@ export default function OrderOverviewInfoCardView({ order }) {
         <Grid container alignItems="center">
             <FormattedTypography label={ orderLabel } value={ order.poRef }/>
             <FormattedTypography label={ remarksLabel } value={ order.remarks }/>
-            <FormattedTypography label={ dateTitle } value={ yymmddToLocaleDate(order.date) }/>
-            <FormattedTypography label={ crdTitle } value={ yymmddToLocaleDate(order.crd) }/>
+            <FormattedTypography label={ dateTitle } value={ dateToLocaleDate(order.date) }/>
+            <FormattedTypography label={ crdTitle } value={ dateToLocaleDate(order.crd) }/>
             <FormattedTypography label={ companyNameLabel } value={ order.toName }/>
             <FormattedTypography label={ quantityTitle }
                                  value={ new UnitCounter([], order.totalQ).stringRep }/>

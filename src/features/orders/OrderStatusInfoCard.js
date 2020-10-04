@@ -11,7 +11,7 @@ import { LANGUAGE } from '../../constants.js';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import {
     convertDateStringToyymmdd,
-    yymmddToLocaleDate,
+    dateToLocaleDate,
 } from '../shared/utils.js';
 import { useForm } from 'react-hook-form';
 import StatusButtonMenu from './StatusButtonMenu.js';
@@ -139,7 +139,7 @@ export default function OrderStatusInfoCard({ order }) {
     );
 
     const getDateRep = (val) => {
-        if (val) return yymmddToLocaleDate(val);
+        if (val) return dateToLocaleDate(val);
         return '-';
     };
 

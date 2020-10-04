@@ -1,20 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import {
     Box,
     Card,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogTitle,
     Divider,
     Grid,
     Typography
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import ThemedButton from '../buttons/ThemedButton.js';
-import { LANGUAGE } from '../../../constants.js';
 
 const useStyles = makeStyles((theme) => ({
     root: {

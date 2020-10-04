@@ -15,7 +15,7 @@ import { Delete as IconDelete } from '@material-ui/icons';
 import DocumentGenerationButton from '../shared/buttons/DocumentGenerationButton.js';
 import { LANGUAGE } from '../../constants.js';
 import { makeStyles } from '@material-ui/core/styles';
-import { yymmddToLocaleDate } from '../shared/utils.js';
+import { dateToLocaleDate } from '../shared/utils.js';
 import { useDispatch } from 'react-redux';
 import { deleteCI } from '../commercial_invoice/duck/thunks.js';
 import DownloadButton from '../shared/buttons/DownloadButton.js';
@@ -131,7 +131,7 @@ export default function OrderDocuments({ order }) {
                                             </TableCell>
                                         <TableCell align={ headers[0].align }>{docTypeMap[docType]}</TableCell>
                                         <TableCell align={ headers[1].align }>{doc.createdBy.name}</TableCell>
-                                        <TableCell align={ headers[2].align }>{yymmddToLocaleDate(doc.date)}</TableCell>
+                                        <TableCell align={ headers[2].align }>{dateToLocaleDate(doc.date)}</TableCell>
                                         <TableCell>
                                             <DownloadButton fileName={doc.fileName} icon={true}/>
                                         </TableCell>
