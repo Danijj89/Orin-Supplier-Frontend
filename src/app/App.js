@@ -10,6 +10,7 @@ import appTheme from './themes/theme.js';
 import Home from '../features/home/Home.js';
 import Settings from '../features/home/Settings.js';
 import ClientOverview from '../features/clients/ClientOverview.js';
+import ClientDetails from '../features/clients/ClientDetails.js';
 
 export default function App() {
     return (
@@ -28,6 +29,12 @@ export default function App() {
                             exact
                             path={ ['/home/settings', '/home/settings/:tab'] }
                             component={ Settings }
+                            isPrivate
+                        />
+                        <Route
+                            exact
+                            path="/home/clients/:id"
+                            component={ ClientDetails }
                             isPrivate
                         />
                         <Route

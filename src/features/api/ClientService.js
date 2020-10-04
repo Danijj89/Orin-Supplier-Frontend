@@ -3,7 +3,7 @@ import { fetchWithAuth } from './fetchWithAuth.js';
 const fetchClients = async (id) => {
     const configs = {
         method: 'get',
-        url: `clients`,
+        url: 'clients',
         params: {
             company: id
         }
@@ -15,16 +15,26 @@ const fetchClients = async (id) => {
 const createClient = async (client) => {
     const configs = {
         method: 'post',
-        url: `clients`,
+        url: 'clients',
         data: client
     };
     const { data } = await fetchWithAuth(configs);
     return data;
 };
 
+const fetchClientById = async (id) => {
+    const configs = {
+        method: 'get',
+        url: `clients/${id}`
+    };
+    const { data } = await fetchWithAuth(configs);
+    return data;
+}
+
 const ClientService = {
     fetchClients,
-    createClient
+    createClient,
+    fetchClientById
 };
 
 export default ClientService;

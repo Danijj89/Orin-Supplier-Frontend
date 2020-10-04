@@ -96,7 +96,6 @@ export default function LoginPage() {
             dispatch(setSessionInfo(user));
             history.push('/home');
         } catch (err) {
-            console.log(err.response);
             const { message } = err.response.data;
             setError(message);
         }

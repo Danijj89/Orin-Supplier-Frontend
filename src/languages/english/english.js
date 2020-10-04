@@ -222,6 +222,16 @@ export const ENGLISH = {
                 'Notes'
             ]
         },
+        clientDetails: {
+            assignedToLabel: 'Assigned To',
+            primaryContactLabel: 'Primary Contact',
+            contactEmailLabel: 'Contact Email',
+            taxNumberLabel: 'Tax Number',
+            sourceLabel: 'Source',
+            incotermLabel: 'Default Incoterm',
+            paymentLabel: 'Default Payment Term',
+            clientSinceLabel: 'Client Since'
+        }
     },
     commercialInvoice: {
         createCI: {
@@ -325,9 +335,6 @@ export const ENGLISH = {
             buttonWithDialog: {
                 cancelLabel: 'Cancel',
                 confirmLabel: 'Confirm'
-            },
-            infoCard: {
-                editButtonLabel: 'Edit'
             }
         },
         buttons: {

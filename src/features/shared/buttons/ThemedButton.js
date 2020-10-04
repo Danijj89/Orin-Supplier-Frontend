@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import clsx from 'clsx';
 import { Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -32,7 +34,8 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function ThemedButton({ styles, children, variant = 'contained', ...props}) {
+export default function ThemedButton(
+    { className, children, variant = 'contained', ...props}) {
     const classes = useStyles(variant);
     const style = () => {
         if (variant === 'outlined') return classes.outlined;
@@ -42,10 +45,16 @@ export default function ThemedButton({ styles, children, variant = 'contained', 
     return (
         <Button
             {...props}
-            className={ `${ style() } ${ styles }` }
+            className={ clsx(style(), className) }
             variant={variant}
         >
             { children }
         </Button>
     )
 }
+
+ThemedButton.propTypes = {
+    className: PropTypes.string,
+    children: PropTypes.node,
+    variant: PropTypes.oneOf(['contained', 'outlined', 'text']),
+};

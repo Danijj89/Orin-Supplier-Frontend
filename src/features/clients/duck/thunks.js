@@ -18,3 +18,12 @@ export const createClient = createAsyncThunk('client/createClient',
             return rejectWithValue(err.response.data);
         }
     });
+
+export const fetchClientById = createAsyncThunk('client/fetchClientById',
+    async (id, { rejectWithValue }) => {
+        try {
+            return await ClientService.fetchClientById(id);
+        } catch (err) {
+            return rejectWithValue(err.response.data);
+        }
+    });

@@ -1,8 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import { Box, Card, Divider, Grid, Typography } from '@material-ui/core';
+import {
+    Box,
+    Card,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    Divider,
+    Grid,
+    Typography
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import ThemedButton from '../buttons/ThemedButton.js';
+import { LANGUAGE } from '../../../constants.js';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -46,7 +58,13 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function InfoCard({ title, children, button, className }) {
+export default function InfoCard(
+    {
+        title,
+        children,
+        className,
+        button
+    }) {
     const classes = useStyles();
 
     return (
@@ -58,7 +76,9 @@ export default function InfoCard({ title, children, button, className }) {
                     xs={ 12 }
                 >
                     <Typography variant="h5" className={ classes.title }>{ title }</Typography>
-                    { button && <Box className={ classes.buttons }>{ button }</Box> }
+                    { button && <Box className={ classes.buttons }>
+                        { button }
+                    </Box> }
                 </Grid>
                 <Divider/>
                 <Grid item className={ classes.bottomPanel } xs={ 12 }>
@@ -71,6 +91,5 @@ export default function InfoCard({ title, children, button, className }) {
 
 InfoCard.propTypes = {
     title: PropTypes.string,
-    children: PropTypes.element,
-    button: PropTypes.element
+    children: PropTypes.element
 };
