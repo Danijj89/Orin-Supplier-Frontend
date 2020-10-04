@@ -230,7 +230,36 @@ export const ENGLISH = {
             sourceLabel: 'Source',
             incotermLabel: 'Default Incoterm',
             paymentLabel: 'Default Payment Term',
-            clientSinceLabel: 'Client Since'
+            clientSinceLabel: 'Client Since',
+            tabsLabelsMap: {
+                addresses: 'Addresses',
+                contacts: 'Contacts',
+                orders: 'Orders'
+            },
+            addressTableHeaders: [
+                'Label',
+                'Entity Name',
+                'Address',
+                'Address 2',
+                'City',
+                'State',
+                'Country',
+                'Zip',
+                'Phone',
+                'Email'
+            ],
+            contactsTableHeaders: [
+                'Name',
+                'Email',
+                'Phone',
+                'Fax',
+                'Title',
+                'Department',
+                'Additional'
+            ],
+            ordersTableHeaders: [
+                'Reference'
+            ]
         }
     },
     commercialInvoice: {

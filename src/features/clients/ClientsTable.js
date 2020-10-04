@@ -4,30 +4,37 @@ import Table from '../shared/components/Table.js';
 import { ChatBubble as IconChatFull, ChatBubbleOutline as IconChatEmpty } from '@material-ui/icons';
 import { LANGUAGE } from '../../constants.js';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
+import { Card } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+    container: {
+        minHeight: 300,
+        margin: theme.spacing(3),
+    }
+}));
 
 const { tableHeaders } = LANGUAGE.client.clientOverview;
 
 export default function ClientsTable({ clients }) {
+    const classes = useStyles();
     const history = useHistory();
 
     const onRowClick = (params) => {
-        history.push(`/home/clients/${params.getValue('id')}`);
+        history.push(`/home/clients/${ params.getValue('id') }`);
     };
 
-    const rows = clients.map(client => {
-        const contact = client.contacts.find(contact => contact._id === client.defaultContact);
-        return {
-            id: client._id,
-            name: client.name,
-            contactName: contact.name,
-            contactEmail: contact.email,
-            lastOrder: client.lastOrder,
-            salesYTD: client.salesYTD,
-            orderCountYTD: client.orderCountYTD,
-            assignedTo: client.assignedTo.name,
-            notes: client.notes
-        };
-    });
+    const rows = clients.map(client => ({
+        id: client._id,
+        name: client.name,
+        contactName: client.defaultContact.name,
+        contactEmail: client.defaultContact.email,
+        lastOrder: client.lastOrder,
+        salesYTD: client.salesYTD,
+        orderCountYTD: client.orderCountYTD,
+        assignedTo: client.assignedTo.name,
+        notes: client.notes
+    }));
 
     const columns = [
         { field: 'id', hide: true },
@@ -50,6 +57,8 @@ export default function ClientsTable({ clients }) {
     ];
 
     return (
-        <Table rows={rows} columns={columns} onRowClick={onRowClick}/>
+        <Card className={ classes.container }>
+            <Table rows={ rows } columns={ columns } onRowClick={ onRowClick }/>
+        </Card>
     )
 }

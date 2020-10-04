@@ -15,7 +15,7 @@ export default function ClientOverview() {
     const status = useSelector(selectStatus);
 
     useEffect(() => {
-        if (status === 'IDLE' && !clients?.length) {
+        if (status === 'IDLE') {
             dispatch(fetchClients(user.company));
         }
     }, [dispatch, user.company, status, clients.length]);

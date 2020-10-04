@@ -1,15 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import clsx from 'clsx';
 import { DataGrid } from '@material-ui/data-grid';
-import { Card } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import clsx from 'clsx';
 
 const useStyles = makeStyles((theme) => ({
-    container: {
-        minHeight: 300,
-        margin: theme.spacing(3),
-    },
     root: {
         '& .MuiDataGrid-iconSeparator': {
             display: 'none',
@@ -25,14 +20,12 @@ export default function Table({ rows, columns, className, onRowClick }) {
     const classes = useStyles();
 
     return (
-        <Card className={ clsx(classes.container, className) }>
-            <DataGrid
-                className={ classes.root }
-                rows={ rows }
-                columns={ columns }
-                onRowClick={onRowClick}
-            />
-        </Card>
+        <DataGrid
+            className={ clsx(classes.root, className) }
+            rows={ rows }
+            columns={ columns }
+            onRowClick={ onRowClick }
+        />
     )
 };
 
