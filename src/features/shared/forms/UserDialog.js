@@ -10,13 +10,19 @@ const { nameLabel, emailLabel } = LANGUAGE.shared.forms.userDialog;
 export default function UserDialog(
     { user, isOpen, titleLabel, submitLabel, onSubmit, onCancel, className }) {
 
-    const { register, errors, handleSubmit } = useForm({
-        mode: 'onSubmit',
+    const { register, errors, handleSubmit, formState } = useForm({
+        mode: 'onChange',
         defaultValues: {
             name: user?.name,
             email: user?.email
         }
     });
+
+    const onFormSubmit = () => {
+        if (formState.isValid) {
+            handleSubmit(onSubmit);
+        }
+    };
 
     return (
         <FormDialog
@@ -25,7 +31,7 @@ export default function UserDialog(
             titleLabel={titleLabel}
             submitLabel={submitLabel}
             onCancel={onCancel}
-            onSubmit={handleSubmit(onSubmit)}
+            onSubmit={onFormSubmit}
         >
             <TextField
                 label={ nameLabel }

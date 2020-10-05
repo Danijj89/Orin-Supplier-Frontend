@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function InfoCard(
-    { title, children, className, button }) {
+    { title, content, className, button }) {
     const classes = useStyles();
 
     return (
@@ -63,7 +63,7 @@ export default function InfoCard(
                 </Grid>
                 <Divider/>
                 <Grid item className={ classes.bottomPanel } xs={ 12 }>
-                    { children }
+                    { content }
                 </Grid>
             </Grid>
         </Card>
@@ -72,7 +72,7 @@ export default function InfoCard(
 
 InfoCard.propTypes = {
     title: PropTypes.string,
-    children: PropTypes.element,
+    content: PropTypes.element,
     className: PropTypes.string,
     button: PropTypes.element
 };

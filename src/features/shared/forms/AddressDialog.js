@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Dialog, DialogActions, DialogContent, DialogTitle, Divider, TextField } from '@material-ui/core';
-import { LANGUAGE } from '../../../../constants.js';
-import ThemedButton from '../../buttons/ThemedButton.js';
+import { LANGUAGE } from '../../../constants.js';
+import ThemedButton from '../buttons/ThemedButton.js';
 import { useForm } from 'react-hook-form';
 
 const {
@@ -19,7 +19,7 @@ const {
     cancelLabel
 } = LANGUAGE.shared.forms.addressForm;
 
-export default function RHFAddressForm({ isOpen, onSubmit, onCancel, submitLabel, address, titleLabel }) {
+export default function AddressDialog({ isOpen, onSubmit, onCancel, submitLabel, address, titleLabel }) {
 
     const { register, errors, handleSubmit } = useForm({
         mode: 'onSubmit',
@@ -123,7 +123,7 @@ export default function RHFAddressForm({ isOpen, onSubmit, onCancel, submitLabel
     )
 }
 
-RHFAddressForm.propTypes = {
+AddressDialog.propTypes = {
     isOpen: PropTypes.bool.isRequired,
     onSubmit: PropTypes.func.isRequired,
     onCancel: PropTypes.func.isRequired,

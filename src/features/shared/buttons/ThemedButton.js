@@ -35,18 +35,19 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ThemedButton(
-    { className, children, variant = 'contained', ...props}) {
-    const classes = useStyles(variant);
-    const style = () => {
-        if (variant === 'outlined') return classes.outlined;
-        if (variant === 'contained') return classes.contained;
-        if (variant === 'text') return classes.text;
-    };
+    { children, variant = 'contained', className, ...props }) {
+    const classes = useStyles();
+    const classNames = clsx(
+        variant === 'outlined' && classes.outlined,
+        variant === 'contained' && classes.contained,
+        variant === 'text' && classes.text,
+        className
+    );
     return (
         <Button
-            {...props}
-            className={ clsx(style(), className) }
-            variant={variant}
+            { ...props }
+            className={ classNames }
+            variant={ variant }
         >
             { children }
         </Button>
