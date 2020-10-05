@@ -40,10 +40,6 @@ const useStyles = makeStyles((theme) => ({
         height: '80%'
     },
     bottomPanel: {
-        paddingTop: theme.spacing(1),
-        paddingBottom: theme.spacing(1),
-        paddingLeft: theme.spacing(2),
-        paddingRight: theme.spacing(2),
         display: 'flex',
         flexFlow: 'column',
         flex: '1 1 auto'
