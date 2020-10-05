@@ -356,17 +356,17 @@ export const ENGLISH = {
         }
     },
     shared: {
-        components: {
-            editableCard: {
-                editButtonLabel: 'Edit'
-            },
-            buttonWithDialog: {
-                cancelLabel: 'Cancel',
-                confirmLabel: 'Confirm'
+        wrappers: {
+            formDialog: {
+                cancelLabel: 'Cancel'
             }
         },
         forms: {
-            addressForm: {
+            userDialog: {
+                nameLabel: 'Your Name',
+                emailLabel: 'Email'
+            },
+            addressDialog: {
                 typeLabel: 'Address Type',
                 nameLabel: 'Company Name',
                 addressLabel: 'Address line 1',
@@ -377,9 +377,8 @@ export const ENGLISH = {
                 zipLabel: 'Zip',
                 phoneLabel: 'Phone',
                 emailLabel: 'Email',
-                titleLabel: 'New Address',
                 cancelLabel: 'Cancel'
-            }
+            },
         },
         buttons: {
             deleteButton: {

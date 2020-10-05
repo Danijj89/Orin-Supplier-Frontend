@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import {
-    Box,
     Card,
     Divider,
     Grid,
@@ -14,8 +13,7 @@ const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
         flexFlow: 'column',
-        overflow: 'auto',
-        margin: theme.spacing(3)
+        overflow: 'auto'
     },
     container: {
         height: '100%',
@@ -53,26 +51,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function InfoCard(
-    {
-        title,
-        children,
-        className,
-        button
-    }) {
+    { title, children, className, button }) {
     const classes = useStyles();
 
     return (
         <Card className={ clsx(classes.root, className) }>
             <Grid container className={ classes.container }>
-                <Grid
-                    item
-                    className={ classes.topPanel }
-                    xs={ 12 }
-                >
+                <Grid item className={ classes.topPanel } xs={ 12 }>
                     <Typography variant="h5" className={ classes.title }>{ title }</Typography>
-                    { button && <Box className={ classes.buttons }>
-                        { button }
-                    </Box> }
+                    { button && React.cloneElement(button, { className: classes.button }) }
                 </Grid>
                 <Divider/>
                 <Grid item className={ classes.bottomPanel } xs={ 12 }>
@@ -85,5 +72,7 @@ export default function InfoCard(
 
 InfoCard.propTypes = {
     title: PropTypes.string,
-    children: PropTypes.element
+    children: PropTypes.element,
+    className: PropTypes.string,
+    button: PropTypes.element
 };
