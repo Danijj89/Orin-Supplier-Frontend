@@ -1,13 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Table from '../shared/components/Table.js';
 import { LANGUAGE } from '../../constants.js';
-import { Box, Typography, Tooltip } from '@material-ui/core';
+import { Typography, Tooltip } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
-    container: {
-        minHeight: 300
-    },
     cell: {
         whiteSpace: 'nowrap',
         overflow: 'hidden',
@@ -20,13 +17,16 @@ const { addressTableHeaders } = LANGUAGE.client.clientDetails;
 
 export default function ClientAddressesTable({ addresses }) {
     const classes = useStyles();
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
 
     const Cell = (params) =>
-        <Tooltip title={params.value || ''} className={classes.cell}>
+        <Tooltip title={ params.value || '' } className={ classes.cell }>
             <Typography>
-                {params.value}
+                { params.value }
             </Typography>
         </Tooltip>
+
+    const onRowClick = (params) => setIsDialogOpen(true);
 
 
     const columns = [
@@ -58,8 +58,12 @@ export default function ClientAddressesTable({ addresses }) {
     }));
 
     return (
-        <Box className={ classes.container }>
-            <Table rows={ rows } columns={ columns }/>
-        </Box>
+        <>
+        <Table
+            rows={ rows }
+            columns={ columns }
+            onRowClick={onRowClick}
+        />
+        </>
     )
 }

@@ -1,8 +1,6 @@
 import React from 'react';
 import { TableCell, TableRow } from '@material-ui/core';
 import DeleteButton from '../shared/buttons/DeleteButton.js';
-import AddressDialogButton from './AddressDialogButton.js';
-import { Edit as IconEdit } from '@material-ui/icons';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { LANGUAGE } from '../../constants.js';
 
@@ -11,8 +9,7 @@ const {
     editAddressDialogTitleLabel,
     deleteDialogTitle,
     defaultAddressButtonLabel,
-    setDefaultButtonLabel,
-    addressDialogCancelLabel
+    setDefaultButtonLabel
 } = LANGUAGE.home.companySettingsTab;
 
 export default function AddressTableRow(
@@ -37,17 +34,6 @@ export default function AddressTableRow(
             <TableCell>{ address.country }</TableCell>
             <TableCell>{ address.zip }</TableCell>
             <TableCell>{ address.phone }</TableCell>
-            <TableCell>
-                <AddressDialogButton
-                    address={address}
-                    cancelButtonLabel={addressDialogCancelLabel}
-                    dialogTitle={editAddressDialogTitleLabel}
-                    confirmButtonLabel={editAddressDialogConfirmLabel}
-                    onConfirm={onEditAddressConfirm}
-                >
-                    <IconEdit fontSize="small"/>
-                </AddressDialogButton>
-            </TableCell>
             <TableCell>
                 {defaultAddress === address._id
                     ? <ThemedButton disabled>{defaultAddressButtonLabel}</ThemedButton>

@@ -54,7 +54,6 @@ export const ENGLISH = {
             defaultAddressButtonLabel: 'Default',
             setDefaultButtonLabel: 'Set Default',
             newAddressButtonLabel: 'New Address',
-            addressDialogCancelLabel: 'Cancel',
             newAddressDialogConfirmLabel: 'Create Address',
             editAddressDialogConfirmLabel: 'Update Address',
             newAddressDialogTitleLabel: 'New Address',
@@ -364,6 +363,22 @@ export const ENGLISH = {
             buttonWithDialog: {
                 cancelLabel: 'Cancel',
                 confirmLabel: 'Confirm'
+            }
+        },
+        forms: {
+            addressForm: {
+                typeLabel: 'Address Type',
+                nameLabel: 'Company Name',
+                addressLabel: 'Address line 1',
+                address2Label: 'Address line 2',
+                cityLabel: 'City',
+                administrativeLabel: 'State',
+                countryLabel: 'Country',
+                zipLabel: 'Zip',
+                phoneLabel: 'Phone',
+                emailLabel: 'Email',
+                titleLabel: 'New Address',
+                cancelLabel: 'Cancel'
             }
         },
         buttons: {

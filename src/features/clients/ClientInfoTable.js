@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Paper, Tab, Tabs } from '@material-ui/core';
+import { Paper, Tab, Tabs, Box } from '@material-ui/core';
 import { LANGUAGE } from '../../constants.js';
 import ClientAddressesTable from './ClientAddressesTable.js';
 import { makeStyles } from '@material-ui/core/styles';
@@ -7,8 +7,8 @@ import ClientContactsTable from './ClientContactsTable.js';
 import ClientOrdersTable from './ClientOrdersTable.js';
 
 const useStyles = makeStyles((theme) => ({
-    container: {
-        minHeight: '100%'
+    table: {
+        minHeight: 300
     }
 }));
 
@@ -21,7 +21,7 @@ export default function ClientInfoTable({ client }) {
     const onTabChange = (e, newTab) => setTabValue(newTab);
 
     return (
-        <Paper className={ classes.container }>
+        <Paper>
             <Tabs
                 value={ tabValue }
                 onChange={ onTabChange }
@@ -36,7 +36,10 @@ export default function ClientInfoTable({ client }) {
                         component="span"
                     />) }
             </Tabs>
-            { client && tabValue === 'addresses' && <ClientAddressesTable addresses={ client.addresses }/> }
+            { client && tabValue === 'addresses' &&
+            <Box className={ classes.table }>
+                <ClientAddressesTable addresses={ client.addresses }/>
+            </Box> }
             { client && tabValue === 'contacts' && <ClientContactsTable contacts={ client.contacts }/> }
             { client && tabValue === 'orders' && <ClientOrdersTable orders={ client.orders }/> }
         </Paper>
