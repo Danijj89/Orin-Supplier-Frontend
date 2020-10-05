@@ -5,16 +5,12 @@ import FormDialog from '../wrappers/FormDialog.js';
 import { LANGUAGE } from '../../../constants.js';
 import PropTypes from 'prop-types';
 
-const { nameLabel, emailLabel } = LANGUAGE.shared.forms.userDialog;
+const { passwordLabel, newPasswordLabel, confirmPasswordLabel } = LANGUAGE.shared.forms.resetPasswordDialog;
 
-export default function UserDialog(
-    { user, isOpen, titleLabel, submitLabel, onSubmit, onCancel, className }) {
+export default function ResetPassWordDialog(
+    { isOpen, titleLabel, submitLabel, onSubmit, onCancel, className }) {
     const { register, errors, handleSubmit, formState } = useForm({
         mode: 'onChange',
-        defaultValues: {
-            name: user?.name,
-            email: user?.email
-        },
         shouldUnregister: false
     });
     const { isValid } = formState;
@@ -35,17 +31,29 @@ export default function UserDialog(
             onSubmit={ handleSubmit(onFormSubmit) }
         >
             <TextField
-                label={ nameLabel }
-                name="name"
+                label={ passwordLabel }
+                name="password"
+                type="password"
                 inputRef={ register({ required: true }) }
-                error={ !!errors.name }
+                error={ !!errors.password }
+                fullWidth
                 autoFocus
             />
             <TextField
-                label={ emailLabel }
-                name="email"
+                label={ newPasswordLabel }
+                name="newPassword"
+                type="password"
                 inputRef={ register({ required: true }) }
-                error={ !!errors.email }
+                error={ !!errors.newPassword }
+                fullWidth
+            />
+            <TextField
+                label={ confirmPasswordLabel }
+                name="confirmPassword"
+                type="password"
+                inputRef={ register({ required: true }) }
+                error={ !!errors.confirmPassword }
+                fullWidth
             />
         </FormDialog>
     )
@@ -58,5 +66,4 @@ FormDialog.propTypes = {
     titleLabel: PropTypes.string.isRequired,
     submitLabel: PropTypes.string.isRequired,
     className: PropTypes.string,
-    user: PropTypes.object
 };

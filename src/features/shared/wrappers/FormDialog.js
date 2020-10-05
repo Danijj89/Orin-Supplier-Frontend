@@ -3,6 +3,14 @@ import PropTypes from 'prop-types';
 import { Dialog, DialogActions, DialogTitle, Divider, DialogContent } from '@material-ui/core';
 import ThemedButton from '../buttons/ThemedButton.js';
 import { LANGUAGE } from '../../../constants.js';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+    container: {
+        display: 'flex',
+        flexDirection: 'column'
+    }
+}));
 
 const { cancelLabel } = LANGUAGE.shared.wrappers.formDialog;
 
@@ -17,12 +25,13 @@ export default function FormDialog(
         className,
         onClose
     }) {
+    const classes = useStyles();
 
     return (
         <Dialog onClose={ onClose } open={ isOpen } className={ className }>
             <DialogTitle>{ titleLabel }</DialogTitle>
             <Divider/>
-            <DialogContent>
+            <DialogContent className={ classes.container }>
                 { children }
             </DialogContent>
             <DialogActions>

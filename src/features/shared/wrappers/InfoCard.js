@@ -59,7 +59,7 @@ export default function InfoCard(
             <Grid container className={ classes.container }>
                 <Grid item className={ classes.topPanel } xs={ 12 }>
                     <Typography variant="h5" className={ classes.title }>{ title }</Typography>
-                    { button && React.cloneElement(button, { className: classes.button }) }
+                    { button && React.cloneElement(button, { className: classes.buttons }) }
                 </Grid>
                 <Divider/>
                 <Grid item className={ classes.bottomPanel } xs={ 12 }>

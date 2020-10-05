@@ -1,66 +1,44 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { LANGUAGE } from '../../constants.js';
-import ButtonDialog from '../shared/components/ButtonDialog.js';
-import { TextField } from '@material-ui/core';
-import { useForm } from 'react-hook-form';
+import { Box } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
 import { resetPassword } from './duck/thunks.js';
+import ThemedButton from '../shared/buttons/ThemedButton.js';
+import ResetPassWordDialog from '../shared/forms/ResetPasswordDialog.js';
 
 const {
-    buttonLabel,
-    dialogTitle,
-    confirmButtonLabel,
-    passwordLabel,
-    newPasswordLabel,
-    confirmPasswordLabel
+    resetButtonLabel,
+    dialogTitleLabel,
+    dialogSubmitLabel,
 } = LANGUAGE.home.resetPasswordButton;
 
-export default function ResetPasswordButton({ userId }) {
+export default function ResetPasswordButton({ userId, ...props }) {
     const dispatch = useDispatch();
-    const { register, errors, handleSubmit, formState } = useForm({
-        mode: 'onChange'
-    });
+    const [isEdit, setIsEdit] = useState(false);
 
-    const onConfirm = (data) => {
+    const onEdit = () => setIsEdit(true);
+    const onCancelResetDialog = () => setIsEdit(false);
+
+    const onSubmitResetDialog = (data) => {
         data.id = userId;
         dispatch(resetPassword(data));
+        setIsEdit(false);
     };
 
     return (
-        <ButtonDialog
-            buttonLabel={ buttonLabel }
-            dialogTitle={ dialogTitle }
-            onConfirm={ handleSubmit(onConfirm) }
-            confirmButtonLabel={ confirmButtonLabel }
-            isError={!formState.isValid}
-        >
-            <>
-                <TextField
-                    label={ passwordLabel }
-                    name="password"
-                    type="password"
-                    inputRef={ register({ required: true }) }
-                    error={ !!errors.password }
-                    fullWidth
-                    autoFocus
-                />
-                <TextField
-                    label={ newPasswordLabel }
-                    name="newPassword"
-                    type="password"
-                    inputRef={ register({ required: true }) }
-                    error={ !!errors.newPassword }
-                    fullWidth
-                />
-                <TextField
-                    label={ confirmPasswordLabel }
-                    name="confirmPassword"
-                    type="password"
-                    inputRef={ register({ required: true }) }
-                    error={ !!errors.confirmPassword }
-                    fullWidth
-                />
-            </>
-        </ButtonDialog>
+        <Box { ...props }>
+            <ThemedButton
+                onClick={onEdit}
+            >
+                {resetButtonLabel}
+            </ThemedButton>
+            <ResetPassWordDialog
+                isOpen={ isEdit }
+                titleLabel={ dialogTitleLabel }
+                submitLabel={ dialogSubmitLabel }
+                onSubmit={ onSubmitResetDialog }
+                onCancel={ onCancelResetDialog }
+            />
+        </Box>
     )
 }

@@ -75,9 +75,9 @@ export const ENGLISH = {
             emailLabel: 'Email',
         },
         resetPasswordButton: {
-            buttonLabel: 'Reset Password',
-            dialogTitle: 'Reset Password',
-            confirmButtonLabel: 'Reset',
+            resetButtonLabel: 'Reset Password',
+            dialogTitleLabel: 'Reset Password',
+            dialogSubmitLabel: 'Reset',
             passwordLabel: 'Old Password',
             newPasswordLabel: 'New Password',
             confirmPasswordLabel: 'Confirm Password'
@@ -369,6 +369,11 @@ export const ENGLISH = {
                 nameLabel: 'Your Name',
                 emailLabel: 'Email'
             },
+            resetPasswordDialog: {
+                passwordLabel: 'Old Password',
+                newPasswordLabel: 'New Password',
+                confirmPasswordLabel: 'Confirm Password'
+            },
             addressDialog: {
                 typeLabel: 'Address Type',
                 nameLabel: 'Company Name',
@@ -383,62 +388,62 @@ export const ENGLISH = {
                 cancelLabel: 'Cancel'
             },
         },
-        // buttons: {
-        //     deleteButton: {
-        //         cancelButton: 'Cancel',
-        //         confirmButton: 'Confirm',
-        //     },
-        // },
-        // downloadButton: {
-        //     buttonText: 'Download',
-        //     dialogTitle: 'Select the file type to download',
-        //     dialogCancel: 'Cancel',
-        //     dialogConfirm: 'Download',
-        //     typeLabel: 'Document Type',
-        // },
-        // generateDocumentButton: {
-        //     buttonText: 'Generate Documents',
-        //     dialogTitle: 'Select the document to generate',
-        //     dialogCancel: 'Cancel',
-        //     dialogConfirm: 'Create',
-        //     typeLabel: 'Document Type',
-        //     errors: {
-        //         ciFirst: 'You need to create a Commercial Invoice first.',
-        //         ciExists: 'A Commercial Invoice already exists for this order.',
-        //         plExists: 'A Packing List already exists for this order',
-        //     },
-        // },
-        // addColumnButton: {
-        //     buttonText: 'Add Column',
-        //     dialogTitle: 'Type A Column Name',
-        //     fieldLabel: 'Column Name',
-        //     dialogCancel: 'Cancel',
-        //     dialogConfirm: 'Add',
-        //     errorMessage: 'Maximum number of columns reached',
-        // },
-        // documentTag: {
-        //     docTypesAcronyms: {
-        //         PO: 'PO',
-        //         CI: 'CI',
-        //         PL: 'PL',
-        //     },
-        // },
-        // featureInProgressTag: {
-        //     title: 'Feature in Progress',
-        // },
-        // statusButtonMenu: {
-        //     orderStatusLabelsMap: {
-        //         'Not Started': 'Not Started',
-        //         'In Progress': 'In Progress',
-        //         Completed: 'Completed',
-        //         Exception: 'Exception',
-        //     },
-        // },
-        // dropdowns: {
-        //     currency: {
-        //         label: 'Currency'
-        //     }
-        // }
+        buttons: {
+            deleteButton: {
+                cancelButton: 'Cancel',
+                confirmButton: 'Confirm',
+            },
+        },
+        downloadButton: {
+            buttonText: 'Download',
+            dialogTitle: 'Select the file type to download',
+            dialogCancel: 'Cancel',
+            dialogConfirm: 'Download',
+            typeLabel: 'Document Type',
+        },
+        generateDocumentButton: {
+            buttonText: 'Generate Documents',
+            dialogTitle: 'Select the document to generate',
+            dialogCancel: 'Cancel',
+            dialogConfirm: 'Create',
+            typeLabel: 'Document Type',
+            errors: {
+                ciFirst: 'You need to create a Commercial Invoice first.',
+                ciExists: 'A Commercial Invoice already exists for this order.',
+                plExists: 'A Packing List already exists for this order',
+            },
+        },
+        addColumnButton: {
+            buttonText: 'Add Column',
+            dialogTitle: 'Type A Column Name',
+            fieldLabel: 'Column Name',
+            dialogCancel: 'Cancel',
+            dialogConfirm: 'Add',
+            errorMessage: 'Maximum number of columns reached',
+        },
+        documentTag: {
+            docTypesAcronyms: {
+                PO: 'PO',
+                CI: 'CI',
+                PL: 'PL',
+            },
+        },
+        featureInProgressTag: {
+            title: 'Feature in Progress',
+        },
+        statusButtonMenu: {
+            orderStatusLabelsMap: {
+                'Not Started': 'Not Started',
+                'In Progress': 'In Progress',
+                Completed: 'Completed',
+                Exception: 'Exception',
+            },
+        },
+        dropdowns: {
+            currency: {
+                label: 'Currency'
+            }
+        }
     },
     defaults: {
         documentNames: {
