@@ -1,5 +1,5 @@
 import React from 'react';
-import Table from '../shared/components/Table.js';
+import Table from '../shared/wrappers/Table.js';
 import { LANGUAGE } from '../../constants.js';
 import { Typography, Tooltip } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';

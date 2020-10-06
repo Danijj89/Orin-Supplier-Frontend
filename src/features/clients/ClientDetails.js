@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react';
-import InfoCard from '../shared/components/InfoCard.js';
-import ButtonDialog from '../shared/components/ButtonDialog.js';
+import InfoCard from '../shared/wrappers/InfoCard.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectClientById, selectStatus } from './duck/selectors.js';
 import { Container } from '@material-ui/core';
 import { fetchClientById } from './duck/thunks.js';
 import Loader from '../shared/displays/Loader.js';
-import ColumnInfoDisplay from '../shared/components/ColumnInfoDisplay.js';
+import ColumnInfoDisplay from '../shared/wrappers/ColumnInfoDisplay.js';
 import { LANGUAGE } from '../../constants.js';
 import { dateToLocaleDate } from '../shared/utils.js';
 import ClientInfoTable from './ClientInfoTable.js';
@@ -52,7 +51,7 @@ export default function ClientDetails({ match }) {
             { status === 'PENDING' && <Loader/> }
             { client && <InfoCard
                 title={ client.name }
-                button={ <ButtonDialog dialogTitle="hello its me" buttonLabel="edit"/> }
+                // button={ <ButtonDialog dialogTitle="hello its me" buttonLabel="edit"/> }
             >
                 <ColumnInfoDisplay
                     leftLabels={ leftLabels }
