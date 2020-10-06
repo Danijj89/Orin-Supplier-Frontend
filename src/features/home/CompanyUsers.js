@@ -4,7 +4,7 @@ import { LANGUAGE } from '../../constants.js';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import InfoCard from '../shared/wrappers/InfoCard.js';
 import { makeStyles } from '@material-ui/core/styles';
-import { List, ListItem, Divider } from '@material-ui/core';
+import { Box, List, ListItem, Divider } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
     list: {
@@ -30,10 +30,10 @@ export default function CompanyUsers({ users }) {
             content={
                 <List className={ classes.list }>
                     { users.map(user =>
-                        <>
+                        <Box key={user._id}>
                             <ListItem>{user.name}</ListItem>
                             <Divider/>
-                        </>
+                        </Box>
                     ) }
                 </List>
             }

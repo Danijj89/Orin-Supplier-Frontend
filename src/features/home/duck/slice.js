@@ -93,7 +93,7 @@ const homeSlice = createSlice({
             state.status = 'PENDING';
         },
         [updateDefaultAddress.fulfilled]: (state, action) => {
-            state.company.defaultAddress = action.payload;
+            state.company.defaultAddress = state.company.addresses.find(address => address._id === action.payload);
             state.status = 'IDLE';
         },
         [updateDefaultAddress.rejected]: (state, action) => {

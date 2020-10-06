@@ -41,26 +41,31 @@ export const ENGLISH = {
             dialogTitleLabel: 'Account',
             dialogSubmitLabel: 'Update'
         },
-        companySettingsTab: {
-            addressesTitleLabel: 'Addresses',
+        companyDetails: {
+            editButtonLabel: 'Edit',
+            dialogTitleLabel: 'Edit Company',
+            dialogSubmitLabel: 'Update',
+            addressesTableTitleLabel: 'Addresses',
             addressTableHeadersMap: {
-                type: 'Type',
+                type: 'Label',
                 name: 'Entity Name',
                 address: 'Address',
+                address2: 'Address 2',
                 city: 'City',
-                state: 'State',
+                administrative: 'State',
                 country: 'Country',
                 zip: 'Zip',
-                phone: 'Phone'
+                phone: 'Phone',
+                email: 'Email'
             },
             deleteDialogTitle: 'Are you sure you want to delete this address?',
             defaultAddressButtonLabel: 'Default',
             setDefaultButtonLabel: 'Set Default',
+            editAddressDialogTitleLabel: 'Edit Address',
+            editAddressDialogSubmitLabel: 'Update Address',
             newAddressButtonLabel: 'New Address',
-            newAddressDialogConfirmLabel: 'Create Address',
-            editAddressDialogConfirmLabel: 'Update Address',
             newAddressDialogTitleLabel: 'New Address',
-            editAddressDialogTitleLabel: 'Edit Address'
+            newAddressDialogSubmitLabel: 'Create Address',
         },
         newAddressButton: {
             typeLabel: 'Address Type',
@@ -375,6 +380,9 @@ export const ENGLISH = {
                 newPasswordLabel: 'New Password',
                 confirmPasswordLabel: 'Confirm Password'
             },
+            companyDialog: {
+                nameLabel: 'Name'
+            },
             addressDialog: {
                 typeLabel: 'Address Type',
                 nameLabel: 'Company Name',
@@ -385,8 +393,7 @@ export const ENGLISH = {
                 countryLabel: 'Country',
                 zipLabel: 'Zip',
                 phoneLabel: 'Phone',
-                emailLabel: 'Email',
-                cancelLabel: 'Cancel'
+                emailLabel: 'Email'
             },
         },
         buttons: {

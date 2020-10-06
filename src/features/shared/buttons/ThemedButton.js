@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ThemedButton(
-    { children, variant = 'contained', className, ...props }) {
+    { children, variant = 'contained', className, onClick, ...props }) {
     const classes = useStyles();
     const classNames = clsx(
         variant === 'outlined' && classes.outlined,
@@ -43,11 +43,19 @@ export default function ThemedButton(
         variant === 'text' && classes.text,
         className
     );
+
+
+    const onButtonClick = (e) => {
+        e.stopPropagation();
+        onClick();
+    };
+
     return (
         <Button
             { ...props }
             className={ classNames }
             variant={ variant }
+            onClick={ onButtonClick }
         >
             { children }
         </Button>
