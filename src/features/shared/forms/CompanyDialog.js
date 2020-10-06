@@ -13,7 +13,8 @@ export default function CompanyDialog(
     const { register, errors, handleSubmit, formState } = useForm({
         mode: 'onChange',
         defaultValues: {
-            name: company?.name,
+            taxNumber: company?.taxNumber,
+
         },
         shouldUnregister: false
     });
@@ -34,9 +35,9 @@ export default function CompanyDialog(
         >
             <SideTextField
                 label={ nameLabel }
-                name="name"
+                name="taxNumber"
                 inputRef={ register({ required: true }) }
-                error={ !!errors.name }
+                error={ !!errors.taxNumber }
                 required
                 autoFocus
                 fullWidth
