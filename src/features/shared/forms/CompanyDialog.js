@@ -1,20 +1,19 @@
 import React from 'react';
-import { useForm } from 'react-hook-form';
+import PropTypes from 'prop-types';
 import { TextField } from '@material-ui/core';
 import FormDialog from '../wrappers/FormDialog.js';
+import { useForm } from 'react-hook-form';
 import { LANGUAGE } from '../../../constants.js';
-import PropTypes from 'prop-types';
 
-const { nameLabel, emailLabel } = LANGUAGE.shared.forms.userDialog;
+const { nameLabel } = LANGUAGE.shared.forms.companyDialog;
 
-export default function UserDialog(
-    { user, isOpen, titleLabel, submitLabel, onSubmit, onCancel, className }) {
+export default function CompanyDialog(
+    { company, isOpen, titleLabel, submitLabel, onSubmit, onCancel, className }) {
 
     const { register, errors, handleSubmit, formState } = useForm({
         mode: 'onChange',
         defaultValues: {
-            name: user?.name,
-            email: user?.email
+            name: company?.name,
         },
         shouldUnregister: false
     });
@@ -40,22 +39,16 @@ export default function UserDialog(
                 error={ !!errors.name }
                 autoFocus
             />
-            <TextField
-                label={ emailLabel }
-                name="email"
-                inputRef={ register({ required: true }) }
-                error={ !!errors.email }
-            />
         </FormDialog>
     )
 }
 
-FormDialog.propTypes = {
+CompanyDialog.propTypes = {
     onSubmit: PropTypes.func.isRequired,
     onCancel: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
     titleLabel: PropTypes.string.isRequired,
     submitLabel: PropTypes.string.isRequired,
     className: PropTypes.string,
-    user: PropTypes.object
+    company: PropTypes.object
 };

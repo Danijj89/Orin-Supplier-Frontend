@@ -16,15 +16,15 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function Table({ rows, columns, className, onRowClick }) {
+export default function Table({ rows, columns, className, ...props }) {
     const classes = useStyles();
 
     return (
         <DataGrid
+            {...props}
             className={ clsx(classes.root, className) }
             rows={ rows }
             columns={ columns }
-            onRowClick={ onRowClick }
         />
     )
 };
@@ -32,6 +32,5 @@ export default function Table({ rows, columns, className, onRowClick }) {
 Table.propTypes = {
     rows: PropTypes.array.isRequired,
     columns: PropTypes.array.isRequired,
-    className: PropTypes.string,
-    onRowClick: PropTypes.func
+    className: PropTypes.string
 };
