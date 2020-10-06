@@ -1,52 +1,45 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { Box, TextField as MuiTextField, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { Typography, TextField as MuiTextField, Box } from '@material-ui/core';
+import clsx from 'clsx';
 
 const useStyles = makeStyles((theme) => ({
     container: {
-        margin: '4px 8px',
+        marginLeft: theme.spacing(2),
+        marginRight: theme.spacing(2),
+        marginTop: theme.spacing(1),
+        marginBottom: theme.spacing(1),
         whiteSpace: 'nowrap',
         display: 'flex',
-        alignItems: props => props.labelPositionTop || props.multiline
-            ? 'flex-start'
-            : 'center',
-        flexDirection: props => props.labelPositionTop
-            ? 'column'
-            : ''
+        alignItems: 'center'
     },
     label: {
-        marginRight: 8,
-        marginLeft: props => props.labelPositionTop
-            ? 4
-            : 0
+        marginRight: theme.spacing(4)
     },
     input: {
         width: 240,
-        height: props => props.multiline
-            ? null
-            : 32,
+        height: 32,
         borderWidth: 1,
         borderStyle: 'solid',
         borderRadius: 8,
         borderColor: theme.palette.tertiary['400'],
         backgroundColor: 'white',
-        paddingLeft: 8,
-        paddingRight: 8
+        paddingLeft: theme.spacing(1),
+        paddingRight: theme.spacing(1)
     },
     required: {
         color: 'red',
-        marginLeft: 2
+        marginLeft: theme.spacing(1)
     },
     inputInvalid: {
         borderColor: 'red'
     }
 }));
 
-
-export default function TextField({ label, labelPositionTop, required, error, className, multiline, ...props }) {
-    const classes = useStyles({ labelPositionTop, multiline });
-    const styles = `${ classes.input } ${ className } ${ error ? classes.inputInvalid : '' }`
-
+export default function SideTextField({label, required, className, error, ...props}) {
+    const classes = useStyles();
+    const classNames = clsx( classes.input, className, error && classes.inputInvalid);
 
     return (
         <Box className={ classes.container }>
@@ -59,12 +52,18 @@ export default function TextField({ label, labelPositionTop, required, error, cl
             </Typography>
             <MuiTextField
                 { ...props }
-                className={ styles }
+                className={ classNames }
                 InputProps={ { ...props.InputProps, disableUnderline: true } }
                 required={ required }
                 error={ error }
-                multiline={multiline}
             />
         </Box>
     )
 }
+
+SideTextField.propTypes = {
+    label: PropTypes.string.isRequired,
+    required: PropTypes.bool,
+    className: PropTypes.string,
+    error: PropTypes.bool
+};
