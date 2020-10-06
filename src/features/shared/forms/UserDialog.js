@@ -1,9 +1,9 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { TextField } from '@material-ui/core';
 import FormDialog from '../wrappers/FormDialog.js';
 import { LANGUAGE } from '../../../constants.js';
 import PropTypes from 'prop-types';
+import SideTextField from '../inputs/SideTextField.js';
 
 const { nameLabel, emailLabel } = LANGUAGE.shared.forms.userDialog;
 
@@ -33,17 +33,19 @@ export default function UserDialog(
             onCancel={ onCancel }
             onSubmit={ handleSubmit(onFormSubmit) }
         >
-            <TextField
+            <SideTextField
                 label={ nameLabel }
                 name="name"
                 inputRef={ register({ required: true }) }
                 error={ !!errors.name }
+                required
                 autoFocus
             />
-            <TextField
+            <SideTextField
                 label={ emailLabel }
                 name="email"
                 inputRef={ register({ required: true }) }
+                required
                 error={ !!errors.email }
             />
         </FormDialog>

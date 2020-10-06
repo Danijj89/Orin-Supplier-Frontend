@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { TextField } from '@material-ui/core';
 import FormDialog from '../wrappers/FormDialog.js';
 import { useForm } from 'react-hook-form';
 import { LANGUAGE } from '../../../constants.js';
+import SideTextField from '../inputs/SideTextField.js';
 
 const { nameLabel } = LANGUAGE.shared.forms.companyDialog;
 
@@ -32,12 +32,14 @@ export default function CompanyDialog(
             onCancel={ onCancel }
             onSubmit={ handleSubmit(onFormSubmit) }
         >
-            <TextField
+            <SideTextField
                 label={ nameLabel }
                 name="name"
                 inputRef={ register({ required: true }) }
                 error={ !!errors.name }
+                required
                 autoFocus
+                fullWidth
             />
         </FormDialog>
     )

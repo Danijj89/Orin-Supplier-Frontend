@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { TextField } from '@material-ui/core';
 import { LANGUAGE } from '../../../constants.js';
 import { useForm } from 'react-hook-form';
 import FormDialog from '../wrappers/FormDialog.js';
+import SideTextField from '../inputs/SideTextField.js';
 
 const {
     typeLabel,
@@ -52,69 +52,73 @@ export default function AddressDialog({ isOpen, onSubmit, onCancel, submitLabel,
             onCancel={ onCancel }
             onSubmit={ handleSubmit(onFormSubmit) }
         >
-            <TextField
+            <SideTextField
                 label={ typeLabel }
                 name="type"
                 inputRef={ register }
                 fullWidth
             />
-            <TextField
+            <SideTextField
                 label={ nameLabel }
                 name="name"
                 inputRef={ register({ required: true }) }
                 error={ !!errors.name }
+                required
                 fullWidth
             />
-            <TextField
+            <SideTextField
                 label={ addressLabel }
                 name="address"
                 inputRef={ register({ required: true }) }
                 error={ !!errors.address }
+                required
                 fullWidth
             />
-            <TextField
+            <SideTextField
                 label={ address2Label }
                 name="address2"
                 inputRef={ register }
                 error={ !!errors.address2 }
                 fullWidth
             />
-            <TextField
+            <SideTextField
                 label={ cityLabel }
                 name="city"
                 inputRef={ register({ required: true }) }
                 error={ !!errors.city }
+                required
                 fullWidth
             />
-            <TextField
+            <SideTextField
                 label={ administrativeLabel }
                 name="administrative"
                 inputRef={ register }
                 error={ !!errors.administrative }
                 fullWidth
             />
-            <TextField
+            <SideTextField
                 label={ countryLabel }
                 name="country"
                 inputRef={ register({ required: true }) }
                 error={ !!errors.country }
+                required
                 fullWidth
             />
-            <TextField
+            <SideTextField
                 label={ zipLabel }
                 name="zip"
                 inputRef={ register }
                 error={ !!errors.zip }
                 fullWidth
             />
-            <TextField
+            <SideTextField
                 label={ phoneLabel }
                 name="phone"
                 inputRef={ register }
                 error={ !!errors.phone }
                 fullWidth
             />
-            <TextField
+            <SideTextField
                 label={ emailLabel }
                 name="email"
                 inputRef={ register }

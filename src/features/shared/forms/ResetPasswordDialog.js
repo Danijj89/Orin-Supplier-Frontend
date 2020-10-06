@@ -1,9 +1,9 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { TextField } from '@material-ui/core';
 import FormDialog from '../wrappers/FormDialog.js';
 import { LANGUAGE } from '../../../constants.js';
 import PropTypes from 'prop-types';
+import SideTextField from '../inputs/SideTextField.js';
 
 const { passwordLabel, newPasswordLabel, confirmPasswordLabel } = LANGUAGE.shared.forms.resetPasswordDialog;
 
@@ -30,29 +30,32 @@ export default function ResetPassWordDialog(
             onCancel={ onCancel }
             onSubmit={ handleSubmit(onFormSubmit) }
         >
-            <TextField
+            <SideTextField
                 label={ passwordLabel }
                 name="password"
                 type="password"
                 inputRef={ register({ required: true }) }
                 error={ !!errors.password }
+                required
                 fullWidth
                 autoFocus
             />
-            <TextField
+            <SideTextField
                 label={ newPasswordLabel }
                 name="newPassword"
                 type="password"
                 inputRef={ register({ required: true }) }
                 error={ !!errors.newPassword }
+                required
                 fullWidth
             />
-            <TextField
+            <SideTextField
                 label={ confirmPasswordLabel }
                 name="confirmPassword"
                 type="password"
                 inputRef={ register({ required: true }) }
                 error={ !!errors.confirmPassword }
+                required
                 fullWidth
             />
         </FormDialog>
