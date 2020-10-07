@@ -63,14 +63,14 @@ export default function SearchBar({options}) {
   };
 
   const mounted = useRef();
-  useEffect(() => {
-    if (orders.length === 0) {
-      if (mounted.current !== status && status === 'IDLE') {
-        dispatch(fetchOrders());
-        mounted.current = status;
-      }
-    }
-  }, [dispatch, status, orders]);
+  // useEffect(() => {
+  //   if (orders.length === 0) {
+  //     if (mounted.current !== status && status === 'IDLE') {
+  //       dispatch(fetchOrders());
+  //       mounted.current = status;
+  //     }
+  //   }
+  // }, [dispatch, status, orders]);
 
   return (
     <Container className={classes.container}>

@@ -24,7 +24,7 @@ export default function Settings({ match }) {
 
     const onTabChange = (e, newValue) => {
         setTabValue(newValue);
-        history.push(`/home/settings/${newValue}`);
+        history.push(`/home/settings/${ newValue }`);
     };
 
     useEffect(() => {
@@ -41,11 +41,11 @@ export default function Settings({ match }) {
                 indicatorColor='primary'
                 textColor='primary'
             >
-                {tabs.map(tab => <Tab key={tab} label={tab} value={tab} component="span" />)}
+                { tabs.map(tab => <Tab key={ tab } label={ tab } value={ tab } component="span"/>) }
             </Tabs>
-            { tabValue === tabs[0] && <AccountDetails user={user}/> }
-            { users && tabValue === tabs[1] && <CompanyUsers users={users}/> }
-            { company && tabValue === tabs[2] && <CompanyDetails company={company}/>}
+            { tabValue === tabs[0] && <AccountDetails user={ user }/> }
+            { users && tabValue === tabs[1] && <CompanyUsers users={ users }/> }
+            { company && tabValue === tabs[2] && <CompanyDetails company={ company }/> }
         </Container>
     )
 }

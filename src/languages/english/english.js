@@ -381,7 +381,9 @@ export const ENGLISH = {
                 confirmPasswordLabel: 'Confirm Password'
             },
             companyDialog: {
-                nameLabel: 'Name'
+                taxNumberLabel: 'Tax Number',
+                defaultCurrencyLabel: 'Default Currency',
+                industriesLabel: 'Industry'
             },
             addressDialog: {
                 typeLabel: 'Address Type',

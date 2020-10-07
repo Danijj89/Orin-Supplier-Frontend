@@ -1,20 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import FormDialog from '../wrappers/FormDialog.js';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { LANGUAGE } from '../../../constants.js';
 import SideTextField from '../inputs/SideTextField.js';
+import SideAutoComplete from '../inputs/SideAutoComplete.js';
+import { currenciesOptions } from '../constants.js';
 
-const { nameLabel } = LANGUAGE.shared.forms.companyDialog;
+const { taxNumberLabel, defaultCurrencyLabel, industriesLabel } = LANGUAGE.shared.forms.companyDialog;
 
 export default function CompanyDialog(
     { company, isOpen, titleLabel, submitLabel, onSubmit, onCancel, className }) {
 
-    const { register, errors, handleSubmit, formState } = useForm({
+    const { register, errors, handleSubmit, formState, control } = useForm({
         mode: 'onChange',
         defaultValues: {
             taxNumber: company?.taxNumber,
-
+            defaultCurrency: company?.defaultCurrency,
+            industries: company?.industries || []
         },
         shouldUnregister: false
     });
@@ -34,13 +37,39 @@ export default function CompanyDialog(
             onSubmit={ handleSubmit(onFormSubmit) }
         >
             <SideTextField
-                label={ nameLabel }
+                label={ taxNumberLabel }
                 name="taxNumber"
                 inputRef={ register({ required: true }) }
                 error={ !!errors.taxNumber }
-                required
                 autoFocus
                 fullWidth
+            />
+            <Controller
+                render={ props =>
+                    <SideAutoComplete
+                        { ...props }
+                        label={ defaultCurrencyLabel }
+                        options={ currenciesOptions }
+                        error={ !!errors.defaultCurrency }
+                    />
+                }
+                name="defaultCurrency"
+                control={ control }
+            />
+            <Controller
+                render={ props =>
+                    <SideAutoComplete
+                        { ...props }
+                        label={ industriesLabel }
+                        options={ currenciesOptions }
+                        error={ !!errors.industries }
+                        multiple
+                        required
+                    />
+                }
+                name="industries"
+                control={ control }
+                rules={ { required: true } }
             />
         </FormDialog>
     )
