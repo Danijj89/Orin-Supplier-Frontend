@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     },
     input: {
         width: 240,
-        height: 32,
+        height: 36,
         borderWidth: 1,
         borderStyle: 'solid',
         borderRadius: 8,

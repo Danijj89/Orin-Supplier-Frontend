@@ -205,20 +205,9 @@ export const ENGLISH = {
     },
     client: {
         clientOverview: {
-            clientFormButton: {
-                newClientButtonLabel: 'New Client',
-                newClientDialogTitleLabel: 'Add new client',
-                newClientNameLabel: 'Company Name',
-                newClientAssignedToLabel: 'Assigned To',
-                newClientContactNameLabel: 'Primary Contact Name',
-                newClientContactEmailLabel: 'Primary Contact Email',
-                newClientTaxNumberLabel: 'Tax Number',
-                newClientSourceLabel: 'Source',
-                newClientIncotermLabel: 'Default Incoterm',
-                newClientPaymentTermLabel: 'Default Payment Term',
-                newClientNotesLabel: 'Notes',
-                newClientConfirmButtonLabel: 'Add Client',
-            },
+            newClientButtonLabel: 'New Client',
+            newClientDialogTitleLabel: 'Add new client',
+            newClientSubmitButtonLabel: 'Add Client',
             tableHeaders: [
                 'Company Name',
                 'Contact',
@@ -397,6 +386,17 @@ export const ENGLISH = {
                 phoneLabel: 'Phone',
                 emailLabel: 'Email'
             },
+            clientDialog: {
+                nameLabel: 'Company Name',
+                assignedToLabel: 'Assigned To',
+                contactNameLabel: 'Primary Contact Name',
+                contactEmailLabel: 'Primary Contact Email',
+                taxNumberLabel: 'Tax Number',
+                sourceLabel: 'Source',
+                incotermLabel: 'Default Incoterm',
+                paymentTermLabel: 'Default Payment Term',
+                notesLabel: 'Notes'
+            }
         },
         buttons: {
             deleteButton: {

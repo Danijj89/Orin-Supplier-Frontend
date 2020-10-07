@@ -12,7 +12,7 @@ const {
     newAddressDialogSubmitLabel
 } = LANGUAGE.home.companyDetails;
 
-export default function NewCompanyAddressButton({ company }) {
+export default function NewCompanyAddressButton({ company, ...props }) {
     const dispatch = useDispatch();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const address = { name: company.legalAddress.name }
@@ -28,7 +28,7 @@ export default function NewCompanyAddressButton({ company }) {
     };
 
     return (
-        <Box>
+        <Box { ...props }>
             <ThemedButton
                 onClick={ onClick }
             >{ newAddressButtonLabel }</ThemedButton>
