@@ -103,7 +103,7 @@ export const CHINESE = {
             totalAmountLabel: 'Amount:'
         },
         order: {
-            tabsLabel: ['订单详情', 'Product Table']
+            tabsLabel: ['订单详情', 'Product components']
         },
         orderStatusInfoTile: {
             title: '订单进度',
@@ -126,7 +126,7 @@ export const CHINESE = {
             editButton: '编辑',
         },
         orderProductTable: {
-            tableTitleLabel: 'Product Table',
+            tableTitleLabel: 'Product components',
             editButtonLabel: 'Edit',
             addRowButton: 'Add',
             errorMessages: {

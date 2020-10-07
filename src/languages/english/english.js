@@ -168,7 +168,7 @@ export const ENGLISH = {
             totalAmountLabel: 'Amount:'
         },
         order: {
-            tabsLabel: ['Order Details', 'Product Table']
+            tabsLabel: ['Order Details', 'Product components']
         },
         orderStatusInfoTile: {
             title: 'Order Progress',
@@ -193,7 +193,7 @@ export const ENGLISH = {
             deleteDocumentButtonConfirm: 'Delete',
         },
         orderProductTable: {
-            tableTitleLabel: 'Product Table',
+            tableTitleLabel: 'Product components',
             editButtonLabel: 'Edit',
             addRowButton: 'Add',
             errorMessages: {

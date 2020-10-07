@@ -43,23 +43,26 @@ export default function ClientDetails({ match }) {
     ];
 
     useEffect(() => {
+        console.log(client)
         if (!client) dispatch(fetchClientById(id));
     }, [dispatch, id, client]);
 
     return (
         <Container>
             { status === 'PENDING' && <Loader/> }
-            { client && <InfoCard
+            { client &&
+            <InfoCard
                 title={ client.name }
                 // button={ <ButtonDialog dialogTitle="hello its me" buttonLabel="edit"/> }
-            >
-                <ColumnInfoDisplay
-                    leftLabels={ leftLabels }
-                    rightLabels={ rightLabels }
-                    leftData={ leftData }
-                    rightData={ rightData }
-                />
-            </InfoCard> }
+                content={
+                    <ColumnInfoDisplay
+                        leftLabels={ leftLabels }
+                        rightLabels={ rightLabels }
+                        leftData={ leftData }
+                        rightData={ rightData }
+                    />
+                }
+            /> }
             { client && <ClientInfoTable client={ client }/> }
         </Container>
     )

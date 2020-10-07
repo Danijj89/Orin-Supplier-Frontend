@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { Card, Typography } from '@material-ui/core';
 import { Edit as IconEdit } from '@material-ui/icons';
 import { LANGUAGE } from '../../constants.js';
-import Table from '../shared/wrappers/Table.js';
 import { deleteAddress, updateAddress, updateDefaultAddress } from './duck/thunks.js';
 import { useDispatch } from 'react-redux';
 import DeleteButton from '../shared/buttons/DeleteButton.js';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import AddressDialog from '../shared/forms/AddressDialog.js';
 import NewCompanyAddressButton from './NewCompanyAddressButton.js';
+import Table from '../shared/components/Table.js';
 
 const {
     addressesTableTitleLabel,
@@ -31,8 +31,8 @@ export default function CompanyAddressTable({ company, className }) {
 
     const onSetDefaultAddress = (companyId, addressId) => dispatch(updateDefaultAddress({ companyId, addressId }));
 
-    const onEditAddress = (addressId) => {
-        setEditAddress(addresses.find(a => a._id === addressId));
+    const onRowClick = (params) => {
+        setEditAddress(addresses.find(a => a._id === params.id));
         setIsEditAddressOpen(true);
     };
 
@@ -45,34 +45,27 @@ export default function CompanyAddressTable({ company, className }) {
     };
 
     const deleteButton = params =>
-        defaultAddress._id !== params.value
+        defaultAddress._id !== params.id
         ? <DeleteButton
-            onDelete={ () => onDeleteAddress(companyId, params.value) }
+            onDelete={ () => onDeleteAddress(companyId, params.id) }
             deleteMessage={ deleteDialogTitle }
         />
         : <span />;
 
-    const editButton = params =>
-        <ThemedButton
-            variant="text"
-            onClick={() => onEditAddress(params.value)}
-        >
-            <IconEdit />
-        </ThemedButton>
 
     const setDefaultButton = (params) =>
-        defaultAddress._id === params.value
+        defaultAddress._id === params.id
             ? <ThemedButton
                 disabled
             >{ defaultAddressButtonLabel }</ThemedButton>
             : <ThemedButton
-                onClick={ () => onSetDefaultAddress(companyId, params.value) }
+                onClick={ () => onSetDefaultAddress(companyId, params.id) }
             >{ setDefaultButtonLabel }</ThemedButton>;
 
 
     const columns = [
         { field: 'id', hide: true },
-        { field: 'cancel', renderHeader: () => <span/>, renderCell: deleteButton },
+        { field: 'cancel', renderCell: deleteButton },
         { field: 'type', headerName: addressTableHeadersMap.type, width: 140 },
         { field: 'name', headerName: addressTableHeadersMap.name, width: 140 },
         { field: 'address', headerName: addressTableHeadersMap.address, width: 140 },
@@ -83,13 +76,11 @@ export default function CompanyAddressTable({ company, className }) {
         { field: 'zip', headerName: addressTableHeadersMap.zip },
         { field: 'phone', headerName: addressTableHeadersMap.phone },
         { field: 'email', headerName: addressTableHeadersMap.email, width: 140 },
-        { field: 'edit', renderHeader: () => <span/>, renderCell: editButton },
-        { field: 'default', renderHeader: () => <span/>, renderCell: setDefaultButton, width: 140 }
+        { field: 'default', renderCell: setDefaultButton, width: 140 }
     ];
 
     const rows = addresses.map(address => ({
         id: address._id,
-        cancel: address._id,
         type: address.type,
         name: address.name,
         address: address.address,
@@ -100,14 +91,12 @@ export default function CompanyAddressTable({ company, className }) {
         zip: address.zip,
         phone: address.phone,
         email: address.email,
-        edit: address._id,
-        default: address._id
     }));
 
     return (
         <Card className={ className }>
             <Typography variant="h5">{ addressesTableTitleLabel }</Typography>
-            <Table columns={ columns } rows={ rows } autoHeight/>
+            <Table columns={ columns } rows={ rows } onRowClick={onRowClick}/>
             { editAddress && <AddressDialog
                 isOpen={isEditAddressOpen}
                 address={editAddress}

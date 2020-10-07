@@ -1,15 +1,15 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import Table from '../shared/wrappers/Table.js';
 import { ChatBubble as IconChatFull, ChatBubbleOutline as IconChatEmpty } from '@material-ui/icons';
 import { LANGUAGE } from '../../constants.js';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { Card } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import Table from '../shared/components/Table.js';
 
 const useStyles = makeStyles((theme) => ({
     container: {
-        minHeight: 300,
+        height: 300,
         margin: theme.spacing(3),
     }
 }));
@@ -20,9 +20,9 @@ export default function ClientsTable({ clients }) {
     const classes = useStyles();
     const history = useHistory();
 
-    const onRowClick = (params) => {
-        history.push(`/home/clients/${ params.getValue('id') }`);
-    };
+    const onRowClick = (row) =>
+        history.push(`/home/clients/${ row.id }`);
+
 
     const rows = clients.map(client => ({
         id: client._id,
@@ -38,7 +38,7 @@ export default function ClientsTable({ clients }) {
 
     const columns = [
         { field: 'id', hide: true },
-        { field: 'name', headerName: tableHeaders[0], width: 180 },
+        { field: 'name', headerName: tableHeaders[0]},
         { field: 'contactName', headerName: tableHeaders[1], width: 180 },
         { field: 'contactEmail', headerName: tableHeaders[2], width: 180 },
         { field: 'lastOrder', headerName: tableHeaders[3], type: 'date', width: 140 },
@@ -48,7 +48,7 @@ export default function ClientsTable({ clients }) {
         {
             field: 'notes',
             headerName: tableHeaders[7],
-            renderCell: params => params.value
+            renderCell: value => value
                 ? <ThemedButton variant="text"><IconChatFull/></ThemedButton>
                 : <ThemedButton variant="text"><IconChatEmpty/></ThemedButton>,
             width: 80,
@@ -58,7 +58,7 @@ export default function ClientsTable({ clients }) {
 
     return (
         <Card className={ classes.container }>
-            <Table rows={ rows } columns={ columns } onRowClick={ onRowClick }/>
+            <Table rows={ rows } columns={ columns } onRowClick={onRowClick}/>
         </Card>
     )
 }
