@@ -47,7 +47,7 @@ export default function ThemedButton(
 
     const onButtonClick = (e) => {
         e.stopPropagation();
-        onClick();
+        onClick && onClick();
     };
 
     return (

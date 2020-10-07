@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Box, Button, Dialog, DialogActions, DialogTitle } from '@material-ui/core';
+import { Box, Button } from '@material-ui/core';
 import { Delete as IconDelete } from '@material-ui/icons';
 import { LANGUAGE } from '../../../constants.js';
 import { makeStyles } from '@material-ui/core/styles';
-import ThemedButton from './ThemedButton.js';
 import FormDialog from '../wrappers/FormDialog.js';
 
-const { cancelButton, confirmButton } = LANGUAGE.shared.buttons.deleteButton;
+const { confirmButton } = LANGUAGE.shared.buttons.deleteButton;
 
 const useStyles = makeStyles((theme) => ({
     button: {
@@ -50,17 +49,6 @@ export default function DeleteButton({ onDelete, deleteMessage }) {
                 onCancel={onCancel}
                 onSubmit={onConfirm}
             />
-            {/*<Dialog onClose={ onCancel } open={ isDialogOpen }>*/}
-            {/*    <DialogTitle>{ deleteMessage }</DialogTitle>*/}
-            {/*    <DialogActions>*/}
-            {/*        <ThemedButton onClick={ onCancel } variant="outlined">*/}
-            {/*            { cancelButton }*/}
-            {/*        </ThemedButton>*/}
-            {/*        <ThemedButton onClick={(e) => onConfirm(e)}>*/}
-            {/*            { confirmButton }*/}
-            {/*        </ThemedButton>*/}
-            {/*    </DialogActions>*/}
-            {/*</Dialog>*/}
         </Box>
     )
 }
