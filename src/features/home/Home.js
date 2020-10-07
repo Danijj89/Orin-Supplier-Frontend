@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import SidePanel from './SidePanel.js';
+import NavBar from './NavBar.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCurrentCompany, selectCurrentUser } from './duck/selectors.js';
 import { fetchAutocompleteOptions } from './duck/thunks.js';
@@ -12,21 +13,14 @@ const useStyles = makeStyles((theme) => ({
         minHeight: '100%',
         minWidth: '100%',
         backgroundColor: theme.palette.backgroundSecondary.main,
-        flexWrap: 'nowrap'
+        flexWrap: 'nowrap',
     },
-    leftPanel: {
+
+    content: {
         height: 'auto',
         minHeight: '100%',
-        backgroundColor: theme.palette.backgroundPrimary.main,
-        width: 220,
-        minWidth: 220
+        flex: '1 0 auto',
     },
-    rightPanel: {
-        height: 'auto',
-        minHeight: '100%',
-        width: 800,
-        flex: '1 0 auto'
-    }
 }));
 
 export default function Home({ children }) {
@@ -36,16 +30,22 @@ export default function Home({ children }) {
     const company = useSelector(selectCurrentCompany);
 
     useEffect(() => {
-        dispatch(fetchAutocompleteOptions(user.company))
+        dispatch(fetchAutocompleteOptions(user.company));
     }, [dispatch, user.company]);
 
     return (
-        <Grid container className={ classes.root }>
-            <Grid item className={ classes.leftPanel }>
-                { user && company && <SidePanel user={ user } company={ company }/> }
+        <Grid
+            container
+            direction="column"
+            justify="flex-start"
+            className={classes.root}
+        >
+            <Grid item>
+                <NavBar />
             </Grid>
-            <Grid item className={ classes.rightPanel }>
-                { children }
+
+            <Grid item className={classes.content}>
+                {children}
             </Grid>
         </Grid>
     );
