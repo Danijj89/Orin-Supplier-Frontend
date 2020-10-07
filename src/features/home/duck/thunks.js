@@ -75,9 +75,19 @@ export const fetchUsersByCompanyId = createAsyncThunk('home/fetchUsersByCompanyI
     });
 
 export const fetchAutocompleteOptions = createAsyncThunk('home/fetchAutocompleteOptions',
-    async (companyId, { rejectWithValue}) => {
+    async (companyId, { rejectWithValue }) => {
         try {
             return await CompanyService.fetchAutocompleteOptions(companyId);
+        } catch (err) {
+            return rejectWithValue(err.response.data);
+        }
+    });
+
+export const updateCompany = createAsyncThunk('home/updateCompany',
+    async (data, { rejectWithValue }) => {
+        try {
+            const { id, ...update } = data;
+            return await CompanyService.updateCompany(id, update);
         } catch (err) {
             return rejectWithValue(err.response.data);
         }

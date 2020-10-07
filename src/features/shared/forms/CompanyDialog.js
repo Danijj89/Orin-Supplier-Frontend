@@ -5,7 +5,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { LANGUAGE } from '../../../constants.js';
 import SideTextField from '../inputs/SideTextField.js';
 import SideAutoComplete from '../inputs/SideAutoComplete.js';
-import { currenciesOptions } from '../constants.js';
+import { currenciesOptions, industriesOptions } from '../constants.js';
 
 const { taxNumberLabel, defaultCurrencyLabel, industriesLabel } = LANGUAGE.shared.forms.companyDialog;
 
@@ -61,7 +61,7 @@ export default function CompanyDialog(
                     <SideAutoComplete
                         { ...props }
                         label={ industriesLabel }
-                        options={ currenciesOptions }
+                        options={ industriesOptions }
                         error={ !!errors.industries }
                         multiple
                         required

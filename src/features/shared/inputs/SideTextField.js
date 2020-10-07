@@ -42,7 +42,7 @@ export default function SideTextField({label, required, className, error, ...pro
     const classNames = clsx( classes.input, className, error && classes.inputInvalid);
 
     return (
-        <Box className={ classes.container } {...props}>
+        <Box className={ classes.container }>
             <Typography
                 className={ classes.label }
                 variant="subtitle1"

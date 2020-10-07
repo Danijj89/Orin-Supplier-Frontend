@@ -4,7 +4,7 @@ import {
     addNewAddress,
     deleteAddress, fetchAutocompleteOptions, fetchUsersByCompanyId,
     resetPassword,
-    updateAddress,
+    updateAddress, updateCompany,
     updateCurrentUser,
     updateDefaultAddress
 } from './thunks.js';
@@ -123,7 +123,18 @@ const homeSlice = createSlice({
         [fetchAutocompleteOptions.rejected]: (state, action) => {
             state.status = 'REJECTED';
             state.error = action.payload.message;
-        }
+        },
+        [updateCompany.pending]: (state, action) => {
+            state.status = 'PENDING';
+        },
+        [updateCompany.fulfilled]: (state, action) => {
+            state.company = action.payload;
+            state.status = 'IDLE';
+        },
+        [updateCompany.rejected]: (state, action) => {
+            state.status = 'REJECTED';
+            state.error = action.payload.message;
+        },
     }
 });
 

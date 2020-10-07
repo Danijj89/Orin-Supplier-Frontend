@@ -45,14 +45,25 @@ const fetchAutocompleteOptions = async (id) => {
     };
     const { data } = await fetchWithAuth(configs);
     return data;
-}
+};
+
+const updateCompany = async (id, update) => {
+    const configs = {
+        method: 'put',
+        url: `companies/${id}`,
+        data: update
+    };
+    const { data } = await fetchWithAuth(configs);
+    return data;
+};
 
 const CompanyService = {
     addNewAddress,
     deleteAddress,
     updateAddress,
     updateDefaultAddress,
-    fetchAutocompleteOptions
+    fetchAutocompleteOptions,
+    updateCompany
 };
 
 export default CompanyService;

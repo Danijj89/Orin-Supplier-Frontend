@@ -10,3 +10,4 @@ export const incotermOptions = ['EXW', 'FCA', 'FAS', 'FOB', 'CFR', 'CIF', 'CPT',
 export const salesStatusOptions = ['New', 'Working', 'Closed', 'Blocked'];
 export const leadTypesOptions = ['Cold', 'Warm', 'Hot'];
 export const leadPotentialsOptions = ['Low', 'Medium', 'High'];
+export const industriesOptions = ['Apparel', 'Shoeware', 'Metal'];

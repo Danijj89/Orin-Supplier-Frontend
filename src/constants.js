@@ -2,11 +2,16 @@ import { ENGLISH } from './languages/english/english.js';
 import { ENGLISH_ERRORS } from './languages/english/errors.js';
 import { CHINESE } from './languages/chinese/chinese.js';
 
-const locales =
-    navigator.languages === undefined
-        ? [navigator.language]
-        : navigator.languages;
-const currentLocale = 'en';
+function getCurrentLocale() {
+    const locales = navigator.languages === undefined ? [navigator.language] : navigator.languages;
+    for (const locale of locales) {
+        const curr = locale.split('-');
+        if (curr[0] === 'zh' || curr[0] === 'en') return curr[0];
+    }
+    return 'en';
+}
+
+const currentLocale = getCurrentLocale();
 const languages = {
     en: ENGLISH,
     zh: CHINESE,

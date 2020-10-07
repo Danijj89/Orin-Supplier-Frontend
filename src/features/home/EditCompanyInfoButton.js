@@ -4,6 +4,7 @@ import { Box } from '@material-ui/core';
 import { LANGUAGE } from '../../constants.js';
 import CompanyDialog from '../shared/forms/CompanyDialog.js';
 import { useDispatch } from 'react-redux';
+import { updateCompany } from './duck/thunks.js';
 
 const { editButtonLabel, dialogTitleLabel, dialogSubmitLabel } = LANGUAGE.home.companyDetails;
 
@@ -16,7 +17,7 @@ export default function EditCompanyInfoButton({ company, ...props }) {
 
     const onSubmitEditDialog = (data) => {
         data.id = company._id;
-        dispatch();
+        dispatch(updateCompany(data));
         setIsEdit(false);
     };
 
