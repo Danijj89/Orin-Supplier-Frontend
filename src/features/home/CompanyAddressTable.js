@@ -3,11 +3,12 @@ import { Card, Typography } from '@material-ui/core';
 import { Edit as IconEdit } from '@material-ui/icons';
 import { LANGUAGE } from '../../constants.js';
 import Table from '../shared/wrappers/Table.js';
-import { addNewAddress, deleteAddress, updateAddress, updateDefaultAddress } from './duck/thunks.js';
+import { deleteAddress, updateAddress, updateDefaultAddress } from './duck/thunks.js';
 import { useDispatch } from 'react-redux';
 import DeleteButton from '../shared/buttons/DeleteButton.js';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import AddressDialog from '../shared/forms/AddressDialog.js';
+import NewCompanyAddressButton from './NewCompanyAddressButton.js';
 
 const {
     addressesTableTitleLabel,
@@ -17,9 +18,6 @@ const {
     setDefaultButtonLabel,
     editAddressDialogTitleLabel,
     editAddressDialogSubmitLabel,
-    newAddressButtonLabel,
-    newAddressDialogTitleLabel,
-    newAddressDialogSubmitLabel
 } = LANGUAGE.home.companyDetails;
 
 export default function CompanyAddressTable({ company, className }) {
@@ -27,7 +25,6 @@ export default function CompanyAddressTable({ company, className }) {
     const { _id: companyId, addresses, defaultAddress } = company;
     const [isEditAddressOpen, setIsEditAddressOpen] = useState(false);
     const [editAddress, setEditAddress] = useState(null);
-    const [isNewAddressOpen, setIsNewAddressOpen] = useState(false);
 
     const onDeleteAddress = (companyId, addressId) =>
         dispatch(deleteAddress({ companyId, addressId }));
@@ -44,15 +41,7 @@ export default function CompanyAddressTable({ company, className }) {
     const onEditAddressSubmit = (data) => {
         data.companyId = companyId;
         dispatch(updateAddress(data));
-    };
-
-    const onAddAddress = () => setIsNewAddressOpen(true);
-    const onAddAddressCancel = () => setIsNewAddressOpen(false);
-
-    const onAddAddressSubmit = (data) => {
-        const { id, ...rest } = data;
-        rest.companyId = companyId;
-        dispatch(addNewAddress(rest));
+        setIsEditAddressOpen(false);
     };
 
     const deleteButton = params =>
@@ -127,16 +116,7 @@ export default function CompanyAddressTable({ company, className }) {
                 onCancel={onEditAddressCancel}
                 onSubmit={onEditAddressSubmit}
             /> }
-            <ThemedButton
-                onClick={onAddAddress}
-            >{newAddressButtonLabel}</ThemedButton>
-            { <AddressDialog
-                isOpen={isNewAddressOpen}
-                titleLabel={newAddressDialogTitleLabel}
-                submitLabel={newAddressDialogSubmitLabel}
-                onCancel={onAddAddressCancel}
-                onSubmit={onAddAddressSubmit}
-            /> }
+            <NewCompanyAddressButton company={company}/>
         </Card>
     )
 }

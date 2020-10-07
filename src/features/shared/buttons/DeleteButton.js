@@ -26,8 +26,7 @@ export default function DeleteButton({ onDelete, deleteMessage }) {
 
     const onCancel = () => setIsDialogOpen(false);
 
-    const onConfirm = (e) => {
-        e.stopPropagation();
+    const onConfirm = () => {
         onDelete();
         setIsDialogOpen(false);
     };
