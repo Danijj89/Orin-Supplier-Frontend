@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import { useHistory } from 'react-router-dom';
 import logo from '../../images/orinlogo.png';
 import { LANGUAGE } from '../../constants.js';
-import SearchBar from '../shared/SearchBar';
+import { useSelector } from 'react-redux';
 import {
     CardMedia,
     List,
@@ -14,6 +14,7 @@ import {
     IconButton,
     MenuItem,
     Menu,
+    Typography,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import {
@@ -69,7 +70,7 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     tabsText: {
-        fontSize: '1.1rem',
+        fontWeight: 'bold',
     },
 }));
 
@@ -81,10 +82,11 @@ const {
     settings,
 } = LANGUAGE.home.sidePanel;
 
-export default function NavBar({ user, company }) {
+export default function NavBar() {
     const classes = useStyles();
     const history = useHistory();
     const [tab, setTab] = useState('orders');
+    const userName = useSelector((state) => state.home.user.name);
 
     const onTabClick = (tabName, href) => {
         setTab(tabName);
@@ -228,9 +230,9 @@ export default function NavBar({ user, company }) {
                         </ListItem>
                     </List>
                     <div className={classes.grow} />
-                    <div className={classes.search}>
-                        <SearchBar />
-                    </div>
+                    <Typography variant="subtitle1">
+                        Hello, {userName}
+                    </Typography>
 
                     <div className={classes.sectionDesktop}>
                         <IconButton

@@ -1,8 +1,5 @@
 import React, { useEffect } from 'react';
-import {
-    Typography,
-    Container
-} from '@material-ui/core';
+import { Typography, Container } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectError, selectStatus } from './duck/selectors.js';
 import { makeStyles } from '@material-ui/core/styles';
@@ -14,11 +11,14 @@ import CompanyAddressTable from './CompanyAddressTable.js';
 
 const useStyles = makeStyles((theme) => ({
     topCard: {
-        margin: theme.spacing(3)
+        margin: '0',
     },
     table: {
-        margin: theme.spacing(3)
-    }
+        marginTop: theme.spacing(3),
+    },
+    companyContainer: {
+        padding: '0',
+    },
 }));
 
 export default function CompanyDetails({ company }) {
@@ -34,22 +34,15 @@ export default function CompanyDetails({ company }) {
     }, [dispatch, status]);
 
     return (
-        <Container>
-            { status === 'REJECTED' && <ErrorMessage errors={ [error] }/> }
+        <Container className={classes.companyContainer}>
+            {status === 'REJECTED' && <ErrorMessage errors={[error]} />}
             <InfoCard
-                className={ classes.topCard }
-                title={ company.defaultAddress.name }
-                button={
-                    <EditCompanyInfoButton company={ company }/>
-                }
-                content={
-                    <Typography>{ company.defaultAddress.name }</Typography>
-                }
+                className={classes.topCard}
+                title={company.defaultAddress.name}
+                button={<EditCompanyInfoButton company={company} />}
+                content={<Typography>{company.defaultAddress.name}</Typography>}
             />
-            <CompanyAddressTable
-                className={ classes.table }
-                company={ company }
-            />
+            <CompanyAddressTable className={classes.table} company={company} />
         </Container>
-    )
+    );
 }
