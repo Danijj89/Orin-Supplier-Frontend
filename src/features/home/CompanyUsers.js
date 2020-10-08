@@ -9,9 +9,12 @@ import { Box, List, ListItem, Divider } from '@material-ui/core';
 const useStyles = makeStyles((theme) => ({
     list: {
         minHeight: 500,
-        padding: 0
-    }
-}))
+        padding: 0,
+    },
+    listItem: {
+        padding: theme.spacing(2),
+    },
+}));
 
 const { titleLabel, inviteButtonLabel } = LANGUAGE.home.companyUsers;
 
@@ -20,24 +23,25 @@ export default function CompanyUsers({ users }) {
 
     return (
         <InfoCard
-            title={ titleLabel }
+            title={titleLabel}
             button={
                 <ThemedButton variant="text">
-                    { inviteButtonLabel }
-                    <IconAdd/>
+                    {inviteButtonLabel}
+                    <IconAdd />
                 </ThemedButton>
             }
             content={
-                <List className={ classes.list }>
-                    { users.map(user =>
+                <List className={classes.list}>
+                    {users.map((user) => (
                         <Box key={user._id}>
-                            <ListItem>{user.name}</ListItem>
-                            <Divider/>
+                            <ListItem className={classes.listItem}>
+                                {user.name}
+                            </ListItem>
+                            <Divider />
                         </Box>
-                    ) }
+                    ))}
                 </List>
             }
         />
-    )
+    );
 }
-
