@@ -7,9 +7,11 @@ import {
     Divider,
     DialogContent,
 } from '@material-ui/core';
+import { Delete as IconDelete } from '@material-ui/icons';
 import ThemedButton from '../buttons/ThemedButton.js';
 import { LANGUAGE } from '../../../constants.js';
 import { makeStyles } from '@material-ui/core/styles';
+import DeleteButton from '../buttons/DeleteButton.js';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -32,6 +34,8 @@ export default function FormDialog({
     children,
     onSubmit,
     onCancel,
+    onDelete,
+    deleteMessage,
     isOpen,
     titleLabel,
     submitLabel,
@@ -48,6 +52,12 @@ export default function FormDialog({
                 {children}
             </DialogContent>
             <DialogActions>
+                {onDelete &&
+                <DeleteButton
+                    onDelete={onDelete}
+                    deleteMessage={deleteMessage}
+                />
+                }
                 <ThemedButton
                     className={classes.onCancelButton}
                     variant="outlined"
@@ -75,4 +85,6 @@ FormDialog.propTypes = {
     className: PropTypes.string,
     onClose: PropTypes.func,
     children: PropTypes.element,
+    onDelete: PropTypes.func,
+    deleteMessage: PropTypes.string
 };

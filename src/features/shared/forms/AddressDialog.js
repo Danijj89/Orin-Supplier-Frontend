@@ -16,9 +16,10 @@ const {
     zipLabel,
     phoneLabel,
     emailLabel,
+    deleteMessage
 } = LANGUAGE.shared.forms.addressDialog;
 
-export default function AddressDialog({ isOpen, onSubmit, onCancel, submitLabel, address, titleLabel }) {
+export default function AddressDialog({ isOpen, onSubmit, onCancel, submitLabel, address, titleLabel, onDelete }) {
     const { register, errors, handleSubmit, formState, reset } = useForm({
         mode: 'onChange',
         defaultValues: {
@@ -35,9 +36,9 @@ export default function AddressDialog({ isOpen, onSubmit, onCancel, submitLabel,
             email: address?.email
         }
     });
-
+    const { isValid } = formState;
     const onFormSubmit = (data) => {
-        if (formState.isValid) onSubmit(data);
+        if (isValid) onSubmit(data);
     };
 
     useEffect(() => {
@@ -51,6 +52,8 @@ export default function AddressDialog({ isOpen, onSubmit, onCancel, submitLabel,
             submitLabel={ submitLabel }
             onCancel={ onCancel }
             onSubmit={ handleSubmit(onFormSubmit) }
+            onDelete={ onDelete }
+            deleteMessage={ deleteMessage }
         >
             <SideTextField
                 label={ typeLabel }
@@ -135,5 +138,6 @@ AddressDialog.propTypes = {
     onCancel: PropTypes.func.isRequired,
     submitLabel: PropTypes.string.isRequired,
     titleLabel: PropTypes.string.isRequired,
-    address: PropTypes.object
+    address: PropTypes.object,
+    onDelete: PropTypes.func
 };

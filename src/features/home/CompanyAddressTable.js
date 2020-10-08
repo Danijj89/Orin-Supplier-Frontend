@@ -18,7 +18,6 @@ import { makeStyles } from '@material-ui/core/styles';
 const {
     addressesTableTitleLabel,
     addressTableHeadersMap,
-    deleteDialogTitle,
     defaultAddressButtonLabel,
     setDefaultButtonLabel,
     editAddressDialogTitleLabel,
@@ -43,8 +42,10 @@ export default function CompanyAddressTable({ company, className }) {
     const [isEditAddressOpen, setIsEditAddressOpen] = useState(false);
     const [editAddress, setEditAddress] = useState(null);
 
-    const onDeleteAddress = (companyId, addressId) =>
+    const onDeleteAddress = (addressId) => {
         dispatch(deleteAddress({ companyId, addressId }));
+        setIsEditAddressOpen(false);
+    };
 
     const onSetDefaultAddress = (companyId, addressId) =>
         dispatch(updateDefaultAddress({ companyId, addressId }));
@@ -62,30 +63,19 @@ export default function CompanyAddressTable({ company, className }) {
         setIsEditAddressOpen(false);
     };
 
-    const deleteButton = (params) =>
-        defaultAddress._id !== params.id ? (
-            <DeleteButton
-                onDelete={() => onDeleteAddress(companyId, params.id)}
-                deleteMessage={deleteDialogTitle}
-            />
-        ) : (
-            <span />
-        );
-
     const setDefaultButton = (params) =>
         defaultAddress._id === params.id ? (
-            <ThemedButton disabled>{defaultAddressButtonLabel}</ThemedButton>
+            <ThemedButton disabled>{ defaultAddressButtonLabel }</ThemedButton>
         ) : (
             <ThemedButton
-                onClick={() => onSetDefaultAddress(companyId, params.id)}
+                onClick={ () => onSetDefaultAddress(companyId, params.id) }
             >
-                {setDefaultButtonLabel}
+                { setDefaultButtonLabel }
             </ThemedButton>
         );
 
     const columns = [
         { field: 'id', hide: true },
-        { field: 'cancel', renderCell: deleteButton },
         { field: 'type', headerName: addressTableHeadersMap.type, width: 140 },
         { field: 'name', headerName: addressTableHeadersMap.name, width: 140 },
         {
@@ -129,24 +119,30 @@ export default function CompanyAddressTable({ company, className }) {
     }));
 
     return (
-        <Card className={className}>
-            <Typography className={classes.addressTitle} variant="h5">
-                {addressesTableTitleLabel}
+        <Card className={ className }>
+            <Typography className={ classes.addressTitle } variant="h5">
+                { addressesTableTitleLabel }
             </Typography>
-            <Table columns={columns} rows={rows} onRowClick={onRowClick} />
-            {editAddress && (
+            <Table columns={ columns } rows={ rows } onRowClick={ onRowClick }/>
+            { editAddress && (
                 <AddressDialog
-                    isOpen={isEditAddressOpen}
-                    address={editAddress}
-                    titleLabel={editAddressDialogTitleLabel}
-                    submitLabel={editAddressDialogSubmitLabel}
-                    onCancel={onEditAddressCancel}
-                    onSubmit={onEditAddressSubmit}
+                    isOpen={ isEditAddressOpen }
+                    address={ editAddress }
+                    titleLabel={ editAddressDialogTitleLabel }
+                    submitLabel={ editAddressDialogSubmitLabel }
+                    onCancel={ onEditAddressCancel }
+                    onSubmit={ onEditAddressSubmit }
+                    onDelete={
+                        editAddress._id !== company.legalAddress._id
+                        && editAddress._id !== company.defaultAddress._id
+                            ? () => onDeleteAddress(editAddress._id)
+                            : null
+                    }
                 />
-            )}
+            ) }
             <NewCompanyAddressButton
-                className={classes.newAddressButton}
-                company={company}
+                className={ classes.newAddressButton }
+                company={ company }
             />
         </Card>
     );

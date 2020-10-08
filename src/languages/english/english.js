@@ -58,7 +58,6 @@ export const ENGLISH = {
                 phone: 'Phone',
                 email: 'Email'
             },
-            deleteDialogTitle: 'Are you sure you want to delete this address?',
             defaultAddressButtonLabel: 'Default',
             setDefaultButtonLabel: 'Set Default',
             editAddressDialogTitleLabel: 'Edit Address',
@@ -389,7 +388,8 @@ export const ENGLISH = {
                 countryLabel: 'Country',
                 zipLabel: 'Zip',
                 phoneLabel: 'Phone',
-                emailLabel: 'Email'
+                emailLabel: 'Email',
+                deleteMessage: 'Are you sure you want to delete this address?'
             },
             clientDialog: {
                 nameLabel: 'Company Name',
