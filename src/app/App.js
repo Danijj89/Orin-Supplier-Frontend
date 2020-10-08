@@ -1,7 +1,7 @@
 import React from 'react';
 import { Switch } from 'react-router-dom';
 import LoginPage from '../features/login/LoginPage.js';
-import Route from '../features/shared/AppRoute.js';
+import Route from '../features/shared/components/AppRoute.js';
 import OrdersOverview from '../features/orders/OrdersOverview.js';
 import { MuiThemeProvider, } from '@material-ui/core';
 import DateFnsUtils from '@date-io/date-fns';

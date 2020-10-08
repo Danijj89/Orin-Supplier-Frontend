@@ -27,3 +27,12 @@ export const fetchClientById = createAsyncThunk('client/fetchClientById',
             return rejectWithValue(err.response.data);
         }
     });
+
+export const updateClient = createAsyncThunk('client/updateClient',
+    async ({id, ...update}, {rejectWithValue}) => {
+        try {
+            return await ClientService.updateClient(id, update);
+        } catch (err) {
+            return rejectWithValue(err.response.data);
+        }
+    });

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import InfoCard from '../shared/wrappers/InfoCard.js';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectClientById, selectStatus } from './duck/selectors.js';
+import { selectClientById } from './duck/selectors.js';
 import { Container } from '@material-ui/core';
 import { fetchClientById } from './duck/thunks.js';
 import Loader from '../shared/displays/Loader.js';
@@ -9,6 +9,8 @@ import ColumnInfoDisplay from '../shared/wrappers/ColumnInfoDisplay.js';
 import { LANGUAGE } from '../../constants.js';
 import { dateToLocaleDate } from '../shared/utils.js';
 import ClientInfoTable from './ClientInfoTable.js';
+import EditClientButton from './EditClientButton.js';
+import { selectAutocompleteOptions } from '../home/duck/selectors.js';
 
 const {
     assignedToLabel,
@@ -25,10 +27,11 @@ export default function ClientDetails({ match }) {
     const dispatch = useDispatch();
     const { id } = match.params;
     const client = useSelector(state => selectClientById(state, id));
-    const status = useSelector(selectStatus);
+    const autocomplete = useSelector(selectAutocompleteOptions);
+    const loading = !client || !autocomplete;
+
     const leftLabels = [assignedToLabel, primaryContactLabel, contactEmailLabel, taxNumberLabel];
     const rightLabels = [sourceLabel, incotermLabel, paymentLabel, clientSinceLabel];
-
     const leftData = [
         client?.assignedTo.name,
         client?.defaultContact.name,
@@ -43,17 +46,21 @@ export default function ClientDetails({ match }) {
     ];
 
     useEffect(() => {
-        console.log(client)
         if (!client) dispatch(fetchClientById(id));
     }, [dispatch, id, client]);
 
     return (
         <Container>
-            { status === 'PENDING' && <Loader/> }
-            { client &&
+            { loading && <Loader/> }
+            { !loading &&
             <InfoCard
                 title={ client.name }
-                // button={ <ButtonDialog dialogTitle="hello its me" buttonLabel="edit"/> }
+                button={
+                    <EditClientButton
+                        client={ client }
+                        users={ autocomplete.users }
+                    />
+                }
                 content={
                     <ColumnInfoDisplay
                         leftLabels={ leftLabels }
@@ -63,7 +70,7 @@ export default function ClientDetails({ match }) {
                     />
                 }
             /> }
-            { client && <ClientInfoTable client={ client }/> }
+            { !loading && <ClientInfoTable client={ client }/> }
         </Container>
     )
 }

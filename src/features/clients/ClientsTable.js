@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const { tableHeaders } = LANGUAGE.client.clientOverview;
+const { clientTableHeadersMap } = LANGUAGE.client.clientOverview;
 
 export default function ClientsTable({ clients }) {
     const classes = useStyles();
@@ -23,6 +23,21 @@ export default function ClientsTable({ clients }) {
     const onRowClick = (row) =>
         history.push(`/home/clients/${ row.id }`);
 
+    const renderNotes = (params) => params.notes
+        ? <ThemedButton variant="text"><IconChatFull/></ThemedButton>
+        : <ThemedButton variant="text"><IconChatEmpty/></ThemedButton>;
+
+    const columns = [
+        { field: 'id', hide: true },
+        { field: 'name', headerName: clientTableHeadersMap.name },
+        { field: 'contactName', headerName: clientTableHeadersMap.contactName },
+        { field: 'contactEmail', headerName: clientTableHeadersMap.contactEmail },
+        { field: 'lastOrder', headerName: clientTableHeadersMap.lastOrder, type: 'date' },
+        { field: 'salesYTD', headerName: clientTableHeadersMap.salesYTD, type: 'number' },
+        { field: 'orderCountYTD', headerName: clientTableHeadersMap.orderCountYTD, type: 'number' },
+        { field: 'assignedTo', headerName: clientTableHeadersMap.assignedTo },
+        { field: 'notes', headerName: clientTableHeadersMap.notes, renderCell: renderNotes, }
+    ];
 
     const rows = clients.map(client => ({
         id: client._id,
@@ -35,26 +50,6 @@ export default function ClientsTable({ clients }) {
         assignedTo: client.assignedTo.name,
         notes: client.notes
     }));
-
-    const columns = [
-        { field: 'id', hide: true },
-        { field: 'name', headerName: tableHeaders[0]},
-        { field: 'contactName', headerName: tableHeaders[1], width: 180 },
-        { field: 'contactEmail', headerName: tableHeaders[2], width: 180 },
-        { field: 'lastOrder', headerName: tableHeaders[3], type: 'date', width: 140 },
-        { field: 'salesYTD', headerName: tableHeaders[4], type: 'number', width: 180 },
-        { field: 'orderCountYTD', headerName: tableHeaders[5], type: 'number', width: 180 },
-        { field: 'assignedTo', headerName: tableHeaders[6], width: 180 },
-        {
-            field: 'notes',
-            headerName: tableHeaders[7],
-            renderCell: value => value
-                ? <ThemedButton variant="text"><IconChatFull/></ThemedButton>
-                : <ThemedButton variant="text"><IconChatEmpty/></ThemedButton>,
-            width: 80,
-            headerAlign: 'center'
-        }
-    ];
 
     return (
         <Card className={ classes.container }>

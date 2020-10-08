@@ -1,5 +1,5 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import { createClient, fetchClientById, fetchClients } from './thunks.js';
+import { createClient, fetchClientById, fetchClients, updateClient } from './thunks.js';
 
 export const clientsAdapter = createEntityAdapter({
     selectId: client => client._id,
@@ -46,6 +46,18 @@ const ordersSlice = createSlice({
             state.status = 'IDLE';
         },
         [fetchClientById.rejected]: (state, action) => {
+            state.status = 'REJECTED';
+            state.error = action.payload.message;
+        },
+        [updateClient.pending]: (state, action) => {
+            state.status = 'PENDING';
+        },
+        [updateClient.fulfilled]: (state, action) => {
+            const { _id: id, ...changes } = action.payload;
+            clientsAdapter.updateOne(state, { id, changes });
+            state.status = 'IDLE';
+        },
+        [updateClient.rejected]: (state, action) => {
             state.status = 'REJECTED';
             state.error = action.payload.message;
         },

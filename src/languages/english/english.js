@@ -212,16 +212,16 @@ export const ENGLISH = {
             newClientButtonLabel: 'New Client',
             newClientDialogTitleLabel: 'Add new client',
             newClientSubmitButtonLabel: 'Add Client',
-            tableHeaders: [
-                'Company Name',
-                'Contact',
-                'Email',
-                'Last order',
-                'Sales YTD',
-                'Order Count YTD',
-                'Sales',
-                'Notes'
-            ]
+            clientTableHeadersMap: {
+                name: 'Company Name',
+                contactName: 'Contact',
+                contactEmail: 'Email',
+                lastOrder: 'Last order',
+                salesYTD: 'Sales YTD',
+                orderCountYTD: 'Order Count YTD',
+                assignedTo: 'Sales',
+                notes: 'Notes'
+            }
         },
         clientDetails: {
             assignedToLabel: 'Assigned To',
@@ -260,7 +260,12 @@ export const ENGLISH = {
             ],
             ordersTableHeaders: [
                 'Reference'
-            ]
+            ],
+            editClientButton: {
+                buttonLabel: 'Edit',
+                dialogTitleLabel: 'Edit Client',
+                dialogSubmitLabel: 'Update'
+            }
         }
     },
     commercialInvoice: {

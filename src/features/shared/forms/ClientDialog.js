@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Controller, useForm } from 'react-hook-form';
 import FormDialog from '../wrappers/FormDialog.js';
@@ -28,27 +28,32 @@ export default function ClientDialog(
         submitLabel,
         client,
         users,
-        titleLabel
+        titleLabel,
+        isEdit
     }) {
-    const { register, errors, formState, handleSubmit, control } = useForm({
+    const { register, errors, formState, handleSubmit, control, reset } = useForm({
         mode: 'onChange',
         defaultValues: {
             name: client?.name,
             assignedTo: client?.assignedTo,
-            contactName: client?.contact?.name,
-            contactEmail: client?.contact?.email,
+            contactName: !isEdit && client?.defaultContact?.name,
+            contactEmail: !isEdit && client?.defaultContact?.email,
             taxNumber: client?.taxNumber,
             source: client?.source,
             incoterm: client?.incoterm || 'FOB',
             payment: client?.payment,
             notes: client?.notes
-        },
-        shouldUnregister: false
+        }
     });
 
+    const { isValid } = formState;
     const onFormSubmit = (data) => {
-        if (formState.isValid) onSubmit(data);
+        if (isValid) onSubmit(data);
     };
+
+    useEffect(() => {
+        reset(client);
+    }, [reset, client]);
 
     return (
         <FormDialog
@@ -78,18 +83,18 @@ export default function ClientDialog(
                 name="assignedTo"
                 control={ control }
             />
-            <SideTextField
+            { !isEdit && <SideTextField
                 name="contactName"
                 label={ contactNameLabel }
                 inputRef={ register }
                 error={ !!errors.contactName }
-            />
-            <SideTextField
+            /> }
+            { !isEdit && <SideTextField
                 name="contactEmail"
                 label={ contactEmailLabel }
                 inputRef={ register }
                 error={ !!errors.contactEmail }
-            />
+            /> }
             <SideTextField
                 name="taxNumber"
                 label={ taxNumberLabel }
@@ -141,5 +146,6 @@ ClientDialog.propTypes = {
     submitLabel: PropTypes.string.isRequired,
     titleLabel: PropTypes.string.isRequired,
     users: PropTypes.array.isRequired,
-    client: PropTypes.object
+    client: PropTypes.object,
+    isEdit: PropTypes.bool
 };
