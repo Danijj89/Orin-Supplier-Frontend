@@ -41,7 +41,7 @@ export default function Table({ rows, columns, className, onRowClick }) {
             }
         );
         return (
-            <TableRow key={ row.id } onClick={ () => onRowClicked(row) }>
+            <TableRow key={ row.id } onClick={ () => onRowClicked(row) } hover>
                 { currRow }
             </TableRow>
         )
@@ -49,7 +49,7 @@ export default function Table({ rows, columns, className, onRowClick }) {
 
     return (
         <TableContainer className={ className }>
-            <MuiTable>
+            <MuiTable stickyHeader>
                 <TableHead>
                     <TableRow>
                         { columns.map(renderColumn) }

@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
         marginBottom: theme.spacing(1),
     },
     onCancelButton: {
-        marginBottom: theme.spacing(1),
+        marginBottom: theme.spacing(1)
     },
 }));
 

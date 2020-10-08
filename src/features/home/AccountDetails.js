@@ -16,7 +16,7 @@ const { titleLabel, nameLabel, emailLabel } = LANGUAGE.home.accountDetails;
 const useStyles = makeStyles((theme) => ({
     resetPwdButton: {
         margin: theme.spacing(2),
-        marginTop: theme.spacing(5),
+        marginTop: theme.spacing(5)
     },
 }));
 

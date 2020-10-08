@@ -66,6 +66,11 @@ export const ENGLISH = {
             newAddressButtonLabel: 'New Address',
             newAddressDialogTitleLabel: 'New Address',
             newAddressDialogSubmitLabel: 'Create Address',
+            taxNumberLabel: 'Tax Number',
+            defaultCurrencyLabel: 'Default Currency',
+            industriesLabel: 'Industry',
+            emailLabel: 'Company Email',
+            phoneLabel: 'Company Phone'
         },
         newAddressButton: {
             typeLabel: 'Address Type',
