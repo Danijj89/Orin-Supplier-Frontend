@@ -46,8 +46,6 @@ export default function ClientDialog(
         }
     });
 
-    console.log(users);
-
     const { isValid } = formState;
     const onFormSubmit = (data) => {
         if (isValid) onSubmit(data);

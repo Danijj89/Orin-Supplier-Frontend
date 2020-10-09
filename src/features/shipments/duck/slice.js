@@ -42,8 +42,6 @@ const shipmentsSlice = createSlice({
     }
 });
 
-export const {} = shipmentsSlice.actions;
-
 export const {
     selectAll: selectAllShipments,
     selectById: selectShipmentById

@@ -7,7 +7,6 @@ import {
     Divider,
     DialogContent,
 } from '@material-ui/core';
-import { Delete as IconDelete } from '@material-ui/icons';
 import ThemedButton from '../buttons/ThemedButton.js';
 import { LANGUAGE } from '../../../constants.js';
 import { makeStyles } from '@material-ui/core/styles';
