@@ -237,18 +237,18 @@ export const ENGLISH = {
                 contacts: 'Contacts',
                 orders: 'Orders'
             },
-            addressTableHeaders: [
-                'Label',
-                'Entity Name',
-                'Address',
-                'Address 2',
-                'City',
-                'State',
-                'Country',
-                'Zip',
-                'Phone',
-                'Email'
-            ],
+            addressTableHeadersMap: {
+                type: 'Label',
+                name: 'Entity Name',
+                address: 'Address',
+                address2: 'Address 2',
+                city: 'City',
+                administrative: 'State',
+                country: 'Country',
+                zip: 'Zip',
+                phone: 'Phone',
+                email: 'Email'
+            },
             contactsTableHeaders: [
                 'Name',
                 'Email',
@@ -265,7 +265,10 @@ export const ENGLISH = {
                 buttonLabel: 'Edit',
                 dialogTitleLabel: 'Edit Client',
                 dialogSubmitLabel: 'Update'
-            }
+            },
+            editAddressDialogTitleLabel: 'Edit Address',
+            editAddressDialogSubmitLabel: 'Update Address',
+
         }
     },
     commercialInvoice: {

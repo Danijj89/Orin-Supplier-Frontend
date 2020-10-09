@@ -76,31 +76,16 @@ export default function CompanyAddressTable({ company, className }) {
 
     const columns = [
         { field: 'id', hide: true },
-        { field: 'type', headerName: addressTableHeadersMap.type, width: 140 },
-        { field: 'name', headerName: addressTableHeadersMap.name, width: 140 },
-        {
-            field: 'address',
-            headerName: addressTableHeadersMap.address,
-            width: 140,
-        },
-        {
-            field: 'address2',
-            headerName: addressTableHeadersMap.address2,
-            width: 140,
-        },
+        { field: 'type', headerName: addressTableHeadersMap.type },
+        { field: 'name', headerName: addressTableHeadersMap.name },
+        { field: 'address', headerName: addressTableHeadersMap.address },
+        { field: 'address2', headerName: addressTableHeadersMap.address2 },
         { field: 'city', headerName: addressTableHeadersMap.city },
-        {
-            field: 'administrative',
-            headerName: addressTableHeadersMap.administrative,
-        },
+        { field: 'administrative', headerName: addressTableHeadersMap.administrative },
         { field: 'country', headerName: addressTableHeadersMap.country },
         { field: 'zip', headerName: addressTableHeadersMap.zip },
         { field: 'phone', headerName: addressTableHeadersMap.phone },
-        {
-            field: 'email',
-            headerName: addressTableHeadersMap.email,
-            width: 140,
-        },
+        { field: 'email', headerName: addressTableHeadersMap.email },
         { field: 'default', renderCell: setDefaultButton, width: 140 },
     ];
 

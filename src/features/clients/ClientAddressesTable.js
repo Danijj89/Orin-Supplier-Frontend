@@ -1,46 +1,47 @@
 import React, { useState } from 'react';
 import { LANGUAGE } from '../../constants.js';
-import { Typography, Tooltip } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
 import Table from '../shared/components/Table.js';
+import { Box } from '@material-ui/core';
+import AddressDialog from '../shared/forms/AddressDialog.js';
+import { useDispatch } from 'react-redux';
 
-const useStyles = makeStyles((theme) => ({
-    cell: {
-        whiteSpace: 'nowrap',
-        overflow: 'hidden',
-        textOverflow: 'ellipsis',
-        fontSize: 'inherit'
+const {
+    addressTableHeadersMap,
+    editAddressDialogTitleLabel,
+    editAddressDialogSubmitLabel
+} = LANGUAGE.client.clientDetails;
+
+export default function ClientAddressesTable({ client }) {
+    const dispatch = useDispatch();
+    const { _id: clientId, addresses } = client;
+    const [isEdit, setIsEdit] = useState(false);
+    const [editAddress, setEditAddress] = useState(null);
+
+    const onRowClick = (params) => {
+        setEditAddress(addresses.find((a) => a._id === params.id));
+        setIsEdit(true);
     }
-}));
+    const onEditAddressCancel = () => setIsEdit(false);
+    const onEditAddressSubmit = (data) => {
+        data.clientId = clientId;
+        dispatch();
+        setIsEdit(false);
+    };
 
-const { addressTableHeaders } = LANGUAGE.client.clientDetails;
-
-export default function ClientAddressesTable({ addresses }) {
-    const classes = useStyles();
-    const [isDialogOpen, setIsDialogOpen] = useState(false);
-
-    const Cell = (params) =>
-        <Tooltip title={ params.value || '' } className={ classes.cell }>
-            <Typography>
-                { params.value }
-            </Typography>
-        </Tooltip>
-
-    const onRowClick = (params) => setIsDialogOpen(true);
-
+    const onDeleteAddress = () => {}
 
     const columns = [
         { field: 'id', hide: true },
-        { field: 'type', headerName: addressTableHeaders[0], width: 140, renderCell: Cell },
-        { field: 'name', headerName: addressTableHeaders[1], width: 140, renderCell: Cell },
-        { field: 'address', headerName: addressTableHeaders[2], width: 140, renderCell: Cell },
-        { field: 'address2', headerName: addressTableHeaders[3], width: 140, renderCell: Cell },
-        { field: 'city', headerName: addressTableHeaders[4], renderCell: Cell },
-        { field: 'administrative', headerName: addressTableHeaders[5], renderCell: Cell },
-        { field: 'country', headerName: addressTableHeaders[6], renderCell: Cell },
-        { field: 'zip', headerName: addressTableHeaders[7], renderCell: Cell },
-        { field: 'phone', headerName: addressTableHeaders[8], renderCell: Cell },
-        { field: 'email', headerName: addressTableHeaders[9], width: 140, renderCell: Cell },
+        { field: 'type', headerName: addressTableHeadersMap.type },
+        { field: 'name', headerName: addressTableHeadersMap.name },
+        { field: 'address', headerName: addressTableHeadersMap.address },
+        { field: 'address2', headerName: addressTableHeadersMap.address2 },
+        { field: 'city', headerName: addressTableHeadersMap.city },
+        { field: 'administrative', headerName: addressTableHeadersMap.administrative },
+        { field: 'country', headerName: addressTableHeadersMap.country },
+        { field: 'zip', headerName: addressTableHeadersMap.zip },
+        { field: 'phone', headerName: addressTableHeadersMap.phone },
+        { field: 'email', headerName: addressTableHeadersMap.email },
     ];
 
     const rows = addresses.map(address => ({
@@ -58,10 +59,28 @@ export default function ClientAddressesTable({ addresses }) {
     }));
 
     return (
-        <Table
-            rows={ rows }
-            columns={ columns }
-            onRowClick={onRowClick}
-        />
+        <Box>
+            <Table
+                rows={ rows }
+                columns={ columns }
+                onRowClick={onRowClick}
+            />
+            { editAddress && (
+                <AddressDialog
+                    isOpen={ isEdit }
+                    address={ editAddress }
+                    titleLabel={ editAddressDialogTitleLabel }
+                    submitLabel={ editAddressDialogSubmitLabel }
+                    onCancel={ onEditAddressCancel }
+                    onSubmit={ onEditAddressSubmit }
+                    onDelete={
+                        editAddress._id !== client.defaultAddress._id
+                            ? () => onDeleteAddress(editAddress._id)
+                            : null
+                    }
+                />
+            ) }
+        </Box>
+
     )
 }
