@@ -5,7 +5,7 @@ import {
     deleteClientAddress,
     fetchClientById,
     fetchClients,
-    updateClient
+    updateClient, updateDefaultClientAddress
 } from './thunks.js';
 
 export const clientsAdapter = createEntityAdapter({
@@ -90,6 +90,19 @@ const ordersSlice = createSlice({
             state.status = 'IDLE';
         },
         [deleteClientAddress.rejected]: (state, action) => {
+            state.status = 'REJECTED';
+            state.error = action.payload.message;
+        },
+        [updateDefaultClientAddress.pending]: (state, action) => {
+            state.status = 'PENDING';
+        },
+        [updateDefaultClientAddress.fulfilled]: (state, action) => {
+            const { clientId, addressId } = action.payload;
+            const newDefaultAddress = state.entities[clientId].addresses.find(add => add._id === addressId);
+            clientsAdapter.updateOne(state, { id: clientId, changes: { defaultAddress: newDefaultAddress }});
+            state.status = 'IDLE';
+        },
+        [updateDefaultClientAddress.rejected]: (state, action) => {
             state.status = 'REJECTED';
             state.error = action.payload.message;
         }

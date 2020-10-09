@@ -55,3 +55,13 @@ export const deleteClientAddress = createAsyncThunk('client/deleteClientAddress'
             return rejectWithValue(err.response.data);
         }
     });
+
+export const updateDefaultClientAddress = createAsyncThunk('client/updateDefaultClientAddress',
+    async ({ clientId, addressId }, { rejectWithValue }) => {
+        try {
+            await ClientService.updateDefaultClientAddress(clientId, addressId);
+            return { clientId, addressId };
+        } catch (err) {
+            return rejectWithValue(err.response.data);
+        }
+    });

@@ -5,16 +5,21 @@ import { Box } from '@material-ui/core';
 import AddressDialog from '../shared/forms/AddressDialog.js';
 import { useDispatch } from 'react-redux';
 import NewClientAddressButton from './NewClientAddressButton.js';
+import { deleteClientAddress, updateDefaultClientAddress } from './duck/thunks.js';
+import ThemedButton from '../shared/buttons/ThemedButton.js';
+import { defaultTableHeaders } from '../orders/duck/slice.js';
 
 const {
     addressTableHeadersMap,
     editAddressDialogTitleLabel,
-    editAddressDialogSubmitLabel
-} = LANGUAGE.client.clientDetails;
+    editAddressDialogSubmitLabel,
+    setDefaultButtonLabel,
+    defaultAddressButtonLabel
+} = LANGUAGE.client.clientDetails.clientAddressTable;
 
 export default function ClientAddressesTable({ client }) {
     const dispatch = useDispatch();
-    const { _id: clientId, addresses } = client;
+    const { _id: clientId, addresses, defaultAddress } = client;
     const [isEdit, setIsEdit] = useState(false);
     const [editAddress, setEditAddress] = useState(null);
 
@@ -29,7 +34,20 @@ export default function ClientAddressesTable({ client }) {
         setIsEdit(false);
     };
 
-    const onDeleteAddress = () => {}
+    const onDeleteAddress = (addressId) => {
+        dispatch(deleteClientAddress({ clientId, addressId }));
+        setIsEdit(false);
+    };
+
+    const onSetDefaultAddress = (addressId) =>
+        dispatch(updateDefaultClientAddress({ clientId, addressId }));
+
+    const setDefaultButton = (params) =>
+        defaultAddress._id === params.id
+            ? <ThemedButton disabled>{ defaultAddressButtonLabel }</ThemedButton>
+            : <ThemedButton onClick={ () => onSetDefaultAddress(params.id) }>
+                { setDefaultButtonLabel }
+            </ThemedButton>;
 
     const columns = [
         { field: 'id', hide: true },
@@ -43,6 +61,7 @@ export default function ClientAddressesTable({ client }) {
         { field: 'zip', headerName: addressTableHeadersMap.zip },
         { field: 'phone', headerName: addressTableHeadersMap.phone },
         { field: 'email', headerName: addressTableHeadersMap.email },
+        { field: 'default', renderCell: setDefaultButton }
     ];
 
     const rows = addresses.map(address => ({
@@ -64,7 +83,7 @@ export default function ClientAddressesTable({ client }) {
             <Table
                 rows={ rows }
                 columns={ columns }
-                onRowClick={onRowClick}
+                onRowClick={ onRowClick }
             />
             { editAddress && (
                 <AddressDialog
@@ -81,7 +100,7 @@ export default function ClientAddressesTable({ client }) {
                     }
                 />
             ) }
-            <NewClientAddressButton client={client}/>
+            <NewClientAddressButton client={ client }/>
         </Box>
     )
 }
