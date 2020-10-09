@@ -237,6 +237,11 @@ export const ENGLISH = {
                 contacts: 'Contacts',
                 orders: 'Orders'
             },
+            editClientButton: {
+                buttonLabel: 'Edit',
+                dialogTitleLabel: 'Edit Client',
+                dialogSubmitLabel: 'Update'
+            },
             clientAddressTable: {
                 editAddressDialogTitleLabel: 'Edit Address',
                 editAddressDialogSubmitLabel: 'Update Address',
@@ -255,23 +260,25 @@ export const ENGLISH = {
                     email: 'Email'
                 },
             },
-            contactsTableHeaders: [
-                'Name',
-                'Email',
-                'Phone',
-                'Fax',
-                'Title',
-                'Department',
-                'Additional'
-            ],
+            clientContactsTable: {
+                contactTableHeadersMap: {
+                    name: 'Name',
+                    email: 'Email',
+                    phone: 'Phone',
+                    fax: 'Fax',
+                    title: 'Title',
+                    department: 'Department',
+                    additional: 'Additional'
+                },
+                editDialogTitleLabel: 'Edit Contact',
+                editDialogSubmitLabel: 'Update',
+                newDialogTitleLabel: 'New Contact',
+                newDialogSubmitLabel: 'Add',
+                newButtonLabel: 'Add Contact'
+            },
             ordersTableHeaders: [
                 'Reference'
             ],
-            editClientButton: {
-                buttonLabel: 'Edit',
-                dialogTitleLabel: 'Edit Client',
-                dialogSubmitLabel: 'Update'
-            }
         }
     },
     commercialInvoice: {
@@ -412,6 +419,16 @@ export const ENGLISH = {
                 incotermLabel: 'Default Incoterm',
                 paymentTermLabel: 'Default Payment Term',
                 notesLabel: 'Notes'
+            },
+            contactDialog: {
+                nameLabel: 'Name',
+                emailLabel: 'Email',
+                phoneLabel: 'Phone',
+                faxLabel: 'Fax',
+                titleLabel: 'Title',
+                departmentLabel: 'Department',
+                additionalLabel: 'Additional Info',
+                deleteMessage: 'Are you sure you want to delete this contact?'
             }
         },
         buttons: {

@@ -7,20 +7,26 @@ import SideTextField from '../inputs/SideTextField.js';
 import TextArea from '../inputs/TextArea.js';
 
 const {
-    typeLabel,
     nameLabel,
-    addressLabel,
-    address2Label,
-    cityLabel,
-    administrativeLabel,
-    countryLabel,
-    zipLabel,
-    phoneLabel,
     emailLabel,
-    deleteMessage
-} = LANGUAGE.shared.forms.addressDialog;
+    phoneLabel,
+    faxLabel,
+    titleLabel: titleFieldLabel,
+    departmentLabel,
+    additionalLabel,
+    deleteMessage,
+} = LANGUAGE.shared.forms.contactDialog;
 
-export default function ContactDialog({ isOpen, onSubmit, onCancel, submitLabel, contact, titleLabel, onDelete }) {
+export default function ContactDialog(
+    {
+        isOpen,
+        onSubmit,
+        onCancel,
+        submitLabel,
+        contact,
+        titleLabel,
+        onDelete
+    }) {
     const { register, errors, handleSubmit, formState, reset } = useForm({
         mode: 'onChange',
         defaultValues: {
@@ -85,28 +91,28 @@ export default function ContactDialog({ isOpen, onSubmit, onCancel, submitLabel,
                 fullWidth
             />
             <SideTextField
-                label={ addressLabel }
+                label={ faxLabel }
                 name="fax"
                 inputRef={ register }
                 error={ !!errors.fax }
                 fullWidth
             />
             <SideTextField
-                label={ address2Label }
+                label={ titleFieldLabel }
                 name="title"
                 inputRef={ register }
                 error={ !!errors.title }
                 fullWidth
             />
             <SideTextField
-                label={ cityLabel }
+                label={ departmentLabel }
                 name="department"
                 inputRef={ register }
                 error={ !!errors.department }
                 fullWidth
             />
             <TextArea
-                label={ administrativeLabel }
+                label={ additionalLabel }
                 name="additional"
                 inputRef={ register }
                 error={ !!errors.additional }

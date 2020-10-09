@@ -75,3 +75,12 @@ export const updateAddress = createAsyncThunk('client/updateAddress',
             return rejectWithValue(err.response.data);
         }
     });
+
+export const addNewClientContact = createAsyncThunk('client/addNewClientContact',
+    async ({ clientId, ...contact }, {rejectWithValue}) => {
+        try {
+            return await ClientService.addNewClientContact(clientId, contact);
+        } catch (err) {
+            return rejectWithValue(err.response.data);
+        }
+    });

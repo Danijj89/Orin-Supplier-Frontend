@@ -77,7 +77,17 @@ const updateAddress = async (clientId, addressId, update) => {
     };
     const { data } = await fetchWithAuth(configs);
     return data;
-}
+};
+
+const addNewClientContact = async (clientId, contact) => {
+    const configs = {
+        method: 'post',
+        url: `clients/${clientId}/contacts`,
+        data: contact
+    };
+    const { data } = await fetchWithAuth(configs);
+    return data;
+};
 
 const ClientService = {
     fetchClients,
@@ -87,7 +97,8 @@ const ClientService = {
     addNewClientAddress,
     deleteClientAddress,
     updateDefaultClientAddress,
-    updateAddress
+    updateAddress,
+    addNewClientContact
 };
 
 export default ClientService;
