@@ -29,9 +29,18 @@ export const fetchClientById = createAsyncThunk('client/fetchClientById',
     });
 
 export const updateClient = createAsyncThunk('client/updateClient',
-    async ({id, ...update}, {rejectWithValue}) => {
+    async ({ id, ...update }, { rejectWithValue }) => {
         try {
             return await ClientService.updateClient(id, update);
+        } catch (err) {
+            return rejectWithValue(err.response.data);
+        }
+    });
+
+export const addNewClientAddress = createAsyncThunk('client/addNewClientAddress',
+    async ({ clientId, ...address }, { rejectWithValue }) => {
+        try {
+            return await ClientService.addNewClientAddress(clientId, address);
         } catch (err) {
             return rejectWithValue(err.response.data);
         }

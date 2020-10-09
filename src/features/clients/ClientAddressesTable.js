@@ -4,6 +4,7 @@ import Table from '../shared/components/Table.js';
 import { Box } from '@material-ui/core';
 import AddressDialog from '../shared/forms/AddressDialog.js';
 import { useDispatch } from 'react-redux';
+import NewClientAddressButton from './NewClientAddressButton.js';
 
 const {
     addressTableHeadersMap,
@@ -80,6 +81,7 @@ export default function ClientAddressesTable({ client }) {
                     }
                 />
             ) }
+            <NewClientAddressButton client={client}/>
         </Box>
 
     )
