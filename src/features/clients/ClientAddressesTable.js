@@ -5,9 +5,8 @@ import { Box } from '@material-ui/core';
 import AddressDialog from '../shared/forms/AddressDialog.js';
 import { useDispatch } from 'react-redux';
 import NewClientAddressButton from './NewClientAddressButton.js';
-import { deleteClientAddress, updateDefaultClientAddress } from './duck/thunks.js';
+import { deleteClientAddress, updateAddress, updateDefaultClientAddress } from './duck/thunks.js';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
-import { defaultTableHeaders } from '../orders/duck/slice.js';
 
 const {
     addressTableHeadersMap,
@@ -30,7 +29,7 @@ export default function ClientAddressesTable({ client }) {
     const onEditAddressCancel = () => setIsEdit(false);
     const onEditAddressSubmit = (data) => {
         data.clientId = clientId;
-        dispatch();
+        dispatch(updateAddress(data));
         setIsEdit(false);
     };
 
