@@ -29,7 +29,7 @@ export default function ClientInfoTable({ client }) {
                     />) }
             </Tabs>
             { client && tabValue === 'addresses' && <ClientAddressesTable client={ client }/> }
-            { client && tabValue === 'contacts' && <ClientContactsTable contacts={ client.contacts }/> }
+            { client && tabValue === 'contacts' && <ClientContactsTable client={ client }/> }
             { client && tabValue === 'orders' && <ClientOrdersTable orders={ client.orders }/> }
         </Paper>
     )

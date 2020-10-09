@@ -1,40 +1,51 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { LANGUAGE } from '../../constants.js';
-import { Typography, Tooltip } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
 import Table from '../shared/components/Table.js';
+import NewClientAddressButton from './NewClientAddressButton.js';
+import { Box } from '@material-ui/core';
+import ContactDialog from '../shared/forms/ContactDialog.js';
+import { useDispatch } from 'react-redux';
+import NewClientContactButton from './NewClientContactButton.js';
+import { deleteContact } from './duck/thunks.js';
 
-const useStyles = makeStyles((theme) => ({
-    cell: {
-        whiteSpace: 'nowrap',
-        overflow: 'hidden',
-        textOverflow: 'ellipsis',
-        fontSize: 'inherit'
-    }
-}));
+const {
+    contactTableHeadersMap,
+    editDialogSubmitLabel,
+    editDialogTitleLabel
+} = LANGUAGE.client.clientDetails.clientContactsTable;
 
-const { contactsTableHeaders } = LANGUAGE.client.clientDetails;
+export default function ClientContactsTable({ client }) {
+    const dispatch = useDispatch();
+    const { _id: clientId, contacts, defaultContact } = client;
+    const [isEdit, setIsEdit] = useState(false);
+    const [editContact, setEditContact] = useState(null);
 
-export default function ClientContactsTable({ contacts }) {
-    const classes = useStyles();
+    const onRowClick = (params) => {
+        setEditContact(contacts.find(c => c._id === params.id));
+        setIsEdit(true);
+    };
 
-    const Cell = (params) =>
-        <Tooltip title={ params.value || '' } className={ classes.cell }>
-            <Typography>
-                { params.value }
-            </Typography>
-        </Tooltip>
+    const onEditCancel = () => setIsEdit(false);
+    const onEditSubmit = (data) => {
+        data.clientId = clientId;
+        dispatch();
+        setIsEdit(false);
+    };
 
+    const onDeleteContact = (contactId) => {
+        dispatch(deleteContact({ clientId, contactId }));
+        setIsEdit(false);
+    };
 
     const columns = [
         { field: 'id', hide: true },
-        { field: 'name', headerName: contactsTableHeaders[0], width: 140, renderCell: Cell },
-        { field: 'email', headerName: contactsTableHeaders[1], width: 140, renderCell: Cell },
-        { field: 'phone', headerName: contactsTableHeaders[2], width: 140, renderCell: Cell },
-        { field: 'fax', headerName: contactsTableHeaders[3], width: 140, renderCell: Cell },
-        { field: 'title', headerName: contactsTableHeaders[4], renderCell: Cell },
-        { field: 'department', headerName: contactsTableHeaders[5], renderCell: Cell },
-        { field: 'additional', headerName: contactsTableHeaders[6], renderCell: Cell },
+        { field: 'name', headerName: contactTableHeadersMap.name },
+        { field: 'email', headerName: contactTableHeadersMap.email },
+        { field: 'phone', headerName: contactTableHeadersMap.phone },
+        { field: 'fax', headerName: contactTableHeadersMap.fax },
+        { field: 'title', headerName: contactTableHeadersMap.title },
+        { field: 'department', headerName: contactTableHeadersMap.department },
+        { field: 'additional', headerName: contactTableHeadersMap.additional }
     ];
 
     const rows = contacts.map(contact => ({
@@ -49,6 +60,28 @@ export default function ClientContactsTable({ contacts }) {
     }));
 
     return (
-        <Table rows={ rows } columns={ columns }/>
+        <Box>
+            <Table
+                rows={ rows }
+                columns={ columns }
+                onRowClick={ onRowClick }
+            />
+            { editContact && (
+                <ContactDialog
+                    isOpen={ isEdit }
+                    contact={ editContact }
+                    titleLabel={ editDialogTitleLabel }
+                    submitLabel={ editDialogSubmitLabel }
+                    onCancel={ onEditCancel }
+                    onSubmit={ onEditSubmit }
+                    onDelete={
+                        editContact._id !== defaultContact._id
+                            ? () => onDeleteContact(editContact._id)
+                            : null
+                    }
+                />
+            ) }
+            <NewClientContactButton client={ client }/>
+        </Box>
     )
 }
