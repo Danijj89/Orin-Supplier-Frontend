@@ -81,8 +81,10 @@ const homeSlice = createSlice({
             state.status = 'PENDING';
         },
         [updateAddress.fulfilled]: (state, action) => {
-            const { id, ...newAddress } = action.payload;
-            state.company.addresses = state.company.addresses.map(address => address._id === id ? newAddress : address);
+            const updatedAddress = action.payload;
+
+            state.company.addresses = state.company.addresses.map(
+                address => address._id === updatedAddress._id ? updatedAddress : address);
             state.status = 'IDLE';
         },
         [updateAddress.rejected]: (state, action) => {

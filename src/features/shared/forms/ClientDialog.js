@@ -52,8 +52,18 @@ export default function ClientDialog(
     };
 
     useEffect(() => {
-        reset(client);
-    }, [reset, client]);
+        reset({
+            name: client?.name,
+            assignedTo: client?.assignedTo,
+            contactName: !isEdit && client?.defaultContact?.name,
+            contactEmail: !isEdit && client?.defaultContact?.email,
+            taxNumber: client?.taxNumber,
+            source: client?.source,
+            incoterm: client?.incoterm || 'FOB',
+            payment: client?.payment,
+            notes: client?.notes
+        });
+    }, [reset, client, isEdit]);
 
     return (
         <FormDialog

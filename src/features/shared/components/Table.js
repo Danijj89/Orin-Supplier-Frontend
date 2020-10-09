@@ -25,7 +25,7 @@ export default function Table({ rows, columns, className, onRowClick }) {
         );
     };
 
-    const renderRow = (row) => {
+    const renderRow = (row, index) => {
         const currRow = columns.map(column => {
                 if (column.hide) return null;
                 if (column.renderCell) return (
@@ -41,7 +41,7 @@ export default function Table({ rows, columns, className, onRowClick }) {
             }
         );
         return (
-            <TableRow key={ row.id } onClick={ () => onRowClicked(row) } hover>
+            <TableRow key={ index } onClick={ () => onRowClicked(row) } hover>
                 { currRow }
             </TableRow>
         )

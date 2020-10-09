@@ -33,9 +33,8 @@ export const addNewAddress = createAsyncThunk('home/addNewAddress',
     });
 
 export const deleteAddress = createAsyncThunk('home/deleteAddress',
-    async (data, { rejectWithValue }) => {
+    async ({ companyId, addressId }, { rejectWithValue }) => {
         try {
-            const { companyId, addressId } = data;
             await CompanyService.deleteAddress(companyId, addressId);
             return addressId;
         } catch (err) {
@@ -44,20 +43,18 @@ export const deleteAddress = createAsyncThunk('home/deleteAddress',
     });
 
 export const updateAddress = createAsyncThunk('home/updateAddress',
-    async (data, { rejectWithValue }) => {
+    async ({ companyId, _id, ...update }, { rejectWithValue }) => {
         try {
-            const { companyId, id, ...update } = data;
-            await CompanyService.updateAddress(companyId, id, update);
-            return { id, ...update };
+            await CompanyService.updateAddress(companyId, _id, update);
+            return { _id, ...update };
         } catch (err) {
             return rejectWithValue(err.response.data);
         }
     });
 
 export const updateDefaultAddress = createAsyncThunk('home/updateDefaultAddress',
-    async (data, { rejectWithValue }) => {
+    async ({ companyId, addressId }, { rejectWithValue }) => {
         try {
-            const { companyId, addressId } = data;
             await CompanyService.updateDefaultAddress(companyId, addressId);
             return addressId;
         } catch (err) {
@@ -84,9 +81,8 @@ export const fetchAutocompleteOptions = createAsyncThunk('home/fetchAutocomplete
     });
 
 export const updateCompany = createAsyncThunk('home/updateCompany',
-    async (data, { rejectWithValue }) => {
+    async ({ id, ...update }, { rejectWithValue }) => {
         try {
-            const { id, ...update } = data;
             return await CompanyService.updateCompany(id, update);
         } catch (err) {
             return rejectWithValue(err.response.data);

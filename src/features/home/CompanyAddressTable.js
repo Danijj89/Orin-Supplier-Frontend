@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Card, Typography } from '@material-ui/core';
-import { Edit as IconEdit } from '@material-ui/icons';
 import { LANGUAGE } from '../../constants.js';
 import {
     deleteAddress,
@@ -8,7 +7,6 @@ import {
     updateDefaultAddress,
 } from './duck/thunks.js';
 import { useDispatch } from 'react-redux';
-import DeleteButton from '../shared/buttons/DeleteButton.js';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import AddressDialog from '../shared/forms/AddressDialog.js';
 import NewCompanyAddressButton from './NewCompanyAddressButton.js';
@@ -47,7 +45,7 @@ export default function CompanyAddressTable({ company, className }) {
         setIsEditAddressOpen(false);
     };
 
-    const onSetDefaultAddress = (companyId, addressId) =>
+    const onSetDefaultAddress = (addressId) =>
         dispatch(updateDefaultAddress({ companyId, addressId }));
 
     const onRowClick = (params) => {
@@ -68,7 +66,7 @@ export default function CompanyAddressTable({ company, className }) {
             <ThemedButton disabled>{ defaultAddressButtonLabel }</ThemedButton>
         ) : (
             <ThemedButton
-                onClick={ () => onSetDefaultAddress(companyId, params.id) }
+                onClick={ () => onSetDefaultAddress(params.id) }
             >
                 { setDefaultButtonLabel }
             </ThemedButton>
@@ -86,7 +84,7 @@ export default function CompanyAddressTable({ company, className }) {
         { field: 'zip', headerName: addressTableHeadersMap.zip },
         { field: 'phone', headerName: addressTableHeadersMap.phone },
         { field: 'email', headerName: addressTableHeadersMap.email },
-        { field: 'default', renderCell: setDefaultButton, width: 140 },
+        { field: 'default', renderCell: setDefaultButton },
     ];
 
     const rows = addresses.map((address) => ({

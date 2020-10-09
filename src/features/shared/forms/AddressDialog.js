@@ -42,7 +42,19 @@ export default function AddressDialog({ isOpen, onSubmit, onCancel, submitLabel,
     };
 
     useEffect(() => {
-        reset(address);
+        reset({
+            _id: address?._id,
+            type: address?.type,
+            name: address?.name,
+            address: address?.address,
+            address2: address?.address2,
+            city: address?.city,
+            administrative: address?.administrative,
+            country: address?.country,
+            zip: address?.zip,
+            phone: address?.phone,
+            email: address?.email
+        });
     }, [reset, address]);
 
     return (
