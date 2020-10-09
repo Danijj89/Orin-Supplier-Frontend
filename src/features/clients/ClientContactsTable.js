@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { LANGUAGE } from '../../constants.js';
 import Table from '../shared/components/Table.js';
-import NewClientAddressButton from './NewClientAddressButton.js';
 import { Box } from '@material-ui/core';
 import ContactDialog from '../shared/forms/ContactDialog.js';
 import { useDispatch } from 'react-redux';
 import NewClientContactButton from './NewClientContactButton.js';
-import { deleteContact } from './duck/thunks.js';
+import { deleteContact, updateContact } from './duck/thunks.js';
 
 const {
     contactTableHeadersMap,
@@ -28,7 +27,7 @@ export default function ClientContactsTable({ client }) {
     const onEditCancel = () => setIsEdit(false);
     const onEditSubmit = (data) => {
         data.clientId = clientId;
-        dispatch();
+        dispatch(updateContact(data));
         setIsEdit(false);
     };
 

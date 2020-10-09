@@ -28,17 +28,7 @@ export default function ContactDialog(
         onDelete
     }) {
     const { register, errors, handleSubmit, formState, reset } = useForm({
-        mode: 'onChange',
-        defaultValues: {
-            _id: contact?._id,
-            name: contact?.name,
-            email: contact?.email,
-            phone: contact?.phone,
-            fax: contact?.fax,
-            title: contact?.title,
-            department: contact?.department,
-            additional: contact?.additional,
-        }
+        mode: 'onChange'
     });
 
     const { isValid } = formState;
@@ -48,7 +38,7 @@ export default function ContactDialog(
 
     useEffect(() => {
         reset({
-            id: contact?._id,
+            _id: contact?._id,
             name: contact?.name,
             email: contact?.email,
             phone: contact?.phone,

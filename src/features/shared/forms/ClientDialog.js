@@ -32,18 +32,7 @@ export default function ClientDialog(
         isEdit
     }) {
     const { register, errors, formState, handleSubmit, control, reset, getValues } = useForm({
-        mode: 'onChange',
-        defaultValues: {
-            name: client?.name,
-            assignedTo: client?.assignedTo,
-            contactName: !isEdit && client?.defaultContact?.name,
-            contactEmail: !isEdit && client?.defaultContact?.email,
-            taxNumber: client?.taxNumber,
-            source: client?.source,
-            incoterm: client?.incoterm || 'FOB',
-            payment: client?.payment,
-            notes: client?.notes
-        }
+        mode: 'onChange'
     });
 
     const { isValid } = formState;

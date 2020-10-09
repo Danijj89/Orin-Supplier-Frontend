@@ -5,7 +5,7 @@ import {
     deleteClientAddress, deleteContact,
     fetchClientById,
     fetchClients, updateAddress,
-    updateClient, updateDefaultClientAddress
+    updateClient, updateContact, updateDefaultClientAddress
 } from './thunks.js';
 
 export const clientsAdapter = createEntityAdapter({
@@ -142,6 +142,20 @@ const ordersSlice = createSlice({
             state.status = 'IDLE';
         },
         [deleteContact.rejected]: (state, action) => {
+            state.status = 'REJECTED';
+            state.error = action.payload.message;
+        },
+        [updateContact.pending]: (state, action) => {
+            state.status = 'PENDING';
+        },
+        [updateContact.fulfilled]: (state, action) => {
+            const { clientId, ...updatedContact } = action.payload;
+            const updatedContacts = state.entities[clientId].contacts.map(
+                c => c._id === updatedContact._id ? updatedContact : c);
+            clientsAdapter.updateOne(state, { id: clientId, changes: { contacts: updatedContacts }});
+            state.status = 'IDLE';
+        },
+        [updateContact.rejected]: (state, action) => {
             state.status = 'REJECTED';
             state.error = action.payload.message;
         }
