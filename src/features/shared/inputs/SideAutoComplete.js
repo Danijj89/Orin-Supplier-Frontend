@@ -12,6 +12,7 @@ export default function SideAutoComplete(
         error,
         options,
         getOptionLabel,
+        getOptionSelected,
         multiple,
         ...props
     }) {
@@ -33,6 +34,7 @@ export default function SideAutoComplete(
             filterSelectedOptions={ multiple }
             options={ options }
             getOptionLabel={ getOptionLabel }
+            getOptionSelected={ getOptionSelected }
             renderInput={ (params) => (
                 <TextArea
                     { ...params }
@@ -54,5 +56,6 @@ SideAutoComplete.propTypes = {
     className: PropTypes.string,
     error: PropTypes.bool,
     options: PropTypes.array.isRequired,
-    getOptionLabel: PropTypes.func
+    getOptionLabel: PropTypes.func,
+    getOptionSelected: PropTypes.func
 };

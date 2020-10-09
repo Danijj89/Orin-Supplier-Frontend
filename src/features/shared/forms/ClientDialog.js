@@ -31,7 +31,7 @@ export default function ClientDialog(
         titleLabel,
         isEdit
     }) {
-    const { register, errors, formState, handleSubmit, control, reset } = useForm({
+    const { register, errors, formState, handleSubmit, control, reset, getValues } = useForm({
         mode: 'onChange',
         defaultValues: {
             name: client?.name,
@@ -45,6 +45,8 @@ export default function ClientDialog(
             notes: client?.notes
         }
     });
+
+    console.log(users);
 
     const { isValid } = formState;
     const onFormSubmit = (data) => {
@@ -88,6 +90,7 @@ export default function ClientDialog(
                         error={ !!errors.assignedTo }
                         options={ users }
                         getOptionLabel={ option => option.name }
+                        getOptionSelected={ option => option._id === getValues('assignedTo')._id }
                     />
                 }
                 name="assignedTo"

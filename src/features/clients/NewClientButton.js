@@ -24,6 +24,7 @@ export default function NewClientButton({ userId, companyId, users, ...props }) 
         client.clientOf = companyId;
         client.clientSince = new Date();
         dispatch(createClient(client));
+        setIsDialogOpen(false);
     };
 
     return (
