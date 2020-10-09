@@ -1,39 +1,34 @@
 import React from 'react';
 import { LANGUAGE } from '../../constants.js';
-import { Typography, Tooltip } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
 import Table from '../shared/components/Table.js';
 
-const useStyles = makeStyles((theme) => ({
-    cell: {
-        whiteSpace: 'nowrap',
-        overflow: 'hidden',
-        textOverflow: 'ellipsis',
-        fontSize: 'inherit'
-    }
-}));
 
-const { ordersTableHeaders } = LANGUAGE.client.clientDetails;
+const {
+    ordersTableHeadersMap
+} = LANGUAGE.client.clientDetails.clientOrdersTable;
 
 export default function ClientOrdersTable({ orders }) {
-    const classes = useStyles();
-
-    const Cell = (params) =>
-        <Tooltip title={ params.value || '' } className={ classes.cell }>
-            <Typography>
-                { params.value }
-            </Typography>
-        </Tooltip>
-
 
     const columns = [
         { field: 'id', hide: true },
-        { field: 'ref', headerName: ordersTableHeaders[0], width: 140, renderCell: Cell },
+        { field: 'ref', headerName: ordersTableHeadersMap.ref },
+        { field: 'clientRef', headerName: ordersTableHeadersMap.clientRef },
+        { field: 'crd', headerName: ordersTableHeadersMap.crd },
+        { field: 'realCrd', headerName: ordersTableHeadersMap.realCrd },
+        { field: 'totalQ', headerName: ordersTableHeadersMap.totalQ },
+        { field: 'totalA', headerName: ordersTableHeadersMap.totalA },
+        { field: 'del', headerName: ordersTableHeadersMap.del }
     ];
 
     const rows = orders.map(order => ({
         id: order._id,
-        ref: order.ref
+        ref: order.ref,
+        clientRef: order.clientRef,
+        crd: order.crd,
+        realCrd: order.realCrd,
+        del: order.del,
+        totalQ: order.totalQ,
+        totalA: order.totalA
     }));
 
     return (

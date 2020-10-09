@@ -34,8 +34,8 @@ export default function ClientDetails({ match }) {
     const rightLabels = [sourceLabel, incotermLabel, paymentLabel, clientSinceLabel];
     const leftData = [
         client?.assignedTo.name,
-        client?.defaultContact.name,
-        client?.defaultContact.email,
+        client?.defaultContact?.name,
+        client?.defaultContact?.email,
         client?.taxNumber
     ];
     const rightData = [

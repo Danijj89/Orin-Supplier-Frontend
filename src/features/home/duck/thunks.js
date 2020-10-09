@@ -43,10 +43,10 @@ export const deleteAddress = createAsyncThunk('home/deleteAddress',
     });
 
 export const updateAddress = createAsyncThunk('home/updateAddress',
-    async ({ companyId, _id, ...update }, { rejectWithValue }) => {
+    async ({ companyId, ...update }, { rejectWithValue }) => {
         try {
-            await CompanyService.updateAddress(companyId, _id, update);
-            return { _id, ...update };
+            await CompanyService.updateAddress(companyId, update._id, update);
+            return update;
         } catch (err) {
             return rejectWithValue(err.response.data);
         }

@@ -276,9 +276,17 @@ export const ENGLISH = {
                 newDialogSubmitLabel: 'Add',
                 newButtonLabel: 'Add Contact'
             },
-            ordersTableHeaders: [
-                'Reference'
-            ],
+            clientOrdersTable: {
+                ordersTableHeadersMap: {
+                    ref: 'Order Number',
+                    clientRef: 'Client Reference',
+                    crd: 'Original Cargo Ready',
+                    realCrd: 'Actual Cargo Ready',
+                    totalQ: 'Quantity',
+                    totalA: 'Total',
+                    del: 'Mode'
+                },
+            }
         }
     },
     commercialInvoice: {

@@ -35,7 +35,7 @@ export default function Table({ rows, columns, className, onRowClick }) {
                 );
                 return (
                     <TableCell key={ column.field }>
-                        { row[column.field] }
+                        { row[column.field] || '-' }
                     </TableCell>
                 );
             }

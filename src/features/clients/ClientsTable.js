@@ -42,8 +42,8 @@ export default function ClientsTable({ clients }) {
     const rows = clients.map(client => ({
         id: client._id,
         name: client.name,
-        contactName: client.defaultContact.name,
-        contactEmail: client.defaultContact.email,
+        contactName: client.defaultContact?.name,
+        contactEmail: client.defaultContact?.email,
         lastOrder: client.lastOrder,
         salesYTD: client.salesYTD,
         orderCountYTD: client.orderCountYTD,

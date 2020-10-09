@@ -17,7 +17,7 @@ export default function ClientOverview() {
     const clients = useSelector(selectAllClients);
     const autocomplete = useSelector(selectAutocompleteOptions);
     const clientStatus = useSelector(selectClientStatus);
-    const loading = !clients?.length || !autocomplete;
+    const loading = !Array.isArray(clients) || !autocomplete;
 
     useEffect(() => {
         if (clientStatus === 'IDLE') {
