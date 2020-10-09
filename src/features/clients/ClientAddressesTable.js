@@ -83,6 +83,5 @@ export default function ClientAddressesTable({ client }) {
             ) }
             <NewClientAddressButton client={client}/>
         </Box>
-
     )
 }
