@@ -97,19 +97,101 @@ export const ENGLISH = {
             nameLabel: 'Name'
         }
     },
+    client: {
+        clientOverview: {
+            newClientButtonLabel: 'New Client',
+            newClientDialogTitleLabel: 'Add new client',
+            newClientSubmitButtonLabel: 'Add Client',
+            clientTableHeadersMap: {
+                name: 'Company Name',
+                contactName: 'Contact',
+                contactEmail: 'Email',
+                lastOrder: 'Last order',
+                salesYTD: 'Sales YTD',
+                orderCountYTD: 'Order Count YTD',
+                assignedTo: 'Sales',
+                notes: 'Notes'
+            }
+        },
+        clientDetails: {
+            assignedToLabel: 'Assigned To',
+            primaryContactLabel: 'Primary Contact',
+            contactEmailLabel: 'Contact Email',
+            taxNumberLabel: 'Tax Number',
+            sourceLabel: 'Source',
+            incotermLabel: 'Default Incoterm',
+            paymentLabel: 'Default Payment Term',
+            clientSinceLabel: 'Client Since',
+            tabsLabelsMap: {
+                addresses: 'Addresses',
+                contacts: 'Contacts',
+                orders: 'Orders'
+            },
+            editClientButton: {
+                buttonLabel: 'Edit',
+                dialogTitleLabel: 'Edit Client',
+                dialogSubmitLabel: 'Update'
+            },
+            clientAddressTable: {
+                editAddressDialogTitleLabel: 'Edit Address',
+                editAddressDialogSubmitLabel: 'Update Address',
+                defaultAddressButtonLabel: 'Default',
+                setDefaultButtonLabel: 'Set Default',
+                addressTableHeadersMap: {
+                    type: 'Label',
+                    name: 'Entity Name',
+                    address: 'Address',
+                    address2: 'Address 2',
+                    city: 'City',
+                    administrative: 'State',
+                    country: 'Country',
+                    zip: 'Zip',
+                    phone: 'Phone',
+                    email: 'Email'
+                },
+            },
+            clientContactsTable: {
+                contactTableHeadersMap: {
+                    name: 'Name',
+                    email: 'Email',
+                    phone: 'Phone',
+                    fax: 'Fax',
+                    title: 'Title',
+                    department: 'Department',
+                    additional: 'Additional'
+                },
+                editDialogTitleLabel: 'Edit Contact',
+                editDialogSubmitLabel: 'Update',
+                newDialogTitleLabel: 'New Contact',
+                newDialogSubmitLabel: 'Add',
+                newButtonLabel: 'Add Contact'
+            },
+            clientOrdersTable: {
+                ordersTableHeadersMap: {
+                    ref: 'Order Number',
+                    clientRef: 'Client Reference',
+                    crd: 'Original Cargo Ready',
+                    realCrd: 'Actual Cargo Ready',
+                    totalQ: 'Quantity',
+                    totalA: 'Total',
+                    del: 'Mode'
+                },
+            }
+        }
+    },
     order: {
         ordersOverview: {
-            newOrderButton: 'New Order',
-            columns: [
-                'Purchase Order',
-                'Quantity',
-                'Cargo Ready',
-                'Client',
-                'Procurement',
-                'Production',
-                'QA',
-                'Notes',
-            ]
+            newOrderButtonLabel: 'New Order',
+            ordersTableHeadersMap: {
+                ref: 'Purchase Order',
+                totalQ: 'Quantity',
+                crd: 'Cargo Ready',
+                toName: 'Client',
+                procurement:'Procurement',
+                production: 'Production',
+                qa: 'QA',
+                notes: 'Notes',
+            }
         },
         orderTableRow: {
             deleteOrderDialogMessage:
@@ -207,88 +289,7 @@ export const ENGLISH = {
             totalsLabel: 'Total:'
         }
     },
-    client: {
-        clientOverview: {
-            newClientButtonLabel: 'New Client',
-            newClientDialogTitleLabel: 'Add new client',
-            newClientSubmitButtonLabel: 'Add Client',
-            clientTableHeadersMap: {
-                name: 'Company Name',
-                contactName: 'Contact',
-                contactEmail: 'Email',
-                lastOrder: 'Last order',
-                salesYTD: 'Sales YTD',
-                orderCountYTD: 'Order Count YTD',
-                assignedTo: 'Sales',
-                notes: 'Notes'
-            }
-        },
-        clientDetails: {
-            assignedToLabel: 'Assigned To',
-            primaryContactLabel: 'Primary Contact',
-            contactEmailLabel: 'Contact Email',
-            taxNumberLabel: 'Tax Number',
-            sourceLabel: 'Source',
-            incotermLabel: 'Default Incoterm',
-            paymentLabel: 'Default Payment Term',
-            clientSinceLabel: 'Client Since',
-            tabsLabelsMap: {
-                addresses: 'Addresses',
-                contacts: 'Contacts',
-                orders: 'Orders'
-            },
-            editClientButton: {
-                buttonLabel: 'Edit',
-                dialogTitleLabel: 'Edit Client',
-                dialogSubmitLabel: 'Update'
-            },
-            clientAddressTable: {
-                editAddressDialogTitleLabel: 'Edit Address',
-                editAddressDialogSubmitLabel: 'Update Address',
-                defaultAddressButtonLabel: 'Default',
-                setDefaultButtonLabel: 'Set Default',
-                addressTableHeadersMap: {
-                    type: 'Label',
-                    name: 'Entity Name',
-                    address: 'Address',
-                    address2: 'Address 2',
-                    city: 'City',
-                    administrative: 'State',
-                    country: 'Country',
-                    zip: 'Zip',
-                    phone: 'Phone',
-                    email: 'Email'
-                },
-            },
-            clientContactsTable: {
-                contactTableHeadersMap: {
-                    name: 'Name',
-                    email: 'Email',
-                    phone: 'Phone',
-                    fax: 'Fax',
-                    title: 'Title',
-                    department: 'Department',
-                    additional: 'Additional'
-                },
-                editDialogTitleLabel: 'Edit Contact',
-                editDialogSubmitLabel: 'Update',
-                newDialogTitleLabel: 'New Contact',
-                newDialogSubmitLabel: 'Add',
-                newButtonLabel: 'Add Contact'
-            },
-            clientOrdersTable: {
-                ordersTableHeadersMap: {
-                    ref: 'Order Number',
-                    clientRef: 'Client Reference',
-                    crd: 'Original Cargo Ready',
-                    realCrd: 'Actual Cargo Ready',
-                    totalQ: 'Quantity',
-                    totalA: 'Total',
-                    del: 'Mode'
-                },
-            }
-        }
-    },
+
     commercialInvoice: {
         createCI: {
             steps: ['Invoice Info', 'Products', 'Review'],
