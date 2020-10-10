@@ -67,6 +67,8 @@ export default function Table({ rows, columns, className, onRowClick }) {
         )
     }
 
+    const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+
     return (
         <TableContainer className={ className }>
             <MuiTable stickyHeader>
@@ -80,12 +82,17 @@ export default function Table({ rows, columns, className, onRowClick }) {
                             ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             : rows
                     ).map(renderRow) }
+                    {emptyRows > 0 && (
+                        <TableRow style={{ height: 69 * emptyRows }}>
+                            <TableCell colSpan={numColumns} />
+                        </TableRow>
+                    )}
                 </TableBody>
                 <TableFooter>
                     <TableRow>
                         <TablePagination
                             labelRowsPerPage={ rowsPerPageLabel }
-                            rowsPerPageOptions={ [1, 2, 50, { label: paginationAllLabel, value: -1 }] }
+                            rowsPerPageOptions={ [5, 10, 25, { label: paginationAllLabel, value: -1 }] }
                             colSpan={ numColumns }
                             count={ rows.length }
                             rowsPerPage={ rowsPerPage }
