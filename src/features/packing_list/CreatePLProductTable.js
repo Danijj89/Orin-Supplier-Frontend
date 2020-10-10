@@ -16,7 +16,7 @@ import IconClear from '@material-ui/icons/Clear';
 import CreatePLTableRow from './CreatePLTableRow.js';
 import { LANGUAGE } from '../../constants.js';
 import UnitCounter from '../shared/classes/UnitCounter.js';
-import { roundTo2Decimal } from '../shared/utils.js';
+import { roundTo2Decimal } from '../shared/utils/random.js';
 import { useSelector } from 'react-redux';
 import { selectPLAutocompleteOptions } from './duck/selectors.js';
 

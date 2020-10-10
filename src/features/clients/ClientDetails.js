@@ -7,10 +7,10 @@ import { fetchClientById } from './duck/thunks.js';
 import Loader from '../shared/displays/Loader.js';
 import ColumnInfoDisplay from '../shared/wrappers/ColumnInfoDisplay.js';
 import { LANGUAGE } from '../../constants.js';
-import { dateToLocaleDate } from '../shared/utils.js';
 import ClientInfoTable from './ClientInfoTable.js';
 import EditClientButton from './EditClientButton.js';
 import { selectCurrentCompany } from '../home/duck/selectors.js';
+import { dateToLocaleDate } from '../shared/utils/format.js';
 
 const {
     assignedToLabel,
