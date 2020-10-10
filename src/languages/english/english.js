@@ -439,6 +439,12 @@ export const ENGLISH = {
                 deleteMessage: 'Are you sure you want to delete this contact?'
             }
         },
+        components: {
+            table: {
+                paginationAllLabel: 'All',
+                rowsPerPageLabel: 'Rows per page'
+            }
+        },
         buttons: {
             deleteButton: {
                 cancelButton: 'Cancel',
