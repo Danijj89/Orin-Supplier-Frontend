@@ -94,7 +94,7 @@ export default function LoginPage() {
             sessionStorage.setItem(SESSION_COOKIE, JSON.stringify(new Date(Date.now() + expires)));
             sessionStorage.setItem(SESSION_USER, JSON.stringify(user));
             dispatch(setSessionInfo(user));
-            history.push('/home');
+            history.push('/home/orders');
         } catch (err) {
             const { message } = err.response.data;
             setError(message);

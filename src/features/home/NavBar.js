@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import logo from '../../images/orinlogo.png';
 import { LANGUAGE } from '../../constants.js';
 import { useSelector } from 'react-redux';
@@ -84,14 +84,13 @@ const {
 
 export default function NavBar() {
     const classes = useStyles();
+    const location = useLocation();
+    const currentTab = location.pathname.split('/')[2];
     const history = useHistory();
-    const [tab, setTab] = useState('orders');
     const userName = useSelector((state) => state.home.user.name);
 
-    const onTabClick = (tabName, href) => {
-        setTab(tabName);
-        history.push(href);
-    };
+    const onTabClick = (tabName, href) => history.push(href);
+
 
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -166,7 +165,7 @@ export default function NavBar() {
                             button
                             component="a"
                             onClick={() => onTabClick('orders', '/home/orders')}
-                            selected={tab === 'orders'}
+                            selected={currentTab === 'orders'}
                             classes={{
                                 root: classes.tabs,
                                 selected: classes.selected,
@@ -188,7 +187,7 @@ export default function NavBar() {
                                 root: classes.tabs,
                                 selected: classes.selected,
                             }}
-                            selected={tab === 'clients'}
+                            selected={currentTab === 'clients'}
                         >
                             <ListItemText>
                                 <span className={classes.tabsText}>
@@ -204,7 +203,7 @@ export default function NavBar() {
                                 root: classes.tabs,
                                 selected: classes.selected,
                             }}
-                            selected={tab === 'shipments'}
+                            selected={currentTab === 'shipments'}
                         >
                             <ListItemText>
                                 <span className={classes.tabsText}>
@@ -220,7 +219,7 @@ export default function NavBar() {
                                 root: classes.tabs,
                                 selected: classes.selected,
                             }}
-                            selected={tab === 'products'}
+                            selected={currentTab === 'products'}
                         >
                             <ListItemText>
                                 <span className={classes.tabsText}>
