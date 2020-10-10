@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectAllClients, selectStatus as selectClientStatus } from './duck/selectors.js';
 import { fetchClients } from './duck/thunks.js';
 import {
-    selectAutocompleteOptions,
+    selectCurrentCompany,
     selectCurrentUser
 } from '../home/duck/selectors.js';
 import ClientsTable from './ClientsTable.js';
@@ -15,9 +15,9 @@ export default function ClientOverview() {
     const dispatch = useDispatch();
     const user = useSelector(selectCurrentUser);
     const clients = useSelector(selectAllClients);
-    const autocomplete = useSelector(selectAutocompleteOptions);
+    const company = useSelector(selectCurrentCompany);
     const clientStatus = useSelector(selectClientStatus);
-    const loading = !Array.isArray(clients) || !autocomplete;
+    const loading = !Array.isArray(clients) || !company;
 
     useEffect(() => {
         if (clientStatus === 'IDLE') {
@@ -34,7 +34,7 @@ export default function ClientOverview() {
                     <NewClientButton
                         userId={ user._id }
                         companyId={ user.company }
-                        users={ autocomplete.users }
+                        users={ company.users }
                     />
                 </Grid>
                 <Grid item xs={ 12 }>

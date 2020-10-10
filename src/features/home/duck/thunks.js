@@ -62,15 +62,6 @@ export const updateDefaultAddress = createAsyncThunk('home/updateDefaultAddress'
         }
     });
 
-export const fetchUsersByCompanyId = createAsyncThunk('home/fetchUsersByCompanyId',
-    async (id, { rejectWithValue }) => {
-        try {
-            return await UserService.fetchUsersByCompanyId(id);
-        } catch (err) {
-            return rejectWithValue(err.response.data);
-        }
-    });
-
 export const fetchAutocompleteOptions = createAsyncThunk('home/fetchAutocompleteOptions',
     async (companyId, { rejectWithValue }) => {
         try {

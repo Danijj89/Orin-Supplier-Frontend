@@ -20,22 +20,9 @@ const resetPassword = async (id, password) => {
     return data;
 };
 
-const fetchUsersByCompanyId = async (id) => {
-    const configs = {
-        method: 'get',
-        url: `users`,
-        params: {
-            company: id
-        }
-    };
-    const { data } = await fetchWithAuth(configs);
-    return data;
-};
-
 const UserService = {
     updateUser,
-    resetPassword,
-    fetchUsersByCompanyId
+    resetPassword
 };
 
 export default UserService;

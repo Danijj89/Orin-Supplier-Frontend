@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { SESSION_USER } from '../../../app/sessionKeys.js';
 import {
     addNewAddress,
-    deleteAddress, fetchAutocompleteOptions, fetchUsersByCompanyId,
+    deleteAddress, fetchAutocompleteOptions,
     resetPassword,
     updateAddress, updateCompany,
     updateCurrentUser,
@@ -12,8 +12,6 @@ import {
 const initialState = {
     user: JSON.parse(sessionStorage.getItem(SESSION_USER)),
     company: null,
-    companyUsers: [],
-    autocomplete: null,
     status: 'IDLE',
     error: null,
 };
@@ -102,24 +100,11 @@ const homeSlice = createSlice({
             state.status = 'REJECTED';
             state.error = action.payload.message;
         },
-        [fetchUsersByCompanyId.pending]: (state, action) => {
-            state.status = 'PENDING';
-        },
-        [fetchUsersByCompanyId.fulfilled]: (state, action) => {
-            state.companyUsers = action.payload;
-            state.status = 'FULFILLED';
-        },
-        [fetchUsersByCompanyId.rejected]: (state, action) => {
-            state.status = 'REJECTED';
-            state.error = action.payload.message;
-        },
         [fetchAutocompleteOptions.pending]: (state, action) => {
             state.status = 'PENDING';
         },
         [fetchAutocompleteOptions.fulfilled]: (state, action) => {
-            const { autocomplete, company } = action.payload;
-            state.autocomplete = autocomplete;
-            state.company = company;
+            state.company = action.payload;
             state.status = 'IDLE';
         },
         [fetchAutocompleteOptions.rejected]: (state, action) => {

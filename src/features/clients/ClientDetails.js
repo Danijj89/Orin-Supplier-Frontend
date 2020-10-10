@@ -10,7 +10,7 @@ import { LANGUAGE } from '../../constants.js';
 import { dateToLocaleDate } from '../shared/utils.js';
 import ClientInfoTable from './ClientInfoTable.js';
 import EditClientButton from './EditClientButton.js';
-import { selectAutocompleteOptions } from '../home/duck/selectors.js';
+import { selectCurrentCompany } from '../home/duck/selectors.js';
 
 const {
     assignedToLabel,
@@ -27,8 +27,8 @@ export default function ClientDetails({ match }) {
     const dispatch = useDispatch();
     const { id } = match.params;
     const client = useSelector(state => selectClientById(state, id));
-    const autocomplete = useSelector(selectAutocompleteOptions);
-    const loading = !client || !autocomplete;
+    const company = useSelector(selectCurrentCompany);
+    const loading = !client || !company;
 
     const leftLabels = [assignedToLabel, primaryContactLabel, contactEmailLabel, taxNumberLabel];
     const rightLabels = [sourceLabel, incotermLabel, paymentLabel, clientSinceLabel];
@@ -58,7 +58,7 @@ export default function ClientDetails({ match }) {
                 button={
                     <EditClientButton
                         client={ client }
-                        users={ autocomplete.users }
+                        users={ company.users }
                     />
                 }
                 content={
