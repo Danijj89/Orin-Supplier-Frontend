@@ -14,9 +14,12 @@ export function roundTo2Decimal(n) {
 }
 
 export function formatAddress(address) {
-    return`${ address.name }\n
-        ${ address.address + '\n' }
-        ${ address.address2 + '\n' }
-        ${ address.city + ' ' }${address.zip + ' '}
-        ${address.administrative + ' '}${address.country}`;
+    return address.name + '\n'
+        + address.address + '\n'
+        + (address.address2 && address.address2 + '\n')
+            + (address.city && address.city + ', ' )
+        + (address.zip && address.zip + ' ' )
+        + (address.administrative && address.administrative + ' ' )
+        + address.country;
 }
+

@@ -1,11 +1,8 @@
 import React, { useEffect } from 'react';
 import { Grid, Paper, Checkbox, FormControlLabel } from '@material-ui/core';
 import { LANGUAGE } from '../../constants.js';
-import { useDispatch, useSelector } from 'react-redux';
-import './styles.css';
+import { useDispatch } from 'react-redux';
 import CreatePOProductTable from './CreatePOProductTable.js';
-import { selectCurrentDefaults } from '../home/duck/slice.js';
-import { selectNewOrder } from './duck/selectors.js';
 import { useForm } from 'react-hook-form';
 import UnitCounter from '../shared/classes/UnitCounter.js';
 import AddColumnButton from '../shared/buttons/addColumnButton.js';
@@ -15,6 +12,7 @@ import ErrorMessage from '../shared/displays/ErrorMessage.js';
 import RHFThemedDropdown from '../shared/rhf/RHFThemedDropdown.js';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { submitOrder } from './duck/thunks.js';
+import { currenciesOptions, itemUnitsOptions } from '../shared/constants.js';
 
 const { currencyLabel, prevButton, nextButton, errorMessages, saveItemsLabel } = LANGUAGE.order.orderProductInfo;
 
@@ -33,11 +31,11 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function CreatePOProductInfo({ setActiveStep }) {
+export default function CreatePOProductInfo({ setActiveStep, newOrder, setNewOrder }) {
     const classes = useStyles();
     const dispatch = useDispatch();
-    const { currencies, itemUnits } = useSelector(selectCurrentDefaults);
-    const newOrder = useSelector(selectNewOrder);
+    const currencies = currenciesOptions;
+    const itemUnits = itemUnitsOptions;
 
 
     const { register, control, handleSubmit, errors, setValue, watch, clearErrors, getValues } = useForm({

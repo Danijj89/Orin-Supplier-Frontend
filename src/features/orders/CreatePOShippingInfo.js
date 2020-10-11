@@ -15,7 +15,6 @@ import {
   ExpandLess as IconExpandLess,
   ExpandMore as IconExpandMore,
 } from '@material-ui/icons';
-import { selectPOAutocompleteOptions } from './duck/selectors.js';
 import { makeStyles } from '@material-ui/core/styles';
 
 const {
@@ -54,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
 export default function CreatePOShippingInfo({ register, control }) {
   const classes = useStyles();
   const [hidden, setHidden] = useState(true);
-  const { deliveryMethods, ports } = useSelector(selectPOAutocompleteOptions);
+  const { deliveryMethods, ports } = useSelector();
 
   useEffect(() => {
     if (!hidden) window.scrollTo(0, document.body.scrollHeight);

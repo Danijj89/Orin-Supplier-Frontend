@@ -8,14 +8,14 @@ import TableBody from '@material-ui/core/TableBody';
 import CreatePOTableRow from './CreatePOTableRow.js';
 import Button from '@material-ui/core/Button';
 import { Clear as IconClear } from '@material-ui/icons';
-import { getCurrencySymbol, roundTo2Decimal } from '../shared/utils.js';
+import { getCurrencySymbol } from '../shared/utils/random.js';
 import { LANGUAGE } from '../../constants.js';
 import { Grid, IconButton, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import UnitCounter from '../shared/classes/UnitCounter.js';
 import { useSelector } from 'react-redux';
-import { selectDefaultRowValues, selectPOAutocompleteOptions } from './duck/selectors.js';
-import { defaultRowValues } from './duck/slice.js';
+import { roundTo2Decimal } from '../shared/utils/format.js';
+import { defaultRowValues } from './constants.js';
 
 const { totals, addRowButton, headerLabelsMap } = LANGUAGE.order.productTable;
 
@@ -39,7 +39,7 @@ const useStyles = makeStyles({
 
 export default function CreatePOProductTable({ watch, setValue, numActiveColumns }) {
     const classes = useStyles();
-    const { itemMap } = useSelector(selectPOAutocompleteOptions);
+    const { itemMap } = useSelector();
     const currency = watch('currency');
     const items = watch('items');
     const totalQ = watch('totalQ');

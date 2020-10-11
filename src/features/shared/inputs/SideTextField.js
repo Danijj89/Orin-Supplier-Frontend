@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
         marginRight: theme.spacing(4)
     },
     input: {
-        width: 240,
+        minWidth: 320,
         height: 36,
         borderWidth: 1,
         borderStyle: 'solid',

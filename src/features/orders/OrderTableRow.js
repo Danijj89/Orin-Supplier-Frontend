@@ -6,7 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import {
     getStringFromTotalQuantityObject,
     dateToLocaleDate,
-} from '../shared/utils.js';
+} from '../shared/utils/random.js';
 import { useDispatch } from 'react-redux';
 import { setCurrentPOId } from './duck/slice.js';
 import StatusButtonMenu from './StatusButtonMenu.js';

@@ -16,7 +16,7 @@ const { paginationAllLabel, rowsPerPageLabel } = LANGUAGE.shared.components.tabl
 
 export default function Table({ rows, columns, className, onRowClick }) {
     const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(1);
+    const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const numColumns = columns.reduce((acc, col) => col.hide ? acc : acc += 1, 0);
 
     const onPageChange = (event, newPage) => setPage(newPage);

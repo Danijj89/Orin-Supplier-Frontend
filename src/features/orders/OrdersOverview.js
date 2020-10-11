@@ -24,7 +24,7 @@ export default function OrdersOverview() {
 
     const onNewOrderClick = () => {
         dispatch(cleanNewOrder())
-        history.push('/home/orders/')
+        history.push('/home/orders/new/details')
     };
 
     return (

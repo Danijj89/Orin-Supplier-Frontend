@@ -1,14 +1,13 @@
 import React from 'react';
 import { TableRow , TableCell, Button, Grid } from '@material-ui/core';
 import { Delete as DeleteIcon } from '@material-ui/icons';
-import { getCurrencySymbol } from '../shared/utils.js';
+import { getCurrencySymbol } from '../shared/utils/random.js';
 import { useSelector } from 'react-redux';
-import { selectPOAutocompleteOptions } from './duck/selectors.js';
-import { selectCurrentDefaults } from '../home/duck/slice.js';
 import { makeStyles } from '@material-ui/core/styles';
 import TableAutoCompleteFreeTextInput from '../shared/inputs/TableAutoCompleteFreeTextInput.js';
 import TableInput from '../shared/inputs/TableInput.js';
 import TableAutoCompleteTextInput from '../shared/inputs/TableAutoCompleteTextInput.js';
+import { itemUnitsOptions } from '../shared/constants.js';
 
 const useStyles = makeStyles((theme) => ({
     deleteIcon: {
@@ -75,8 +74,8 @@ const dropDownInputStyle = {
 export default function CreatePOTableRow(
     { rowIdx, item, onCellChange, onItemDeleteClick, currency, headers}) {
     const classes = useStyles();
-    const { itemUnits } = useSelector(selectCurrentDefaults);
-    const { itemRefs, itemMap } = useSelector(selectPOAutocompleteOptions);
+    const itemUnits = itemUnitsOptions;
+    const { itemRefs, itemMap } = useSelector();
 
     return (
         <TableRow>

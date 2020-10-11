@@ -11,6 +11,8 @@ import Home from '../features/home/Home.js';
 import Settings from '../features/home/Settings.js';
 import ClientOverview from '../features/clients/ClientOverview.js';
 import ClientDetails from '../features/clients/ClientDetails.js';
+import CreateOrder from '../features/orders/CreateOrder.js';
+import NotFound from '../features/shared/components/NotFound.js';
 
 export default function App() {
     return (
@@ -23,6 +25,12 @@ export default function App() {
                             exact
                             path={ ['/home', '/home/orders'] }
                             component={ OrdersOverview }
+                            isPrivate
+                        />
+                        <Route
+                            exact
+                            path='/home/orders/new/:step'
+                            component={ CreateOrder }
                             isPrivate
                         />
                         <Route
@@ -44,7 +52,7 @@ export default function App() {
                             isPrivate
                         />
                     </Home>
-                    <Route component={ LoginPage }/>
+                    <Route component={ NotFound }/>
                 </Switch>
             </MuiPickersUtilsProvider>
         </MuiThemeProvider>

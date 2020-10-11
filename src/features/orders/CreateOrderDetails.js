@@ -2,210 +2,201 @@ import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { LANGUAGE } from '../../constants.js';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import { TextField, Grid, Paper } from '@material-ui/core';
+import { Grid, Paper } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { cleanNewOrder, submitOrderDetails } from './duck/slice.js';
 import { useHistory } from 'react-router-dom';
-import { selectNewOrder, selectPOAutocompleteOptions } from './duck/selectors.js';
 import CreatePOShippingInfo from './CreatePOShippingInfo.js';
-import { makeStyles } from '@material-ui/core/styles';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
-
-const {
-  orderReferenceLabel,
-  dateLabel,
-  clientLabel,
-  clientAddressLabel,
-  crdLabel,
-  incotermLabel,
-  paymentMethodLabel,
-  remarksLabel,
-  cancelButton,
-  nextButton,
-} = LANGUAGE.order.orderDetailsForm;
+import { dateToYYMMDD, formatAddress } from '../shared/utils/format.js';
+import { selectCurrentCompany } from '../home/duck/selectors.js';
+import FormContainer from '../shared/wrappers/FormContainer.js';
+import SideTextField from '../shared/inputs/SideTextField.js';
+import SideAutoComplete from '../shared/inputs/SideAutoComplete.js';
+import { makeStyles } from '@material-ui/core/styles';
+import useSessionStorage from '../shared/hooks/useSessionStorage.js';
+import { SESSION_NEW_ORDER } from '../../app/sessionKeys.js';
+import { selectNewOrder } from './duck/selectors.js';
+import { selectAllClients } from '../clients/duck/selectors.js';
 
 const useStyles = makeStyles((theme) => ({
-  paper: {
-    marginTop: theme.spacing(3),
-    marginBottom: theme.spacing(3),
-    marginLeft: theme.spacing(20),
-    marginRight: theme.spacing(20),
-    paddingTop: theme.spacing(5),
-    paddingBottom: theme.spacing(5),
-    paddingLeft: theme.spacing(15),
-    paddingRight: theme.spacing(15),
-  },
-  field: {
-    marginTop: theme.spacing(1),
-    marginBottom: theme.spacing(1),
-  },
-  buttons: {
-    marginTop: theme.spacing(5),
-  },
-  buttonCancel: {
-    width: '40%',
-  },
-  buttonNext: {
-    width: '40%',
-    backgroundColor: theme.palette.tertiary.light,
-  },
+    container: {
+        width: '70%'
+    }
 }));
 
-export default function CreatePODetailsForm({ setActiveStep }) {
-  const classes = useStyles();
-  const dispatch = useDispatch();
-  const history = useHistory();
+const {
+    orderReferenceLabel,
+    dateLabel,
+    companyAddressLabel,
+    clientLabel,
+    clientAddressLabel,
+    crdLabel,
+    incotermLabel,
+    paymentMethodLabel,
+    remarksLabel,
+    cancelButton,
+    nextButton,
+} = LANGUAGE.order.createOrder.createOrderDetails;
 
-  const newOrder = useSelector(selectNewOrder);
-  const { register, control, handleSubmit, watch, errors } = useForm({
-    mode: 'onSubmit',
-    defaultValues: {
-      poRef: newOrder.poRef,
-      to: newOrder.to,
-      toName: newOrder.toName,
-      toAdd: newOrder.toAdd,
-      date: newOrder.date.substr(0, 10),
-      crd: newOrder.crd.substr(0, 10),
-      incoterm: newOrder.incoterm,
-      pay: newOrder.pay,
-      remarks: newOrder.remarks,
-      del: newOrder.del,
-      pol: newOrder.pol,
-      pod: newOrder.pod,
-      carrier: newOrder.carrier
-    },
-  });
+export default function CreateOrderDetails({ setActiveStep, company }) {
+    const classes = useStyles();
+    const dispatch = useDispatch();
+    const history = useHistory();
+    const newOrder = useSelector(selectNewOrder);
+    const [order, setOrder] = useSessionStorage(SESSION_NEW_ORDER, newOrder);
+    const { addresses } = company;
 
-  const { customerMap } = useSelector(selectPOAutocompleteOptions);
-  const chosenCustomer = watch('toName');
-  const customerNames = Object.keys(customerMap);
-  const chosenCustomerAddresses = () =>
-      customerMap && customerMap.hasOwnProperty(chosenCustomer)
-          ? customerMap[chosenCustomer].addresses
-          : [];
+    const { register, control, handleSubmit, watch, errors, getValues } = useForm({
+        mode: 'onSubmit',
+        defaultValues: {
+            ref: order.ref,
+            from: order.from,
+            fromAdd: order.fromAdd,
+            to: order.to || null,
+            toAdd: order.toAdd || null,
+            date: dateToYYMMDD(order.date),
+            crd: dateToYYMMDD(order.crd),
+            incoterm: order.incoterm,
+            pay: order.pay,
+            notes: order.notes,
+            del: order.del,
+            pol: order.pol,
+            pod: order.pod,
+            carrier: order.carrier
+        },
+    });
 
-  const onButtonNextClick = (data) => {
-    data.to = customerMap[chosenCustomer].id;
-    dispatch(submitOrderDetails(data));
-    setActiveStep((prevStep) => prevStep + 1);
-  };
+    const chosenClient = watch('to');
 
-  const onButtonCancelClick = () => {
-    dispatch(cleanNewOrder());
-    history.goBack();
-  }
+    const chosenClientAddresses = () =>
+        clients.find(client => client._id === chosenClient?._id)?.addresses || [];
 
-  return (
-    <Paper className={classes.paper}>
-      <form onSubmit={handleSubmit(onButtonNextClick)} autoComplete="off">
-        <TextField
-          label={orderReferenceLabel}
-          type="text"
-          name="poRef"
-          error={!!errors.poRef}
-          inputRef={register({ required: true })}
-          className={classes.field}
-          fullWidth
-          autoFocus
-        />
-        <TextField
-          label={dateLabel}
-          type="date"
-          name="date"
-          error={!!errors.date}
-          inputRef={register({ required: true })}
-          className={classes.field}
-          fullWidth
-        />
-        <Controller
-          render={(props) => (
-            <Autocomplete
-              {...props}
-              options={customerNames}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label={clientLabel}
-                  variant="standard"
-                  error={!!errors.toName}
-                  className={classes.field}
-                />
-              )}
-              onChange={(_, data) => props.onChange(data)}
+
+    const onButtonNextClick = (data) => {
+        // data.to = customerMap[chosenCustomer].id;
+        // dispatch(submitOrderDetails(data));
+        // setActiveStep((prevStep) => prevStep + 1);
+    };
+
+    const onButtonCancelClick = () => {
+        // dispatch(cleanNewOrder());
+        // history.goBack();
+    }
+
+    return (
+        <FormContainer className={ classes.container }>
+            <SideTextField
+                label={ orderReferenceLabel }
+                name="ref"
+                error={ !!errors.ref }
+                inputRef={ register({ required: true }) }
+                required
+                fullWidth
+                autoFocus
             />
-          )}
-          name="toName"
-          control={control}
-          rules={{ required: true }}
-        />
-        <Controller
-          render={(props) => (
-            <Autocomplete
-              {...props}
-              options={chosenCustomerAddresses()}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label={clientAddressLabel}
-                  variant="standard"
-                  error={!!errors.toAdd}
-                  className={classes.field}
-                />
-              )}
-              onChange={(_, data) => props.onChange(data)}
+            <SideTextField
+                label={ dateLabel }
+                type="date"
+                name="date"
+                error={ !!errors.date }
+                inputRef={ register({ required: true }) }
+                required
+                fullWidth
             />
-          )}
-          name="toAdd"
-          control={control}
-          rules={{ required: true }}
-        />
-        <TextField
-          label={crdLabel}
-          type="date"
-          name="crd"
-          inputRef={register}
-          className={classes.field}
-          fullWidth
-        />
-        <TextField
-          label={incotermLabel}
-          type="text"
-          name="incoterm"
-          inputRef={register}
-          className={classes.field}
-          fullWidth
-        />
-        <TextField
-          label={paymentMethodLabel}
-          type="text"
-          name="pay"
-          inputRef={register}
-          className={classes.field}
-          fullWidth
-        />
-        <TextField
-          label={remarksLabel}
-          type="text"
-          name="remarks"
-          inputRef={register}
-          className={classes.field}
-          fullWidth
-        />
-        <CreatePOShippingInfo register={register} control={control} />
-        <Grid container justify="space-around" className={classes.buttons}>
-          <ThemedButton
-            onClick={onButtonCancelClick}
-            styles={classes.buttonCancel}
-            text={cancelButton}
-            variant="outlined"
-          />
-          <ThemedButton
-            type="submit"
-            styles={classes.buttonNext}
-            text={nextButton}
-          />
-        </Grid>
-      </form>
-    </Paper>
-  );
+            <Controller
+                render={ (props) =>
+                    <SideAutoComplete
+                        { ...props }
+                        options={ addresses }
+                        label={ companyAddressLabel }
+                        error={ !!errors.fromAdd }
+                        getOptionLabel={ address => formatAddress(address) }
+                        getOptionSelected={ address => address._id === getValues('fromAdd')._id }
+                        required
+                    />
+                }
+                name="fromAdd"
+                control={ control }
+                rules={ { required: true } }
+            />
+            <Controller
+                render={ (props) =>
+                    <SideAutoComplete
+                        { ...props }
+                        options={ clients }
+                        label={ clientLabel }
+                        error={ !!errors.to }
+                        getOptionLabel={ client => client.name }
+                        getOptionSelected={ client => client._id === getValues('to')._id }
+                        required
+                    />
+                }
+                name="to"
+                control={ control }
+                rules={ { required: true } }
+            />
+            <Controller
+                render={ (props) => (
+                    <SideAutoComplete
+                        { ...props }
+                        options={ chosenClientAddresses() }
+                        label={ clientAddressLabel }
+                        error={ !!errors.toAdd }
+                        getOptionLabel={ address => formatAddress(address) }
+                        getOptionSelected={ client => client._id === getValues('toAdd')._id }
+                        required
+                    />
+                ) }
+                name="toAdd"
+                control={ control }
+                rules={ { required: true } }
+            />
+        </FormContainer>
+    );
 }
+
+
+
+// <TextField
+//     label={ crdLabel }
+//     type="date"
+//     name="crd"
+//     inputRef={ register }
+//     className={ classes.field }
+//     fullWidth
+// />
+// <TextField
+//     label={ incotermLabel }
+//     type="text"
+//     name="incoterm"
+//     inputRef={ register }
+//     className={ classes.field }
+//     fullWidth
+// />
+// <TextField
+//     label={ paymentMethodLabel }
+//     type="text"
+//     name="pay"
+//     inputRef={ register }
+//     className={ classes.field }
+//     fullWidth
+// />
+// <TextField
+//     label={ remarksLabel }
+//     type="text"
+//     name="remarks"
+//     inputRef={ register }
+//     className={ classes.field }
+//     fullWidth
+// />
+// <CreatePOShippingInfo register={ register } control={ control }/>
+// <ThemedButton
+//     onClick={ onButtonCancelClick }
+//     text={ cancelButton }
+// />
+// <ThemedButton
+//     type="submit"
+//
+//     text={ nextButton }
+// />

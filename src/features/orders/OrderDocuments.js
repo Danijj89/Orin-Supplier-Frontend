@@ -15,7 +15,7 @@ import { Delete as IconDelete } from '@material-ui/icons';
 import DocumentGenerationButton from '../shared/buttons/DocumentGenerationButton.js';
 import { LANGUAGE } from '../../constants.js';
 import { makeStyles } from '@material-ui/core/styles';
-import { dateToLocaleDate } from '../shared/utils.js';
+import { dateToLocaleDate } from '../shared/utils/random.js';
 import { useDispatch } from 'react-redux';
 import { deleteCI } from '../commercial_invoice/duck/thunks.js';
 import DownloadButton from '../shared/buttons/DownloadButton.js';

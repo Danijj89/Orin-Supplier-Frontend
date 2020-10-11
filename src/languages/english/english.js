@@ -193,25 +193,29 @@ export const ENGLISH = {
                 notes: 'Notes',
             }
         },
+        createOrder: {
+            stepLabelsMap: {
+                details: 'Order',
+                products: 'Products'
+            },
+            titleLabel: 'New Order',
+            createOrderDetails: {
+                orderReferenceLabel: 'Order Number',
+                dateLabel: 'Order Date',
+                companyAddressLabel: 'Seller Address',
+                clientLabel: 'Buyer',
+                clientAddressLabel: 'Buyer Address',
+                crdLabel: 'Cargo Ready Date',
+                incotermLabel: 'Incoterm',
+                paymentMethodLabel: 'Payment Method',
+                remarksLabel: 'Remarks',
+                cancelButton: 'Cancel',
+                nextButton: 'Next',
+            }
+        },
         orderTableRow: {
             deleteOrderDialogMessage:
                 'Are you sure you want to delete this order?',
-        },
-        createOrder: {
-            steps: ['Order', 'Products'],
-            titleLabel: 'New Order',
-        },
-        orderDetailsForm: {
-            orderReferenceLabel: 'Order Number*',
-            dateLabel: 'Order Date',
-            clientLabel: 'Client*',
-            clientAddressLabel: 'Delivery Address*',
-            crdLabel: 'Cargo Ready Date',
-            incotermLabel: 'Incoterm',
-            paymentMethodLabel: 'Payment Method',
-            remarksLabel: 'Remarks',
-            cancelButton: 'Cancel',
-            nextButton: 'Next',
         },
         shippingInfo: {
             shippingInformation: 'Shipping Information (Optional)',
@@ -444,6 +448,10 @@ export const ENGLISH = {
             table: {
                 paginationAllLabel: 'All',
                 rowsPerPageLabel: 'Rows per page'
+            },
+            notFound: {
+                message: '404 - Not Found!',
+                homeButtonLabel: 'Go Home'
             }
         },
         buttons: {
