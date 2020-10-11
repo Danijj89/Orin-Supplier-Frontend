@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { SESSION_USER } from '../../../app/sessionKeys.js';
+import { SESSION_COMPANY, SESSION_COOKIE, SESSION_USER } from '../sessionKeys.js';
 import {
     addNewAddress,
     deleteAddress, fetchAutocompleteOptions,
@@ -11,17 +11,23 @@ import {
 
 const initialState = {
     user: JSON.parse(sessionStorage.getItem(SESSION_USER)),
-    company: null,
+    company: JSON.parse(sessionStorage.getItem(SESSION_COMPANY)),
     status: 'IDLE',
     error: null,
 };
 
-const homeSlice = createSlice({
+const appSlice = createSlice({
     name: 'home',
     initialState,
     reducers: {
         setSessionInfo: (state, action) => {
-            state.user = action.payload
+            const { user, expires } = action.payload;
+            const { company, ...userWithoutCompany } = user;
+            state.user = userWithoutCompany
+            state.company = company;
+            sessionStorage.setItem(SESSION_COOKIE, JSON.stringify(new Date(Date.now() + expires)));
+            sessionStorage.setItem(SESSION_USER, JSON.stringify(userWithoutCompany));
+            sessionStorage.setItem(SESSION_COMPANY, JSON.stringify(company));
         },
         cleanError: (state, action) => {
             state.status = 'IDLE';
@@ -125,6 +131,6 @@ const homeSlice = createSlice({
     }
 });
 
-export const { setSessionInfo, cleanError } = homeSlice.actions;
+export const { setSessionInfo, cleanError } = appSlice.actions;
 
-export default homeSlice.reducer;
+export default appSlice.reducer;

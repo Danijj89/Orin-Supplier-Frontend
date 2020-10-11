@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import UserService from '../../api/UserService.js';
-import CompanyService from '../../api/CompanyService.js';
+import UserService from '../../features/api/UserService.js';
+import CompanyService from '../../features/api/CompanyService.js';
 
 export const updateCurrentUser = createAsyncThunk('home/updateCurrentUser',
     async (data, { rejectWithValue }) => {

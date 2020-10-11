@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
-import logo from '../../images/orinlogo.png';
-import { LANGUAGE } from '../../constants';
-import AppService from '../api/AppService.js';
+import logo from '../images/orinlogo.png';
+import { LANGUAGE } from '../constants.js';
+import AppService from '../features/api/AppService.js';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { setSessionInfo } from '../home/duck/slice.js';
+import { setSessionInfo } from './duck/slice.js';
 import { Grid, CardMedia, Typography, TextField } from '@material-ui/core';
-import ErrorMessage from '../shared/displays/ErrorMessage.js';
-import ThemedButton from '../shared/buttons/ThemedButton.js';
+import ErrorMessage from '../features/shared/displays/ErrorMessage.js';
+import ThemedButton from '../features/shared/buttons/ThemedButton.js';
 import { useForm } from 'react-hook-form';
 import { makeStyles } from '@material-ui/core/styles';
-import loginImg from '../../images/login.png';
-import { SESSION_COOKIE, SESSION_USER } from '../../app/sessionKeys.js';
+import loginImg from '../images/login.png';
 
 const {
     title, emailLabel, errorMessages,
@@ -90,11 +89,9 @@ export default function LoginPage() {
     const onSignInClick = async (data) => {
         setError(null);
         try {
-            const { user, expires } = await AppService.signIn(data);
-            sessionStorage.setItem(SESSION_COOKIE, JSON.stringify(new Date(Date.now() + expires)));
-            sessionStorage.setItem(SESSION_USER, JSON.stringify(user));
-            dispatch(setSessionInfo(user));
-            history.push('/home/orders');
+            const signedInData = await AppService.signIn(data);
+            dispatch(setSessionInfo(signedInData));
+            history.push('/home/settings');
         } catch (err) {
             const { message } = err.response.data;
             setError(message);
