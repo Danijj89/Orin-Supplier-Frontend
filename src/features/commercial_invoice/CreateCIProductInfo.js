@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectCurrentDefaults } from '../home/duck/slice.js';
+import { selectCurrentDefaults } from '../../app/duck/slice.js';
 import {
     Grid,
     Button,

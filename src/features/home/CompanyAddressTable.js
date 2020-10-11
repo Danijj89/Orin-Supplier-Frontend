@@ -5,7 +5,7 @@ import {
     deleteAddress,
     updateAddress,
     updateDefaultAddress,
-} from './duck/thunks.js';
+} from '../../app/duck/thunks.js';
 import { useDispatch } from 'react-redux';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import AddressDialog from '../shared/forms/AddressDialog.js';

@@ -91,7 +91,7 @@ export default function LoginPage() {
         try {
             const signedInData = await AppService.signIn(data);
             dispatch(setSessionInfo(signedInData));
-            history.push('/home/settings');
+            history.push('/home/settings/account');
         } catch (err) {
             const { message } = err.response.data;
             setError(message);

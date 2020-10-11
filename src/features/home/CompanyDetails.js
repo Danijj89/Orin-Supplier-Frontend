@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { Container } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectError, selectStatus } from './duck/selectors.js';
+import { selectError, selectStatus } from '../../app/duck/selectors.js';
 import { makeStyles } from '@material-ui/core/styles';
 import ErrorMessage from '../shared/displays/ErrorMessage.js';
-import { cleanError } from './duck/slice.js';
+import { cleanError } from '../../app/duck/slice.js';
 import InfoCard from '../shared/wrappers/InfoCard.js';
 import EditCompanyInfoButton from './EditCompanyInfoButton.js';
 import CompanyAddressTable from './CompanyAddressTable.js';

@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { SESSION_COMPANY, SESSION_COOKIE, SESSION_USER } from '../sessionKeys.js';
 import {
     addNewAddress,
-    deleteAddress, fetchAutocompleteOptions,
+    deleteAddress,
     resetPassword,
     updateAddress, updateCompany,
     updateCurrentUser,
@@ -103,17 +103,6 @@ const appSlice = createSlice({
             state.status = 'IDLE';
         },
         [updateDefaultAddress.rejected]: (state, action) => {
-            state.status = 'REJECTED';
-            state.error = action.payload.message;
-        },
-        [fetchAutocompleteOptions.pending]: (state, action) => {
-            state.status = 'PENDING';
-        },
-        [fetchAutocompleteOptions.fulfilled]: (state, action) => {
-            state.company = action.payload;
-            state.status = 'IDLE';
-        },
-        [fetchAutocompleteOptions.rejected]: (state, action) => {
             state.status = 'REJECTED';
             state.error = action.payload.message;
         },

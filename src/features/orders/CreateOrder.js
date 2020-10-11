@@ -13,7 +13,7 @@ import ErrorMessage from '../shared/displays/ErrorMessage.js';
 import useSessionStorage from '../shared/hooks/useSessionStorage.js';
 import { SESSION_NEW_ORDER } from '../../app/sessionKeys.js';
 import { cleanNewOrder } from './duck/slice.js';
-import { selectCurrentCompany } from '../home/duck/selectors.js';
+import { selectCurrentCompany } from '../../app/duck/selectors.js';
 
 function getCurrentStep(stepLabel) {
     switch (stepLabel) {

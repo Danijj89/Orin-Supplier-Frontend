@@ -9,7 +9,7 @@ import { useHistory } from 'react-router-dom';
 import CreatePOShippingInfo from './CreatePOShippingInfo.js';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { dateToYYMMDD, formatAddress } from '../shared/utils/format.js';
-import { selectCurrentCompany } from '../home/duck/selectors.js';
+import { selectCurrentCompany } from '../../app/duck/selectors.js';
 import FormContainer from '../shared/wrappers/FormContainer.js';
 import SideTextField from '../shared/inputs/SideTextField.js';
 import SideAutoComplete from '../shared/inputs/SideAutoComplete.js';
@@ -68,7 +68,7 @@ export default function CreateOrderDetails({ setActiveStep, company }) {
     });
 
     const chosenClient = watch('to');
-
+    const clients = [];
     const chosenClientAddresses = () =>
         clients.find(client => client._id === chosenClient?._id)?.addresses || [];
 

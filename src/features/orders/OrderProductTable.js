@@ -10,7 +10,7 @@ import { defaultTableHeaders } from './duck/slice.js';
 import { useForm } from 'react-hook-form';
 import UnitCounter from '../shared/classes/UnitCounter.js';
 import { useSelector } from 'react-redux';
-import { selectCurrentDefaults } from '../home/duck/slice.js';
+import { selectCurrentDefaults } from '../../app/duck/slice.js';
 
 const useStyles = makeStyles((theme) => ({
     root: {

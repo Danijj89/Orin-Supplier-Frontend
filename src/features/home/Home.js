@@ -1,10 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import NavBar from './NavBar.js';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectCurrentUser } from './duck/selectors.js';
-import { fetchAutocompleteOptions } from './duck/thunks.js';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -14,7 +11,6 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: theme.palette.backgroundSecondary.main,
         flexWrap: 'nowrap',
     },
-
     content: {
         height: 'auto',
         minHeight: '100%',
@@ -24,12 +20,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Home({ children }) {
     const classes = useStyles();
-    const dispatch = useDispatch();
-    const user = useSelector(selectCurrentUser);
-
-    useEffect(() => {
-        dispatch(fetchAutocompleteOptions(user.company));
-    }, [dispatch, user.company]);
 
     return (
         <Grid

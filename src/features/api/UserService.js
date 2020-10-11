@@ -1,9 +1,21 @@
-import { fetchWithAuth } from './fetchWithAuth.js';
+import { fetchWithAuth } from './utils.js';
+
+const fetchUsers = async (id) => {
+    const configs = {
+        method: 'get',
+        url: `users`,
+        params: {
+            company: id
+        }
+    };
+    const { data } = await fetchWithAuth(configs);
+    return data;
+};
 
 const updateUser = async (id, update) => {
     const configs = {
         method: 'put',
-        url: `users/${id}`,
+        url: `users/${ id }`,
         data: update
     };
     const { data } = await fetchWithAuth(configs);
@@ -21,6 +33,7 @@ const resetPassword = async (id, password) => {
 };
 
 const UserService = {
+    fetchUsers,
     updateUser,
     resetPassword
 };
