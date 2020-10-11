@@ -11,6 +11,7 @@ import ThemedButton from '../features/shared/buttons/ThemedButton.js';
 import { useForm } from 'react-hook-form';
 import { makeStyles } from '@material-ui/core/styles';
 import loginImg from '../images/login.png';
+import { signIn } from './duck/thunks.js';
 
 const {
     title, emailLabel, errorMessages,
@@ -84,21 +85,13 @@ export default function LoginPage() {
             email: null,
             password: null,
         }
-    })
+    });
 
-    const onSignInClick = async (data) => {
+    const onSignInClick = async (credentials) => {
         setError(null);
-        try {
-            const signedInData = await AppService.signIn(data);
-            dispatch(setSessionInfo(signedInData));
-            history.push('/home/settings/account');
-        } catch (err) {
-            const { message } = err.response.data;
-            setError(message);
-        }
-    }
-
-
+        dispatch(signIn(credentials));
+        history.push('/home/settings/account');
+    };
 
     const isError = Object.keys(errors).length > 0 || error;
     const allErrors = Object.values(errors).map(err => err.message).concat([error]);

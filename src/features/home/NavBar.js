@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import classNames from 'classnames';
 import { useHistory, useLocation } from 'react-router-dom';
 import logo from '../../images/orinlogo.png';
 import { LANGUAGE } from '../../constants.js';
-import { useSelector } from 'react-redux';
 import {
     CardMedia,
     List,
@@ -25,7 +24,6 @@ import {
 } from '@material-ui/icons';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MoreIcon from '@material-ui/icons/MoreVert';
-import { selectCurrentUser } from '../../app/duck/selectors.js';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -83,15 +81,13 @@ const {
     settings,
 } = LANGUAGE.home.sidePanel;
 
-export default function NavBar() {
+export default function NavBar({ user }) {
     const classes = useStyles();
     const location = useLocation();
     const currentTab = location.pathname.split('/')[2];
     const history = useHistory();
-    const { name } = useSelector(selectCurrentUser);
 
     const onTabClick = (tabName, href) => history.push(href);
-
 
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -231,7 +227,7 @@ export default function NavBar() {
                     </List>
                     <div className={ classes.grow }/>
                     <Typography variant="subtitle1">
-                        Hello, { name }
+                        Hello, { user.name }
                     </Typography>
 
                     <div className={ classes.sectionDesktop }>

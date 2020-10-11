@@ -14,20 +14,14 @@ const initialState = usersAdapter.getInitialState({
 const usersSlice = createSlice({
     name: 'users',
     initialState,
-    reducers: {},
-    extraReducers: {
-        [fetchUsers.pending]: (state, action) => {
-            state.status = 'PENDING';
-        },
-        [fetchUsers.fulfilled]: (state, action) => {
+    reducers: {
+        setUsers: (state, action) => {
             usersAdapter.upsertMany(state, action.payload);
-            state.status = 'FULFILLED';
-        },
-        [fetchUsers.rejected]: (state, action) => {
-            state.status = 'REJECTED';
-            state.error = action.payload.message;
-        },
-    }
+        }
+    },
+    extraReducers: {}
 });
+
+export const { setUsers } = usersSlice.actions;
 
 export default usersSlice.reducer;

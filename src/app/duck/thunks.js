@@ -1,16 +1,31 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import UserService from '../../features/api/UserService.js';
 import CompanyService from '../../features/api/CompanyService.js';
+import AppService from '../../features/api/AppService.js';
+import { setUsers } from '../../features/users/duck/slice.js';
+import { SESSION_USER_ID } from '../sessionKeys.js';
 
-export const updateCurrentUser = createAsyncThunk('home/updateCurrentUser',
-    async (data, { rejectWithValue }) => {
-        const { id, ...update } = data;
+export const signIn = createAsyncThunk('app/signIn',
+    async (credentials, { rejectWithValue }) => {
         try {
-            return await UserService.updateUser(id, update);
+            return await AppService.signIn(credentials);
         } catch (err) {
             return rejectWithValue(err.response.data);
         }
     });
+
+export const fetchSessionInfo = createAsyncThunk('app/fetchAppData',
+    async (_, { rejectWithValue, dispatch }) => {
+        try {
+            const userId = JSON.parse(sessionStorage.getItem(SESSION_USER_ID));
+            console.log(userId)
+            const { users, ...rest } = await AppService.fetchSessionInfo(userId);
+            dispatch(setUsers(users));
+            return rest;
+        } catch (err) {
+            return rejectWithValue(err.response.data);
+        }
+    })
 
 export const resetPassword = createAsyncThunk('home/resetPassword',
     async (data, { rejectWithValue }) => {
