@@ -12,10 +12,10 @@ const useStyles = makeStyles((theme) => ({
         marginBottom: theme.spacing(1),
         whiteSpace: 'nowrap',
         display: 'flex',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     label: {
-        marginRight: theme.spacing(4)
+        marginRight: theme.spacing(4),
     },
     input: {
         width: 240,
@@ -26,44 +26,52 @@ const useStyles = makeStyles((theme) => ({
         borderColor: theme.palette.tertiary['400'],
         backgroundColor: 'white',
         paddingLeft: theme.spacing(1),
-        paddingRight: theme.spacing(1)
+        paddingRight: theme.spacing(1),
+        paddingTop: '1px',
     },
     required: {
         color: 'red',
-        marginLeft: theme.spacing(1)
+        marginLeft: theme.spacing(1),
     },
     inputInvalid: {
-        borderColor: 'red'
-    }
+        borderColor: 'red',
+    },
 }));
 
-export default function SideTextField({label, required, className, error, ...props}) {
+export default function SideTextField({
+    label,
+    required,
+    className,
+    error,
+    ...props
+}) {
     const classes = useStyles();
-    const classNames = clsx( classes.input, className, error && classes.inputInvalid);
+    const classNames = clsx(
+        classes.input,
+        className,
+        error && classes.inputInvalid
+    );
 
     return (
-        <Box className={ classes.container }>
-            <Typography
-                className={ classes.label }
-                variant="subtitle1"
-            >
-                { label }
-                { required && <span className={ classes.required }>*</span> }
+        <Box className={classes.container}>
+            <Typography className={classes.label} variant="subtitle1">
+                {label}
+                {required && <span className={classes.required}>*</span>}
             </Typography>
             <MuiTextField
-                { ...props }
-                className={ classNames }
-                InputProps={ { ...props.InputProps, disableUnderline: true } }
-                required={ required }
-                error={ error }
+                {...props}
+                className={classNames}
+                InputProps={{ ...props.InputProps, disableUnderline: true }}
+                required={required}
+                error={error}
             />
         </Box>
-    )
+    );
 }
 
 SideTextField.propTypes = {
     label: PropTypes.string.isRequired,
     required: PropTypes.bool,
     className: PropTypes.string,
-    error: PropTypes.bool
+    error: PropTypes.bool,
 };

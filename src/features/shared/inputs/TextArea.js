@@ -12,11 +12,11 @@ const useStyles = makeStyles((theme) => ({
         marginBottom: theme.spacing(1),
         whiteSpace: 'nowrap',
         display: 'flex',
-        alignItems: 'flex-start'
+        alignItems: 'flex-start',
     },
     label: {
         marginRight: theme.spacing(4),
-        marginLeft: theme.spacing(1)
+        marginLeft: theme.spacing(1),
     },
     input: {
         width: 240,
@@ -27,42 +27,52 @@ const useStyles = makeStyles((theme) => ({
         borderColor: theme.palette.tertiary['400'],
         backgroundColor: 'white',
         paddingLeft: theme.spacing(1),
-        paddingRight: theme.spacing(1)
+        paddingRight: theme.spacing(1),
+        paddingTop: theme.spacing(0.2),
     },
     required: {
         color: 'red',
-        marginLeft: theme.spacing(1)
+        marginLeft: theme.spacing(1),
     },
     inputInvalid: {
-        borderColor: 'red'
-    }
+        borderColor: 'red',
+    },
 }));
 
-export default function TextArea({label, required, className, error, rows = 1, rowsMax = 1, ...props}) {
+export default function TextArea({
+    label,
+    required,
+    className,
+    error,
+    rows = 1,
+    rowsMax = 1,
+    ...props
+}) {
     const classes = useStyles();
-    const classNames = clsx( classes.input, className, error && classes.inputInvalid);
+    const classNames = clsx(
+        classes.input,
+        className,
+        error && classes.inputInvalid
+    );
 
     return (
-        <Box className={ classes.container }>
-            <Typography
-                className={ classes.label }
-                variant="subtitle1"
-            >
-                { label }
-                { required && <span className={ classes.required }>*</span> }
+        <Box className={classes.container}>
+            <Typography className={classes.label} variant="subtitle1">
+                {label}
+                {required && <span className={classes.required}>*</span>}
             </Typography>
             <MuiTextField
-                { ...props }
-                className={ classNames }
-                InputProps={ { ...props.InputProps, disableUnderline: true } }
-                required={ required }
-                error={ error }
+                {...props}
+                className={classNames}
+                InputProps={{ ...props.InputProps, disableUnderline: true }}
+                required={required}
+                error={error}
                 rows={rows}
                 rowsMax={rowsMax}
                 multiline
             />
         </Box>
-    )
+    );
 }
 
 TextArea.propTypes = {
@@ -71,5 +81,5 @@ TextArea.propTypes = {
     className: PropTypes.string,
     error: PropTypes.bool,
     rows: PropTypes.number,
-    rowsMax: PropTypes.number
+    rowsMax: PropTypes.number,
 };

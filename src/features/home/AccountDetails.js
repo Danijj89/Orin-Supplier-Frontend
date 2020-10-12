@@ -16,7 +16,10 @@ const { titleLabel, nameLabel, emailLabel } = LANGUAGE.home.accountDetails;
 const useStyles = makeStyles((theme) => ({
     resetPwdButton: {
         margin: theme.spacing(2),
-        marginTop: theme.spacing(5)
+        marginTop: theme.spacing(5),
+    },
+    container: {
+        padding: theme.spacing(1),
     },
 }));
 
@@ -37,7 +40,7 @@ export default function AccountDetails({ user }) {
             title={titleLabel}
             button={<EditAccountInfoButton user={user} />}
             content={
-                <Container>
+                <Container className={classes.container}>
                     {status === 'REJECTED' && <ErrorMessage errors={[error]} />}
                     <TextWithLabel label={nameLabel} text={user.name} />
                     <TextWithLabel label={emailLabel} text={user.email} />
