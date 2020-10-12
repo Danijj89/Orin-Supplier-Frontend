@@ -53,7 +53,6 @@ export default function CreateOrderDetails(
 
     const chosenClient = watch('to');
     const autoGenerateRef = watch('autoGenerateRef');
-    console.log(autoGenerateRef)
 
     useEffect(() => {
         const client = clients.find(client => client._id === chosenClient?._id);

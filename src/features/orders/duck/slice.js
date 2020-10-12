@@ -26,18 +26,6 @@ const ordersSlice = createSlice({
             state.newOrder = null;
             sessionStorage.removeItem(SESSION_NEW_ORDER);
         }
-        // submitOrderDetails: (state, action) => {
-        //     const { poRef } = action.payload;
-        //     for (const [key, value] of Object.entries(action.payload)) {
-        //         state.newOrder[key] = value;
-        //     }
-        //     state.newOrder.fileName = getFileName('PO', poRef, state.newOrder.createdBy);
-        // },
-        // submitPOProductInfo: (state, action) => {
-        //     for (const [key, value] of Object.entries(action.payload)) {
-        //         state.newOrder[key] = value;
-        //     }
-        // },
         // setCurrentPOId: (state, action) => {
         //     state.currentPOId = action.payload;
         // },
@@ -167,7 +155,6 @@ const ordersSlice = createSlice({
 });
 
 export const {
-    submitOrderDetails, submitPOProductInfo,
     setCurrentPOId, cleanNewOrder, updateOrderDocument, deleteOrderDocument
 } = ordersSlice.actions;
 

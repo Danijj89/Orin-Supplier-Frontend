@@ -3,7 +3,7 @@ import { Container } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectError, selectStatus } from '../../app/duck/selectors.js';
 import { makeStyles } from '@material-ui/core/styles';
-import ErrorMessage from '../shared/displays/ErrorMessage.js';
+import ErrorDisplayer from '../shared/components/ErrorDisplay.js';
 import { cleanError } from '../../app/duck/slice.js';
 import InfoCard from '../shared/wrappers/InfoCard.js';
 import EditCompanyInfoButton from './EditCompanyInfoButton.js';
@@ -51,7 +51,7 @@ export default function CompanyDetails({ company }) {
 
     return (
         <Container className={ classes.companyContainer }>
-            { status === 'REJECTED' && <ErrorMessage errors={ [error] }/> }
+            { status === 'REJECTED' && <ErrorDisplayer errors={ [error] }/> }
             <InfoCard
                 className={ classes.topCard }
                 title={ company?.defaultAddress?.name }

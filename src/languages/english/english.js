@@ -209,6 +209,7 @@ export const ENGLISH = {
             },
             createOrderDetails: {
                 detailsTitleLabel: 'Order Details',
+                autoGenerateRefLabel: 'Auto-generate Order Number?',
                 orderReferenceLabel: 'Order Number',
                 dateLabel: 'Order Date',
                 companyAddressLabel: 'Seller Address',
@@ -224,6 +225,14 @@ export const ENGLISH = {
                 portOfLoadingLabel: 'Port of Loading',
                 portOfDestinationLabel: 'Port of Destination',
                 shippingCarrierLabel: 'Shipping Carrier',
+            },
+            createOrderProducts: {
+                currencyLabel: 'Currency',
+                saveItemsLabel: 'Save New Items To Inventory',
+            },
+            errorMessages: {
+                currency: 'You must select a currency.',
+                missingItemInfo: 'Some item is missing information.',
             }
         },
         orderTableRow: {
@@ -232,16 +241,6 @@ export const ENGLISH = {
         },
         shippingInfo: {
 
-        },
-        orderProductInfo: {
-            currencyLabel: 'Currency',
-            saveItemsLabel: 'Save New Items To Inventory',
-            prevButton: 'Order Details',
-            nextButton: 'Submit',
-            errorMessages: {
-                currency: 'You must select a currency.',
-                missingItemInfo: 'Some item is missing information.',
-            }
         },
         productTable: {
             totals: 'Total:',
@@ -461,6 +460,9 @@ export const ENGLISH = {
             notFound: {
                 message: '404 - Not Found!',
                 homeButtonLabel: 'Go Home'
+            },
+            errorDisplay: {
+                titleLabel: 'Errors:'
             }
         },
         buttons: {

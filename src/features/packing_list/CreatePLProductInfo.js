@@ -12,7 +12,7 @@ import { submitPLTableInfo } from './duck/slice.js';
 import CreatePLProductTable from './CreatePLProductTable.js';
 import UnitCounter from '../shared/classes/UnitCounter.js';
 import { submitPLForPreview } from './duck/thunks.js';
-import ErrorMessage from '../shared/displays/ErrorMessage.js';
+import ErrorDisplayer from '../shared/components/ErrorDisplay.js';
 
 
 const {
@@ -197,7 +197,7 @@ export default function CreatePLProductInfo({ setActiveStep }) {
                     alignItems="center"
                     xs={ 12 }
                 >
-                    <ErrorMessage errors={ Object.values(errors).map(err => err.message) }/>
+                    <ErrorDisplayer errors={ Object.values(errors).map(err => err.message) }/>
                 </Grid>
                 }
                 <Grid item xs={ 12 } className={ classes.tableRow }>

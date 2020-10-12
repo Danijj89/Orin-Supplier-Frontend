@@ -5,7 +5,7 @@ import { startNewOrder } from './duck/thunks.js';
 import { Box } from '@material-ui/core';
 import { selectCurrentOrderId, selectNewOrder, selectOrderError, selectOrderStatus } from './duck/selectors.js';
 import Loader from '../shared/displays/Loader.js';
-import ErrorMessage from '../shared/displays/ErrorMessage.js';
+import ErrorDisplayer from '../shared/components/ErrorDisplay.js';
 import { cleanNewOrder } from './duck/slice.js';
 import { selectCurrentCompany } from '../home/duck/selectors.js';
 import { selectCurrentUserId } from '../../app/duck/selectors.js';
@@ -40,7 +40,7 @@ export default function CreateOrderContainer() {
         <Box>
             { currentOrderId && <Redirect to={ `/home/orders/${ currentOrderId }/0` }/> }
             { loading && <Loader/> }
-            { error && <ErrorMessage errors={ [error] }/> }
+            { error && <ErrorDisplayer errors={ [error] }/> }
             { newOrder && clients && company &&
             <CreateOrder
                 newOrder={ newOrder }
