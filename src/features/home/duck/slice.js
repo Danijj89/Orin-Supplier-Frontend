@@ -40,7 +40,7 @@ const homeSlice = createSlice({
         },
         [updateCompany.fulfilled]: (state, action) => {
             state.company = action.payload;
-            state.status = 'FULFILLED';
+            state.status = 'IDLE';
         },
         [updateCompany.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -49,7 +49,7 @@ const homeSlice = createSlice({
         [addNewAddress.fulfilled]: (state, action) => {
             const { addresses } = action.payload;
             state.company.addresses = addresses;
-            state.status = 'FULFILLED';
+            state.status = 'IDLE';
         },
         [addNewAddress.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -61,7 +61,7 @@ const homeSlice = createSlice({
         [deleteAddress.fulfilled]: (state, action) => {
             const id = action.payload;
             state.company.addresses = state.company.addresses.filter(add => add._id !== id);
-            state.status = 'FULFILLED';
+            state.status = 'IDLE';
         },
         [deleteAddress.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -75,7 +75,7 @@ const homeSlice = createSlice({
 
             state.company.addresses = state.company.addresses.map(
                 address => address._id === updatedAddress._id ? updatedAddress : address);
-            state.status = 'FULFILLED';
+            state.status = 'IDLE';
         },
         [updateAddress.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -86,7 +86,7 @@ const homeSlice = createSlice({
         },
         [updateDefaultAddress.fulfilled]: (state, action) => {
             state.company.defaultAddress = state.company.addresses.find(address => address._id === action.payload);
-            state.status = 'FULFILLED';
+            state.status = 'IDLE';
         },
         [updateDefaultAddress.rejected]: (state, action) => {
             state.status = 'REJECTED';
