@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
         marginBottom: theme.spacing(1),
         whiteSpace: 'nowrap',
         display: 'flex',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     label: {
         marginRight: theme.spacing(4)
