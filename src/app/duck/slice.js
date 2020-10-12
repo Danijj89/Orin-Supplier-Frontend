@@ -26,7 +26,7 @@ const appSlice = createSlice({
             state.userId = userId
             sessionStorage.setItem(SESSION_COOKIE, JSON.stringify(new Date(Date.now() + expires)));
             sessionStorage.setItem(SESSION_USER_ID, JSON.stringify(userId));
-            state.status = 'IDLE';
+            state.status = 'FULFILLED';
         },
         [signIn.rejected]: (state, action) => {
             state.status = 'REJECTED';

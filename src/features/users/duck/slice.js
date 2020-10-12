@@ -17,6 +17,7 @@ const usersSlice = createSlice({
     reducers: {
         setUsers: (state, action) => {
             usersAdapter.upsertMany(state, action.payload);
+            state.status = 'FULFILLED';
         }
     },
     extraReducers: {

@@ -5,5 +5,5 @@ export const {
     selectById: selectClientById
 } = clientsAdapter.getSelectors(state => state.clients);
 
-export const selectStatus = state => state.clients.status;
+export const selectClientStatus = state => state.clients.status;
 export const selectError = state => state.clients.error;
