@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { startNewCI, submitCI } from './duck/thunks.js';
 import DocumentStepper from '../shared/DocumentStepper.js';
 import { Container, Typography } from '@material-ui/core';
-import { LANGUAGE } from '../../constants.js';
+import { LANGUAGE } from '../../app/constants.js';
 import CreateCIDetailsForm from './CreateCIDetailsForm.js';
 import CreateCIProductInfo from './CreateCIProductInfo.js';
 import { selectCIError, selectCIFilePreview, selectCIStatus, selectNewCI } from './duck/selectors.js';

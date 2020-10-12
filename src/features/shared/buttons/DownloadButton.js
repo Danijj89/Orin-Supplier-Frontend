@@ -12,7 +12,7 @@
 // import { LANGUAGE } from '../../../constants.js';
 // import { makeStyles } from '@material-ui/core/styles';
 // import SharedService from '../services.js';
-// import { downloadFile } from '../utils.js';
+// import { downloadFile } from '../random.js';
 // import ThemedButton from './ThemedButton.js';
 //
 // const { buttonText, dialogTitle, dialogCancel, dialogConfirm, typeLabel } = LANGUAGE.shared.downloadButton;

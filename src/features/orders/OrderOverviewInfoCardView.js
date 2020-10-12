@@ -1,9 +1,9 @@
 import React from 'react';
-import { getCurrencySymbol, dateToLocaleDate } from '../shared/utils.js';
+import { getCurrencySymbol, dateToLocaleDate } from '../shared/utils/random.js';
 import UnitCounter from '../shared/classes/UnitCounter.js';
 import { Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { LANGUAGE } from '../../constants.js';
+import { LANGUAGE } from '../../app/constants.js';
 
 const useStyles = makeStyles((theme) => ({
     row: {

@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
-import { LANGUAGE } from '../../constants.js';
+import { LANGUAGE } from '../../app/constants.js';
 import { Grid, TextField, Button } from '@material-ui/core';
 import { Controller, useForm } from 'react-hook-form';
 import { Autocomplete } from '@material-ui/lab';
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectCurrentDefaults } from '../home/duck/slice.js';
+import { selectCurrentDefaults } from '../../app/duck/slice.js';
 import AddColumnButton from '../shared/buttons/addColumnButton.js';
 import { selectNewPL } from './duck/selectors.js';
 import { submitPLTableInfo } from './duck/slice.js';

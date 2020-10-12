@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectCurrentDefaults } from '../home/duck/slice.js';
+import { selectCurrentDefaults } from '../../app/duck/slice.js';
 import {
     Grid,
     Button,
     TextField
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { LANGUAGE } from '../../constants.js';
+import { LANGUAGE } from '../../app/constants.js';
 import { selectCIAutocompleteOptions, selectNewCI } from './duck/selectors.js';
 import CreateCIOrderSelector from './CreateCIOrderSelector.js';
 import { submitTableInfo } from './duck/slice.js';

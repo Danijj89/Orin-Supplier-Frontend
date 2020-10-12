@@ -1,14 +1,14 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { selectCurrentCompany } from '../home/duck/slice.js';
+import { selectCurrentCompany } from '../../app/duck/slice.js';
 import { selectCIAutocompleteOptions } from './duck/selectors.js';
 import { Controller, useForm } from 'react-hook-form';
 import { TextField, Button, Grid } from '@material-ui/core';
 import { Autocomplete } from '@material-ui/lab';
 import { selectNewCI } from './duck/selectors.js';
 import { makeStyles } from '@material-ui/core/st\yles';
-import { LANGUAGE } from '../../constants.js';
+import { LANGUAGE } from '../../app/constants.js';
 import { submitCIDetails } from './duck/slice.js';
 import CreateCIAdditionalInfo from './CreateCIAdditionalInfo.js';
 

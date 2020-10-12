@@ -8,9 +8,9 @@ import {
     TableRow,
     Typography
 } from '@material-ui/core';
-import { getCurrencySymbol } from '../shared/utils.js';
+import { getCurrencySymbol } from '../shared/utils/random.js';
 import { makeStyles } from '@material-ui/core/styles';
-import { LANGUAGE } from '../../constants.js';
+import { LANGUAGE } from '../../app/constants.js';
 
 const useStyles = makeStyles((theme) => ({
     header: {

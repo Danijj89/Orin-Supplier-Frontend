@@ -1,4 +1,4 @@
-import { AXIOS_REQUEST_CONFIG, BACKEND_ERRORS } from '../../constants.js';
+import { AXIOS_REQUEST_CONFIG, BACKEND_ERRORS } from '../../app/constants.js';
 import axios from 'axios';
 
 export const fetchWithAuth = async configs => {
@@ -14,8 +14,7 @@ export const fetchWithAuth = async configs => {
         if (status === 403) {
             sessionStorage.clear();
             window.location.replace('/login');
-        }
-        else {
+        } else {
             const errorCode = data.errorCode ? data.errorCode : 'DEFAULT';
             error.response.data.message = BACKEND_ERRORS[errorCode];
             return Promise.reject(error);

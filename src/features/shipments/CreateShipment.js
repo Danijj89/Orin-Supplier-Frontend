@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import DocumentStepper from '../shared/DocumentStepper.js';
 import { Container, Typography, Divider } from '@material-ui/core';
-import { LANGUAGE } from '../../constants.js';
+import { LANGUAGE } from '../../app/constants.js';
 import CreateShipmentOrders from './CreateShipmentOrders.js';
 import { makeStyles } from '@material-ui/core/styles';
 

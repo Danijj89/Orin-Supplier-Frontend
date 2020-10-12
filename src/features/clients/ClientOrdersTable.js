@@ -1,5 +1,5 @@
 import React from 'react';
-import { LANGUAGE } from '../../constants.js';
+import { LANGUAGE } from '../../app/constants.js';
 import Table from '../shared/components/Table.js';
 
 

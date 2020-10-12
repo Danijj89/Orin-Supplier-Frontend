@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react';
 import { Container } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectError, selectStatus } from './duck/selectors.js';
+import { selectError, selectStatus } from '../../app/duck/selectors.js';
 import { makeStyles } from '@material-ui/core/styles';
 import ErrorMessage from '../shared/displays/ErrorMessage.js';
-import { cleanError } from './duck/slice.js';
+import { cleanError } from '../../app/duck/slice.js';
 import InfoCard from '../shared/wrappers/InfoCard.js';
 import EditCompanyInfoButton from './EditCompanyInfoButton.js';
 import CompanyAddressTable from './CompanyAddressTable.js';
-import { LANGUAGE } from '../../constants.js';
+import { LANGUAGE } from '../../app/constants.js';
 import ColumnInfoDisplay from '../shared/wrappers/ColumnInfoDisplay.js';
 
 const useStyles = makeStyles((theme) => ({
@@ -54,7 +54,7 @@ export default function CompanyDetails({ company }) {
             { status === 'REJECTED' && <ErrorMessage errors={ [error] }/> }
             <InfoCard
                 className={ classes.topCard }
-                title={ company.defaultAddress.name }
+                title={ company?.defaultAddress?.name }
                 button={ <EditCompanyInfoButton company={ company }/> }
                 content={
                     <ColumnInfoDisplay

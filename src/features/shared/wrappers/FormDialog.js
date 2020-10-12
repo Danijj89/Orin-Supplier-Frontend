@@ -8,7 +8,7 @@ import {
     DialogContent,
 } from '@material-ui/core';
 import ThemedButton from '../buttons/ThemedButton.js';
-import { LANGUAGE } from '../../../constants.js';
+import { LANGUAGE } from '../../../app/constants.js';
 import { makeStyles } from '@material-ui/core/styles';
 import DeleteButton from '../buttons/DeleteButton.js';
 

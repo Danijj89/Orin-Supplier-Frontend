@@ -18,10 +18,15 @@ const initialState = clientsAdapter.getInitialState({
     error: null
 });
 
-const ordersSlice = createSlice({
+const clientsSlice = createSlice({
     name: 'clients',
     initialState,
-    reducers: {},
+    reducers: {
+        cleanClientStore: (state, action) => {
+            state.status = 'IDLE';
+            state.error = null;
+        }
+    },
     extraReducers: {
         [fetchClients.pending]: (state, action) => {
             state.status = 'PENDING';
@@ -50,7 +55,7 @@ const ordersSlice = createSlice({
         },
         [fetchClientById.fulfilled]: (state, action) => {
             clientsAdapter.upsertOne(state, action.payload);
-            state.status = 'IDLE';
+            state.status = 'FULFILLED';
         },
         [fetchClientById.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -62,7 +67,7 @@ const ordersSlice = createSlice({
         [updateClient.fulfilled]: (state, action) => {
             const { _id: id, ...changes } = action.payload;
             clientsAdapter.updateOne(state, { id, changes });
-            state.status = 'IDLE';
+            state.status = 'FULFILLED';
         },
         [updateClient.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -74,7 +79,7 @@ const ordersSlice = createSlice({
         [addNewClientAddress.fulfilled]: (state, action) => {
             const { _id: id, ...changes } = action.payload;
             clientsAdapter.updateOne(state, { id, changes });
-            state.status = 'IDLE';
+            state.status = 'FULFILLED';
         },
         [addNewClientAddress.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -87,7 +92,7 @@ const ordersSlice = createSlice({
             const { clientId, addressId } = action.payload;
             const newAddresses = state.entities[clientId].addresses.filter(add => add._id !== addressId);
             clientsAdapter.updateOne(state, { id: clientId, changes: { addresses: newAddresses }});
-            state.status = 'IDLE';
+            state.status = 'FULFILLED';
         },
         [deleteClientAddress.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -100,7 +105,7 @@ const ordersSlice = createSlice({
             const { clientId, addressId } = action.payload;
             const newDefaultAddress = state.entities[clientId].addresses.find(add => add._id === addressId);
             clientsAdapter.updateOne(state, { id: clientId, changes: { defaultAddress: newDefaultAddress }});
-            state.status = 'IDLE';
+            state.status = 'FULFILLED';
         },
         [updateDefaultClientAddress.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -114,7 +119,7 @@ const ordersSlice = createSlice({
             const updatedAddresses = state.entities[clientId].addresses.map(
                 add => add._id === updatedAddress._id ? updatedAddress : add);
             clientsAdapter.updateOne(state, { id: clientId, changes: { addresses: updatedAddresses }});
-            state.status = 'IDLE';
+            state.status = 'FULFILLED';
         },
         [updateAddress.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -126,7 +131,7 @@ const ordersSlice = createSlice({
         [addNewClientContact.fulfilled]: (state, action) => {
             const { _id: id, ...changes } = action.payload;
             clientsAdapter.updateOne(state, { id, changes });
-            state.status = 'IDLE';
+            state.status = 'FULFILLED';
         },
         [addNewClientContact.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -139,7 +144,7 @@ const ordersSlice = createSlice({
             const { clientId, contactId } = action.payload;
             const newContacts = state.entities[clientId].contacts.filter(c => c._id !== contactId);
             clientsAdapter.updateOne(state, { id: clientId, changes: { contacts: newContacts }});
-            state.status = 'IDLE';
+            state.status = 'FULFILLED';
         },
         [deleteContact.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -153,7 +158,7 @@ const ordersSlice = createSlice({
             const updatedContacts = state.entities[clientId].contacts.map(
                 c => c._id === updatedContact._id ? updatedContact : c);
             clientsAdapter.updateOne(state, { id: clientId, changes: { contacts: updatedContacts }});
-            state.status = 'IDLE';
+            state.status = 'FULFILLED';
         },
         [updateContact.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -162,4 +167,6 @@ const ordersSlice = createSlice({
     }
 });
 
-export default ordersSlice.reducer;
+export const { cleanClientStore } = clientsSlice.actions;
+
+export default clientsSlice.reducer;

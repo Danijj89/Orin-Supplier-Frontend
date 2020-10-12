@@ -1,6 +1,5 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { deleteCI, startNewCI, submitCI, submitCIForPreview } from './thunks.js';
-import { getFileName } from '../../shared/utils.js';
 
 export const defaultRowValues = ['', '', '', '', 0, 'PCS', 0, 0];
 
@@ -38,7 +37,6 @@ const commercialInvoiceSlice = createSlice({
             for (const [key, value] of Object.entries(action.payload)) {
                 state.newCI[key] = value;
             }
-            state.newCI.fileName = getFileName('CI', ciRef, state.newCI.createdBy);
         },
         submitTableInfo: (state, action) => {
             for (const [key, value] of Object.entries(action.payload)) {

@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
         marginLeft: theme.spacing(1)
     },
     input: {
-        width: 240,
+        minWidth: 320,
         height: 36,
         borderWidth: 1,
         borderStyle: 'solid',

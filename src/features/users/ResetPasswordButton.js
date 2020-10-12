@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { LANGUAGE } from '../../constants.js';
+import { LANGUAGE } from '../../app/constants.js';
 import { Box } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
-import { resetPassword } from './duck/thunks.js';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import ResetPassWordDialog from '../shared/forms/ResetPasswordDialog.js';
+import { resetPassword } from './duck/thunks.js';
 
 const {
     resetButtonLabel,

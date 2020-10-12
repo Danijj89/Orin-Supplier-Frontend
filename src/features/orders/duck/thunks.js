@@ -3,14 +3,14 @@ import POService from './services.js';
 
 export const fetchOrders = createAsyncThunk('orders/fetchOrders',
     async (_, { getState }) => {
-        const { _id } = getState().home.company;
-        return await POService.fetchOrdersByCompanyId(_id);
+        const { company: companyId } = getState().home.user;
+        return await POService.fetchOrdersByCompanyId(companyId);
     });
 
 export const startNewOrder = createAsyncThunk('orders/startNewOrder',
     async (_, { getState }) => {
-        const { user, company } = getState().home;
-        return POService.fetchNewOrderData(user._id, company._id);
+        const { _id, company } = getState().home.user;
+        return POService.fetchNewOrderData(_id, company);
     });
 
 export const submitOrder = createAsyncThunk('orders/submitOrder', async (_, { getState }) => {
@@ -35,7 +35,6 @@ export const fetchOrderOptions = createAsyncThunk('orders/fetchOrderOptions',
         return POService.fetchOrderOptions(company._id);
     }
 );
-
 
 export const fetchSelectedOrderById = createAsyncThunk('orders/fetchSelectedOrderById',
     async (id, { dispatch }) => {

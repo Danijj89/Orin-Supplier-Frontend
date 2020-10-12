@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectNewPL } from './duck/selectors.js';
 import { TextField, Grid, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { LANGUAGE } from '../../constants.js';
+import { LANGUAGE } from '../../app/constants.js';
 import { submitPLDetails } from './duck/slice.js';
 
 const { plRefLabel, dateLabel, notesLabel, cancelButton, nextButton } = LANGUAGE.packingList.createPLDetailsForm;
