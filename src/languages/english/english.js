@@ -199,7 +199,16 @@ export const ENGLISH = {
                 products: 'Products'
             },
             titleLabel: 'New Order',
+            prevButtonLabel: {
+                details: 'Cancel',
+                products: 'Back: Details'
+            },
+            nextButtonLabel: {
+                details: 'Next: Products',
+                products: 'Submit'
+            },
             createOrderDetails: {
+                detailsTitleLabel: 'Order Details',
                 orderReferenceLabel: 'Order Number',
                 dateLabel: 'Order Date',
                 companyAddressLabel: 'Seller Address',
@@ -208,9 +217,13 @@ export const ENGLISH = {
                 crdLabel: 'Cargo Ready Date',
                 incotermLabel: 'Incoterm',
                 paymentMethodLabel: 'Payment Method',
-                remarksLabel: 'Remarks',
-                cancelButton: 'Cancel',
-                nextButton: 'Next',
+                clientReferenceLabel: 'Client Reference',
+                notesLabel: 'Remarks',
+                shippingInfoTitleLabel: 'Shipping Information (Optional)',
+                deliveryMethodLabel: 'Delivery Method',
+                portOfLoadingLabel: 'Port of Loading',
+                portOfDestinationLabel: 'Port of Destination',
+                shippingCarrierLabel: 'Shipping Carrier',
             }
         },
         orderTableRow: {
@@ -218,11 +231,7 @@ export const ENGLISH = {
                 'Are you sure you want to delete this order?',
         },
         shippingInfo: {
-            shippingInformation: 'Shipping Information (Optional)',
-            deliveryMethod: 'Delivery Method',
-            portOfLoading: 'Port of Loading',
-            portOfDestination: 'Port of Destination',
-            shippingCarrier: 'Shipping Carrier',
+
         },
         orderProductInfo: {
             currencyLabel: 'Currency',

@@ -11,7 +11,7 @@ import Home from '../features/home/Home.js';
 import Settings from '../features/home/Settings.js';
 import ClientOverview from '../features/clients/ClientOverview.js';
 import ClientDetails from '../features/clients/ClientDetails.js';
-import CreateOrder from '../features/orders/CreateOrder.js';
+import CreateOrderContainer from '../features/orders/CreateOrderContainer.js';
 import NotFound from '../features/shared/components/NotFound.js';
 
 export default function App() {
@@ -30,7 +30,7 @@ export default function App() {
                         <Route
                             exact
                             path='/home/orders/new/:step'
-                            component={ CreateOrder }
+                            component={ CreateOrderContainer }
                             isPrivate
                         />
                         <Route

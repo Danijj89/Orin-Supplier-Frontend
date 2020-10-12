@@ -9,18 +9,22 @@ import { selectOrderStatus } from './duck/selectors.js';
 import Loader from '../shared/displays/Loader.js';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import OrdersTable from './OrdersTable.js';
+import { isLoading } from '../shared/utils/store.js';
+import { selectCurrentCompany } from '../home/duck/selectors.js';
 
 const { newOrderButtonLabel } = LANGUAGE.order.ordersOverview;
 
 export default function OrdersOverview() {
     const dispatch = useDispatch();
     const history = useHistory();
+    const company = useSelector(selectCurrentCompany);
     const orders = useSelector(selectAllOrders);
-    const status = useSelector(selectOrderStatus);
+    const orderStatus = useSelector(selectOrderStatus);
+    const loading = isLoading([orderStatus]);
 
     useEffect(() => {
-        if (status === 'IDLE') dispatch(fetchOrders());
-    }, [dispatch, status]);
+        if (company) dispatch(fetchOrders(company._id));
+    }, [dispatch, company]);
 
     const onNewOrderClick = () => {
         dispatch(cleanNewOrder())
@@ -33,7 +37,7 @@ export default function OrdersOverview() {
                 <ThemedButton onClick={onNewOrderClick}>
                     {newOrderButtonLabel}
                 </ThemedButton>
-                { status === 'PENDING' && <Loader/> }
+                { loading && <Loader/> }
                 { orders && <OrdersTable orders={ orders }/> }
             </Paper>
         </Container>
