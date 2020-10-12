@@ -10,6 +10,7 @@ import { deliveryMethodOptions, incotermOptions } from '../shared/constants.js';
 import TextArea from '../shared/inputs/TextArea.js';
 import { makeStyles } from '@material-ui/core/styles';
 import SideDateField from '../shared/inputs/SideDateField.js';
+import SideCheckBox from '../shared/inputs/SideCheckBox.js';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -26,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
 
 const {
     detailsTitleLabel,
+    autoGenerateRefLabel,
     orderReferenceLabel,
     dateLabel,
     companyAddressLabel,
@@ -50,6 +52,8 @@ export default function CreateOrderDetails(
     const { addresses, ports } = company;
 
     const chosenClient = watch('to');
+    const autoGenerateRef = watch('autoGenerateRef');
+    console.log(autoGenerateRef)
 
     useEffect(() => {
         const client = clients.find(client => client._id === chosenClient?._id);
@@ -63,12 +67,18 @@ export default function CreateOrderDetails(
             <Box className={ classes.details }>
                 <Typography variant="h5">{ detailsTitleLabel }</Typography>
                 <FormContainer>
+                    <SideCheckBox
+                        label={ autoGenerateRefLabel }
+                        name="autoGenerateRef"
+                        inputRef={ register }
+                    />
                     <SideTextField
                         label={ orderReferenceLabel }
                         name="ref"
                         error={ !!errors.ref }
-                        inputRef={ register({ required: true }) }
-                        required
+                        inputRef={ register({ required: !autoGenerateRef }) }
+                        disabled={ autoGenerateRef }
+                        required={ !autoGenerateRef }
                         autoFocus
                     />
                     <Controller
