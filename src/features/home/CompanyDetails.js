@@ -54,7 +54,7 @@ export default function CompanyDetails({ company }) {
             { status === 'REJECTED' && <ErrorMessage errors={ [error] }/> }
             <InfoCard
                 className={ classes.topCard }
-                title={ company.defaultAddress.name }
+                title={ company?.defaultAddress?.name }
                 button={ <EditCompanyInfoButton company={ company }/> }
                 content={
                     <ColumnInfoDisplay

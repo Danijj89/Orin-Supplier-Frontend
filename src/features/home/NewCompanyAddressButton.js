@@ -3,8 +3,8 @@ import ThemedButton from '../shared/buttons/ThemedButton.js';
 import AddressDialog from '../shared/forms/AddressDialog.js';
 import { Box } from '@material-ui/core';
 import { LANGUAGE } from '../../constants.js';
-import { addNewAddress } from '../../app/duck/thunks.js';
 import { useDispatch } from 'react-redux';
+import { addNewAddress } from './duck/thunks.js';
 
 const {
     newAddressButtonLabel,

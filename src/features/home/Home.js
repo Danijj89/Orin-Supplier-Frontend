@@ -3,9 +3,9 @@ import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import NavBar from './NavBar.js';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchSessionInfo } from '../../app/duck/thunks.js';
 import { selectCurrentUserId } from '../../app/duck/selectors.js';
 import { selectUserById } from '../users/duck/selectors.js';
+import { fetchSessionInfo } from './duck/thunks.js';
 
 const useStyles = makeStyles((theme) => ({
     root: {

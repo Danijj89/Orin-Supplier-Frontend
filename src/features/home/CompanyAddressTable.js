@@ -1,17 +1,14 @@
 import React, { useState } from 'react';
 import { Card, Typography } from '@material-ui/core';
 import { LANGUAGE } from '../../constants.js';
-import {
-    deleteAddress,
-    updateAddress,
-    updateDefaultAddress,
-} from '../../app/duck/thunks.js';
 import { useDispatch } from 'react-redux';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import AddressDialog from '../shared/forms/AddressDialog.js';
 import NewCompanyAddressButton from './NewCompanyAddressButton.js';
 import Table from '../shared/components/Table.js';
 import { makeStyles } from '@material-ui/core/styles';
+import { deleteAddress, updateDefaultAddress } from './duck/thunks.js';
+import { updateAddress } from '../clients/duck/thunks.js';
 
 const {
     addressesTableTitleLabel,

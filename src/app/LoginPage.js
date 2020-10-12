@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
+import { Redirect } from 'react-router-dom';
 import logo from '../images/orinlogo.png';
 import { LANGUAGE } from '../constants.js';
-import AppService from '../features/api/AppService.js';
-import { useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { setSessionInfo } from './duck/slice.js';
+import { useDispatch, useSelector } from 'react-redux';
 import { Grid, CardMedia, Typography, TextField } from '@material-ui/core';
 import ErrorMessage from '../features/shared/displays/ErrorMessage.js';
 import ThemedButton from '../features/shared/buttons/ThemedButton.js';
@@ -12,6 +10,7 @@ import { useForm } from 'react-hook-form';
 import { makeStyles } from '@material-ui/core/styles';
 import loginImg from '../images/login.png';
 import { signIn } from './duck/thunks.js';
+import { selectCurrentUserId } from './duck/selectors.js';
 
 const {
     title, emailLabel, errorMessages,
@@ -75,9 +74,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function LoginPage() {
     const classes = useStyles();
-    const history = useHistory();
     const dispatch = useDispatch();
     const [error, setError] = useState(null);
+    const userId = useSelector(selectCurrentUserId);
 
     const { register, errors, handleSubmit } = useForm({
         mode: 'onSubmit',
@@ -90,7 +89,6 @@ export default function LoginPage() {
     const onSignInClick = async (credentials) => {
         setError(null);
         dispatch(signIn(credentials));
-        history.push('/home/settings/account');
     };
 
     const isError = Object.keys(errors).length > 0 || error;
@@ -98,6 +96,7 @@ export default function LoginPage() {
 
     return (
         <Grid container className={ classes.container }>
+            { userId && <Redirect to={ '/home/settings/account' }/> }
             <Grid item xs={ 5 } className={ classes.leftPanel }>
                 <CardMedia className={ classes.logo } component="img" src={ logo } alt="Logo"/>
                 <Typography variant="h3">{ title }</Typography>
@@ -133,8 +132,8 @@ export default function LoginPage() {
             </Grid>
             <Grid className={ classes.rightPanel } item xs={ 7 }>
                 <CardMedia component="img" src={ loginImg } alt="Office" className={ classes.loginImage }/>
-                <Typography className={classes.loginImageTitle} variant="h4">{ imageTitle }</Typography>
-                <Typography className={classes.loginImageSubTitle} variant="subtitle2">{ imageSubText }</Typography>
+                <Typography className={ classes.loginImageTitle } variant="h4">{ imageTitle }</Typography>
+                <Typography className={ classes.loginImageSubTitle } variant="subtitle2">{ imageSubText }</Typography>
             </Grid>
         </Grid>
     )

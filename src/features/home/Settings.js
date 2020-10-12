@@ -2,12 +2,13 @@ import React from 'react';
 import { useHistory, Redirect } from 'react-router-dom';
 import { Container, Tab, Tabs } from '@material-ui/core';
 import { LANGUAGE } from '../../constants.js';
-import AccountDetails from './AccountDetails.js';
+import AccountDetails from '../users/AccountDetails.js';
 import CompanyDetails from './CompanyDetails.js';
 import { useSelector } from 'react-redux';
-import { selectCurrentCompany, selectCurrentUserId } from '../../app/duck/selectors.js';
-import CompanyUsers from './CompanyUsers.js';
+import { selectCurrentUserId } from '../../app/duck/selectors.js';
+import CompanyUsers from '../users/CompanyUsers.js';
 import { selectAllUsers, selectUserById } from '../users/duck/selectors.js';
+import { selectCurrentCompany } from './duck/selectors.js';
 
 const { tabsLabelMap } = LANGUAGE.home.settings;
 
@@ -18,7 +19,7 @@ export default function Settings({ match }) {
     const company = useSelector(selectCurrentCompany);
     const userId = useSelector(selectCurrentUserId);
     const user = useSelector(state => selectUserById(state, userId));
-    const users = useSelector(selectAllUsers)
+    const users = useSelector(selectAllUsers);
 
     const onTabChange = (e, newValue) =>
         history.push(`/home/settings/${ newValue }`);

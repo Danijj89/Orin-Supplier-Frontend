@@ -1,17 +1,5 @@
 import { fetchWithAuth } from './utils.js';
 
-const fetchUsers = async (id) => {
-    const configs = {
-        method: 'get',
-        url: `users`,
-        params: {
-            company: id
-        }
-    };
-    const { data } = await fetchWithAuth(configs);
-    return data;
-};
-
 const updateUser = async (id, update) => {
     const configs = {
         method: 'put',
@@ -33,7 +21,6 @@ const resetPassword = async (id, password) => {
 };
 
 const UserService = {
-    fetchUsers,
     updateUser,
     resetPassword
 };
