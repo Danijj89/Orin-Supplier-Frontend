@@ -34,12 +34,20 @@ const useStyles = makeStyles((theme) => ({
     },
     inputInvalid: {
         borderColor: 'red'
+    },
+    disabled: {
+        backgroundColor: theme.palette.tertiary['200']
     }
 }));
 
-export default function SideTextField({label, required, className, error, ...props}) {
+export default function SideTextField({ label, required, className, error, disabled, ...props }) {
     const classes = useStyles();
-    const classNames = clsx( classes.input, className, error && classes.inputInvalid);
+    const classNames = clsx(
+        classes.input,
+        className,
+        error && classes.inputInvalid,
+        disabled && classes.disabled
+    );
 
     return (
         <Box className={ classes.container }>
@@ -56,6 +64,7 @@ export default function SideTextField({label, required, className, error, ...pro
                 InputProps={ { ...props.InputProps, disableUnderline: true } }
                 required={ required }
                 error={ error }
+                disabled={ disabled }
             />
         </Box>
     )
@@ -65,5 +74,6 @@ SideTextField.propTypes = {
     label: PropTypes.string.isRequired,
     required: PropTypes.bool,
     className: PropTypes.string,
-    error: PropTypes.bool
+    error: PropTypes.bool,
+    disabled: PropTypes.bool
 };
