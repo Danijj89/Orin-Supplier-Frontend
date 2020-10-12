@@ -6,11 +6,11 @@ import { Container } from '@material-ui/core';
 import { fetchClientById } from './duck/thunks.js';
 import Loader from '../shared/displays/Loader.js';
 import ColumnInfoDisplay from '../shared/wrappers/ColumnInfoDisplay.js';
-import { LANGUAGE } from '../../constants.js';
+import { LANGUAGE } from '../../app/constants.js';
 import ClientInfoTable from './ClientInfoTable.js';
 import EditClientButton from './EditClientButton.js';
-import { selectCurrentCompany } from '../../app/duck/selectors.js';
 import { dateToLocaleDate } from '../shared/utils/format.js';
+import { selectCurrentCompany } from '../home/duck/selectors.js';
 
 const {
     assignedToLabel,

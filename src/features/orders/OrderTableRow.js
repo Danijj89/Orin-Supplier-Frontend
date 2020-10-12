@@ -12,7 +12,7 @@ import { setCurrentPOId } from './duck/slice.js';
 import StatusButtonMenu from './StatusButtonMenu.js';
 import DeleteButton from '../shared/buttons/DeleteButton.js';
 import { deleteOrder } from './duck/thunks.js';
-import { LANGUAGE } from '../../constants.js';
+import { LANGUAGE } from '../../app/constants.js';
 
 const useStyles = makeStyles((theme) => ({
     deleteButtonCell: {

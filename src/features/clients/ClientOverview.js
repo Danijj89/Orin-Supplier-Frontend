@@ -3,17 +3,17 @@ import { Grid } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectAllClients, selectStatus as selectClientStatus } from './duck/selectors.js';
 import { fetchClients } from './duck/thunks.js';
-import {
-    selectCurrentCompany,
-    selectCurrentUser
-} from '../../app/duck/selectors.js';
+import { selectCurrentUserId, } from '../../app/duck/selectors.js';
 import ClientsTable from './ClientsTable.js';
 import NewClientButton from './NewClientButton.js';
 import Loader from '../shared/displays/Loader.js';
+import { selectUserById } from '../users/duck/selectors.js';
+import { selectCurrentCompany } from '../home/duck/selectors.js';
 
 export default function ClientOverview() {
     const dispatch = useDispatch();
-    const user = useSelector(selectCurrentUser);
+    const userId = useSelector(selectCurrentUserId);
+    const user = useSelector(state => selectUserById(userId));
     const clients = useSelector(selectAllClients);
     const company = useSelector(selectCurrentCompany);
     const clientStatus = useSelector(selectClientStatus);

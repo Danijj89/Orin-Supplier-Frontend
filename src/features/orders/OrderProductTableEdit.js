@@ -15,7 +15,7 @@ import AddColumnButton from '../shared/buttons/addColumnButton.js';
 import { roundTo2Decimal } from '../shared/utils/random.js';
 import CreatePOTableRow from './CreatePOTableRow.js';
 import { makeStyles } from '@material-ui/core/styles';
-import { LANGUAGE } from '../../constants.js';
+import { LANGUAGE } from '../../app/constants.js';
 import { defaultRowValues } from '../commercial_invoice/duck/slice.js';
 import { useSelector } from 'react-redux';
 import { selectPOAutocompleteOptions } from './duck/selectors.js';

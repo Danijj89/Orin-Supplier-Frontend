@@ -1,6 +1,6 @@
 import React from 'react';
 import Table from '../shared/components/Table.js';
-import { LANGUAGE } from '../../constants.js';
+import { LANGUAGE } from '../../app/constants.js';
 import UnitCounter from '../shared/classes/UnitCounter.js';
 
 const { ordersTableHeadersMap } = LANGUAGE.order.ordersOverview;

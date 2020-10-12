@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Redirect, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import CreateOrderDetails from './CreateOrderDetails.js';
-import { LANGUAGE } from '../../constants.js';
+import { LANGUAGE } from '../../app/constants.js';
 import CreatePOProductInfo from './CreatePOProductInfo.js';
 import { startNewOrder } from './duck/thunks.js';
 import DocumentStepper from '../shared/DocumentStepper.js';
@@ -13,7 +13,7 @@ import ErrorMessage from '../shared/displays/ErrorMessage.js';
 import useSessionStorage from '../shared/hooks/useSessionStorage.js';
 import { SESSION_NEW_ORDER } from '../../app/sessionKeys.js';
 import { cleanNewOrder } from './duck/slice.js';
-import { selectCurrentCompany } from '../../app/duck/selectors.js';
+import { selectCurrentCompany } from '../home/duck/selectors.js';
 
 function getCurrentStep(stepLabel) {
     switch (stepLabel) {

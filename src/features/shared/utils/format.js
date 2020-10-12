@@ -1,4 +1,4 @@
-import { LOCALE } from '../../../constants.js';
+import { LOCALE } from '../../../app/constants.js';
 
 export function dateToLocaleDate(date) {
     const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' }

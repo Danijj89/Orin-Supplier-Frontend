@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Container } from '@material-ui/core';
-import { LANGUAGE } from '../../constants.js';
+import { LANGUAGE } from '../../app/constants.js';
 import { useDispatch, useSelector } from 'react-redux';
 import TextWithLabel from '../shared/displays/TextWithLabel.js';
 import ResetPasswordButton from './ResetPasswordButton.js';

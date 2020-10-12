@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import { useHistory, useLocation } from 'react-router-dom';
 import logo from '../../images/orinlogo.png';
-import { LANGUAGE } from '../../constants.js';
+import { LANGUAGE } from '../../app/constants.js';
 import {
     CardMedia,
     List,

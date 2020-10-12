@@ -8,7 +8,7 @@ import { TextField, Button, Grid } from '@material-ui/core';
 import { Autocomplete } from '@material-ui/lab';
 import { selectNewCI } from './duck/selectors.js';
 import { makeStyles } from '@material-ui/core/st\yles';
-import { LANGUAGE } from '../../constants.js';
+import { LANGUAGE } from '../../app/constants.js';
 import { submitCIDetails } from './duck/slice.js';
 import CreateCIAdditionalInfo from './CreateCIAdditionalInfo.js';
 

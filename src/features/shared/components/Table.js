@@ -10,7 +10,7 @@ import {
     TableFooter,
     TablePagination
 } from '@material-ui/core';
-import { LANGUAGE } from '../../../constants.js';
+import { LANGUAGE } from '../../../app/constants.js';
 
 const { paginationAllLabel, rowsPerPageLabel } = LANGUAGE.shared.components.table;
 

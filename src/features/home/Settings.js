@@ -1,7 +1,7 @@
 import React from 'react';
 import { useHistory, Redirect } from 'react-router-dom';
 import { Container, Tab, Tabs } from '@material-ui/core';
-import { LANGUAGE } from '../../constants.js';
+import { LANGUAGE } from '../../app/constants.js';
 import AccountDetails from '../users/AccountDetails.js';
 import CompanyDetails from './CompanyDetails.js';
 import { useSelector } from 'react-redux';

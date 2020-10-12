@@ -8,7 +8,7 @@ import { cleanError } from '../../app/duck/slice.js';
 import InfoCard from '../shared/wrappers/InfoCard.js';
 import EditCompanyInfoButton from './EditCompanyInfoButton.js';
 import CompanyAddressTable from './CompanyAddressTable.js';
-import { LANGUAGE } from '../../constants.js';
+import { LANGUAGE } from '../../app/constants.js';
 import ColumnInfoDisplay from '../shared/wrappers/ColumnInfoDisplay.js';
 
 const useStyles = makeStyles((theme) => ({

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { LANGUAGE } from '../../constants.js';
+import { LANGUAGE } from '../../app/constants.js';
 import {
   TextField,
   Typography,

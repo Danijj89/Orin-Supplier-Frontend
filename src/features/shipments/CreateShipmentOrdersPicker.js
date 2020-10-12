@@ -4,7 +4,7 @@ import CreateShipmentOrdersListItem from './CreateShipmentOrdersListItem.js';
 import { makeStyles } from '@material-ui/core/styles';
 import { useSelector } from 'react-redux';
 import { selectAutocompleteOptions } from './duck/selectors.js';
-import { LANGUAGE } from '../../constants.js';
+import { LANGUAGE } from '../../app/constants.js';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
 const useStyles = makeStyles((theme) => ({

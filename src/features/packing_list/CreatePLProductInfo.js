@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { LANGUAGE } from '../../constants.js';
+import { LANGUAGE } from '../../app/constants.js';
 import { Grid, TextField, Button } from '@material-ui/core';
 import { Controller, useForm } from 'react-hook-form';
 import { Autocomplete } from '@material-ui/lab';

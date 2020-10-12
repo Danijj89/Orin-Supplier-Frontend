@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { LANGUAGE } from '../../constants.js';
+import { LANGUAGE } from '../../app/constants.js';
 import { Box } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
 import ThemedButton from '../shared/buttons/ThemedButton.js';

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import FormDialog from '../wrappers/FormDialog.js';
 import { Controller, useForm } from 'react-hook-form';
-import { LANGUAGE } from '../../../constants.js';
+import { LANGUAGE } from '../../../app/constants.js';
 import SideTextField from '../inputs/SideTextField.js';
 import SideAutoComplete from '../inputs/SideAutoComplete.js';
 import { currenciesOptions, industriesOptions } from '../constants.js';

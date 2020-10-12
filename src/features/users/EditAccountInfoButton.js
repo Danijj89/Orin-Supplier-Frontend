@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import UserDialog from '../shared/forms/UserDialog.js';
 import { Box } from '@material-ui/core';
-import { LANGUAGE } from '../../constants.js';
+import { LANGUAGE } from '../../app/constants.js';
 import { useDispatch } from 'react-redux';
 import { updateUser } from './duck/thunks.js';
 

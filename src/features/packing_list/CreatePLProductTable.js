@@ -14,7 +14,7 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 import IconClear from '@material-ui/icons/Clear';
 import CreatePLTableRow from './CreatePLTableRow.js';
-import { LANGUAGE } from '../../constants.js';
+import { LANGUAGE } from '../../app/constants.js';
 import UnitCounter from '../shared/classes/UnitCounter.js';
 import { roundTo2Decimal } from '../shared/utils/random.js';
 import { useSelector } from 'react-redux';

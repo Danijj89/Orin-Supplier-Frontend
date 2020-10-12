@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { LANGUAGE } from '../../constants.js';
+import { LANGUAGE } from '../../app/constants.js';
 import OrderInfoCard from './OrderInfoCard.js';
 import OrderOverviewInfoCardView from './OrderOverviewInfoCardView.js';
 import { useForm } from 'react-hook-form';

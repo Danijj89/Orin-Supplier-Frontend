@@ -9,7 +9,7 @@ import CreatePOTableRow from './CreatePOTableRow.js';
 import Button from '@material-ui/core/Button';
 import { Clear as IconClear } from '@material-ui/icons';
 import { getCurrencySymbol } from '../shared/utils/random.js';
-import { LANGUAGE } from '../../constants.js';
+import { LANGUAGE } from '../../app/constants.js';
 import { Grid, IconButton, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import UnitCounter from '../shared/classes/UnitCounter.js';

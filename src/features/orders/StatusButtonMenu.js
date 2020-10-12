@@ -9,7 +9,7 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { FiberManualRecord as IconCircle } from '@material-ui/icons';
-import { LANGUAGE } from '../../constants.js';
+import { LANGUAGE } from '../../app/constants.js';
 import { orderStatusesOptions } from '../shared/constants.js';
 
 const { orderStatusLabelsMap } = LANGUAGE.shared.statusButtonMenu;

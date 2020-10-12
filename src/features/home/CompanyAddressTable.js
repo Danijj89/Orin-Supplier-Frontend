@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Card, Typography } from '@material-ui/core';
-import { LANGUAGE } from '../../constants.js';
+import { LANGUAGE } from '../../app/constants.js';
 import { useDispatch } from 'react-redux';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import AddressDialog from '../shared/forms/AddressDialog.js';

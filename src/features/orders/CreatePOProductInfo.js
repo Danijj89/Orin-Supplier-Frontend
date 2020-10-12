@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Grid, Paper, Checkbox, FormControlLabel } from '@material-ui/core';
-import { LANGUAGE } from '../../constants.js';
+import { LANGUAGE } from '../../app/constants.js';
 import { useDispatch } from 'react-redux';
 import CreatePOProductTable from './CreatePOProductTable.js';
 import { useForm } from 'react-hook-form';

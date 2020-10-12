@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid, TextField as MuiTextField  } from '@material-ui/core';
-import { LANGUAGE } from '../../constants.js';
+import { LANGUAGE } from '../../app/constants.js';
 
 const useStyles = ((theme) => ({
 

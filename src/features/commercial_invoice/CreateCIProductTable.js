@@ -15,7 +15,7 @@ import { Clear as ClearIcon } from '@material-ui/icons';
 import { getCurrencySymbol, roundTo2Decimal } from '../shared/utils/random.js';
 import { makeStyles } from '@material-ui/core/styles';
 import CreateCITableRow from './CreateCITableRow.js';
-import { LANGUAGE } from '../../constants.js';
+import { LANGUAGE } from '../../app/constants.js';
 import { defaultRowValues } from './duck/slice.js';
 import UnitCounter from '../shared/classes/UnitCounter.js';
 

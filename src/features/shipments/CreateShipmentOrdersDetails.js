@@ -1,7 +1,7 @@
 import React from 'react';
 import { Paper, Box, Typography, Divider } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { LANGUAGE } from '../../constants.js';
+import { LANGUAGE } from '../../app/constants.js';
 import UnitCounter from '../shared/classes/UnitCounter.js';
 
 const useStyles = makeStyles((theme) => ({

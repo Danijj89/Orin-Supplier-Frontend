@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import logo from '../images/orinlogo.png';
-import { LANGUAGE } from '../constants.js';
+import { LANGUAGE } from './constants.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { Grid, CardMedia, Typography, TextField } from '@material-ui/core';
 import ErrorMessage from '../features/shared/displays/ErrorMessage.js';

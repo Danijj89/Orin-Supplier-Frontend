@@ -1,6 +1,6 @@
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { LANGUAGE } from '../../constants.js';
+import { LANGUAGE } from '../../app/constants.js';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { Grid, Paper } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';

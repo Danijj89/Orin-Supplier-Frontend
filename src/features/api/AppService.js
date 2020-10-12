@@ -1,4 +1,4 @@
-import { AXIOS_REQUEST_CONFIG } from '../../constants.js';
+import { AXIOS_REQUEST_CONFIG } from '../../app/constants.js';
 import axios from 'axios';
 import { fetchWithAuth } from './utils.js';
 
