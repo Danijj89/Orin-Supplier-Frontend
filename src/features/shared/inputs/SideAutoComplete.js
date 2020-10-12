@@ -58,5 +58,6 @@ SideAutoComplete.propTypes = {
     error: PropTypes.bool,
     options: PropTypes.array.isRequired,
     getOptionLabel: PropTypes.func,
-    getOptionSelected: PropTypes.func
+    getOptionSelected: PropTypes.func,
+    multiple: PropTypes.bool,
 };

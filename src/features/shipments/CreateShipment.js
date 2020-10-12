@@ -24,7 +24,7 @@ export default function CreateShipment() {
             <Typography variant="h5">{ titleLabel }</Typography>
             <Divider className={ classes.row }/>
             { activeStep === 0 && <CreateShipmentOrders setActiveStep={ setActiveStep }/> }
-            {/*{ activeStep === 1 && <CreatePOProductInfo setActiveStep={ setActiveStep }/> }*/}
+            {/*{ activeStep === 1 && <CreateOrderProducts setActiveStep={ setActiveStep }/> }*/}
             {/*{ activeStep === 2 &&*/}
             {/*<DocumentPreview*/}
             {/*    onPrevButtonClick={onPreviewPrevButtonClick}*/}

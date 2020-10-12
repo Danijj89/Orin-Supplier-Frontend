@@ -1,31 +1,33 @@
-import React from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import React, { useEffect, useState } from 'react';
+import { Controller } from 'react-hook-form';
 import { LANGUAGE } from '../../app/constants.js';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import { Grid, Paper } from '@material-ui/core';
-import { useDispatch, useSelector } from 'react-redux';
-import { cleanNewOrder, submitOrderDetails } from './duck/slice.js';
-import { useHistory } from 'react-router-dom';
-import CreatePOShippingInfo from './CreatePOShippingInfo.js';
-import ThemedButton from '../shared/buttons/ThemedButton.js';
-import { dateToYYMMDD, formatAddress } from '../shared/utils/format.js';
-import { selectCurrentCompany } from '../../app/duck/selectors.js';
+import { Divider, Box, Typography } from '@material-ui/core';
+import { formatAddress } from '../shared/utils/format.js';
 import FormContainer from '../shared/wrappers/FormContainer.js';
 import SideTextField from '../shared/inputs/SideTextField.js';
 import SideAutoComplete from '../shared/inputs/SideAutoComplete.js';
+import { deliveryMethodOptions, incotermOptions } from '../shared/constants.js';
+import TextArea from '../shared/inputs/TextArea.js';
 import { makeStyles } from '@material-ui/core/styles';
-import useSessionStorage from '../shared/hooks/useSessionStorage.js';
-import { SESSION_NEW_ORDER } from '../../app/sessionKeys.js';
-import { selectNewOrder } from './duck/selectors.js';
-import { selectAllClients } from '../clients/duck/selectors.js';
+import SideDateField from '../shared/inputs/SideDateField.js';
+import SideCheckBox from '../shared/inputs/SideCheckBox.js';
 
 const useStyles = makeStyles((theme) => ({
     container: {
-        width: '70%'
+        display: 'flex',
+        padding: theme.spacing(1),
+    },
+    details: {
+        padding: theme.spacing(2)
+    },
+    shipping: {
+        padding: theme.spacing(2)
     }
-}));
+}))
 
 const {
+    detailsTitleLabel,
+    autoGenerateRefLabel,
     orderReferenceLabel,
     dateLabel,
     companyAddressLabel,
@@ -34,169 +36,195 @@ const {
     crdLabel,
     incotermLabel,
     paymentMethodLabel,
-    remarksLabel,
-    cancelButton,
-    nextButton,
+    clientReferenceLabel,
+    notesLabel,
+    shippingInfoTitleLabel,
+    deliveryMethodLabel,
+    portOfLoadingLabel,
+    portOfDestinationLabel,
+    shippingCarrierLabel,
 } = LANGUAGE.order.createOrder.createOrderDetails;
 
-export default function CreateOrderDetails({ setActiveStep, company }) {
+export default function CreateOrderDetails(
+    { register, control, watch, setValue, getValues, errors, company, clients }) {
     const classes = useStyles();
-    const dispatch = useDispatch();
-    const history = useHistory();
-    const newOrder = useSelector(selectNewOrder);
-    const [order, setOrder] = useSessionStorage(SESSION_NEW_ORDER, newOrder);
-    const { addresses } = company;
-
-    const { register, control, handleSubmit, watch, errors, getValues } = useForm({
-        mode: 'onSubmit',
-        defaultValues: {
-            ref: order.ref,
-            from: order.from,
-            fromAdd: order.fromAdd,
-            to: order.to || null,
-            toAdd: order.toAdd || null,
-            date: dateToYYMMDD(order.date),
-            crd: dateToYYMMDD(order.crd),
-            incoterm: order.incoterm,
-            pay: order.pay,
-            notes: order.notes,
-            del: order.del,
-            pol: order.pol,
-            pod: order.pod,
-            carrier: order.carrier
-        },
-    });
+    const [clientAddresses, setClientAddresses] = useState([]);
+    const { addresses, ports } = company;
 
     const chosenClient = watch('to');
-    const clients = [];
-    const chosenClientAddresses = () =>
-        clients.find(client => client._id === chosenClient?._id)?.addresses || [];
+    const autoGenerateRef = watch('autoGenerateRef');
 
-
-    const onButtonNextClick = (data) => {
-        // data.to = customerMap[chosenCustomer].id;
-        // dispatch(submitOrderDetails(data));
-        // setActiveStep((prevStep) => prevStep + 1);
-    };
-
-    const onButtonCancelClick = () => {
-        // dispatch(cleanNewOrder());
-        // history.goBack();
-    }
+    useEffect(() => {
+        const client = clients.find(client => client._id === chosenClient?._id);
+        const newAddressOptions = client?.addresses || [];
+        setClientAddresses(newAddressOptions);
+        if (client?.incoterm) setValue('incoterm', client?.incoterm);
+    }, [chosenClient, clients, getValues, setValue]);
 
     return (
-        <FormContainer className={ classes.container }>
-            <SideTextField
-                label={ orderReferenceLabel }
-                name="ref"
-                error={ !!errors.ref }
-                inputRef={ register({ required: true }) }
-                required
-                fullWidth
-                autoFocus
-            />
-            <SideTextField
-                label={ dateLabel }
-                type="date"
-                name="date"
-                error={ !!errors.date }
-                inputRef={ register({ required: true }) }
-                required
-                fullWidth
-            />
-            <Controller
-                render={ (props) =>
-                    <SideAutoComplete
-                        { ...props }
-                        options={ addresses }
-                        label={ companyAddressLabel }
-                        error={ !!errors.fromAdd }
-                        getOptionLabel={ address => formatAddress(address) }
-                        getOptionSelected={ address => address._id === getValues('fromAdd')._id }
-                        required
+        <Box className={ classes.container }>
+            <Box className={ classes.details }>
+                <Typography variant="h5">{ detailsTitleLabel }</Typography>
+                <FormContainer>
+                    <SideCheckBox
+                        label={ autoGenerateRefLabel }
+                        name="autoGenerateRef"
+                        inputRef={ register }
                     />
-                }
-                name="fromAdd"
-                control={ control }
-                rules={ { required: true } }
-            />
-            <Controller
-                render={ (props) =>
-                    <SideAutoComplete
-                        { ...props }
-                        options={ clients }
-                        label={ clientLabel }
-                        error={ !!errors.to }
-                        getOptionLabel={ client => client.name }
-                        getOptionSelected={ client => client._id === getValues('to')._id }
-                        required
+                    <SideTextField
+                        label={ orderReferenceLabel }
+                        name="ref"
+                        error={ !!errors.ref }
+                        inputRef={ register({ required: !autoGenerateRef }) }
+                        disabled={ autoGenerateRef }
+                        required={ !autoGenerateRef }
+                        autoFocus
                     />
-                }
-                name="to"
-                control={ control }
-                rules={ { required: true } }
-            />
-            <Controller
-                render={ (props) => (
-                    <SideAutoComplete
-                        { ...props }
-                        options={ chosenClientAddresses() }
-                        label={ clientAddressLabel }
-                        error={ !!errors.toAdd }
-                        getOptionLabel={ address => formatAddress(address) }
-                        getOptionSelected={ client => client._id === getValues('toAdd')._id }
-                        required
+                    <Controller
+                        render={ props =>
+                            <SideDateField
+                                { ...props }
+                                label={ dateLabel }
+                                error={ !!errors.date }
+                                required
+                            />
+                        }
+                        name="date"
+                        control={ control }
+                        rules={ { required: true } }
                     />
-                ) }
-                name="toAdd"
-                control={ control }
-                rules={ { required: true } }
-            />
-        </FormContainer>
-    );
+                    <Controller
+                        render={ (props) =>
+                            <SideAutoComplete
+                                { ...props }
+                                options={ addresses }
+                                label={ companyAddressLabel }
+                                error={ !!errors.fromAdd }
+                                getOptionLabel={ address => formatAddress(address) }
+                                getOptionSelected={ address => address._id === getValues('fromAdd')._id }
+                                required
+                            />
+                        }
+                        name="fromAdd"
+                        control={ control }
+                        rules={ { required: true } }
+                    />
+                    <Controller
+                        render={ (props) =>
+                            <SideAutoComplete
+                                { ...props }
+                                options={ clients }
+                                label={ clientLabel }
+                                error={ !!errors.to }
+                                getOptionLabel={ client => client.name }
+                                getOptionSelected={ client => client._id === getValues('to')._id }
+                                required
+                            />
+                        }
+                        name="to"
+                        control={ control }
+                        rules={ { required: true } }
+                    />
+                    <Controller
+                        render={ (props) => (
+                            <SideAutoComplete
+                                { ...props }
+                                options={ clientAddresses }
+                                label={ clientAddressLabel }
+                                error={ !!errors.toAdd }
+                                getOptionLabel={ address => formatAddress(address) }
+                                getOptionSelected={ client => client._id === getValues('toAdd')._id }
+                                required
+                            />
+                        ) }
+                        name="toAdd"
+                        control={ control }
+                        rules={ { required: true } }
+                    />
+                    <Controller
+                        render={ props =>
+                            <SideDateField
+                                { ...props }
+                                label={ crdLabel }
+                            />
+                        }
+                        name="crd"
+                        control={ control }
+                    />
+                    <Controller
+                        render={ (props) => (
+                            <SideAutoComplete
+                                { ...props }
+                                options={ incotermOptions }
+                                label={ incotermLabel }
+                            />
+                        ) }
+                        name="incoterm"
+                        control={ control }
+                    />
+                    <SideTextField
+                        label={ paymentMethodLabel }
+                        name="pay"
+                        inputRef={ register }
+                    />
+                    <SideTextField
+                        label={ clientReferenceLabel }
+                        name="clientRef"
+                        inputRef={ register }
+                    />
+                    <TextArea
+                        label={ notesLabel }
+                        name="notes"
+                        inputRef={ register }
+                        rows={ 4 }
+                        rowsMax={ 8 }
+                    />
+                </FormContainer>
+            </Box>
+            <Divider orientation="vertical" flexItem/>
+            <Box className={ classes.shipping }>
+                <Typography variant="h5">{ shippingInfoTitleLabel }</Typography>
+                <FormContainer>
+                    <Controller
+                        render={ (props) => (
+                            <SideAutoComplete
+                                { ...props }
+                                options={ deliveryMethodOptions }
+                                label={ deliveryMethodLabel }
+                            />
+                        ) }
+                        name="del"
+                        control={ control }
+                    />
+                    <Controller
+                        render={ (props) => (
+                            <SideAutoComplete
+                                { ...props }
+                                options={ ports }
+                                label={ portOfLoadingLabel }
+                            />
+                        ) }
+                        name="pol"
+                        control={ control }
+                    />
+                    <Controller
+                        render={ (props) => (
+                            <SideAutoComplete
+                                { ...props }
+                                options={ ports }
+                                label={ portOfDestinationLabel }
+                            />
+                        ) }
+                        name="pod"
+                        control={ control }
+                    />
+                    <SideTextField
+                        label={ shippingCarrierLabel }
+                        name="carrier"
+                        inputRef={ register }
+                    />
+                </FormContainer>
+            </Box>
+        </Box>
+    )
 }
-
-
-
-// <TextField
-//     label={ crdLabel }
-//     type="date"
-//     name="crd"
-//     inputRef={ register }
-//     className={ classes.field }
-//     fullWidth
-// />
-// <TextField
-//     label={ incotermLabel }
-//     type="text"
-//     name="incoterm"
-//     inputRef={ register }
-//     className={ classes.field }
-//     fullWidth
-// />
-// <TextField
-//     label={ paymentMethodLabel }
-//     type="text"
-//     name="pay"
-//     inputRef={ register }
-//     className={ classes.field }
-//     fullWidth
-// />
-// <TextField
-//     label={ remarksLabel }
-//     type="text"
-//     name="remarks"
-//     inputRef={ register }
-//     className={ classes.field }
-//     fullWidth
-// />
-// <CreatePOShippingInfo register={ register } control={ control }/>
-// <ThemedButton
-//     onClick={ onButtonCancelClick }
-//     text={ cancelButton }
-// />
-// <ThemedButton
-//     type="submit"
-//
-//     text={ nextButton }
-// />

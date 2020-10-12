@@ -199,7 +199,17 @@ export const ENGLISH = {
                 products: 'Products'
             },
             titleLabel: 'New Order',
+            prevButtonLabel: {
+                details: 'Cancel',
+                products: 'Back: Details'
+            },
+            nextButtonLabel: {
+                details: 'Next: Products',
+                products: 'Submit'
+            },
             createOrderDetails: {
+                detailsTitleLabel: 'Order Details',
+                autoGenerateRefLabel: 'Auto-generate Order Number?',
                 orderReferenceLabel: 'Order Number',
                 dateLabel: 'Order Date',
                 companyAddressLabel: 'Seller Address',
@@ -208,9 +218,21 @@ export const ENGLISH = {
                 crdLabel: 'Cargo Ready Date',
                 incotermLabel: 'Incoterm',
                 paymentMethodLabel: 'Payment Method',
-                remarksLabel: 'Remarks',
-                cancelButton: 'Cancel',
-                nextButton: 'Next',
+                clientReferenceLabel: 'Client Reference',
+                notesLabel: 'Remarks',
+                shippingInfoTitleLabel: 'Shipping Information (Optional)',
+                deliveryMethodLabel: 'Delivery Method',
+                portOfLoadingLabel: 'Port of Loading',
+                portOfDestinationLabel: 'Port of Destination',
+                shippingCarrierLabel: 'Shipping Carrier',
+            },
+            createOrderProducts: {
+                currencyLabel: 'Currency',
+                saveItemsLabel: 'Save New Items To Inventory',
+            },
+            errorMessages: {
+                currency: 'You must select a currency.',
+                missingItemInfo: 'Some item is missing information.',
             }
         },
         orderTableRow: {
@@ -218,21 +240,7 @@ export const ENGLISH = {
                 'Are you sure you want to delete this order?',
         },
         shippingInfo: {
-            shippingInformation: 'Shipping Information (Optional)',
-            deliveryMethod: 'Delivery Method',
-            portOfLoading: 'Port of Loading',
-            portOfDestination: 'Port of Destination',
-            shippingCarrier: 'Shipping Carrier',
-        },
-        orderProductInfo: {
-            currencyLabel: 'Currency',
-            saveItemsLabel: 'Save New Items To Inventory',
-            prevButton: 'Order Details',
-            nextButton: 'Submit',
-            errorMessages: {
-                currency: 'You must select a currency.',
-                missingItemInfo: 'Some item is missing information.',
-            }
+
         },
         productTable: {
             totals: 'Total:',
@@ -452,6 +460,9 @@ export const ENGLISH = {
             notFound: {
                 message: '404 - Not Found!',
                 homeButtonLabel: 'Go Home'
+            },
+            errorDisplay: {
+                titleLabel: 'Errors:'
             }
         },
         buttons: {

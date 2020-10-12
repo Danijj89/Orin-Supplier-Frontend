@@ -17,7 +17,7 @@ import { submitCIForPreview } from './duck/thunks.js';
 import { useForm } from 'react-hook-form';
 import UnitCounter from '../shared/classes/UnitCounter.js';
 import RHFThemedDropdown from '../shared/rhf/RHFThemedDropdown.js';
-import ErrorMessage from '../shared/displays/ErrorMessage.js';
+import ErrorDisplayer from '../shared/components/ErrorDisplay.js';
 
 const { currencyLabel, marksLabel, buttonNext, buttonPrev, errorMessages } = LANGUAGE.commercialInvoice.createCIProductInfo;
 
@@ -184,7 +184,7 @@ export default function CreateCIProductInfo({ setActiveStep }) {
                     alignItems="center"
                     xs={ 12 }
                 >
-                    { Object.keys(errors).length > 0 && <ErrorMessage errors={ Object.values(errors).map(err => err.message) }/> }
+                    { Object.keys(errors).length > 0 && <ErrorDisplayer errors={ Object.values(errors).map(err => err.message) }/> }
                 </Grid>
                 <Grid item xs={ 12 } className={ classes.row }>
                     <CreateCIProductTable

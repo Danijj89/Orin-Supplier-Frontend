@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import TextWithLabel from '../shared/displays/TextWithLabel.js';
 import ResetPasswordButton from './ResetPasswordButton.js';
 import { selectError, selectStatus } from '../../app/duck/selectors.js';
-import ErrorMessage from '../shared/displays/ErrorMessage.js';
+import ErrorDisplay from '../shared/components/ErrorDisplay.js';
 import { cleanError } from '../../app/duck/slice.js';
 import InfoCard from '../shared/wrappers/InfoCard.js';
 import EditAccountInfoButton from './EditAccountInfoButton.js';
@@ -40,8 +40,8 @@ export default function AccountDetails({ user }) {
             title={titleLabel}
             button={<EditAccountInfoButton user={user} />}
             content={
-                <Container className={classes.container}>
-                    {status === 'REJECTED' && <ErrorMessage errors={[error]} />}
+                <Container>
+                    {status === 'REJECTED' && <ErrorDisplay errors={[error]} />}
                     <TextWithLabel label={nameLabel} text={user.name} />
                     <TextWithLabel label={emailLabel} text={user.email} />
                     <ResetPasswordButton

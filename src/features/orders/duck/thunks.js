@@ -2,15 +2,21 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import POService from './services.js';
 
 export const fetchOrders = createAsyncThunk('orders/fetchOrders',
-    async (_, { getState }) => {
-        const { company: companyId } = getState().home.user;
-        return await POService.fetchOrdersByCompanyId(companyId);
+    async (companyId, { rejectWithValue }) => {
+        try {
+            return await POService.fetchOrdersByCompanyId(companyId);
+        } catch (err) {
+            return rejectWithValue(err.response.data);
+        }
     });
 
 export const startNewOrder = createAsyncThunk('orders/startNewOrder',
-    async (_, { getState }) => {
-        const { _id, company } = getState().home.user;
-        return POService.fetchNewOrderData(_id, company);
+    async ({ userId, companyId }, { rejectWithValue }) => {
+        try {
+            return POService.fetchNewOrderData(userId, companyId);
+        } catch (err) {
+            return rejectWithValue(err.response.data);
+        }
     });
 
 export const submitOrder = createAsyncThunk('orders/submitOrder', async (_, { getState }) => {
