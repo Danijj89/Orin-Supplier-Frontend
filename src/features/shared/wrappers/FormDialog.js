@@ -23,7 +23,13 @@ const useStyles = makeStyles((theme) => ({
         marginBottom: theme.spacing(1),
     },
     onCancelButton: {
-        marginBottom: theme.spacing(1)
+        marginBottom: theme.spacing(1),
+        color: theme.palette.danger.main,
+        borderColor: theme.palette.danger.main,
+        '&:hover': {
+            color: theme.palette.danger.dark,
+            borderColor: theme.palette.danger.dark,
+        },
     },
 }));
 
@@ -51,12 +57,12 @@ export default function FormDialog({
                 {children}
             </DialogContent>
             <DialogActions>
-                {onDelete &&
-                <DeleteButton
-                    onDelete={onDelete}
-                    deleteMessage={deleteMessage}
-                />
-                }
+                {onDelete && (
+                    <DeleteButton
+                        onDelete={onDelete}
+                        deleteMessage={deleteMessage}
+                    />
+                )}
                 <ThemedButton
                     className={classes.onCancelButton}
                     variant="outlined"
@@ -85,5 +91,5 @@ FormDialog.propTypes = {
     onClose: PropTypes.func,
     children: PropTypes.element,
     onDelete: PropTypes.func,
-    deleteMessage: PropTypes.string
+    deleteMessage: PropTypes.string,
 };
