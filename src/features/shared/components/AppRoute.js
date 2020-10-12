@@ -8,9 +8,6 @@ export default ({ component: Component, isPrivate, ...rest }) => {
     if (isPrivate && expired) {
         return <Redirect to='/login' />
     }
-    if (!isPrivate && !expired) {
-        return <Redirect to='/home' />
-    }
     return (
         <Route {...rest} render={ props => <Component {...props} /> } />
     )

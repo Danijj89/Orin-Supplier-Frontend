@@ -6,7 +6,7 @@ import { fetchClients } from './duck/thunks.js';
 import { selectCurrentUserId, } from '../../app/duck/selectors.js';
 import ClientsTable from './ClientsTable.js';
 import NewClientButton from './NewClientButton.js';
-import Loader from '../shared/displays/Loader.js';
+import Loader from '../shared/components/Loader.js';
 import { selectAllUsers, selectUserStatus } from '../users/duck/selectors.js';
 import { selectCurrentCompany, selectHomeStatus } from '../home/duck/selectors.js';
 import { isLoading } from '../shared/utils/store.js';
