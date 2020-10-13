@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Box, Button } from '@material-ui/core';
-import { Delete as IconDelete } from '@material-ui/icons';
 import { LANGUAGE } from '../../../constants.js';
 import { makeStyles } from '@material-ui/core/styles';
 import FormDialog from '../wrappers/FormDialog.js';
 
-const { confirmButton } = LANGUAGE.shared.buttons.deleteButton;
+const {
+    confirmButton,
+    deleteButtonLabel,
+} = LANGUAGE.shared.buttons.deleteButton;
 
 const useStyles = makeStyles((theme) => ({
     button: {
         minWidth: 50,
-        color: theme.palette.tertiary['500']
-    }
+        color: theme.palette.tertiary['500'],
+    },
 }));
 
 export default function DeleteButton({ onDelete, deleteMessage }) {
@@ -22,7 +24,7 @@ export default function DeleteButton({ onDelete, deleteMessage }) {
     const onDialogOpen = (e) => {
         e.stopPropagation();
         setIsDialogOpen(true);
-    }
+    };
 
     const onCancel = () => setIsDialogOpen(false);
 
@@ -37,9 +39,9 @@ export default function DeleteButton({ onDelete, deleteMessage }) {
                 onClick={(e) => onDialogOpen(e)}
                 size="small"
                 color="inherit"
-                className={ classes.button }
+                className={classes.button}
             >
-                <IconDelete/>
+                {deleteButtonLabel}
             </Button>
             <FormDialog
                 isOpen={isDialogOpen}
@@ -49,10 +51,10 @@ export default function DeleteButton({ onDelete, deleteMessage }) {
                 onSubmit={onConfirm}
             />
         </Box>
-    )
+    );
 }
 
 DeleteButton.propTypes = {
     onDelete: PropTypes.func.isRequired,
-    deleteMessage: PropTypes.string.isRequired
+    deleteMessage: PropTypes.string.isRequired,
 };

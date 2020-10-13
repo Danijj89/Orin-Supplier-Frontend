@@ -24,14 +24,14 @@ export const ENGLISH = {
             shipments: 'Shipments',
             clients: 'Clients',
             products: 'Products',
-            settings: 'Settings'
+            settings: 'Settings',
         },
         settings: {
             tabsLabelMap: {
                 account: 'Account',
                 colleagues: 'Colleagues',
-                company: 'Company'
-            }
+                company: 'Company',
+            },
         },
         accountDetails: {
             titleLabel: 'Account preferences',
@@ -39,7 +39,7 @@ export const ENGLISH = {
             emailLabel: 'Email',
             editButtonLabel: 'Edit',
             dialogTitleLabel: 'Account',
-            dialogSubmitLabel: 'Update'
+            dialogSubmitLabel: 'Update',
         },
         companyDetails: {
             editButtonLabel: 'Edit',
@@ -56,7 +56,7 @@ export const ENGLISH = {
                 country: 'Country',
                 zip: 'Zip',
                 phone: 'Phone',
-                email: 'Email'
+                email: 'Email',
             },
             defaultAddressButtonLabel: 'Default',
             setDefaultButtonLabel: 'Set Default',
@@ -69,7 +69,7 @@ export const ENGLISH = {
             defaultCurrencyLabel: 'Default Currency',
             industriesLabel: 'Industry',
             emailLabel: 'Company Email',
-            phoneLabel: 'Company Phone'
+            phoneLabel: 'Company Phone',
         },
         newAddressButton: {
             typeLabel: 'Address Type',
@@ -89,13 +89,13 @@ export const ENGLISH = {
             dialogSubmitLabel: 'Reset',
             passwordLabel: 'Old Password',
             newPasswordLabel: 'New Password',
-            confirmPasswordLabel: 'Confirm Password'
+            confirmPasswordLabel: 'Confirm Password',
         },
         companyUsers: {
             titleLabel: 'Colleagues preferences',
             inviteButtonLabel: 'invite new',
-            nameLabel: 'Name'
-        }
+            nameLabel: 'Name',
+        },
     },
     order: {
         ordersOverview: {
@@ -109,7 +109,7 @@ export const ENGLISH = {
                 'Production',
                 'QA',
                 'Notes',
-            ]
+            ],
         },
         orderTableRow: {
             deleteOrderDialogMessage:
@@ -146,7 +146,7 @@ export const ENGLISH = {
             errorMessages: {
                 currency: 'You must select a currency.',
                 missingItemInfo: 'Some item is missing information.',
-            }
+            },
         },
         productTable: {
             totals: 'Total:',
@@ -154,10 +154,10 @@ export const ENGLISH = {
             headerLabelsMap: {
                 'Item Ref': 'Item Ref',
                 'Product Description': 'Product Description',
-                'Quantity': 'Quantity',
+                Quantity: 'Quantity',
                 'Unit Price': 'Unit Price',
-                'Amount': 'Amount'
-            }
+                Amount: 'Amount',
+            },
         },
         orderInfoTile: {
             title: 'Order Overview',
@@ -169,10 +169,10 @@ export const ENGLISH = {
             remarksLabel: 'Remarks:',
             companyNameLabel: 'To:',
             companyAddressLabel: 'Address:',
-            totalAmountLabel: 'Amount:'
+            totalAmountLabel: 'Amount:',
         },
         order: {
-            tabsLabel: ['Order Details', 'Product components']
+            tabsLabel: ['Order Details', 'Product components'],
         },
         orderStatusInfoTile: {
             title: 'Order Progress',
@@ -202,10 +202,10 @@ export const ENGLISH = {
             addRowButton: 'Add',
             errorMessages: {
                 currencyRequired: 'You must select a currency.',
-                missingItemInfo: 'Some item is missing information.'
+                missingItemInfo: 'Some item is missing information.',
             },
-            totalsLabel: 'Total:'
-        }
+            totalsLabel: 'Total:',
+        },
     },
     client: {
         clientOverview: {
@@ -220,8 +220,8 @@ export const ENGLISH = {
                 salesYTD: 'Sales YTD',
                 orderCountYTD: 'Order Count YTD',
                 assignedTo: 'Sales',
-                notes: 'Notes'
-            }
+                notes: 'Notes',
+            },
         },
         clientDetails: {
             assignedToLabel: 'Assigned To',
@@ -235,12 +235,12 @@ export const ENGLISH = {
             tabsLabelsMap: {
                 addresses: 'Addresses',
                 contacts: 'Contacts',
-                orders: 'Orders'
+                orders: 'Orders',
             },
             editClientButton: {
                 buttonLabel: 'Edit',
                 dialogTitleLabel: 'Edit Client',
-                dialogSubmitLabel: 'Update'
+                dialogSubmitLabel: 'Update',
             },
             clientAddressTable: {
                 editAddressDialogTitleLabel: 'Edit Address',
@@ -257,7 +257,7 @@ export const ENGLISH = {
                     country: 'Country',
                     zip: 'Zip',
                     phone: 'Phone',
-                    email: 'Email'
+                    email: 'Email',
                 },
             },
             clientContactsTable: {
@@ -268,13 +268,13 @@ export const ENGLISH = {
                     fax: 'Fax',
                     title: 'Title',
                     department: 'Department',
-                    additional: 'Additional'
+                    additional: 'Additional',
                 },
                 editDialogTitleLabel: 'Edit Contact',
                 editDialogSubmitLabel: 'Update',
                 newDialogTitleLabel: 'New Contact',
                 newDialogSubmitLabel: 'Add',
-                newButtonLabel: 'Add Contact'
+                newButtonLabel: 'Add Contact',
             },
             clientOrdersTable: {
                 ordersTableHeadersMap: {
@@ -284,10 +284,10 @@ export const ENGLISH = {
                     realCrd: 'Actual Cargo Ready',
                     totalQ: 'Quantity',
                     totalA: 'Total',
-                    del: 'Mode'
+                    del: 'Mode',
                 },
-            }
-        }
+            },
+        },
     },
     commercialInvoice: {
         createCI: {
@@ -329,7 +329,7 @@ export const ENGLISH = {
         createCIProductTable: {
             totals: 'Total:',
             addRowButton: 'Add',
-        }
+        },
     },
     packingList: {
         createPL: {
@@ -358,15 +358,15 @@ export const ENGLISH = {
         createPLProductTable: {
             addRowButton: 'Add',
             totalsText: 'Totals:',
-        }
+        },
     },
     shipments: {
         overview: {
-            addShipmentButton: 'New Shipment'
+            addShipmentButton: 'New Shipment',
         },
         createShipment: {
             steps: ['Orders', 'Details', 'Product Info', 'Review'],
-            titleLabel: 'New Shipment'
+            titleLabel: 'New Shipment',
         },
         createShipmentOrders: {
             chipTitleLabel: 'Orders',
@@ -380,29 +380,29 @@ export const ENGLISH = {
             incotermLabel: 'Incoterm:',
             remarksLabel: 'Remarks:',
             cancelButton: 'Cancel',
-            nextButton: 'Next'
-        }
+            nextButton: 'Next',
+        },
     },
     shared: {
         wrappers: {
             formDialog: {
-                cancelLabel: 'Cancel'
-            }
+                cancelLabel: 'Cancel',
+            },
         },
         forms: {
             userDialog: {
                 nameLabel: 'Your Name',
-                emailLabel: 'Email'
+                emailLabel: 'Email',
             },
             resetPasswordDialog: {
                 passwordLabel: 'Old Password',
                 newPasswordLabel: 'New Password',
-                confirmPasswordLabel: 'Confirm Password'
+                confirmPasswordLabel: 'Confirm Password',
             },
             companyDialog: {
                 taxNumberLabel: 'Tax Number',
                 defaultCurrencyLabel: 'Default Currency',
-                industriesLabel: 'Industry'
+                industriesLabel: 'Industry',
             },
             addressDialog: {
                 typeLabel: 'Address Type',
@@ -415,7 +415,7 @@ export const ENGLISH = {
                 zipLabel: 'Zip',
                 phoneLabel: 'Phone',
                 emailLabel: 'Email',
-                deleteMessage: 'Are you sure you want to delete this address?'
+                deleteMessage: 'Are you sure you want to delete this address?',
             },
             clientDialog: {
                 nameLabel: 'Company Name',
@@ -426,7 +426,7 @@ export const ENGLISH = {
                 sourceLabel: 'Source',
                 incotermLabel: 'Default Incoterm',
                 paymentTermLabel: 'Default Payment Term',
-                notesLabel: 'Notes'
+                notesLabel: 'Notes',
             },
             contactDialog: {
                 nameLabel: 'Name',
@@ -436,19 +436,20 @@ export const ENGLISH = {
                 titleLabel: 'Title',
                 departmentLabel: 'Department',
                 additionalLabel: 'Additional Info',
-                deleteMessage: 'Are you sure you want to delete this contact?'
-            }
+                deleteMessage: 'Are you sure you want to delete this contact?',
+            },
         },
         components: {
             table: {
                 paginationAllLabel: 'All',
-                rowsPerPageLabel: 'Rows per page'
-            }
+                rowsPerPageLabel: 'Rows per page',
+            },
         },
         buttons: {
             deleteButton: {
                 cancelButton: 'Cancel',
                 confirmButton: 'Confirm',
+                deleteButtonLabel: 'Delete',
             },
         },
         downloadButton: {
@@ -498,9 +499,9 @@ export const ENGLISH = {
         },
         dropdowns: {
             currency: {
-                label: 'Currency'
-            }
-        }
+                label: 'Currency',
+            },
+        },
     },
     defaults: {
         documentNames: {
