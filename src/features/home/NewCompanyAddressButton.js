@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import AddressDialog from '../shared/forms/AddressDialog.js';
 import { Box } from '@material-ui/core';
-import { LANGUAGE } from '../../constants.js';
-import { addNewAddress } from './duck/thunks.js';
+import { LANGUAGE } from '../../app/constants.js';
 import { useDispatch } from 'react-redux';
+import { addNewAddress } from './duck/thunks.js';
 
 const {
     newAddressButtonLabel,

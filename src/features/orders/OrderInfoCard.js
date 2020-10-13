@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, Divider, Grid, Typography, Box, IconButton } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
-import { LANGUAGE } from '../../constants.js';
+import { LANGUAGE } from '../../app/constants.js';
 import { Check as IconCheck, Clear as IconClear } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({

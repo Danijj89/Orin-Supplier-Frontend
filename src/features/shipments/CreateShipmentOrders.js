@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import CreateShipmentOrdersPicker from './CreateShipmentOrdersPicker.js';
 import CreateShipmentOrdersDetails from './CreateShipmentOrdersDetails.js';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
-import { LANGUAGE } from '../../constants.js';
+import { LANGUAGE } from '../../app/constants.js';
 
 const useStyles = makeStyles((theme) => ({
     row: {

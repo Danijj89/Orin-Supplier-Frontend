@@ -18,10 +18,15 @@ const initialState = clientsAdapter.getInitialState({
     error: null
 });
 
-const ordersSlice = createSlice({
+const clientsSlice = createSlice({
     name: 'clients',
     initialState,
-    reducers: {},
+    reducers: {
+        cleanClientStore: (state, action) => {
+            state.status = 'IDLE';
+            state.error = null;
+        }
+    },
     extraReducers: {
         [fetchClients.pending]: (state, action) => {
             state.status = 'PENDING';
@@ -39,7 +44,7 @@ const ordersSlice = createSlice({
         },
         [createClient.fulfilled]: (state, action) => {
             clientsAdapter.upsertOne(state, action.payload);
-            state.status = 'FULFILLED';
+            state.status = 'IDLE';
         },
         [createClient.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -162,4 +167,6 @@ const ordersSlice = createSlice({
     }
 });
 
-export default ordersSlice.reducer;
+export const { cleanClientStore } = clientsSlice.actions;
+
+export default clientsSlice.reducer;

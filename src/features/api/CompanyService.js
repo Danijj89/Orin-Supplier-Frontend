@@ -1,4 +1,4 @@
-import { fetchWithAuth } from './fetchWithAuth.js';
+import { fetchWithAuth } from './utils.js';
 
 const addNewAddress = async (companyId, address) => {
     const configs = {
@@ -38,15 +38,6 @@ const updateDefaultAddress = async (companyId, addressId) => {
     return data;
 };
 
-const fetchAutocompleteOptions = async (id) => {
-    const configs = {
-        method: 'get',
-        url: `companies/${id}/options`,
-    };
-    const { data } = await fetchWithAuth(configs);
-    return data;
-};
-
 const updateCompany = async (id, update) => {
     const configs = {
         method: 'put',
@@ -62,7 +53,6 @@ const CompanyService = {
     deleteAddress,
     updateAddress,
     updateDefaultAddress,
-    fetchAutocompleteOptions,
     updateCompany
 };
 

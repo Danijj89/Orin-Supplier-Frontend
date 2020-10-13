@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Paper, Tab, Tabs } from '@material-ui/core';
-import { LANGUAGE } from '../../constants.js';
+import { LANGUAGE } from '../../app/constants.js';
 import ClientAddressesTable from './ClientAddressesTable.js';
 import ClientContactsTable from './ClientContactsTable.js';
 import ClientOrdersTable from './ClientOrdersTable.js';

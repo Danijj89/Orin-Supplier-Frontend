@@ -1,14 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import Box from '@material-ui/core/Box';
+import { Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
     container: {
-        display: 'flex',
+        display: 'inline-flex',
         alignItems: 'flex-end',
-        flexDirection: 'column'
+        flexDirection: 'column',
+        padding: theme.spacing(3)
     }
 }));
 
@@ -23,6 +24,6 @@ export default function FormContainer({ children, className }) {
 }
 
 FormContainer.propTypes = {
-    children: PropTypes.element,
+    children: PropTypes.any,
     className: PropTypes.string
 };

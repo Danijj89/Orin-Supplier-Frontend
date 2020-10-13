@@ -42,6 +42,7 @@ export default function SideAutoComplete(
                     required={ required }
                     error={ error }
                     className={ className }
+                    rowsMax={8}
                 />
             ) }
             onChange={ (_, data) => props.onChange(data) }
@@ -57,5 +58,6 @@ SideAutoComplete.propTypes = {
     error: PropTypes.bool,
     options: PropTypes.array.isRequired,
     getOptionLabel: PropTypes.func,
-    getOptionSelected: PropTypes.func
+    getOptionSelected: PropTypes.func,
+    multiple: PropTypes.bool,
 };

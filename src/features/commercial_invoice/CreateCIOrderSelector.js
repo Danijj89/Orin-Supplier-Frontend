@@ -2,7 +2,7 @@ import React from 'react';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 import { Chip, Paper } from '@material-ui/core';
-import { LANGUAGE } from '../../constants.js';
+import { LANGUAGE } from '../../app/constants.js';
 
 const { ordersLabel } = LANGUAGE.commercialInvoice.createCIProductInfo;
 

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import DocumentStepper from '../shared/DocumentStepper.js';
 import { Container, Typography, Divider } from '@material-ui/core';
-import { LANGUAGE } from '../../constants.js';
+import { LANGUAGE } from '../../app/constants.js';
 import CreateShipmentOrders from './CreateShipmentOrders.js';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -24,7 +24,7 @@ export default function CreateShipment() {
             <Typography variant="h5">{ titleLabel }</Typography>
             <Divider className={ classes.row }/>
             { activeStep === 0 && <CreateShipmentOrders setActiveStep={ setActiveStep }/> }
-            {/*{ activeStep === 1 && <CreatePOProductInfo setActiveStep={ setActiveStep }/> }*/}
+            {/*{ activeStep === 1 && <CreateOrderProducts setActiveStep={ setActiveStep }/> }*/}
             {/*{ activeStep === 2 &&*/}
             {/*<DocumentPreview*/}
             {/*    onPrevButtonClick={onPreviewPrevButtonClick}*/}

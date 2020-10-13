@@ -97,6 +97,7 @@ export const ENGLISH = {
             nameLabel: 'Name',
         },
     },
+<<<<<<< HEAD
     order: {
         ordersOverview: {
             newOrderButton: 'New Order',
@@ -207,6 +208,8 @@ export const ENGLISH = {
             totalsLabel: 'Total:',
         },
     },
+=======
+>>>>>>> shipment
     client: {
         clientOverview: {
             newClientButtonLabel: 'New Client',
@@ -289,6 +292,129 @@ export const ENGLISH = {
             },
         },
     },
+    order: {
+        ordersOverview: {
+            newOrderButtonLabel: 'New Order',
+            ordersTableHeadersMap: {
+                ref: 'Purchase Order',
+                totalQ: 'Quantity',
+                crd: 'Cargo Ready',
+                toName: 'Client',
+                procurement:'Procurement',
+                production: 'Production',
+                qa: 'QA',
+                notes: 'Notes',
+            }
+        },
+        createOrder: {
+            stepLabelsMap: {
+                details: 'Order',
+                products: 'Products'
+            },
+            titleLabel: 'New Order',
+            prevButtonLabel: {
+                details: 'Cancel',
+                products: 'Back: Details'
+            },
+            nextButtonLabel: {
+                details: 'Next: Products',
+                products: 'Submit'
+            },
+            createOrderDetails: {
+                detailsTitleLabel: 'Order Details',
+                autoGenerateRefLabel: 'Auto-generate Order Number?',
+                orderReferenceLabel: 'Order Number',
+                dateLabel: 'Order Date',
+                companyAddressLabel: 'Seller Address',
+                clientLabel: 'Buyer',
+                clientAddressLabel: 'Buyer Address',
+                crdLabel: 'Cargo Ready Date',
+                incotermLabel: 'Incoterm',
+                paymentMethodLabel: 'Payment Method',
+                clientReferenceLabel: 'Client Reference',
+                notesLabel: 'Remarks',
+                shippingInfoTitleLabel: 'Shipping Information (Optional)',
+                deliveryMethodLabel: 'Delivery Method',
+                portOfLoadingLabel: 'Port of Loading',
+                portOfDestinationLabel: 'Port of Destination',
+                shippingCarrierLabel: 'Shipping Carrier',
+            },
+            createOrderProducts: {
+                currencyLabel: 'Currency',
+                saveItemsLabel: 'Save New Items To Inventory',
+            },
+            errorMessages: {
+                currency: 'You must select a currency.',
+                missingItemInfo: 'Some item is missing information.',
+            }
+        },
+        orderTableRow: {
+            deleteOrderDialogMessage:
+                'Are you sure you want to delete this order?',
+        },
+        shippingInfo: {
+
+        },
+        productTable: {
+            totals: 'Total:',
+            addRowButton: 'Add',
+            headerLabelsMap: {
+                'Item Ref': 'Item Ref',
+                'Product Description': 'Product Description',
+                'Quantity': 'Quantity',
+                'Unit Price': 'Unit Price',
+                'Amount': 'Amount'
+            }
+        },
+        orderInfoTile: {
+            title: 'Order Overview',
+            orderLabel: 'Order Number:',
+            dateTitle: 'Date:',
+            crdTitle: 'CRD:',
+            quantityTitle: 'Quantity:',
+            incotermTitle: 'Incoterm:',
+            remarksLabel: 'Remarks:',
+            companyNameLabel: 'To:',
+            companyAddressLabel: 'Address:',
+            totalAmountLabel: 'Amount:'
+        },
+        order: {
+            tabsLabel: ['Order Details', 'Product components']
+        },
+        orderStatusInfoTile: {
+            title: 'Order Progress',
+            headers: ['Procurement', 'Production', 'QA'],
+            rowLabels: [
+                'Status:',
+                'Estimated Completion:',
+                'Actual Completion:',
+            ],
+        },
+        orderDocuments: {
+            tableTitle: 'Generated Documents',
+            tableHeaders: ['Document Type', 'Created By', 'Date Created'],
+            docTypeMap: {
+                CI: 'Commercial Invoice',
+                PO: 'Purchase Order',
+                PL: 'Packing List',
+            },
+            deleteDocumentMessage:
+                'Are you sure you want to delete this document?',
+            deleteDocumentButtonCancel: 'Cancel',
+            deleteDocumentButtonConfirm: 'Delete',
+        },
+        orderProductTable: {
+            tableTitleLabel: 'Product components',
+            editButtonLabel: 'Edit',
+            addRowButton: 'Add',
+            errorMessages: {
+                currencyRequired: 'You must select a currency.',
+                missingItemInfo: 'Some item is missing information.'
+            },
+            totalsLabel: 'Total:'
+        }
+    },
+
     commercialInvoice: {
         createCI: {
             steps: ['Invoice Info', 'Products', 'Review'],
@@ -442,8 +568,20 @@ export const ENGLISH = {
         components: {
             table: {
                 paginationAllLabel: 'All',
+<<<<<<< HEAD
                 rowsPerPageLabel: 'Rows per page',
             },
+=======
+                rowsPerPageLabel: 'Rows per page'
+            },
+            notFound: {
+                message: '404 - Not Found!',
+                homeButtonLabel: 'Go Home'
+            },
+            errorDisplay: {
+                titleLabel: 'Errors:'
+            }
+>>>>>>> shipment
         },
         buttons: {
             deleteButton: {

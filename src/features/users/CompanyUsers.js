@@ -1,6 +1,6 @@
 import React from 'react';
 import { Add as IconAdd } from '@material-ui/icons';
-import { LANGUAGE } from '../../constants.js';
+import { LANGUAGE } from '../../app/constants.js';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import InfoCard from '../shared/wrappers/InfoCard.js';
 import { makeStyles } from '@material-ui/core/styles';

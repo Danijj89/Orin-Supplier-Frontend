@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
-import logo from '../../images/orinlogo.png';
-import { LANGUAGE } from '../../constants';
-import AppService from '../api/AppService.js';
-import { useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { setSessionInfo } from '../home/duck/slice.js';
+import { Redirect } from 'react-router-dom';
+import logo from '../images/orinlogo.png';
+import { LANGUAGE } from './constants.js';
+import { useDispatch, useSelector } from 'react-redux';
 import { Grid, CardMedia, Typography, TextField } from '@material-ui/core';
-import ErrorMessage from '../shared/displays/ErrorMessage.js';
-import ThemedButton from '../shared/buttons/ThemedButton.js';
+import ErrorDisplayer from '../features/shared/components/ErrorDisplay.js';
+import ThemedButton from '../features/shared/buttons/ThemedButton.js';
 import { useForm } from 'react-hook-form';
 import { makeStyles } from '@material-ui/core/styles';
-import loginImg from '../../images/login.png';
-import { SESSION_COOKIE, SESSION_USER } from '../../app/sessionKeys.js';
+import loginImg from '../images/login.png';
+import { signIn } from './duck/thunks.js';
+import { selectCurrentUserId } from './duck/selectors.js';
 
 const {
     title, emailLabel, errorMessages,
@@ -75,9 +74,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function LoginPage() {
     const classes = useStyles();
-    const history = useHistory();
     const dispatch = useDispatch();
     const [error, setError] = useState(null);
+    const userId = useSelector(selectCurrentUserId);
 
     const { register, errors, handleSubmit } = useForm({
         mode: 'onSubmit',
@@ -85,34 +84,24 @@ export default function LoginPage() {
             email: null,
             password: null,
         }
-    })
+    });
 
-    const onSignInClick = async (data) => {
+    const onSignInClick = async (credentials) => {
         setError(null);
-        try {
-            const { user, expires } = await AppService.signIn(data);
-            sessionStorage.setItem(SESSION_COOKIE, JSON.stringify(new Date(Date.now() + expires)));
-            sessionStorage.setItem(SESSION_USER, JSON.stringify(user));
-            dispatch(setSessionInfo(user));
-            history.push('/home/orders');
-        } catch (err) {
-            const { message } = err.response.data;
-            setError(message);
-        }
-    }
-
-
+        dispatch(signIn(credentials));
+    };
 
     const isError = Object.keys(errors).length > 0 || error;
     const allErrors = Object.values(errors).map(err => err.message).concat([error]);
 
     return (
         <Grid container className={ classes.container }>
+            { userId && <Redirect to={ '/home/settings/account' }/> }
             <Grid item xs={ 5 } className={ classes.leftPanel }>
                 <CardMedia className={ classes.logo } component="img" src={ logo } alt="Logo"/>
                 <Typography variant="h3">{ title }</Typography>
                 <form className={ classes.form } onSubmit={ handleSubmit(onSignInClick) } autoComplete="off">
-                    { isError && <ErrorMessage errors={ allErrors }/> }
+                    { isError && <ErrorDisplayer errors={ allErrors }/> }
                     <TextField
                         name="email"
                         type="email"
@@ -143,8 +132,8 @@ export default function LoginPage() {
             </Grid>
             <Grid className={ classes.rightPanel } item xs={ 7 }>
                 <CardMedia component="img" src={ loginImg } alt="Office" className={ classes.loginImage }/>
-                <Typography className={classes.loginImageTitle} variant="h4">{ imageTitle }</Typography>
-                <Typography className={classes.loginImageSubTitle} variant="subtitle2">{ imageSubText }</Typography>
+                <Typography className={ classes.loginImageTitle } variant="h4">{ imageTitle }</Typography>
+                <Typography className={ classes.loginImageSubTitle } variant="subtitle2">{ imageSubText }</Typography>
             </Grid>
         </Grid>
     )

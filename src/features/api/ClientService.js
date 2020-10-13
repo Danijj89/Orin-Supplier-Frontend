@@ -1,4 +1,4 @@
-import { fetchWithAuth } from './fetchWithAuth.js';
+import { fetchWithAuth } from './utils.js';
 
 const fetchClients = async (id) => {
     const configs = {

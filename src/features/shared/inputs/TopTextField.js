@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
         marginLeft: theme.spacing(1)
     },
     input: {
-        width: 240,
+        minWidth: 320,
         height: 36,
         borderWidth: 1,
         borderStyle: 'solid',
@@ -36,12 +36,20 @@ const useStyles = makeStyles((theme) => ({
     },
     inputInvalid: {
         borderColor: 'red'
+    },
+    disabled: {
+        backgroundColor: theme.palette.tertiary['200']
     }
 }));
 
-export default function TopTextField({label, required, className, error, ...props}) {
+export default function TopTextField({ label, required, className, error, disabled, ...props }) {
     const classes = useStyles();
-    const classNames = clsx( classes.input, className, error && classes.inputInvalid);
+    const classNames = clsx(
+        classes.input,
+        className,
+        error && classes.inputInvalid,
+        disabled && classes.disabled
+    );
 
     return (
         <Box className={ classes.container }>
@@ -58,6 +66,7 @@ export default function TopTextField({label, required, className, error, ...prop
                 InputProps={ { ...props.InputProps, disableUnderline: true } }
                 required={ required }
                 error={ error }
+                disabled={ disabled }
             />
         </Box>
     )
@@ -67,5 +76,6 @@ TopTextField.propTypes = {
     label: PropTypes.string.isRequired,
     required: PropTypes.bool,
     className: PropTypes.string,
-    error: PropTypes.bool
+    error: PropTypes.bool,
+    disabled: PropTypes.bool
 };

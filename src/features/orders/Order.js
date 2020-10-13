@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import OrderOverviewInfoCard from './OrderOverviewInfoCard.js';
 import { Grid, Tabs, Tab } from '@material-ui/core';
-import { LANGUAGE } from '../../constants.js';
+import { LANGUAGE } from '../../app/constants.js';
 import OrderDocuments from './OrderDocuments.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';

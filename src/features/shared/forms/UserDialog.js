@@ -1,7 +1,7 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import FormDialog from '../wrappers/FormDialog.js';
-import { LANGUAGE } from '../../../constants.js';
+import { LANGUAGE } from '../../../app/constants.js';
 import PropTypes from 'prop-types';
 import SideTextField from '../inputs/SideTextField.js';
 

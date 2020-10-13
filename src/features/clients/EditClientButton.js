@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { Box } from '@material-ui/core';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import ClientDialog from '../shared/forms/ClientDialog.js';
-import { LANGUAGE } from '../../constants.js';
+import { LANGUAGE } from '../../app/constants.js';
 import { updateClient } from './duck/thunks.js';
 
 const {

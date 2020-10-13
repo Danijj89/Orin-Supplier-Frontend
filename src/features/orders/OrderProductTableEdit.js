@@ -12,14 +12,14 @@ import {
 import { Clear as IconClear } from '@material-ui/icons';
 import CurrencyDropdown from '../shared/dropdown/CurrencyDropdown.js';
 import AddColumnButton from '../shared/buttons/addColumnButton.js';
-import { roundTo2Decimal } from '../shared/utils.js';
+import { roundTo2Decimal } from '../shared/utils/random.js';
 import CreatePOTableRow from './CreatePOTableRow.js';
 import { makeStyles } from '@material-ui/core/styles';
-import { LANGUAGE } from '../../constants.js';
+import { LANGUAGE } from '../../app/constants.js';
 import { defaultRowValues } from '../commercial_invoice/duck/slice.js';
 import { useSelector } from 'react-redux';
 import { selectPOAutocompleteOptions } from './duck/selectors.js';
-import ErrorMessage from '../shared/displays/ErrorMessage.js';
+import ErrorDisplayer from '../shared/components/ErrorDisplay.js';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -135,7 +135,7 @@ export default function OrderProductTableEdit({ watch, setValue, errors }) {
                 xs={ 12 }
             >
                 { Object.keys(errors).length > 0 &&
-                <ErrorMessage errors={ Object.values(errors).map(err => err.message) }/> }
+                <ErrorDisplayer errors={ Object.values(errors).map(err => err.message) }/> }
             </Grid>
             <Grid item xs={ 12 } className={ classes.botPanel }>
                 <TableContainer>

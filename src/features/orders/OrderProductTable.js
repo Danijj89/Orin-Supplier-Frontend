@@ -4,13 +4,13 @@ import { makeStyles } from '@material-ui/core/styles';
 import OrderProductTableView from './OrderProductTableView.js';
 import OrderProductTableEdit from './OrderProductTableEdit.js';
 import { Check as IconCheck, Clear as IconClear } from '@material-ui/icons';
-import { LANGUAGE } from '../../constants.js';
+import { LANGUAGE } from '../../app/constants.js';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { defaultTableHeaders } from './duck/slice.js';
 import { useForm } from 'react-hook-form';
 import UnitCounter from '../shared/classes/UnitCounter.js';
 import { useSelector } from 'react-redux';
-import { selectCurrentDefaults } from '../home/duck/slice.js';
+import { selectCurrentDefaults } from '../../app/duck/slice.js';
 
 const useStyles = makeStyles((theme) => ({
     root: {

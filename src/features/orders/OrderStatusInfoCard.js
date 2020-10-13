@@ -7,12 +7,12 @@ import {
     TableRow,
     TableCell as MuiTableCell,
 } from '@material-ui/core';
-import { LANGUAGE } from '../../constants.js';
+import { LANGUAGE } from '../../app/constants.js';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import {
     convertDateStringToyymmdd,
     dateToLocaleDate,
-} from '../shared/utils.js';
+} from '../shared/utils/random.js';
 import { useForm } from 'react-hook-form';
 import StatusButtonMenu from './StatusButtonMenu.js';
 import { useDispatch } from 'react-redux';

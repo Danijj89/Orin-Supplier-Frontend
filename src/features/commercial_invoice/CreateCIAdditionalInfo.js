@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Button, Typography, TextField, Container, Box } from '@material-ui/core';
 import { ExpandLess as IconExpandLess, ExpandMore as IconExpandMore, Notes as IconNotes } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
-import { LANGUAGE } from '../../constants.js';
+import { LANGUAGE } from '../../app/constants.js';
 import { Controller } from 'react-hook-form';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { useSelector } from 'react-redux';

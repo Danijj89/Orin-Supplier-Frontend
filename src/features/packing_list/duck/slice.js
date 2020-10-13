@@ -1,6 +1,5 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { startNewPL, submitPL, submitPLForPreview } from './thunks.js';
-import { getFileName } from '../../shared/utils.js';
 
 const packingListAdapter = createEntityAdapter({
     selectId: pl => pl._id,
@@ -27,7 +26,6 @@ const packingListSlice = createSlice({
             for (const [key, value] of Object.entries(action.payload)) {
                 state.newPL[key] = value;
             }
-            state.newPL.fileName = getFileName('PL', plRef, state.newPL.createdBy);
         },
         submitPLTableInfo: (state, action) => {
             for (const [key, value] of Object.entries(action.payload)) {
