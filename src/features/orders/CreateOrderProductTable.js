@@ -32,7 +32,6 @@ export default function CreateOrderProductTable({ register, control, setValue, g
 
     const renderRefCell = () =>
         <TableAutoComplete
-            options={}
         />;
 
 
