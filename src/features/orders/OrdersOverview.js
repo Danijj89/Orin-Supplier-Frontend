@@ -6,7 +6,7 @@ import { fetchOrders } from './duck/thunks.js';
 import { cleanNewOrder, selectAllOrders } from './duck/slice.js';
 import { Paper, Container } from '@material-ui/core';
 import { selectOrderStatus } from './duck/selectors.js';
-import Loader from '../shared/displays/Loader.js';
+import Loader from '../shared/components/Loader.js';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import OrdersTable from './OrdersTable.js';
 import { isLoading } from '../shared/utils/store.js';

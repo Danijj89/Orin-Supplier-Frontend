@@ -7,7 +7,7 @@ import { getCurrencySymbol } from '../shared/utils/random.js';
 import { makeStyles } from '@material-ui/core/styles';
 import TableAutoCompleteFreeTextInput from '../shared/inputs/TableAutoCompleteFreeTextInput.js';
 import TableInput from '../shared/inputs/TableInput.js';
-import TableAutoCompleteTextInput from '../shared/inputs/TableAutoCompleteTextInput.js';
+import TableAutoComplete from '../shared/inputs/TableAutoComplete.js';
 import { selectCIAutocompleteOptions } from './duck/selectors.js';
 
 const useStyles = makeStyles({
@@ -140,7 +140,7 @@ export default function CreateCITableRow(
                         />
                     </Grid>
                     <Grid container justify="flex-end" item xs={5}>
-                        <TableAutoCompleteTextInput
+                        <TableAutoComplete
                             options={itemUnits}
                             onChange={(data) => onCellChange(orderRef, rowIdx, 5, data)}
                             value={item[5]}

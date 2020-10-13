@@ -9,13 +9,3 @@ export const defaultRowValues = {
     price: 0,
     total: 0
 };
-
-export const defaultTableHeaders = [
-    'Item Ref',
-    'Product Description',
-    null,
-    null,
-    'Quantity',
-    'Unit Price',
-    'Amount'
-];

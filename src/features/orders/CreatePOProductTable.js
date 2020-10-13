@@ -15,7 +15,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import UnitCounter from '../shared/classes/UnitCounter.js';
 import { useSelector } from 'react-redux';
 import { roundTo2Decimal } from '../shared/utils/format.js';
-import { defaultRowValues } from './constants.js';
+import { defaultRowValues } from './utils/constants.js';
 
 const { totals, addRowButton, headerLabelsMap } = LANGUAGE.order.productTable;
 

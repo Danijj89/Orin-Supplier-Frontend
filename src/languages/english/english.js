@@ -229,6 +229,18 @@ export const ENGLISH = {
             createOrderProducts: {
                 currencyLabel: 'Currency',
                 saveItemsLabel: 'Save New Items To Inventory',
+                createOrderProductTable: {
+                    totals: 'Total:',
+                    addRowButton: 'Add',
+                    tableHeaderLabelsMap: {
+                        ref: 'Item Reference',
+                        description: 'Product Description',
+                        quantity: 'Quantity',
+                        unit: 'Unit',
+                        price: 'Unit Price',
+                        total: 'Amount'
+                    }
+                }
             },
             errorMessages: {
                 currency: 'You must select a currency.',
@@ -238,20 +250,6 @@ export const ENGLISH = {
         orderTableRow: {
             deleteOrderDialogMessage:
                 'Are you sure you want to delete this order?',
-        },
-        shippingInfo: {
-
-        },
-        productTable: {
-            totals: 'Total:',
-            addRowButton: 'Add',
-            headerLabelsMap: {
-                'Item Ref': 'Item Ref',
-                'Product Description': 'Product Description',
-                'Quantity': 'Quantity',
-                'Unit Price': 'Unit Price',
-                'Amount': 'Amount'
-            }
         },
         orderInfoTile: {
             title: 'Order Overview',
