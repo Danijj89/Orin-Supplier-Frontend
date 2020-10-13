@@ -7,7 +7,7 @@ import ErrorDisplayer from '../shared/components/ErrorDisplay.js';
 import { cleanError } from '../../app/duck/slice.js';
 import InfoCard from '../shared/wrappers/InfoCard.js';
 import EditCompanyInfoButton from './EditCompanyInfoButton.js';
-import CompanyAddressTable from './CompanyAddressTable.js';
+import CompanyAddressCards from './CompanyAddressCards.js';
 import { LANGUAGE } from '../../app/constants.js';
 import ColumnInfoDisplay from '../shared/wrappers/ColumnInfoDisplay.js';
 
@@ -65,7 +65,7 @@ export default function CompanyDetails({ company }) {
                     />
                 }
             />
-            <CompanyAddressTable className={ classes.table } company={ company }/>
+            <CompanyAddressCards className={ classes.table } company={ company }/>
         </Container>
     );
 }

@@ -45,7 +45,6 @@ export const ENGLISH = {
             editButtonLabel: 'Edit',
             dialogTitleLabel: 'Edit Company',
             dialogSubmitLabel: 'Update',
-            addressesTableTitleLabel: 'Addresses',
             addressTableHeadersMap: {
                 type: 'Label',
                 name: 'Entity Name',
@@ -58,8 +57,6 @@ export const ENGLISH = {
                 phone: 'Phone',
                 email: 'Email',
             },
-            defaultAddressButtonLabel: 'Default',
-            setDefaultButtonLabel: 'Set Default',
             editAddressDialogTitleLabel: 'Edit Address',
             editAddressDialogSubmitLabel: 'Update Address',
             newAddressButtonLabel: 'New Address',
@@ -462,6 +459,15 @@ export const ENGLISH = {
             errorDisplay: {
                 titleLabel: 'Errors:',
             },
+            addressCard: {
+                typeLabel: 'Type:',
+                phoneLabel: 'Phone number:',
+                emailLabel: 'Email:',
+                editButtonLabel: 'Edit',
+                deleteButtonLabel: 'Delete',
+                defaultButtonLabel: 'Default',
+                setDefaultButtonLabel: 'Set as Default'
+            }
         },
         buttons: {
             deleteButton: {

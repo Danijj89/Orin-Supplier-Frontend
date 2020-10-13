@@ -1,5 +1,4 @@
 import { createMuiTheme, responsiveFontSizes } from '@material-ui/core';
-import { grey } from '@material-ui/core/colors';
 
 let appTheme = createMuiTheme({
     typography: {

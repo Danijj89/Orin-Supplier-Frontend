@@ -120,6 +120,7 @@ export default function LoginPage() {
                         className={ classes.field }
                         label={ passwordLabel }
                         fullWidth
+                        autoComplete="on"
                     />
                     <ThemedButton
                         type="submit"
