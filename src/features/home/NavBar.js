@@ -21,6 +21,7 @@ import {
     PeopleOutlined as IconPeople,
     DirectionsBoatOutlined as IconBoat,
     LocalOfferOutlined as IconTag,
+    AddCircleOutlineOutlined as IconPlus,
 } from '@material-ui/icons';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MoreIcon from '@material-ui/icons/MoreVert';
@@ -104,154 +105,174 @@ export default function NavBar({ user }) {
     const mobileMenuId = 'primary-search-account-menu-mobile';
     const renderMobileMenu = (
         <Menu
-            anchorEl={ mobileMoreAnchorEl }
-            anchorOrigin={ { vertical: 'top', horizontal: 'right' } }
-            id={ mobileMenuId }
+            anchorEl={mobileMoreAnchorEl}
+            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+            id={mobileMenuId}
             keepMounted
-            transformOrigin={ { vertical: 'top', horizontal: 'right' } }
-            open={ isMobileMenuOpen }
-            onClose={ handleMobileMenuClose }
+            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+            open={isMobileMenuOpen}
+            onClose={handleMobileMenuClose}
         >
-            <MenuItem onClick={ () => onTabClick('orders', '/home/orders') }>
+            <MenuItem onClick={() => onTabClick('orders', '/home/orders')}>
                 <IconButton color="inherit">
-                    <IconViewStream/>
+                    <IconViewStream />
                 </IconButton>
-                { orders }
+                {orders}
             </MenuItem>
-            <MenuItem onClick={ () => onTabClick('clients', '/home/clients') }>
+            <MenuItem onClick={() => onTabClick('clients', '/home/clients')}>
                 <IconButton color="inherit">
-                    <IconPeople/>
+                    <IconPeople />
                 </IconButton>
-                { clients }
+                {clients}
             </MenuItem>
-            <MenuItem onClick={ () => onTabClick('shipments', '#') }>
+            <MenuItem onClick={() => onTabClick('leads', '#')}>
                 <IconButton color="inherit">
-                    <IconBoat/>
+                    <IconPlus />
                 </IconButton>
-                { shipments }
+                Leads
             </MenuItem>
-            <MenuItem onClick={ () => onTabClick('products', '#') }>
+            <MenuItem onClick={() => onTabClick('shipments', '#')}>
                 <IconButton color="inherit">
-                    <IconTag/>
+                    <IconBoat />
                 </IconButton>
-                { products }
+                {shipments}
+            </MenuItem>
+            <MenuItem onClick={() => onTabClick('products', '#')}>
+                <IconButton color="inherit">
+                    <IconTag />
+                </IconButton>
+                {products}
             </MenuItem>
             <MenuItem
-                onClick={ () => onTabClick('settings', '/home/settings/account') }
+                onClick={() => onTabClick('settings', '/home/settings/account')}
             >
                 <IconButton color="inherit">
-                    <AccountCircle/>
+                    <AccountCircle />
                 </IconButton>
-                { settings }
+                {settings}
             </MenuItem>
         </Menu>
     );
 
     return (
-        <div className={ classNames(classes.grow, classes.root) }>
+        <div className={classNames(classes.grow, classes.root)}>
             <AppBar position="static" color="secondary">
                 <Toolbar>
                     <CardMedia
                         component="img"
-                        src={ logo }
+                        src={logo}
                         alt="Logo"
-                        className={ classes.logo }
+                        className={classes.logo}
                     />
-                    <List className={ classes.menu }>
+                    <List className={classes.menu}>
                         <ListItem
                             button
                             component="a"
-                            onClick={ () => onTabClick('orders', '/home/orders') }
-                            selected={ currentTab === 'orders' }
-                            classes={ {
+                            onClick={() => onTabClick('orders', '/home/orders')}
+                            selected={currentTab === 'orders'}
+                            classes={{
                                 root: classes.tabs,
                                 selected: classes.selected,
-                            } }
+                            }}
                         >
                             <ListItemText>
-                                <span className={ classes.tabsText }>
-                                    { orders }
+                                <span className={classes.tabsText}>
+                                    {orders}
                                 </span>
                             </ListItemText>
                         </ListItem>
                         <ListItem
                             button
                             component="a"
-                            onClick={ () =>
+                            onClick={() =>
                                 onTabClick('clients', '/home/clients')
                             }
-                            classes={ {
+                            classes={{
                                 root: classes.tabs,
                                 selected: classes.selected,
-                            } }
-                            selected={ currentTab === 'clients' }
+                            }}
+                            selected={currentTab === 'clients'}
                         >
                             <ListItemText>
-                                <span className={ classes.tabsText }>
-                                    { clients }
+                                <span className={classes.tabsText}>
+                                    {clients}
                                 </span>
                             </ListItemText>
                         </ListItem>
                         <ListItem
                             button
                             component="a"
-                            onClick={ () => onTabClick('shipments', '#') }
-                            classes={ {
+                            onClick={() => onTabClick('leads', '#')}
+                            classes={{
                                 root: classes.tabs,
                                 selected: classes.selected,
-                            } }
-                            selected={ currentTab === 'shipments' }
+                            }}
+                            selected={currentTab === 'leads'}
                         >
                             <ListItemText>
-                                <span className={ classes.tabsText }>
-                                    { shipments }
+                                <span className={classes.tabsText}>Leads</span>
+                            </ListItemText>
+                        </ListItem>
+                        <ListItem
+                            button
+                            component="a"
+                            onClick={() => onTabClick('shipments', '#')}
+                            classes={{
+                                root: classes.tabs,
+                                selected: classes.selected,
+                            }}
+                            selected={currentTab === 'shipments'}
+                        >
+                            <ListItemText>
+                                <span className={classes.tabsText}>
+                                    {shipments}
                                 </span>
                             </ListItemText>
                         </ListItem>
                         <ListItem
                             button
                             component="a"
-                            onClick={ () => onTabClick('products', '#') }
-                            classes={ {
+                            onClick={() => onTabClick('products', '#')}
+                            classes={{
                                 root: classes.tabs,
                                 selected: classes.selected,
-                            } }
-                            selected={ currentTab === 'products' }
+                            }}
+                            selected={currentTab === 'products'}
                         >
                             <ListItemText>
-                                <span className={ classes.tabsText }>
-                                    { products }
+                                <span className={classes.tabsText}>
+                                    {products}
                                 </span>
                             </ListItemText>
                         </ListItem>
                     </List>
-                    <div className={ classes.grow }/>
+                    <div className={classes.grow} />
                     <Typography variant="subtitle1">
-                        Hello, { user.name }
+                        Hello, {user.name}
                     </Typography>
 
-                    <div className={ classes.sectionDesktop }>
+                    <div className={classes.sectionDesktop}>
                         <IconButton
                             edge="end"
-                            onClick={ () =>
+                            onClick={() =>
                                 onTabClick('settings', '/home/settings/account')
                             }
                             color="inherit"
                         >
-                            <AccountCircle/>
+                            <AccountCircle />
                         </IconButton>
                     </div>
-                    <div className={ classes.sectionMobile }>
+                    <div className={classes.sectionMobile}>
                         <IconButton
-                            onClick={ handleMobileMenuOpen }
+                            onClick={handleMobileMenuOpen}
                             color="inherit"
                         >
-                            <MoreIcon/>
+                            <MoreIcon />
                         </IconButton>
                     </div>
                 </Toolbar>
             </AppBar>
-            { renderMobileMenu }
+            {renderMobileMenu}
         </div>
     );
 }
