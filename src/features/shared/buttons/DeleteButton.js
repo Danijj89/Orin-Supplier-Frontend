@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Box, Button } from '@material-ui/core';
-import { LANGUAGE } from '../../../constants.js';
+import { LANGUAGE } from '../../../app/constants.js';
 import { makeStyles } from '@material-ui/core/styles';
 import FormDialog from '../wrappers/FormDialog.js';
 
