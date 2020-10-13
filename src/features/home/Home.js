@@ -6,6 +6,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectCurrentUserId } from '../../app/duck/selectors.js';
 import { selectUserById } from '../users/duck/selectors.js';
 import { fetchSessionInfo } from './duck/thunks.js';
+import Route from '../shared/components/AppRoute.js';
+import OrdersOverview from '../orders/OrdersOverview.js';
+import CreateOrderContainer from '../orders/CreateOrderContainer.js';
+import Settings from './Settings.js';
+import ClientDetails from '../clients/ClientDetails.js';
+import ClientOverview from '../clients/ClientOverview.js';
+import { Switch, Redirect } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -22,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function Home({ children }) {
+export default function Home({ match }) {
     const classes = useStyles();
     const dispatch = useDispatch();
     const userId = useSelector(selectCurrentUserId);
@@ -30,7 +37,7 @@ export default function Home({ children }) {
 
 
     useEffect(() => {
-        dispatch(fetchSessionInfo())
+        dispatch(fetchSessionInfo());
     }, [dispatch]);
 
     return (
@@ -44,7 +51,41 @@ export default function Home({ children }) {
                 { user && <NavBar user={ user }/> }
             </Grid>
             <Grid item className={ classes.content }>
-                { children }
+                <Switch>
+                    <Route
+                        exact
+                        path={ [`${match.url}`, `${match.url}/orders`] }
+                        component={ OrdersOverview }
+                        isPrivate
+                    />
+                    <Route
+                        exact
+                        path={ `${match.url}/orders/new/:step` }
+                        component={ CreateOrderContainer }
+                        isPrivate
+                    />
+                    <Route
+                        exact
+                        path={ `${match.url}/settings/:tab` }
+                        component={ Settings }
+                        isPrivate
+                    />
+                    <Route
+                        exact
+                        path={ `${match.url}/clients/:id` }
+                        component={ ClientDetails }
+                        isPrivate
+                    />
+                    <Route
+                        exact
+                        path={ `${match.url}/clients` }
+                        component={ ClientOverview }
+                        isPrivate
+                    />
+                    <Route
+                        component={() => <Redirect to={'/not_found'}/>}
+                    />
+                </Switch>
             </Grid>
         </Grid>
     );

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { startNewOrder } from './duck/thunks.js';
 import { Box } from '@material-ui/core';
 import { selectCurrentOrderId, selectNewOrder, selectOrderError, selectOrderStatus } from './duck/selectors.js';
-import Loader from '../shared/displays/Loader.js';
+import Loader from '../shared/components/Loader.js';
 import ErrorDisplayer from '../shared/components/ErrorDisplay.js';
 import { cleanNewOrder } from './duck/slice.js';
 import { selectCurrentCompany } from '../home/duck/selectors.js';

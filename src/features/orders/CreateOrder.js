@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import DocumentStepper from '../shared/DocumentStepper.js';
 import { Box, Paper, Divider, Typography } from '@material-ui/core';
 import CreateOrderDetails from './CreateOrderDetails.js';
@@ -13,7 +13,7 @@ import { useDispatch } from 'react-redux';
 import { cleanNewOrder } from './duck/slice.js';
 import UnitCounter from '../shared/classes/UnitCounter.js';
 import { itemUnitsOptions } from '../shared/constants.js';
-import ErrorDisplayer from '../shared/components/ErrorDisplay.js';
+import ErrorDisplay from '../shared/components/ErrorDisplay.js';
 import { makeStyles } from '@material-ui/core/styles';
 
 function getCurrentStep(stepLabel) {
@@ -51,7 +51,6 @@ export default function CreateOrder({ newOrder, clients, company }) {
     const dispatch = useDispatch();
     const history = useHistory();
     const { step } = useParams();
-    const [activeStep, setActiveStep] = useState(getCurrentStep(step));
     const [order, setOrder] = useSessionStorage(SESSION_NEW_ORDER, newOrder);
 
     const { register, control, watch, setValue, getValues, errors, handleSubmit, clearErrors } = useForm({
@@ -74,7 +73,8 @@ export default function CreateOrder({ newOrder, clients, company }) {
             carrier: order.carrier,
             currency: order.currency,
             items: order.items,
-            headers: order.headers,
+            custom1: order.custom1,
+            custom2: order.custom2,
             totalQ: new UnitCounter(itemUnitsOptions, order.totalQ),
             totalA: order.totalA,
             saveItems: order.saveItems,
@@ -83,43 +83,42 @@ export default function CreateOrder({ newOrder, clients, company }) {
     });
 
     const errMessages = Object.values(errors).map(err => err.message);
-    console.log(errMessages)
 
     const validateItems = useCallback((items) => {
-        if (activeStep === 0) return true;
+        if (step === 'details') return true;
         for (const item of items) {
             if (!(item.ref && item.description && item.quantity && item.unit && item.price))
                 return errorMessages.missingItemInfo;
         }
         return true;
-    }, [activeStep]);
+    }, [step]);
 
     useEffect(() => {
         register({ name: 'items' }, { validate: validateItems });
-        register({ name: 'headers' });
+        register({ name: 'custom1' });
+        register({ name: 'custom2' });
         register({ name: 'totalQ' });
         register({ name: 'totalA' });
         register({ name: 'saveItems' });
     }, [register, validateItems]);
 
     const onPrevClick = () => {
-        if (activeStep === 0) {
+        if (step === 'details') {
             dispatch(cleanNewOrder());
             history.goBack();
-        } else if (activeStep === 1) {
+        } else if (step === 'products') {
             clearErrors();
             //     data.totalQ = data.totalQ.data;
             setOrder(getValues());
-            setActiveStep(prevStep => prevStep - 1);
+            history.push('/home/orders/new/details');
         }
     };
 
     const onNextClick = (data) => {
-        if (activeStep === 0) {
+        if (step === 'details') {
             setOrder(data);
-            setActiveStep((prevStep) => prevStep + 1);
-            console.log(data);
-        } else if (activeStep === 1) {
+            history.push('/home/orders/new/products');
+        } else if (step === 'products') {
             // data.to = customerMap[chosenCustomer].id;
             // data.totalQ = data.totalQ.data;
             // dispatch(submitOrder());
@@ -128,13 +127,13 @@ export default function CreateOrder({ newOrder, clients, company }) {
 
     return (
         <Box>
-            { activeStep === -1 && <Redirect to={ '/home/orders' }/> }
-            <DocumentStepper activeStep={ activeStep } steps={ Object.values(stepLabelsMap) }/>
+            { getCurrentStep(step) === -1 && <Redirect to={ '/home/orders' }/> }
+            <DocumentStepper activeStep={ getCurrentStep(step) } steps={ Object.values(stepLabelsMap) }/>
             <Typography variant="h5">{ titleLabel }</Typography>
             <Divider/>
             <Paper>
-                <ErrorDisplayer errors={ errMessages }/>
-                { activeStep === 0 && <CreateOrderDetails
+                { errMessages.length > 0 && <ErrorDisplay errors={ errMessages }/> }
+                { step === 'details' && <CreateOrderDetails
                     register={ register }
                     control={ control }
                     watch={ watch }
@@ -144,20 +143,21 @@ export default function CreateOrder({ newOrder, clients, company }) {
                     company={ company }
                     clients={ clients }
                 /> }
-                { activeStep === 1 && <CreateOrderProducts
+                { step === 'products' && <CreateOrderProducts
                     watch={ watch }
                     control={ control }
                     errors={ errors }
                     setValue={ setValue }
                     register={ register }
+                    getValues={ getValues }
                 /> }
             </Paper>
             <Box className={ classes.footer }>
                 <ThemedButton onClick={ onPrevClick }>
-                    { activeStep === 0 ? prevButtonLabel.details : prevButtonLabel.products }
+                    { step === 'details' ? prevButtonLabel.details : prevButtonLabel.products }
                 </ThemedButton>
                 <ThemedButton onClick={ handleSubmit(onNextClick) }>
-                    { activeStep === 0 ? nextButtonLabel.details : nextButtonLabel.products }
+                    { step === 'products' ? nextButtonLabel.details : nextButtonLabel.products }
                 </ThemedButton>
             </Box>
         </Box>

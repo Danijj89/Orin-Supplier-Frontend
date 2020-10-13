@@ -26,7 +26,7 @@ export default function Settings({ match }) {
 
     return (
         <Container>
-            <Redirect to={'/home/settings/account'} />
+            <Redirect to={ '/home/settings/account' }/>
             <Tabs
                 value={ tab }
                 onChange={ onTabChange }

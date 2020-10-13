@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import TableAutoCompleteFreeTextInput from '../shared/inputs/TableAutoCompleteFreeTextInput.js';
 import TableInput from '../shared/inputs/TableInput.js';
-import TableAutoCompleteTextInput from '../shared/inputs/TableAutoCompleteTextInput.js';
+import TableAutoComplete from '../shared/inputs/TableAutoComplete.js';
 import { itemUnitsOptions } from '../shared/constants.js';
 
 const useStyles = makeStyles((theme) => ({
@@ -131,7 +131,7 @@ export default function CreatePOTableRow(
                         />
                     </Grid>
                     <Grid container justify="flex-end" item xs={5}>
-                        <TableAutoCompleteTextInput
+                        <TableAutoComplete
                             options={itemUnits}
                             onChange={(data) => onCellChange(rowIdx, 'unit', data)}
                             value={item.unit}

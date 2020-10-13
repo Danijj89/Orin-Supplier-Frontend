@@ -1,10 +1,7 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import {
-    deleteOrder, fetchOrderOptions,
-    fetchOrders, startNewOrder, submitOrder, updateOrderStatus,
-} from './thunks.js';
+import { fetchOrders, startNewOrder } from './thunks.js';
 import { SESSION_NEW_ORDER } from '../../../app/sessionKeys.js';
-import { defaultRowValues, defaultTableHeaders } from '../constants.js';
+import { defaultRowValues } from '../utils/constants.js';
 
 const ordersAdapter = createEntityAdapter({
     selectId: order => order._id,
@@ -62,7 +59,6 @@ const ordersSlice = createSlice({
         },
         [startNewOrder.fulfilled]: (state, action) => {
             const newOrder = action.payload;
-            newOrder.headers = defaultTableHeaders;
             newOrder.items = [defaultRowValues];
             state.newOrder = newOrder;
             state.currentOrderId = null;

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectClientById, selectClientStatus } from './duck/selectors.js';
 import { Container } from '@material-ui/core';
 import { fetchClientById } from './duck/thunks.js';
-import Loader from '../shared/displays/Loader.js';
+import Loader from '../shared/components/Loader.js';
 import ColumnInfoDisplay from '../shared/wrappers/ColumnInfoDisplay.js';
 import { LANGUAGE } from '../../app/constants.js';
 import ClientInfoTable from './ClientInfoTable.js';

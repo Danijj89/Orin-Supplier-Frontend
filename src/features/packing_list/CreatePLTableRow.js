@@ -11,7 +11,7 @@ import TableAutoCompleteFreeTextInput from '../shared/inputs/TableAutoCompleteFr
 import { useSelector } from 'react-redux';
 import { selectPLAutocompleteOptions } from './duck/selectors.js';
 import TableInput from '../shared/inputs/TableInput.js';
-import TableAutoCompleteTextInput from '../shared/inputs/TableAutoCompleteTextInput.js';
+import TableAutoComplete from '../shared/inputs/TableAutoComplete.js';
 import { selectCurrentDefaults } from '../../app/duck/slice.js';
 
 const useStyles = makeStyles({
@@ -126,7 +126,7 @@ export default function CreatePLTableRow(
                         />
                     </Grid>
                     <Grid container justify="flex-end" item xs={5}>
-                        <TableAutoCompleteTextInput
+                        <TableAutoComplete
                             options={itemUnits}
                             onChange={(data) => onCellChange(rowIdx, 5, data)}
                             value={item[5]}
@@ -146,7 +146,7 @@ export default function CreatePLTableRow(
                         />
                     </Grid>
                     <Grid container justify="flex-end" item xs={5}>
-                        <TableAutoCompleteTextInput
+                        <TableAutoComplete
                             options={packageUnits}
                             onChange={(data) => onCellChange(rowIdx, 7, data)}
                             value={item[7]}

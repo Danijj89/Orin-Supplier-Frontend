@@ -14,7 +14,7 @@ import { LANGUAGE } from '../../../app/constants.js';
 
 const { paginationAllLabel, rowsPerPageLabel } = LANGUAGE.shared.components.table;
 
-export default function Table({ rows, columns, className, onRowClick }) {
+export default function Table({ rows, columns, className, onRowClick, dense }) {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const numColumns = columns.reduce((acc, col) => col.hide ? acc : acc += 1, 0);
@@ -31,13 +31,13 @@ export default function Table({ rows, columns, className, onRowClick }) {
 
     const renderColumn = (column) => {
         if (column.hide) return null;
-        if (!column.headerName) return <TableCell key={ column.field }/>;
-        if (column.renderHeader)
+        if (column.renderHeader) {
             return (
                 <TableCell key={ column.field }>
                     { column.renderHeader() }
                 </TableCell>
             );
+        }
         return (
             <TableCell key={ column.field }>
                 { column.headerName }
@@ -71,7 +71,7 @@ export default function Table({ rows, columns, className, onRowClick }) {
 
     return (
         <TableContainer className={ className }>
-            <MuiTable stickyHeader>
+            <MuiTable stickyHeader size={dense && 'small'}>
                 <TableHead>
                     <TableRow>
                         { columns.map(renderColumn) }
@@ -112,5 +112,6 @@ Table.propTypes = {
     rows: PropTypes.array.isRequired,
     columns: PropTypes.array.isRequired,
     className: PropTypes.string,
-    onRowClick: PropTypes.func
+    onRowClick: PropTypes.func,
+    dense: PropTypes.bool
 };
