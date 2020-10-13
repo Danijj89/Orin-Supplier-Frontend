@@ -4,6 +4,7 @@ import { Box, Button } from '@material-ui/core';
 import { LANGUAGE } from '../../../app/constants.js';
 import { makeStyles } from '@material-ui/core/styles';
 import FormDialog from '../wrappers/FormDialog.js';
+import classNames from 'classnames';
 
 const {
     confirmButton,
@@ -13,11 +14,11 @@ const {
 const useStyles = makeStyles((theme) => ({
     button: {
         minWidth: 50,
-        color: theme.palette.tertiary['500'],
+        color: theme.palette.danger.main,
     },
 }));
 
-export default function DeleteButton({ onDelete, deleteMessage }) {
+export default function DeleteButton({ onDelete, deleteMessage, className }) {
     const classes = useStyles();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -39,7 +40,7 @@ export default function DeleteButton({ onDelete, deleteMessage }) {
                 onClick={(e) => onDialogOpen(e)}
                 size="small"
                 color="inherit"
-                className={classes.button}
+                className={classNames(classes.button, className)}
             >
                 {deleteButtonLabel}
             </Button>
@@ -57,4 +58,5 @@ export default function DeleteButton({ onDelete, deleteMessage }) {
 DeleteButton.propTypes = {
     onDelete: PropTypes.func.isRequired,
     deleteMessage: PropTypes.string.isRequired,
+    className: PropTypes.string,
 };

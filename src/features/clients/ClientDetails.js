@@ -13,6 +13,7 @@ import { dateToLocaleDate } from '../shared/utils/format.js';
 import { selectAllUsers, selectUserStatus } from '../users/duck/selectors.js';
 import { isLoading } from '../shared/utils/store.js';
 import { cleanClientStore } from './duck/slice.js';
+import { makeStyles } from '@material-ui/core/styles';
 
 const {
     assignedToLabel,
@@ -22,31 +23,48 @@ const {
     sourceLabel,
     incotermLabel,
     paymentLabel,
-    clientSinceLabel
+    clientSinceLabel,
 } = LANGUAGE.client.clientDetails;
+
+const useStyles = makeStyles((theme) => ({
+    clientInfoCard: {
+        marginBottom: theme.spacing(2),
+    },
+}));
 
 export default function ClientDetails({ match }) {
     const dispatch = useDispatch();
     const { id } = match.params;
-    const client = useSelector(state => selectClientById(state, id));
+    const client = useSelector((state) => selectClientById(state, id));
     const users = useSelector(selectAllUsers);
     const clientStatus = useSelector(selectClientStatus);
     const userStatus = useSelector(selectUserStatus);
     const loading = isLoading([clientStatus, userStatus]);
+    const classes = useStyles();
 
-    const leftLabels = [assignedToLabel, primaryContactLabel, contactEmailLabel, taxNumberLabel];
-    const rightLabels = [sourceLabel, incotermLabel, paymentLabel, clientSinceLabel];
+    const leftLabels = [
+        assignedToLabel,
+        primaryContactLabel,
+        contactEmailLabel,
+        taxNumberLabel,
+    ];
+    const rightLabels = [
+        sourceLabel,
+        incotermLabel,
+        paymentLabel,
+        clientSinceLabel,
+    ];
     const leftData = client && [
         client.assignedTo.name,
         client.defaultContact?.name,
         client.defaultContact?.email,
-        client.taxNumber
+        client.taxNumber,
     ];
     const rightData = client && [
         client.source,
         client.incoterm,
         client.payment,
-        dateToLocaleDate(client.clientSince)
+        dateToLocaleDate(client.clientSince),
     ];
 
     useEffect(() => {
@@ -56,26 +74,23 @@ export default function ClientDetails({ match }) {
 
     return (
         <Container>
-            { loading && <Loader/> }
-            { client && users &&
-            <InfoCard
-                title={ client.name }
-                button={
-                    <EditClientButton
-                        client={ client }
-                        users={ users }
-                    />
-                }
-                content={
-                    <ColumnInfoDisplay
-                        leftLabels={ leftLabels }
-                        rightLabels={ rightLabels }
-                        leftData={ leftData }
-                        rightData={ rightData }
-                    />
-                }
-            /> }
-            { client && <ClientInfoTable client={ client }/> }
+            {loading && <Loader />}
+            {client && users && (
+                <InfoCard
+                    title={client.name}
+                    button={<EditClientButton client={client} users={users} />}
+                    className={classes.clientInfoCard}
+                    content={
+                        <ColumnInfoDisplay
+                            leftLabels={leftLabels}
+                            rightLabels={rightLabels}
+                            leftData={leftData}
+                            rightData={rightData}
+                        />
+                    }
+                />
+            )}
+            {client && <ClientInfoTable client={client} />}
         </Container>
-    )
+    );
 }

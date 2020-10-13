@@ -24,12 +24,20 @@ const useStyles = makeStyles((theme) => ({
     },
     onCancelButton: {
         marginBottom: theme.spacing(1),
+        marginRight: theme.spacing(2),
         color: theme.palette.danger.main,
         borderColor: theme.palette.danger.main,
         '&:hover': {
             color: theme.palette.danger.dark,
             borderColor: theme.palette.danger.dark,
         },
+    },
+    dialogAction: {
+        display: 'flex',
+        justifyContent: 'space-between',
+    },
+    onDeleteButton: {
+        paddingBottom: theme.spacing(1),
     },
 }));
 
@@ -56,26 +64,32 @@ export default function FormDialog({
             <DialogContent className={classes.container}>
                 {children}
             </DialogContent>
-            <DialogActions>
+            <DialogActions className={classes.dialogAction}>
                 {onDelete && (
-                    <DeleteButton
-                        onDelete={onDelete}
-                        deleteMessage={deleteMessage}
-                    />
+                    <div>
+                        <DeleteButton
+                            onDelete={onDelete}
+                            deleteMessage={deleteMessage}
+                            className={classes.onDeleteButton}
+                        />
+                    </div>
                 )}
-                <ThemedButton
-                    className={classes.onCancelButton}
-                    variant="outlined"
-                    onClick={onCancel}
-                >
-                    {cancelLabel}
-                </ThemedButton>
-                <ThemedButton
-                    className={classes.onSubmitButton}
-                    onClick={onSubmit}
-                >
-                    {submitLabel}
-                </ThemedButton>
+                <div></div>
+                <div>
+                    <ThemedButton
+                        className={classes.onCancelButton}
+                        variant="outlined"
+                        onClick={onCancel}
+                    >
+                        {cancelLabel}
+                    </ThemedButton>
+                    <ThemedButton
+                        className={classes.onSubmitButton}
+                        onClick={onSubmit}
+                    >
+                        {submitLabel}
+                    </ThemedButton>
+                </div>
             </DialogActions>
         </Dialog>
     );

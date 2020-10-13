@@ -50,6 +50,11 @@ let appTheme = createMuiTheme({
                 padding: 0,
             },
         },
+        MuiTableCell: {
+            head: {
+                fontWeight: 'bold',
+            },
+        },
     },
 });
 appTheme = responsiveFontSizes(appTheme);

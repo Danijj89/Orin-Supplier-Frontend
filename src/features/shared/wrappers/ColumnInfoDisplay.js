@@ -30,7 +30,7 @@ export default function ColumnInfoDisplay({
 
     return (
         <Grid container>
-            <Grid container className={classes.container} item xs={6}>
+            <Grid container className={classes.container} item xs={12} md={6}>
                 <Grid
                     container
                     direction="column"
@@ -61,7 +61,7 @@ export default function ColumnInfoDisplay({
                     ))}
                 </Grid>
             </Grid>
-            <Grid container className={classes.container} item xs={6}>
+            <Grid container className={classes.container} item xs={12} md={6}>
                 <Grid
                     container
                     direction="column"
