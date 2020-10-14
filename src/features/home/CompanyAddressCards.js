@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Paper, Box, Typography } from '@material-ui/core';
+import { Paper, Box, Typography, Grid } from '@material-ui/core';
 import { LANGUAGE } from '../../app/constants.js';
 import { useDispatch } from 'react-redux';
 import AddressDialog from '../shared/forms/AddressDialog.js';
@@ -11,7 +11,7 @@ import AddressCard from '../shared/components/AddressCard.js';
 
 const useStyles = makeStyles((theme) => ({
     cards: {
-        display: 'flex'
+        display: 'flex',
     },
     addressTitle: {
         fontWeight: 'bold',
@@ -61,35 +61,41 @@ export default function CompanyAddressCards({ company, className }) {
         addressId === legalAddress._id || addressId === defaultAddress._id;
 
     return (
-        <Paper className={ className }>
-            <Typography className={ classes.addressTitle } variant="h5">
-                { addressesTableTitleLabel }
+        <Paper className={className}>
+            <Typography className={classes.addressTitle} variant="h5">
+                {addressesTableTitleLabel}
             </Typography>
-            <Box className={ classes.cards }>
-                { addresses.map(address =>
-                    <AddressCard
-                        key={ address._id }
-                        address={ address }
-                        isDefault={ isDefaultAddress(address._id) }
-                        onEdit={ () => onEditAddress(address._id) }
-                        onDelete={ () => onDeleteAddress(address._id) }
-                        onSetDefault={ () => onSetDefaultAddress(address._id) }
-                    />
-                ) }
+            <Box className={classes.cards}>
+                <Grid container>
+                    {addresses.map((address) => (
+                        <Grid item xs={12} sm={6} lg={4}>
+                            <AddressCard
+                                key={address._id}
+                                address={address}
+                                isDefault={isDefaultAddress(address._id)}
+                                onEdit={() => onEditAddress(address._id)}
+                                onDelete={() => onDeleteAddress(address._id)}
+                                onSetDefault={() =>
+                                    onSetDefaultAddress(address._id)
+                                }
+                            />
+                        </Grid>
+                    ))}
+                </Grid>
             </Box>
-            { editAddress && (
+            {editAddress && (
                 <AddressDialog
-                    isOpen={ isEditAddressOpen }
-                    address={ editAddress }
-                    titleLabel={ editAddressDialogTitleLabel }
-                    submitLabel={ editAddressDialogSubmitLabel }
-                    onCancel={ onEditAddressCancel }
-                    onSubmit={ onEditAddressSubmit }
+                    isOpen={isEditAddressOpen}
+                    address={editAddress}
+                    titleLabel={editAddressDialogTitleLabel}
+                    submitLabel={editAddressDialogSubmitLabel}
+                    onCancel={onEditAddressCancel}
+                    onSubmit={onEditAddressSubmit}
                 />
-            ) }
+            )}
             <NewCompanyAddressButton
-                className={ classes.newAddressButton }
-                company={ company }
+                className={classes.newAddressButton}
+                company={company}
             />
         </Paper>
     );

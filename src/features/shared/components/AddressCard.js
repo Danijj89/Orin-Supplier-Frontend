@@ -7,24 +7,31 @@ import ThemedButton from '../buttons/ThemedButton.js';
 
 const useStyles = makeStyles((theme) => ({
     container: {
-        width: 400,
+        width: 380,
         height: 300,
         margin: theme.spacing(2),
-        position: 'relative'
+        position: 'relative',
     },
     header: {
-        height: 40
+        height: 40,
+        padding: theme.spacing(1),
     },
     main: {
-        padding: theme.spacing(1)
+        padding: theme.spacing(2),
     },
     control: {
         display: 'flex',
         padding: theme.spacing(1),
         position: 'absolute',
-        bottom: 0
-    }
-}))
+        bottom: 0,
+    },
+    phoneLabel: {
+        marginTop: theme.spacing(1),
+    },
+    boldText: {
+        fontWeight: 'bold',
+    },
+}));
 
 const {
     typeLabel,
@@ -33,63 +40,80 @@ const {
     editButtonLabel,
     defaultButtonLabel,
     deleteButtonLabel,
-    setDefaultButtonLabel
+    setDefaultButtonLabel,
 } = LANGUAGE.shared.components.addressCard;
 
-export default function AddressCard({ address, isDefault, onEdit, onDelete, onSetDefault }) {
+export default function AddressCard({
+    address,
+    isDefault,
+    onEdit,
+    onDelete,
+    onSetDefault,
+}) {
     const classes = useStyles();
 
     const getThirdRow = () => {
         let row = '';
         if (address.city) row += address.city;
-        if (address.administrative) row += `, ${ address.administrative }`;
+        if (address.administrative) row += `, ${address.administrative}`;
         if (address.zip) {
             if (address.administrative) row += address.zip;
-            else row += `, ${ address.zip }`;
+            else row += `, ${address.zip}`;
         }
-        return row ? <Typography>{ row }</Typography> : null;
+        return row ? <Typography>{row}</Typography> : null;
     };
 
     return (
-        <Card className={ classes.container }>
-            <Box className={ classes.header }>
-                <Tooltip title={ `${ typeLabel } ${ address.type }` }>
-                    <Typography noWrap>{ `${ typeLabel } ${ address.type }` }</Typography>
+        <Card className={classes.container}>
+            <Box className={classes.header}>
+                <Tooltip title={`${typeLabel} ${address.type}`}>
+                    <Typography
+                        noWrap
+                    >{`${typeLabel} ${address.type}`}</Typography>
                 </Tooltip>
             </Box>
-            <Divider/>
-            <Box className={ classes.main }>
-                <Typography>{ address.name }</Typography>
-                { address.address && <Typography>{ address.address }</Typography> }
-                { address.address2 && <Typography>{ address.address2 }</Typography> }
-                { getThirdRow() }
-                { address.country && <Typography>{ address.country }</Typography> }
-                { address.phone && <Typography>{ `${ phoneLabel } ${ address.phone }` }</Typography> }
-                { address.email && <Typography>{ `${ emailLabel } ${ address.email }` }</Typography> }
+            <Divider />
+            <Box className={classes.main}>
+                <Typography className={classes.boldText}>
+                    {address.name}
+                </Typography>
+                {address.address && <Typography>{address.address}</Typography>}
+                {address.address2 && (
+                    <Typography>{address.address2}</Typography>
+                )}
+                {getThirdRow()}
+                {address.country && <Typography>{address.country}</Typography>}
+                {address.phone && (
+                    <Typography
+                        className={classes.phoneLabel}
+                    >{`${phoneLabel} ${address.phone}`}</Typography>
+                )}
+                {address.email && (
+                    <Typography>{`${emailLabel} ${address.email}`}</Typography>
+                )}
             </Box>
-            <Box className={ classes.control }>
+            <Box className={classes.control}>
+                <ThemedButton variant="text" onClick={onEdit}>
+                    {editButtonLabel}
+                </ThemedButton>
+                <Divider orientation="vertical" flexItem />
+                <ThemedButton variant="text" onClick={onDelete}>
+                    {deleteButtonLabel}
+                </ThemedButton>
+                <Divider orientation="vertical" flexItem />
                 <ThemedButton
                     variant="text"
-                    onClick={ onEdit }
-                >{ editButtonLabel }</ThemedButton>
-                <Divider orientation="vertical" flexItem/>
-                <ThemedButton
-                    variant="text"
-                    onClick={ onDelete }
-                >{ deleteButtonLabel }</ThemedButton>
-                <Divider orientation="vertical" flexItem/>
-                <ThemedButton
-                    variant="text"
-                    disabled={ isDefault }
-                    onClick={ onSetDefault }
-                >{ isDefault ? defaultButtonLabel : setDefaultButtonLabel }
+                    disabled={isDefault}
+                    onClick={onSetDefault}
+                >
+                    {isDefault ? defaultButtonLabel : setDefaultButtonLabel}
                 </ThemedButton>
             </Box>
         </Card>
-    )
+    );
 }
 
 AddressCard.propTypes = {
     address: PropTypes.object.isRequired,
-    isDefault: PropTypes.bool
+    isDefault: PropTypes.bool,
 };

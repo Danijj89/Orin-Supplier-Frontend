@@ -5,7 +5,11 @@ import { Box } from '@material-ui/core';
 import AddressDialog from '../shared/forms/AddressDialog.js';
 import { useDispatch } from 'react-redux';
 import NewClientAddressButton from './NewClientAddressButton.js';
-import { deleteClientAddress, updateAddress, updateDefaultClientAddress } from './duck/thunks.js';
+import {
+    deleteClientAddress,
+    updateAddress,
+    updateDefaultClientAddress,
+} from './duck/thunks.js';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 
 const {
@@ -13,7 +17,7 @@ const {
     editAddressDialogTitleLabel,
     editAddressDialogSubmitLabel,
     setDefaultButtonLabel,
-    defaultAddressButtonLabel
+    defaultAddressButtonLabel,
 } = LANGUAGE.client.clientDetails.clientAddressTable;
 
 export default function ClientAddressesTable({ client }) {
@@ -25,7 +29,7 @@ export default function ClientAddressesTable({ client }) {
     const onRowClick = (params) => {
         setEditAddress(addresses.find((a) => a._id === params.id));
         setIsEdit(true);
-    }
+    };
     const onEditAddressCancel = () => setIsEdit(false);
     const onEditAddressSubmit = (data) => {
         data.clientId = clientId;
@@ -42,11 +46,13 @@ export default function ClientAddressesTable({ client }) {
         dispatch(updateDefaultClientAddress({ clientId, addressId }));
 
     const setDefaultButton = (params) =>
-        defaultAddress._id === params.id
-            ? <ThemedButton disabled>{ defaultAddressButtonLabel }</ThemedButton>
-            : <ThemedButton onClick={ () => onSetDefaultAddress(params.id) }>
-                { setDefaultButtonLabel }
-            </ThemedButton>;
+        defaultAddress._id === params.id ? (
+            <ThemedButton disabled>{defaultAddressButtonLabel}</ThemedButton>
+        ) : (
+            <ThemedButton onClick={() => onSetDefaultAddress(params.id)}>
+                {setDefaultButtonLabel}
+            </ThemedButton>
+        );
 
     const columns = [
         { field: 'id', hide: true },
@@ -55,15 +61,18 @@ export default function ClientAddressesTable({ client }) {
         { field: 'address', headerName: addressTableHeadersMap.address },
         { field: 'address2', headerName: addressTableHeadersMap.address2 },
         { field: 'city', headerName: addressTableHeadersMap.city },
-        { field: 'administrative', headerName: addressTableHeadersMap.administrative },
+        {
+            field: 'administrative',
+            headerName: addressTableHeadersMap.administrative,
+        },
         { field: 'country', headerName: addressTableHeadersMap.country },
         { field: 'zip', headerName: addressTableHeadersMap.zip },
         { field: 'phone', headerName: addressTableHeadersMap.phone },
         { field: 'email', headerName: addressTableHeadersMap.email },
-        { field: 'default', renderCell: setDefaultButton }
+        { field: 'default', renderCell: setDefaultButton },
     ];
 
-    const rows = addresses.map(address => ({
+    const rows = addresses.map((address) => ({
         id: address._id,
         type: address.type,
         name: address.name,
@@ -74,32 +83,28 @@ export default function ClientAddressesTable({ client }) {
         country: address.country,
         zip: address.zip,
         phone: address.phone,
-        email: address.email
+        email: address.email,
     }));
 
     return (
         <Box>
-            <Table
-                rows={ rows }
-                columns={ columns }
-                onRowClick={ onRowClick }
-            />
-            { editAddress && (
+            <Table rows={rows} columns={columns} onRowClick={onRowClick} />
+            {editAddress && (
                 <AddressDialog
-                    isOpen={ isEdit }
-                    address={ editAddress }
-                    titleLabel={ editAddressDialogTitleLabel }
-                    submitLabel={ editAddressDialogSubmitLabel }
-                    onCancel={ onEditAddressCancel }
-                    onSubmit={ onEditAddressSubmit }
+                    isOpen={isEdit}
+                    address={editAddress}
+                    titleLabel={editAddressDialogTitleLabel}
+                    submitLabel={editAddressDialogSubmitLabel}
+                    onCancel={onEditAddressCancel}
+                    onSubmit={onEditAddressSubmit}
                     onDelete={
                         editAddress._id !== client.defaultAddress._id
                             ? () => onDeleteAddress(editAddress._id)
                             : null
                     }
                 />
-            ) }
-            <NewClientAddressButton client={ client }/>
+            )}
+            <NewClientAddressButton client={client} />
         </Box>
-    )
+    );
 }
