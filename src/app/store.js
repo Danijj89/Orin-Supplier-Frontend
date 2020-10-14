@@ -4,6 +4,7 @@ import homeReducer from '../features/home/duck/slice.js';
 import usersReducer from '../features/users/duck/slice.js';
 import ordersReducer from '../features/orders/duck/slice.js';
 import clientReducer from '../features/clients/duck/slice.js';
+import productReducer from '../features/products/duck/slice.js';
 
 export default configureStore({
     reducer: {
@@ -11,6 +12,7 @@ export default configureStore({
         home: homeReducer,
         users: usersReducer,
         clients: clientReducer,
+        products: productReducer,
         orders: ordersReducer
     }
 });

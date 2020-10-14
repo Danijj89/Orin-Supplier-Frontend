@@ -137,7 +137,7 @@ export default function NavBar({ user }) {
                 </IconButton>
                 {shipments}
             </MenuItem>
-            <MenuItem onClick={() => onTabClick('products', '#')}>
+            <MenuItem onClick={() => onTabClick('products', '/home/products')}>
                 <IconButton color="inherit">
                     <IconTag />
                 </IconButton>
@@ -232,7 +232,7 @@ export default function NavBar({ user }) {
                         <ListItem
                             button
                             component="a"
-                            onClick={() => onTabClick('products', '#')}
+                            onClick={() => onTabClick('products', '/home/products')}
                             classes={{
                                 root: classes.tabs,
                                 selected: classes.selected,
