@@ -15,6 +15,11 @@ const appSlice = createSlice({
         cleanError: (state, action) => {
             state.status = 'IDLE';
             state.error = null;
+        },
+        cleanAppState: (state, action) => {
+            state.status = 'IDLE';
+            state.error = null;
+            state.userId = null;
         }
     },
     extraReducers: {
@@ -35,6 +40,6 @@ const appSlice = createSlice({
     }
 });
 
-export const { cleanError } = appSlice.actions;
+export const { cleanError, cleanAppState } = appSlice.actions;
 
 export default appSlice.reducer;
