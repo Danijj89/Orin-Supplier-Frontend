@@ -21,7 +21,7 @@ export default function NewClientAddressButton({ client, ...props }) {
     const onCancel = () => setIsDialogOpen(false);
 
     const onSubmit = (data) => {
-        const { id, ...rest } = data;
+        const { _id, ...rest } = data;
         rest.clientId = client._id;
         dispatch(addNewClientAddress(rest));
         setIsDialogOpen(false);
