@@ -14,6 +14,14 @@ import { LANGUAGE } from '../../../app/constants.js';
 
 const { paginationAllLabel, rowsPerPageLabel } = LANGUAGE.shared.components.table;
 
+function getAlignment(type) {
+    switch (type) {
+        case 'number': return 'right';
+        case 'date': return 'center';
+        default: return 'left';
+    }
+}
+
 export default function Table({ rows, columns, className, onRowClick, dense }) {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -49,12 +57,12 @@ export default function Table({ rows, columns, className, onRowClick, dense }) {
         const currRow = columns.map(column => {
                 if (column.hide) return null;
                 if (column.renderCell) return (
-                    <TableCell key={ column.field }>
+                    <TableCell key={ column.field } align={getAlignment(column.type)}>
                         { column.renderCell(row) }
                     </TableCell>
                 );
                 return (
-                    <TableCell key={ column.field }>
+                    <TableCell key={ column.field } align={getAlignment(column.type)}>
                         { row[column.field] || '-' }
                     </TableCell>
                 );
