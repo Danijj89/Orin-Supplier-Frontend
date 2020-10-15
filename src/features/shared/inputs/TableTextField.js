@@ -1,27 +1,29 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 
 const useStyles = makeStyles((theme) => ({
     input: {
-        width: props => props.width,
         borderWidth: 1,
         borderStyle: 'solid',
         borderRadius: 4,
-        borderColor: theme.palette.tertiary['400'],
+        borderColor: theme.palette.grey.main,
         '& .MuiInputBase-input': {
             paddingLeft: theme.spacing(2),
             paddingRight: theme.spacing(2),
             paddingTop: theme.spacing(1),
             paddingBottom: theme.spacing(1),
-            fontSize: '0.875rem'
-        }
+            fontSize: '0.875rem',
+            textAlign: props => props.type === 'number' && 'right'
+        },
+        display: 'flex'
     }
 }));
 
-export default function TableTextField({ className, width, ...props }) {
-    const classes = useStyles({ width });
+export default function  TableTextField({ type, className, ...props }) {
+    const classes = useStyles({ type });
     const classNames = clsx(classes.input, className);
 
     // on focus use this?
@@ -37,8 +39,14 @@ export default function TableTextField({ className, width, ...props }) {
     return (
         <TextField
             { ...props }
+            type={ type }
             className={ classNames }
             InputProps={ { ...props.InputProps, disableUnderline: true } }
         />
     )
 }
+
+TableTextField.propTypes = {
+    type: PropTypes.string,
+    className: PropTypes.string
+};

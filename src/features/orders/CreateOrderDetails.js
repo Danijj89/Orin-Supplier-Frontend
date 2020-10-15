@@ -11,6 +11,9 @@ import TextArea from '../shared/inputs/TextArea.js';
 import { makeStyles } from '@material-ui/core/styles';
 import SideDateField from '../shared/inputs/SideDateField.js';
 import SideCheckBox from '../shared/inputs/SideCheckBox.js';
+import { useSelector } from 'react-redux';
+import { selectCurrentCompany } from '../home/duck/selectors.js';
+import { selectClientsMap } from '../clients/duck/selectors.js';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -46,8 +49,10 @@ const {
 } = LANGUAGE.order.createOrder.createOrderDetails;
 
 export default function CreateOrderDetails(
-    { register, control, watch, setValue, getValues, errors, company, clients }) {
+    { register, control, watch, setValue, getValues, errors }) {
     const classes = useStyles();
+    const company = useSelector(selectCurrentCompany);
+    const clients = useSelector(selectClientsMap);
     const [clientAddresses, setClientAddresses] = useState([]);
     const { addresses, ports } = company;
 
@@ -55,11 +60,12 @@ export default function CreateOrderDetails(
     const autoGenerateRef = watch('autoGenerateRef');
 
     useEffect(() => {
-        const client = clients.find(client => client._id === chosenClient?._id);
-        const newAddressOptions = client?.addresses || [];
-        setClientAddresses(newAddressOptions);
-        if (client?.incoterm) setValue('incoterm', client?.incoterm);
-    }, [chosenClient, clients, getValues, setValue]);
+        if (clients.hasOwnProperty(chosenClient?._id)) {
+            const newAddressOptions = chosenClient?.addresses || [];
+            setClientAddresses(newAddressOptions);
+            if (chosenClient?.incoterm) setValue('incoterm', chosenClient?.incoterm);
+        }
+    }, [chosenClient, clients, setValue]);
 
     return (
         <Box className={ classes.container }>
@@ -113,7 +119,7 @@ export default function CreateOrderDetails(
                         render={ (props) =>
                             <SideAutoComplete
                                 { ...props }
-                                options={ clients }
+                                options={ Object.values(clients) }
                                 label={ clientLabel }
                                 error={ !!errors.to }
                                 getOptionLabel={ client => client.name }

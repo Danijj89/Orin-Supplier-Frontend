@@ -9,12 +9,13 @@ import useSessionStorage from '../shared/hooks/useSessionStorage.js';
 import { SESSION_NEW_ORDER } from '../../app/sessionKeys.js';
 import { Redirect, useParams, useHistory } from 'react-router-dom';
 import { LANGUAGE } from '../../app/constants.js';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { cleanNewOrder } from './duck/slice.js';
 import UnitCounter from '../shared/classes/UnitCounter.js';
 import { itemUnitsOptions } from '../shared/constants.js';
 import ErrorDisplay from '../shared/components/ErrorDisplay.js';
 import { makeStyles } from '@material-ui/core/styles';
+import { selectNewOrder } from './duck/selectors.js';
 
 function getCurrentStep(stepLabel) {
     switch (stepLabel) {
@@ -31,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
     footer: {
         position: 'fixed',
         bottom: 0,
-        backgroundColor: theme.palette.tertiary['700'],
+        backgroundColor: theme.palette.grey.main,
         paddingTop: theme.spacing(1),
         paddingBottom: theme.spacing(1),
         width: '100%'
@@ -46,11 +47,12 @@ const {
     errorMessages
 } = LANGUAGE.order.createOrder;
 
-export default function CreateOrder({ newOrder, clients, company }) {
+export default function CreateOrder() {
     const classes = useStyles();
     const dispatch = useDispatch();
     const history = useHistory();
     const { step } = useParams();
+    const newOrder = useSelector(selectNewOrder);
     const [order, setOrder] = useSessionStorage(SESSION_NEW_ORDER, newOrder);
 
     const { register, control, watch, setValue, getValues, errors, handleSubmit, clearErrors } = useForm({
@@ -140,8 +142,6 @@ export default function CreateOrder({ newOrder, clients, company }) {
                     setValue={ setValue }
                     getValues={ getValues }
                     errors={ errors }
-                    company={ company }
-                    clients={ clients }
                 /> }
                 { step === 'products' && <CreateOrderProducts
                     watch={ watch }
@@ -157,7 +157,7 @@ export default function CreateOrder({ newOrder, clients, company }) {
                     { step === 'details' ? prevButtonLabel.details : prevButtonLabel.products }
                 </ThemedButton>
                 <ThemedButton onClick={ handleSubmit(onNextClick) }>
-                    { step === 'products' ? nextButtonLabel.details : nextButtonLabel.products }
+                    { step === 'details' ? nextButtonLabel.details : nextButtonLabel.products }
                 </ThemedButton>
             </Box>
         </Box>
