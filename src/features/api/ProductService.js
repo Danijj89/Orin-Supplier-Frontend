@@ -12,8 +12,19 @@ const fetchProducts = async (id) => {
     return data;
 };
 
+const createProduct = async (product) => {
+    const configs = {
+        method: 'post',
+        url: 'products',
+        data: product
+    };
+    const { data } = await fetchWithAuth(configs);
+    return data;
+}
+
 const ProductService = {
-    fetchProducts
+    fetchProducts,
+    createProduct
 };
 
 export default ProductService;

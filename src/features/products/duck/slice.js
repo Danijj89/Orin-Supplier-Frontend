@@ -1,5 +1,5 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import { fetchProducts } from './thunks.js';
+import { createProduct, fetchProducts } from './thunks.js';
 
 export const productsAdapter = createEntityAdapter({
     selectId: product => product._id,
@@ -24,6 +24,17 @@ const productsSlice = createSlice({
             state.status = 'FULFILLED';
         },
         [fetchProducts.rejected]: (state, action) => {
+            state.status = 'REJECTED';
+            state.error = action.payload.message;
+        },
+        [createProduct.pending]: (state, action) => {
+            state.status = 'PENDING';
+        },
+        [createProduct.fulfilled]: (state, action) => {
+            productsAdapter.upsertOne(state, action.payload);
+            state.status = 'FULFILLED';
+        },
+        [createProduct.rejected]: (state, action) => {
             state.status = 'REJECTED';
             state.error = action.payload.message;
         }

@@ -4,6 +4,7 @@ import { Box } from '@material-ui/core';
 import ProductDialog from '../shared/forms/ProductDialog.js';
 import { useDispatch } from 'react-redux';
 import { LANGUAGE } from '../../app/constants.js';
+import { createProduct } from './duck/thunks.js';
 
 const {
     buttonLabel,
@@ -21,7 +22,7 @@ export default function NewProductButton({ companyId }) {
     const onSubmit = (data) => {
         const { _id, ...rest } = data;
         rest.company = companyId;
-        dispatch();
+        dispatch(createProduct(rest));
         setIsDialogOpen(false);
     };
 

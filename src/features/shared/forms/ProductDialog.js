@@ -19,7 +19,7 @@ const {
 export default function ProductDialog(
     { isOpen, onSubmit, onCancel, submitLabel, product, titleLabel, onDelete }) {
 
-    const { register, errors, handleSubmit, formState, reset } = useForm({
+    const { register, errors, handleSubmit, formState, reset, watch } = useForm({
         mode: 'onChange'
     });
     const { isValid } = formState;
@@ -35,9 +35,11 @@ export default function ProductDialog(
             name: product?.name,
             description: product?.description,
             localD: product?.localD,
-            hcs: product?.hcs
+            hsc: product?.hsc
         });
     }, [reset, product]);
+
+    const autoGenerate = watch('autoGenerate');
 
     return (
         <FormDialog
@@ -57,9 +59,10 @@ export default function ProductDialog(
             <SideTextField
                 label={ skuLabel }
                 name="sku"
-                inputRef={ register({ required: true }) }
-                error={ !!errors.sku }
-                required
+                inputRef={ register(autoGenerate ? {} : { required: true }) }
+                error={ !autoGenerate && !!errors.sku }
+                required={ !autoGenerate }
+                disabled={ autoGenerate }
                 autoFocus
             />
             <SideTextField
