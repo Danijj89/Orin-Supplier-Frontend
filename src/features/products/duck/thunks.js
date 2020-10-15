@@ -27,4 +27,14 @@ export const deleteProduct = createAsyncThunk('products/deleteProduct',
         } catch (err) {
             return rejectWithValue(err.response.data);
         }
+    });
+
+export const updateProduct = createAsyncThunk('products/updateProduct',
+    async ({ id, update}, {rejectWithValue}) => {
+        try {
+            await ProductService.updateProduct(id, update);
+            return { id, update };
+        } catch (err) {
+            return rejectWithValue(err.response.data);
+        }
     })

@@ -3,7 +3,7 @@ import Table from '../shared/components/Table.js';
 import { LANGUAGE } from '../../app/constants.js';
 import ProductDialog from '../shared/forms/ProductDialog.js';
 import { useDispatch } from 'react-redux';
-import { deleteProduct } from './duck/thunks.js';
+import { deleteProduct, updateProduct } from './duck/thunks.js';
 
 const {
     tableHeadersMap,
@@ -22,6 +22,8 @@ export default function ProductTable({ products, isLoading }) {
     };
     const onEditCancel = () => setIsEdit(false);
     const onEditSubmit = (data) => {
+        const { _id: id, autoGenerate, ...update } = data;
+        dispatch(updateProduct({ id, update }));
         setIsEdit(false);
     };
 
@@ -69,6 +71,7 @@ export default function ProductTable({ products, isLoading }) {
                 onCancel={ onEditCancel }
                 onSubmit={ onEditSubmit }
                 onDelete={ () => onDelete(product._id) }
+                isEdit
             />
             }
         </>

@@ -17,20 +17,17 @@ const {
 } = LANGUAGE.shared.forms.productDialog;
 
 export default function ProductDialog(
-    { isOpen, onSubmit, onCancel, submitLabel, product, titleLabel, onDelete }) {
+    { isOpen, onSubmit, onCancel, submitLabel, product, titleLabel, onDelete, isEdit }) {
 
-    const { register, errors, handleSubmit, formState, reset, watch } = useForm({
-        mode: 'onChange'
+    const { register, errors, handleSubmit, reset, watch } = useForm({
+        mode: 'onSubmit'
     });
-    const { isValid } = formState;
-    const onFormSubmit = (data) => {
-        if (isValid) onSubmit(data);
-    };
 
     useEffect(() => {
         reset({
             _id: product?._id,
             autoGenerate: false,
+            company: product?.company,
             sku: product?.sku,
             name: product?.name,
             description: product?.description,
@@ -47,20 +44,20 @@ export default function ProductDialog(
             titleLabel={ titleLabel }
             submitLabel={ submitLabel }
             onCancel={ onCancel }
-            onSubmit={ handleSubmit(onFormSubmit) }
+            onSubmit={ handleSubmit(onSubmit) }
             onDelete={ onDelete }
             deleteMessage={ deleteMessage }
         >
-            <SideCheckBox
+            { !isEdit && <SideCheckBox
                 label={ autoGenerateLabel }
                 name="autoGenerate"
                 inputRef={ register }
-            />
+            /> }
             <SideTextField
                 label={ skuLabel }
                 name="sku"
-                inputRef={ register(autoGenerate ? {} : { required: true }) }
-                error={ !autoGenerate && !!errors.sku }
+                inputRef={ register({ required: !autoGenerate }) }
+                error={ !!errors.sku }
                 required={ !autoGenerate }
                 disabled={ autoGenerate }
                 autoFocus
@@ -100,5 +97,6 @@ ProductDialog.propTypes = {
     submitLabel: PropTypes.string.isRequired,
     titleLabel: PropTypes.string.isRequired,
     product: PropTypes.object,
-    onDelete: PropTypes.func
+    onDelete: PropTypes.func,
+    isEdit: PropTypes.bool
 };

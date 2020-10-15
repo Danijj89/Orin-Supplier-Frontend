@@ -15,13 +15,13 @@ const {
 export default function NewProductButton({ companyId }) {
     const dispatch = useDispatch();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const product = { company: companyId };
 
     const onClick = () => setIsDialogOpen(true);
     const onCancel = () => setIsDialogOpen(false);
 
     const onSubmit = (data) => {
         const { _id, ...rest } = data;
-        rest.company = companyId;
         dispatch(createProduct(rest));
         setIsDialogOpen(false);
     };
@@ -33,6 +33,7 @@ export default function NewProductButton({ companyId }) {
             >{ buttonLabel }</ThemedButton>
             <ProductDialog
                 isOpen={ isDialogOpen }
+                product={ product }
                 titleLabel={ dialogTitleLabel }
                 submitLabel={ dialogSubmitLabel }
                 onCancel={ onCancel }

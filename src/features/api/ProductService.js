@@ -29,12 +29,23 @@ const deleteProduct = async (productId) => {
     };
     const { data } = await fetchWithAuth(configs);
     return data;
-}
+};
+
+const updateProduct = async (id, update) => {
+    const configs = {
+        method: 'put',
+        url: `products/${id}`,
+        data: update
+    };
+    const { data } = await fetchWithAuth(configs);
+    return data;
+};
 
 const ProductService = {
     fetchProducts,
     createProduct,
-    deleteProduct
+    deleteProduct,
+    updateProduct
 };
 
 export default ProductService;

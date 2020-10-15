@@ -6,3 +6,4 @@ export const {
 } = productsAdapter.getSelectors(state => state.products);
 
 export const selectProductStatus = state => state.products.status;
+export const selectProductError = state => state.products.error;
