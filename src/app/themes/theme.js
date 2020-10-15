@@ -34,10 +34,10 @@ let appTheme = createMuiTheme({
             dark: '#12695D' /* Pine Green */,
         },
         black: {
-            main: '2A2A2A' /* Jet Black */,
+            main: '#2A2A2A' /* Jet Black */,
         },
         grey: {
-            main: '616161' /* Dim Grey */,
+            main: '#616161' /* Dim Grey */,
         },
         white: {
             main: '#FFFFFF',

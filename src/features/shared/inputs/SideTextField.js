@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
         borderColor: 'red'
     },
     disabled: {
-        backgroundColor: theme.palette.tertiary['200']
+        backgroundColor: theme.palette.backgroundSecondary.main
     }
 }));
 
