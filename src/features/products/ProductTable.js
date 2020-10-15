@@ -68,7 +68,7 @@ export default function ProductTable({ products, isLoading }) {
                 submitLabel={ editDialogSubmitLabel }
                 onCancel={ onEditCancel }
                 onSubmit={ onEditSubmit }
-                onDelete={ onDelete }
+                onDelete={ () => onDelete(product._id) }
             />
             }
         </>
