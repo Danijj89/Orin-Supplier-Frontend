@@ -68,9 +68,8 @@ export default function CompanyAddressCards({ company, className }) {
             <Box className={classes.cards}>
                 <Grid container>
                     {addresses.map((address) => (
-                        <Grid item xs={12} sm={6} lg={4}>
+                        <Grid item xs={12} sm={6} lg={4} key={address._id}>
                             <AddressCard
-                                key={address._id}
                                 address={address}
                                 isDefault={isDefaultAddress(address._id)}
                                 onEdit={() => onEditAddress(address._id)}
