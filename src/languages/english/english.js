@@ -181,7 +181,9 @@ export const ENGLISH = {
                     salesYTD: 'Sales YTD',
                     orderCountYTD: 'Order Count YTD',
                     hsc: 'HS Code'
-                }
+                },
+                editDialogTitleLabel: 'Edit Product',
+                editDialogSubmitLabel: 'Update'
             }
         }
     },

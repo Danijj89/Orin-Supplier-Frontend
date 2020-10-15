@@ -1,10 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Table from '../shared/components/Table.js';
 import { LANGUAGE } from '../../app/constants.js';
+import ProductDialog from '../shared/forms/ProductDialog.js';
+import { useDispatch } from 'react-redux';
+import { deleteProduct } from './duck/thunks.js';
 
-const { tableHeadersMap } = LANGUAGE.product.overview.productTable;
+const {
+    tableHeadersMap,
+    editDialogSubmitLabel,
+    editDialogTitleLabel
+} = LANGUAGE.product.overview.productTable;
 
-export default function ProductTable({ products }) {
+export default function ProductTable({ products, isLoading }) {
+    const dispatch = useDispatch();
+    const [isEdit, setIsEdit] = useState(false);
+    const [product, setProduct] = useState(null);
+
+    const onRowClick = (params) => {
+        setProduct(products[params.id]);
+        setIsEdit(true);
+    };
+    const onEditCancel = () => setIsEdit(false);
+    const onEditSubmit = (data) => {
+        setIsEdit(false);
+    };
+
+    const onDelete = (productId) => {
+        dispatch(deleteProduct(productId));
+        setIsEdit(false);
+    };
 
     const columns = [
         { field: 'id', hide: true },
@@ -17,7 +41,7 @@ export default function ProductTable({ products }) {
         { field: 'hsc', headerName: tableHeadersMap.hsc }
     ];
 
-    const rows = products.map(product => ({
+    const rows = Object.values(products).map(product => ({
         id: product._id,
         sku: product.sku,
         name: product.name,
@@ -29,6 +53,24 @@ export default function ProductTable({ products }) {
     }));
 
     return (
-        <Table columns={columns} rows={rows}/>
+        <>
+            <Table
+                columns={ columns }
+                rows={ rows }
+                isLoading={ isLoading }
+                onRowClick={ onRowClick }
+            />
+            { product &&
+            <ProductDialog
+                isOpen={ isEdit }
+                product={ product }
+                titleLabel={ editDialogTitleLabel }
+                submitLabel={ editDialogSubmitLabel }
+                onCancel={ onEditCancel }
+                onSubmit={ onEditSubmit }
+                onDelete={ onDelete }
+            />
+            }
+        </>
     )
 }

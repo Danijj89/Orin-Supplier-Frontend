@@ -18,3 +18,13 @@ export const createProduct = createAsyncThunk('products/createProduct',
             return rejectWithValue(err.response.data);
         }
     });
+
+export const deleteProduct = createAsyncThunk('products/deleteProduct',
+    async (productId, {rejectWithValue}) => {
+        try {
+            await ProductService.deleteProduct(productId);
+            return productId;
+        } catch (err) {
+            return rejectWithValue(err.response.data);
+        }
+    })

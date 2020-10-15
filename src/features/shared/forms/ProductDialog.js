@@ -19,7 +19,7 @@ const {
 export default function ProductDialog(
     { isOpen, onSubmit, onCancel, submitLabel, product, titleLabel, onDelete }) {
 
-    const { register, errors, handleSubmit, formState, reset, watch } = useForm({
+    const { register, errors, handleSubmit, formState, reset, watch, getValues } = useForm({
         mode: 'onChange'
     });
     const { isValid } = formState;
@@ -48,7 +48,7 @@ export default function ProductDialog(
             submitLabel={ submitLabel }
             onCancel={ onCancel }
             onSubmit={ handleSubmit(onFormSubmit) }
-            onDelete={ onDelete }
+            onDelete={ () => onDelete(getValues('_id')) }
             deleteMessage={ deleteMessage }
         >
             <SideCheckBox

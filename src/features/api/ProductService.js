@@ -20,11 +20,21 @@ const createProduct = async (product) => {
     };
     const { data } = await fetchWithAuth(configs);
     return data;
+};
+
+const deleteProduct = async (productId) => {
+    const configs = {
+        method: 'delete',
+        url: `products/${productId}`
+    };
+    const { data } = await fetchWithAuth(configs);
+    return data;
 }
 
 const ProductService = {
     fetchProducts,
-    createProduct
+    createProduct,
+    deleteProduct
 };
 
 export default ProductService;
