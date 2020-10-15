@@ -7,5 +7,6 @@ export const ENGLISH_ERRORS = {
     NO_ENTITY: `The current entity doesn't exist.`,
     PASSWORD_MISMATCH: 'Passwords don\'t match.',
     WRONG_REQUEST_DATA: 'Unable to perform operation. Wrong data.',
+    DUPLICATE_PRODUCT_SKU: 'Unable to perform the update. The given SKU already exists.',
     DEFAULT: 'Error occurred. Please try again later.'
 };

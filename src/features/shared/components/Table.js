@@ -11,10 +11,24 @@ import {
     TablePagination
 } from '@material-ui/core';
 import { LANGUAGE } from '../../../app/constants.js';
+import Loader from './Loader.js';
 
 const { paginationAllLabel, rowsPerPageLabel } = LANGUAGE.shared.components.table;
 
-export default function Table({ rows, columns, className, onRowClick, dense }) {
+function getAlignment(type) {
+    switch (type) {
+        case 'number':
+            return 'right';
+        case 'date':
+            return 'center';
+        default:
+            return 'left';
+    }
+}
+
+const ROW_HEIGHT = 69;
+
+export default function Table({ rows, columns, className, onRowClick, dense, isLoading }) {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const numColumns = columns.reduce((acc, col) => col.hide ? acc : acc += 1, 0);
@@ -49,12 +63,12 @@ export default function Table({ rows, columns, className, onRowClick, dense }) {
         const currRow = columns.map(column => {
                 if (column.hide) return null;
                 if (column.renderCell) return (
-                    <TableCell key={ column.field }>
+                    <TableCell key={ column.field } align={ getAlignment(column.type) }>
                         { column.renderCell(row) }
                     </TableCell>
                 );
                 return (
-                    <TableCell key={ column.field }>
+                    <TableCell key={ column.field } align={ getAlignment(column.type) }>
                         { row[column.field] || '-' }
                     </TableCell>
                 );
@@ -65,28 +79,35 @@ export default function Table({ rows, columns, className, onRowClick, dense }) {
                 { currRow }
             </TableRow>
         )
-    }
+    };
 
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
     return (
         <TableContainer className={ className }>
-            <MuiTable stickyHeader size={dense && 'small'}>
+            <MuiTable stickyHeader size={ dense && 'small' }>
                 <TableHead>
                     <TableRow>
                         { columns.map(renderColumn) }
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    { (rowsPerPage > 0
+                    { isLoading &&
+                    <TableRow style={{height: ROW_HEIGHT * rowsPerPage}}>
+                        <TableCell colSpan={ numColumns } valign="middle" align="left">
+                            <Loader/>
+                        </TableCell>
+                    </TableRow>
+                    }
+                    { !isLoading && (rowsPerPage > 0
                             ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             : rows
                     ).map(renderRow) }
-                    {emptyRows > 0 && (
-                        <TableRow style={{ height: 69 * emptyRows }}>
-                            <TableCell colSpan={numColumns} />
+                    { !isLoading && emptyRows > 0 && (
+                        <TableRow style={ { height: ROW_HEIGHT * emptyRows } }>
+                            <TableCell colSpan={ numColumns }/>
                         </TableRow>
-                    )}
+                    ) }
                 </TableBody>
                 <TableFooter>
                     <TableRow>
@@ -113,5 +134,6 @@ Table.propTypes = {
     columns: PropTypes.array.isRequired,
     className: PropTypes.string,
     onRowClick: PropTypes.func,
-    dense: PropTypes.bool
+    dense: PropTypes.bool,
+    isLoading: PropTypes.bool
 };

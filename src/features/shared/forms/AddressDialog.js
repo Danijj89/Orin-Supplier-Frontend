@@ -58,7 +58,7 @@ export default function AddressDialog({ isOpen, onSubmit, onCancel, submitLabel,
                 label={ typeLabel }
                 name="type"
                 inputRef={ register }
-                fullWidth
+                autoFocus
             />
             <SideTextField
                 label={ nameLabel }
@@ -66,7 +66,6 @@ export default function AddressDialog({ isOpen, onSubmit, onCancel, submitLabel,
                 inputRef={ register({ required: true }) }
                 error={ !!errors.name }
                 required
-                fullWidth
             />
             <SideTextField
                 label={ addressLabel }
@@ -74,14 +73,12 @@ export default function AddressDialog({ isOpen, onSubmit, onCancel, submitLabel,
                 inputRef={ register({ required: true }) }
                 error={ !!errors.address }
                 required
-                fullWidth
             />
             <SideTextField
                 label={ address2Label }
                 name="address2"
                 inputRef={ register }
                 error={ !!errors.address2 }
-                fullWidth
             />
             <SideTextField
                 label={ cityLabel }
@@ -89,14 +86,12 @@ export default function AddressDialog({ isOpen, onSubmit, onCancel, submitLabel,
                 inputRef={ register({ required: true }) }
                 error={ !!errors.city }
                 required
-                fullWidth
             />
             <SideTextField
                 label={ administrativeLabel }
                 name="administrative"
                 inputRef={ register }
                 error={ !!errors.administrative }
-                fullWidth
             />
             <SideTextField
                 label={ countryLabel }
@@ -104,28 +99,24 @@ export default function AddressDialog({ isOpen, onSubmit, onCancel, submitLabel,
                 inputRef={ register({ required: true }) }
                 error={ !!errors.country }
                 required
-                fullWidth
             />
             <SideTextField
                 label={ zipLabel }
                 name="zip"
                 inputRef={ register }
                 error={ !!errors.zip }
-                fullWidth
             />
             <SideTextField
                 label={ phoneLabel }
                 name="phone"
                 inputRef={ register }
                 error={ !!errors.phone }
-                fullWidth
             />
             <SideTextField
                 label={ emailLabel }
                 name="email"
                 inputRef={ register }
                 error={ !!errors.email }
-                fullWidth
             />
         </FormDialog>
     )

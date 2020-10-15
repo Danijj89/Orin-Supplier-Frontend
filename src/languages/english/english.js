@@ -165,6 +165,28 @@ export const ENGLISH = {
             },
         },
     },
+    product: {
+        overview: {
+            newProductButton: {
+                buttonLabel: 'New Product',
+                dialogTitleLabel: 'Add new product',
+                dialogSubmitLabel: 'Create Product'
+            },
+            productTable: {
+                tableHeadersMap: {
+                    sku: 'SKU',
+                    name: 'Product Name',
+                    description: 'Product Description',
+                    lastOrder: 'Last Order',
+                    salesYTD: 'Sales YTD',
+                    orderCountYTD: 'Order Count YTD',
+                    hsc: 'HS Code'
+                },
+                editDialogTitleLabel: 'Edit Product',
+                editDialogSubmitLabel: 'Update'
+            }
+        }
+    },
     order: {
         ordersOverview: {
             newOrderButtonLabel: 'New Order',
@@ -435,6 +457,15 @@ export const ENGLISH = {
                 additionalLabel: 'Additional Info',
                 deleteMessage: 'Are you sure you want to delete this contact?',
             },
+            productDialog: {
+                autoGenerateLabel: 'auto generate',
+                skuLabel: 'SKU',
+                nameLabel: 'Product Name',
+                descriptionLabel: 'Product Description (EN)',
+                localDescriptionLabel: 'Product Description (CN)',
+                hscLabel: 'HS Code',
+                deleteMessage: 'Are you sure you want to delete this product?'
+            }
         },
         components: {
             table: {

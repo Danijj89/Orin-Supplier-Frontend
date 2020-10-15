@@ -11,7 +11,7 @@ function getCurrentLocale() {
     return 'en';
 }
 
-const currentLocale = getCurrentLocale();
+export const currentLocale = getCurrentLocale();
 const languages = {
     en: ENGLISH,
     zh: CHINESE,

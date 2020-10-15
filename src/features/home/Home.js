@@ -13,6 +13,7 @@ import Settings from './Settings.js';
 import ClientDetails from '../clients/ClientDetails.js';
 import ClientOverview from '../clients/ClientOverview.js';
 import { Switch, Redirect } from 'react-router-dom';
+import ProductOverview from '../products/ProductOverview.js';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -80,6 +81,12 @@ export default function Home({ match }) {
                         exact
                         path={ `${match.url}/clients` }
                         component={ ClientOverview }
+                        isPrivate
+                    />
+                    <Route
+                        exact
+                        path={ `${match.url}/products` }
+                        component={ ProductOverview }
                         isPrivate
                     />
                     <Route

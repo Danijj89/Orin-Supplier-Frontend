@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
         borderColor: 'red'
     },
     disabled: {
-        backgroundColor: theme.palette.tertiary['200']
+        backgroundColor: theme.palette.backgroundSecondary.main
     }
 }));
 
@@ -47,7 +47,7 @@ export default function TopTextField({ label, required, className, error, disabl
     const classNames = clsx(
         classes.input,
         className,
-        error && classes.inputInvalid,
+        error && !disabled && classes.inputInvalid,
         disabled && classes.disabled
     );
 
