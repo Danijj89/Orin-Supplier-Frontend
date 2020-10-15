@@ -47,7 +47,7 @@ export default function TopTextField({ label, required, className, error, disabl
     const classNames = clsx(
         classes.input,
         className,
-        error && classes.inputInvalid,
+        error && !disabled && classes.inputInvalid,
         disabled && classes.disabled
     );
 

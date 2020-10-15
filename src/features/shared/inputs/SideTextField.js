@@ -46,7 +46,7 @@ export default function SideTextField({ label, required, className, error, disab
     const classNames = clsx(
         classes.input,
         className,
-        error && classes.inputInvalid,
+        error && !disabled && classes.inputInvalid,
         disabled && classes.disabled
     );
 
