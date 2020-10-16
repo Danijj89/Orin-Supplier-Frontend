@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function TableAutoComplete(
-    { options, getOptionLabel, getOptionSelected, freeSolo, className, onChange, ...props }) {
+    { options, getOptionLabel, getOptionSelected, freeSolo, autoSelect, className, onChange, ...props }) {
     const classes = useStyles();
     const classNames = clsx(classes.inputRoot, className);
 
@@ -28,6 +28,7 @@ export default function TableAutoComplete(
             disableClearable
             forcePopupIcon={false}
             freeSolo={freeSolo}
+            autoSelect={autoSelect}
             options={options}
             getOptionLabel={ getOptionLabel }
             getOptionSelected={ getOptionSelected }
@@ -47,5 +48,6 @@ TableAutoComplete.propTypes = {
     getOptionLabel: PropTypes.func,
     getOptionSelected: PropTypes.func,
     freeSolo: PropTypes.bool,
+    autoSelect: PropTypes.bool,
     className: PropTypes.string,
 };

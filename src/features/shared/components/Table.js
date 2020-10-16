@@ -12,16 +12,6 @@ import {
 } from '@material-ui/core';
 import { LANGUAGE } from '../../../app/constants.js';
 import Loader from './Loader.js';
-import { makeStyles } from '@material-ui/core/styles';
-
-const useStyles = makeStyles((theme) => ({
-    tableCell: props => props.dense && {
-        paddingLeft: theme.spacing(0.5),
-        paddingRight: theme.spacing(0.5),
-        paddingTop: theme.spacing(0.5),
-        paddingBottom: theme.spacing(0.5)
-    }
-}));
 
 const { paginationAllLabel, rowsPerPageLabel } = LANGUAGE.shared.components.table;
 
@@ -39,8 +29,7 @@ function getAlignment(type) {
 const ROW_HEIGHT = 69;
 
 export default function Table(
-    { rows, columns, className, onRowClick, dense, isLoading, disableRowHover, disablePagination }) {
-    const classes = useStyles({ dense });
+    { rows, columns, className, onRowClick, dense, isLoading, disableRowHover }) {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const numColumns = columns.reduce((acc, col) => col.hide ? acc : acc += 1, 0);
@@ -59,18 +48,13 @@ export default function Table(
         if (column.hide) return null;
         if (column.renderHeader) {
             return (
-                <TableCell
-                    key={ column.field }
-                    className={ classes.tableCell }>
+                <TableCell key={ column.field } width={ column.width }>
                     { column.renderHeader() }
                 </TableCell>
             );
         }
         return (
-            <TableCell
-                key={ column.field }
-                className={ classes.tableCell }
-            >
+            <TableCell key={ column.field } width={ column.width }>
                 { column.headerName }
             </TableCell>
         );
@@ -84,7 +68,6 @@ export default function Table(
                     <TableCell
                         key={ column.field }
                         width={ column.width }
-                        className={ classes.tableCell }
                     >
                         { column.renderCell(row) }
                     </TableCell>
@@ -94,7 +77,6 @@ export default function Table(
                         key={ column.field }
                         align={ getAlignment(column.type) }
                         width={ column.width }
-                        className={ classes.tableCell }
                     >
                         { column.type === 'number' ? row[column.field] : (row[column.field] || '-') }
                     </TableCell>
@@ -116,18 +98,15 @@ export default function Table(
 
     return (
         <TableContainer className={ className }>
-            <MuiTable stickyHeader>
+            <MuiTable stickyHeader size={dense && 'small'}>
                 <TableHead>
                     <TableRow>
                         { columns.map(renderColumn) }
                     </TableRow>
                 </TableHead>
-                { disablePagination &&
                 <TableBody>
                     { rows.map(renderRow) }
                 </TableBody>
-                }
-                { !disablePagination &&
                 <TableBody>
                     { isLoading &&
                     <TableRow style={ { height: ROW_HEIGHT * rowsPerPage } }>
@@ -145,8 +124,7 @@ export default function Table(
                             <TableCell colSpan={ numColumns }/>
                         </TableRow>
                     ) }
-                </TableBody> }
-                { !disablePagination &&
+                </TableBody>
                 <TableFooter>
                     <TableRow>
                         <TablePagination
@@ -161,7 +139,7 @@ export default function Table(
                             onChangeRowsPerPage={ onRowsChangePerPage }
                         />
                     </TableRow>
-                </TableFooter> }
+                </TableFooter>
             </MuiTable>
         </TableContainer>
     )

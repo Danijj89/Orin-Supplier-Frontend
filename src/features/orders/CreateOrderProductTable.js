@@ -1,15 +1,14 @@
 import React from 'react';
-import Table from '../shared/components/Table.js';
 import { LANGUAGE } from '../../app/constants.js';
-import { IconButton, Typography } from '@material-ui/core';
+import { IconButton } from '@material-ui/core';
 import { Add as IconAdd } from '@material-ui/icons';
 import TableTextField from '../shared/inputs/TableTextField.js';
-import TableAutoComplete from '../shared/inputs/TableAutoComplete.js';
 import { useSelector } from 'react-redux';
 import { selectAllProducts } from '../products/duck/selectors.js';
 import { itemUnitsOptions } from '../shared/constants.js';
 import { roundTo2Decimal } from '../shared/utils/format.js';
 import UnitCounter from '../shared/classes/UnitCounter.js';
+import EditableTable from '../shared/components/EditableTable.js';
 
 const { tableHeaderLabelsMap } = LANGUAGE.order.createOrder.createOrderProducts.createOrderProductTable;
 
@@ -75,23 +74,15 @@ export default function CreateOrderProductTable({ register, control, setValue, g
         {
             field: 'ref',
             headerName: tableHeaderLabelsMap.ref,
-            renderCell: (params) =>
-                <TableAutoComplete
-                    freeSolo
-                    options={ products }
-                    getOptionLabel={ product => product.sku }
-                    getOptionSelected={ product => product._id === params.id }
-                    onChange={ (value) => onCellChange(params.idx, 'ref', value) }
-                />
+            type: 'autocomplete',
+            options: products,
+            getOptionLabel: product => product.sku,
+            getOptionSelected: (product, params) => product._id === params.id,
         },
         {
             field: 'description',
             headerName: tableHeaderLabelsMap.description,
-            renderCell: (params) =>
-                <TableTextField
-                    value={ params.description }
-                    onChange={ e => onCellChange(params.idx, 'description', e.target.value) }
-                />
+            type: 'text'
         },
         {
             field: 'custom1',
@@ -100,11 +91,7 @@ export default function CreateOrderProductTable({ register, control, setValue, g
                     name="custom1"
                     inputRef={ register({ required: true }) }
                 />,
-            renderCell: (params) =>
-                <TableTextField
-                    value={ params.custom1 }
-                    onChange={ e => onCellChange(params.idx, 'custom1', e.target.value) }
-                />,
+            type: 'text',
             hide: custom1 == null,
             width: 160
         },
@@ -115,11 +102,7 @@ export default function CreateOrderProductTable({ register, control, setValue, g
                     name="custom2"
                     inputRef={ register({ required: true }) }
                 />,
-            renderCell: (params) =>
-                <TableTextField
-                    value={ params.custom2 }
-                    onChange={ e => onCellChange(params.idx, 'custom2', e.target.value) }
-                />,
+            type: 'text',
             hide: custom2 == null,
             width: 160
         },
@@ -135,40 +118,27 @@ export default function CreateOrderProductTable({ register, control, setValue, g
         {
             field: 'quantity',
             headerName: tableHeaderLabelsMap.quantity,
-            renderCell: (params) =>
-                <TableTextField
-                    type="number"
-                    value={ params.quantity.toString() }
-                    onChange={ e => onCellChange(params.idx, 'quantity', e.target.value) }
-                />,
+            type: 'number',
             width: 100
         },
         {
             field: 'unit',
             headerName: tableHeaderLabelsMap.unit,
-            renderCell: (params) =>
-                <TableAutoComplete
-                    value={ params.unit }
-                    options={ itemUnitsOptions }
-                    onChange={ (value) => onCellChange(params.idx, 'unit', value) }
-                />,
+            type: 'dropdown',
+            options: itemUnitsOptions,
+            getOptionLabel: (option) => option,
             width: 100
         },
         {
             field: 'price',
             headerName: tableHeaderLabelsMap.price,
-            renderCell: (params) =>
-                <TableTextField
-                    type="number"
-                    value={ params.price.toString() }
-                    onChange={ e => onCellChange(params.idx, 'price', e.target.value) }
-                />,
+            type: 'number',
             width: 100
         },
         {
             field: 'total',
             headerName: tableHeaderLabelsMap.total,
-            type: 'number'
+            align: 'right'
         }
     ];
 
@@ -186,12 +156,10 @@ export default function CreateOrderProductTable({ register, control, setValue, g
     }));
 
     return (
-        <Table
+        <EditableTable
             columns={ columns }
             rows={ rows }
-            dense
-            disableRowHover
-            disablePagination
+            onCellChange={ onCellChange }
         />
     )
 }
