@@ -105,6 +105,7 @@ export default function EditableTable(
                             <TableCell key={ column.field } width={ column.width }>
                                 <TableAutoComplete
                                     freeSolo
+                                    autoSelect
                                     options={ column.options }
                                     getOptionLabel={ column.getOptionLabel }
                                     getOptionSelected={ (item) => column.getOptionSelected(item, row) }
@@ -167,7 +168,7 @@ export default function EditableTable(
                     }
                     { !isLoading && rows.map(renderRow) }
                     <TableRow>
-                        <TableCell colSpan={numColumns}>
+                        <TableCell colSpan={ numColumns }>
                             <ThemedButton onClick={ onAddRow } variant="outlined">
                                 { addRowButtonLabel }
                             </ThemedButton>

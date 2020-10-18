@@ -56,11 +56,10 @@ export default function CreateOrderProductTable() {
             case 'ref':
                 if (newValue._id) {
                     newItem._id = newValue._id;
-                    newItem.ref = newValue;
+                    newItem.ref = newValue.sku;
                     newItem.description = newValue.description;
                 } else {
                     newItem._id = null;
-                    newItem.description = null;
                     newItem.ref = newValue;
                 }
                 break;
@@ -102,7 +101,7 @@ export default function CreateOrderProductTable() {
             headerName: tableHeaderLabelsMap.ref,
             type: 'autocomplete',
             options: products,
-            getOptionLabel: product => product.sku,
+            getOptionLabel: product => product.sku || product,
             getOptionSelected: (product, params) => product._id === params.id,
         },
         {

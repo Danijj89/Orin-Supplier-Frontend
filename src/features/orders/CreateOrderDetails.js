@@ -215,6 +215,7 @@ export default function CreateOrderDetails() {
                             <SideAutoComplete
                                 { ...props }
                                 freeSolo
+                                autoSelect
                                 options={ ports }
                                 label={ portOfLoadingLabel }
                             />
@@ -227,6 +228,7 @@ export default function CreateOrderDetails() {
                             <SideAutoComplete
                                 { ...props }
                                 freeSolo
+                                autoSelect
                                 options={ ports }
                                 label={ portOfDestinationLabel }
                             />

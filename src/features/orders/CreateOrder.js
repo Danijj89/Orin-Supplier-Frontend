@@ -104,7 +104,6 @@ export default function CreateOrder() {
         register({ name: 'custom2'});
         register({ name: 'totalQ' });
         register({ name: 'totalA' });
-        // register({ name: 'createdBy'});
     }, [register, validateItems]);
 
     const onPrevClick = () => {
@@ -130,10 +129,6 @@ export default function CreateOrder() {
 
     const onSubmit = (data) => {
         data.to = data.to._id;
-        data.items = data.items.map(item => {
-            item.ref = item.ref.sku;
-            return item;
-        });
         dispatch(createOrder(data));
         dispatch(cleanNewOrder());
     };
