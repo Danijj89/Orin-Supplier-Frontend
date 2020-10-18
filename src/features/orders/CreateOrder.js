@@ -4,7 +4,7 @@ import { Box, Paper, Divider, Typography } from '@material-ui/core';
 import CreateOrderDetails from './CreateOrderDetails.js';
 import CreateOrderProducts from './CreateOrderProducts.js';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
-import { useForm } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 import useSessionStorage from '../shared/hooks/useSessionStorage.js';
 import { SESSION_NEW_ORDER } from '../../app/sessionKeys.js';
 import { Redirect, useParams, useHistory } from 'react-router-dom';
@@ -53,7 +53,7 @@ export default function CreateOrder() {
     const newOrder = useSelector(selectNewOrder);
     const [order, setOrder] = useSessionStorage(SESSION_NEW_ORDER, newOrder);
 
-    const { register, control, watch, setValue, getValues, errors, handleSubmit, clearErrors, reset } = useForm({
+    const rhfMethods = useForm({
         mode: 'onSubmit',
         defaultValues: {
             ref: !order.autoGenerateRef && order.ref,
@@ -82,6 +82,7 @@ export default function CreateOrder() {
         },
         shouldUnregister: false
     });
+    const { errors, register, clearErrors, getValues, handleSubmit } = rhfMethods;
 
     const errMessages = Object.values(errors).map(err => err.message);
 
@@ -136,26 +137,13 @@ export default function CreateOrder() {
             <DocumentStepper activeStep={ getCurrentStep(step) } steps={ Object.values(stepLabelsMap) }/>
             <Typography variant="h5">{ titleLabel }</Typography>
             <Divider/>
-            <Paper>
-                { errMessages.length > 0 && <ErrorDisplay errors={ errMessages }/> }
-                { step === 'details' && <CreateOrderDetails
-                    register={ register }
-                    control={ control }
-                    watch={ watch }
-                    setValue={ setValue }
-                    getValues={ getValues }
-                    errors={ errors }
-                /> }
-                { step === 'products' && <CreateOrderProducts
-                    watch={ watch }
-                    control={ control }
-                    errors={ errors }
-                    setValue={ setValue }
-                    register={ register }
-                    getValues={ getValues }
-                    reset={ reset }
-                /> }
-            </Paper>
+            <FormProvider {...rhfMethods}>
+                <Paper>
+                    { errMessages.length > 0 && <ErrorDisplay errors={ errMessages }/> }
+                    { step === 'details' && <CreateOrderDetails /> }
+                    { step === 'products' && <CreateOrderProducts /> }
+                </Paper>
+            </FormProvider>
             <Box className={ classes.footer }>
                 <ThemedButton onClick={ onPrevClick }>
                     { step === 'details' ? prevButtonLabel.details : prevButtonLabel.products }

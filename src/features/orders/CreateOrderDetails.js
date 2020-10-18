@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Controller } from 'react-hook-form';
+import { Controller, useFormContext } from 'react-hook-form';
 import { LANGUAGE } from '../../app/constants.js';
 import { Divider, Box, Typography } from '@material-ui/core';
 import { formatAddress } from '../shared/utils/format.js';
@@ -48,9 +48,9 @@ const {
     shippingCarrierLabel,
 } = LANGUAGE.order.createOrder.createOrderDetails;
 
-export default function CreateOrderDetails(
-    { register, control, watch, setValue, getValues, errors }) {
+export default function CreateOrderDetails() {
     const classes = useStyles();
+    const { register, control, watch, setValue, getValues, errors } = useFormContext();
     const company = useSelector(selectCurrentCompany);
     const clients = useSelector(selectClientsMap);
     const [clientAddresses, setClientAddresses] = useState([]);

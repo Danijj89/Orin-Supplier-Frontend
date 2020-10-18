@@ -11,10 +11,12 @@ import UnitCounter from '../shared/classes/UnitCounter.js';
 import { defaultRowValues } from './utils/constants.js';
 import { getCurrencySymbol } from '../shared/utils/random.js';
 import EditableTable from '../shared/components/EditableTable.js';
+import { useFormContext } from 'react-hook-form';
 
 const { tableHeaderLabelsMap, totalLabel } = LANGUAGE.order.createOrder.createOrderProducts.createOrderProductTable;
 
-export default function CreateOrderProductTable({ register, setValue, getValues, watch, reset }) {
+export default function CreateOrderProductTable() {
+    const { register, setValue, getValues, watch, reset } = useFormContext();
     const products = useSelector(selectAllProducts);
 
     let custom1 = watch('custom1');
