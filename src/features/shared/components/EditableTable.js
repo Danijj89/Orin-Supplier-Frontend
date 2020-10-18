@@ -13,6 +13,8 @@ import TableTextField from '../inputs/TableTextField.js';
 import PropTypes from 'prop-types';
 import TableAutoComplete from '../inputs/TableAutoComplete.js';
 import { makeStyles } from '@material-ui/core/styles';
+import ThemedButton from '../buttons/ThemedButton.js';
+import { LANGUAGE } from '../../../app/constants.js';
 
 const useStyles = makeStyles((theme) => ({
     footerRow: {
@@ -34,7 +36,10 @@ const TableCell = withStyles((theme) => ({
     }
 }))(MuiTableCell);
 
-export default function EditableTable({ columns, rows, isLoading, onCellChange, className, footer }) {
+const { addRowButtonLabel } = LANGUAGE.shared.components.editableTable;
+
+export default function EditableTable(
+    { columns, rows, isLoading, onCellChange, className, footer, onAddRow }) {
     const classes = useStyles();
     const numColumns = columns.reduce((acc, col) => col.hide ? acc : acc += 1, 0);
 
@@ -161,6 +166,13 @@ export default function EditableTable({ columns, rows, isLoading, onCellChange, 
                     </TableRow>
                     }
                     { !isLoading && rows.map(renderRow) }
+                    <TableRow>
+                        <TableCell colSpan={numColumns}>
+                            <ThemedButton onClick={ onAddRow } variant="outlined">
+                                { addRowButtonLabel }
+                            </ThemedButton>
+                        </TableCell>
+                    </TableRow>
                 </TableBody>
                 <TableFooter>
                     { footer.map((row, i) => renderFooter(row, i)) }
@@ -174,6 +186,8 @@ EditableTable.propTypes = {
     rows: PropTypes.array.isRequired,
     columns: PropTypes.array.isRequired,
     onCellChange: PropTypes.func.isRequired,
+    onAddRow: PropTypes.func.isRequired,
     className: PropTypes.string,
-    isLoading: PropTypes.bool
+    isLoading: PropTypes.bool,
+    footer: PropTypes.array
 };

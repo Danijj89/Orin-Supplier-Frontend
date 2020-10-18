@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { LANGUAGE } from '../../app/constants.js';
-import { IconButton, TableFooter, TableRow, TableCell } from '@material-ui/core';
+import { IconButton } from '@material-ui/core';
 import { Add as IconAdd } from '@material-ui/icons';
 import TableTextField from '../shared/inputs/TableTextField.js';
 import { useSelector } from 'react-redux';
@@ -8,12 +8,11 @@ import { selectAllProducts } from '../products/duck/selectors.js';
 import { itemUnitsOptions } from '../shared/constants.js';
 import { roundTo2Decimal } from '../shared/utils/format.js';
 import UnitCounter from '../shared/classes/UnitCounter.js';
-import EditableTable from '../shared/components/EditableTable.js';
-import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { defaultRowValues } from './utils/constants.js';
 import { getCurrencySymbol } from '../shared/utils/random.js';
+import EditableTable from '../shared/components/EditableTable.js';
 
-const { tableHeaderLabelsMap, addRowButton, totalLabel } = LANGUAGE.order.createOrder.createOrderProducts.createOrderProductTable;
+const { tableHeaderLabelsMap, totalLabel } = LANGUAGE.order.createOrder.createOrderProducts.createOrderProductTable;
 
 export default function CreateOrderProductTable({ register, control, setValue, getValues, watch }) {
     const products = useSelector(selectAllProducts);
@@ -186,6 +185,7 @@ export default function CreateOrderProductTable({ register, control, setValue, g
             rows={ rows }
             onCellChange={ onCellChange }
             footer={ footer }
+            onAddRow={ onAddRow }
         />
     )
 }
