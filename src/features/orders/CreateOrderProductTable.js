@@ -49,7 +49,7 @@ export default function CreateOrderProductTable({ register, control, setValue, g
             case 'ref':
                 if (newValue._id) {
                     newItem._id = newValue._id;
-                    newItem.ref = newValue.sku;
+                    newItem.ref = newValue;
                     newItem.description = newValue.description;
                 } else {
                     newItem._id = null;
@@ -174,23 +174,18 @@ export default function CreateOrderProductTable({ register, control, setValue, g
         total: row.total
     }));
 
+    const footer = [[
+        { field: 'label', value: totalLabel, colSpan: numColumns - 4, align: 'right' },
+        { field: 'totalQ', value: UnitCounter.stringRep(totalQ), colSpan: 2, align: 'center' },
+        { field: 'totalA', value: `${ getCurrencySymbol(currency) } ${ totalA }`, colSpan: 2, align: 'right' }
+    ]];
+
     return (
         <EditableTable
             columns={ columns }
             rows={ rows }
             onCellChange={ onCellChange }
-            footer={
-                <TableFooter>
-                    <TableRow>
-                        <TableCell colSpan={numColumns - 3} padding="none">
-                            <ThemedButton onClick={onAddRow}>{addRowButton}</ThemedButton>
-                        </TableCell>
-                        <TableCell align="right">{ totalLabel }</TableCell>
-                        <TableCell align="right">{ UnitCounter.stringRep(totalQ) }</TableCell>
-                        <TableCell colSpan={2} align="right">{ `${getCurrencySymbol(currency)} ${totalA}` }</TableCell>
-                    </TableRow>
-                </TableFooter>
-            }
+            footer={ footer }
         />
     )
 }

@@ -6,12 +6,24 @@ import {
     TableHead,
     TableCell as MuiTableCell,
     TableRow,
-    withStyles
+    withStyles, Typography, TableFooter
 } from '@material-ui/core';
 import Loader from './Loader.js';
 import TableTextField from '../inputs/TableTextField.js';
 import PropTypes from 'prop-types';
 import TableAutoComplete from '../inputs/TableAutoComplete.js';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+    footerRow: {
+        height: 69
+    },
+    footerCell: {
+        fontWeight: 'bold',
+        fontSize: '1rem',
+        color: theme.palette.black.main
+    }
+}));
 
 const TableCell = withStyles((theme) => ({
     root: {
@@ -23,19 +35,20 @@ const TableCell = withStyles((theme) => ({
 }))(MuiTableCell);
 
 export default function EditableTable({ columns, rows, isLoading, onCellChange, className, footer }) {
+    const classes = useStyles();
     const numColumns = columns.reduce((acc, col) => col.hide ? acc : acc += 1, 0);
 
     const renderColumn = (column) => {
         if (column.hide) return null;
         if (column.renderHeader) {
             return (
-                <TableCell key={ column.field } width={ column.width }>
+                <TableCell key={ column.field } width={ column.width } align={ column.align }>
                     { column.renderHeader() }
                 </TableCell>
             );
         }
         return (
-            <TableCell key={ column.field } width={ column.width }>
+            <TableCell key={ column.field } width={ column.width } align={ column.align }>
                 { column.headerName }
             </TableCell>
         );
@@ -87,7 +100,6 @@ export default function EditableTable({ columns, rows, isLoading, onCellChange, 
                             <TableCell key={ column.field } width={ column.width }>
                                 <TableAutoComplete
                                     freeSolo
-                                    autoSelect
                                     options={ column.options }
                                     getOptionLabel={ column.getOptionLabel }
                                     getOptionSelected={ (item) => column.getOptionSelected(item, row) }
@@ -102,7 +114,9 @@ export default function EditableTable({ columns, rows, isLoading, onCellChange, 
                                 align={ column.align }
                                 width={ column.width }
                             >
-                                { typeof (row[column.field]) === 'number' ? row[column.field] : (row[column.field] || '-') }
+                                <Typography>
+                                    { typeof (row[column.field]) === 'number' ? row[column.field] : (row[column.field] || '-') }
+                                </Typography>
                             </TableCell>
                         )
                 }
@@ -115,6 +129,21 @@ export default function EditableTable({ columns, rows, isLoading, onCellChange, 
         )
     };
 
+    const renderFooter = (row, idx) =>
+        <TableRow key={ idx } className={ classes.footerRow }>
+            { row.map(cell =>
+                <TableCell
+                    key={ cell.field }
+                    colSpan={ cell.colSpan }
+                    align={ cell.align }
+                    className={ classes.footerCell }
+                >
+                    { cell.value }
+                </TableCell>
+            ) }
+        </TableRow>;
+
+
     return (
         <TableContainer className={ className }>
             <Table>
@@ -125,7 +154,7 @@ export default function EditableTable({ columns, rows, isLoading, onCellChange, 
                 </TableHead>
                 <TableBody>
                     { isLoading &&
-                    <TableRow style={{height: 400}}>
+                    <TableRow style={ { height: 400 } }>
                         <TableCell colSpan={ numColumns } valign="middle" align="left">
                             <Loader/>
                         </TableCell>
@@ -133,7 +162,9 @@ export default function EditableTable({ columns, rows, isLoading, onCellChange, 
                     }
                     { !isLoading && rows.map(renderRow) }
                 </TableBody>
-                { footer }
+                <TableFooter>
+                    { footer.map((row, i) => renderFooter(row, i)) }
+                </TableFooter>
             </Table>
         </TableContainer>
     )
