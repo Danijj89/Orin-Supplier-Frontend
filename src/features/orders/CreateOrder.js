@@ -120,7 +120,7 @@ export default function CreateOrder() {
             setOrder(getValues());
             history.push('/home/orders/new/products');
         } else if (step === 'products') {
-            handleSubmit(onSubmit);
+            handleSubmit(onSubmit)();
         }
     };
 

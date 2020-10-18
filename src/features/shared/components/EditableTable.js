@@ -82,7 +82,7 @@ export default function EditableTable(
                             <TableCell key={ column.field } width={ column.width }>
                                 <TableTextField
                                     type="number"
-                                    value={ row[column.field].toString() }
+                                    value={ row[column.field] }
                                     onChange={ e => onCellChange(idx, column.field, e.target.value) }
                                 />
                             </TableCell>

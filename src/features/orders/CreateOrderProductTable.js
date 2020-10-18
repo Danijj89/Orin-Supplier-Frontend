@@ -65,7 +65,7 @@ export default function CreateOrderProductTable() {
                 }
                 break;
             case 'quantity':
-                newValue = parseInt(newValue);
+                newValue = newValue === '' ? newValue : parseInt(newValue);
                 const diffQ = newValue - newItem.quantity;
                 newTotalQ = new UnitCounter(itemUnitsOptions, totalQ);
                 newTotalQ.addUnit(newItem.unit, diffQ);
@@ -83,7 +83,7 @@ export default function CreateOrderProductTable() {
                 newItem.unit = newValue;
                 break;
             case 'price':
-                newValue = roundTo2Decimal(newValue);
+                newValue = newValue === '' ? newValue : roundTo2Decimal(newValue);
                 const diffP = newValue - newItem.price;
                 setValue('totalA', roundTo2Decimal(totalA + (newItem.quantity * diffP)));
                 newItem.total = roundTo2Decimal(newValue * newItem.quantity);
