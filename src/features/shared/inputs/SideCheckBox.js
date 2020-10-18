@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Box, Checkbox, Typography } from '@material-ui/core';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
@@ -25,7 +26,8 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function SideCheckBox({ label, required, className, error, ...props }) {
+export default function SideCheckBox(
+    { label, required, className, error, checked, onChange, ...props }) {
     const classes = useStyles();
     const classNames = clsx(className, error && classes.inputInvalid);
 
@@ -43,8 +45,19 @@ export default function SideCheckBox({ label, required, className, error, ...pro
                 color="primary"
                 required={ required }
                 className={ classNames }
+                onChange={ e => onChange(e.target.checked) }
+                checked={ checked }
             />
         </Box>
     )
 }
+
+SideCheckBox.propTypes = {
+    checked: PropTypes.bool,
+    onChange: PropTypes.func,
+    required: PropTypes.bool,
+    label: PropTypes.string,
+    className: PropTypes.string,
+    error: PropTypes.bool
+};
 

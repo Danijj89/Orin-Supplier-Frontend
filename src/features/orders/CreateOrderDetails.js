@@ -73,12 +73,11 @@ export default function CreateOrderDetails(
                 <Typography variant="h5">{ detailsTitleLabel }</Typography>
                 <FormContainer>
                     <Controller
-                        render={ ({ onChange, value, ...rest }) =>
+                        render={ ({ value, ...rest }) =>
                             <SideCheckBox
                                 { ...rest }
                                 label={ autoGenerateRefLabel }
                                 checked={ value }
-                                onChange={ e => onChange(e.target.checked) }
                             />
                         }
                         name="autoGenerateRef"

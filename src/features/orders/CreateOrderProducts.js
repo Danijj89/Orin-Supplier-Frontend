@@ -36,19 +36,25 @@ export default function CreateOrderProducts({ register, watch, control, errors, 
                     control={ control }
                     rules={ { required: errorMessages.currency } }
                 />
-                <SideCheckBox
-                    label={ saveItemsLabel }
+                <Controller
+                    render={ ({ value, ...rest }) =>
+                        <SideCheckBox
+                            {...rest}
+                            label={ saveItemsLabel }
+                            checked={ value }
+                        />
+                    }
                     name="saveItems"
-                    inputRef={ register }
+                    control={ control }
                 />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={ 12 }>
                 <CreateOrderProductTable
-                    register={register}
-                    control={control}
-                    setValue={setValue}
-                    getValues={getValues}
-                    watch={watch}
+                    register={ register }
+                    control={ control }
+                    setValue={ setValue }
+                    getValues={ getValues }
+                    watch={ watch }
                 />
             </Grid>
         </Grid>
