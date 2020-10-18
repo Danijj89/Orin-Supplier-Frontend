@@ -53,7 +53,7 @@ export default function CreateOrder() {
     const newOrder = useSelector(selectNewOrder);
     const [order, setOrder] = useSessionStorage(SESSION_NEW_ORDER, newOrder);
 
-    const { register, control, watch, setValue, getValues, errors, handleSubmit, clearErrors } = useForm({
+    const { register, control, watch, setValue, getValues, errors, handleSubmit, clearErrors, reset } = useForm({
         mode: 'onSubmit',
         defaultValues: {
             ref: !order.autoGenerateRef && order.ref,
@@ -96,9 +96,9 @@ export default function CreateOrder() {
 
     useEffect(() => {
         register({ name: 'items' }, { validate: validateItems });
-        register({ name: 'custom1' });
-        register({ name: 'custom2' });
-        register({ name: 'totalQ' }, {});
+        register({ name: 'custom1'});
+        register({ name: 'custom2'});
+        register({ name: 'totalQ' });
         register({ name: 'totalA' });
         register({ name: 'saveItems' });
     }, [register, validateItems]);
@@ -153,6 +153,7 @@ export default function CreateOrder() {
                     setValue={ setValue }
                     register={ register }
                     getValues={ getValues }
+                    reset={ reset }
                 /> }
             </Paper>
             <Box className={ classes.footer }>

@@ -11,7 +11,7 @@ const { currencyLabel, saveItemsLabel } = LANGUAGE.order.createOrder.createOrder
 const { errorMessages } = LANGUAGE.order.createOrder;
 
 
-export default function CreateOrderProducts({ register, watch, control, errors, setValue, getValues }) {
+export default function CreateOrderProducts({ register, watch, control, errors, setValue, getValues, reset }) {
 
     return (
         <Grid container>
@@ -39,7 +39,7 @@ export default function CreateOrderProducts({ register, watch, control, errors, 
                 <Controller
                     render={ ({ value, ...rest }) =>
                         <SideCheckBox
-                            {...rest}
+                            { ...rest }
                             label={ saveItemsLabel }
                             checked={ value }
                         />
@@ -51,10 +51,10 @@ export default function CreateOrderProducts({ register, watch, control, errors, 
             <Grid item xs={ 12 }>
                 <CreateOrderProductTable
                     register={ register }
-                    control={ control }
                     setValue={ setValue }
                     getValues={ getValues }
                     watch={ watch }
+                    reset={ reset }
                 />
             </Grid>
         </Grid>

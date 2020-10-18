@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { LANGUAGE } from '../../app/constants.js';
 import { IconButton } from '@material-ui/core';
-import { Add as IconAdd } from '@material-ui/icons';
+import { Add as IconAdd, Close as IconClose } from '@material-ui/icons';
 import TableTextField from '../shared/inputs/TableTextField.js';
 import { useSelector } from 'react-redux';
 import { selectAllProducts } from '../products/duck/selectors.js';
@@ -14,11 +14,11 @@ import EditableTable from '../shared/components/EditableTable.js';
 
 const { tableHeaderLabelsMap, totalLabel } = LANGUAGE.order.createOrder.createOrderProducts.createOrderProductTable;
 
-export default function CreateOrderProductTable({ register, control, setValue, getValues, watch }) {
+export default function CreateOrderProductTable({ register, setValue, getValues, watch, reset }) {
     const products = useSelector(selectAllProducts);
 
-    const custom1 = watch('custom1');
-    const custom2 = watch('custom2');
+    let custom1 = watch('custom1');
+    let custom2 = watch('custom2');
     const items = watch('items');
     const totalQ = watch('totalQ');
     const totalA = watch('totalA');
@@ -37,6 +37,12 @@ export default function CreateOrderProductTable({ register, control, setValue, g
             setNumColumns(prev => prev + 1);
             return setValue('custom2', '');
         }
+    };
+
+    const onDeleteColumn = (name) => {
+        const currValues = getValues();
+        currValues[name] = null;
+        reset(currValues);
     };
 
     const onAddRow = () => setValue('items', [...items, defaultRowValues]);
@@ -108,6 +114,12 @@ export default function CreateOrderProductTable({ register, control, setValue, g
                 <TableTextField
                     name="custom1"
                     inputRef={ register({ required: true }) }
+                    InputProps={ {
+                        endAdornment:
+                            <IconButton size="small" onClick={ () => onDeleteColumn('custom1') }>
+                                <IconClose fontSize="small"/>
+                            </IconButton>
+                    } }
                 />,
             type: 'text',
             hide: custom1 == null,
@@ -119,6 +131,12 @@ export default function CreateOrderProductTable({ register, control, setValue, g
                 <TableTextField
                     name="custom2"
                     inputRef={ register({ required: true }) }
+                    InputProps={ {
+                        endAdornment:
+                            <IconButton size="small" onClick={ () => onDeleteColumn('custom2') }>
+                                <IconClose fontSize="small"/>
+                            </IconButton>
+                    } }
                 />,
             type: 'text',
             hide: custom2 == null,
