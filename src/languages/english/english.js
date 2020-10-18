@@ -238,7 +238,7 @@ export const ENGLISH = {
                 currencyLabel: 'Currency',
                 saveItemsLabel: 'Save New Items To Inventory',
                 createOrderProductTable: {
-                    totals: 'Total:',
+                    totalLabel: 'Total:',
                     addRowButton: 'Add',
                     tableHeaderLabelsMap: {
                         ref: 'Item Reference',

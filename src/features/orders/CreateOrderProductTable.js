@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { LANGUAGE } from '../../app/constants.js';
-import { IconButton } from '@material-ui/core';
+import { IconButton, TableFooter, TableRow, TableCell } from '@material-ui/core';
 import { Add as IconAdd } from '@material-ui/icons';
 import TableTextField from '../shared/inputs/TableTextField.js';
 import { useSelector } from 'react-redux';
@@ -9,8 +9,11 @@ import { itemUnitsOptions } from '../shared/constants.js';
 import { roundTo2Decimal } from '../shared/utils/format.js';
 import UnitCounter from '../shared/classes/UnitCounter.js';
 import EditableTable from '../shared/components/EditableTable.js';
+import ThemedButton from '../shared/buttons/ThemedButton.js';
+import { defaultRowValues } from './utils/constants.js';
+import { getCurrencySymbol } from '../shared/utils/random.js';
 
-const { tableHeaderLabelsMap } = LANGUAGE.order.createOrder.createOrderProducts.createOrderProductTable;
+const { tableHeaderLabelsMap, addRowButton, totalLabel } = LANGUAGE.order.createOrder.createOrderProducts.createOrderProductTable;
 
 export default function CreateOrderProductTable({ register, control, setValue, getValues, watch }) {
     const products = useSelector(selectAllProducts);
@@ -20,14 +23,28 @@ export default function CreateOrderProductTable({ register, control, setValue, g
     const items = watch('items');
     const totalQ = watch('totalQ');
     const totalA = watch('totalA');
+    const currency = watch('currency');
+
+    const [numColumns, setNumColumns] = useState(
+        7 + (custom1 ? 1 : 0) + (custom2 ? 1 : 0)
+    );
 
     const onAddColumn = () => {
-        if (custom1 == null) return setValue('custom1', '');
-        if (custom2 == null) return setValue('custom2', '');
+        if (custom1 == null) {
+            setNumColumns(prev => prev + 1);
+            return setValue('custom1', '');
+        }
+        if (custom2 == null) {
+            setNumColumns(prev => prev + 1);
+            return setValue('custom2', '');
+        }
     };
+
+    const onAddRow = () => setValue('items', [...items, defaultRowValues]);
 
     const onCellChange = (rowIdx, key, newValue) => {
         const newItem = { ...items[rowIdx] };
+        let newTotalQ;
         switch (key) {
             case 'ref':
                 if (newValue._id) {
@@ -43,17 +60,19 @@ export default function CreateOrderProductTable({ register, control, setValue, g
             case 'quantity':
                 newValue = parseInt(newValue);
                 const diffQ = newValue - newItem.quantity;
-                totalQ.addUnit(newItem.unit, diffQ);
-                setValue('totalQ', new UnitCounter(totalQ.units, totalQ.data));
+                newTotalQ = new UnitCounter(itemUnitsOptions, totalQ);
+                newTotalQ.addUnit(newItem.unit, diffQ);
+                setValue('totalQ', newTotalQ.data);
                 setValue('totalA', roundTo2Decimal(totalA + (newItem.price * diffQ)));
                 newItem.total = roundTo2Decimal(newValue * newItem.price);
                 newItem.quantity = newValue;
                 break;
             case 'unit':
                 const prevUnit = newItem.unit;
-                totalQ.subtractUnit(prevUnit, newItem.quantity);
-                totalQ.addUnit(newValue, newItem.quantity);
-                setValue('totalQ', new UnitCounter(totalQ.units, totalQ.data));
+                newTotalQ = new UnitCounter(itemUnitsOptions, totalQ);
+                newTotalQ.subtractUnit(prevUnit, newItem.quantity);
+                newTotalQ.addUnit(newValue, newItem.quantity);
+                setValue('totalQ', newTotalQ.data);
                 newItem.unit = newValue;
                 break;
             case 'price':
@@ -160,6 +179,18 @@ export default function CreateOrderProductTable({ register, control, setValue, g
             columns={ columns }
             rows={ rows }
             onCellChange={ onCellChange }
+            footer={
+                <TableFooter>
+                    <TableRow>
+                        <TableCell colSpan={numColumns - 3} padding="none">
+                            <ThemedButton onClick={onAddRow}>{addRowButton}</ThemedButton>
+                        </TableCell>
+                        <TableCell align="right">{ totalLabel }</TableCell>
+                        <TableCell align="right">{ UnitCounter.stringRep(totalQ) }</TableCell>
+                        <TableCell colSpan={2} align="right">{ `${getCurrencySymbol(currency)} ${totalA}` }</TableCell>
+                    </TableRow>
+                </TableFooter>
+            }
         />
     )
 }

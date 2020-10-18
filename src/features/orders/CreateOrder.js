@@ -11,8 +11,6 @@ import { Redirect, useParams, useHistory } from 'react-router-dom';
 import { LANGUAGE } from '../../app/constants.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { cleanNewOrder } from './duck/slice.js';
-import UnitCounter from '../shared/classes/UnitCounter.js';
-import { itemUnitsOptions } from '../shared/constants.js';
 import ErrorDisplay from '../shared/components/ErrorDisplay.js';
 import { makeStyles } from '@material-ui/core/styles';
 import { selectNewOrder } from './duck/selectors.js';
@@ -77,11 +75,12 @@ export default function CreateOrder() {
             items: order.items,
             custom1: order.custom1,
             custom2: order.custom2,
-            totalQ: new UnitCounter(itemUnitsOptions, order.totalQ),
+            totalQ: order.totalQ,
             totalA: order.totalA,
             saveItems: order.saveItems,
             autoGenerateRef: order.autoGenerateRef
-        }
+        },
+        shouldUnregister: false
     });
 
     const errMessages = Object.values(errors).map(err => err.message);
@@ -99,7 +98,7 @@ export default function CreateOrder() {
         register({ name: 'items' }, { validate: validateItems });
         register({ name: 'custom1' });
         register({ name: 'custom2' });
-        register({ name: 'totalQ' });
+        register({ name: 'totalQ' }, {});
         register({ name: 'totalA' });
         register({ name: 'saveItems' });
     }, [register, validateItems]);
@@ -110,22 +109,26 @@ export default function CreateOrder() {
             history.goBack();
         } else if (step === 'products') {
             clearErrors();
-            //     data.totalQ = data.totalQ.data;
             setOrder(getValues());
             history.push('/home/orders/new/details');
         }
     };
 
-    const onNextClick = (data) => {
+    const onNextClick = () => {
         if (step === 'details') {
-            setOrder(data);
+            setOrder(getValues());
             history.push('/home/orders/new/products');
         } else if (step === 'products') {
-            // data.to = customerMap[chosenCustomer].id;
-            // data.totalQ = data.totalQ.data;
-            // dispatch(submitOrder());
+            handleSubmit(onSubmit);
         }
     };
+
+    const onSubmit = (data) => {
+        console.log(data);
+        // data.to = customerMap[chosenCustomer].id;
+        // data.totalQ = data.totalQ.data;
+        // dispatch(submitOrder());
+    }
 
     return (
         <Box>
@@ -156,7 +159,7 @@ export default function CreateOrder() {
                 <ThemedButton onClick={ onPrevClick }>
                     { step === 'details' ? prevButtonLabel.details : prevButtonLabel.products }
                 </ThemedButton>
-                <ThemedButton onClick={ handleSubmit(onNextClick) }>
+                <ThemedButton onClick={ onNextClick }>
                     { step === 'details' ? nextButtonLabel.details : nextButtonLabel.products }
                 </ThemedButton>
             </Box>

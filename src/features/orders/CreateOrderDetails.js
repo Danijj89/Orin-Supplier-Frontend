@@ -72,11 +72,19 @@ export default function CreateOrderDetails(
             <Box className={ classes.details }>
                 <Typography variant="h5">{ detailsTitleLabel }</Typography>
                 <FormContainer>
-                    <SideCheckBox
-                        label={ autoGenerateRefLabel }
+                    <Controller
+                        render={ ({ onChange, value, ...rest }) =>
+                            <SideCheckBox
+                                { ...rest }
+                                label={ autoGenerateRefLabel }
+                                checked={ value }
+                                onChange={ e => onChange(e.target.checked) }
+                            />
+                        }
                         name="autoGenerateRef"
-                        inputRef={ register }
+                        control={ control }
                     />
+
                     <SideTextField
                         label={ orderReferenceLabel }
                         name="ref"

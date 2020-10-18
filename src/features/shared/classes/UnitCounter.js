@@ -31,8 +31,8 @@ export default class UnitCounter {
         this._units = [...units];
     }
 
-    get stringRep() {
-        return Object.entries(this.data)
+    static stringRep(unitObj) {
+        return Object.entries(unitObj)
             .filter(([unit, amount]) => amount !== 0)
             .map(([unit, amount]) =>`${ amount } ${ unit }`)
             .join(' + ');
