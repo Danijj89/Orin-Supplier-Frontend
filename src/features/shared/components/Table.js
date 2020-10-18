@@ -33,6 +33,7 @@ export default function Table(
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const numColumns = columns.reduce((acc, col) => col.hide ? acc : acc += 1, 0);
+    const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
     const onPageChange = (event, newPage) => setPage(newPage);
     const onRowsChangePerPage = (event) => {
@@ -94,8 +95,6 @@ export default function Table(
         )
     };
 
-    const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
-
     return (
         <TableContainer className={ className }>
             <MuiTable stickyHeader size={dense && 'small'}>
@@ -104,9 +103,6 @@ export default function Table(
                         { columns.map(renderColumn) }
                     </TableRow>
                 </TableHead>
-                <TableBody>
-                    { rows.map(renderRow) }
-                </TableBody>
                 <TableBody>
                     { isLoading &&
                     <TableRow style={ { height: ROW_HEIGHT * rowsPerPage } }>

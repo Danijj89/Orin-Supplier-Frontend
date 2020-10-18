@@ -73,9 +73,7 @@ export default function ProductDialog(
             <SideTextField
                 label={ nameLabel }
                 name="name"
-                inputRef={ register({ required: true }) }
-                error={ !!errors.name }
-                required
+                inputRef={ register }
             />
             <SideTextField
                 label={ descriptionLabel }

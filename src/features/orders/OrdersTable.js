@@ -22,7 +22,7 @@ export default function OrdersTable({ orders }) {
     const rows = orders.map(order => ({
         id: order._id,
         ref: order.ref,
-        totalQ: new UnitCounter([], order.totalQ).stringRep,
+        totalQ: UnitCounter.stringRep(order.totalQ),
         crd: order.crd,
         toName: order.toAdd.name,
         procurement: order.procurement,
