@@ -14,6 +14,7 @@ import { cleanNewOrder } from './duck/slice.js';
 import ErrorDisplay from '../shared/components/ErrorDisplay.js';
 import { makeStyles } from '@material-ui/core/styles';
 import { selectNewOrder } from './duck/selectors.js';
+import { createOrder } from './duck/thunks.js';
 
 function getCurrentStep(stepLabel) {
     switch (stepLabel) {
@@ -56,7 +57,7 @@ export default function CreateOrder() {
     const rhfMethods = useForm({
         mode: 'onSubmit',
         defaultValues: {
-            ref: !order.autoGenerateRef && order.ref,
+            ref: !order.autoGenerateRef ? order.ref : null,
             from: order.from,
             fromAdd: order.fromAdd,
             to: order.to || null,
@@ -67,8 +68,8 @@ export default function CreateOrder() {
             pay: order.pay,
             clientRef: order.clientRef,
             notes: order.notes,
-            pol: order.pol,
-            pod: order.pod,
+            pol: order.pol || null,
+            pod: order.pod || null,
             del: order.del,
             carrier: order.carrier,
             currency: order.currency,
@@ -78,7 +79,9 @@ export default function CreateOrder() {
             totalQ: order.totalQ,
             totalA: order.totalA,
             saveItems: order.saveItems,
-            autoGenerateRef: order.autoGenerateRef
+            autoGenerateRef: order.autoGenerateRef,
+            createdBy: order.createdBy
+
         },
         shouldUnregister: false
     });
@@ -101,7 +104,7 @@ export default function CreateOrder() {
         register({ name: 'custom2'});
         register({ name: 'totalQ' });
         register({ name: 'totalA' });
-        register({ name: 'saveItems' });
+        // register({ name: 'createdBy'});
     }, [register, validateItems]);
 
     const onPrevClick = () => {
@@ -117,6 +120,7 @@ export default function CreateOrder() {
 
     const onNextClick = () => {
         if (step === 'details') {
+            console.log(getValues());
             setOrder(getValues());
             history.push('/home/orders/new/products');
         } else if (step === 'products') {
@@ -125,11 +129,14 @@ export default function CreateOrder() {
     };
 
     const onSubmit = (data) => {
-        console.log(data);
-        // data.to = customerMap[chosenCustomer].id;
-        // data.totalQ = data.totalQ.data;
-        // dispatch(submitOrder());
-    }
+        data.to = data.to._id;
+        data.items = data.items.map(item => {
+            item.ref = item.ref.sku;
+            return item;
+        });
+        dispatch(createOrder(data));
+        dispatch(cleanNewOrder());
+    };
 
     return (
         <Box>

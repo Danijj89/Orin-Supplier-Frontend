@@ -63,7 +63,8 @@ export default function CreateOrderDetails() {
         if (clients.hasOwnProperty(chosenClient?._id)) {
             const newAddressOptions = chosenClient?.addresses || [];
             setClientAddresses(newAddressOptions);
-            if (chosenClient?.incoterm) setValue('incoterm', chosenClient?.incoterm);
+            if (chosenClient?.incoterm) setValue('incoterm', chosenClient.incoterm);
+            if (chosenClient?.payment) setValue('pay', chosenClient.payment);
         }
     }, [chosenClient, clients, setValue]);
 
@@ -213,6 +214,7 @@ export default function CreateOrderDetails() {
                         render={ (props) => (
                             <SideAutoComplete
                                 { ...props }
+                                freeSolo
                                 options={ ports }
                                 label={ portOfLoadingLabel }
                             />
@@ -224,6 +226,7 @@ export default function CreateOrderDetails() {
                         render={ (props) => (
                             <SideAutoComplete
                                 { ...props }
+                                freeSolo
                                 options={ ports }
                                 label={ portOfDestinationLabel }
                             />

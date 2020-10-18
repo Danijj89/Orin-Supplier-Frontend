@@ -1,10 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import POService from './services.js';
+import OrderService from './services.js';
 
 export const fetchOrders = createAsyncThunk('orders/fetchOrders',
     async (companyId, { rejectWithValue }) => {
         try {
-            return await POService.fetchOrdersByCompanyId(companyId);
+            return await OrderService.fetchOrdersByCompanyId(companyId);
         } catch (err) {
             return rejectWithValue(err.response.data);
         }
@@ -13,36 +13,40 @@ export const fetchOrders = createAsyncThunk('orders/fetchOrders',
 export const startNewOrder = createAsyncThunk('orders/startNewOrder',
     async ({ userId, companyId }, { rejectWithValue }) => {
         try {
-            return POService.fetchNewOrderData(userId, companyId);
+            return OrderService.fetchNewOrderData(userId, companyId);
         } catch (err) {
             return rejectWithValue(err.response.data);
         }
     });
 
-export const submitOrder = createAsyncThunk('orders/submitOrder', async (_, { getState }) => {
-    const { newOrder } = getState().orders;
-    return POService.createNewOrder(newOrder);
-});
+export const createOrder = createAsyncThunk('orders/createOrder',
+    async (order, { rejectWithValue, dispatch }) => {
+        try {
+            return await OrderService.createOrder(order);
+        } catch (err) {
+            return rejectWithValue(err.response.data);
+        }
+    });
 
 export const updateOrderStatus = createAsyncThunk('orders/updateOrderStatus',
     async ({ orderId, data }) => {
-        const statuses = await POService.updateOrderStatus(orderId, data);
+        const statuses = await OrderService.updateOrderStatus(orderId, data);
         return { id: orderId, statuses };
     }
 );
 
 export const deleteOrder = createAsyncThunk('orders/deleteOrder', async (orderId) => {
-    return await POService.deleteOrder(orderId);
+    return await OrderService.deleteOrder(orderId);
 });
 
 export const fetchOrderOptions = createAsyncThunk('orders/fetchOrderOptions',
     async (_, { getState }) => {
         const { company } = getState().home;
-        return POService.fetchOrderOptions(company._id);
+        return OrderService.fetchOrderOptions(company._id);
     }
 );
 
 export const fetchSelectedOrderById = createAsyncThunk('orders/fetchSelectedOrderById',
     async (id, { dispatch }) => {
-        return await POService.fetchOrderById(id);
+        return await OrderService.fetchOrderById(id);
     });
