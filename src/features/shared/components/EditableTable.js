@@ -105,7 +105,6 @@ export default function EditableTable(
                             <TableCell key={ column.field } width={ column.width }>
                                 <TableAutoComplete
                                     freeSolo
-                                    autoSelect
                                     options={ column.options }
                                     getOptionLabel={ column.getOptionLabel }
                                     getOptionSelected={ (item) => column.getOptionSelected(item, row) }

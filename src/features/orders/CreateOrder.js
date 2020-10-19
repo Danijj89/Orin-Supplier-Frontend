@@ -119,7 +119,6 @@ export default function CreateOrder() {
 
     const onNextClick = () => {
         if (step === 'details') {
-            console.log(getValues());
             setOrder(getValues());
             history.push('/home/orders/new/products');
         } else if (step === 'products') {

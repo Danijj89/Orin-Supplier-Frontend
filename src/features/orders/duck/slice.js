@@ -21,7 +21,13 @@ const ordersSlice = createSlice({
     reducers: {
         cleanNewOrder: (state, action) => {
             state.newOrder = null;
+            state.currentOrderId = null;
             sessionStorage.removeItem(SESSION_NEW_ORDER);
+        },
+        cleanOrderStore: (state, action) => {
+            state.error = null;
+            state.currentOrderId = null;
+            state.status = 'IDLE';
         }
         // setCurrentPOId: (state, action) => {
         //     state.currentPOId = action.payload;
@@ -73,9 +79,9 @@ const ordersSlice = createSlice({
         },
         [createOrder.fulfilled]: (state, action) => {
             const { _id } = action.payload;
-            state.status = 'IDLE';
             ordersAdapter.upsertOne(state, action.payload);
             state.currentOrderId = _id;
+            state.status = 'IDLE';
         },
         [createOrder.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -160,7 +166,7 @@ const ordersSlice = createSlice({
 });
 
 export const {
-    cleanNewOrder
+    cleanNewOrder, cleanOrderStore
 } = ordersSlice.actions;
 
 export const {

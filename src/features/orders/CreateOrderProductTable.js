@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { LANGUAGE } from '../../app/constants.js';
 import { IconButton } from '@material-ui/core';
 import { Add as IconAdd, Close as IconClose } from '@material-ui/icons';
@@ -49,7 +49,7 @@ export default function CreateOrderProductTable() {
 
     const onAddRow = () => setValue('items', [...items, defaultRowValues]);
 
-    const onCellChange = (rowIdx, key, newValue) => {
+    const onCellChange = useCallback((rowIdx, key, newValue) => {
         const newItem = { ...items[rowIdx] };
         let newTotalQ;
         switch (key) {
@@ -58,8 +58,12 @@ export default function CreateOrderProductTable() {
                     newItem._id = newValue._id;
                     newItem.ref = newValue.sku;
                     newItem.description = newValue.description;
-                } else {
+                } else if (!products.find(product => product.sku === newValue)){
+                    //FIXME: material ui triggers onChange twice with freeSolo + autoSelect
+                    // so we need this check to prevent the second onChange to set the newItem._id
+                    // to null. Remove if bug is solved.
                     newItem._id = null;
+                    newItem.description = '';
                     newItem.ref = newValue;
                 }
                 break;
@@ -92,7 +96,7 @@ export default function CreateOrderProductTable() {
                 newItem[key] = newValue;
         }
         setValue('items', [...items.slice(0, rowIdx), newItem, ...items.slice(rowIdx + 1)])
-    };
+    }, [items, setValue, totalA, totalQ]);
 
     const columns = [
         { field: 'id', hide: true },
