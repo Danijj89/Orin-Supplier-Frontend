@@ -1,16 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import OrderOverviewInfoCard from './OrderOverviewInfoCard.js';
 import { Grid, Tabs, Tab } from '@material-ui/core';
 import { LANGUAGE } from '../../app/constants.js';
-import OrderDocuments from './OrderDocuments.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import OrderStatusInfoCard from './OrderStatusInfoCard.js';
 import { selectOrderById } from './duck/slice.js';
-import OrderProductTable from './OrderProductTable.js';
 import { fetchOrderOptions } from './duck/thunks.js';
-import OrderDetails from './OrderDetails.js';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -57,10 +52,10 @@ export default function Order({ match }) {
                     {tabsLabel.map(tab => <Tab key={tab} label={tab} component="span" />)}
                 </Tabs>
             </Grid>
-            <Grid item xs={12}>
-                { order && tabValue === 0 && <OrderDetails order={order}/> }
-                { order && tabValue === 1 && <OrderProductTable order={ order }/> }
-            </Grid>
+            {/*<Grid item xs={12}>*/}
+            {/*    { order && tabValue === 0 && <OrderDetails order={order}/> }*/}
+            {/*    { order && tabValue === 1 && <OrderProductTable order={ order }/> }*/}
+            {/*</Grid>*/}
         </Grid>
     )
 }

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import Table from '../shared/components/Table.js';
 import { LANGUAGE } from '../../app/constants.js';
 import UnitCounter from '../shared/classes/UnitCounter.js';
@@ -6,6 +7,9 @@ import UnitCounter from '../shared/classes/UnitCounter.js';
 const { ordersTableHeadersMap } = LANGUAGE.order.ordersOverview;
 
 export default function OrdersTable({ orders }) {
+    const history = useHistory();
+
+    const onRowClick = (params) => history.push(`/home/orders/${ params.id }`);
 
     const columns = [
         { field: 'id', hide: true },
@@ -22,7 +26,7 @@ export default function OrdersTable({ orders }) {
     const rows = orders.map(order => ({
         id: order._id,
         ref: order.ref,
-        totalQ: new UnitCounter([], order.totalQ).stringRep,
+        totalQ: UnitCounter.stringRep(order.totalQ),
         crd: order.crd,
         toName: order.toAdd.name,
         procurement: order.procurement,
@@ -32,6 +36,6 @@ export default function OrdersTable({ orders }) {
     }));
 
     return (
-        <Table columns={columns} rows={rows}/>
+        <Table columns={ columns } rows={ rows } onRowClick={ onRowClick }/>
     )
 }

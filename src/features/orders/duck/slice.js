@@ -1,5 +1,5 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import { fetchOrders, startNewOrder } from './thunks.js';
+import { createOrder, fetchOrders, startNewOrder } from './thunks.js';
 import { SESSION_NEW_ORDER } from '../../../app/sessionKeys.js';
 import { defaultRowValues } from '../utils/constants.js';
 
@@ -21,7 +21,13 @@ const ordersSlice = createSlice({
     reducers: {
         cleanNewOrder: (state, action) => {
             state.newOrder = null;
+            state.currentOrderId = null;
             sessionStorage.removeItem(SESSION_NEW_ORDER);
+        },
+        cleanOrderStore: (state, action) => {
+            state.error = null;
+            state.currentOrderId = null;
+            state.status = 'IDLE';
         }
         // setCurrentPOId: (state, action) => {
         //     state.currentPOId = action.payload;
@@ -68,15 +74,24 @@ const ordersSlice = createSlice({
             state.status = 'REJECTED';
             state.error = action.payload.message;
         },
+        [createOrder.pending]: (state, action) => {
+            state.status = 'PENDING';
+        },
+        [createOrder.fulfilled]: (state, action) => {
+            const { _id } = action.payload;
+            ordersAdapter.upsertOne(state, action.payload);
+            state.currentOrderId = _id;
+            state.status = 'IDLE';
+        },
+        [createOrder.rejected]: (state, action) => {
+            state.status = 'REJECTED';
+            state.error = action.payload.message;
+        },
         // [submitOrder.pending]: (state, action) => {
         //     state.status = 'PENDING';
         // },
         // [submitOrder.fulfilled]: (state, action) => {
-        //     const { _id } = action.payload;
-        //     state.status = 'IDLE';
-        //     ordersAdapter.upsertOne(state, action.payload);
-        //     state.newOrder = null;
-        //     state.currentOrderId = _id;
+        //
         // },
         // [submitOrder.rejected]: (state, action) => {
         //     state.status = 'REJECTED';
@@ -151,7 +166,7 @@ const ordersSlice = createSlice({
 });
 
 export const {
-    setCurrentPOId, cleanNewOrder, updateOrderDocument, deleteOrderDocument
+    cleanNewOrder, cleanOrderStore
 } = ordersSlice.actions;
 
 export const {

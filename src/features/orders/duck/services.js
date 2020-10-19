@@ -10,7 +10,7 @@ const fetchOrdersByCompanyId = async (id) => {
     };
     const { data } = await fetchWithAuth(configs);
     return data;
-}
+};
 
 const fetchNewOrderData = async (userId, companyId) => {
     const configs = {
@@ -23,9 +23,9 @@ const fetchNewOrderData = async (userId, companyId) => {
     };
     const { data } = await fetchWithAuth(configs);
     return data;
-}
+};
 
-const createNewOrder = async (order) => {
+const createOrder = async (order) => {
     const configs = {
         method: 'post',
         url: '/orders',
@@ -33,41 +33,41 @@ const createNewOrder = async (order) => {
     };
     const { data } = await fetchWithAuth(configs);
     return data;
-}
+};
 
-const updateOrderStatus = async (id, updatedStatus) => {
-    const configs = {
-        method: 'put',
-        url: `/orders/${id}/status`,
-        data: updatedStatus
-    };
-    const { data } = await fetchWithAuth(configs);
-    return data;
-}
-
-const deleteOrder = async (orderId) => {
-    const configs = {
-        method: 'delete',
-        url: '/orders',
-        data: {
-            id: orderId
-        }
-    };
-    const { data } = await fetchWithAuth(configs);
-    return data;
-}
-
-const fetchOrderOptions = async (companyId) => {
-    const configs = {
-        method: 'get',
-        url: '/orders/options',
-        params: {
-            company: companyId
-        }
-    };
-    const { data } = await fetchWithAuth(configs);
-    return data;
-}
+// const updateOrderStatus = async (id, updatedStatus) => {
+//     const configs = {
+//         method: 'put',
+//         url: `/orders/${id}/status`,
+//         data: updatedStatus
+//     };
+//     const { data } = await fetchWithAuth(configs);
+//     return data;
+// }
+//
+// const deleteOrder = async (orderId) => {
+//     const configs = {
+//         method: 'delete',
+//         url: '/orders',
+//         data: {
+//             id: orderId
+//         }
+//     };
+//     const { data } = await fetchWithAuth(configs);
+//     return data;
+// }
+//
+// const fetchOrderOptions = async (companyId) => {
+//     const configs = {
+//         method: 'get',
+//         url: '/orders/options',
+//         params: {
+//             company: companyId
+//         }
+//     };
+//     const { data } = await fetchWithAuth(configs);
+//     return data;
+// }
 
 // const generatePOFiles = async (order) => {
 //     const configs = {
@@ -105,17 +105,17 @@ const fetchOrderOptions = async (companyId) => {
 //
 
 
-const POService = {
+const OrderService = {
     fetchOrdersByCompanyId,
     fetchNewOrderData,
-    createNewOrder,
-    updateOrderStatus,
-    deleteOrder,
-    fetchOrderOptions,
+    createOrder,
+    // updateOrderStatus,
+    // deleteOrder,
+    // fetchOrderOptions,
     // generatePOFiles,
     // fetchOrderById,
     // getPdfFilePreview,
 
 };
 
-export default POService;
+export default OrderService;

@@ -41,7 +41,7 @@ export default function CreateOrderContainer() {
 
     return (
         <Box>
-            { currentOrderId && <Redirect to={ `/home/orders/${ currentOrderId }/0` }/> }
+            { currentOrderId && <Redirect to={ `/home/orders/${ currentOrderId }` }/> }
             { loading && <Loader/> }
             { error && <ErrorDisplay errors={ [error] }/> }
             { newOrder && !loading &&

@@ -4,18 +4,17 @@ import { Box, Paper, Divider, Typography } from '@material-ui/core';
 import CreateOrderDetails from './CreateOrderDetails.js';
 import CreateOrderProducts from './CreateOrderProducts.js';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
-import { useForm } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 import useSessionStorage from '../shared/hooks/useSessionStorage.js';
 import { SESSION_NEW_ORDER } from '../../app/sessionKeys.js';
 import { Redirect, useParams, useHistory } from 'react-router-dom';
 import { LANGUAGE } from '../../app/constants.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { cleanNewOrder } from './duck/slice.js';
-import UnitCounter from '../shared/classes/UnitCounter.js';
-import { itemUnitsOptions } from '../shared/constants.js';
 import ErrorDisplay from '../shared/components/ErrorDisplay.js';
 import { makeStyles } from '@material-ui/core/styles';
 import { selectNewOrder } from './duck/selectors.js';
+import { createOrder } from './duck/thunks.js';
 
 function getCurrentStep(stepLabel) {
     switch (stepLabel) {
@@ -55,10 +54,10 @@ export default function CreateOrder() {
     const newOrder = useSelector(selectNewOrder);
     const [order, setOrder] = useSessionStorage(SESSION_NEW_ORDER, newOrder);
 
-    const { register, control, watch, setValue, getValues, errors, handleSubmit, clearErrors } = useForm({
+    const rhfMethods = useForm({
         mode: 'onSubmit',
         defaultValues: {
-            ref: !order.autoGenerateRef && order.ref,
+            ref: !order.autoGenerateRef ? order.ref : null,
             from: order.from,
             fromAdd: order.fromAdd,
             to: order.to || null,
@@ -69,20 +68,24 @@ export default function CreateOrder() {
             pay: order.pay,
             clientRef: order.clientRef,
             notes: order.notes,
-            pol: order.pol,
-            pod: order.pod,
+            pol: order.pol || null,
+            pod: order.pod || null,
             del: order.del,
             carrier: order.carrier,
             currency: order.currency,
             items: order.items,
             custom1: order.custom1,
             custom2: order.custom2,
-            totalQ: new UnitCounter(itemUnitsOptions, order.totalQ),
+            totalQ: order.totalQ,
             totalA: order.totalA,
             saveItems: order.saveItems,
-            autoGenerateRef: order.autoGenerateRef
-        }
+            autoGenerateRef: order.autoGenerateRef,
+            createdBy: order.createdBy
+
+        },
+        shouldUnregister: false
     });
+    const { errors, register, clearErrors, getValues, handleSubmit } = rhfMethods;
 
     const errMessages = Object.values(errors).map(err => err.message);
 
@@ -97,11 +100,10 @@ export default function CreateOrder() {
 
     useEffect(() => {
         register({ name: 'items' }, { validate: validateItems });
-        register({ name: 'custom1' });
-        register({ name: 'custom2' });
+        register({ name: 'custom1'});
+        register({ name: 'custom2'});
         register({ name: 'totalQ' });
         register({ name: 'totalA' });
-        register({ name: 'saveItems' });
     }, [register, validateItems]);
 
     const onPrevClick = () => {
@@ -110,21 +112,24 @@ export default function CreateOrder() {
             history.goBack();
         } else if (step === 'products') {
             clearErrors();
-            //     data.totalQ = data.totalQ.data;
             setOrder(getValues());
             history.push('/home/orders/new/details');
         }
     };
 
-    const onNextClick = (data) => {
+    const onNextClick = () => {
         if (step === 'details') {
-            setOrder(data);
+            setOrder(getValues());
             history.push('/home/orders/new/products');
         } else if (step === 'products') {
-            // data.to = customerMap[chosenCustomer].id;
-            // data.totalQ = data.totalQ.data;
-            // dispatch(submitOrder());
+            handleSubmit(onSubmit)();
         }
+    };
+
+    const onSubmit = (data) => {
+        data.to = data.to._id;
+        dispatch(createOrder(data));
+        dispatch(cleanNewOrder());
     };
 
     return (
@@ -133,30 +138,18 @@ export default function CreateOrder() {
             <DocumentStepper activeStep={ getCurrentStep(step) } steps={ Object.values(stepLabelsMap) }/>
             <Typography variant="h5">{ titleLabel }</Typography>
             <Divider/>
-            <Paper>
-                { errMessages.length > 0 && <ErrorDisplay errors={ errMessages }/> }
-                { step === 'details' && <CreateOrderDetails
-                    register={ register }
-                    control={ control }
-                    watch={ watch }
-                    setValue={ setValue }
-                    getValues={ getValues }
-                    errors={ errors }
-                /> }
-                { step === 'products' && <CreateOrderProducts
-                    watch={ watch }
-                    control={ control }
-                    errors={ errors }
-                    setValue={ setValue }
-                    register={ register }
-                    getValues={ getValues }
-                /> }
-            </Paper>
+            <FormProvider {...rhfMethods}>
+                <Paper>
+                    { errMessages.length > 0 && <ErrorDisplay errors={ errMessages }/> }
+                    { step === 'details' && <CreateOrderDetails /> }
+                    { step === 'products' && <CreateOrderProducts /> }
+                </Paper>
+            </FormProvider>
             <Box className={ classes.footer }>
                 <ThemedButton onClick={ onPrevClick }>
                     { step === 'details' ? prevButtonLabel.details : prevButtonLabel.products }
                 </ThemedButton>
-                <ThemedButton onClick={ handleSubmit(onNextClick) }>
+                <ThemedButton onClick={ onNextClick }>
                     { step === 'details' ? nextButtonLabel.details : nextButtonLabel.products }
                 </ThemedButton>
             </Box>

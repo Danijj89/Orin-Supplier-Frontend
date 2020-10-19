@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Controller } from 'react-hook-form';
+import { Controller, useFormContext } from 'react-hook-form';
 import { LANGUAGE } from '../../app/constants.js';
 import { Divider, Box, Typography } from '@material-ui/core';
 import { formatAddress } from '../shared/utils/format.js';
@@ -48,9 +48,9 @@ const {
     shippingCarrierLabel,
 } = LANGUAGE.order.createOrder.createOrderDetails;
 
-export default function CreateOrderDetails(
-    { register, control, watch, setValue, getValues, errors }) {
+export default function CreateOrderDetails() {
     const classes = useStyles();
+    const { register, control, watch, setValue, getValues, errors } = useFormContext();
     const company = useSelector(selectCurrentCompany);
     const clients = useSelector(selectClientsMap);
     const [clientAddresses, setClientAddresses] = useState([]);
@@ -63,7 +63,8 @@ export default function CreateOrderDetails(
         if (clients.hasOwnProperty(chosenClient?._id)) {
             const newAddressOptions = chosenClient?.addresses || [];
             setClientAddresses(newAddressOptions);
-            if (chosenClient?.incoterm) setValue('incoterm', chosenClient?.incoterm);
+            if (chosenClient?.incoterm) setValue('incoterm', chosenClient.incoterm);
+            if (chosenClient?.payment) setValue('pay', chosenClient.payment);
         }
     }, [chosenClient, clients, setValue]);
 
@@ -72,11 +73,18 @@ export default function CreateOrderDetails(
             <Box className={ classes.details }>
                 <Typography variant="h5">{ detailsTitleLabel }</Typography>
                 <FormContainer>
-                    <SideCheckBox
-                        label={ autoGenerateRefLabel }
+                    <Controller
+                        render={ ({ value, ...rest }) =>
+                            <SideCheckBox
+                                { ...rest }
+                                label={ autoGenerateRefLabel }
+                                checked={ value }
+                            />
+                        }
                         name="autoGenerateRef"
-                        inputRef={ register }
+                        control={ control }
                     />
+
                     <SideTextField
                         label={ orderReferenceLabel }
                         name="ref"
@@ -206,6 +214,8 @@ export default function CreateOrderDetails(
                         render={ (props) => (
                             <SideAutoComplete
                                 { ...props }
+                                freeSolo
+                                autoSelect
                                 options={ ports }
                                 label={ portOfLoadingLabel }
                             />
@@ -217,6 +227,8 @@ export default function CreateOrderDetails(
                         render={ (props) => (
                             <SideAutoComplete
                                 { ...props }
+                                freeSolo
+                                autoSelect
                                 options={ ports }
                                 label={ portOfDestinationLabel }
                             />

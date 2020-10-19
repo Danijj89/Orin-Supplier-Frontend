@@ -14,6 +14,8 @@ export default function SideAutoComplete(
         getOptionLabel,
         getOptionSelected,
         multiple,
+        autoSelect,
+        freeSolo,
         ...props
     }) {
 
@@ -30,6 +32,8 @@ export default function SideAutoComplete(
     return (
         <Autocomplete
             { ...props }
+            freeSolo={freeSolo}
+            autoSelect={autoSelect}
             multiple={ multiple }
             filterSelectedOptions={ multiple }
             options={ options }
@@ -60,4 +64,6 @@ SideAutoComplete.propTypes = {
     getOptionLabel: PropTypes.func,
     getOptionSelected: PropTypes.func,
     multiple: PropTypes.bool,
+    freeSolo: PropTypes.bool,
+    autoSelect: PropTypes.bool
 };

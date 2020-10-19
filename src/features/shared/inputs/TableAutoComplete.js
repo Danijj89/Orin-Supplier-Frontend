@@ -23,20 +23,23 @@ export default function TableAutoComplete(
 
     return (
         <Autocomplete
-            {...props}
+            { ...props }
+            selectOnFocus={ freeSolo }
+            clearOnBlur={ freeSolo }
             className={ classNames }
             disableClearable
-            forcePopupIcon={false}
-            freeSolo={freeSolo}
-            options={options}
+            forcePopupIcon={ false }
+            freeSolo={ freeSolo }
+            autoSelect={ freeSolo }
+            options={ options }
             getOptionLabel={ getOptionLabel }
             getOptionSelected={ getOptionSelected }
-            renderInput={params =>
+            renderInput={ params =>
                 <TableTextField
-                    {...params}
+                    { ...params }
                 />
             }
-            onChange={(_, data) => onChange(data)}
+            onChange={ (_, data) => onChange(data) }
         />
     )
 }
@@ -47,5 +50,5 @@ TableAutoComplete.propTypes = {
     getOptionLabel: PropTypes.func,
     getOptionSelected: PropTypes.func,
     freeSolo: PropTypes.bool,
-    className: PropTypes.string,
+    className: PropTypes.string
 };

@@ -2,7 +2,7 @@ import React from 'react';
 import { Grid } from '@material-ui/core';
 import { LANGUAGE } from '../../app/constants.js';
 import { currenciesOptions } from '../shared/constants.js';
-import { Controller } from 'react-hook-form';
+import { Controller, useFormContext } from 'react-hook-form';
 import SideAutoComplete from '../shared/inputs/SideAutoComplete.js';
 import SideCheckBox from '../shared/inputs/SideCheckBox.js';
 import CreateOrderProductTable from './CreateOrderProductTable.js';
@@ -11,8 +11,8 @@ const { currencyLabel, saveItemsLabel } = LANGUAGE.order.createOrder.createOrder
 const { errorMessages } = LANGUAGE.order.createOrder;
 
 
-export default function CreateOrderProducts({ register, watch, control, errors, setValue, getValues }) {
-
+export default function CreateOrderProducts() {
+    const { control, errors } = useFormContext();
     return (
         <Grid container>
             <Grid
@@ -36,20 +36,20 @@ export default function CreateOrderProducts({ register, watch, control, errors, 
                     control={ control }
                     rules={ { required: errorMessages.currency } }
                 />
-                <SideCheckBox
-                    label={ saveItemsLabel }
+                <Controller
+                    render={ ({ value, ...rest }) =>
+                        <SideCheckBox
+                            { ...rest }
+                            label={ saveItemsLabel }
+                            checked={ value }
+                        />
+                    }
                     name="saveItems"
-                    inputRef={ register }
+                    control={ control }
                 />
             </Grid>
-            <Grid item xs={12}>
-                <CreateOrderProductTable
-                    register={register}
-                    control={control}
-                    setValue={setValue}
-                    getValues={getValues}
-                    watch={watch}
-                />
+            <Grid item xs={ 12 }>
+                <CreateOrderProductTable />
             </Grid>
         </Grid>
     )

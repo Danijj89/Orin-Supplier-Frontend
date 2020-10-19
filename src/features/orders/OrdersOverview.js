@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { LANGUAGE } from '../../app/constants.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchOrders } from './duck/thunks.js';
-import { cleanNewOrder, selectAllOrders } from './duck/slice.js';
+import { cleanNewOrder, cleanOrderStore, selectAllOrders } from './duck/slice.js';
 import { Paper, Container } from '@material-ui/core';
 import { selectOrderStatus } from './duck/selectors.js';
 import Loader from '../shared/components/Loader.js';
@@ -35,6 +35,7 @@ export default function OrdersOverview() {
 
     useEffect(() => {
         if (company) dispatch(fetchOrders(company._id));
+        return () => dispatch(cleanOrderStore());
     }, [dispatch, company]);
 
     const onNewOrderClick = () => {

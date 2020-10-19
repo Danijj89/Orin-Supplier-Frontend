@@ -238,8 +238,7 @@ export const ENGLISH = {
                 currencyLabel: 'Currency',
                 saveItemsLabel: 'Save New Items To Inventory',
                 createOrderProductTable: {
-                    totals: 'Total:',
-                    addRowButton: 'Add',
+                    totalLabel: 'Total:',
                     tableHeaderLabelsMap: {
                         ref: 'Item Reference',
                         description: 'Product Description',
@@ -471,6 +470,9 @@ export const ENGLISH = {
             table: {
                 paginationAllLabel: 'All',
                 rowsPerPageLabel: 'Rows per page',
+            },
+            editableTable: {
+                addRowButtonLabel: 'Add'
             },
             notFound: {
                 message: '404 - Not Found!',
