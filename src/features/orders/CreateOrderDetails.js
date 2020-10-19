@@ -7,7 +7,7 @@ import FormContainer from '../shared/wrappers/FormContainer.js';
 import SideTextField from '../shared/inputs/SideTextField.js';
 import SideAutoComplete from '../shared/inputs/SideAutoComplete.js';
 import { deliveryMethodOptions, incotermOptions } from '../shared/constants.js';
-import TextArea from '../shared/inputs/TextArea.js';
+import SideTextArea from '../shared/inputs/SideTextArea.js';
 import { makeStyles } from '@material-ui/core/styles';
 import SideDateField from '../shared/inputs/SideDateField.js';
 import SideCheckBox from '../shared/inputs/SideCheckBox.js';
@@ -186,7 +186,7 @@ export default function CreateOrderDetails() {
                         name="clientRef"
                         inputRef={ register }
                     />
-                    <TextArea
+                    <SideTextArea
                         label={ notesLabel }
                         name="notes"
                         inputRef={ register }

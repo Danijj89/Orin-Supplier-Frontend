@@ -108,6 +108,7 @@ export const ENGLISH = {
             incotermLabel: 'Default Incoterm',
             paymentLabel: 'Default Payment Term',
             clientSinceLabel: 'Client Since',
+            notesLabel: 'Notes',
             tabsLabelsMap: {
                 addresses: 'Addresses',
                 contacts: 'Contacts',
@@ -490,6 +491,9 @@ export const ENGLISH = {
                 deleteButtonLabel: 'Delete',
                 defaultButtonLabel: 'Default',
                 setDefaultButtonLabel: 'Set as Default'
+            },
+            textAreaCard: {
+                submitLabel: 'Edit'
             }
         },
         buttons: {

@@ -4,7 +4,7 @@ import { LANGUAGE } from '../../../app/constants.js';
 import { useForm } from 'react-hook-form';
 import FormDialog from '../wrappers/FormDialog.js';
 import SideTextField from '../inputs/SideTextField.js';
-import TextArea from '../inputs/TextArea.js';
+import SideTextArea from '../inputs/SideTextArea.js';
 
 const {
     nameLabel,
@@ -101,7 +101,7 @@ export default function ContactDialog(
                 error={ !!errors.department }
                 fullWidth
             />
-            <TextArea
+            <SideTextArea
                 label={ additionalLabel }
                 name="additional"
                 inputRef={ register }

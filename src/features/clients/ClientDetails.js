@@ -4,7 +4,7 @@ import InfoCard from '../shared/wrappers/InfoCard.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectClientById, selectClientError, selectClientStatus } from './duck/selectors.js';
 import { Container } from '@material-ui/core';
-import { fetchClientById } from './duck/thunks.js';
+import { fetchClientById, updateClientNotes } from './duck/thunks.js';
 import Loader from '../shared/components/Loader.js';
 import ColumnInfoDisplay from '../shared/wrappers/ColumnInfoDisplay.js';
 import { LANGUAGE } from '../../app/constants.js';
@@ -15,6 +15,7 @@ import { selectAllUsers, selectUserStatus } from '../users/duck/selectors.js';
 import { isLoading } from '../shared/utils/store.js';
 import { cleanClientStore } from './duck/slice.js';
 import { makeStyles } from '@material-ui/core/styles';
+import TextAreaCard from '../shared/components/TextAreaCard.js';
 
 const {
     assignedToLabel,
@@ -25,6 +26,7 @@ const {
     incotermLabel,
     paymentLabel,
     clientSinceLabel,
+    notesLabel
 } = LANGUAGE.client.clientDetails;
 
 const useStyles = makeStyles((theme) => ({
@@ -43,6 +45,12 @@ export default function ClientDetails({ match }) {
     const userStatus = useSelector(selectUserStatus);
     const loading = isLoading([clientStatus, userStatus]);
     const error = useSelector(selectClientError);
+
+    const onNotesSubmit = (notes) => {
+        console.log(notes);
+        dispatch(updateClientNotes({ id: client._id, notes }));
+    }
+
 
     const leftLabels = [
         assignedToLabel,
@@ -76,24 +84,25 @@ export default function ClientDetails({ match }) {
 
     return (
         <Container>
-            {loading && <Loader />}
-            {error && !client && <Redirect to={'/home/clients'}/>}
-            {client && users && (
+            { loading && <Loader/> }
+            { error && !client && <Redirect to={ '/home/clients' }/> }
+            { client && users && (
                 <InfoCard
-                    title={client.name}
-                    button={<EditClientButton client={client} users={users} />}
-                    className={classes.clientInfoCard}
+                    title={ client.name }
+                    button={ <EditClientButton client={ client } users={ users }/> }
+                    className={ classes.clientInfoCard }
                     content={
                         <ColumnInfoDisplay
-                            leftLabels={leftLabels}
-                            rightLabels={rightLabels}
-                            leftData={leftData}
-                            rightData={rightData}
+                            leftLabels={ leftLabels }
+                            rightLabels={ rightLabels }
+                            leftData={ leftData }
+                            rightData={ rightData }
                         />
                     }
                 />
-            )}
-            {client && <ClientInfoTable client={client} />}
+            ) }
+            { client && <TextAreaCard titleLabel={ notesLabel } value={ client.notes } onSubmit={ onNotesSubmit }/> }
+            { client && <ClientInfoTable client={ client }/> }
         </Container>
     );
 }

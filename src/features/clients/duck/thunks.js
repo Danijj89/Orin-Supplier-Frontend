@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import ClientService from '../../api/ClientService.js';
 
-export const fetchClients = createAsyncThunk('client/fetchClients',
+export const fetchClients = createAsyncThunk('clients/fetchClients',
     async (id, { rejectWithValue }) => {
         try {
             return await ClientService.fetchClients(id);
@@ -10,7 +10,7 @@ export const fetchClients = createAsyncThunk('client/fetchClients',
         }
     });
 
-export const createClient = createAsyncThunk('client/createClient',
+export const createClient = createAsyncThunk('clients/createClient',
     async (client, { rejectWithValue }) => {
         try {
             return await ClientService.createClient(client);
@@ -19,7 +19,7 @@ export const createClient = createAsyncThunk('client/createClient',
         }
     });
 
-export const fetchClientById = createAsyncThunk('client/fetchClientById',
+export const fetchClientById = createAsyncThunk('clients/fetchClientById',
     async (id, { rejectWithValue }) => {
         try {
             return await ClientService.fetchClientById(id);
@@ -28,7 +28,7 @@ export const fetchClientById = createAsyncThunk('client/fetchClientById',
         }
     });
 
-export const updateClient = createAsyncThunk('client/updateClient',
+export const updateClient = createAsyncThunk('clients/updateClient',
     async ({ id, ...update }, { rejectWithValue }) => {
         try {
             return await ClientService.updateClient(id, update);
@@ -37,7 +37,7 @@ export const updateClient = createAsyncThunk('client/updateClient',
         }
     });
 
-export const addNewClientAddress = createAsyncThunk('client/addNewClientAddress',
+export const addNewClientAddress = createAsyncThunk('clients/addNewClientAddress',
     async ({ clientId, ...address }, { rejectWithValue }) => {
         try {
             return await ClientService.addNewClientAddress(clientId, address);
@@ -46,7 +46,7 @@ export const addNewClientAddress = createAsyncThunk('client/addNewClientAddress'
         }
     });
 
-export const deleteClientAddress = createAsyncThunk('client/deleteClientAddress',
+export const deleteClientAddress = createAsyncThunk('clients/deleteClientAddress',
     async ({ clientId, addressId }, { rejectWithValue }) => {
         try {
             await ClientService.deleteClientAddress(clientId, addressId);
@@ -56,7 +56,7 @@ export const deleteClientAddress = createAsyncThunk('client/deleteClientAddress'
         }
     });
 
-export const updateDefaultClientAddress = createAsyncThunk('client/updateDefaultClientAddress',
+export const updateDefaultClientAddress = createAsyncThunk('clients/updateDefaultClientAddress',
     async ({ clientId, addressId }, { rejectWithValue }) => {
         try {
             await ClientService.updateDefaultClientAddress(clientId, addressId);
@@ -66,7 +66,7 @@ export const updateDefaultClientAddress = createAsyncThunk('client/updateDefault
         }
     });
 
-export const updateAddress = createAsyncThunk('client/updateAddress',
+export const updateAddress = createAsyncThunk('clients/updateAddress',
     async ({ clientId, ...update }, { rejectWithValue }) => {
         try {
             await ClientService.updateAddress(clientId, update._id, update);
@@ -76,7 +76,7 @@ export const updateAddress = createAsyncThunk('client/updateAddress',
         }
     });
 
-export const addNewClientContact = createAsyncThunk('client/addNewClientContact',
+export const addNewClientContact = createAsyncThunk('clients/addNewClientContact',
     async ({ clientId, ...contact }, { rejectWithValue }) => {
         try {
             return await ClientService.addNewClientContact(clientId, contact);
@@ -95,7 +95,7 @@ export const deleteContact = createAsyncThunk('client/deleteContact',
         }
     });
 
-export const updateContact = createAsyncThunk('client/updateContact',
+export const updateContact = createAsyncThunk('clients/updateContact',
     async ({ clientId, ...update }, { rejectWithValue }) => {
         try {
             await ClientService.updateContact(clientId, update._id, update);
@@ -105,12 +105,22 @@ export const updateContact = createAsyncThunk('client/updateContact',
         }
     });
 
-export const deleteClient = createAsyncThunk('client/deleteClient',
-    async (clientId, {rejectWithValue}) => {
+export const deleteClient = createAsyncThunk('clients/deleteClient',
+    async (clientId, { rejectWithValue }) => {
         try {
             await ClientService.deleteClient(clientId);
             return clientId;
         } catch (err) {
             return rejectWithValue(err.response.data);
         }
-    })
+    });
+
+export const updateClientNotes = createAsyncThunk('clients/updateClientNotes',
+    async ({ id, notes }, { rejectWithValue }) => {
+        try {
+            await ClientService.updateClientNotes(id, { notes });
+            return { id, notes };
+        } catch (err) {
+            return rejectWithValue(err.response.data);
+        }
+    });

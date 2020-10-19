@@ -5,7 +5,7 @@ import {
     deleteClientAddress, deleteContact,
     fetchClientById,
     fetchClients, updateAddress,
-    updateClient, updateContact, updateDefaultClientAddress
+    updateClient, updateClientNotes, updateContact, updateDefaultClientAddress
 } from './thunks.js';
 
 export const clientsAdapter = createEntityAdapter({
@@ -91,7 +91,7 @@ const clientsSlice = createSlice({
         [deleteClientAddress.fulfilled]: (state, action) => {
             const { clientId, addressId } = action.payload;
             const newAddresses = state.entities[clientId].addresses.filter(add => add._id !== addressId);
-            clientsAdapter.updateOne(state, { id: clientId, changes: { addresses: newAddresses }});
+            clientsAdapter.updateOne(state, { id: clientId, changes: { addresses: newAddresses } });
             state.status = 'IDLE';
         },
         [deleteClientAddress.rejected]: (state, action) => {
@@ -104,7 +104,7 @@ const clientsSlice = createSlice({
         [updateDefaultClientAddress.fulfilled]: (state, action) => {
             const { clientId, addressId } = action.payload;
             const newDefaultAddress = state.entities[clientId].addresses.find(add => add._id === addressId);
-            clientsAdapter.updateOne(state, { id: clientId, changes: { defaultAddress: newDefaultAddress }});
+            clientsAdapter.updateOne(state, { id: clientId, changes: { defaultAddress: newDefaultAddress } });
             state.status = 'IDLE';
         },
         [updateDefaultClientAddress.rejected]: (state, action) => {
@@ -118,7 +118,7 @@ const clientsSlice = createSlice({
             const { clientId, ...updatedAddress } = action.payload;
             const updatedAddresses = state.entities[clientId].addresses.map(
                 add => add._id === updatedAddress._id ? updatedAddress : add);
-            clientsAdapter.updateOne(state, { id: clientId, changes: { addresses: updatedAddresses }});
+            clientsAdapter.updateOne(state, { id: clientId, changes: { addresses: updatedAddresses } });
             state.status = 'IDLE';
         },
         [updateAddress.rejected]: (state, action) => {
@@ -143,7 +143,7 @@ const clientsSlice = createSlice({
         [deleteContact.fulfilled]: (state, action) => {
             const { clientId, contactId } = action.payload;
             const newContacts = state.entities[clientId].contacts.filter(c => c._id !== contactId);
-            clientsAdapter.updateOne(state, { id: clientId, changes: { contacts: newContacts }});
+            clientsAdapter.updateOne(state, { id: clientId, changes: { contacts: newContacts } });
             state.status = 'IDLE';
         },
         [deleteContact.rejected]: (state, action) => {
@@ -157,7 +157,7 @@ const clientsSlice = createSlice({
             const { clientId, ...updatedContact } = action.payload;
             const updatedContacts = state.entities[clientId].contacts.map(
                 c => c._id === updatedContact._id ? updatedContact : c);
-            clientsAdapter.updateOne(state, { id: clientId, changes: { contacts: updatedContacts }});
+            clientsAdapter.updateOne(state, { id: clientId, changes: { contacts: updatedContacts } });
             state.status = 'IDLE';
         },
         [updateContact.rejected]: (state, action) => {
@@ -172,6 +172,18 @@ const clientsSlice = createSlice({
             state.status = 'IDLE';
         },
         [deleteClient.rejected]: (state, action) => {
+            state.status = 'REJECTED';
+            state.error = action.payload.message;
+        },
+        [updateClientNotes.pending]: (state, action) => {
+            state.status = 'PENDING';
+        },
+        [updateClientNotes.fulfilled]: (state, action) => {
+            const { id, notes: changes } = action.payload;
+            clientsAdapter.updateOne(state, { id, changes });
+            state.status = 'IDLE';
+        },
+        [updateClientNotes.rejected]: (state, action) => {
             state.status = 'REJECTED';
             state.error = action.payload.message;
         }
