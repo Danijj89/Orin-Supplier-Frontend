@@ -8,7 +8,7 @@ import { deleteProduct, updateProduct } from './duck/thunks.js';
 const {
     tableHeadersMap,
     editDialogSubmitLabel,
-    editDialogTitleLabel
+    editDialogTitleLabel,
 } = LANGUAGE.product.overview.productTable;
 
 export default function ProductTable({ products, isLoading }) {
@@ -37,13 +37,25 @@ export default function ProductTable({ products, isLoading }) {
         { field: 'sku', headerName: tableHeadersMap.sku },
         { field: 'name', headerName: tableHeadersMap.name },
         { field: 'description', headerName: tableHeadersMap.description },
-        { field: 'lastOrder', headerName: tableHeadersMap.lastOrder, type: 'date' },
-        { field: 'salesYTD', headerName: tableHeadersMap.salesYTD, type: 'number' },
-        { field: 'orderCountYTD', headerName: tableHeadersMap.orderCountYTD, type: 'number' },
-        { field: 'hsc', headerName: tableHeadersMap.hsc }
+        {
+            field: 'lastOrder',
+            headerName: tableHeadersMap.lastOrder,
+            type: 'date',
+        },
+        {
+            field: 'salesYTD',
+            headerName: tableHeadersMap.salesYTD,
+            type: 'number',
+        },
+        {
+            field: 'orderCountYTD',
+            headerName: tableHeadersMap.orderCountYTD,
+            type: 'number',
+        },
+        { field: 'hsc', headerName: tableHeadersMap.hsc },
     ];
 
-    const rows = Object.values(products).map(product => ({
+    const rows = Object.values(products).map((product) => ({
         id: product._id,
         sku: product.sku,
         name: product.name,
@@ -51,29 +63,29 @@ export default function ProductTable({ products, isLoading }) {
         lastOrder: product.lastOrder,
         salesYTD: product.salesYTD,
         orderCountYTD: product.orderCountYTD,
-        hsc: product.hsc
+        hsc: product.hsc,
     }));
 
     return (
         <>
             <Table
-                columns={ columns }
-                rows={ rows }
-                isLoading={ isLoading }
-                onRowClick={ onRowClick }
+                columns={columns}
+                rows={rows}
+                isLoading={isLoading}
+                onRowClick={onRowClick}
             />
-            { product &&
-            <ProductDialog
-                isOpen={ isEdit }
-                product={ product }
-                titleLabel={ editDialogTitleLabel }
-                submitLabel={ editDialogSubmitLabel }
-                onCancel={ onEditCancel }
-                onSubmit={ onEditSubmit }
-                onDelete={ () => onDelete(product._id) }
-                isEdit
-            />
-            }
+            {product && (
+                <ProductDialog
+                    isOpen={isEdit}
+                    product={product}
+                    titleLabel={editDialogTitleLabel}
+                    submitLabel={editDialogSubmitLabel}
+                    onCancel={onEditCancel}
+                    onSubmit={onEditSubmit}
+                    onDelete={() => onDelete(product._id)}
+                    isEdit
+                />
+            )}
         </>
-    )
+    );
 }

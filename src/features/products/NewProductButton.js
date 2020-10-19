@@ -5,14 +5,22 @@ import ProductDialog from '../shared/forms/ProductDialog.js';
 import { useDispatch } from 'react-redux';
 import { LANGUAGE } from '../../app/constants.js';
 import { createProduct } from './duck/thunks.js';
+import { makeStyles } from '@material-ui/core/styles';
 
 const {
     buttonLabel,
     dialogTitleLabel,
-    dialogSubmitLabel
+    dialogSubmitLabel,
 } = LANGUAGE.product.overview.newProductButton;
 
+const useStyles = makeStyles((theme) => ({
+    newProduct: {
+        margin: theme.spacing(2),
+    },
+}));
+
 export default function NewProductButton({ companyId }) {
+    const classes = useStyles();
     const dispatch = useDispatch();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const product = { company: companyId };
@@ -28,17 +36,17 @@ export default function NewProductButton({ companyId }) {
 
     return (
         <Box>
-            <ThemedButton
-                onClick={ onClick }
-            >{ buttonLabel }</ThemedButton>
+            <ThemedButton onClick={onClick} className={classes.newProduct}>
+                {buttonLabel}
+            </ThemedButton>
             <ProductDialog
-                isOpen={ isDialogOpen }
-                product={ product }
-                titleLabel={ dialogTitleLabel }
-                submitLabel={ dialogSubmitLabel }
-                onCancel={ onCancel }
-                onSubmit={ onSubmit }
+                isOpen={isDialogOpen}
+                product={product}
+                titleLabel={dialogTitleLabel}
+                submitLabel={dialogSubmitLabel}
+                onCancel={onCancel}
+                onSubmit={onSubmit}
             />
         </Box>
-    )
+    );
 }

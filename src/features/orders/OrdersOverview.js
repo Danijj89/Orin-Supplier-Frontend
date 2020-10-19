@@ -11,10 +11,21 @@ import ThemedButton from '../shared/buttons/ThemedButton.js';
 import OrdersTable from './OrdersTable.js';
 import { isLoading } from '../shared/utils/store.js';
 import { selectCurrentCompany } from '../home/duck/selectors.js';
+import { makeStyles } from '@material-ui/core/styles';
 
 const { newOrderButtonLabel } = LANGUAGE.order.ordersOverview;
 
+const useStyles = makeStyles((theme) => ({
+    orderOverviewRoot: {
+        margin: theme.spacing(2),
+    },
+    newOrder: {
+        margin: theme.spacing(2),
+    },
+}));
+
 export default function OrdersOverview() {
+    const classes = useStyles();
     const dispatch = useDispatch();
     const history = useHistory();
     const company = useSelector(selectCurrentCompany);
@@ -27,19 +38,20 @@ export default function OrdersOverview() {
     }, [dispatch, company]);
 
     const onNewOrderClick = () => {
-        dispatch(cleanNewOrder())
-        history.push('/home/orders/new/details')
+        dispatch(cleanNewOrder());
+        history.push('/home/orders/new/details');
     };
 
     return (
-        <Container>
-            <Paper>
-                <ThemedButton onClick={onNewOrderClick}>
-                    {newOrderButtonLabel}
-                </ThemedButton>
-                { loading && <Loader/> }
-                { orders && <OrdersTable orders={ orders }/> }
-            </Paper>
-        </Container>
-    )
+        <Paper className={classes.orderOverviewRoot}>
+            <ThemedButton
+                className={classes.newOrder}
+                onClick={onNewOrderClick}
+            >
+                {newOrderButtonLabel}
+            </ThemedButton>
+            {loading && <Loader />}
+            {orders && <OrdersTable orders={orders} />}
+        </Paper>
+    );
 }
