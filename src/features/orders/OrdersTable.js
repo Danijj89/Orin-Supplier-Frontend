@@ -9,7 +9,7 @@ const { ordersTableHeadersMap } = LANGUAGE.order.ordersOverview;
 export default function OrdersTable({ orders }) {
     const history = useHistory();
 
-    const onRowClick = (params) => history.push(`/home/orders/${ params.id }`)
+    const onRowClick = (params) => history.push(`/home/orders/${ params.id }`);
 
     const columns = [
         { field: 'id', hide: true },
