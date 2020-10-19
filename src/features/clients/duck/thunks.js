@@ -104,3 +104,13 @@ export const updateContact = createAsyncThunk('client/updateContact',
             return rejectWithValue(err.response.data);
         }
     });
+
+export const deleteClient = createAsyncThunk('client/deleteClient',
+    async (clientId, {rejectWithValue}) => {
+        try {
+            await ClientService.deleteClient(clientId);
+            return clientId;
+        } catch (err) {
+            return rejectWithValue(err.response.data);
+        }
+    })

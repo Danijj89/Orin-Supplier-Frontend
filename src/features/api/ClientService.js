@@ -108,6 +108,15 @@ const updateContact = async (clientId, contactId, update) => {
     return data;
 };
 
+const deleteClient = async (clientId) => {
+    const configs = {
+        method: 'delete',
+        url: `clients/${clientId}`
+    };
+    const { data } = await fetchWithAuth(configs);
+    return data;
+};
+
 const ClientService = {
     fetchClients,
     createClient,
@@ -119,7 +128,8 @@ const ClientService = {
     updateAddress,
     addNewClientContact,
     deleteContact,
-    updateContact
+    updateContact,
+    deleteClient
 };
 
 export default ClientService;

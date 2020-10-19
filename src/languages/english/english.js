@@ -445,6 +445,7 @@ export const ENGLISH = {
                 incotermLabel: 'Default Incoterm',
                 paymentTermLabel: 'Default Payment Term',
                 notesLabel: 'Notes',
+                deleteMessage: 'Are you sure you want to delete this client?'
             },
             contactDialog: {
                 nameLabel: 'Name',

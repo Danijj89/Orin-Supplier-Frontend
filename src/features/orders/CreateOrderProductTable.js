@@ -96,7 +96,7 @@ export default function CreateOrderProductTable() {
                 newItem[key] = newValue;
         }
         setValue('items', [...items.slice(0, rowIdx), newItem, ...items.slice(rowIdx + 1)])
-    }, [items, setValue, totalA, totalQ]);
+    }, [items, setValue, totalA, totalQ, products]);
 
     const columns = [
         { field: 'id', hide: true },

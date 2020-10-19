@@ -17,7 +17,8 @@ const {
     sourceLabel,
     incotermLabel,
     paymentTermLabel,
-    notesLabel
+    notesLabel,
+    deleteMessage
 } = LANGUAGE.shared.forms.clientDialog;
 
 export default function ClientDialog(
@@ -29,7 +30,8 @@ export default function ClientDialog(
         client,
         users,
         titleLabel,
-        isEdit
+        isEdit,
+        onDelete
     }) {
     const { register, errors, formState, handleSubmit, control, reset, getValues } = useForm({
         mode: 'onChange'
@@ -61,6 +63,8 @@ export default function ClientDialog(
             submitLabel={ submitLabel }
             onCancel={ onCancel }
             onSubmit={ handleSubmit(onFormSubmit) }
+            onDelete={ onDelete }
+            deleteMessage={ deleteMessage }
         >
             <SideTextField
                 name="name"
@@ -147,5 +151,6 @@ ClientDialog.propTypes = {
     titleLabel: PropTypes.string.isRequired,
     users: PropTypes.array.isRequired,
     client: PropTypes.object,
-    isEdit: PropTypes.bool
+    isEdit: PropTypes.bool,
+    onDelete: PropTypes.func
 };

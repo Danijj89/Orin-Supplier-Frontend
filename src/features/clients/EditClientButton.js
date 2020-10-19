@@ -4,7 +4,7 @@ import { Box } from '@material-ui/core';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import ClientDialog from '../shared/forms/ClientDialog.js';
 import { LANGUAGE } from '../../app/constants.js';
-import { updateClient } from './duck/thunks.js';
+import { deleteClient, updateClient } from './duck/thunks.js';
 
 const {
     buttonLabel,
@@ -19,13 +19,15 @@ export default function EditClientButton({ client, users, ...props }) {
     const onEdit = () => setIsEdit(true);
     const onCancelEditDialog = () => setIsEdit(false);
 
+    const onDelete = (id) => dispatch(deleteClient(id));
+
     const onSubmitEditDialog = (data) => {
         const { contactName, contactEmail, ...rest} = data;
         rest.id = client._id;
         rest.assignedTo = data.assignedTo._id;
         dispatch(updateClient(rest));
         setIsEdit(false);
-    }
+    };
 
     return (
         <Box { ...props }>
@@ -43,6 +45,7 @@ export default function EditClientButton({ client, users, ...props }) {
                 submitLabel={ dialogSubmitLabel }
                 onSubmit={ onSubmitEditDialog }
                 onCancel={ onCancelEditDialog }
+                onDelete={() => onDelete(client._id)}
                 isEdit
             />
         </Box>
