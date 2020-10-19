@@ -119,23 +119,10 @@ export const ENGLISH = {
                 dialogTitleLabel: 'Edit Client',
                 dialogSubmitLabel: 'Update',
             },
-            clientAddressTable: {
+            clientAddressCards: {
+                addressesTableTitleLabel: 'Addresses',
                 editAddressDialogTitleLabel: 'Edit Address',
-                editAddressDialogSubmitLabel: 'Update Address',
-                defaultAddressButtonLabel: 'Default',
-                setDefaultButtonLabel: 'Set Default',
-                addressTableHeadersMap: {
-                    type: 'Label',
-                    name: 'Entity Name',
-                    address: 'Address',
-                    address2: 'Address 2',
-                    city: 'City',
-                    administrative: 'State',
-                    country: 'Country',
-                    zip: 'Zip',
-                    phone: 'Phone',
-                    email: 'Email',
-                },
+                editAddressDialogSubmitLabel: 'Update Address'
             },
             clientContactsTable: {
                 contactTableHeadersMap: {

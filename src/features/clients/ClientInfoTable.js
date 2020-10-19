@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Paper, Tab, Tabs } from '@material-ui/core';
 import { LANGUAGE } from '../../app/constants.js';
-import ClientAddressesTable from './ClientAddressesTable.js';
 import ClientContactsTable from './ClientContactsTable.js';
 import ClientOrdersTable from './ClientOrdersTable.js';
+import ClientAddressCards from './ClientAddressCards.js';
 
 const { tabsLabelsMap } = LANGUAGE.client.clientDetails;
 
@@ -28,7 +28,7 @@ export default function ClientInfoTable({ client }) {
                         component="span"
                     />) }
             </Tabs>
-            { client && tabValue === 'addresses' && <ClientAddressesTable client={ client }/> }
+            { client && tabValue === 'addresses' && <ClientAddressCards client={ client }/> }
             { client && tabValue === 'contacts' && <ClientContactsTable client={ client }/> }
             { client && tabValue === 'orders' && <ClientOrdersTable orders={ client.orders }/> }
         </Paper>
