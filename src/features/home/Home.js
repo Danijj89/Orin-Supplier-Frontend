@@ -14,6 +14,7 @@ import ClientDetails from '../clients/ClientDetails.js';
 import ClientOverview from '../clients/ClientOverview.js';
 import { Switch, Redirect } from 'react-router-dom';
 import ProductOverview from '../products/ProductOverview.js';
+import Order from '../orders/Order.js';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -55,42 +56,48 @@ export default function Home({ match }) {
                 <Switch>
                     <Route
                         exact
-                        path={ [`${match.url}`, `${match.url}/orders`] }
+                        path={ [`${ match.url }`, `${ match.url }/orders`] }
                         component={ OrdersOverview }
                         isPrivate
                     />
                     <Route
                         exact
-                        path={ `${match.url}/orders/new/:step` }
+                        path={ `${ match.url }/orders/:id` }
+                        component={ Order }
+                        isPrivate
+                    />
+                    <Route
+                        exact
+                        path={ `${ match.url }/orders/new/:step` }
                         component={ CreateOrderContainer }
                         isPrivate
                     />
                     <Route
                         exact
-                        path={ `${match.url}/settings/:tab` }
+                        path={ `${ match.url }/settings/:tab` }
                         component={ Settings }
                         isPrivate
                     />
                     <Route
                         exact
-                        path={ `${match.url}/clients/:id` }
+                        path={ `${ match.url }/clients/:id` }
                         component={ ClientDetails }
                         isPrivate
                     />
                     <Route
                         exact
-                        path={ `${match.url}/clients` }
+                        path={ `${ match.url }/clients` }
                         component={ ClientOverview }
                         isPrivate
                     />
                     <Route
                         exact
-                        path={ `${match.url}/products` }
+                        path={ `${ match.url }/products` }
                         component={ ProductOverview }
                         isPrivate
                     />
                     <Route
-                        component={() => <Redirect to={'/not_found'}/>}
+                        component={ () => <Redirect to={ '/not_found' }/> }
                     />
                 </Switch>
             </Grid>
