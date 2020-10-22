@@ -3,21 +3,12 @@ import { useHistory } from 'react-router-dom';
 import { ChatBubble as IconChatFull, ChatBubbleOutline as IconChatEmpty } from '@material-ui/icons';
 import { LANGUAGE } from '../../app/constants.js';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
-import { Card } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
 import Table from '../shared/components/Table.js';
-
-const useStyles = makeStyles((theme) => ({
-    container: {
-        height: 300,
-        margin: theme.spacing(3),
-    }
-}));
 
 const { clientTableHeadersMap } = LANGUAGE.client.clientOverview;
 
-export default function ClientsTable({ clients }) {
-    const classes = useStyles();
+export default function ClientsTable({ clients, isLoading }) {
+
     const history = useHistory();
 
     const onRowClick = (row) =>
@@ -52,8 +43,8 @@ export default function ClientsTable({ clients }) {
     }));
 
     return (
-        <Card className={ classes.container }>
-            <Table rows={ rows } columns={ columns } onRowClick={onRowClick}/>
-        </Card>
+
+            <Table rows={ rows } columns={ columns } onRowClick={onRowClick} isLoading={isLoading}/>
+
     )
 }

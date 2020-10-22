@@ -5,10 +5,18 @@ import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { LANGUAGE } from '../../app/constants.js';
 import { Box } from '@material-ui/core';
 import ClientDialog from '../shared/forms/ClientDialog.js';
+import { makeStyles } from '@material-ui/core/styles';
 
 const { newClientButtonLabel, newClientDialogTitleLabel, newClientSubmitButtonLabel } = LANGUAGE.client.clientOverview;
 
+const useStyles = makeStyles((theme) => ({
+    newClient: {
+        margin: theme.spacing(2),
+    },
+}));
+
 export default function NewClientButton({ userId, companyId, users, ...props }) {
+    const classes = useStyles();
     const dispatch = useDispatch();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const client = { assignedTo: users.find(user => user._id === userId) };
@@ -31,6 +39,7 @@ export default function NewClientButton({ userId, companyId, users, ...props }) 
         <Box { ...props }>
             <ThemedButton
                 onClick={ onClick }
+                className={classes.newClient}
             >{ newClientButtonLabel }</ThemedButton>
             <ClientDialog
                 isOpen={ isDialogOpen }

@@ -6,7 +6,7 @@ import UnitCounter from '../shared/classes/UnitCounter.js';
 
 const { ordersTableHeadersMap } = LANGUAGE.order.ordersOverview;
 
-export default function OrdersTable({ orders }) {
+export default function OrdersTable({ orders, isLoading }) {
     const history = useHistory();
 
     const onRowClick = (params) => history.push(`/home/orders/${ params.id }`);
@@ -36,6 +36,6 @@ export default function OrdersTable({ orders }) {
     }));
 
     return (
-        <Table columns={ columns } rows={ rows } onRowClick={ onRowClick }/>
+        <Table columns={ columns } rows={ rows } isLoading={isLoading} onRowClick={ onRowClick }/>
     )
 }
