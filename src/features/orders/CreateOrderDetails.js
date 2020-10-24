@@ -84,7 +84,6 @@ export default function CreateOrderDetails() {
                         name="autoGenerateRef"
                         control={ control }
                     />
-
                     <SideTextField
                         label={ orderReferenceLabel }
                         name="ref"
@@ -147,7 +146,7 @@ export default function CreateOrderDetails() {
                                 label={ clientAddressLabel }
                                 error={ !!errors.toAdd }
                                 getOptionLabel={ address => formatAddress(address) }
-                                getOptionSelected={ client => client._id === getValues('toAdd')._id }
+                                getOptionSelected={ address => address._id === getValues('toAdd')._id }
                                 required
                             />
                         ) }

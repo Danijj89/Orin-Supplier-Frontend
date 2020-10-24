@@ -62,14 +62,14 @@ export default function Home({ match }) {
                     />
                     <Route
                         exact
-                        path={ `${ match.url }/orders/:id` }
-                        component={ Order }
+                        path={ `${ match.url }/orders/new/:step` }
+                        component={ CreateOrderContainer }
                         isPrivate
                     />
                     <Route
                         exact
-                        path={ `${ match.url }/orders/new/:step` }
-                        component={ CreateOrderContainer }
+                        path={ [`${ match.url }/orders/:id`, `${match.url}/orders/:id/details`] }
+                        component={ Order }
                         isPrivate
                     />
                     <Route

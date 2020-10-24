@@ -28,6 +28,15 @@ export const createOrder = createAsyncThunk('orders/createOrder',
         }
     });
 
+export const fetchOrderById = createAsyncThunk('orders/fetchOrderById',
+    async (id, { rejectWithValue }) => {
+        try {
+            return await OrderService.fetchOrderById(id);
+        } catch (err) {
+            return rejectWithValue(err.response.data);
+        }
+    })
+
 export const updateOrderStatus = createAsyncThunk('orders/updateOrderStatus',
     async ({ orderId, data }) => {
         const statuses = await OrderService.updateOrderStatus(orderId, data);
@@ -38,13 +47,6 @@ export const updateOrderStatus = createAsyncThunk('orders/updateOrderStatus',
 export const deleteOrder = createAsyncThunk('orders/deleteOrder', async (orderId) => {
     return await OrderService.deleteOrder(orderId);
 });
-
-export const fetchOrderOptions = createAsyncThunk('orders/fetchOrderOptions',
-    async (_, { getState }) => {
-        const { company } = getState().home;
-        return OrderService.fetchOrderOptions(company._id);
-    }
-);
 
 export const fetchSelectedOrderById = createAsyncThunk('orders/fetchSelectedOrderById',
     async (id, { dispatch }) => {

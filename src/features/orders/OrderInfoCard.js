@@ -56,7 +56,6 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const { editButton } = LANGUAGE.order.orderInfoCard;
 
 export default function OrderInfoCard({ title, onEdit, isEdit, onCancel, onConfirm, children }) {
     const classes = useStyles();
@@ -77,7 +76,7 @@ export default function OrderInfoCard({ title, onEdit, isEdit, onCancel, onConfi
                     { !isEdit && onEdit && <Box className={ classes.buttons }>
                         <ThemedButton
                             onClick={ onEdit }
-                            text={ editButton }
+                            text={ 'edit' }
                             variant="outlined"
                         />
                     </Box> }

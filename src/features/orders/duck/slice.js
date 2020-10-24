@@ -1,5 +1,5 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import { createOrder, fetchOrders, startNewOrder } from './thunks.js';
+import { createOrder, fetchOrderById, fetchOrders, startNewOrder } from './thunks.js';
 import { SESSION_NEW_ORDER } from '../../../app/sessionKeys.js';
 import { defaultRowValues } from '../utils/constants.js';
 
@@ -87,6 +87,30 @@ const ordersSlice = createSlice({
             state.status = 'REJECTED';
             state.error = action.payload.message;
         },
+        [fetchOrderById.pending]: (state, action) => {
+            state.status = 'PENDING';
+        },
+        [fetchOrderById.fulfilled]: (state, action) => {
+            ordersAdapter.upsertOne(state, action.payload);
+            state.status = 'IDLE';
+        },
+        [fetchOrderById.rejected]: (state, action) => {
+            state.status = 'REJECTED';
+            state.error = action.payload.message;
+        },
+        // [fetchSelectedOrderById.pending]: (state, action) => {
+        //     state.status = 'PENDING';
+        // },
+        // [fetchSelectedOrderById.fulfilled]: (state, action) => {
+        //     state.status = 'IDLE';
+        //     const { _id: id } = action.payload;
+        //     state.currentPOId = id;
+        //     ordersAdapter.updateOne(state, { id, changes: action.payload })
+        // },
+        // [fetchSelectedOrderById.rejected]: (state, action) => {
+        //     state.status = 'REJECTED';
+        //     state.error = action.error.message;
+        // },
         // [submitOrder.pending]: (state, action) => {
         //     state.status = 'PENDING';
         // },
@@ -125,17 +149,6 @@ const ordersSlice = createSlice({
         //     state.status = 'REJECTED';
         //     state.error = action.error.message;
         // },
-        // [fetchOrderOptions.pending]: (state, action) => {
-        //     state.status = 'PENDING';
-        // },
-        // [fetchOrderOptions.fulfilled]: (state, action) => {
-        //     state.status = 'IDLE';
-        //     state.autocomplete = action.payload;
-        // },
-        // [fetchOrderOptions.rejected]: (state, action) => {
-        //     state.status = 'REJECTED';
-        //     state.error = action.error.message;
-        // },
         // [submitOrderForPreview.pending]: (state, action) => {
         //     state.status = 'PENDING';
         // },
@@ -149,19 +162,7 @@ const ordersSlice = createSlice({
         // },
 
 
-        // [fetchSelectedOrderById.pending]: (state, action) => {
-        //     state.status = 'PENDING';
-        // },
-        // [fetchSelectedOrderById.fulfilled]: (state, action) => {
-        //     state.status = 'IDLE';
-        //     const { _id: id } = action.payload;
-        //     state.currentPOId = id;
-        //     ordersAdapter.updateOne(state, { id, changes: action.payload })
-        // },
-        // [fetchSelectedOrderById.rejected]: (state, action) => {
-        //     state.status = 'REJECTED';
-        //     state.error = action.error.message;
-        // },
+
     }
 });
 

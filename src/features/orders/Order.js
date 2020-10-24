@@ -1,61 +1,60 @@
 import React, { useEffect, useState } from 'react';
-import { Grid, Tabs, Tab } from '@material-ui/core';
-import { LANGUAGE } from '../../app/constants.js';
+import { Paper, Box, Tabs, Tab } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
 import { selectOrderById } from './duck/slice.js';
-import { fetchOrderOptions } from './duck/thunks.js';
+import { LANGUAGE } from '../../app/constants.js';
+import OrderInfoCards from './OrderInfoCards.js';
+import { fetchOrderById } from './duck/thunks.js';
+import { selectUserStatus } from '../users/duck/selectors.js';
+import { selectOrderStatus } from './duck/selectors.js';
+import { isLoading } from '../shared/utils/store.js';
+import Loader from '../shared/components/Loader.js';
+import { selectCurrentCompany, selectHomeStatus } from '../home/duck/selectors.js';
+import { selectClientStatus } from '../clients/duck/selectors.js';
+import { fetchClients } from '../clients/duck/thunks.js';
 
-const useStyles = makeStyles((theme) => ({
-    container: {
-        paddingLeft: theme.spacing(5),
-        paddingRight: theme.spacing(5),
-        paddingTop: theme.spacing(2),
-        paddingBottom: theme.spacing(2)
-    },
-    details: {
-        padding: theme.spacing(2)
-    }
-}));
-
-const { tabsLabel } = LANGUAGE.order.order;
+const { tabsLabelsMap } = LANGUAGE.order.order;
 
 export default function Order({ match }) {
-    const classes = useStyles();
-    const history = useHistory();
     const dispatch = useDispatch();
-    const { id, page } = match.params;
+    const { id } = match.params;
     const order = useSelector(state => selectOrderById(state, id));
-    const initialPage = page === 0 || page === 1 ? page : 0;
-    const [tabValue, setTabValue] = useState(initialPage);
+    const company = useSelector(selectCurrentCompany);
+    const userStatus = useSelector(selectUserStatus);
+    const orderStatus = useSelector(selectOrderStatus);
+    const homeStatus = useSelector(selectHomeStatus);
+    const clientStatus = useSelector(selectClientStatus);
+    const loading = isLoading([userStatus, orderStatus, homeStatus, clientStatus]);
+    const [tabValue, setTabValue] = useState('details');
 
     useEffect(() => {
-        dispatch(fetchOrderOptions());
-    }, [dispatch]);
+        if (!order) dispatch(fetchOrderById(id));
+        if (clientStatus === 'IDLE' && company) dispatch(fetchClients(company._id));
+    }, [dispatch, order, id, clientStatus, company]);
 
-    const onTabChange = (event, newValue) => {
-        setTabValue(newValue);
-        history.push(`/home/orders/${ id }/${ newValue }`);
-    };
+    const onTabChange = (event, newValue) => setTabValue(newValue);
 
     return (
-        <Grid container className={ classes.container }>
-            <Grid item xs={ 12 }>
+        <Box>
+            { loading && <Loader/> }
+            { order && company && !loading && <OrderInfoCards order={ order }/> }
+            <Paper>
                 <Tabs
                     value={ tabValue }
                     onChange={ onTabChange }
                     indicatorColor='primary'
                     textColor='primary'
-                    className={ classes.details }
                 >
-                    {tabsLabel.map(tab => <Tab key={tab} label={tab} component="span" />)}
+                    { Object.entries(tabsLabelsMap).map(([value, label]) =>
+                        <Tab key={ value } label={ label } value={ value } component="span"/>
+                    ) }
                 </Tabs>
-            </Grid>
-            {/*<Grid item xs={12}>*/}
-            {/*    { order && tabValue === 0 && <OrderDetails order={order}/> }*/}
-            {/*    { order && tabValue === 1 && <OrderProductTable order={ order }/> }*/}
-            {/*</Grid>*/}
-        </Grid>
+                {/*<Grid item xs={12}>*/ }
+                {/*    { order && tabValue === 0 && <OrderInfoCards order={order}/> }*/ }
+                {/*    { order && tabValue === 1 && <OrderProductTable order={ order }/> }*/ }
+                {/*</Grid>*/ }
+            </Paper>
+        </Box>
     )
 }
+

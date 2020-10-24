@@ -242,6 +242,38 @@ export const ENGLISH = {
                 missingItemInfo: 'Some item is missing information.',
             },
         },
+        order: {
+            tabsLabelsMap: {
+                details: 'Order Details',
+                documents: 'Documents'
+            },
+            orderInfoCards: {
+                overviewInfoCard: {
+                    titleLabel: 'Order Overview',
+                    leftLabels: [
+                        'Order Number',
+                        'Seller',
+                        'Order Date',
+                        'CRD',
+                        'Incoterm',
+                        'Quantity'
+                    ],
+                    rightLabels: [
+                        'Client Reference',
+                        'Buyer',
+                        'Created By',
+                        'Actual CRD',
+                        'Payment Method',
+                        'Total'
+                    ]
+                }
+            },
+            editOrderDetailsButton: {
+                buttonLabel: 'Edit',
+                dialogTitleLabel: 'Edit Order',
+                dialogSubmitLabel: 'Update'
+            }
+        },
         orderTableRow: {
             deleteOrderDialogMessage:
                 'Are you sure you want to delete this order?',
@@ -257,9 +289,6 @@ export const ENGLISH = {
             companyNameLabel: 'To:',
             companyAddressLabel: 'Address:',
             totalAmountLabel: 'Amount:',
-        },
-        order: {
-            tabsLabel: ['Order Details', 'Product components'],
         },
         orderStatusInfoTile: {
             title: 'Order Progress',
@@ -453,6 +482,22 @@ export const ENGLISH = {
                 localDescriptionLabel: 'Product Description (CN)',
                 hscLabel: 'HS Code',
                 deleteMessage: 'Are you sure you want to delete this product?'
+            },
+            orderDialog: {
+                orderReferenceLabel: 'Order Number',
+                companyAddressLabel: 'Seller Address',
+                clientLabel: 'Buyer',
+                clientAddressLabel: 'Buyer Address',
+                crdLabel: 'Ready Date',
+                realCrdLabel: 'Actual Ready Date',
+                incotermLabel: 'Incoterm',
+                paymentMethodLabel: 'Payment Method',
+                clientReferenceLabel: 'Client Reference',
+                deliveryMethodLabel: 'Delivery Method',
+                portOfLoadingLabel: 'Port of Loading',
+                portOfDestinationLabel: 'Port of Destination',
+                shippingCarrierLabel: 'Shipping Carrier',
+                deleteMessage: 'Are you sure you want to delete this order?'
             }
         },
         components: {

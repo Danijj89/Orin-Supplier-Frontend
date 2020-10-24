@@ -9,10 +9,6 @@ import {
 } from '@material-ui/core';
 import { LANGUAGE } from '../../app/constants.js';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
-import {
-    convertDateStringToyymmdd,
-    dateToLocaleDate,
-} from '../shared/utils/random.js';
 import { useForm } from 'react-hook-form';
 import StatusButtonMenu from './StatusButtonMenu.js';
 import { useDispatch } from 'react-redux';
@@ -20,6 +16,7 @@ import { updateOrderStatus } from './duck/thunks.js';
 import OrderInfoCard from './OrderInfoCard.js';
 import { CalendarToday as IconCalendar } from '@material-ui/icons';
 import { KeyboardDatePicker } from '@material-ui/pickers';
+import { dateToLocaleDate, dateToYYMMDD } from '../shared/utils/format.js';
 
 const { title, headers, rowLabels } = LANGUAGE.order.orderStatusInfoTile;
 
@@ -149,7 +146,7 @@ export default function OrderStatusInfoCard({ order }) {
         const stepData = {...getValues(step)};
         stepData.status = newStatus;
         if (newStatus === 'Completed') {
-            stepData.actual = convertDateStringToyymmdd(new Date().toISOString());
+            stepData.actual = dateToYYMMDD(new Date().toISOString());
         }
         setValue(step, stepData);
     };

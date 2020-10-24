@@ -35,6 +35,15 @@ const createOrder = async (order) => {
     return data;
 };
 
+const fetchOrderById = async (id) => {
+    const configs = {
+        method: 'get',
+        url: `/orders/${id}`
+    };
+    const { data } = await fetchWithAuth(configs);
+    return data;
+};
+
 // const updateOrderStatus = async (id, updatedStatus) => {
 //     const configs = {
 //         method: 'put',
@@ -57,17 +66,6 @@ const createOrder = async (order) => {
 //     return data;
 // }
 //
-// const fetchOrderOptions = async (companyId) => {
-//     const configs = {
-//         method: 'get',
-//         url: '/orders/options',
-//         params: {
-//             company: companyId
-//         }
-//     };
-//     const { data } = await fetchWithAuth(configs);
-//     return data;
-// }
 
 // const generatePOFiles = async (order) => {
 //     const configs = {
@@ -109,9 +107,9 @@ const OrderService = {
     fetchOrdersByCompanyId,
     fetchNewOrderData,
     createOrder,
+    fetchOrderById
     // updateOrderStatus,
     // deleteOrder,
-    // fetchOrderOptions,
     // generatePOFiles,
     // fetchOrderById,
     // getPdfFilePreview,
