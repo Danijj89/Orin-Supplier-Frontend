@@ -1,4 +1,5 @@
 import { LOCALE } from '../../../app/constants.js';
+import { getCurrencySymbol } from './random.js';
 
 export function dateToLocaleDate(date) {
     const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' }
@@ -21,5 +22,9 @@ export function formatAddress(address) {
         + (address.zip && address.zip + ' ' )
         + (address.administrative && address.administrative + ' ' )
         + address.country;
+}
+
+export function formatCurrency(currency, value) {
+    return `${ getCurrencySymbol(currency) } ${ value }`;
 }
 

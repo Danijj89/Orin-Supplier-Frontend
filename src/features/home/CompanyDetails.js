@@ -10,6 +10,7 @@ import EditCompanyInfoButton from './EditCompanyInfoButton.js';
 import CompanyAddressCards from './CompanyAddressCards.js';
 import { LANGUAGE } from '../../app/constants.js';
 import ColumnInfoDisplay from '../shared/wrappers/ColumnInfoDisplay.js';
+import { dateToLocaleDate, formatAddress } from '../shared/utils/format.js';
 
 const useStyles = makeStyles((theme) => ({
     topCard: {
@@ -43,11 +44,15 @@ export default function CompanyDetails({ company }) {
         }
     }, [dispatch, status]);
 
-    const leftLabels = [taxNumberLabel, defaultCurrencyLabel, industriesLabel];
-    const leftData = [company?.taxNumber, company?.defaultCurrency, company?.industries];
-    const rightLabels = [emailLabel, phoneLabel];
-    const rightData = [company?.legalAddress?.email, company?.legalAddress?.phone];
-
+    const columns = [
+        [
+            { label: taxNumberLabel, value: company?.taxNumber },
+            { label: defaultCurrencyLabel, value: company?.defaultCurrency },
+            { label: industriesLabel, value: company?.industries },
+            { label: emailLabel, value: company?.legalAddress?.email },
+            { label: phoneLabel, value: company?.legalAddress?.phone },
+        ]
+    ];
 
     return (
         <Container className={ classes.companyContainer }>
@@ -58,10 +63,7 @@ export default function CompanyDetails({ company }) {
                 button={ <EditCompanyInfoButton company={ company }/> }
                 content={
                     <ColumnInfoDisplay
-                        leftLabels={ leftLabels }
-                        leftData={ leftData }
-                        rightLabels={ rightLabels }
-                        rightData={ rightData }
+                        columns={ columns }
                     />
                 }
             />

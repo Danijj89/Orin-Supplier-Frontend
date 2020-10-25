@@ -46,35 +46,22 @@ export default function ClientDetails({ match }) {
     const loading = isLoading([clientStatus, userStatus]);
     const error = useSelector(selectClientError);
 
-    const onNotesSubmit = (notes) => {
-        console.log(notes);
+    const onNotesSubmit = (notes) =>
         dispatch(updateClientNotes({ id: client._id, notes }));
-    }
 
-
-    const leftLabels = [
-        assignedToLabel,
-        primaryContactLabel,
-        contactEmailLabel,
-        taxNumberLabel,
-    ];
-    const rightLabels = [
-        sourceLabel,
-        incotermLabel,
-        paymentLabel,
-        clientSinceLabel,
-    ];
-    const leftData = client && [
-        client.assignedTo.name,
-        client.defaultContact?.name,
-        client.defaultContact?.email,
-        client.taxNumber,
-    ];
-    const rightData = client && [
-        client.source,
-        client.incoterm,
-        client.payment,
-        dateToLocaleDate(client.clientSince),
+    const columns = [
+        [
+            { label: assignedToLabel, value: client.assignedTo.name },
+            { label: primaryContactLabel, value: client.defaultContact?.name },
+            { label: contactEmailLabel, value: client.defaultContact?.email },
+            { label: taxNumberLabel, value: client.taxNumber }
+        ],
+        [
+            { label: sourceLabel, value: client.source },
+            { label: incotermLabel, value: client.incoterm },
+            { label: paymentLabel, value: client.payment },
+            { label: clientSinceLabel, value: dateToLocaleDate(client.clientSince) }
+        ]
     ];
 
     useEffect(() => {
@@ -93,10 +80,7 @@ export default function ClientDetails({ match }) {
                     className={ classes.clientInfoCard }
                     content={
                         <ColumnInfoDisplay
-                            leftLabels={ leftLabels }
-                            rightLabels={ rightLabels }
-                            leftData={ leftData }
-                            rightData={ rightData }
+                            columns={ columns }
                         />
                     }
                 />

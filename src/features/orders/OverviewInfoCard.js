@@ -2,38 +2,48 @@ import React from 'react';
 import { LANGUAGE } from '../../app/constants.js';
 import InfoCard from '../shared/wrappers/InfoCard.js';
 import ColumnInfoDisplay from '../shared/wrappers/ColumnInfoDisplay.js';
-import { formatAddress } from '../shared/utils/format.js';
+import { dateToLocaleDate, formatAddress, formatCurrency } from '../shared/utils/format.js';
 import UnitCounter from '../shared/classes/UnitCounter.js';
 import { useSelector } from 'react-redux';
 import { selectUserById } from '../users/duck/selectors.js';
-import { getCurrencySymbol } from '../shared/utils/random.js';
 import EditOrderDetailsButton from './EditOrderDetailsButton.js';
 
 const {
     titleLabel,
-    leftLabels,
-    rightLabels
+    orderReferenceLabel,
+    companyLabel,
+    dateLabel,
+    crdLabel,
+    incotermLabel,
+    quantityLabel,
+    clientReferenceLabel,
+    clientLabel,
+    authorLabel,
+    realCrdLabel,
+    paymentMethodLabel,
+    totalLabel
 } = LANGUAGE.order.order.orderInfoCards.overviewInfoCard;
 
 export default function OverviewInfoCard({ order }) {
     const createdBy = useSelector(state => selectUserById(state, order.createdBy));
 
-    const leftData = [
-        order.ref,
-        formatAddress(order.fromAdd),
-        order.date,
-        order.crd,
-        order.incoterm,
-        UnitCounter.stringRep(order.totalQ)
-    ];
-
-    const rightData = [
-        order.clientRef,
-        formatAddress(order.toAdd),
-        createdBy?.name,
-        order.realCrd,
-        order.pay,
-        `${ getCurrencySymbol(order.currency) } ${ order.totalA }`
+    const columns = [
+        [
+            { label: orderReferenceLabel, value: order.ref },
+            { label: companyLabel, value: formatAddress(order.fromAdd) },
+            { label: dateLabel, value: order.date },
+            { label: crdLabel, value: dateToLocaleDate(order.crd) },
+            { label: incotermLabel, value: order.incoterm },
+            { label: quantityLabel, value: UnitCounter.stringRep(order.totalQ) }
+        ],
+        [
+            { label: clientReferenceLabel, value: order.clientRef },
+            { label: clientLabel, value: formatAddress(order.toAdd) },
+            { label: authorLabel, value: createdBy?.name },
+            { label: realCrdLabel, value: dateToLocaleDate(order.realCrd) },
+            { label: paymentMethodLabel, value: order.pay },
+            { label: totalLabel, value: formatCurrency(order.currency, order.totalA) }
+        ]
     ];
 
     return (
@@ -42,10 +52,7 @@ export default function OverviewInfoCard({ order }) {
             button={ <EditOrderDetailsButton order={ order }/> }
             content={
                 <ColumnInfoDisplay
-                    leftLabels={ leftLabels }
-                    leftData={ leftData }
-                    rightLabels={ rightLabels }
-                    rightData={ rightData }
+                    columns={ columns }
                 />
             }
         />

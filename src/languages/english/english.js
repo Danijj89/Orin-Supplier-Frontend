@@ -250,22 +250,18 @@ export const ENGLISH = {
             orderInfoCards: {
                 overviewInfoCard: {
                     titleLabel: 'Order Overview',
-                    leftLabels: [
-                        'Order Number',
-                        'Seller',
-                        'Order Date',
-                        'CRD',
-                        'Incoterm',
-                        'Quantity'
-                    ],
-                    rightLabels: [
-                        'Client Reference',
-                        'Buyer',
-                        'Created By',
-                        'Actual CRD',
-                        'Payment Method',
-                        'Total'
-                    ]
+                    orderReferenceLabel: 'Order Number',
+                    companyLabel: 'Seller',
+                    dateLabel: 'Order Date',
+                    crdLabel: 'CRD',
+                    incotermLabel: 'Incoterm',
+                    quantityLabel: 'Quantity',
+                    clientReferenceLabel: 'Client Reference',
+                    clientLabel: 'Buyer',
+                    authorLabel: 'Created By',
+                    realCrdLabel: 'Actual CRD',
+                    paymentMethodLabel: 'Payment Method',
+                    totalLabel: 'Total'
                 }
             },
             editOrderDetailsButton: {
