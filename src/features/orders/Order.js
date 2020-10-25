@@ -29,8 +29,8 @@ export default function Order({ match }) {
 
     const mounted = useRef(false);
     useEffect(() => {
-        if (!mounted.current && !order && clientStatus === 'IDLE' && company) {
-            dispatch(fetchOrderById(id));
+        if (!mounted.current && !order) dispatch(fetchOrderById(id));
+        if (!mounted.current && clientStatus === 'IDLE' && company) {
             dispatch(fetchClients(company._id));
             mounted.current = true;
         }

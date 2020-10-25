@@ -28,7 +28,7 @@ export default function ColumnInfoDisplay({ columns }) {
     return (
         <Grid className={ classes.container } container>
             { columns.map((column, i) =>
-                <Grid key={i} direction="column" alignItems="center" className={classes.box}>
+                <Grid key={i} className={classes.box}>
                     { column.map((row, j) =>
                         <Box key={j} className={ classes.row }>
                             <Typography className={ classes.labels } component="span">{ row.label }</Typography>
