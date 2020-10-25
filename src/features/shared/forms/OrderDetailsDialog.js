@@ -92,7 +92,6 @@ export default function OrderDetailsDialog(
             onSubmit={ handleSubmit(onFormSubmit) }
             onDelete={ onDelete }
             deleteMessage={ deleteMessage }
-            className={ classes.container }
         >
             <Box className={ classes.formContainer }>
                 <FormContainer>

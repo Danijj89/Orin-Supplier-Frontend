@@ -6,6 +6,7 @@ import {
     DialogTitle,
     Divider,
     DialogContent,
+    Box
 } from '@material-ui/core';
 import ThemedButton from '../buttons/ThemedButton.js';
 import { LANGUAGE } from '../../../app/constants.js';
@@ -16,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
     container: {
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'flex-end',
+        alignItems: 'flex-end'
     },
     onSubmitButton: {
         marginRight: theme.spacing(4),
@@ -34,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
     },
     dialogAction: {
         display: 'flex',
-        justifyContent: 'space-between',
+        justifyContent: props => props.onDelete ? 'space-between' : 'flex-end',
     },
     onDeleteButton: {
         paddingBottom: theme.spacing(1),
@@ -59,26 +60,31 @@ export default function FormDialog(
         className,
         onClose,
     }) {
-    const classes = useStyles();
+    const classes = useStyles({ onDelete });
 
     return (
-        <Dialog onClose={ onClose } open={ isOpen } classes={ { paper: classes.dialogPaper } } className={ className }>
+        <Dialog
+            onClose={ onClose }
+            open={ isOpen }
+            classes={ { paper: classes.dialogPaper } }
+            className={ className }
+            scroll='paper'
+        >
             <DialogTitle>{ titleLabel }</DialogTitle>
             <Divider/>
             <DialogContent className={ classes.container }>
                 { children }
             </DialogContent>
             <DialogActions className={ classes.dialogAction }>
-                { onDelete && (
-                    <>
+                { onDelete &&
+
                         <DeleteButton
                             onDelete={ onDelete }
                             deleteMessage={ deleteMessage }
                             className={ classes.onDeleteButton }
                         />
-                    </>
-                ) }
-                <>
+                 }
+                <Box>
                     <ThemedButton
                         className={ classes.onCancelButton }
                         variant="outlined"
@@ -92,7 +98,7 @@ export default function FormDialog(
                     >
                         { submitLabel }
                     </ThemedButton>
-                </>
+                </Box>
             </DialogActions>
         </Dialog>
     );

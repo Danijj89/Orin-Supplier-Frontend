@@ -7,6 +7,7 @@ import { dateToLocaleDate } from '../shared/utils/format.js';
 import InfoCard from '../shared/wrappers/InfoCard.js';
 import { Table, TableContainer, TableHead, TableRow, TableCell as MuiTableCell, TableBody } from '@material-ui/core';
 import StatusDisplay from './StatusDisplay.js';
+import EditOrderStatusButton from './EditOrderStatusButton.js';
 
 const useStyles = makeStyles((theme) => ({
     tableContainer: {
@@ -77,6 +78,7 @@ export default function StatusInfoCard({ orderId, status }) {
     return (
         <InfoCard
             title={ title }
+            button={ <EditOrderStatusButton orderId={ orderId } status={ status }/> }
             content={
                 <TableContainer className={ classes.tableContainer }>
                     <Table>

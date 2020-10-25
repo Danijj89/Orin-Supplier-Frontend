@@ -8,7 +8,11 @@ import { selectCurrentCompany } from '../home/duck/selectors.js';
 import { selectClientsMap } from '../clients/duck/selectors.js';
 import { updateOrderDetails } from './duck/thunks.js';
 
-const { buttonLabel, dialogTitleLabel, dialogSubmitLabel } = LANGUAGE.order.order.editOrderDetailsButton;
+const {
+    buttonLabel,
+    dialogTitleLabel,
+    dialogSubmitLabel
+} = LANGUAGE.order.order.orderInfoCards.detailsInfoCard.editOrderDetailsButton;
 
 export default function EditOrderDetailsButton({ order, className }) {
     const dispatch = useDispatch();

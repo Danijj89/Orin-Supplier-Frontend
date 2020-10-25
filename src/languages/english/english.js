@@ -261,7 +261,12 @@ export const ENGLISH = {
                     authorLabel: 'Created By',
                     realCrdLabel: 'Actual CRD',
                     paymentMethodLabel: 'Payment Method',
-                    totalLabel: 'Total'
+                    totalLabel: 'Total',
+                    editOrderDetailsButton: {
+                        buttonLabel: 'Edit',
+                        dialogTitleLabel: 'Edit Order',
+                        dialogSubmitLabel: 'Update'
+                    }
                 },
                 statusInfoCard: {
                     title: 'Order Progress',
@@ -272,13 +277,13 @@ export const ENGLISH = {
                     },
                     statusLabel: 'Status',
                     estimatedLabel: 'Estimated Completion',
-                    actualLabel: 'Actual Completion'
+                    actualLabel: 'Actual Completion',
+                    editOrderStatusButton: {
+                        buttonLabel: 'Edit',
+                        titleLabel: 'Order Status',
+                        submitLabel: 'Update'
+                    }
                 }
-            },
-            editOrderDetailsButton: {
-                buttonLabel: 'Edit',
-                dialogTitleLabel: 'Edit Order',
-                dialogSubmitLabel: 'Update'
             }
         },
         orderDocuments: {
@@ -480,6 +485,14 @@ export const ENGLISH = {
                 portOfDestinationLabel: 'Port of Destination',
                 shippingCarrierLabel: 'Shipping Carrier',
                 deleteMessage: 'Are you sure you want to delete this order?'
+            },
+            orderStatusDialog: {
+                procurementTitleLabel: 'Procurement',
+                productionTitleLabel: 'Production',
+                qaTitleLabel: 'QA',
+                statusLabel: 'Status',
+                estimatedLabel: 'Estimated',
+                actualLabel: 'Actual'
             }
         },
         components: {

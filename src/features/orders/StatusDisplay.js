@@ -2,13 +2,7 @@ import React from 'react';
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
-
-const statusColors = {
-    'Not Started': '#818E9B',
-    'In Progress': '#109CF1',
-    Completed: '#2ED47A',
-    Exception: '#F7685B',
-};
+import { orderStatusColors } from '../shared/constants.js';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -19,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
         whiteSpace: 'nowrap',
         color: '#FFFFFF',
         fontSize: 12,
-        backgroundColor: props => statusColors[props.status]
+        backgroundColor: props => orderStatusColors[props.status]
     }
 }));
 
@@ -33,5 +27,5 @@ export default function StatusDisplay({ status, className }) {
         >
             { status }
         </Typography>
-    )
+    );
 }
