@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Divider, Grid, Typography, Box } from '@material-ui/core';
+import { Grid, Typography, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
@@ -42,8 +42,5 @@ export default function ColumnInfoDisplay({ columns }) {
 }
 
 ColumnInfoDisplay.propTypes = {
-    leftLabels: PropTypes.array,
-    rightLabels: PropTypes.array,
-    leftData: PropTypes.array,
-    rightData: PropTypes.array,
+    columns: PropTypes.array.isRequired
 };

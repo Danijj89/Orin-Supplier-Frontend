@@ -248,7 +248,7 @@ export const ENGLISH = {
                 documents: 'Documents'
             },
             orderInfoCards: {
-                overviewInfoCard: {
+                detailsInfoCard: {
                     titleLabel: 'Order Overview',
                     orderReferenceLabel: 'Order Number',
                     companyLabel: 'Seller',
@@ -262,6 +262,17 @@ export const ENGLISH = {
                     realCrdLabel: 'Actual CRD',
                     paymentMethodLabel: 'Payment Method',
                     totalLabel: 'Total'
+                },
+                statusInfoCard: {
+                    title: 'Order Progress',
+                    headerLabelsMap: {
+                        procurement: 'Procurement',
+                        production: 'Production',
+                        qa: 'QA'
+                    },
+                    statusLabel: 'Status',
+                    estimatedLabel: 'Estimated Completion',
+                    actualLabel: 'Actual Completion'
                 }
             },
             editOrderDetailsButton: {
@@ -269,31 +280,6 @@ export const ENGLISH = {
                 dialogTitleLabel: 'Edit Order',
                 dialogSubmitLabel: 'Update'
             }
-        },
-        orderTableRow: {
-            deleteOrderDialogMessage:
-                'Are you sure you want to delete this order?',
-        },
-        orderInfoTile: {
-            title: 'Order Overview',
-            orderLabel: 'Order Number:',
-            dateTitle: 'Date:',
-            crdTitle: 'CRD:',
-            quantityTitle: 'Quantity:',
-            incotermTitle: 'Incoterm:',
-            remarksLabel: 'Remarks:',
-            companyNameLabel: 'To:',
-            companyAddressLabel: 'Address:',
-            totalAmountLabel: 'Amount:',
-        },
-        orderStatusInfoTile: {
-            title: 'Order Progress',
-            headers: ['Procurement', 'Production', 'QA'],
-            rowLabels: [
-                'Status:',
-                'Estimated Completion:',
-                'Actual Completion:',
-            ],
         },
         orderDocuments: {
             tableTitle: 'Generated Documents',
@@ -479,7 +465,7 @@ export const ENGLISH = {
                 hscLabel: 'HS Code',
                 deleteMessage: 'Are you sure you want to delete this product?'
             },
-            orderDialog: {
+            orderDetailsDialog: {
                 orderReferenceLabel: 'Order Number',
                 companyAddressLabel: 'Seller Address',
                 clientLabel: 'Buyer',

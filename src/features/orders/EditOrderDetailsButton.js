@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Box } from '@material-ui/core';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { LANGUAGE } from '../../app/constants.js';
-import OrderDialog from '../shared/forms/OrderDialog.js';
+import OrderDetailsDialog from '../shared/forms/OrderDetailsDialog.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCurrentCompany } from '../home/duck/selectors.js';
 import { selectClientsMap } from '../clients/duck/selectors.js';
@@ -44,7 +44,7 @@ export default function EditOrderDetailsButton({ order, className }) {
             >
                 { buttonLabel }
             </ThemedButton>
-            <OrderDialog
+            <OrderDetailsDialog
                 order={ order }
                 company={ company }
                 clients={ clients }

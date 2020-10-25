@@ -22,9 +22,9 @@ const {
     realCrdLabel,
     paymentMethodLabel,
     totalLabel
-} = LANGUAGE.order.order.orderInfoCards.overviewInfoCard;
+} = LANGUAGE.order.order.orderInfoCards.detailsInfoCard;
 
-export default function OverviewInfoCard({ order }) {
+export default function DetailsInfoCard({ order }) {
     const createdBy = useSelector(state => selectUserById(state, order.createdBy));
 
     const columns = [

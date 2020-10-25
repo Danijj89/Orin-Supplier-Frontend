@@ -41,7 +41,6 @@ export default function Order({ match }) {
     return (
         <Box>
             { loading && <Loader/> }
-            { order && company && clientStatus === 'FULFILLED' && <OrderInfoCards order={ order }/> }
             <Paper>
                 <Tabs
                     value={ tabValue }
@@ -53,6 +52,9 @@ export default function Order({ match }) {
                         <Tab key={ value } label={ label } value={ value } component="span"/>
                     ) }
                 </Tabs>
+                { order && company && clientStatus === 'FULFILLED' && tabValue === 'details' &&
+                <OrderInfoCards order={ order }/>
+                }
                 {/*<Grid item xs={12}>*/ }
                 {/*    { order && tabValue === 0 && <OrderInfoCards order={order}/> }*/ }
                 {/*    { order && tabValue === 1 && <OrderProductTable order={ order }/> }*/ }

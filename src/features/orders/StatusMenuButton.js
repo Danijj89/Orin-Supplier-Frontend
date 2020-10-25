@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import {
     Menu,
     MenuItem,
@@ -33,53 +34,57 @@ const statusColors = {
     Exception: '#F7685B',
 };
 
-export default function StatusButtonMenu({
-    onItemClick,
-    status,
-    name,
-    disabled,
-    ...props
-}) {
+export default function StatusMenuButton(
+    {
+        status,
+        name,
+        onItemClick,
+        disabled,
+        className
+    }) {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = useState(null);
-    const { orderStatuses: statuses } = orderStatusesOptions;
 
     const getStatusColor = (status) => statusColors[status];
-    const currentColor = getStatusColor(status);
 
     const onMenuClick = (e) => {
         if (!disabled) setAnchorEl(e.currentTarget);
     };
-    const onMenuClose = () => {
-        setAnchorEl(null);
-    };
+    const onMenuClose = () => setAnchorEl(null);
 
     return (
-        <Box>
+        <Box className={ className }>
             <Typography
-                {...props}
                 variant="subtitle2"
-                className={classes.custom}
-                onClick={onMenuClick}
-                style={{ backgroundColor: currentColor }}
+                className={ classes.custom }
+                onClick={ onMenuClick }
+                style={ { backgroundColor: getStatusColor(status) } }
             >
-                {status}
+                { status }
             </Typography>
             <Menu
-                anchorEl={anchorEl}
+                anchorEl={ anchorEl }
                 keepMounted
-                open={Boolean(anchorEl)}
-                onClose={onMenuClose}
+                open={ Boolean(anchorEl) }
+                onClose={ onMenuClose }
             >
-                {statuses.map((status, i) => (
-                    <MenuItem key={i} onClick={() => onItemClick(name, status)}>
-                        <ListItemIcon style={{ color: getStatusColor(status) }}>
-                            <IconCircle fontSize="small" />
+                { orderStatusesOptions.map((status, i) => (
+                    <MenuItem key={ i } onClick={ () => onItemClick(name, status) }>
+                        <ListItemIcon style={ { color: getStatusColor(status) } }>
+                            <IconCircle fontSize="small"/>
                         </ListItemIcon>
-                        <ListItemText primary={orderStatusLabelsMap[status]} />
+                        <ListItemText primary={ orderStatusLabelsMap[status] }/>
                     </MenuItem>
-                ))}
+                )) }
             </Menu>
         </Box>
     );
 }
+
+StatusMenuButton.propTypes = {
+    status: PropTypes.string.isRequired,
+    name: PropTypes.string,
+    onItemClick: PropTypes.func,
+    disabled: PropTypes.bool,
+    className: PropTypes.string
+};

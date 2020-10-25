@@ -32,9 +32,9 @@ const {
     portOfLoadingLabel,
     portOfDestinationLabel,
     shippingCarrierLabel
-} = LANGUAGE.shared.forms.orderDialog;
+} = LANGUAGE.shared.forms.orderDetailsDialog;
 
-export default function OrderDialog(
+export default function OrderDetailsDialog(
     {
         isOpen,
         onSubmit,
