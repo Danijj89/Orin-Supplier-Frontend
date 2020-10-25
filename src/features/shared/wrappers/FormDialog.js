@@ -39,57 +39,60 @@ const useStyles = makeStyles((theme) => ({
     onDeleteButton: {
         paddingBottom: theme.spacing(1),
     },
+    dialogPaper: {
+        maxWidth: '100vw'
+    }
 }));
 
 const { cancelLabel } = LANGUAGE.shared.wrappers.formDialog;
 
-export default function FormDialog({
-    children,
-    onSubmit,
-    onCancel,
-    onDelete,
-    deleteMessage,
-    isOpen,
-    titleLabel,
-    submitLabel,
-    className,
-    onClose,
-}) {
+export default function FormDialog(
+    {
+        children,
+        onSubmit,
+        onCancel,
+        onDelete,
+        deleteMessage,
+        isOpen,
+        titleLabel,
+        submitLabel,
+        className,
+        onClose,
+    }) {
     const classes = useStyles();
 
     return (
-        <Dialog onClose={onClose} open={isOpen} className={className}>
-            <DialogTitle>{titleLabel}</DialogTitle>
-            <Divider />
-            <DialogContent className={classes.container}>
-                {children}
+        <Dialog onClose={ onClose } open={ isOpen } classes={ { paper: classes.dialogPaper } } className={ className }>
+            <DialogTitle>{ titleLabel }</DialogTitle>
+            <Divider/>
+            <DialogContent className={ classes.container }>
+                { children }
             </DialogContent>
-            <DialogActions className={classes.dialogAction}>
-                {onDelete && (
-                    <div>
+            <DialogActions className={ classes.dialogAction }>
+                { onDelete && (
+                    <>
                         <DeleteButton
-                            onDelete={onDelete}
-                            deleteMessage={deleteMessage}
-                            className={classes.onDeleteButton}
+                            onDelete={ onDelete }
+                            deleteMessage={ deleteMessage }
+                            className={ classes.onDeleteButton }
                         />
-                    </div>
-                )}
-                <div></div>
-                <div>
+                    </>
+                ) }
+                <>
                     <ThemedButton
-                        className={classes.onCancelButton}
+                        className={ classes.onCancelButton }
                         variant="outlined"
-                        onClick={onCancel}
+                        onClick={ onCancel }
                     >
-                        {cancelLabel}
+                        { cancelLabel }
                     </ThemedButton>
                     <ThemedButton
-                        className={classes.onSubmitButton}
-                        onClick={onSubmit}
+                        className={ classes.onSubmitButton }
+                        onClick={ onSubmit }
                     >
-                        {submitLabel}
+                        { submitLabel }
                     </ThemedButton>
-                </div>
+                </>
             </DialogActions>
         </Dialog>
     );

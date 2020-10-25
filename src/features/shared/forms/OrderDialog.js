@@ -1,13 +1,21 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import FormDialog from '../wrappers/FormDialog.js';
 import { Controller, useForm } from 'react-hook-form';
 import { LANGUAGE } from '../../../app/constants.js';
 import SideTextField from '../inputs/SideTextField.js';
 import SideAutoComplete from '../inputs/SideAutoComplete.js';
 import { formatAddress } from '../utils/format.js';
-import { useSelector } from 'react-redux';
-import { selectCurrentCompany } from '../../home/duck/selectors.js';
+import SideDateField from '../inputs/SideDateField.js';
+import { deliveryMethodOptions, incotermOptions } from '../constants.js';
 import FormContainer from '../wrappers/FormContainer.js';
+import { Box, Divider } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+    formContainer: {
+        display: 'flex'
+    }
+}));
 
 const {
     deleteMessage,
@@ -38,15 +46,16 @@ export default function OrderDialog(
         titleLabel,
         onDelete
     }) {
+    const classes = useStyles();
     const { addresses, ports } = company;
 
     const { register, handleSubmit, errors, control, getValues, watch, setValue, reset } = useForm({
         mode: 'onSubmit',
         defaultValues: {
             ref: order?.ref,
-            fromAdd: order?.fromAdd && addresses.find(address => address._id === order.fromAdd.addressId),
+            fromAdd: order?.fromAdd,
             to: order?.to && clients[order.to],
-            toAdd: order?.toAdd && addresses.find(address => address._id === order.fromAdd.addressId),
+            toAdd: order?.toAdd,
             incoterm: order?.incoterm,
             crd: order?.crd,
             realCrd: order?.realCrd,
@@ -56,7 +65,8 @@ export default function OrderDialog(
             pay: order?.pay,
             del: order?.del,
             carrier: order?.carrier
-        }
+        },
+        shouldUnregister: false
     });
 
     const chosenClient = watch('to');
@@ -71,8 +81,6 @@ export default function OrderDialog(
     }, [chosenClient, setValue, clients]);
 
     const [clientAddresses, setClientAddresses] = useState([]);
-    console.log(getValues('fromAdd'))
-    console.log(addresses)
     const onFormSubmit = data => onSubmit(data);
 
     return (
@@ -84,62 +92,156 @@ export default function OrderDialog(
             onSubmit={ handleSubmit(onFormSubmit) }
             onDelete={ onDelete }
             deleteMessage={ deleteMessage }
+            className={ classes.container }
         >
-            <SideTextField
-                name="ref"
-                label={ orderReferenceLabel }
-                inputRef={ register({ required: true }) }
-                error={ !!errors.name }
-                required
-            />
-            <Controller
-                render={ (props) =>
-                    <SideAutoComplete
-                        { ...props }
-                        options={ addresses }
-                        label={ companyAddressLabel }
-                        error={ !!errors.fromAdd }
-                        getOptionLabel={ address => formatAddress(address) }
-                        getOptionSelected={ address => address._id === getValues('fromAdd')._id }
+            <Box className={ classes.formContainer }>
+                <FormContainer>
+                    <SideTextField
+                        name="ref"
+                        label={ orderReferenceLabel }
+                        inputRef={ register({ required: true }) }
+                        error={ !!errors.name }
                         required
+                        disabled
                     />
-                }
-                name="fromAdd"
-                control={ control }
-                rules={ { required: true } }
-            />
-            <Controller
-                render={ (props) =>
-                    <SideAutoComplete
-                        { ...props }
-                        options={ Object.values(clients) }
-                        label={ clientLabel }
-                        error={ !!errors.to }
-                        getOptionLabel={ client => client.name }
-                        getOptionSelected={ client => client._id === getValues('to')._id }
-                        required
+                    <Controller
+                        render={ (props) =>
+                            <SideAutoComplete
+                                { ...props }
+                                options={ addresses }
+                                label={ companyAddressLabel }
+                                error={ !!errors.fromAdd }
+                                getOptionLabel={ address => formatAddress(address) }
+                                getOptionSelected={ address => address._id === getValues('fromAdd')._id
+                                    || address._id === getValues('fromAdd').addressId }
+                                required
+                            />
+                        }
+                        name="fromAdd"
+                        control={ control }
+                        rules={ { required: true } }
                     />
-                }
-                name="to"
-                control={ control }
-                rules={ { required: true } }
-            />
-            <Controller
-                render={ (props) => (
-                    <SideAutoComplete
-                        { ...props }
-                        options={ clientAddresses }
-                        label={ clientAddressLabel }
-                        error={ !!errors.toAdd }
-                        getOptionLabel={ address => formatAddress(address) }
-                        getOptionSelected={ client => client._id === getValues('toAdd')._id }
-                        required
+                    <Controller
+                        render={ (props) =>
+                            <SideAutoComplete
+                                { ...props }
+                                options={ Object.values(clients) }
+                                label={ clientLabel }
+                                error={ !!errors.to }
+                                getOptionLabel={ client => client.name }
+                                getOptionSelected={ client => client._id === getValues('to')._id }
+                                required
+                            />
+                        }
+                        name="to"
+                        control={ control }
+                        rules={ { required: true } }
                     />
-                ) }
-                name="toAdd"
-                control={ control }
-                rules={ { required: true } }
-            />
+                    <Controller
+                        render={ (props) => (
+                            <SideAutoComplete
+                                { ...props }
+                                options={ clientAddresses }
+                                label={ clientAddressLabel }
+                                error={ !!errors.toAdd }
+                                getOptionLabel={ address => formatAddress(address) }
+                                getOptionSelected={ address => address._id === getValues('toAdd')._id
+                                    || address._id === getValues('toAdd').addressId }
+                                required
+                            />
+                        ) }
+                        name="toAdd"
+                        control={ control }
+                        rules={ { required: true } }
+                    />
+                    <Controller
+                        render={ props =>
+                            <SideDateField
+                                { ...props }
+                                label={ crdLabel }
+                            />
+                        }
+                        name="crd"
+                        control={ control }
+                    />
+                    <Controller
+                        render={ props =>
+                            <SideDateField
+                                { ...props }
+                                label={ realCrdLabel }
+                            />
+                        }
+                        name="realCrd"
+                        control={ control }
+                    />
+                    <Controller
+                        render={ (props) => (
+                            <SideAutoComplete
+                                { ...props }
+                                options={ incotermOptions }
+                                label={ incotermLabel }
+                            />
+                        ) }
+                        name="incoterm"
+                        control={ control }
+                    />
+                    <SideTextField
+                        label={ paymentMethodLabel }
+                        name="pay"
+                        inputRef={ register }
+                    />
+                    <SideTextField
+                        label={ clientReferenceLabel }
+                        name="clientRef"
+                        inputRef={ register }
+                    />
+                </FormContainer>
+                <Divider orientation="vertical" flexItem/>
+                <FormContainer>
+                    <Controller
+                        render={ (props) => (
+                            <SideAutoComplete
+                                { ...props }
+                                options={ deliveryMethodOptions }
+                                label={ deliveryMethodLabel }
+                            />
+                        ) }
+                        name="del"
+                        control={ control }
+                    />
+                    <Controller
+                        render={ (props) => (
+                            <SideAutoComplete
+                                { ...props }
+                                freeSolo
+                                autoSelect
+                                options={ ports }
+                                label={ portOfLoadingLabel }
+                            />
+                        ) }
+                        name="pol"
+                        control={ control }
+                    />
+                    <Controller
+                        render={ (props) => (
+                            <SideAutoComplete
+                                { ...props }
+                                freeSolo
+                                autoSelect
+                                options={ ports }
+                                label={ portOfDestinationLabel }
+                            />
+                        ) }
+                        name="pod"
+                        control={ control }
+                    />
+                    <SideTextField
+                        label={ shippingCarrierLabel }
+                        name="carrier"
+                        inputRef={ register }
+                    />
+                </FormContainer>
+            </Box>
         </FormDialog>
     )
 }

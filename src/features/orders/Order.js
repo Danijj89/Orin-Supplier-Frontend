@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Paper, Box, Tabs, Tab } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectOrderById } from './duck/slice.js';
@@ -27,9 +27,13 @@ export default function Order({ match }) {
     const loading = isLoading([userStatus, orderStatus, homeStatus, clientStatus]);
     const [tabValue, setTabValue] = useState('details');
 
+    const mounted = useRef(false);
     useEffect(() => {
-        if (!order) dispatch(fetchOrderById(id));
-        if (clientStatus === 'IDLE' && company) dispatch(fetchClients(company._id));
+        if (!mounted.current && !order && clientStatus === 'IDLE' && company) {
+            dispatch(fetchOrderById(id));
+            dispatch(fetchClients(company._id));
+            mounted.current = true;
+        }
     }, [dispatch, order, id, clientStatus, company]);
 
     const onTabChange = (event, newValue) => setTabValue(newValue);
@@ -37,7 +41,7 @@ export default function Order({ match }) {
     return (
         <Box>
             { loading && <Loader/> }
-            { order && company && !loading && <OrderInfoCards order={ order }/> }
+            { order && company && clientStatus === 'FULFILLED' && <OrderInfoCards order={ order }/> }
             <Paper>
                 <Tabs
                     value={ tabValue }
