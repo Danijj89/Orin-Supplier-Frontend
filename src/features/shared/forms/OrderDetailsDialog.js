@@ -49,7 +49,7 @@ export default function OrderDetailsDialog(
     const classes = useStyles();
     const { addresses, ports } = company;
 
-    const { register, handleSubmit, errors, control, getValues, watch, setValue, reset } = useForm({
+    const { register, handleSubmit, errors, control, getValues, watch, setValue } = useForm({
         mode: 'onSubmit',
         defaultValues: {
             ref: order?.ref,
@@ -70,7 +70,6 @@ export default function OrderDetailsDialog(
     });
 
     const chosenClient = watch('to');
-
 
     useEffect(() => {
         if (chosenClient && clients.hasOwnProperty(chosenClient._id)) {

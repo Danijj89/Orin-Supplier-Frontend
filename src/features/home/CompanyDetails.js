@@ -3,14 +3,13 @@ import { Container } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectError, selectStatus } from '../../app/duck/selectors.js';
 import { makeStyles } from '@material-ui/core/styles';
-import ErrorDisplayer from '../shared/components/ErrorDisplay.js';
+import ErrorDisplay from '../shared/components/ErrorDisplay.js';
 import { cleanError } from '../../app/duck/slice.js';
 import InfoCard from '../shared/wrappers/InfoCard.js';
 import EditCompanyInfoButton from './EditCompanyInfoButton.js';
 import CompanyAddressCards from './CompanyAddressCards.js';
 import { LANGUAGE } from '../../app/constants.js';
 import ColumnInfoDisplay from '../shared/wrappers/ColumnInfoDisplay.js';
-import { dateToLocaleDate, formatAddress } from '../shared/utils/format.js';
 
 const useStyles = makeStyles((theme) => ({
     topCard: {
@@ -56,7 +55,7 @@ export default function CompanyDetails({ company }) {
 
     return (
         <Container className={ classes.companyContainer }>
-            { status === 'REJECTED' && <ErrorDisplayer errors={ [error] }/> }
+            { status === 'REJECTED' && <ErrorDisplay errors={ [error] }/> }
             <InfoCard
                 className={ classes.topCard }
                 title={ company?.defaultAddress?.name }

@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { LANGUAGE } from '../../app/constants.js';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
-import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
 import { dateToLocaleDate } from '../shared/utils/format.js';
 import InfoCard from '../shared/wrappers/InfoCard.js';
 import { Table, TableContainer, TableHead, TableRow, TableCell as MuiTableCell, TableBody } from '@material-ui/core';
@@ -39,27 +37,7 @@ const TableCell = withStyles((theme) => ({
 
 export default function StatusInfoCard({ orderId, status }) {
     const classes = useStyles();
-    const dispatch = useDispatch();
-
-    const { register, setValue, watch, handleSubmit, getValues } = useForm({
-        mode: 'onSubmit',
-        defaultValues: {
-            procurement: status.procurement,
-            production: status.production,
-            qa: status.qa,
-        },
-        shouldUnregister: false
-    });
-
-    useEffect(() => {
-        register({ name: 'procurement' }, { required: true });
-        register({ name: 'production' }, { required: true });
-        register({ name: 'qa' }, { required: true });
-    }, [register]);
-
-    const procurement = watch('procurement');
-    const production = watch('production');
-    const qa = watch('qa');
+    const { procurement, production, qa } = status;
 
     const HeaderCell = ({ header }) =>
         <TableCell align="center">{ header }</TableCell>
