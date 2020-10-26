@@ -11,6 +11,7 @@ import { Box, Divider, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import SideCheckBox from '../inputs/SideCheckBox.js';
 import SideTextArea from '../inputs/SideTextArea.js';
+import PropTypes from 'prop-types';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -254,3 +255,10 @@ export default function RHFOrderDetails({ rhfMethods, isEdit, company, clients }
         </Box>
     )
 }
+
+RHFOrderDetails.propTypes = {
+    rhfMethods: PropTypes.object.isRequired,
+    company: PropTypes.object.isRequired,
+    clients: PropTypes.array.isRequired,
+    isEdit: PropTypes.bool
+};

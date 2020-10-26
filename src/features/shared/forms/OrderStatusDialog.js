@@ -9,6 +9,7 @@ import { orderStatusColors, orderStatusesOptions } from '../constants.js';
 import { LANGUAGE } from '../../../app/constants.js';
 import { FiberManualRecord as IconCircle } from '@material-ui/icons';
 import SideDateField from '../inputs/SideDateField.js';
+import PropTypes from 'prop-types';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -170,3 +171,12 @@ export default function OrderStatusDialog(
         </FormDialog>
     )
 }
+
+OrderStatusDialog.propTypes = {
+    isOpen: PropTypes.bool.isRequired,
+    onSubmit: PropTypes.func.isRequired,
+    onCancel: PropTypes.func.isRequired,
+    submitLabel: PropTypes.string.isRequired,
+    titleLabel: PropTypes.string.isRequired,
+    status: PropTypes.object
+};

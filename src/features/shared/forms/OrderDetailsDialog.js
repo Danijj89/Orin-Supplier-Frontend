@@ -3,6 +3,7 @@ import FormDialog from '../wrappers/FormDialog.js';
 import { useForm } from 'react-hook-form';
 import { LANGUAGE } from '../../../app/constants.js';
 import RHFOrderDetails from '../rhf_forms/RHFOrderDetails.js';
+import PropTypes from 'prop-types';
 
 const {
     deleteMessage
@@ -59,3 +60,15 @@ export default function OrderDetailsDialog(
         </FormDialog>
     )
 }
+
+OrderDetailsDialog.propTypes = {
+    isOpen: PropTypes.bool.isRequired,
+    onSubmit: PropTypes.func.isRequired,
+    onCancel: PropTypes.func.isRequired,
+    submitLabel: PropTypes.string.isRequired,
+    titleLabel: PropTypes.string.isRequired,
+    order: PropTypes.object,
+    company: PropTypes.object,
+    clients: PropTypes.array,
+    onDelete: PropTypes.func
+};
