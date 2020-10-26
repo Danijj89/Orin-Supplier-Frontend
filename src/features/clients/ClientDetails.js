@@ -51,16 +51,16 @@ export default function ClientDetails({ match }) {
 
     const columns = [
         [
-            { label: assignedToLabel, value: client.assignedTo.name },
-            { label: primaryContactLabel, value: client.defaultContact?.name },
-            { label: contactEmailLabel, value: client.defaultContact?.email },
-            { label: taxNumberLabel, value: client.taxNumber }
+            { label: assignedToLabel, value: client?.assignedTo?.name },
+            { label: primaryContactLabel, value: client?.defaultContact?.name },
+            { label: contactEmailLabel, value: client?.defaultContact?.email },
+            { label: taxNumberLabel, value: client?.taxNumber }
         ],
         [
-            { label: sourceLabel, value: client.source },
-            { label: incotermLabel, value: client.incoterm },
-            { label: paymentLabel, value: client.payment },
-            { label: clientSinceLabel, value: dateToLocaleDate(client.clientSince) }
+            { label: sourceLabel, value: client?.source },
+            { label: incotermLabel, value: client?.incoterm },
+            { label: paymentLabel, value: client?.payment },
+            { label: clientSinceLabel, value: dateToLocaleDate(client?.clientSince) }
         ]
     ];
 

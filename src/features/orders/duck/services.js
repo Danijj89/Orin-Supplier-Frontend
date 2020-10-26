@@ -64,6 +64,16 @@ const updateOrderStatus = async (id, status) => {
     return data;
 };
 
+const updateOrderNotes = async (id, notes) => {
+    const configs = {
+        method: 'put',
+        url: `/orders/${id}/notes`,
+        data: notes
+    };
+    const { data } = await fetchWithAuth(configs);
+    return data;
+};
+
 //
 // const deleteOrder = async (orderId) => {
 //     const configs = {
@@ -121,6 +131,7 @@ const OrderService = {
     fetchOrderById,
     updateOrderDetails,
     updateOrderStatus,
+    updateOrderNotes
     // deleteOrder,
     // generatePOFiles,
     // fetchOrderById,

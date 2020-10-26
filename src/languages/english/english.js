@@ -283,7 +283,8 @@ export const ENGLISH = {
                         titleLabel: 'Order Status',
                         submitLabel: 'Update'
                     }
-                }
+                },
+                notesLabel: 'Notes'
             }
         },
         orderDocuments: {

@@ -4,7 +4,7 @@ import {
     fetchOrderById,
     fetchOrders,
     startNewOrder,
-    updateOrderDetails,
+    updateOrderDetails, updateOrderNotes,
     updateOrderStatus
 } from './thunks.js';
 import { SESSION_NEW_ORDER } from '../../../app/sessionKeys.js';
@@ -126,6 +126,18 @@ const ordersSlice = createSlice({
             state.status = 'IDLE';
         },
         [updateOrderStatus.rejected]: (state, action) => {
+            state.status = 'REJECTED';
+            state.error = action.payload.message;
+        },
+        [updateOrderNotes.pending]: (state, action) => {
+            state.status = 'PENDING';
+        },
+        [updateOrderNotes.fulfilled]: (state, action) => {
+            const { id, notes } = action.payload;
+            ordersAdapter.updateOne(state, { id, changes: { notes }});
+            state.status = 'IDLE';
+        },
+        [updateOrderNotes.rejected]: (state, action) => {
             state.status = 'REJECTED';
             state.error = action.payload.message;
         },
