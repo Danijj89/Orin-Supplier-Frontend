@@ -47,7 +47,7 @@ const {
     shippingCarrierLabel
 } = LANGUAGE.shared.rhfForms.rhfOrderDetails;
 
-export default function RHFOrderDetails({ rhfMethods, isEdit, company, clients }) {
+export default function RHFOrderDetails({ rhfMethods, isEdit, company, clientsMap }) {
     const classes = useStyles();
     const { addresses, ports } = company;
     const { register, errors, control, getValues, watch, setValue } = rhfMethods;
@@ -56,12 +56,12 @@ export default function RHFOrderDetails({ rhfMethods, isEdit, company, clients }
     const autoGenerateRef = watch('autoGenerateRef');
 
     useEffect(() => {
-        if (chosenClient && clients.hasOwnProperty(chosenClient._id)) {
+        if (chosenClient && clientsMap.hasOwnProperty(chosenClient._id)) {
             if (chosenClient.incoterm) setValue('incoterm', chosenClient.incoterm);
             if (chosenClient.payment) setValue('pay', chosenClient.payment);
             if (chosenClient.addresses) setClientAddresses(chosenClient.addresses);
         }
-    }, [chosenClient, setValue, clients]);
+    }, [chosenClient, setValue, clientsMap]);
 
     return (
         <Box className={ classes.container }>
@@ -123,7 +123,7 @@ export default function RHFOrderDetails({ rhfMethods, isEdit, company, clients }
                         render={ (props) =>
                             <SideAutoComplete
                                 { ...props }
-                                options={ Object.values(clients) }
+                                options={ Object.values(clientsMap) }
                                 label={ clientLabel }
                                 error={ !!errors.to }
                                 getOptionLabel={ client => client.name }
@@ -259,6 +259,6 @@ export default function RHFOrderDetails({ rhfMethods, isEdit, company, clients }
 RHFOrderDetails.propTypes = {
     rhfMethods: PropTypes.object.isRequired,
     company: PropTypes.object.isRequired,
-    clients: PropTypes.array.isRequired,
+    clientsMap: PropTypes.object.isRequired,
     isEdit: PropTypes.bool
 };

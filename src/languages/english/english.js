@@ -202,25 +202,6 @@ export const ENGLISH = {
             nextButtonLabel: {
                 details: 'Next: Products',
                 products: 'Submit',
-            },
-            createOrderDetails: {
-                detailsTitleLabel: 'Order Details',
-                autoGenerateRefLabel: 'Auto-generate Order Number?',
-                orderReferenceLabel: 'Order Number',
-                dateLabel: 'Order Date',
-                companyAddressLabel: 'Seller Address',
-                clientLabel: 'Buyer',
-                clientAddressLabel: 'Buyer Address',
-                crdLabel: 'Cargo Ready Date',
-                incotermLabel: 'Incoterm',
-                paymentMethodLabel: 'Payment Method',
-                clientReferenceLabel: 'Client Reference',
-                notesLabel: 'Remarks',
-                shippingInfoTitleLabel: 'Shipping Information (Optional)',
-                deliveryMethodLabel: 'Delivery Method',
-                portOfLoadingLabel: 'Port of Loading',
-                portOfDestinationLabel: 'Port of Destination',
-                shippingCarrierLabel: 'Shipping Carrier',
             }
         },
         order: {
@@ -470,19 +451,6 @@ export const ENGLISH = {
                 deleteMessage: 'Are you sure you want to delete this product?'
             },
             orderDetailsDialog: {
-                orderReferenceLabel: 'Order Number',
-                companyAddressLabel: 'Seller Address',
-                clientLabel: 'Buyer',
-                clientAddressLabel: 'Buyer Address',
-                crdLabel: 'Ready Date',
-                realCrdLabel: 'Actual Ready Date',
-                incotermLabel: 'Incoterm',
-                paymentMethodLabel: 'Payment Method',
-                clientReferenceLabel: 'Client Reference',
-                deliveryMethodLabel: 'Delivery Method',
-                portOfLoadingLabel: 'Port of Loading',
-                portOfDestinationLabel: 'Port of Destination',
-                shippingCarrierLabel: 'Shipping Carrier',
                 deleteMessage: 'Are you sure you want to delete this order?'
             },
             orderStatusDialog: {
