@@ -1,5 +1,12 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import { createOrder, fetchOrderById, fetchOrders, startNewOrder, updateOrderDetails } from './thunks.js';
+import {
+    createOrder,
+    fetchOrderById,
+    fetchOrders,
+    startNewOrder,
+    updateOrderDetails,
+    updateOrderStatus
+} from './thunks.js';
 import { SESSION_NEW_ORDER } from '../../../app/sessionKeys.js';
 import { defaultRowValues } from '../utils/constants.js';
 
@@ -107,6 +114,18 @@ const ordersSlice = createSlice({
             state.status = 'IDLE';
         },
         [updateOrderDetails.rejected]: (state, action) => {
+            state.status = 'REJECTED';
+            state.error = action.payload.message;
+        },
+        [updateOrderStatus.pending]: (state, action) => {
+            state.status = 'PENDING';
+        },
+        [updateOrderStatus.fulfilled]: (state, action) => {
+            const { id, status } = action.payload;
+            ordersAdapter.updateOne(state, { id, changes: { status }});
+            state.status = 'IDLE';
+        },
+        [updateOrderStatus.rejected]: (state, action) => {
             state.status = 'REJECTED';
             state.error = action.payload.message;
         },

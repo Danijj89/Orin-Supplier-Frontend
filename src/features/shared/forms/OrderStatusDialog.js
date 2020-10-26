@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import FormDialog from '../wrappers/FormDialog.js';
 import { Controller, useForm } from 'react-hook-form';
 import { makeStyles } from '@material-ui/core/styles';
@@ -46,7 +46,7 @@ export default function OrderStatusDialog(
     }) {
     const classes = useStyles();
     const { procurement, production, qa } = status;
-    const { control, handleSubmit, errors } = useForm({
+    const { control, handleSubmit, errors, watch, setValue } = useForm({
         mode: 'onSubmit',
         defaultValues: {
             procurementStatus: procurement.status,
@@ -62,22 +62,32 @@ export default function OrderStatusDialog(
         shouldUnregister: false
     });
 
+    const procurementStatus = watch('procurementStatus');
+    const productionStatus = watch('productionStatus');
+    const qaStatus = watch('qaStatus');
+
+    useEffect(() => {
+        if (procurementStatus === 'Completed') setValue('procurementActual', new Date());
+        else if (productionStatus === 'Completed') setValue('productionActual', new Date());
+        else if (qaStatus === 'Completed') setValue('qaActual', new Date());
+    }, [procurementStatus, productionStatus, qaStatus, setValue]);
+
     const onFormSubmit = data => {
         const newStatus = {
             procurement: {
                 status: data.procurementStatus,
-                estimated: data.procurementEstimated,
-                actual: data.procurementActual
+                estimated: data.procurementEstimated?.toString(),
+                actual: data.procurementActual?.toString()
             },
             production: {
                 status: data.productionStatus,
-                estimated: data.productionEstimated,
-                actual: data.productionActual
+                estimated: data.productionEstimated?.toString(),
+                actual: data.productionActual?.toString()
             },
             qa: {
                 status: data.qaStatus,
-                estimated: data.qaEstimated,
-                actual: data.qaActual
+                estimated: data.qaEstimated?.toString(),
+                actual: data.qaActual?.toString()
             }
         };
         onSubmit(newStatus);

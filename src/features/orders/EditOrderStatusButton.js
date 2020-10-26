@@ -3,6 +3,8 @@ import { Box } from '@material-ui/core';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import OrderStatusDialog from '../shared/forms/OrderStatusDialog.js';
 import { LANGUAGE } from '../../app/constants.js';
+import { useDispatch } from 'react-redux';
+import { updateOrderStatus } from './duck/thunks.js';
 
 const {
     buttonLabel,
@@ -11,13 +13,15 @@ const {
 } = LANGUAGE.order.order.orderInfoCards.statusInfoCard.editOrderStatusButton;
 
 export default function EditOrderStatusButton({ orderId, status, className }) {
+    const dispatch = useDispatch();
     const [isEdit, setIsEdit] = useState(false);
 
     const onEdit = () => setIsEdit(true);
     const onCancel = () => setIsEdit(false);
 
     const onSubmit = (data) => {
-        console.log(data);
+        data.id = orderId;
+        dispatch(updateOrderStatus(data));
         setIsEdit(false);
     };
 

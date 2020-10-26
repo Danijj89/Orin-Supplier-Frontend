@@ -47,9 +47,13 @@ export const updateOrderDetails = createAsyncThunk('orders/updateOrderDetails',
     });
 
 export const updateOrderStatus = createAsyncThunk('orders/updateOrderStatus',
-    async ({ orderId, data }) => {
-        const statuses = await OrderService.updateOrderStatus(orderId, data);
-        return { id: orderId, statuses };
+    async ({ id, ...status }, {rejectWithValue}) => {
+        try {
+            await OrderService.updateOrderStatus(id, status);
+            return { id, status };
+        } catch (err) {
+            return rejectWithValue(err.response.data);
+        }
     }
 );
 

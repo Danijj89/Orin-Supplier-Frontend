@@ -40,7 +40,7 @@ export default function StatusInfoCard({ orderId, status }) {
     const { procurement, production, qa } = status;
 
     const HeaderCell = ({ header }) =>
-        <TableCell align="center">{ header }</TableCell>
+        <TableCell align="center" width={140}>{ header }</TableCell>
 
     const LabelCell = ({ label }) =>
         <TableCell className={ classes.label }>{ label }</TableCell>
