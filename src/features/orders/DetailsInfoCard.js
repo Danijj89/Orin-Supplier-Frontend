@@ -22,7 +22,7 @@ const {
     realCrdLabel,
     paymentMethodLabel,
     totalLabel
-} = LANGUAGE.order.order.orderInfoCards.detailsInfoCard;
+} = LANGUAGE.order.order.orderDetails.detailsInfoCard;
 
 export default function DetailsInfoCard({ order }) {
     const createdBy = useSelector(state => selectUserById(state, order.createdBy));

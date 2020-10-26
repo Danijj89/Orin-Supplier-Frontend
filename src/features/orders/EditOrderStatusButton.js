@@ -10,7 +10,7 @@ const {
     buttonLabel,
     titleLabel,
     submitLabel
-} = LANGUAGE.order.order.orderInfoCards.statusInfoCard.editOrderStatusButton;
+} = LANGUAGE.order.order.orderDetails.statusInfoCard.editOrderStatusButton;
 
 export default function EditOrderStatusButton({ orderId, status, className }) {
     const dispatch = useDispatch();

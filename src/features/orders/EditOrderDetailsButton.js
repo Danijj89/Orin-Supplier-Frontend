@@ -12,7 +12,7 @@ const {
     buttonLabel,
     dialogTitleLabel,
     dialogSubmitLabel
-} = LANGUAGE.order.order.orderInfoCards.detailsInfoCard.editOrderDetailsButton;
+} = LANGUAGE.order.order.orderDetails.detailsInfoCard.editOrderDetailsButton;
 
 export default function EditOrderDetailsButton({ order, className }) {
     const dispatch = useDispatch();

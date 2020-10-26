@@ -221,33 +221,14 @@ export const ENGLISH = {
                 portOfLoadingLabel: 'Port of Loading',
                 portOfDestinationLabel: 'Port of Destination',
                 shippingCarrierLabel: 'Shipping Carrier',
-            },
-            createOrderProducts: {
-                currencyLabel: 'Currency',
-                saveItemsLabel: 'Save New Items To Inventory',
-                createOrderProductTable: {
-                    totalLabel: 'Total:',
-                    tableHeaderLabelsMap: {
-                        ref: 'Item Reference',
-                        description: 'Product Description',
-                        quantity: 'Quantity',
-                        unit: 'Unit',
-                        price: 'Unit Price',
-                        total: 'Amount'
-                    }
-                }
-            },
-            errorMessages: {
-                currency: 'You must select a currency.',
-                missingItemInfo: 'Some item is missing information.',
-            },
+            }
         },
         order: {
             tabsLabelsMap: {
                 details: 'Order Details',
                 documents: 'Documents'
             },
-            orderInfoCards: {
+            orderDetails: {
                 detailsInfoCard: {
                     titleLabel: 'Order Overview',
                     orderReferenceLabel: 'Order Number',
@@ -284,7 +265,24 @@ export const ENGLISH = {
                         submitLabel: 'Update'
                     }
                 },
-                notesLabel: 'Notes'
+                notesLabel: 'Notes',
+                productTableTitleLabel: 'Products',
+                orderProductTable: {
+                    tableHeaderLabelsMap: {
+                        ref: 'Item Reference',
+                        description: 'Product Description',
+                        quantity: 'Quantity',
+                        unit: 'Unit',
+                        price: 'Unit Price',
+                        total: 'Amount'
+                    },
+                    totalLabel: 'Total',
+                    editOrderProductsButton: {
+                        buttonLabel: 'Edit',
+                        dialogTitleLabel: 'Products',
+                        dialogSubmitLabel: 'Update'
+                    }
+                }
             }
         },
         orderDocuments: {
@@ -494,6 +492,30 @@ export const ENGLISH = {
                 statusLabel: 'Status',
                 estimatedLabel: 'Estimated',
                 actualLabel: 'Actual'
+            }
+        },
+        rhfForms: {
+            rhfOrderProductsDialog: {
+                errorMessages: {
+                    missingItemInfo: 'Some item is missing information.'
+                }
+            },
+            rhfOrderProducts: {
+                currencyLabel: 'Currency',
+                saveItemsLabel: 'Save New Items To Inventory',
+                totalLabel: 'Total:',
+                tableHeaderLabelsMap: {
+                    ref: 'Item Reference',
+                    description: 'Product Description',
+                    quantity: 'Quantity',
+                    unit: 'Unit',
+                    price: 'Unit Price',
+                    total: 'Amount'
+                },
+                errorMessages: {
+                    currency: 'You must select a currency.',
+                    missingItemInfo: 'Some item is missing information.',
+                }
             }
         },
         components: {

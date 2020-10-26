@@ -25,7 +25,7 @@ const {
     statusLabel,
     estimatedLabel,
     actualLabel
-} = LANGUAGE.order.order.orderInfoCards.statusInfoCard;
+} = LANGUAGE.order.order.orderDetails.statusInfoCard;
 
 const TableCell = withStyles((theme) => ({
     root: {

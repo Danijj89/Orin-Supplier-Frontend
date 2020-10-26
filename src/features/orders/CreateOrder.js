@@ -2,9 +2,9 @@ import React, { useCallback, useEffect } from 'react';
 import DocumentStepper from '../shared/DocumentStepper.js';
 import { Box, Paper, Divider, Typography } from '@material-ui/core';
 import CreateOrderDetails from './CreateOrderDetails.js';
-import CreateOrderProducts from './CreateOrderProducts.js';
+import RHFOrderProducts from '../shared/rhf_forms/RHFOrderProducts.js';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
-import { FormProvider, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import useSessionStorage from '../shared/hooks/useSessionStorage.js';
 import { SESSION_NEW_ORDER } from '../../app/sessionKeys.js';
 import { Redirect, useParams, useHistory } from 'react-router-dom';
@@ -85,26 +85,9 @@ export default function CreateOrder() {
         },
         shouldUnregister: false
     });
-    const { errors, register, clearErrors, getValues, handleSubmit } = rhfMethods;
+    const { errors, clearErrors, getValues, handleSubmit } = rhfMethods;
 
     const errMessages = Object.values(errors).map(err => err.message);
-
-    const validateItems = useCallback((items) => {
-        if (step === 'details') return true;
-        for (const item of items) {
-            if (!(item.ref && item.description && item.quantity && item.unit && item.price))
-                return errorMessages.missingItemInfo;
-        }
-        return true;
-    }, [step]);
-
-    useEffect(() => {
-        register({ name: 'items' }, { validate: validateItems });
-        register({ name: 'custom1'});
-        register({ name: 'custom2'});
-        register({ name: 'totalQ' });
-        register({ name: 'totalA' });
-    }, [register, validateItems]);
 
     const onPrevClick = () => {
         if (step === 'details') {
@@ -138,13 +121,11 @@ export default function CreateOrder() {
             <DocumentStepper activeStep={ getCurrentStep(step) } steps={ Object.values(stepLabelsMap) }/>
             <Typography variant="h5">{ titleLabel }</Typography>
             <Divider/>
-            <FormProvider {...rhfMethods}>
-                <Paper>
-                    { errMessages.length > 0 && <ErrorDisplay errors={ errMessages }/> }
-                    { step === 'details' && <CreateOrderDetails /> }
-                    { step === 'products' && <CreateOrderProducts /> }
-                </Paper>
-            </FormProvider>
+            <Paper>
+                { errMessages.length > 0 && <ErrorDisplay errors={ errMessages }/> }
+                { step === 'details' && <CreateOrderDetails rhfMethods={ rhfMethods }/> }
+                { step === 'products' && <RHFOrderProducts rhfMethods={ rhfMethods }/> }
+            </Paper>
             <Box className={ classes.footer }>
                 <ThemedButton onClick={ onPrevClick }>
                     { step === 'details' ? prevButtonLabel.details : prevButtonLabel.products }

@@ -1,23 +1,49 @@
-import React, { useCallback, useState } from 'react';
-import { LANGUAGE } from '../../app/constants.js';
-import { IconButton } from '@material-ui/core';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Grid, IconButton } from '@material-ui/core';
+import { LANGUAGE } from '../../../app/constants.js';
+import { currenciesOptions, itemUnitsOptions } from '../constants.js';
+import { Controller } from 'react-hook-form';
+import SideAutoComplete from '../inputs/SideAutoComplete.js';
+import SideCheckBox from '../inputs/SideCheckBox.js';
+import EditableTable from '../components/EditableTable.js';
+import TableTextField from '../inputs/TableTextField.js';
 import { Add as IconAdd, Close as IconClose } from '@material-ui/icons';
-import TableTextField from '../shared/inputs/TableTextField.js';
+import UnitCounter from '../classes/UnitCounter.js';
+import { getCurrencySymbol } from '../utils/random.js';
 import { useSelector } from 'react-redux';
-import { selectAllProducts } from '../products/duck/selectors.js';
-import { itemUnitsOptions } from '../shared/constants.js';
-import { roundTo2Decimal } from '../shared/utils/format.js';
-import UnitCounter from '../shared/classes/UnitCounter.js';
-import { defaultRowValues } from './utils/constants.js';
-import { getCurrencySymbol } from '../shared/utils/random.js';
-import EditableTable from '../shared/components/EditableTable.js';
-import { useFormContext } from 'react-hook-form';
+import { selectAllProducts } from '../../products/duck/selectors.js';
+import { defaultRowValues } from '../../orders/utils/constants.js';
+import { roundTo2Decimal } from '../utils/format.js';
 
-const { tableHeaderLabelsMap, totalLabel } = LANGUAGE.order.createOrder.createOrderProducts.createOrderProductTable;
+const {
+    currencyLabel,
+    saveItemsLabel,
+    totalLabel,
+    tableHeaderLabelsMap,
+    errorMessages
+} = LANGUAGE.shared.rhfForms.rhfOrderProducts;
 
-export default function CreateOrderProductTable() {
-    const { register, setValue, getValues, watch, reset } = useFormContext();
+export default function RHFOrderProducts({ rhfMethods, isEdit }) {
+    const { register, control, setValue, getValues, watch, reset, errors } = rhfMethods;
     const products = useSelector(selectAllProducts);
+
+    const validateItems = useCallback((items) => {
+        for (const item of items) {
+            if (!(item.ref && item.description && item.quantity && item.unit && item.price))
+                return errorMessages.missingItemInfo;
+        }
+        return true;
+    }, []);
+
+    useEffect(() => {
+        if (!getValues('items')) {
+            register({ name: 'items' }, { validate: validateItems });
+            register({ name: 'custom1' });
+            register({ name: 'custom2' });
+            register({ name: 'totalQ' });
+            register({ name: 'totalA' });
+        }
+    }, [register, validateItems, getValues]);
 
     let custom1 = watch('custom1');
     let custom2 = watch('custom2');
@@ -203,12 +229,51 @@ export default function CreateOrderProductTable() {
     ]];
 
     return (
-        <EditableTable
-            columns={ columns }
-            rows={ rows }
-            onCellChange={ onCellChange }
-            footer={ footer }
-            onAddRow={ onAddRow }
-        />
+        <Grid container>
+            <Grid
+                container
+                item
+                justify="space-between"
+                alignItems="center"
+                xs={ 12 }
+            >
+                <Controller
+                    render={ props =>
+                        <SideAutoComplete
+                            { ...props }
+                            options={ currenciesOptions }
+                            label={ currencyLabel }
+                            error={ !!errors.currency }
+                            required
+                        />
+                    }
+                    name="currency"
+                    control={ control }
+                    rules={ { required: errorMessages.currency } }
+                />
+                { !isEdit &&
+                <Controller
+                    render={ ({ value, ...rest }) =>
+                        <SideCheckBox
+                            { ...rest }
+                            label={ saveItemsLabel }
+                            checked={ value }
+                        />
+                    }
+                    name="saveItems"
+                    control={ control }
+                />
+                }
+            </Grid>
+            <Grid item xs={ 12 }>
+                <EditableTable
+                    columns={ columns }
+                    rows={ rows }
+                    onCellChange={ onCellChange }
+                    footer={ footer }
+                    onAddRow={ onAddRow }
+                />
+            </Grid>
+        </Grid>
     )
 }

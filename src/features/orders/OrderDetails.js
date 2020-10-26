@@ -6,16 +6,17 @@ import TextAreaCard from '../shared/components/TextAreaCard.js';
 import { LANGUAGE } from '../../app/constants.js';
 import { useDispatch } from 'react-redux';
 import { updateOrderNotes } from './duck/thunks.js';
+import OrderProductTable from './OrderProductTable.js';
+import InfoCard from '../shared/wrappers/InfoCard.js';
+import EditOrderProductsButton from './EditOrderProductsButton.js';
 
-const { notesLabel } = LANGUAGE.order.order.orderInfoCards;
+const { notesLabel, productTableTitleLabel } = LANGUAGE.order.order.orderDetails;
 
-export default function OrderInfoCards({ order }) {
+export default function OrderDetails({ order }) {
     const dispatch = useDispatch();
 
     const onNotesSubmit = (notes) =>
         dispatch(updateOrderNotes({ id: order._id, notes }));
-
-
 
     return (
         <Grid container>
@@ -30,6 +31,13 @@ export default function OrderInfoCards({ order }) {
                     titleLabel={ notesLabel }
                     value={ order.notes }
                     onSubmit={ onNotesSubmit }
+                />
+            </Grid>
+            <Grid item xs={ 12 }>
+                <InfoCard
+                    title={ productTableTitleLabel }
+                    button={ <EditOrderProductsButton order={ order }/> }
+                    content={ <OrderProductTable order={ order }/> }
                 />
             </Grid>
         </Grid>

@@ -12,6 +12,15 @@ import {
 } from '@material-ui/core';
 import { LANGUAGE } from '../../../app/constants.js';
 import Loader from './Loader.js';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+    footerCell: {
+        fontWeight: 'bold',
+        fontSize: '1rem',
+        color: theme.palette.black.main
+    }
+}));
 
 const { paginationAllLabel, rowsPerPageLabel } = LANGUAGE.shared.components.table;
 
@@ -29,7 +38,8 @@ function getAlignment(type) {
 const ROW_HEIGHT = 69;
 
 export default function Table(
-    { rows, columns, className, onRowClick, dense, isLoading, disableRowHover }) {
+    { rows, columns, className, onRowClick, dense, isLoading, disableRowHover, footer }) {
+    const classes = useStyles();
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const numColumns = columns.reduce((acc, col) => col.hide ? acc : acc += 1, 0);
@@ -49,13 +59,21 @@ export default function Table(
         if (column.hide) return null;
         if (column.renderHeader) {
             return (
-                <TableCell key={ column.field } width={ column.width }>
+                <TableCell
+                    key={ column.field }
+                    width={ column.width }
+                    align={getAlignment(column.type)}
+                >
                     { column.renderHeader() }
                 </TableCell>
             );
         }
         return (
-            <TableCell key={ column.field } width={ column.width }>
+            <TableCell
+                key={ column.field }
+                width={ column.width }
+                align={getAlignment(column.type)}
+            >
                 { column.headerName }
             </TableCell>
         );
@@ -95,9 +113,24 @@ export default function Table(
         )
     };
 
+    const renderFooter = (row, idx) =>
+        <TableRow key={ idx }>
+            { row.map(cell =>
+                <TableCell
+                    key={ cell.field }
+                    colSpan={ cell.colSpan }
+                    align={ cell.align }
+                    className={ classes.footerCell }
+                >
+                    { cell.value }
+                </TableCell>
+            ) }
+        </TableRow>;
+
+
     return (
         <TableContainer className={ className }>
-            <MuiTable stickyHeader size={dense && 'small'}>
+            <MuiTable stickyHeader size={ dense && 'small' }>
                 <TableHead>
                     <TableRow>
                         { columns.map(renderColumn) }
@@ -122,6 +155,7 @@ export default function Table(
                     ) }
                 </TableBody>
                 <TableFooter>
+                    { !footer &&
                     <TableRow>
                         <TablePagination
                             labelRowsPerPage={ rowsPerPageLabel }
@@ -135,6 +169,8 @@ export default function Table(
                             onChangeRowsPerPage={ onRowsChangePerPage }
                         />
                     </TableRow>
+                    }
+                    { footer && footer.map((row, i) => renderFooter(row, i)) }
                 </TableFooter>
             </MuiTable>
         </TableContainer>
