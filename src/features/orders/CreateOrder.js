@@ -1,7 +1,6 @@
 import React from 'react';
 import DocumentStepper from '../shared/DocumentStepper.js';
 import { Box, Paper, Divider, Typography } from '@material-ui/core';
-import CreateOrderDetails from './CreateOrderDetails.js';
 import RHFOrderProducts from '../shared/rhf_forms/RHFOrderProducts.js';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { useForm } from 'react-hook-form';
@@ -15,6 +14,9 @@ import ErrorDisplay from '../shared/components/ErrorDisplay.js';
 import { makeStyles } from '@material-ui/core/styles';
 import { selectNewOrder } from './duck/selectors.js';
 import { createOrder } from './duck/thunks.js';
+import { selectCurrentCompany } from '../home/duck/selectors.js';
+import { selectClientsMap } from '../clients/duck/selectors.js';
+import RHFOrderDetails from '../shared/rhf_forms/RHFOrderDetails.js';
 
 function getCurrentStep(stepLabel) {
     switch (stepLabel) {
@@ -51,6 +53,8 @@ export default function CreateOrder() {
     const history = useHistory();
     const { step } = useParams();
     const newOrder = useSelector(selectNewOrder);
+    const company = useSelector(selectCurrentCompany);
+    const clients = useSelector(selectClientsMap);
     const [order, setOrder] = useSessionStorage(SESSION_NEW_ORDER, newOrder);
 
     const rhfMethods = useForm({
@@ -122,7 +126,7 @@ export default function CreateOrder() {
             <Divider/>
             <Paper>
                 { errMessages.length > 0 && <ErrorDisplay errors={ errMessages }/> }
-                { step === 'details' && <CreateOrderDetails rhfMethods={ rhfMethods }/> }
+                { step === 'details' && <RHFOrderDetails rhfMethods={ rhfMethods } company={company} clients={clients}/> }
                 { step === 'products' && <RHFOrderProducts rhfMethods={ rhfMethods }/> }
             </Paper>
             <Box className={ classes.footer }>

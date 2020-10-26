@@ -495,10 +495,24 @@ export const ENGLISH = {
             }
         },
         rhfForms: {
-            rhfOrderProductsDialog: {
-                errorMessages: {
-                    missingItemInfo: 'Some item is missing information.'
-                }
+            rhfOrderDetails: {
+                detailsTitleLabel: 'Order Details',
+                autoGenerateRefLabel: 'Auto-generate Order Number?',
+                orderReferenceLabel: 'Order Number',
+                dateLabel: 'Order Date',
+                companyAddressLabel: 'Seller Address',
+                clientLabel: 'Buyer',
+                clientAddressLabel: 'Buyer Address',
+                crdLabel: 'Cargo Ready Date',
+                incotermLabel: 'Incoterm',
+                paymentMethodLabel: 'Payment Method',
+                clientReferenceLabel: 'Client Reference',
+                notesLabel: 'Remarks',
+                shippingInfoTitleLabel: 'Shipping Information (Optional)',
+                deliveryMethodLabel: 'Delivery Method',
+                portOfLoadingLabel: 'Port of Loading',
+                portOfDestinationLabel: 'Port of Destination',
+                shippingCarrierLabel: 'Shipping Carrier',
             },
             rhfOrderProducts: {
                 currencyLabel: 'Currency',

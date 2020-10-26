@@ -1,19 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Controller } from 'react-hook-form';
-import { LANGUAGE } from '../../app/constants.js';
-import { Divider, Box, Typography } from '@material-ui/core';
-import { formatAddress } from '../shared/utils/format.js';
-import FormContainer from '../shared/wrappers/FormContainer.js';
-import SideTextField from '../shared/inputs/SideTextField.js';
-import SideAutoComplete from '../shared/inputs/SideAutoComplete.js';
-import { deliveryMethodOptions, incotermOptions } from '../shared/constants.js';
-import SideTextArea from '../shared/inputs/SideTextArea.js';
+import { LANGUAGE } from '../../../app/constants.js';
+import SideTextField from '../inputs/SideTextField.js';
+import SideAutoComplete from '../inputs/SideAutoComplete.js';
+import { formatAddress } from '../utils/format.js';
+import SideDateField from '../inputs/SideDateField.js';
+import { deliveryMethodOptions, incotermOptions } from '../constants.js';
+import FormContainer from '../wrappers/FormContainer.js';
+import { Box, Divider, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import SideDateField from '../shared/inputs/SideDateField.js';
-import SideCheckBox from '../shared/inputs/SideCheckBox.js';
-import { useSelector } from 'react-redux';
-import { selectCurrentCompany } from '../home/duck/selectors.js';
-import { selectClientsMap } from '../clients/duck/selectors.js';
+import SideCheckBox from '../inputs/SideCheckBox.js';
+import SideTextArea from '../inputs/SideTextArea.js';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -26,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     shipping: {
         padding: theme.spacing(2)
     }
-}))
+}));
 
 const {
     detailsTitleLabel,
@@ -37,6 +34,7 @@ const {
     clientLabel,
     clientAddressLabel,
     crdLabel,
+    realCrdLabel,
     incotermLabel,
     paymentMethodLabel,
     clientReferenceLabel,
@@ -45,34 +43,31 @@ const {
     deliveryMethodLabel,
     portOfLoadingLabel,
     portOfDestinationLabel,
-    shippingCarrierLabel,
-} = LANGUAGE.order.createOrder.createOrderDetails;
+    shippingCarrierLabel
+} = LANGUAGE.shared.rhfForms.rhfOrderDetails;
 
-export default function CreateOrderDetails({ rhfMethods }) {
+export default function RHFOrderDetails({ rhfMethods, isEdit, company, clients }) {
     const classes = useStyles();
-    const { register, control, watch, setValue, getValues, errors } = rhfMethods;
-    const company = useSelector(selectCurrentCompany);
-    const clients = useSelector(selectClientsMap);
-    const [clientAddresses, setClientAddresses] = useState([]);
     const { addresses, ports } = company;
-
+    const { register, errors, control, getValues, watch, setValue } = rhfMethods;
+    const [clientAddresses, setClientAddresses] = useState([]);
     const chosenClient = watch('to');
     const autoGenerateRef = watch('autoGenerateRef');
 
     useEffect(() => {
-        if (clients.hasOwnProperty(chosenClient?._id)) {
-            const newAddressOptions = chosenClient?.addresses || [];
-            setClientAddresses(newAddressOptions);
-            if (chosenClient?.incoterm) setValue('incoterm', chosenClient.incoterm);
-            if (chosenClient?.payment) setValue('pay', chosenClient.payment);
+        if (chosenClient && clients.hasOwnProperty(chosenClient._id)) {
+            if (chosenClient.incoterm) setValue('incoterm', chosenClient.incoterm);
+            if (chosenClient.payment) setValue('pay', chosenClient.payment);
+            if (chosenClient.addresses) setClientAddresses(chosenClient.addresses);
         }
-    }, [chosenClient, clients, setValue]);
+    }, [chosenClient, setValue, clients]);
 
     return (
         <Box className={ classes.container }>
             <Box className={ classes.details }>
-                <Typography variant="h5">{ detailsTitleLabel }</Typography>
+                { !isEdit && <Typography variant="h5">{ detailsTitleLabel }</Typography> }
                 <FormContainer>
+                    { !isEdit &&
                     <Controller
                         render={ ({ value, ...rest }) =>
                             <SideCheckBox
@@ -83,16 +78,16 @@ export default function CreateOrderDetails({ rhfMethods }) {
                         }
                         name="autoGenerateRef"
                         control={ control }
-                    />
+                    /> }
                     <SideTextField
-                        label={ orderReferenceLabel }
                         name="ref"
-                        error={ !!errors.ref }
+                        label={ orderReferenceLabel }
                         inputRef={ register({ required: !autoGenerateRef }) }
-                        disabled={ autoGenerateRef }
+                        error={ !!errors.name }
                         required={ !autoGenerateRef }
-                        autoFocus
+                        disabled={ isEdit || autoGenerateRef }
                     />
+                    { !isEdit &&
                     <Controller
                         render={ props =>
                             <SideDateField
@@ -105,7 +100,7 @@ export default function CreateOrderDetails({ rhfMethods }) {
                         name="date"
                         control={ control }
                         rules={ { required: true } }
-                    />
+                    /> }
                     <Controller
                         render={ (props) =>
                             <SideAutoComplete
@@ -114,7 +109,8 @@ export default function CreateOrderDetails({ rhfMethods }) {
                                 label={ companyAddressLabel }
                                 error={ !!errors.fromAdd }
                                 getOptionLabel={ address => formatAddress(address) }
-                                getOptionSelected={ address => address._id === getValues('fromAdd')._id }
+                                getOptionSelected={ address => address._id === getValues('fromAdd')._id
+                                    || address._id === getValues('fromAdd').addressId }
                                 required
                             />
                         }
@@ -146,7 +142,8 @@ export default function CreateOrderDetails({ rhfMethods }) {
                                 label={ clientAddressLabel }
                                 error={ !!errors.toAdd }
                                 getOptionLabel={ address => formatAddress(address) }
-                                getOptionSelected={ address => address._id === getValues('toAdd')._id }
+                                getOptionSelected={ address => address._id === getValues('toAdd')._id
+                                    || address._id === getValues('toAdd').addressId }
                                 required
                             />
                         ) }
@@ -164,6 +161,17 @@ export default function CreateOrderDetails({ rhfMethods }) {
                         name="crd"
                         control={ control }
                     />
+                    { isEdit &&
+                    <Controller
+                        render={ props =>
+                            <SideDateField
+                                { ...props }
+                                label={ realCrdLabel }
+                            />
+                        }
+                        name="realCrd"
+                        control={ control }
+                    /> }
                     <Controller
                         render={ (props) => (
                             <SideAutoComplete
@@ -185,18 +193,19 @@ export default function CreateOrderDetails({ rhfMethods }) {
                         name="clientRef"
                         inputRef={ register }
                     />
+                    { !isEdit &&
                     <SideTextArea
                         label={ notesLabel }
                         name="notes"
                         inputRef={ register }
                         rows={ 4 }
                         rowsMax={ 8 }
-                    />
+                    /> }
                 </FormContainer>
             </Box>
             <Divider orientation="vertical" flexItem/>
             <Box className={ classes.shipping }>
-                <Typography variant="h5">{ shippingInfoTitleLabel }</Typography>
+                { !isEdit && <Typography variant="h5">{ shippingInfoTitleLabel }</Typography> }
                 <FormContainer>
                     <Controller
                         render={ (props) => (
