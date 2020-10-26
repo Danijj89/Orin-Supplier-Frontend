@@ -37,14 +37,14 @@ export default function RHFOrderProducts({ rhfMethods, isEdit }) {
     }, []);
 
     useEffect(() => {
-        if (!getValues('items')) {
+        if (isEdit || !getValues('items')) {
             register({ name: 'items' }, { validate: validateItems });
             register({ name: 'custom1' });
             register({ name: 'custom2' });
             register({ name: 'totalQ' });
             register({ name: 'totalA' });
         }
-    }, [register, validateItems, getValues]);
+    }, [register, validateItems, getValues, isEdit]);
 
     let custom1 = watch('custom1');
     let custom2 = watch('custom2');

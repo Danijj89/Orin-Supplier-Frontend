@@ -17,7 +17,7 @@ export default function OrderDetailsDialog(
         submitLabel,
         order,
         company,
-        clients,
+        clientsMap,
         titleLabel,
         onDelete
     }) {
@@ -27,7 +27,7 @@ export default function OrderDetailsDialog(
         defaultValues: {
             ref: order?.ref,
             fromAdd: order?.fromAdd,
-            to: order?.to && clients[order.to],
+            to: order?.to && clientsMap[order.to],
             toAdd: order?.toAdd,
             incoterm: order?.incoterm,
             crd: order?.crd,
@@ -56,7 +56,7 @@ export default function OrderDetailsDialog(
             onDelete={ onDelete }
             deleteMessage={ deleteMessage }
         >
-            <RHFOrderDetails rhfMethods={ rhfMethods } company={company} clients={clients} isEdit/>
+            <RHFOrderDetails rhfMethods={ rhfMethods } company={company} clientsMap={clientsMap} isEdit/>
         </FormDialog>
     )
 }
@@ -69,6 +69,6 @@ OrderDetailsDialog.propTypes = {
     titleLabel: PropTypes.string.isRequired,
     order: PropTypes.object,
     company: PropTypes.object,
-    clients: PropTypes.array,
+    clientsMap: PropTypes.object,
     onDelete: PropTypes.func
 };

@@ -17,7 +17,7 @@ const {
 export default function EditOrderDetailsButton({ order, className }) {
     const dispatch = useDispatch();
     const company = useSelector(selectCurrentCompany);
-    const clients = useSelector(selectClientsMap);
+    const clientsMap = useSelector(selectClientsMap);
     const [isEdit, setIsEdit] = useState(false);
 
     const onEdit = () => setIsEdit(true);
@@ -51,7 +51,7 @@ export default function EditOrderDetailsButton({ order, className }) {
             <OrderDetailsDialog
                 order={ order }
                 company={ company }
-                clients={ clients }
+                clientsMap={ clientsMap }
                 isOpen={ isEdit }
                 titleLabel={ dialogTitleLabel }
                 submitLabel={ dialogSubmitLabel }
