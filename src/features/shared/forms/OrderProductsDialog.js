@@ -1,17 +1,17 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import FormDialog from '../wrappers/FormDialog.js';
 import { useForm } from 'react-hook-form';
-import RHFOrderProducts from './RHFOrderProducts.js';
+import RHFOrderProducts from '../rhf_forms/RHFOrderProducts.js';
 
-
-export default function RHFOrderProductsDialog(
+export default function OrderProductsDialog(
     {
         isOpen,
         onSubmit,
         onCancel,
         submitLabel,
         order,
-        titleLabel,
+        titleLabel
     }) {
 
     const rhfMethods = useForm({
@@ -41,3 +41,13 @@ export default function RHFOrderProductsDialog(
         </FormDialog>
     )
 }
+
+OrderProductsDialog.propTypes = {
+    isOpen: PropTypes.bool.isRequired,
+    onSubmit: PropTypes.func.isRequired,
+    onCancel: PropTypes.func.isRequired,
+    submitLabel: PropTypes.string.isRequired,
+    titleLabel: PropTypes.string.isRequired,
+    order: PropTypes.object
+};
+

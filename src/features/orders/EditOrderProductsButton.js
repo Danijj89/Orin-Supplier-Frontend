@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { Box } from '@material-ui/core';
-import RHFOrderProductsDialog from '../shared/rhf_forms/RHFOrderProductsDialog.js';
+import OrderProductsDialog from '../shared/forms/OrderProductsDialog.js';
 import { LANGUAGE } from '../../app/constants.js';
 
 const {
@@ -25,7 +25,7 @@ export default function EditOrderProductsButton({ order, className }) {
             >
                 { buttonLabel }
             </ThemedButton>
-            <RHFOrderProductsDialog
+            <OrderProductsDialog
                 order={ order }
                 isOpen={ isEdit }
                 titleLabel={ dialogTitleLabel }

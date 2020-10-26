@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { Grid, IconButton } from '@material-ui/core';
 import { LANGUAGE } from '../../../app/constants.js';
 import { currenciesOptions, itemUnitsOptions } from '../constants.js';
@@ -277,3 +278,8 @@ export default function RHFOrderProducts({ rhfMethods, isEdit }) {
         </Grid>
     )
 }
+
+RHFOrderProducts.propTypes = {
+    rhfMethods: PropTypes.object.isRequired,
+    isEdit: PropTypes.bool
+};

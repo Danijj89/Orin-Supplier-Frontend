@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React from 'react';
 import DocumentStepper from '../shared/DocumentStepper.js';
 import { Box, Paper, Divider, Typography } from '@material-ui/core';
 import CreateOrderDetails from './CreateOrderDetails.js';
@@ -42,8 +42,7 @@ const {
     titleLabel,
     stepLabelsMap,
     prevButtonLabel,
-    nextButtonLabel,
-    errorMessages
+    nextButtonLabel
 } = LANGUAGE.order.createOrder;
 
 export default function CreateOrder() {
