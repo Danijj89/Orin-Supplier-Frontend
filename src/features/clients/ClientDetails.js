@@ -49,19 +49,18 @@ export default function ClientDetails({ match }) {
     const onNotesSubmit = (notes) =>
         dispatch(updateClientNotes({ id: client._id, notes }));
 
-    const columns = [
-        [
-            { label: assignedToLabel, value: client?.assignedTo?.name },
-            { label: primaryContactLabel, value: client?.defaultContact?.name },
-            { label: contactEmailLabel, value: client?.defaultContact?.email },
-            { label: taxNumberLabel, value: client?.taxNumber }
-        ],
-        [
-            { label: sourceLabel, value: client?.source },
-            { label: incotermLabel, value: client?.incoterm },
-            { label: paymentLabel, value: client?.payment },
-            { label: clientSinceLabel, value: dateToLocaleDate(client?.clientSince) }
-        ]
+    const leftData = [
+        { label: assignedToLabel, value: client?.assignedTo?.name },
+        { label: primaryContactLabel, value: client?.defaultContact?.name },
+        { label: contactEmailLabel, value: client?.defaultContact?.email },
+        { label: taxNumberLabel, value: client?.taxNumber }
+    ];
+
+    const rightData = [
+        { label: sourceLabel, value: client?.source },
+        { label: incotermLabel, value: client?.incoterm },
+        { label: paymentLabel, value: client?.payment },
+        { label: clientSinceLabel, value: dateToLocaleDate(client?.clientSince) }
     ];
 
     useEffect(() => {
@@ -80,7 +79,8 @@ export default function ClientDetails({ match }) {
                     className={ classes.clientInfoCard }
                     content={
                         <ColumnInfoDisplay
-                            columns={ columns }
+                            leftData={ leftData }
+                            rightData={ rightData }
                         />
                     }
                 />

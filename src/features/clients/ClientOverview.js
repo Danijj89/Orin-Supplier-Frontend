@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react';
-import { Grid } from '@material-ui/core';
+import { Paper } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectAllClients, selectClientStatus } from './duck/selectors.js';
 import { fetchClients } from './duck/thunks.js';
 import { selectCurrentUserId } from '../../app/duck/selectors.js';
 import ClientsTable from './ClientsTable.js';
 import NewClientButton from './NewClientButton.js';
-import Loader from '../shared/components/Loader.js';
 import { selectAllUsers, selectUserStatus } from '../users/duck/selectors.js';
 import {
     selectCurrentCompany,
@@ -17,9 +16,10 @@ import { cleanClientStore } from './duck/slice.js';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
-    newClientButton: {
-        paddingRight: theme.spacing(3),
+    clientOverviewRoot: {
+        margin: theme.spacing(2),
     },
+
 }));
 
 export default function ClientOverview() {
@@ -40,23 +40,19 @@ export default function ClientOverview() {
     }, [dispatch, company]);
 
     return (
-        <Grid container>
-            {loading && <Loader />}
+            <Paper className={classes.clientOverviewRoot}>
+            
             {userId && company && users && (
-                <Grid container item justify="flex-end" xs={12}>
                     <NewClientButton
                         userId={userId}
                         companyId={company._id}
                         users={users}
                         className={classes.newClientButton}
                     />
-                </Grid>
             )}
             {clients && (
-                <Grid item xs={12}>
-                    <ClientsTable clients={clients} />
-                </Grid>
+                    <ClientsTable clients={clients} isLoading={loading}  />
             )}
-        </Grid>
+        </Paper>
     );
 }

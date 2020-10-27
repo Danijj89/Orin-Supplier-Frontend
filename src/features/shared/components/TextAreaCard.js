@@ -11,11 +11,23 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         flexDirection: 'column',
         flex: '1 1 auto',
-        minHeight: 160
+        minHeight: 160,
+        marginBottom: theme.spacing(2)
     },
     display: {
-        flexGrow: 1
-    }
+        flexGrow: 1,
+        paddingTop: theme.spacing(1),
+        paddingBottom: theme.spacing(1),
+        paddingLeft: theme.spacing(2),
+        paddingRight: theme.spacing(2),
+    },
+    title: {
+        fontWeight: 'bold',
+        paddingTop: theme.spacing(1),
+        paddingBottom: theme.spacing(1),
+        paddingLeft: theme.spacing(2),
+        paddingRight: theme.spacing(2),
+    },
 }));
 
 const { submitLabel } = LANGUAGE.shared.components.textAreaCard;
@@ -33,7 +45,7 @@ export default function TextAreaCard({ titleLabel, value, className, onSubmit })
 
     return (
         <Card className={ clsx(classes.container, className) }>
-            <Typography>{ titleLabel }</Typography>
+            <Typography className={classes.title}> { titleLabel }</Typography>
             <Divider/>
             { !isEdit &&
             <Typography onClick={ onDisplayClick } className={ classes.display }>

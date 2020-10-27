@@ -27,23 +27,21 @@ const {
 export default function DetailsInfoCard({ order }) {
     const createdBy = useSelector(state => selectUserById(state, order.createdBy));
 
-    const columns = [
-        [
-            { label: orderReferenceLabel, value: order.ref },
-            { label: companyLabel, value: formatAddress(order.fromAdd) },
-            { label: dateLabel, value: order.date },
-            { label: crdLabel, value: dateToLocaleDate(order.crd) },
-            { label: incotermLabel, value: order.incoterm },
-            { label: quantityLabel, value: UnitCounter.stringRep(order.totalQ) }
-        ],
-        [
-            { label: clientReferenceLabel, value: order.clientRef },
-            { label: clientLabel, value: formatAddress(order.toAdd) },
-            { label: authorLabel, value: createdBy?.name },
-            { label: realCrdLabel, value: dateToLocaleDate(order.realCrd) },
-            { label: paymentMethodLabel, value: order.pay },
-            { label: totalLabel, value: formatCurrency(order.currency, order.totalA) }
-        ]
+    const leftData = [
+        { label: orderReferenceLabel, value: order.ref },
+        { label: companyLabel, value: formatAddress(order.fromAdd) },
+        { label: dateLabel, value: order.date },
+        { label: crdLabel, value: dateToLocaleDate(order.crd) },
+        { label: incotermLabel, value: order.incoterm },
+        { label: quantityLabel, value: UnitCounter.stringRep(order.totalQ) }
+    ];
+    const rightData = [
+        { label: clientReferenceLabel, value: order.clientRef },
+        { label: clientLabel, value: formatAddress(order.toAdd) },
+        { label: authorLabel, value: createdBy?.name },
+        { label: realCrdLabel, value: dateToLocaleDate(order.realCrd) },
+        { label: paymentMethodLabel, value: order.pay },
+        { label: totalLabel, value: formatCurrency(order.currency, order.totalA) }
     ];
 
     return (
@@ -52,7 +50,8 @@ export default function DetailsInfoCard({ order }) {
             button={ <EditOrderDetailsButton order={ order }/> }
             content={
                 <ColumnInfoDisplay
-                    columns={ columns }
+                    leftData={ leftData }
+                    rightData={ rightData }
                 />
             }
         />

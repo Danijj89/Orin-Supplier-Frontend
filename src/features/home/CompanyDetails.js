@@ -43,14 +43,12 @@ export default function CompanyDetails({ company }) {
         }
     }, [dispatch, status]);
 
-    const columns = [
-        [
-            { label: taxNumberLabel, value: company?.taxNumber },
-            { label: defaultCurrencyLabel, value: company?.defaultCurrency },
-            { label: industriesLabel, value: company?.industries },
-            { label: emailLabel, value: company?.legalAddress?.email },
-            { label: phoneLabel, value: company?.legalAddress?.phone },
-        ]
+    const leftData = [
+        { label: taxNumberLabel, value: company?.taxNumber },
+        { label: defaultCurrencyLabel, value: company?.defaultCurrency },
+        { label: industriesLabel, value: company?.industries },
+        { label: emailLabel, value: company?.legalAddress?.email },
+        { label: phoneLabel, value: company?.legalAddress?.phone }
     ];
 
     return (
@@ -62,7 +60,7 @@ export default function CompanyDetails({ company }) {
                 button={ <EditCompanyInfoButton company={ company }/> }
                 content={
                     <ColumnInfoDisplay
-                        columns={ columns }
+                        leftData={ leftData }
                     />
                 }
             />

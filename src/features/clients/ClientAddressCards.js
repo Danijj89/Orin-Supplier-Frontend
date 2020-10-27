@@ -14,6 +14,7 @@ const useStyles = makeStyles((theme) => ({
     },
     addressTitle: {
         fontWeight: 'bold',
+        fontSize: '1rem',
         padding: theme.spacing(2),
         color: theme.palette.tertiary[700],
     },

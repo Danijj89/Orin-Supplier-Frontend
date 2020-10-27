@@ -6,7 +6,6 @@ import { fetchOrders } from './duck/thunks.js';
 import { cleanNewOrder, cleanOrderStore, selectAllOrders } from './duck/slice.js';
 import { Paper } from '@material-ui/core';
 import { selectOrderStatus } from './duck/selectors.js';
-import Loader from '../shared/components/Loader.js';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import OrdersTable from './OrdersTable.js';
 import { isLoading } from '../shared/utils/store.js';
@@ -51,8 +50,7 @@ export default function OrdersOverview() {
             >
                 {newOrderButtonLabel}
             </ThemedButton>
-            {loading && <Loader />}
-            {orders && <OrdersTable orders={orders} />}
+            {orders && <OrdersTable orders={orders} isLoading={loading} />}
         </Paper>
     );
 }
