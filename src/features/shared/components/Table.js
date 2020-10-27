@@ -155,7 +155,7 @@ export default function Table(
                     ) }
                 </TableBody>
                 <TableFooter>
-                    { !footer &&
+                    { footer && footer.map((row, i) => renderFooter(row, i)) }
                     <TableRow>
                         <TablePagination
                             labelRowsPerPage={ rowsPerPageLabel }
@@ -169,8 +169,6 @@ export default function Table(
                             onChangeRowsPerPage={ onRowsChangePerPage }
                         />
                     </TableRow>
-                    }
-                    { footer && footer.map((row, i) => renderFooter(row, i)) }
                 </TableFooter>
             </MuiTable>
         </TableContainer>

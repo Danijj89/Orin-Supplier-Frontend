@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import FormDialog from '../wrappers/FormDialog.js';
 import { useForm } from 'react-hook-form';
@@ -15,19 +15,22 @@ export default function OrderProductsDialog(
     }) {
 
     const rhfMethods = useForm({
-        mode: 'onSubmit',
-        defaultValues: {
+        mode: 'onSubmit'
+    });
+    const { handleSubmit, reset } = rhfMethods;
+
+    const onFormSubmit = data => onSubmit(data);
+
+    useEffect(() => {
+        reset({
             custom1: order.custom1,
             custom2: order.custom2,
             items: order.items,
             totalQ: order.totalQ,
             totalA: order.totalA,
             currency: order.currency
-        }
-    });
-    const { handleSubmit } = rhfMethods;
-
-    const onFormSubmit = data => onSubmit(data);
+        })
+    }, [reset, order]);
 
     return (
         <FormDialog
