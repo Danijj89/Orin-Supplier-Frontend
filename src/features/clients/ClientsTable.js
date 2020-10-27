@@ -43,8 +43,6 @@ export default function ClientsTable({ clients, isLoading }) {
     }));
 
     return (
-
-            <Table rows={ rows } columns={ columns } onRowClick={onRowClick} isLoading={isLoading}/>
-
+        <Table rows={ rows } columns={ columns } onRowClick={ onRowClick } isLoading={ isLoading }/>
     )
 }

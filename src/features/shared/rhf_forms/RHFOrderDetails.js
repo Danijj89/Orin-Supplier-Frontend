@@ -59,7 +59,7 @@ export default function RHFOrderDetails({ rhfMethods, isEdit, company, clientsMa
         if (chosenClient && clientsMap.hasOwnProperty(chosenClient._id)) {
             if (chosenClient.incoterm) setValue('incoterm', chosenClient.incoterm);
             if (chosenClient.payment) setValue('pay', chosenClient.payment);
-            if (chosenClient.addresses) setClientAddresses(chosenClient.addresses);
+            if (chosenClient.addresses) setClientAddresses(chosenClient.addresses.filter(a => a.active));
         }
     }, [chosenClient, setValue, clientsMap]);
 
@@ -106,7 +106,7 @@ export default function RHFOrderDetails({ rhfMethods, isEdit, company, clientsMa
                         render={ (props) =>
                             <SideAutoComplete
                                 { ...props }
-                                options={ addresses }
+                                options={ addresses.filter(a => a.active) }
                                 label={ companyAddressLabel }
                                 error={ !!errors.fromAdd }
                                 getOptionLabel={ address => formatAddress(address) }
@@ -123,7 +123,7 @@ export default function RHFOrderDetails({ rhfMethods, isEdit, company, clientsMa
                         render={ (props) =>
                             <SideAutoComplete
                                 { ...props }
-                                options={ Object.values(clientsMap) }
+                                options={ Object.values(clientsMap).filter(c => c.active) }
                                 label={ clientLabel }
                                 error={ !!errors.to }
                                 getOptionLabel={ client => client.name }

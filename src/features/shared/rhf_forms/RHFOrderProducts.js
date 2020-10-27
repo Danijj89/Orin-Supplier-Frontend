@@ -131,7 +131,7 @@ export default function RHFOrderProducts({ rhfMethods, isEdit }) {
             field: 'ref',
             headerName: tableHeaderLabelsMap.ref,
             type: 'autocomplete',
-            options: products,
+            options: products.filter(p => p.active),
             getOptionLabel: product => product.sku || product,
             getOptionSelected: (product, params) => product._id === params.id,
         },

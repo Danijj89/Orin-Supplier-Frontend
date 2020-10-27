@@ -25,7 +25,7 @@ export default function ClientOrdersTable({ orders }) {
         { field: 'del', headerName: ordersTableHeadersMap.del }
     ];
 
-    const rows = orders.map(order => ({
+    const rows = orders.filter(order => order.active).map(order => ({
         id: order._id,
         ref: order.ref,
         clientRef: order.clientRef,

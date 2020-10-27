@@ -126,7 +126,8 @@ export default function CreateOrder() {
             <Divider/>
             <Paper>
                 { errMessages.length > 0 && <ErrorDisplay errors={ errMessages }/> }
-                { step === 'details' && <RHFOrderDetails rhfMethods={ rhfMethods } company={company} clientsMap={clientsMap}/> }
+                { step === 'details' &&
+                <RHFOrderDetails rhfMethods={ rhfMethods } company={ company } clientsMap={ clientsMap }/> }
                 { step === 'products' && <RHFOrderProducts rhfMethods={ rhfMethods }/> }
             </Paper>
             <Box className={ classes.footer }>
