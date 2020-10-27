@@ -4,7 +4,7 @@ import { LANGUAGE } from '../../app/constants.js';
 import { useDispatch, useSelector } from 'react-redux';
 import TextWithLabel from '../shared/displays/TextWithLabel.js';
 import ResetPasswordButton from './ResetPasswordButton.js';
-import { selectError, selectStatus } from '../../app/duck/selectors.js';
+import { selectAppError, selectStatus } from '../../app/duck/selectors.js';
 import ErrorDisplay from '../shared/components/ErrorDisplay.js';
 import { cleanError } from '../../app/duck/slice.js';
 import InfoCard from '../shared/wrappers/InfoCard.js';
@@ -27,7 +27,7 @@ export default function AccountDetails({ user }) {
     const classes = useStyles();
     const dispatch = useDispatch();
     const status = useSelector(selectStatus);
-    const error = useSelector(selectError);
+    const error = useSelector(selectAppError);
 
     useEffect(() => {
         if (status === 'REJECTED') {

@@ -512,9 +512,6 @@ export const ENGLISH = {
                 message: '404 - Not Found!',
                 homeButtonLabel: 'Go Home',
             },
-            errorDisplay: {
-                titleLabel: 'Errors:',
-            },
             addressCard: {
                 typeLabel: 'Type:',
                 phoneLabel: 'Phone number:',

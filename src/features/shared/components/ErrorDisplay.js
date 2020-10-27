@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Box, List, ListItem, ListItemText, Typography } from '@material-ui/core';
+import { Box, List, ListItem, ListItemText } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { LANGUAGE } from '../../../app/constants.js';
 
 const useStyles = makeStyles({
     listItem: {
@@ -13,14 +12,11 @@ const useStyles = makeStyles({
     }
 })
 
-const { titleLabel } = LANGUAGE.shared.components.errorDisplay;
-
 export default function ErrorDisplay({ errors, className }) {
     const classes = useStyles();
 
     return (
         <Box className={ className }>
-            { errors.length > 0 && <Typography className={ classes.error }>{ titleLabel }</Typography> }
             <List>
                 { errors.length > 0 && errors.map((error, index) =>
                     <ListItem key={ index } className={ classes.listItem }>

@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Redirect } from 'react-router-dom';
 import logo from '../images/orinlogo.png';
 import { LANGUAGE } from './constants.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { Grid, CardMedia, Typography, TextField } from '@material-ui/core';
-import ErrorDisplayer from '../features/shared/components/ErrorDisplay.js';
+import ErrorDisplay from '../features/shared/components/ErrorDisplay.js';
 import ThemedButton from '../features/shared/buttons/ThemedButton.js';
 import { useForm } from 'react-hook-form';
 import { makeStyles } from '@material-ui/core/styles';
 import loginImg from '../images/login.png';
 import { signIn } from './duck/thunks.js';
-import { selectCurrentUserId } from './duck/selectors.js';
+import { selectAppError, selectCurrentUserId } from './duck/selectors.js';
 
 const {
     title, emailLabel, errorMessages,
@@ -75,7 +75,7 @@ const useStyles = makeStyles((theme) => ({
 export default function LoginPage() {
     const classes = useStyles();
     const dispatch = useDispatch();
-    const [error, setError] = useState(null);
+    const appError = useSelector(selectAppError);
     const userId = useSelector(selectCurrentUserId);
 
     const { register, errors, handleSubmit } = useForm({
@@ -87,12 +87,11 @@ export default function LoginPage() {
     });
 
     const onSignInClick = async (credentials) => {
-        setError(null);
         dispatch(signIn(credentials));
     };
 
-    const isError = Object.keys(errors).length > 0 || error;
-    const allErrors = Object.values(errors).map(err => err.message).concat([error]);
+    const isError = Object.keys(errors).length > 0 || appError;
+    const allErrors = Object.values(errors).map(err => err.message).concat([appError]);
 
     return (
         <Grid container className={ classes.container }>
@@ -101,7 +100,7 @@ export default function LoginPage() {
                 <CardMedia className={ classes.logo } component="img" src={ logo } alt="Logo"/>
                 <Typography variant="h3">{ title }</Typography>
                 <form className={ classes.form } onSubmit={ handleSubmit(onSignInClick) } autoComplete="off">
-                    { isError && <ErrorDisplayer errors={ allErrors }/> }
+                    { isError && <ErrorDisplay errors={ allErrors }/> }
                     <TextField
                         name="email"
                         type="email"

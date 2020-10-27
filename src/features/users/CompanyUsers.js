@@ -34,7 +34,7 @@ export default function CompanyUsers({ users }) {
                 <List className={classes.list}>
                     {users.map((user) => (
                         <Box key={user._id}>
-                            <ListItem className={classes.listItem}>
+                            <ListItem className={classes.listItem} disabled={!user.active}>
                                 {user.name}
                             </ListItem>
                             <Divider />

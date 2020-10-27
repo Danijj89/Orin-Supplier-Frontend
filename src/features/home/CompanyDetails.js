@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Container } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectError, selectStatus } from '../../app/duck/selectors.js';
+import { selectAppError, selectStatus } from '../../app/duck/selectors.js';
 import { makeStyles } from '@material-ui/core/styles';
 import ErrorDisplay from '../shared/components/ErrorDisplay.js';
 import { cleanError } from '../../app/duck/slice.js';
@@ -35,7 +35,7 @@ export default function CompanyDetails({ company }) {
     const classes = useStyles();
     const dispatch = useDispatch();
     const status = useSelector(selectStatus);
-    const error = useSelector(selectError);
+    const error = useSelector(selectAppError);
 
     useEffect(() => {
         if (status === 'REJECTED') {
