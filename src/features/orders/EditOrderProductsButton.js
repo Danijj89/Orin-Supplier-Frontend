@@ -21,8 +21,14 @@ export default function EditOrderProductsButton({ order, className }) {
 
     const onSubmit = (data) => {
         data.id = order._id;
-        console.log(data);
-        // dispatch(updateOrderProducts(data));
+        for (const item of data.items) {
+            if (!item.product) {
+                item.product = item._id;
+                item.order = order._id;
+                item._id = null;
+            }
+        }
+        dispatch(updateOrderProducts(data));
         setIsEdit(false);
     };
 

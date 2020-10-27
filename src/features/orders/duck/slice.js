@@ -4,7 +4,7 @@ import {
     fetchOrderById,
     fetchOrders,
     startNewOrder,
-    updateOrderDetails, updateOrderNotes,
+    updateOrderDetails, updateOrderNotes, updateOrderProducts,
     updateOrderStatus
 } from './thunks.js';
 import { SESSION_NEW_ORDER } from '../../../app/sessionKeys.js';
@@ -122,7 +122,7 @@ const ordersSlice = createSlice({
         },
         [updateOrderStatus.fulfilled]: (state, action) => {
             const { id, status } = action.payload;
-            ordersAdapter.updateOne(state, { id, changes: { status }});
+            ordersAdapter.updateOne(state, { id, changes: { status } });
             state.status = 'IDLE';
         },
         [updateOrderStatus.rejected]: (state, action) => {
@@ -134,10 +134,22 @@ const ordersSlice = createSlice({
         },
         [updateOrderNotes.fulfilled]: (state, action) => {
             const { id, notes } = action.payload;
-            ordersAdapter.updateOne(state, { id, changes: { notes }});
+            ordersAdapter.updateOne(state, { id, changes: { notes } });
             state.status = 'IDLE';
         },
         [updateOrderNotes.rejected]: (state, action) => {
+            state.status = 'REJECTED';
+            state.error = action.payload.message;
+        },
+        [updateOrderProducts.pending]: (state, action) => {
+            state.status = 'PENDING';
+        },
+        [updateOrderProducts.fulfilled]: (state, action) => {
+            const { _id, ...updatedOrder } = action.payload;
+            ordersAdapter.updateOne(state, { id: _id, changes: updatedOrder });
+            state.status = 'IDLE';
+        },
+        [updateOrderProducts.rejected]: (state, action) => {
             state.status = 'REJECTED';
             state.error = action.payload.message;
         },
@@ -203,7 +215,6 @@ const ordersSlice = createSlice({
         //     state.status = 'REJECTED';
         //     state.error = action.error.message;
         // },
-
 
 
     }

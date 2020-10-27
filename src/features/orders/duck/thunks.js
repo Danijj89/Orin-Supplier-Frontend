@@ -69,8 +69,7 @@ export const updateOrderNotes = createAsyncThunk('orders/updateOrderNotes',
 export const updateOrderProducts = createAsyncThunk('orders/updateOrderProducts',
     async ({ id, ...update }, { rejectWithValue }) => {
         try {
-            await OrderService.updateOrderProducts(id, update);
-            return { id, update };
+            return await OrderService.updateOrderProducts(id, update);
         } catch (err) {
             return rejectWithValue(err.response.data);
         }
