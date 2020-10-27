@@ -23,87 +23,87 @@ export default function ColumnInfoDisplay({ leftData, rightData }) {
 
     return (
         <Grid container>
-            <Grid container className={classes.container} item xs={12} md={6}>
-                {leftData.map((displayItem, i) =>
-                <Grid container item key={i}>
-                    <Grid 
-                        container 
-                        alignItems="flex-start" justify="flex-end"
-                        item
-                        wrap="wrap"
-                        xs={4}>
-                    <Typography 
-                        className={classes.labels}
-                        align="right" >
-                            {displayItem.label}
-                    </Typography>
+            { leftData && <Grid container className={ classes.container } item xs={ 12 } md={ 6 }>
+                { leftData.map((displayItem, i) =>
+                    <Grid container item key={ i }>
+                        <Grid
+                            container
+                            alignItems="flex-start" justify="flex-end"
+                            item
+                            wrap="wrap"
+                            xs={ 4 }>
+                            <Typography
+                                className={ classes.labels }
+                                align="right">
+                                { displayItem.label }
+                            </Typography>
+                        </Grid>
+                        <Grid
+                            container
+                            item
+                            justify="center"
+                            xs={ 1 }>
+                            <Divider
+                                orientation="vertical"
+                                flexItem/>
+                        </Grid>
+                        <Grid
+                            alignItems="flex-start"
+                            item
+                            wrap="wrap"
+                            xs={ 7 }>
+                            <Typography
+                                className={ classes.content }
+                                align="left">
+                                { displayItem.value }
+                            </Typography>
+                        </Grid>
                     </Grid>
-                    <Grid 
-                        container
-                        item
-                        justify="center"
-                        xs={1}>
-                    <Divider 
-                        orientation="vertical" 
-                        flexItem />
-                    </Grid>
-                    <Grid  
-                        alignItems="flex-start"
-                        item
-                        wrap="wrap"
-                        xs={7}>
-                    <Typography 
-                        className={classes.content}
-                        align="left">
-                            {displayItem.value}
-                    </Typography>
-                    </Grid>
-                </Grid>
-                )}
-            </Grid>
-            <Grid 
-                container 
-                className={classes.container} 
-                item xs={12} 
-                md={6} 
+                ) }
+            </Grid> }
+            { rightData && <Grid
+                container
+                className={ classes.container }
+                item xs={ 12 }
+                md={ 6 }
                 direction="column">
-                {rightData.map((displayItem, i) =>
-                <Grid container item key={i}>
-                    <Grid 
-                        container 
-                        alignItems="flex-start" justify="flex-end"
-                        item
-                        wrap="wrap"
-                        xs={4}>
-                    <Typography 
-                        className={classes.labels}
-                        align="right">
-                            {displayItem.label}
-                    </Typography>
+                { rightData.map((displayItem, i) =>
+                    <Grid container item key={ i }>
+                        <Grid
+                            container
+                            alignItems="flex-start" justify="flex-end"
+                            item
+                            wrap="wrap"
+                            xs={ 4 }>
+                            <Typography
+                                className={ classes.labels }
+                                align="right">
+                                { displayItem.label }
+                            </Typography>
+                        </Grid>
+                        <Grid
+                            container
+                            item
+                            justify="center"
+                            xs={ 1 }>
+                            <Divider
+                                orientation="vertical"
+                                flexItem/>
+                        </Grid>
+                        <Grid
+                            alignItems="flex-start"
+                            item
+                            wrap="wrap"
+                            xs={ 7 }>
+                            <Typography
+                                className={ classes.content }
+                                align="left">
+                                { displayItem.value }
+                            </Typography>
+                        </Grid>
                     </Grid>
-                    <Grid 
-                        container
-                        item
-                        justify="center"
-                        xs={1}>
-                    <Divider 
-                        orientation="vertical" 
-                        flexItem />
-                    </Grid>
-                    <Grid  
-                        alignItems="flex-start"
-                        item
-                        wrap="wrap"
-                        xs={7}>
-                    <Typography 
-                        className={classes.content}
-                        align="left">
-                            {displayItem.value}
-                    </Typography>
-                    </Grid>
-                </Grid>
-                )}
-            </Grid>
+                ) }
+            </Grid> }
         </Grid>
     );
 }
