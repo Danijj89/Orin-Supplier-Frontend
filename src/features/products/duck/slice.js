@@ -42,7 +42,7 @@ const productsSlice = createSlice({
             state.status = 'PENDING';
         },
         [deleteProduct.fulfilled]: (state, action) => {
-            productsAdapter.removeOne(state, action.payload);
+            productsAdapter.updateOne(state, { id: action.payload, changes: { active: false } });
             state.status = 'IDLE';
         },
         [deleteProduct.rejected]: (state, action) => {

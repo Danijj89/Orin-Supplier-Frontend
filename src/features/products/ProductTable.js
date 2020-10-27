@@ -55,7 +55,7 @@ export default function ProductTable({ products, isLoading }) {
         { field: 'hsc', headerName: tableHeadersMap.hsc },
     ];
 
-    const rows = Object.values(products).map((product) => ({
+    const rows = Object.values(products).filter(product => product.active).map((product) => ({
         id: product._id,
         sku: product.sku,
         name: product.name,
