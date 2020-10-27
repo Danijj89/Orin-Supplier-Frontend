@@ -11,8 +11,7 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         flexDirection: 'column',
         flex: '1 1 auto',
-        minHeight: 160,
-        marginBottom: theme.spacing(2)
+        minHeight: 160
     },
     display: {
         flexGrow: 1,
