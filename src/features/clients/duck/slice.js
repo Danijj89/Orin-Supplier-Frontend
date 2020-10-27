@@ -90,7 +90,11 @@ const clientsSlice = createSlice({
         },
         [deleteClientAddress.fulfilled]: (state, action) => {
             const { clientId, addressId } = action.payload;
-            const newAddresses = state.entities[clientId].addresses.filter(add => add._id !== addressId);
+            const newAddresses = state.entities[clientId].addresses.map(
+                add => {
+                    if (add._id === addressId) add.active = false;
+                    return add;
+                });
             clientsAdapter.updateOne(state, { id: clientId, changes: { addresses: newAddresses } });
             state.status = 'IDLE';
         },
@@ -142,7 +146,11 @@ const clientsSlice = createSlice({
         },
         [deleteContact.fulfilled]: (state, action) => {
             const { clientId, contactId } = action.payload;
-            const newContacts = state.entities[clientId].contacts.filter(c => c._id !== contactId);
+            const newContacts = state.entities[clientId].contacts.map(
+                contact => {
+                    if (contact._id === contactId) contact.active = false;
+                    return contact;
+                });
             clientsAdapter.updateOne(state, { id: clientId, changes: { contacts: newContacts } });
             state.status = 'IDLE';
         },
@@ -168,7 +176,7 @@ const clientsSlice = createSlice({
             state.status = 'PENDING';
         },
         [deleteClient.fulfilled]: (state, action) => {
-            clientsAdapter.removeOne(state, action.payload);
+            clientsAdapter.updateOne(state, { id: action.payload, changes: { active: false } });
             state.status = 'IDLE';
         },
         [deleteClient.rejected]: (state, action) => {

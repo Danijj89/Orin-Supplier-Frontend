@@ -10,6 +10,7 @@ import EditCompanyInfoButton from './EditCompanyInfoButton.js';
 import CompanyAddressCards from './CompanyAddressCards.js';
 import { LANGUAGE } from '../../app/constants.js';
 import ColumnInfoDisplay from '../shared/wrappers/ColumnInfoDisplay.js';
+import { selectHomeError } from './duck/selectors.js';
 
 const useStyles = makeStyles((theme) => ({
     topCard: {
@@ -35,7 +36,7 @@ export default function CompanyDetails({ company }) {
     const classes = useStyles();
     const dispatch = useDispatch();
     const status = useSelector(selectStatus);
-    const error = useSelector(selectAppError);
+    const homeError = useSelector(selectHomeError);
 
     useEffect(() => {
         if (status === 'REJECTED') {
@@ -53,7 +54,7 @@ export default function CompanyDetails({ company }) {
 
     return (
         <Container className={ classes.companyContainer }>
-            { status === 'REJECTED' && <ErrorDisplay errors={ [error] }/> }
+            { homeError && <ErrorDisplay errors={ [homeError] }/> }
             <InfoCard
                 className={ classes.topCard }
                 title={ company?.defaultAddress?.name }

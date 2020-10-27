@@ -60,7 +60,8 @@ const homeSlice = createSlice({
         },
         [deleteAddress.fulfilled]: (state, action) => {
             const id = action.payload;
-            state.company.addresses = state.company.addresses.filter(add => add._id !== id);
+            const addressIdx = state.company.addresses.findIndex(add => add._id === id);
+            state.company.addresses[addressIdx].active = false;
             state.status = 'IDLE';
         },
         [deleteAddress.rejected]: (state, action) => {

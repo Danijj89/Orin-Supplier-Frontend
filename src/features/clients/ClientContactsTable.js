@@ -47,7 +47,7 @@ export default function ClientContactsTable({ client }) {
         { field: 'additional', headerName: contactTableHeadersMap.additional }
     ];
 
-    const rows = contacts.map(contact => ({
+    const rows = contacts.filter(contact => contact.active).map(contact => ({
         id: contact._id,
         name: contact.name,
         email: contact.email,

@@ -30,7 +30,7 @@ export default function ClientsTable({ clients, isLoading }) {
         { field: 'notes', headerName: clientTableHeadersMap.notes, renderCell: renderNotes, }
     ];
 
-    const rows = clients.map(client => ({
+    const rows = clients.filter(client => client.active).map(client => ({
         id: client._id,
         name: client.name,
         contactName: client.defaultContact?.name,

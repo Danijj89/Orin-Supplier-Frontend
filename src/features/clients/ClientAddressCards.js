@@ -64,7 +64,7 @@ export default function ClientAddressCards({ client, className }) {
             </Typography>
             <Box className={ classes.cards }>
                 <Grid container>
-                    { addresses.map((address) => (
+                    { addresses.filter(address => address.active).map((address) => (
                         <Grid item xs={ 12 } sm={ 6 } lg={ 4 } key={ address._id }>
                             <AddressCard
                                 address={ address }

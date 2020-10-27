@@ -48,6 +48,7 @@ export default function ColumnInfoDisplay({ leftData, rightData }) {
                                 flexItem/>
                         </Grid>
                         <Grid
+                            container
                             alignItems="flex-start"
                             item
                             wrap="wrap"
@@ -91,6 +92,7 @@ export default function ColumnInfoDisplay({ leftData, rightData }) {
                                 flexItem/>
                         </Grid>
                         <Grid
+                            container
                             alignItems="flex-start"
                             item
                             wrap="wrap"
