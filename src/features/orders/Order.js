@@ -14,6 +14,7 @@ import { selectClientStatus } from '../clients/duck/selectors.js';
 import { fetchClients } from '../clients/duck/thunks.js';
 import { selectProductStatus } from '../products/duck/selectors.js';
 import { fetchProducts } from '../products/duck/thunks.js';
+import { Redirect } from 'react-router-dom';
 
 const { tabsLabelsMap } = LANGUAGE.order.order;
 
@@ -45,6 +46,7 @@ export default function Order({ match }) {
     return (
         <Box>
             { loading && <Loader/> }
+            { order?.active === false && <Redirect to={ '/home/orders' }/> }
             <Paper>
                 <Tabs
                     value={ tabValue }

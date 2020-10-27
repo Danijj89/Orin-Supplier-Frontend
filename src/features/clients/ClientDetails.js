@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import InfoCard from '../shared/wrappers/InfoCard.js';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectClientById, selectClientError, selectClientStatus } from './duck/selectors.js';
+import { selectClientById, selectClientStatus } from './duck/selectors.js';
 import { Container } from '@material-ui/core';
 import { fetchClientById, updateClientNotes } from './duck/thunks.js';
 import Loader from '../shared/components/Loader.js';
@@ -44,7 +44,6 @@ export default function ClientDetails({ match }) {
     const clientStatus = useSelector(selectClientStatus);
     const userStatus = useSelector(selectUserStatus);
     const loading = isLoading([clientStatus, userStatus]);
-    const error = useSelector(selectClientError);
 
     const onNotesSubmit = (notes) =>
         dispatch(updateClientNotes({ id: client._id, notes }));
@@ -71,7 +70,7 @@ export default function ClientDetails({ match }) {
     return (
         <Container>
             { loading && <Loader/> }
-            { error && !client && <Redirect to={ '/home/clients' }/> }
+            { client?.active === false && <Redirect to={ '/home/clients' }/> }
             { client && users && (
                 <InfoCard
                     title={ client.name }

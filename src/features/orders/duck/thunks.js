@@ -74,3 +74,13 @@ export const updateOrderProducts = createAsyncThunk('orders/updateOrderProducts'
             return rejectWithValue(err.response.data);
         }
     });
+
+export const deleteOrder = createAsyncThunk('orders/deleteOrder',
+    async (id, {rejectWithValue}) => {
+        try {
+            await OrderService.deleteOrder(id);
+            return id;
+        } catch (err) {
+            return rejectWithValue(err.response.data);
+        }
+    });

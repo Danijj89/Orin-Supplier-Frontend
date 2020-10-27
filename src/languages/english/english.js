@@ -472,6 +472,7 @@ export const ENGLISH = {
                 clientLabel: 'Buyer',
                 clientAddressLabel: 'Buyer Address',
                 crdLabel: 'Cargo Ready Date',
+                realCrdLabel: 'Actual Ready Date',
                 incotermLabel: 'Incoterm',
                 paymentMethodLabel: 'Payment Method',
                 clientReferenceLabel: 'Client Reference',

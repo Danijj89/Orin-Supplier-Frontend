@@ -23,7 +23,7 @@ export default function OrdersTable({ orders, isLoading }) {
         { field: 'notes', headerName: ordersTableHeadersMap.notes }
     ];
 
-    const rows = orders.map(order => ({
+    const rows = orders.filter(order => order.active).map(order => ({
         id: order._id,
         ref: order.ref,
         totalQ: UnitCounter.stringRep(order.totalQ),

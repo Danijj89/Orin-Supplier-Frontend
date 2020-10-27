@@ -1,6 +1,6 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import {
-    createOrder,
+    createOrder, deleteOrder,
     fetchOrderById,
     fetchOrders,
     startNewOrder,
@@ -36,24 +36,6 @@ const ordersSlice = createSlice({
             state.currentOrderId = null;
             state.status = 'IDLE';
         }
-        // setCurrentPOId: (state, action) => {
-        //     state.currentPOId = action.payload;
-        // },
-        // updateOrderDocument: (state, action) => {
-        //     const { docType, doc } = action.payload;
-        //     const { currentPOId } = state;
-        //     const currentPO = state.entities[currentPOId];
-        //     if (currentPO) {
-        //         const newDocuments = currentPO.documents;
-        //         newDocuments[docType] = doc;
-        //         ordersAdapter.updateOne(state, { id: currentPOId, changes: { documents: newDocuments } })
-        //     }
-        // },
-        // deleteOrderDocument: (state, action) => {
-        //     const { docType, id } = action.payload;
-        //     const { [docType]: type, ...rest } = state.entities[id].documents;
-        //     ordersAdapter.updateOne(state, { id, changes: { documents: rest } })
-        // }
     },
     extraReducers: {
         [fetchOrders.pending]: (state, action) => {
@@ -153,70 +135,17 @@ const ordersSlice = createSlice({
             state.status = 'REJECTED';
             state.error = action.payload.message;
         },
-        // [fetchSelectedOrderById.pending]: (state, action) => {
-        //     state.status = 'PENDING';
-        // },
-        // [fetchSelectedOrderById.fulfilled]: (state, action) => {
-        //     state.status = 'IDLE';
-        //     const { _id: id } = action.payload;
-        //     state.currentPOId = id;
-        //     ordersAdapter.updateOne(state, { id, changes: action.payload })
-        // },
-        // [fetchSelectedOrderById.rejected]: (state, action) => {
-        //     state.status = 'REJECTED';
-        //     state.error = action.error.message;
-        // },
-        // [submitOrder.pending]: (state, action) => {
-        //     state.status = 'PENDING';
-        // },
-        // [submitOrder.fulfilled]: (state, action) => {
-        //
-        // },
-        // [submitOrder.rejected]: (state, action) => {
-        //     state.status = 'REJECTED';
-        //     state.error = action.error.message;
-        // },
-        // [updateOrderStatus.pending]: (state, action) => {
-        //     state.status = 'PENDING';
-        // },
-        // [updateOrderStatus.fulfilled]: (state, action) => {
-        //     const { id, statuses } = action.payload;
-        //     state.status = 'IDLE';
-        //     const changes = {
-        //         procurementS: statuses.procurementS,
-        //         productionS: statuses.productionS,
-        //         qaS: statuses.qaS
-        //     };
-        //     ordersAdapter.updateOne(state, { id, changes });
-        // },
-        // [updateOrderStatus.rejected]: (state, action) => {
-        //     state.status = 'REJECTED';
-        //     state.error = action.error.message;
-        // },
-        // [deleteOrder.pending]: (state, action) => {
-        //     state.status = 'PENDING';
-        // },
-        // [deleteOrder.fulfilled]: (state, action) => {
-        //     state.status = 'IDLE';
-        //     ordersAdapter.removeOne(state, action.payload);
-        // },
-        // [deleteOrder.rejected]: (state, action) => {
-        //     state.status = 'REJECTED';
-        //     state.error = action.error.message;
-        // },
-        // [submitOrderForPreview.pending]: (state, action) => {
-        //     state.status = 'PENDING';
-        // },
-        // [submitOrderForPreview.fulfilled]: (state, action) => {
-        //     state.status = 'IDLE';
-        //     state.previewFileURL = action.payload;
-        // },
-        // [submitOrderForPreview.rejected]: (state, action) => {
-        //     state.status = 'REJECTED';
-        //     state.error = action.error.message;
-        // },
-
-
+        [deleteOrder.pending]: (state, action) => {
+            state.status = 'PENDING';
+        },
+        [deleteOrder.fulfilled]: (state, action) => {
+            ordersAdapter.updateOne(state, { id: action.payload, changes: { active: false } });
+            state.status = 'IDLE';
+        },
+        [deleteOrder.rejected]: (state, action) => {
+            state.status = 'REJECTED';
+            state.error = action.payload.message;
+        }
     }
 });
 

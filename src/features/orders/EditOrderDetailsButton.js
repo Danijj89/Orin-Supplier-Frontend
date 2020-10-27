@@ -6,7 +6,7 @@ import OrderDetailsDialog from '../shared/forms/OrderDetailsDialog.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCurrentCompany } from '../home/duck/selectors.js';
 import { selectClientsMap } from '../clients/duck/selectors.js';
-import { updateOrderDetails } from './duck/thunks.js';
+import { deleteOrder, updateOrderDetails } from './duck/thunks.js';
 
 const {
     buttonLabel,
@@ -23,7 +23,7 @@ export default function EditOrderDetailsButton({ order, className }) {
     const onEdit = () => setIsEdit(true);
     const onCancel = () => setIsEdit(false);
 
-    const onDelete = (id) => dispatch();
+    const onDelete = () => dispatch(deleteOrder(order._id));
 
     const onSubmit = (data) => {
         const { fromAdd, toAdd, ...rest } = data;
@@ -57,7 +57,7 @@ export default function EditOrderDetailsButton({ order, className }) {
                 submitLabel={ dialogSubmitLabel }
                 onCancel={ onCancel }
                 onSubmit={ onSubmit }
-                onDelete={ () => onDelete(order._id) }
+                onDelete={ onDelete }
             />
         </Box>
     )
