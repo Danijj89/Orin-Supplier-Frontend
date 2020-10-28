@@ -37,6 +37,8 @@ export default function RHFOrderProducts({ rhfMethods, isEdit }) {
     }, []);
 
     useEffect(() => {
+        // Check that this is not a new order and that we haven't already registered these fields in the form
+        // by going back and forth in the order creation process
         if (isEdit || !getValues('items')) {
             register({ name: 'items' }, { validate: validateItems });
             register({ name: 'custom1' });
