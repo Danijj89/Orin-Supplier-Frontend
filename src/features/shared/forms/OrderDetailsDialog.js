@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import FormDialog from '../wrappers/FormDialog.js';
 import { useForm } from 'react-hook-form';
 import { LANGUAGE } from '../../../app/constants.js';
@@ -23,8 +23,15 @@ export default function OrderDetailsDialog(
     }) {
 
     const rhfMethods = useForm({
-        mode: 'onSubmit',
-        defaultValues: {
+        mode: 'onSubmit'
+    });
+
+    const { handleSubmit, reset } = rhfMethods;
+
+    const onFormSubmit = data => onSubmit(data);
+
+    useEffect(() => {
+        reset({
             ref: order?.ref,
             fromAdd: order?.fromAdd,
             to: order?.to && clientsMap[order.to],
@@ -38,13 +45,8 @@ export default function OrderDetailsDialog(
             pay: order?.pay,
             del: order?.del,
             carrier: order?.carrier
-        },
-        shouldUnregister: false
-    });
-
-    const { handleSubmit } = rhfMethods;
-
-    const onFormSubmit = data => onSubmit(data);
+        });
+    }, [reset, order, clientsMap]);
 
     return (
         <FormDialog

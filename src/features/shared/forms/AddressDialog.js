@@ -20,13 +20,10 @@ const {
 } = LANGUAGE.shared.forms.addressDialog;
 
 export default function AddressDialog({ isOpen, onSubmit, onCancel, submitLabel, address, titleLabel, onDelete }) {
-    const { register, errors, handleSubmit, formState, reset } = useForm({
-        mode: 'onChange'
+    const { register, errors, handleSubmit, reset } = useForm({
+        mode: 'onSubmit'
     });
-    const { isValid } = formState;
-    const onFormSubmit = (data) => {
-        if (isValid) onSubmit(data);
-    };
+    const onFormSubmit = (data) => onSubmit(data);
 
     useEffect(() => {
         reset({

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import FormDialog from '../wrappers/FormDialog.js';
 import { Controller, useForm } from 'react-hook-form';
@@ -12,20 +12,19 @@ const { taxNumberLabel, defaultCurrencyLabel, industriesLabel } = LANGUAGE.share
 export default function CompanyDialog(
     { company, isOpen, titleLabel, submitLabel, onSubmit, onCancel, className }) {
 
-    const { register, errors, handleSubmit, formState, control } = useForm({
-        mode: 'onChange',
-        defaultValues: {
+    const { register, errors, handleSubmit, control, reset } = useForm({
+        mode: 'onSubmit'
+    });
+
+    const onFormSubmit = (data) => onSubmit(data);
+
+    useEffect(() => {
+        reset({
             taxNumber: company?.taxNumber,
             defaultCurrency: company?.defaultCurrency,
             industries: company?.industries || []
-        },
-        shouldUnregister: false
-    });
-
-    const { isValid } = formState;
-    const onFormSubmit = (data) => {
-        if (isValid) onSubmit(data);
-    };
+        });
+    }, [reset, company]);
 
     return (
         <FormDialog

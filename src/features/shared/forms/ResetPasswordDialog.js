@@ -9,17 +9,11 @@ const { passwordLabel, newPasswordLabel, confirmPasswordLabel } = LANGUAGE.share
 
 export default function ResetPassWordDialog(
     { isOpen, titleLabel, submitLabel, onSubmit, onCancel, className }) {
-    const { register, errors, handleSubmit, formState } = useForm({
-        mode: 'onChange',
-        shouldUnregister: false
+    const { register, errors, handleSubmit } = useForm({
+        mode: 'onSubmit'
     });
-    const { isValid } = formState;
 
-    const onFormSubmit = (data) => {
-        if (isValid) {
-            onSubmit(data);
-        }
-    };
+    const onFormSubmit = (data) => onSubmit(data);
 
     return (
         <FormDialog

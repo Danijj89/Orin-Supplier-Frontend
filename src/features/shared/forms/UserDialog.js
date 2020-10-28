@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import FormDialog from '../wrappers/FormDialog.js';
 import { LANGUAGE } from '../../../app/constants.js';
@@ -10,19 +10,18 @@ const { nameLabel, emailLabel } = LANGUAGE.shared.forms.userDialog;
 export default function UserDialog(
     { user, isOpen, titleLabel, submitLabel, onSubmit, onCancel, className }) {
 
-    const { register, errors, handleSubmit, formState } = useForm({
-        mode: 'onChange',
-        defaultValues: {
-            name: user?.name,
-            email: user?.email
-        },
-        shouldUnregister: false
+    const { register, errors, handleSubmit, reset } = useForm({
+        mode: 'onSubmit'
     });
 
-    const { isValid } = formState;
-    const onFormSubmit = (data) => {
-        if (isValid) onSubmit(data);
-    };
+    const onFormSubmit = (data) => onSubmit(data);
+
+    useEffect(() => {
+        reset({
+            name: user?.name,
+            email: user?.email
+        });
+    }, [reset, user]);
 
     return (
         <FormDialog

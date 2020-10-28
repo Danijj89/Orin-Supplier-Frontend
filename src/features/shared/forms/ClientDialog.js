@@ -33,14 +33,11 @@ export default function ClientDialog(
         isEdit,
         onDelete
     }) {
-    const { register, errors, formState, handleSubmit, control, reset, getValues } = useForm({
-        mode: 'onChange'
+    const { register, errors, handleSubmit, control, reset, getValues } = useForm({
+        mode: 'onSubmit'
     });
 
-    const { isValid } = formState;
-    const onFormSubmit = (data) => {
-        if (isValid) onSubmit(data);
-    };
+    const onFormSubmit = (data) => onSubmit(data);
 
     useEffect(() => {
         reset({

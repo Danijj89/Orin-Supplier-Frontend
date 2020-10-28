@@ -59,7 +59,7 @@ export default function SideTextField({ label, required, className, error, disab
             <MuiTextField
                 { ...props }
                 className={ classNames }
-                InputProps={ { ...props.InputProps, disableUnderline: true } }
+                InputProps={ { ...props.InputProps, disableUnderline: true, autoComplete: 'nope' } }
                 required={ required }
                 error={ error }
                 disabled={ disabled }

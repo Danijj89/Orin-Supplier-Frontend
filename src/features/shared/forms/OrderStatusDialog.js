@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import FormDialog from '../wrappers/FormDialog.js';
 import { Controller, useForm } from 'react-hook-form';
 import { makeStyles } from '@material-ui/core/styles';
@@ -47,7 +47,7 @@ export default function OrderStatusDialog(
     }) {
     const classes = useStyles();
     const { procurement, production, qa } = status;
-    const { control, handleSubmit, errors, watch, setValue } = useForm({
+    const { control, handleSubmit, errors, watch, setValue, reset } = useForm({
         mode: 'onSubmit',
         defaultValues: {
             procurementStatus: procurement.status,
@@ -67,11 +67,27 @@ export default function OrderStatusDialog(
     const productionStatus = watch('productionStatus');
     const qaStatus = watch('qaStatus');
 
+    const mounted = useRef(false);
+
     useEffect(() => {
+        if (!mounted.current) {
+            reset({
+                procurementStatus: procurement.status,
+                productionStatus: production.status,
+                qaStatus: qa.status,
+                procurementEstimated: procurement.estimated,
+                productionEstimated: production.estimated,
+                qaEstimated: qa.estimated,
+                procurementActual: procurement.actual,
+                productionActual: production.actual,
+                qaActual: qa.actual
+            });
+            mounted.current = true;
+        }
         if (procurementStatus === 'Completed') setValue('procurementActual', new Date());
         else if (productionStatus === 'Completed') setValue('productionActual', new Date());
         else if (qaStatus === 'Completed') setValue('qaActual', new Date());
-    }, [procurementStatus, productionStatus, qaStatus, setValue]);
+    }, [procurementStatus, productionStatus, qaStatus, setValue, reset, procurement, production, qa]);
 
     const onFormSubmit = data => {
         const newStatus = {

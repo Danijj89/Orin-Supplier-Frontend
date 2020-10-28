@@ -27,14 +27,11 @@ export default function ContactDialog(
         titleLabel,
         onDelete
     }) {
-    const { register, errors, handleSubmit, formState, reset } = useForm({
-        mode: 'onChange'
+    const { register, errors, handleSubmit, reset } = useForm({
+        mode: 'onSubmit'
     });
 
-    const { isValid } = formState;
-    const onFormSubmit = (data) => {
-        if (isValid) onSubmit(data);
-    };
+    const onFormSubmit = (data) => onSubmit(data);
 
     useEffect(() => {
         reset({
