@@ -12,6 +12,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import SideCheckBox from '../inputs/SideCheckBox.js';
 import SideTextArea from '../inputs/SideTextArea.js';
 import PropTypes from 'prop-types';
+import NewClientAddressButton from '../buttons/NewClientAddressButton.js';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -62,6 +63,8 @@ export default function RHFOrderDetails({ rhfMethods, isEdit, company, clientsMa
             if (chosenClient.addresses) setClientAddresses(chosenClient.addresses.filter(a => a.active));
         }
     }, [chosenClient, setValue, clientsMap]);
+
+    const shouldShowAddAddressButton = !isEdit && chosenClient;
 
     return (
         <Box className={ classes.container }>
@@ -152,6 +155,7 @@ export default function RHFOrderDetails({ rhfMethods, isEdit, company, clientsMa
                         control={ control }
                         rules={ { required: true } }
                     />
+                    { shouldShowAddAddressButton && <NewClientAddressButton client={chosenClient} /> }
                     <Controller
                         render={ props =>
                             <SideDateField
