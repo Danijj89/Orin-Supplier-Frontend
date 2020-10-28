@@ -15,6 +15,7 @@ import { fetchClients } from '../clients/duck/thunks.js';
 import { selectProductStatus } from '../products/duck/selectors.js';
 import { fetchProducts } from '../products/duck/thunks.js';
 import { Redirect } from 'react-router-dom';
+import OrderDocuments from './OrderDocuments.js';
 
 const { tabsLabelsMap } = LANGUAGE.order.order;
 
@@ -59,13 +60,11 @@ export default function Order({ match }) {
                     ) }
                 </Tabs>
             </Paper>
-            { order && company && clientStatus === 'FULFILLED' && productStatus === 'FULFILLED' && tabValue === 'details' &&
+            { order && company && clientStatus === 'FULFILLED' && productStatus === 'FULFILLED'
+            && tabValue === 'details' &&
             <OrderDetails order={ order }/>
             }
-            {/*<Grid item xs={12}>*/ }
-            {/*    { order && tabValue === 0 && <OrderDetails order={order}/> }*/ }
-            {/*    { order && tabValue === 1 && <OrderProductTable order={ order }/> }*/ }
-            {/*</Grid>*/ }
+            { order && tabValue === 'documents' && <OrderDocuments order={ order }/> }
         </Box>
     )
 }
