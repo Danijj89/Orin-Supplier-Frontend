@@ -1,3 +1,9 @@
+import { shipmentsAdapter } from './slice.js';
 
-export const selectStatus = state => state.shipments.status;
-export const selectAutocompleteOptions = state => state.shipments.autocomplete;
+export const selectShipmentStatus = state => state.shipments.status;
+export const selectShipmentError = state => state.shipments.error;
+
+export const {
+    selectAll: selectAllShipments,
+    selectById: selectShipmentById
+} = shipmentsAdapter.getSelectors(state => state.shipments);

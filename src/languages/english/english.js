@@ -19,12 +19,16 @@ export const ENGLISH = {
         },
     },
     home: {
-        sidePanel: {
-            orders: 'Orders',
-            shipments: 'Shipments',
-            clients: 'Clients',
-            products: 'Products',
-            settings: 'Settings',
+        navbar: {
+            tabsLabelsMap: {
+                orders: 'Orders',
+                shipments: 'Shipments',
+                leads: 'Leads',
+                clients: 'Clients',
+                products: 'Products',
+                settings: 'Settings',
+            },
+            helloMessageLabel: 'Hello'
         },
         settings: {
             tabsLabelMap: {
@@ -290,7 +294,6 @@ export const ENGLISH = {
             totalsLabel: 'Total:',
         },
     },
-
     commercialInvoice: {
         createCI: {
             steps: ['Invoice Info', 'Products', 'Review'],
@@ -364,7 +367,7 @@ export const ENGLISH = {
     },
     shipments: {
         overview: {
-            addShipmentButton: 'New Shipment',
+            newShipmentButtonLabel: 'New Shipment'
         },
         createShipment: {
             steps: ['Orders', 'Details', 'Product Info', 'Review'],
