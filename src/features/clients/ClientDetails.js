@@ -33,6 +33,9 @@ const useStyles = makeStyles((theme) => ({
     clientInfoCard: {
         marginBottom: theme.spacing(2),
     },
+    notesCard: {
+        marginBottom: theme.spacing(2),
+    },
 }));
 
 export default function ClientDetails({ match }) {
@@ -84,7 +87,7 @@ export default function ClientDetails({ match }) {
                     }
                 />
             ) }
-            { client && <TextAreaCard titleLabel={ notesLabel } value={ client.notes } onSubmit={ onNotesSubmit }/> }
+            { client && <TextAreaCard titleLabel={ notesLabel } className={classes.notesCard} value={ client.notes } onSubmit={ onNotesSubmit }/> }
             { client && <ClientInfoTable client={ client }/> }
         </Container>
     );

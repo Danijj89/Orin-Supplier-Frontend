@@ -9,31 +9,48 @@ import { updateOrderNotes } from './duck/thunks.js';
 import OrderProductTable from './OrderProductTable.js';
 import InfoCard from '../shared/wrappers/InfoCard.js';
 import EditOrderProductsButton from './EditOrderProductsButton.js';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+    detailsInfoCard: {
+        marginBottom: theme.spacing(1),
+    },
+    notes: {
+        paddingLeft: theme.spacing(2),
+        [theme.breakpoints.down('sm')]: {
+            paddingLeft: '0',
+            marginTop: theme.spacing(1)
+        },
+    },
+    productsTable: {
+        marginTop: theme.spacing(3)
+    },
+}));
 
 const { notesLabel, productTableTitleLabel } = LANGUAGE.order.order.orderDetails;
 
 export default function OrderDetails({ order }) {
     const dispatch = useDispatch();
-
+    const classes = useStyles();
     const onNotesSubmit = (notes) =>
         dispatch(updateOrderNotes({ id: order._id, notes }));
 
     return (
-        <Grid container>
-            <Grid item xs={ 12 }>
-                <DetailsInfoCard order={ order }/>
+        <Grid container className={classes.root}>
+            <Grid className={classes.detailsInfoCard} item xs={ 12 }>
+                <DetailsInfoCard  order={ order }/>
             </Grid>
-            <Grid item xs={ 6 }>
+            <Grid item xs={ 12 } md={ 6 } >
                 <StatusInfoCard orderId={ order._id } status={ order.status }/>
             </Grid>
-            <Grid container item xs={ 6 }>
+            <Grid container item xs={ 12 } md={ 6 } className={classes.notes}>
                 <TextAreaCard
                     titleLabel={ notesLabel }
                     value={ order.notes }
                     onSubmit={ onNotesSubmit }
                 />
             </Grid>
-            <Grid item xs={ 12 }>
+            <Grid item xs={ 12 } className={classes.productsTable}>
                 <InfoCard
                     title={ productTableTitleLabel }
                     button={ <EditOrderProductsButton order={ order }/> }

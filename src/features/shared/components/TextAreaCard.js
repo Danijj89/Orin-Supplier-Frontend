@@ -27,6 +27,18 @@ const useStyles = makeStyles((theme) => ({
         paddingLeft: theme.spacing(2),
         paddingRight: theme.spacing(2),
     },
+    dialog: {
+        width: theme.spacing(80),
+        height: theme.spacing(30),
+        [theme.breakpoints.down('md')]: {
+            width: theme.spacing(50),
+            height: theme.spacing(30),
+        },
+        [theme.breakpoints.down('xs')]: {
+            width: theme.spacing(30),
+            height: theme.spacing(30),
+        },
+    }
 }));
 
 const { submitLabel } = LANGUAGE.shared.components.textAreaCard;
@@ -58,6 +70,7 @@ export default function TextAreaCard({ titleLabel, value, className, onSubmit })
                 onCancel={ () => setIsEdit(false) }
                 titleLabel={ titleLabel }
                 submitLabel={ submitLabel }
+                
             >
                 <TextArea
                     onChange={ e => setVal(e.target.value) }
@@ -65,6 +78,7 @@ export default function TextAreaCard({ titleLabel, value, className, onSubmit })
                     rows={ 4 }
                     rowsMax={ 8 }
                     autoFocus
+                    className={classes.dialog}
                 />
             </FormDialog>
             }

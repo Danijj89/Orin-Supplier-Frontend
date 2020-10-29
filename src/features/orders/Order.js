@@ -16,6 +16,7 @@ import { selectProductStatus } from '../products/duck/selectors.js';
 import { fetchProducts } from '../products/duck/thunks.js';
 import { Redirect } from 'react-router-dom';
 import OrderDocuments from './OrderDocuments.js';
+import { makeStyles } from '@material-ui/core/styles';
 
 const { tabsLabelsMap } = LANGUAGE.order.order;
 
@@ -32,6 +33,19 @@ export default function Order({ match }) {
     const loading = isLoading([userStatus, orderStatus, homeStatus, clientStatus, productStatus]);
     const [tabValue, setTabValue] = useState('details');
 
+    const useStyles = makeStyles((theme) => ({
+        root: {
+            padding: theme.spacing(2),
+            [theme.breakpoints.up('lg')]: {
+                paddingLeft: theme.spacing(25),
+                paddingRight: theme.spacing(25),
+        },
+        },
+        orderTabs: {
+            marginBottom: theme.spacing(1)
+        }
+    }));
+
     const mounted = useRef(false);
     useEffect(() => {
         if (!mounted.current && !order) dispatch(fetchOrderById(id));
@@ -42,10 +56,11 @@ export default function Order({ match }) {
         if (clientStatus === 'FULFILLED' && productStatus === 'FULFILLED') mounted.current = true;
     }, [dispatch, order, id, clientStatus, company, productStatus]);
 
+    const classes = useStyles();
     const onTabChange = (event, newValue) => setTabValue(newValue);
 
     return (
-        <Box>
+        <Box className={classes.root}>
             { loading && <Loader/> }
             { order?.active === false && <Redirect to={ '/home/orders' }/> }
             <Paper>
@@ -54,6 +69,7 @@ export default function Order({ match }) {
                     onChange={ onTabChange }
                     indicatorColor='primary'
                     textColor='primary'
+                    className={classes.orderTabs}
                 >
                     { Object.entries(tabsLabelsMap).map(([value, label]) =>
                         <Tab key={ value } label={ label } value={ value } component="span"/>

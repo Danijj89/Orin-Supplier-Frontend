@@ -20,7 +20,9 @@ const useStyles = makeStyles((theme) => ({
     },
     stepHeader: {
         width: '100%',
-        textAlign: 'center'
+        textAlign: 'center',
+        paddingBottom: theme.spacing(3),
+        fontWeight: 'bold',
     },
     input: {
         width: 200
