@@ -6,7 +6,6 @@ import { Box } from '@material-ui/core';
 import { selectCurrentOrderId, selectNewOrder, selectOrderError, selectOrderStatus } from './duck/selectors.js';
 import Loader from '../shared/components/Loader.js';
 import ErrorDisplay from '../shared/components/ErrorDisplay.js';
-import { cleanNewOrder } from './duck/slice.js';
 import { selectCurrentCompany } from '../home/duck/selectors.js';
 import { selectCurrentUserId } from '../../app/duck/selectors.js';
 import { isLoading } from '../shared/utils/store.js';
@@ -36,7 +35,6 @@ export default function CreateOrderContainer() {
             dispatch(fetchProducts(company._id));
             mounted.current = true;
         }
-        return () => dispatch(cleanNewOrder());
     }, [dispatch, company, userId, clientStatus]);
 
     return (

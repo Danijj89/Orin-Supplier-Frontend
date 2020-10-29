@@ -2,7 +2,6 @@ import React from 'react';
 import DocumentStepper from '../shared/DocumentStepper.js';
 import { Box, Paper, Divider, Typography } from '@material-ui/core';
 import RHFOrderProducts from '../shared/rhf_forms/RHFOrderProducts.js';
-import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { useForm } from 'react-hook-form';
 import useSessionStorage from '../shared/hooks/useSessionStorage.js';
 import { SESSION_NEW_ORDER } from '../../app/sessionKeys.js';
@@ -11,12 +10,12 @@ import { LANGUAGE } from '../../app/constants.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { cleanNewOrder } from './duck/slice.js';
 import ErrorDisplay from '../shared/components/ErrorDisplay.js';
-import { makeStyles } from '@material-ui/core/styles';
 import { selectNewOrder } from './duck/selectors.js';
 import { createOrder } from './duck/thunks.js';
 import { selectCurrentCompany } from '../home/duck/selectors.js';
 import { selectClientsMap } from '../clients/duck/selectors.js';
 import RHFOrderDetails from '../shared/rhf_forms/RHFOrderDetails.js';
+import Footer from '../shared/components/Footer.js';
 
 function getCurrentStep(stepLabel) {
     switch (stepLabel) {
@@ -29,17 +28,6 @@ function getCurrentStep(stepLabel) {
     }
 }
 
-const useStyles = makeStyles((theme) => ({
-    footer: {
-        position: 'fixed',
-        bottom: 0,
-        backgroundColor: theme.palette.grey.main,
-        paddingTop: theme.spacing(1),
-        paddingBottom: theme.spacing(1),
-        width: '100%'
-    }
-}))
-
 const {
     titleLabel,
     stepLabelsMap,
@@ -48,7 +36,6 @@ const {
 } = LANGUAGE.order.createOrder;
 
 export default function CreateOrder() {
-    const classes = useStyles();
     const dispatch = useDispatch();
     const history = useHistory();
     const { step } = useParams();
@@ -130,14 +117,12 @@ export default function CreateOrder() {
                 <RHFOrderDetails rhfMethods={ rhfMethods } company={ company } clientsMap={ clientsMap }/> }
                 { step === 'products' && <RHFOrderProducts rhfMethods={ rhfMethods }/> }
             </Paper>
-            <Box className={ classes.footer }>
-                <ThemedButton onClick={ onPrevClick }>
-                    { step === 'details' ? prevButtonLabel.details : prevButtonLabel.products }
-                </ThemedButton>
-                <ThemedButton onClick={ onNextClick }>
-                    { step === 'details' ? nextButtonLabel.details : nextButtonLabel.products }
-                </ThemedButton>
-            </Box>
+            <Footer
+                prevLabel={ step === 'details' ? prevButtonLabel.details : prevButtonLabel.products }
+                nextLabel={ step === 'details' ? nextButtonLabel.details : nextButtonLabel.products }
+                onPrevClick={ onPrevClick }
+                onNextClick={ onNextClick }
+            />
         </Box>
     )
 }

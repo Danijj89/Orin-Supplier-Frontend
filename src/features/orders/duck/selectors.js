@@ -7,5 +7,6 @@ export const selectCurrentOrderId = state => state.orders.currentOrderId;
 
 export const {
     selectAll: selectAllOrders,
-    selectById: selectOrderById
+    selectById: selectOrderById,
+    selectEntities: selectOrdersMap
 } = ordersAdapter.getSelectors(state => state.orders);
