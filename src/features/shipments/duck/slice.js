@@ -9,22 +9,14 @@ const initialState = shipmentsAdapter.getInitialState({
     dataStatus: 'IDLE',
     status: 'IDLE',
     error: null,
-    newShipment: null,
     currentShipmentId: null
 });
 
 const shipmentsSlice = createSlice({
     name: 'shipments',
     initialState,
-    reducers: {
-        cleanNewShipment: (state, action) => {
-            state.newShipment = null;
-            state.currentShipmentId = null;
-        }
-    },
+    reducers: {},
     extraReducers: {}
 });
-
-export const { cleanNewShipment } = shipmentsSlice.actions;
 
 export default shipmentsSlice.reducer;

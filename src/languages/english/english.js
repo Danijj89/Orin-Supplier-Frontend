@@ -371,7 +371,21 @@ export const ENGLISH = {
         },
         createShipment: {
             titleLabel: 'New Shipment',
-            companyAddressLabel: 'Shipper / Supplier'
+            companyAddressLabel: 'Shipper / Supplier',
+            clientLabel: 'Consignee / Client',
+            clientAddressLabel: 'Client Address',
+            tableHeaderLabelsMap: {
+                ref: 'Sales Order',
+                clientRef: 'Client Ref',
+                totalQ: 'Quantity',
+                crd: 'Cargo Ready',
+                del: 'Shipping Mode',
+                production: 'Production',
+                qa: 'QA',
+                notes: 'Notes'
+            },
+            prevButtonLabel: 'Cancel',
+            nextButtonLabel: 'Submit'
         },
         createShipmentOrders: {
             chipTitleLabel: 'Orders',
