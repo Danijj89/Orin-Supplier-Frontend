@@ -10,7 +10,7 @@ import {
 import { SESSION_NEW_ORDER } from '../../../app/sessionKeys.js';
 import { defaultRowValues } from '../utils/constants.js';
 
-const ordersAdapter = createEntityAdapter({
+export const ordersAdapter = createEntityAdapter({
     selectId: order => order._id,
     sortComparer: (a, b) => a.crd.localeCompare(b.crd)
 });
@@ -152,10 +152,5 @@ const ordersSlice = createSlice({
 export const {
     cleanNewOrder, cleanOrderStore
 } = ordersSlice.actions;
-
-export const {
-    selectAll: selectAllOrders,
-    selectById: selectOrderById
-} = ordersAdapter.getSelectors(state => state.orders);
 
 export default ordersSlice.reducer;
