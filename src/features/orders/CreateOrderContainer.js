@@ -36,7 +36,7 @@ export default function CreateOrderContainer() {
             dispatch(fetchProducts(company._id));
             mounted.current = true;
         }
-        return () => dispatch(cleanNewOrder);
+        return () => dispatch(cleanNewOrder());
     }, [dispatch, company, userId, clientStatus]);
 
     return (

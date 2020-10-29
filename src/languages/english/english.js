@@ -370,8 +370,8 @@ export const ENGLISH = {
             newShipmentButtonLabel: 'New Shipment'
         },
         createShipment: {
-            steps: ['Orders', 'Details', 'Product Info', 'Review'],
             titleLabel: 'New Shipment',
+            companyAddressLabel: 'Shipper / Supplier'
         },
         createShipmentOrders: {
             chipTitleLabel: 'Orders',

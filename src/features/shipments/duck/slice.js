@@ -6,6 +6,7 @@ export const shipmentsAdapter = createEntityAdapter({
 });
 
 const initialState = shipmentsAdapter.getInitialState({
+    dataStatus: 'IDLE',
     status: 'IDLE',
     error: null,
     newShipment: null,
