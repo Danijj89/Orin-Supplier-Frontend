@@ -128,7 +128,7 @@ export default function NavBar({ user }) {
                 </IconButton>
                 { tabsLabelsMap.leads }
             </MenuItem>
-            <MenuItem onClick={ () => onTabClick('shipments', '#') }>
+            <MenuItem onClick={ () => onTabClick('shipments', '/home/shipments') }>
                 <IconButton color="inherit">
                     <IconBoat/>
                 </IconButton>

@@ -41,7 +41,7 @@ const {
     prevButtonLabel,
     nextButtonLabel,
     errorMessages
-} = LANGUAGE.shipments.createShipment;
+} = LANGUAGE.shipment.createShipment;
 
 export default function CreateShipment() {
     const classes = useStyles();

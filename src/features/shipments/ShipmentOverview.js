@@ -11,7 +11,7 @@ import { isLoading } from '../shared/utils/store.js';
 import { selectShipmentDataStatus } from './duck/selectors.js';
 import ShipmentsTable from './ShipmentsTable.js';
 
-const { newShipmentButtonLabel } = LANGUAGE.shipments.overview;
+const { newShipmentButtonLabel } = LANGUAGE.shipment.overview;
 
 export default function ShipmentOverview() {
     const history = useHistory();

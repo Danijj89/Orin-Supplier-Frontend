@@ -365,7 +365,7 @@ export const ENGLISH = {
             totalsText: 'Totals:',
         },
     },
-    shipments: {
+    shipment: {
         overview: {
             newShipmentButtonLabel: 'New Shipment',
             shipmentsTable: {
@@ -399,20 +399,9 @@ export const ENGLISH = {
                 atLeastOneOrder: 'You must select at least one order.'
             }
         },
-        createShipmentOrders: {
-            chipTitleLabel: 'Orders',
-            detailsTitleLabel: 'Order Details',
-            clientDropdownLabel: 'Clients',
-            orderNumberLabel: 'Order No.:',
-            orderDateLabel: 'Date:',
-            clientNameLabel: 'Client:',
-            orderCRDLabel: 'CRD:',
-            quantityLabel: 'Quantity:',
-            incotermLabel: 'Incoterm:',
-            remarksLabel: 'Remarks:',
-            cancelButton: 'Cancel',
-            nextButton: 'Next',
-        },
+        shipment: {
+            editShipmentButtonLabel: 'Edit Shipment Information'
+        }
     },
     shared: {
         wrappers: {
@@ -607,12 +596,7 @@ export const ENGLISH = {
                 Completed: 'Completed',
                 Exception: 'Exception',
             },
-        },
-        dropdowns: {
-            currency: {
-                label: 'Currency',
-            },
-        },
+        }
     },
     defaults: {
         documentNames: {

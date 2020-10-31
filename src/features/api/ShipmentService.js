@@ -22,9 +22,19 @@ const fetchShipments = async (companyId) => {
     return data;
 };
 
+const fetchShipmentById = async (id) => {
+    const configs = {
+        method: 'get',
+        url: `shipments/${id}`
+    };
+    const { data } = await fetchWithAuth(configs);
+    return data;
+};
+
 const ShipmentService = {
     createShipment,
-    fetchShipments
+    fetchShipments,
+    fetchShipmentById
 };
 
 export default ShipmentService;

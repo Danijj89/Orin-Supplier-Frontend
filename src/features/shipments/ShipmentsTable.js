@@ -5,7 +5,7 @@ import { selectAllShipments } from './duck/selectors.js';
 import Table from '../shared/components/Table.js';
 import { LANGUAGE } from '../../app/constants.js';
 
-const { tableHeadersMap } = LANGUAGE.shipments.overview.shipmentsTable;
+const { tableHeadersMap } = LANGUAGE.shipment.overview.shipmentsTable;
 
 export default function ShipmentsTable({ isLoading }) {
     const history = useHistory();

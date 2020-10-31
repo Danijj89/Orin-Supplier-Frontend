@@ -1,5 +1,5 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import { createShipment, fetchShipments } from './thunks.js';
+import { createShipment, fetchShipmentById, fetchShipments } from './thunks.js';
 
 export const shipmentsAdapter = createEntityAdapter({
     selectId: shipment => shipment._id,
@@ -43,6 +43,17 @@ const shipmentsSlice = createSlice({
             state.dataStatus = 'FULFILLED';
         },
         [fetchShipments.rejected]: (state, action) => {
+            state.status = 'REJECTED';
+            state.error = action.payload.message;
+        },
+        [fetchShipmentById.pending]: (state, action) => {
+            state.status = 'PENDING';
+        },
+        [fetchShipmentById.fulfilled]: (state, action) => {
+            shipmentsAdapter.upsertOne(state, action.payload);
+            state.dataStatus = 'FULFILLED';
+        },
+        [fetchShipmentById.rejected]: (state, action) => {
             state.status = 'REJECTED';
             state.error = action.payload.message;
         },
