@@ -18,7 +18,7 @@ import Footer from '../shared/components/Footer.js';
 import { selectCurrentUserId } from '../../app/duck/selectors.js';
 import { createShipment } from './duck/thunks.js';
 import ErrorDisplay from '../shared/components/ErrorDisplay.js';
-import { selectShipmentError } from './duck/selectors.js';
+import { selectOrderShipmentItemMap, selectShipmentError } from './duck/selectors.js';
 
 const useStyles = makeStyles((theme) => ({
     chipContainer: {
@@ -50,6 +50,7 @@ export default function CreateShipment() {
     const company = useSelector(selectCurrentCompany);
     const clientsMap = useSelector(selectClientsMap);
     const orders = useSelector(selectOrdersMap);
+    const orderShipmentItemMap = useSelector(selectOrderShipmentItemMap);
     const shipmentError = useSelector(selectShipmentError);
     const { addresses, defaultAddress } = company;
 
@@ -134,9 +135,9 @@ export default function CreateShipment() {
         dispatch(createShipment(data));
     };
 
-    const getFulfilledPercentage = (totalQ, items) => {
+    const getFulfilledPercentage = (totalQ, orderId) => {
         const totalCount = UnitCounter.totalCount(totalQ);
-        const totalFulfilled = items.reduce((acc, item) => item.shipment ? acc + item.quantity : acc, 0);
+        const totalFulfilled = orderShipmentItemMap[orderId].reduce((acc, instance) => acc + instance.quantity, 0);
         return `${roundTo2Decimal(totalFulfilled / totalCount * 100)}%`;
     };
 
@@ -185,7 +186,7 @@ export default function CreateShipment() {
         production: order.status.production.status,
         qa: order.status.qa.status,
         notes: order.notes,
-        fulfilled: getFulfilledPercentage(order.totalQ, order.items)
+        fulfilled: getFulfilledPercentage(order.totalQ, order._id)
     }));
 
     const errs = Object.values(errors).map(err => err.message).concat(shipmentError);
