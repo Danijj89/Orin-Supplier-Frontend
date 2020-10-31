@@ -1,16 +1,29 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Box } from '@material-ui/core';
+import { Paper } from '@material-ui/core';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { LANGUAGE } from '../../app/constants.js';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { cleanNewShipment } from './duck/slice.js';
+import { selectCurrentCompany, selectHomeStatus } from '../home/duck/selectors.js';
+import { fetchShipments } from './duck/thunks.js';
+import { isLoading } from '../shared/utils/store.js';
+import { selectShipmentDataStatus } from './duck/selectors.js';
+import ShipmentsTable from './ShipmentsTable.js';
 
 const { newShipmentButtonLabel } = LANGUAGE.shipments.overview;
 
 export default function ShipmentOverview() {
     const history = useHistory();
     const dispatch = useDispatch();
+    const company = useSelector(selectCurrentCompany);
+    const homeStatus = useSelector(selectHomeStatus);
+    const shipmentStatus = useSelector(selectShipmentDataStatus);
+    const loading = isLoading([homeStatus, shipmentStatus]);
+
+    useEffect(() => {
+        if (company) dispatch(fetchShipments({ companyId: company._id }));
+    }, [company, dispatch]);
 
     const onNewOrderClick = () => {
         dispatch(cleanNewShipment());
@@ -18,13 +31,14 @@ export default function ShipmentOverview() {
     }
 
     return (
-        <Box>
+        <Paper>
             <ThemedButton
                 onClick={ onNewOrderClick }
             >
                 { newShipmentButtonLabel }
             </ThemedButton>
-        </Box>
+            <ShipmentsTable isLoading={loading} />
+        </Paper>
     )
 }
 

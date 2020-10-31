@@ -367,7 +367,12 @@ export const ENGLISH = {
     },
     shipments: {
         overview: {
-            newShipmentButtonLabel: 'New Shipment'
+            newShipmentButtonLabel: 'New Shipment',
+            shipmentsTable: {
+                tableHeadersMap: {
+                    consigneeName: 'Consignee'
+                }
+            }
         },
         createShipment: {
             titleLabel: 'New Shipment',
