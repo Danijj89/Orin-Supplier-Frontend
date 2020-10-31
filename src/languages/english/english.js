@@ -382,10 +382,17 @@ export const ENGLISH = {
                 del: 'Shipping Mode',
                 production: 'Production',
                 qa: 'QA',
-                notes: 'Notes'
+                notes: 'Notes',
+                fulfilled: '% Fulfilled'
             },
             prevButtonLabel: 'Cancel',
-            nextButtonLabel: 'Submit'
+            nextButtonLabel: 'Submit',
+            errorMessages: {
+                missingSupplierAddress: 'You must select a supplier address.',
+                missingConsignee: 'You must select a consignee.',
+                missingConsigneeAddress: 'You must select a consignee address.',
+                atLeastOneOrder: 'You must select at least one order.'
+            }
         },
         createShipmentOrders: {
             chipTitleLabel: 'Orders',

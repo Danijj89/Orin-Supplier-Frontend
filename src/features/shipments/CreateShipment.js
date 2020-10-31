@@ -5,7 +5,7 @@ import { LANGUAGE } from '../../app/constants.js';
 import FormContainer from '../shared/wrappers/FormContainer.js';
 import SideAutoComplete from '../shared/inputs/SideAutoComplete.js';
 import { Controller, useForm } from 'react-hook-form';
-import { formatAddress } from '../shared/utils/format.js';
+import { formatAddress, roundTo2Decimal } from '../shared/utils/format.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCurrentCompany } from '../home/duck/selectors.js';
 import { selectClientsMap } from '../clients/duck/selectors.js';
@@ -15,6 +15,10 @@ import StatusDisplay from '../orders/StatusDisplay.js';
 import UnitCounter from '../shared/classes/UnitCounter.js';
 import { makeStyles } from '@material-ui/core/styles';
 import Footer from '../shared/components/Footer.js';
+import { selectCurrentUserId } from '../../app/duck/selectors.js';
+import { createShipment } from './duck/thunks.js';
+import ErrorDisplay from '../shared/components/ErrorDisplay.js';
+import { selectShipmentError } from './duck/selectors.js';
 
 const useStyles = makeStyles((theme) => ({
     chipContainer: {
@@ -34,29 +38,32 @@ const {
     clientAddressLabel,
     tableHeaderLabelsMap,
     prevButtonLabel,
-    nextButtonLabel
+    nextButtonLabel,
+    errorMessages
 } = LANGUAGE.shipments.createShipment;
 
 export default function CreateShipment() {
     const classes = useStyles();
     const dispatch = useDispatch();
     const history = useHistory();
+    const userId = useSelector(selectCurrentUserId);
     const company = useSelector(selectCurrentCompany);
     const clientsMap = useSelector(selectClientsMap);
     const orders = useSelector(selectOrdersMap);
+    const shipmentError = useSelector(selectShipmentError);
     const { addresses, defaultAddress } = company;
 
     const { register, control, errors, getValues, watch, setValue, handleSubmit } = useForm({
         mode: 'onSubmit',
         defaultValues: {
-            fromAdd: defaultAddress,
-            to: null,
-            toAdd: null,
+            sellerAdd: defaultAddress,
+            consignee: null,
+            consigneeAdd: null,
             orderIds: []
         }
     });
 
-    const chosenClient = watch('to');
+    const chosenClient = watch('consignee');
     const orderIds = watch('orderIds');
     const [clientAddresses, setClientAddresses] = useState([]);
     const [clientOrders, setClientOrders] = useState([]);
@@ -65,7 +72,8 @@ export default function CreateShipment() {
 
     useEffect(() => {
         if (!mounted.current) {
-            register({ name: 'orderIds' });
+            register({ name: 'orderIds' },
+                { validate: val => val.length > 0 || errorMessages.atLeastOneOrder });
             mounted.current = true;
         }
         if (chosenClient && clientsMap.hasOwnProperty(chosenClient._id)) {
@@ -99,7 +107,38 @@ export default function CreateShipment() {
     };
 
     const onPrevClick = () => history.goBack();
-    const onSubmit = (data) => dispatch();
+    const onSubmit = (data) => {
+        data.createdBy = userId;
+        data.seller = company._id;
+        data.consignee = data.consignee._id;
+        data.sellerAdd = {
+            addressId: data.sellerAdd._id,
+            name: data.sellerAdd.name,
+            address: data.sellerAdd.address,
+            address2: data.sellerAdd.address2,
+            city: data.sellerAdd.city,
+            administrative: data.sellerAdd.administrative,
+            country: data.sellerAdd.country,
+            zip: data.sellerAdd.zip
+        };
+        data.consigneeAdd = {
+            addressId: data.consigneeAdd._id,
+            name: data.consigneeAdd.name,
+            address: data.consigneeAdd.address,
+            address2: data.consigneeAdd.address2,
+            city: data.consigneeAdd.city,
+            administrative: data.consigneeAdd.administrative,
+            country: data.consigneeAdd.country,
+            zip: data.consigneeAdd.zip
+        };
+        dispatch(createShipment(data));
+    };
+
+    const getFulfilledPercentage = (totalQ, items) => {
+        const totalCount = UnitCounter.totalCount(totalQ);
+        const totalFulfilled = items.reduce((acc, item) => item.shipment ? acc + item.quantity : acc, 0);
+        return roundTo2Decimal(totalFulfilled / totalCount);
+    };
 
     const columns = [
         { field: 'id', hide: true },
@@ -127,9 +166,10 @@ export default function CreateShipment() {
             field: 'qa',
             headerName: tableHeaderLabelsMap.qa,
             renderCell: (params) =>
-                <StatusDisplay status={ params.production.status }/>
+                <StatusDisplay status={ params.qa }/>
         },
-        { field: 'notes', headerName: tableHeaderLabelsMap.notes }
+        { field: 'notes', headerName: tableHeaderLabelsMap.notes },
+        { field: 'fulfilled', headerName: tableHeaderLabelsMap.fulfilled, type: 'number' }
     ];
 
     const rows = clientOrders.filter(order => order.active).map(order => ({
@@ -142,15 +182,18 @@ export default function CreateShipment() {
         del: order.del,
         production: order.status.production.status,
         qa: order.status.qa.status,
-        notes: order.notes
+        notes: order.notes,
+        fulfilled: getFulfilledPercentage(order.totalQ, order.items)
     }));
 
+    const errs = Object.values(errors).map(err => err.message).concat(shipmentError);
 
     return (
         <Box>
             <Typography variant="h5">{ titleLabel }</Typography>
             <Divider/>
             <Paper>
+                { errs.length > 0 && <ErrorDisplay errors={ errs }/> }
                 <FormContainer>
                     <Controller
                         render={ (props) =>
@@ -160,14 +203,14 @@ export default function CreateShipment() {
                                 label={ companyAddressLabel }
                                 error={ !!errors.fromAdd }
                                 getOptionLabel={ address => formatAddress(address) }
-                                getOptionSelected={ address => address._id === getValues('fromAdd')._id
-                                    || address._id === getValues('fromAdd').addressId }
+                                getOptionSelected={ address => address._id === getValues('sellerAdd')._id
+                                    || address._id === getValues('sellerAdd').addressId }
                                 required
                             />
                         }
-                        name="fromAdd"
+                        name="sellerAdd"
                         control={ control }
-                        rules={ { required: true } }
+                        rules={ { required: errorMessages.missingSupplierAddress } }
                     />
                     <Controller
                         render={ (props) =>
@@ -177,13 +220,13 @@ export default function CreateShipment() {
                                 label={ clientLabel }
                                 error={ !!errors.to }
                                 getOptionLabel={ client => client.name }
-                                getOptionSelected={ client => client._id === getValues('to')._id }
+                                getOptionSelected={ client => client._id === getValues('consignee')._id }
                                 required
                             />
                         }
-                        name="to"
+                        name="consignee"
                         control={ control }
-                        rules={ { required: true } }
+                        rules={ { required: errorMessages.missingConsignee } }
                     />
                     <Controller
                         render={ (props) => (
@@ -193,14 +236,14 @@ export default function CreateShipment() {
                                 label={ clientAddressLabel }
                                 error={ !!errors.toAdd }
                                 getOptionLabel={ address => formatAddress(address) }
-                                getOptionSelected={ address => address._id === getValues('toAdd')._id
-                                    || address._id === getValues('toAdd').addressId }
+                                getOptionSelected={ address => address._id === getValues('consigneeAdd')._id
+                                    || address._id === getValues('consigneeAdd').addressId }
                                 required
                             />
                         ) }
-                        name="toAdd"
+                        name="consigneeAdd"
                         control={ control }
-                        rules={ { required: true } }
+                        rules={ { required: errorMessages.missingConsigneeAddress } }
                     />
                 </FormContainer>
                 <Box component="ul" className={ classes.chipContainer }>

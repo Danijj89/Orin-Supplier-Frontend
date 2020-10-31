@@ -9,10 +9,13 @@ import { fetchClients } from '../clients/duck/thunks.js';
 import { selectClientStatus } from '../clients/duck/selectors.js';
 import { selectOrderStatus } from '../orders/duck/selectors.js';
 import { fetchOrders } from '../orders/duck/thunks.js';
+import { selectCurrentShipmentId } from './duck/selectors.js';
+import { Redirect } from 'react-router-dom';
 
 export default function CreateShipmentContainer() {
     const dispatch = useDispatch();
     const company = useSelector(selectCurrentCompany);
+    const currentShipmentId = useSelector(selectCurrentShipmentId);
     const homeStatus = useSelector(selectHomeStatus);
     const clientStatus = useSelector(selectClientStatus);
     const orderStatus = useSelector(selectOrderStatus);
@@ -29,10 +32,9 @@ export default function CreateShipmentContainer() {
 
     return (
         <Box>
-            { loading && <Loader />}
-            { !loading && homeStatus === 'FULFILLED' &&
-            <CreateShipment />
-            }
+            { currentShipmentId && <Redirect to={ `/home/shipments/${ currentShipmentId }` }/> }
+            { loading && <Loader/> }
+            { !loading && homeStatus === 'FULFILLED' && <CreateShipment/> }
         </Box>
     )
 }
