@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import Table from '../shared/components/Table.js';
 import { LANGUAGE } from '../../app/constants.js';
 import UnitCounter from '../shared/classes/UnitCounter.js';
+import { dateToLocaleDate } from '../shared/utils/format.js';
 
 const { ordersTableHeadersMap } = LANGUAGE.order.ordersOverview;
 
@@ -27,7 +28,7 @@ export default function OrdersTable({ orders, isLoading }) {
         id: order._id,
         ref: order.ref,
         totalQ: UnitCounter.stringRep(order.totalQ),
-        crd: order.crd,
+        crd: dateToLocaleDate(order.crd),
         toName: order.toAdd.name,
         procurement: order.procurement,
         production: order.production,

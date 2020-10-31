@@ -24,17 +24,6 @@ const useStyles = makeStyles((theme) => ({
 
 const { paginationAllLabel, rowsPerPageLabel } = LANGUAGE.shared.components.table;
 
-function getAlignment(type) {
-    switch (type) {
-        case 'number':
-            return 'right';
-        case 'date':
-            return 'center';
-        default:
-            return 'left';
-    }
-}
-
 const ROW_HEIGHT = 69;
 
 export default function Table(
@@ -62,7 +51,7 @@ export default function Table(
                 <TableCell
                     key={ column.field }
                     width={ column.width }
-                    align={getAlignment(column.type)}
+                    align={ column.align }
                 >
                     { column.renderHeader() }
                 </TableCell>
@@ -72,7 +61,7 @@ export default function Table(
             <TableCell
                 key={ column.field }
                 width={ column.width }
-                align={getAlignment(column.type)}
+                align={ column.align }
             >
                 { column.headerName }
             </TableCell>
@@ -87,6 +76,7 @@ export default function Table(
                     <TableCell
                         key={ column.field }
                         width={ column.width }
+                        align={ column.align }
                     >
                         { column.renderCell(row) }
                     </TableCell>
@@ -94,7 +84,7 @@ export default function Table(
                 return (
                     <TableCell
                         key={ column.field }
-                        align={ getAlignment(column.type) }
+                        align={ column.align }
                         width={ column.width }
                     >
                         { column.type === 'number' ? row[column.field] : (row[column.field] || '-') }

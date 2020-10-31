@@ -5,7 +5,7 @@ import { LANGUAGE } from '../../app/constants.js';
 import FormContainer from '../shared/wrappers/FormContainer.js';
 import SideAutoComplete from '../shared/inputs/SideAutoComplete.js';
 import { Controller, useForm } from 'react-hook-form';
-import { formatAddress, roundTo2Decimal } from '../shared/utils/format.js';
+import { dateToLocaleDate, formatAddress, roundTo2Decimal } from '../shared/utils/format.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCurrentCompany } from '../home/duck/selectors.js';
 import { selectClientsMap } from '../clients/duck/selectors.js';
@@ -155,21 +155,23 @@ export default function CreateShipment() {
         { field: 'clientRef', headerName: tableHeaderLabelsMap.clientRef },
         { field: 'totalQ', headerName: tableHeaderLabelsMap.totalQ },
         { field: 'crd', headerName: tableHeaderLabelsMap.crd },
-        { field: 'del', headerName: tableHeaderLabelsMap.del },
+        { field: 'del', headerName: tableHeaderLabelsMap.del, align: 'center' },
         {
             field: 'production',
             headerName: tableHeaderLabelsMap.production,
             renderCell: (params) =>
-                <StatusDisplay status={ params.production }/>
+                <StatusDisplay status={ params.production }/>,
+            align: 'center'
         },
         {
             field: 'qa',
             headerName: tableHeaderLabelsMap.qa,
             renderCell: (params) =>
-                <StatusDisplay status={ params.qa }/>
+                <StatusDisplay status={ params.qa }/>,
+            align: 'center'
         },
         { field: 'notes', headerName: tableHeaderLabelsMap.notes },
-        { field: 'fulfilled', headerName: tableHeaderLabelsMap.fulfilled }
+        { field: 'fulfilled', headerName: tableHeaderLabelsMap.fulfilled, align: 'center' }
     ];
 
     const rows = clientOrders.filter(order => order.active).map(order => ({
@@ -178,7 +180,7 @@ export default function CreateShipment() {
         ref: order.ref,
         clientRef: order.clientRef,
         totalQ: UnitCounter.stringRep(order.totalQ),
-        crd: order.crd,
+        crd: dateToLocaleDate(order.crd),
         del: order.del,
         production: order.status.production.status,
         qa: order.status.qa.status,
