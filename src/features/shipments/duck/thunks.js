@@ -9,3 +9,12 @@ export const createShipment = createAsyncThunk('shipments/createShipment',
             return rejectWithValue(err.response.data);
         }
     });
+
+export const fetchShipments = createAsyncThunk('shipments/fetchShipments',
+    async ({ companyId }, {rejectWithValue}) => {
+        try {
+            return await ShipmentService.fetchShipments(companyId);
+        } catch (err) {
+            return rejectWithValue(err.response.data);
+        }
+    });

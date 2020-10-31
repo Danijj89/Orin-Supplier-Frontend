@@ -19,6 +19,7 @@ import { selectCurrentUserId } from '../../app/duck/selectors.js';
 import { createShipment } from './duck/thunks.js';
 import ErrorDisplay from '../shared/components/ErrorDisplay.js';
 import { selectOrderShipmentItemMap, selectShipmentError } from './duck/selectors.js';
+import { cleanNewShipment } from './duck/slice.js';
 
 const useStyles = makeStyles((theme) => ({
     chipContainer: {
@@ -133,6 +134,7 @@ export default function CreateShipment() {
             zip: data.consigneeAdd.zip
         };
         dispatch(createShipment(data));
+        dispatch(cleanNewShipment());
     };
 
     const getFulfilledPercentage = (totalQ, orderId) => {

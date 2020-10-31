@@ -16,7 +16,6 @@ export const selectOrderShipmentItemMap = state => {
                 resultMap[item.order].push({ shipment: shipment._id, quantity: item.quantity });
         })
     });
-    console.log(resultMap);
     return resultMap;
 };
 

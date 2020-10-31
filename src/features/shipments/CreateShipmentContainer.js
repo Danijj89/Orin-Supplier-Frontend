@@ -11,6 +11,7 @@ import { selectOrderStatus } from '../orders/duck/selectors.js';
 import { fetchOrders } from '../orders/duck/thunks.js';
 import { selectCurrentShipmentId } from './duck/selectors.js';
 import { Redirect } from 'react-router-dom';
+import { fetchShipments } from './duck/thunks.js';
 
 export default function CreateShipmentContainer() {
     const dispatch = useDispatch();
@@ -24,6 +25,7 @@ export default function CreateShipmentContainer() {
     const mounted = useRef(false);
     useEffect(() => {
         if (!mounted.current && company) {
+            dispatch(fetchShipments({ companyId: company._id }));
             dispatch(fetchClients(company._id));
             dispatch(fetchOrders(company._id));
             mounted.current = true;

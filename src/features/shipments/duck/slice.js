@@ -1,9 +1,9 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import { createShipment } from './thunks.js';
+import { createShipment, fetchShipments } from './thunks.js';
 
 export const shipmentsAdapter = createEntityAdapter({
     selectId: shipment => shipment._id,
-    sortComparer: (a, b) => a.date.localeCompare(b.date)
+    sortComparer: (a, b) => a.createdAt.localeCompare(b.createdAt)
 });
 
 const initialState = shipmentsAdapter.getInitialState({
@@ -16,7 +16,11 @@ const initialState = shipmentsAdapter.getInitialState({
 const shipmentsSlice = createSlice({
     name: 'shipments',
     initialState,
-    reducers: {},
+    reducers: {
+        cleanNewShipment: (state) => {
+            state.currentShipmentId = null;
+        }
+    },
     extraReducers: {
         [createShipment.pending]: (state, action) => {
             state.status = 'PENDING';
@@ -31,7 +35,20 @@ const shipmentsSlice = createSlice({
             state.status = 'REJECTED';
             state.error = action.payload.message;
         },
+        [fetchShipments.pending]: (state, action) => {
+            state.status = 'PENDING';
+        },
+        [fetchShipments.fulfilled]: (state, action) => {
+            shipmentsAdapter.upsertMany(state, action.payload);
+            state.dataStatus = 'FULFILLED';
+        },
+        [fetchShipments.rejected]: (state, action) => {
+            state.status = 'REJECTED';
+            state.error = action.payload.message;
+        },
     }
 });
+
+export const { cleanNewShipment } = shipmentsSlice.actions;
 
 export default shipmentsSlice.reducer;
