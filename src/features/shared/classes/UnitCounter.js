@@ -38,6 +38,10 @@ export default class UnitCounter {
             .join(' + ');
     }
 
+    static totalCount(unitObj) {
+        return Object.values(unitObj).reduce((acc, amount) => acc + amount, 0);
+    }
+
     set data(data) {
         this._data = { ...data };
     }

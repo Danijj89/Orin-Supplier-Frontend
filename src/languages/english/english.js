@@ -19,12 +19,16 @@ export const ENGLISH = {
         },
     },
     home: {
-        sidePanel: {
-            orders: 'Orders',
-            shipments: 'Shipments',
-            clients: 'Clients',
-            products: 'Products',
-            settings: 'Settings',
+        navbar: {
+            tabsLabelsMap: {
+                orders: 'Orders',
+                shipments: 'Shipments',
+                leads: 'Leads',
+                clients: 'Clients',
+                products: 'Products',
+                settings: 'Settings',
+            },
+            helloMessageLabel: 'Hello'
         },
         settings: {
             tabsLabelMap: {
@@ -290,7 +294,6 @@ export const ENGLISH = {
             totalsLabel: 'Total:',
         },
     },
-
     commercialInvoice: {
         createCI: {
             steps: ['Invoice Info', 'Products', 'Review'],
@@ -364,11 +367,32 @@ export const ENGLISH = {
     },
     shipments: {
         overview: {
-            addShipmentButton: 'New Shipment',
+            newShipmentButtonLabel: 'New Shipment'
         },
         createShipment: {
-            steps: ['Orders', 'Details', 'Product Info', 'Review'],
             titleLabel: 'New Shipment',
+            companyAddressLabel: 'Shipper / Supplier',
+            clientLabel: 'Consignee / Client',
+            clientAddressLabel: 'Client Address',
+            tableHeaderLabelsMap: {
+                ref: 'Sales Order',
+                clientRef: 'Client Ref',
+                totalQ: 'Quantity',
+                crd: 'Cargo Ready',
+                del: 'Shipping Mode',
+                production: 'Production',
+                qa: 'QA',
+                notes: 'Notes',
+                fulfilled: '% Fulfilled'
+            },
+            prevButtonLabel: 'Cancel',
+            nextButtonLabel: 'Submit',
+            errorMessages: {
+                missingSupplierAddress: 'You must select a supplier address.',
+                missingConsignee: 'You must select a consignee.',
+                missingConsigneeAddress: 'You must select a consignee address.',
+                atLeastOneOrder: 'You must select at least one order.'
+            }
         },
         createShipmentOrders: {
             chipTitleLabel: 'Orders',

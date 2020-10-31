@@ -36,6 +36,6 @@ export default function OrdersTable({ orders, isLoading }) {
     }));
 
     return (
-        <Table columns={ columns } rows={ rows } isLoading={isLoading} onRowClick={ onRowClick }/>
+        <Table columns={ columns } rows={ rows } isLoading={ isLoading } onRowClick={ onRowClick }/>
     )
 }

@@ -1,13 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Container, TextField, Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Search as IconSearch } from '@material-ui/icons';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectAllOrders } from '../orders/duck/slice.js';
-import { fetchOrders } from '../orders/duck/thunks.js';
-import { selectOrderStatus } from '../orders/duck/selectors.js';
+import { useSelector } from 'react-redux';
+import { selectAllOrders } from '../orders/duck/selectors.js';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -46,12 +44,10 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SearchBar({options}) {
   const classes = useStyles();
-  const dispatch = useDispatch();
   const history = useHistory();
   const [searchTerm, setSearchTerm] = useState('');
   const orders = useSelector(selectAllOrders);
   const refs = orders.map((order) => order.poRef);
-  const status = useSelector(selectOrderStatus);
 
   const onSearchTermChange = (val) => setSearchTerm(val);
 

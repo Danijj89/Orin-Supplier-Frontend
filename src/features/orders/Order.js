@@ -1,12 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Paper, Box, Tabs, Tab } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectOrderById } from './duck/slice.js';
 import { LANGUAGE } from '../../app/constants.js';
 import OrderDetails from './OrderDetails.js';
 import { fetchOrderById } from './duck/thunks.js';
 import { selectUserStatus } from '../users/duck/selectors.js';
-import { selectOrderStatus } from './duck/selectors.js';
+import { selectOrderById, selectOrderStatus } from './duck/selectors.js';
 import { isLoading } from '../shared/utils/store.js';
 import Loader from '../shared/components/Loader.js';
 import { selectCurrentCompany, selectHomeStatus } from '../home/duck/selectors.js';

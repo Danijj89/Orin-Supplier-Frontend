@@ -1,10 +1,11 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import ShipmentService from './services.js';
+import ShipmentService from '../../api/ShipmentService.js';
 
-export const startNewShipment = createAsyncThunk('shipments/startNewShipment',
-    async (_, { getState }) => {
-        const { _id: userId } = getState().home.user;
-        const { _id: companyId } = getState().home.company;
-        return await ShipmentService.fetchNewShipmentData(userId, companyId);
-    }
-)
+export const createShipment = createAsyncThunk('shipments/createShipment',
+    async (shipment, {rejectWithValue}) => {
+        try {
+            return await ShipmentService.createShipment(shipment);
+        } catch (err) {
+            return rejectWithValue(err.response.data);
+        }
+    });

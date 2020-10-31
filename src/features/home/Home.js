@@ -15,6 +15,8 @@ import ClientOverview from '../clients/ClientOverview.js';
 import { Switch, Redirect } from 'react-router-dom';
 import ProductOverview from '../products/ProductOverview.js';
 import Order from '../orders/Order.js';
+import ShipmentOverview from '../shipments/ShipmentOverview.js';
+import CreateShipmentContainer from '../shipments/CreateShipmentContainer.js';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -68,7 +70,7 @@ export default function Home({ match }) {
                     />
                     <Route
                         exact
-                        path={ [`${ match.url }/orders/:id`, `${match.url}/orders/:id/details`] }
+                        path={ [`${ match.url }/orders/:id`, `${ match.url }/orders/:id/details`] }
                         component={ Order }
                         isPrivate
                     />
@@ -94,6 +96,18 @@ export default function Home({ match }) {
                         exact
                         path={ `${ match.url }/products` }
                         component={ ProductOverview }
+                        isPrivate
+                    />
+                    <Route
+                        exact
+                        path={ `${ match.url }/shipments` }
+                        component={ ShipmentOverview }
+                        isPrivate
+                    />
+                    <Route
+                        exact
+                        path={ `${ match.url }/shipments/new` }
+                        component={ CreateShipmentContainer }
                         isPrivate
                     />
                     <Route

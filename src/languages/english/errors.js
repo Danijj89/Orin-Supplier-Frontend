@@ -8,5 +8,6 @@ export const ENGLISH_ERRORS = {
     PASSWORD_MISMATCH: 'Passwords don\'t match.',
     WRONG_REQUEST_DATA: 'Unable to perform operation. Wrong data.',
     DUPLICATE_PRODUCT_SKU: 'Unable to perform the update. The given SKU already exists.',
+    CURRENCY_MISMATCH: 'Unable to create a shipment. Chosen orders have different currencies.',
     DEFAULT: 'Error occurred. Please try again later.'
 };
