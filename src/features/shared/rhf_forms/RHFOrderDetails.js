@@ -29,6 +29,7 @@ const useStyles = makeStyles((theme) => ({
 
 const {
     detailsTitleLabel,
+    fulfilledLabel,
     autoGenerateRefLabel,
     orderReferenceLabel,
     dateLabel,
@@ -71,6 +72,18 @@ export default function RHFOrderDetails({ rhfMethods, isEdit, company, clientsMa
             <Box className={ classes.details }>
                 { !isEdit && <Typography variant="h5">{ detailsTitleLabel }</Typography> }
                 <FormContainer>
+                    { isEdit &&
+                    <Controller
+                        render={ ({ value, ...rest }) =>
+                            <SideCheckBox
+                                { ...rest }
+                                label={ fulfilledLabel }
+                                checked={ value }
+                            />
+                        }
+                        name="fulfilled"
+                        control={ control }
+                    /> }
                     { !isEdit &&
                     <Controller
                         render={ ({ value, ...rest }) =>

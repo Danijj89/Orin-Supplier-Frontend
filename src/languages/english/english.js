@@ -489,6 +489,7 @@ export const ENGLISH = {
         rhfForms: {
             rhfOrderDetails: {
                 detailsTitleLabel: 'Order Details',
+                fulfilledLabel: 'Mark as Fulfilled',
                 autoGenerateRefLabel: 'Auto-generate Order Number?',
                 orderReferenceLabel: 'Order Number',
                 dateLabel: 'Order Date',

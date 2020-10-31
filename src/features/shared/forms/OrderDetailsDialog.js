@@ -33,6 +33,7 @@ export default function OrderDetailsDialog(
     useEffect(() => {
         reset({
             ref: order?.ref,
+            fulfilled: order?.fulfilled,
             fromAdd: order?.fromAdd,
             to: order?.to && clientsMap[order.to],
             toAdd: order?.toAdd,

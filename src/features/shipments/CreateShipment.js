@@ -110,7 +110,6 @@ export default function CreateShipment() {
     const onSubmit = (data) => {
         data.createdBy = userId;
         data.seller = company._id;
-        data.consignee = data.consignee._id;
         data.sellerAdd = {
             addressId: data.sellerAdd._id,
             name: data.sellerAdd.name,
@@ -121,6 +120,7 @@ export default function CreateShipment() {
             country: data.sellerAdd.country,
             zip: data.sellerAdd.zip
         };
+        data.consignee = data.consignee._id;
         data.consigneeAdd = {
             addressId: data.consigneeAdd._id,
             name: data.consigneeAdd.name,
@@ -174,7 +174,7 @@ export default function CreateShipment() {
         { field: 'fulfilled', headerName: tableHeaderLabelsMap.fulfilled, align: 'center' }
     ];
 
-    const rows = clientOrders.filter(order => order.active).map(order => ({
+    const rows = clientOrders.filter(order => order.active && !order.fulfilled).map(order => ({
         id: order._id,
         selected: order.selected,
         ref: order.ref,
