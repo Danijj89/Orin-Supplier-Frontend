@@ -137,7 +137,7 @@ export default function CreateShipment() {
     const getFulfilledPercentage = (totalQ, items) => {
         const totalCount = UnitCounter.totalCount(totalQ);
         const totalFulfilled = items.reduce((acc, item) => item.shipment ? acc + item.quantity : acc, 0);
-        return roundTo2Decimal(totalFulfilled / totalCount);
+        return `${roundTo2Decimal(totalFulfilled / totalCount * 100)}%`;
     };
 
     const columns = [
@@ -169,7 +169,7 @@ export default function CreateShipment() {
                 <StatusDisplay status={ params.qa }/>
         },
         { field: 'notes', headerName: tableHeaderLabelsMap.notes },
-        { field: 'fulfilled', headerName: tableHeaderLabelsMap.fulfilled, type: 'number' }
+        { field: 'fulfilled', headerName: tableHeaderLabelsMap.fulfilled }
     ];
 
     const rows = clientOrders.filter(order => order.active).map(order => ({
