@@ -88,7 +88,6 @@ export default function EditableTable(
                             </TableCell>
                         );
                     case 'dropdown':
-                        console.log()
                         return (
                             <TableCell key={ column.field } width={ column.width }>
                                 <TableAutoComplete

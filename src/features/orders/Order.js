@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Paper, Box, Tabs, Tab } from '@material-ui/core';
+import { Paper, Box } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { LANGUAGE } from '../../app/constants.js';
 import OrderDetails from './OrderDetails.js';
@@ -16,10 +16,25 @@ import { fetchProducts } from '../products/duck/thunks.js';
 import { Redirect } from 'react-router-dom';
 import OrderDocuments from './OrderDocuments.js';
 import { makeStyles } from '@material-ui/core/styles';
+import NavTabs from '../shared/components/NavTabs.js';
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+        padding: theme.spacing(2),
+        [theme.breakpoints.up('lg')]: {
+            paddingLeft: theme.spacing(25),
+            paddingRight: theme.spacing(25),
+        },
+    },
+    orderTabs: {
+        marginBottom: theme.spacing(1)
+    }
+}));
 
 const { tabsLabelsMap } = LANGUAGE.order.order;
 
 export default function Order({ match }) {
+    const classes = useStyles();
     const dispatch = useDispatch();
     const { id } = match.params;
     const order = useSelector(state => selectOrderById(state, id));
@@ -32,19 +47,6 @@ export default function Order({ match }) {
     const loading = isLoading([userStatus, orderStatus, homeStatus, clientStatus, productStatus]);
     const [tabValue, setTabValue] = useState('details');
 
-    const useStyles = makeStyles((theme) => ({
-        root: {
-            padding: theme.spacing(2),
-            [theme.breakpoints.up('lg')]: {
-                paddingLeft: theme.spacing(25),
-                paddingRight: theme.spacing(25),
-        },
-        },
-        orderTabs: {
-            marginBottom: theme.spacing(1)
-        }
-    }));
-
     const mounted = useRef(false);
     useEffect(() => {
         if (!mounted.current && !order) dispatch(fetchOrderById(id));
@@ -55,25 +57,17 @@ export default function Order({ match }) {
         if (clientStatus === 'FULFILLED' && productStatus === 'FULFILLED') mounted.current = true;
     }, [dispatch, order, id, clientStatus, company, productStatus]);
 
-    const classes = useStyles();
-    const onTabChange = (event, newValue) => setTabValue(newValue);
-
     return (
-        <Box className={classes.root}>
+        <Box className={ classes.root }>
             { loading && <Loader/> }
             { order?.active === false && <Redirect to={ '/home/orders' }/> }
             <Paper>
-                <Tabs
-                    value={ tabValue }
-                    onChange={ onTabChange }
-                    indicatorColor='primary'
-                    textColor='primary'
-                    className={classes.orderTabs}
-                >
-                    { Object.entries(tabsLabelsMap).map(([value, label]) =>
-                        <Tab key={ value } label={ label } value={ value } component="span"/>
-                    ) }
-                </Tabs>
+                <NavTabs
+                    tabsLabelsMap={ tabsLabelsMap }
+                    tabValue={ tabValue }
+                    onChange={ setTabValue }
+                    className={ classes.orderTabs }
+                />
             </Paper>
             { order && company && clientStatus === 'FULFILLED' && productStatus === 'FULFILLED'
             && tabValue === 'details' &&
