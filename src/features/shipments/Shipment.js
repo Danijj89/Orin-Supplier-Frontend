@@ -21,7 +21,6 @@ export default function Shipment() {
     const { id } = useParams();
     const shipment = useSelector(state => selectShipmentById(state, id));
     const orderIds = shipment.items.reduce((acc, item) => {
-        console.log(acc);
         if (!acc.includes(item.order)) acc.push(item.order);
         return acc;
     }, []);
@@ -29,9 +28,9 @@ export default function Shipment() {
     const [tabValue, setTabValue] = useState('orders');
 
     const onEditShipmentInfo = () =>
-        history.push(`/home/shipments/${ id }/edit/shipment`);
+        history.push(`/home/shipments/edit/${id}`);
 
-    const onEditOrders = () => history.push(``);
+    const onEditOrders = () => history.push(`/home/shipments/new/${id}`);
 
     return (
         <Grid container>

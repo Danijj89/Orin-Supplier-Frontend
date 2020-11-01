@@ -35,7 +35,7 @@ export default function CreateShipmentContainer() {
         <>
             { status === 'PENDING' && <Loader/> }
             { currentShipmentId && <Redirect to={ `/home/shipments/${ currentShipmentId }` }/> }
-            { status === 'FULFILLED' && <CreateShipment/> }
+            { status === 'FULFILLED' && <CreateShipment /> }
         </>
     )
 }

@@ -22,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ClientOverview() {
+    const classes = useStyles();
     const dispatch = useDispatch();
     const userId = useSelector(selectCurrentUserId);
     const company = useSelector(selectCurrentCompany);
@@ -30,7 +31,6 @@ export default function ClientOverview() {
     const homeStatus = useSelector(selectHomeStatus);
     const userStatus = useSelector(selectUserStatus);
     const status = determineStatus([clientDataStatus, homeStatus, userStatus]);
-    const classes = useStyles();
 
     useEffect(() => {
         if (company) dispatch(fetchClients(company._id));

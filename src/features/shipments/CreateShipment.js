@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { Box, Divider, Typography, Paper, Checkbox, Chip } from '@material-ui/core';
 import { LANGUAGE } from '../../app/constants.js';
 import FormContainer from '../shared/wrappers/FormContainer.js';
@@ -18,7 +18,7 @@ import Footer from '../shared/components/Footer.js';
 import { selectCurrentUserId } from '../../app/duck/selectors.js';
 import { createShipment } from './duck/thunks.js';
 import ErrorDisplay from '../shared/components/ErrorDisplay.js';
-import { selectOrderShipmentItemMap, selectShipmentError } from './duck/selectors.js';
+import { selectOrderShipmentItemMap, selectShipmentById, selectShipmentError } from './duck/selectors.js';
 import { cleanNewShipment } from './duck/slice.js';
 
 const useStyles = makeStyles((theme) => ({
@@ -47,10 +47,12 @@ export default function CreateShipment() {
     const classes = useStyles();
     const dispatch = useDispatch();
     const history = useHistory();
+    const { id } = useParams();
+    const shipment = useSelector(state => selectShipmentById(state, id));
     const userId = useSelector(selectCurrentUserId);
     const company = useSelector(selectCurrentCompany);
     const clientsMap = useSelector(selectClientsMap);
-    const orders = useSelector(selectOrdersMap);
+    const ordersMap = useSelector(selectOrdersMap);
     const orderShipmentItemMap = useSelector(selectOrderShipmentItemMap);
     const shipmentError = useSelector(selectShipmentError);
     const { addresses, defaultAddress } = company;
@@ -58,10 +60,13 @@ export default function CreateShipment() {
     const { register, control, errors, getValues, watch, setValue, handleSubmit } = useForm({
         mode: 'onSubmit',
         defaultValues: {
-            sellerAdd: defaultAddress,
-            consignee: null,
-            consigneeAdd: null,
-            orderIds: []
+            sellerAdd: shipment?.sellerAdd || defaultAddress,
+            consignee: clientsMap[shipment?.consignee],
+            consigneeAdd: shipment?.consigneeAdd,
+            orderIds: shipment?.items.reduce((acc, item) => {
+                if (!acc.includes(item.order)) acc.push(item.order);
+                return acc;
+            }, []) || []
         }
     });
 
@@ -76,32 +81,33 @@ export default function CreateShipment() {
         if (!mounted.current) {
             register({ name: 'orderIds' },
                 { validate: val => val.length > 0 || errorMessages.atLeastOneOrder });
+            if (chosenClient) {
+                setClientOrders(Object.values(ordersMap)
+                    .filter(order => order.to === chosenClient._id)
+                    .map(order => {
+                        if (orderIds.includes(order._id)) return { ...order, selected: true };
+                        return { ...order, selected: false };
+                    }));
+            }
             mounted.current = true;
-        }
-        if (chosenClient && clientsMap.hasOwnProperty(chosenClient._id)) {
+        } else if (chosenClient && clientsMap.hasOwnProperty(chosenClient._id)) {
+            console.log('here')
             setClientAddresses(chosenClient.addresses.filter(a => a.active));
-            setClientOrders(Object.values(orders).filter(order => order.to === chosenClient._id));
+            setClientOrders(Object.values(ordersMap).filter(order => order.to === chosenClient._id)
+                .map(order => ({ ...order, selected: false })));
         }
-    }, [chosenClient, clientsMap, orders, register]);
+    }, [chosenClient, clientsMap, ordersMap, register]);
 
     const onCheckboxSelection = (value, orderId) => {
         if (value) {
             setClientOrders(prev => prev.map(order => {
-                if (order._id === orderId) {
-                    const newOrder = { ...order };
-                    newOrder.selected = true;
-                    return newOrder;
-                }
+                if (order._id === orderId) order.selected = true;
                 return order;
             }));
             setValue('orderIds', [...orderIds, orderId]);
         } else {
             setClientOrders(prev => prev.map(order => {
-                if (order._id === orderId) {
-                    const newOrder = { ...order };
-                    newOrder.selected = true;
-                    return newOrder;
-                }
+                if (order._id === orderId) order.selected = false;
                 return order;
             }));
             setValue('orderIds', orderIds.filter(id => id !== orderId));
@@ -140,7 +146,7 @@ export default function CreateShipment() {
     const getFulfilledPercentage = (totalQ, orderId) => {
         const totalCount = UnitCounter.totalCount(totalQ);
         const totalFulfilled = orderShipmentItemMap[orderId].reduce((acc, instance) => acc + instance.quantity, 0);
-        return `${roundTo2Decimal(totalFulfilled / totalCount * 100)}%`;
+        return `${ roundTo2Decimal(totalFulfilled / totalCount * 100) }%`;
     };
 
     const columns = [
@@ -152,6 +158,7 @@ export default function CreateShipment() {
                 <Checkbox
                     color="primary"
                     onChange={ (e) => onCheckboxSelection(e.target.checked, params.id) }
+                    checked={ params.selected }
                 />
         },
         { field: 'ref', headerName: tableHeaderLabelsMap.ref },
@@ -256,7 +263,7 @@ export default function CreateShipment() {
                         <Chip
                             key={ id }
                             component="li"
-                            label={ orders[id].ref }
+                            label={ ordersMap[id].ref }
                         />) }
                 </Box>
                 <Table columns={ columns } rows={ rows }/>

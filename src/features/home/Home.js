@@ -108,13 +108,13 @@ export default function Home({ match }) {
                     />
                     <Route
                         exact
-                        path={ `${ match.url }/shipments/new` }
+                        path={ `${ match.url }/shipments/new/:id` }
                         component={ CreateShipmentContainer }
                         isPrivate
                     />
                     <Route
                         exact
-                        path={ `${ match.url }/shipments/:id/edit/:step` }
+                        path={ `${ match.url }/shipments/edit/:id` }
                         component={ EditShipment }
                         isPrivate
                     />
