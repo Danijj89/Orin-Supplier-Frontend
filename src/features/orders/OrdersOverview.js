@@ -8,9 +8,10 @@ import { Paper } from '@material-ui/core';
 import { selectAllOrders, selectOrderDataStatus } from './duck/selectors.js';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import OrdersTable from './OrdersTable.js';
-import { isLoading } from '../shared/utils/state.js';
+import { determineStatus } from '../shared/utils/state.js';
 import { selectCurrentCompany } from '../home/duck/selectors.js';
 import { makeStyles } from '@material-ui/core/styles';
+import Loader from '../shared/components/Loader.js';
 
 const { newOrderButtonLabel } = LANGUAGE.order.ordersOverview;
 
@@ -30,7 +31,7 @@ export default function OrdersOverview() {
     const company = useSelector(selectCurrentCompany);
     const orders = useSelector(selectAllOrders);
     const orderDataStatus = useSelector(selectOrderDataStatus);
-    const loading = isLoading([orderDataStatus]);
+    const status = determineStatus([orderDataStatus]);
 
     useEffect(() => {
         if (company) dispatch(fetchOrders(company._id));
@@ -43,14 +44,19 @@ export default function OrdersOverview() {
     };
 
     return (
-        <Paper className={ classes.orderOverviewRoot }>
-            <ThemedButton
-                className={ classes.newOrder }
-                onClick={ onNewOrderClick }
-            >
-                { newOrderButtonLabel }
-            </ThemedButton>
-            { orderDataStatus === 'FULFILLED' && <OrdersTable orders={ orders } isLoading={ loading }/> }
-        </Paper>
+        <>
+            { status === 'PENDING' && <Loader/> }
+            { status === 'FULFILLED' &&
+            <Paper className={ classes.orderOverviewRoot }>
+                <ThemedButton
+                    className={ classes.newOrder }
+                    onClick={ onNewOrderClick }
+                >
+                    { newOrderButtonLabel }
+                </ThemedButton>
+                <OrdersTable orders={ orders }/>
+            </Paper>
+            }
+        </>
     );
 }

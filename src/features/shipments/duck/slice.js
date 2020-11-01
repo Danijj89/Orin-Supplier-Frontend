@@ -51,7 +51,7 @@ const shipmentsSlice = createSlice({
         },
         [fetchShipmentById.fulfilled]: (state, action) => {
             shipmentsAdapter.upsertOne(state, action.payload);
-            state.status = 'IDLE';
+            state.status = 'FULFILLED';
         },
         [fetchShipmentById.rejected]: (state, action) => {
             state.status = 'REJECTED';

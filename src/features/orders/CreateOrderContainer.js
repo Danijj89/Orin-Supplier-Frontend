@@ -11,7 +11,7 @@ import Loader from '../shared/components/Loader.js';
 import ErrorDisplay from '../shared/components/ErrorDisplay.js';
 import { selectCurrentCompany } from '../home/duck/selectors.js';
 import { selectCurrentUserId } from '../../app/duck/selectors.js';
-import { determineStatus, isLoading } from '../shared/utils/state.js';
+import { determineStatus } from '../shared/utils/state.js';
 import { selectClientDataStatus } from '../clients/duck/selectors.js';
 import { fetchClients } from '../clients/duck/thunks.js';
 import CreateOrder from './CreateOrder.js';

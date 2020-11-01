@@ -12,10 +12,11 @@ import {
     selectHomeStatus,
 } from '../home/duck/selectors.js';
 import { fetchProducts } from './duck/thunks.js';
-import { isLoading } from '../shared/utils/state.js';
+import { determineStatus } from '../shared/utils/state.js';
 import ProductTable from './ProductTable.js';
 import ErrorDisplay from '../shared/components/ErrorDisplay.js';
 import { makeStyles } from '@material-ui/core/styles';
+import Loader from '../shared/components/Loader.js';
 
 const useStyles = makeStyles((theme) => ({
     productOverviewRoot: {
@@ -31,17 +32,22 @@ export default function ProductOverview() {
     const homeStatus = useSelector(selectHomeStatus);
     const productStatus = useSelector(selectProductStatus);
     const productError = useSelector(selectProductError);
-    const loading = isLoading([homeStatus, productStatus]);
+    const status = determineStatus([homeStatus, productStatus]);
 
     useEffect(() => {
         if (company) dispatch(fetchProducts(company._id));
     }, [dispatch, company]);
 
     return (
-        <Paper className={classes.productOverviewRoot}>
-            {productError && <ErrorDisplay errors={[productError]} />}
-            {company && <NewProductButton companyId={company._id} />}
-            <ProductTable products={products} isLoading={loading} />
-        </Paper>
+        <>
+            { status === 'PENDING' && <Loader/> }
+            { productError && <ErrorDisplay errors={ [productError] }/> }
+            { status === 'FULFILLED' &&
+            <Paper className={ classes.productOverviewRoot }>
+                <NewProductButton companyId={ company._id }/>
+                <ProductTable products={ products }/>
+            </Paper>
+            }
+        </>
     );
 }

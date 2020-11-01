@@ -11,7 +11,7 @@ const {
     editDialogTitleLabel,
 } = LANGUAGE.product.overview.productTable;
 
-export default function ProductTable({ products, isLoading }) {
+export default function ProductTable({ products }) {
     const dispatch = useDispatch();
     const [isEdit, setIsEdit] = useState(false);
     const [product, setProduct] = useState(null);
@@ -71,7 +71,6 @@ export default function ProductTable({ products, isLoading }) {
             <Table
                 columns={columns}
                 rows={rows}
-                isLoading={isLoading}
                 onRowClick={onRowClick}
             />
             {product && (

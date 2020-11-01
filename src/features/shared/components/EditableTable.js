@@ -8,7 +8,6 @@ import {
     TableRow,
     withStyles, Typography, TableFooter
 } from '@material-ui/core';
-import Loader from './Loader.js';
 import TableTextField from '../inputs/TableTextField.js';
 import PropTypes from 'prop-types';
 import TableAutoComplete from '../inputs/TableAutoComplete.js';
@@ -39,9 +38,12 @@ const TableCell = withStyles((theme) => ({
 const { addRowButtonLabel } = LANGUAGE.shared.components.editableTable;
 
 export default function EditableTable(
-    { columns, rows, isLoading, onCellChange, className, footer, onAddRow }) {
+    { columns, rows, onCellChange, className, footer, onAddRow }) {
     const classes = useStyles();
-    const numColumns = columns.reduce((acc, col) => col.hide ? acc : acc += 1, 0);
+    const numColumns = columns.reduce((acc, col) => {
+        if(!col.hide) acc += 1;
+        return acc;
+    }, 0);
 
     const renderColumn = (column) => {
         if (column.hide) return null;
@@ -158,14 +160,7 @@ export default function EditableTable(
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    { isLoading &&
-                    <TableRow style={ { height: 400 } }>
-                        <TableCell colSpan={ numColumns } valign="middle" align="left">
-                            <Loader/>
-                        </TableCell>
-                    </TableRow>
-                    }
-                    { !isLoading && rows.map(renderRow) }
+                    { rows.map(renderRow) }
                     <TableRow>
                         <TableCell colSpan={ numColumns }>
                             <ThemedButton onClick={ onAddRow } variant="outlined">
@@ -188,6 +183,5 @@ EditableTable.propTypes = {
     onCellChange: PropTypes.func.isRequired,
     onAddRow: PropTypes.func.isRequired,
     className: PropTypes.string,
-    isLoading: PropTypes.bool,
     footer: PropTypes.array
 };

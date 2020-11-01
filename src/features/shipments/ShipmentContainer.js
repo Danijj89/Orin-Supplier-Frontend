@@ -6,7 +6,7 @@ import { selectShipmentById, selectShipmentStatus } from './duck/selectors.js';
 import { useParams } from 'react-router-dom';
 import { selectCurrentCompany, selectHomeStatus } from '../home/duck/selectors.js';
 import { fetchOrders } from '../orders/duck/thunks.js';
-import { isLoading } from '../shared/utils/state.js';
+import { determineStatus } from '../shared/utils/state.js';
 import Loader from '../shared/components/Loader.js';
 
 export default function ShipmentContainer() {
@@ -16,7 +16,8 @@ export default function ShipmentContainer() {
     const company = useSelector(selectCurrentCompany);
     const shipmentStatus = useSelector(selectShipmentStatus);
     const homeStatus = useSelector(selectHomeStatus);
-    const loading = isLoading([shipmentStatus, homeStatus]);
+    const shouldCheckShipmentStatus = Boolean(!shipment);
+    const status = determineStatus([shouldCheckShipmentStatus && shipmentStatus, homeStatus]);
 
     useEffect(() => {
         if (!shipment) dispatch(fetchShipmentById({ id }));
@@ -25,8 +26,8 @@ export default function ShipmentContainer() {
 
     return (
         <>
-            { loading && <Loader /> }
-            { shipment && homeStatus === 'FULFILLED' && <Shipment /> }
+            { status === 'PENDING' && <Loader /> }
+            { status === 'FULFILLED' && <Shipment /> }
         </>
     )
 }

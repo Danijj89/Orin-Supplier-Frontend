@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Paper } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectAllClients, selectClientDataStatus } from './duck/selectors.js';
+import { selectClientDataStatus } from './duck/selectors.js';
 import { fetchClients } from './duck/thunks.js';
 import { selectCurrentUserId } from '../../app/duck/selectors.js';
 import ClientsTable from './ClientsTable.js';
@@ -11,7 +11,7 @@ import {
     selectCurrentCompany,
     selectHomeStatus,
 } from '../home/duck/selectors.js';
-import { determineStatus, isLoading } from '../shared/utils/state.js';
+import { determineStatus } from '../shared/utils/state.js';
 import { makeStyles } from '@material-ui/core/styles';
 import Loader from '../shared/components/Loader.js';
 
@@ -26,12 +26,10 @@ export default function ClientOverview() {
     const userId = useSelector(selectCurrentUserId);
     const company = useSelector(selectCurrentCompany);
     const users = useSelector(selectAllUsers);
-    const clients = useSelector(selectAllClients);
     const clientDataStatus = useSelector(selectClientDataStatus);
     const homeStatus = useSelector(selectHomeStatus);
     const userStatus = useSelector(selectUserStatus);
     const status = determineStatus([clientDataStatus, homeStatus, userStatus]);
-    const loading = isLoading([clientDataStatus, homeStatus, userStatus]);
     const classes = useStyles();
 
     useEffect(() => {
@@ -49,7 +47,7 @@ export default function ClientOverview() {
                     users={ users }
                     className={ classes.newClientButton }
                 />
-                <ClientsTable clients={ clients } isLoading={ loading }/>
+                <ClientsTable />
             </Paper> }
         </>
     );

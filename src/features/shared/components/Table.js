@@ -11,7 +11,6 @@ import {
     TablePagination
 } from '@material-ui/core';
 import { LANGUAGE } from '../../../app/constants.js';
-import Loader from './Loader.js';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
@@ -27,11 +26,14 @@ const { paginationAllLabel, rowsPerPageLabel } = LANGUAGE.shared.components.tabl
 const ROW_HEIGHT = 69;
 
 export default function Table(
-    { rows, columns, className, onRowClick, dense, isLoading, disableRowHover, footer }) {
+    { rows, columns, className, onRowClick, dense, disableRowHover, footer }) {
     const classes = useStyles();
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
-    const numColumns = columns.reduce((acc, col) => col.hide ? acc : acc += 1, 0);
+    const numColumns = columns.reduce((acc, col) => {
+        if (!col.hide) acc += 1;
+        return acc;
+    }, 0);
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
     const onPageChange = (event, newPage) => setPage(newPage);
@@ -127,18 +129,11 @@ export default function Table(
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    { isLoading &&
-                    <TableRow style={ { height: ROW_HEIGHT * rowsPerPage } }>
-                        <TableCell colSpan={ numColumns } valign="middle" align="left">
-                            <Loader/>
-                        </TableCell>
-                    </TableRow>
-                    }
-                    { !isLoading && (rowsPerPage > 0
+                    { (rowsPerPage > 0
                             ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             : rows
                     ).map(renderRow) }
-                    { !isLoading && emptyRows > 0 && (
+                    { emptyRows > 0 && (
                         <TableRow style={ { height: ROW_HEIGHT * emptyRows } }>
                             <TableCell colSpan={ numColumns }/>
                         </TableRow>
@@ -171,7 +166,6 @@ Table.propTypes = {
     className: PropTypes.string,
     onRowClick: PropTypes.func,
     dense: PropTypes.bool,
-    isLoading: PropTypes.bool,
     disableRowHover: PropTypes.bool,
     disablePagination: PropTypes.bool
 };

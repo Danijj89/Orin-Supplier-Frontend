@@ -7,7 +7,7 @@ import { LANGUAGE } from '../../app/constants.js';
 
 const { tableHeadersMap } = LANGUAGE.shipment.overview.shipmentsTable;
 
-export default function ShipmentsTable({ isLoading }) {
+export default function ShipmentsTable() {
     const history = useHistory();
     const shipments = useSelector(selectAllShipments);
 
@@ -27,7 +27,6 @@ export default function ShipmentsTable({ isLoading }) {
         <Table
             columns={ columns }
             rows={ rows }
-            isLoading={ isLoading }
             onRowClick={ onRowClick }
         />
     )

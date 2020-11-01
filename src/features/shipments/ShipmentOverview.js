@@ -7,9 +7,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { cleanNewShipment } from './duck/slice.js';
 import { selectCurrentCompany, selectHomeStatus } from '../home/duck/selectors.js';
 import { fetchShipments } from './duck/thunks.js';
-import { isLoading } from '../shared/utils/state.js';
+import { determineStatus } from '../shared/utils/state.js';
 import { selectShipmentDataStatus } from './duck/selectors.js';
 import ShipmentsTable from './ShipmentsTable.js';
+import Loader from '../shared/components/Loader.js';
 
 const { newShipmentButtonLabel } = LANGUAGE.shipment.overview;
 
@@ -18,8 +19,8 @@ export default function ShipmentOverview() {
     const dispatch = useDispatch();
     const company = useSelector(selectCurrentCompany);
     const homeStatus = useSelector(selectHomeStatus);
-    const shipmentStatus = useSelector(selectShipmentDataStatus);
-    const loading = isLoading([homeStatus, shipmentStatus]);
+    const shipmentDataStatus = useSelector(selectShipmentDataStatus);
+    const status = determineStatus([homeStatus, shipmentDataStatus]);
 
     useEffect(() => {
         if (company) dispatch(fetchShipments({ companyId: company._id }));
@@ -31,14 +32,19 @@ export default function ShipmentOverview() {
     }
 
     return (
-        <Paper>
-            <ThemedButton
-                onClick={ onNewOrderClick }
-            >
-                { newShipmentButtonLabel }
-            </ThemedButton>
-            <ShipmentsTable isLoading={loading} />
-        </Paper>
+        <>
+            { status === 'PENDING' && <Loader/> }
+            { status === 'FULFILLED' &&
+            <Paper>
+                <ThemedButton
+                    onClick={ onNewOrderClick }
+                >
+                    { newShipmentButtonLabel }
+                </ThemedButton>
+                <ShipmentsTable />
+            </Paper>
+            }
+        </>
     )
 }
 

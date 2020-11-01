@@ -4,12 +4,14 @@ import { ChatBubble as IconChatFull, ChatBubbleOutline as IconChatEmpty } from '
 import { LANGUAGE } from '../../app/constants.js';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import Table from '../shared/components/Table.js';
+import { useSelector } from 'react-redux';
+import { selectAllClients } from './duck/selectors.js';
 
 const { clientTableHeadersMap } = LANGUAGE.client.clientOverview;
 
-export default function ClientsTable({ clients, isLoading }) {
-
+export default function ClientsTable() {
     const history = useHistory();
+    const clients = useSelector(selectAllClients);
 
     const onRowClick = (row) =>
         history.push(`/home/clients/${ row.id }`);
@@ -43,6 +45,6 @@ export default function ClientsTable({ clients, isLoading }) {
     }));
 
     return (
-        <Table rows={ rows } columns={ columns } onRowClick={ onRowClick } isLoading={ isLoading }/>
+        <Table rows={ rows } columns={ columns } onRowClick={ onRowClick } />
     )
 }

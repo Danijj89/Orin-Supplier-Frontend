@@ -7,7 +7,7 @@ import { dateToLocaleDate } from '../shared/utils/format.js';
 
 const { ordersTableHeadersMap } = LANGUAGE.order.ordersOverview;
 
-export default function OrdersTable({ orders, isLoading }) {
+export default function OrdersTable({ orders }) {
     const history = useHistory();
 
     const onRowClick = (params) => history.push(`/home/orders/${ params.id }`);
@@ -37,6 +37,6 @@ export default function OrdersTable({ orders, isLoading }) {
     }));
 
     return (
-        <Table columns={ columns } rows={ rows } isLoading={ isLoading } onRowClick={ onRowClick }/>
+        <Table columns={ columns } rows={ rows } onRowClick={ onRowClick }/>
     )
 }
