@@ -11,7 +11,7 @@ import {
     selectCurrentCompany,
     selectHomeStatus,
 } from '../home/duck/selectors.js';
-import { isLoading } from '../shared/utils/store.js';
+import { isLoading } from '../shared/utils/state.js';
 import { cleanClientStore } from './duck/slice.js';
 import { makeStyles } from '@material-ui/core/styles';
 

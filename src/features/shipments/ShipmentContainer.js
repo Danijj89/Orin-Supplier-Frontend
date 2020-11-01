@@ -6,7 +6,7 @@ import { selectShipmentById, selectShipmentStatus } from './duck/selectors.js';
 import { useParams } from 'react-router-dom';
 import { selectCurrentCompany, selectHomeStatus } from '../home/duck/selectors.js';
 import { fetchOrders } from '../orders/duck/thunks.js';
-import { isLoading } from '../shared/utils/store.js';
+import { isLoading } from '../shared/utils/state.js';
 import Loader from '../shared/components/Loader.js';
 
 export default function ShipmentContainer() {

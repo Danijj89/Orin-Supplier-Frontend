@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { cleanNewShipment } from './duck/slice.js';
 import { selectCurrentCompany, selectHomeStatus } from '../home/duck/selectors.js';
 import { fetchShipments } from './duck/thunks.js';
-import { isLoading } from '../shared/utils/store.js';
+import { isLoading } from '../shared/utils/state.js';
 import { selectShipmentDataStatus } from './duck/selectors.js';
 import ShipmentsTable from './ShipmentsTable.js';
 

@@ -16,6 +16,7 @@ export const ordersAdapter = createEntityAdapter({
 });
 
 const initialState = ordersAdapter.getInitialState({
+    dataStatus: 'IDLE',
     status: 'IDLE',
     error: null,
     newOrder: null,
@@ -35,6 +36,7 @@ const ordersSlice = createSlice({
             state.error = null;
             state.currentOrderId = null;
             state.status = 'IDLE';
+            state.dataStatus = 'IDLE';
         }
     },
     extraReducers: {
@@ -42,7 +44,7 @@ const ordersSlice = createSlice({
             state.status = 'PENDING';
         },
         [fetchOrders.fulfilled]: (state, action) => {
-            state.status = 'FULFILLED';
+            state.dataStatus = 'FULFILLED';
             ordersAdapter.upsertMany(state, action.payload);
         },
         [fetchOrders.rejected]: (state, action) => {
@@ -81,7 +83,7 @@ const ordersSlice = createSlice({
         },
         [fetchOrderById.fulfilled]: (state, action) => {
             ordersAdapter.upsertOne(state, action.payload);
-            state.status = 'IDLE';
+            state.status = 'FULFILLED';
         },
         [fetchOrderById.rejected]: (state, action) => {
             state.status = 'REJECTED';

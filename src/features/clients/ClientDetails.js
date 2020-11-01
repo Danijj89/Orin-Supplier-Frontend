@@ -12,7 +12,7 @@ import ClientInfoTable from './ClientInfoTable.js';
 import EditClientButton from './EditClientButton.js';
 import { dateToLocaleDate } from '../shared/utils/format.js';
 import { selectAllUsers, selectUserStatus } from '../users/duck/selectors.js';
-import { isLoading } from '../shared/utils/store.js';
+import { determineStatus, isLoading } from '../shared/utils/state.js';
 import { cleanClientStore } from './duck/slice.js';
 import { makeStyles } from '@material-ui/core/styles';
 import TextAreaCard from '../shared/components/TextAreaCard.js';
@@ -46,6 +46,7 @@ export default function ClientDetails({ match }) {
     const users = useSelector(selectAllUsers);
     const clientStatus = useSelector(selectClientStatus);
     const userStatus = useSelector(selectUserStatus);
+    const status = determineStatus([clientStatus, userStatus]);
     const loading = isLoading([clientStatus, userStatus]);
 
     const onNotesSubmit = (notes) =>

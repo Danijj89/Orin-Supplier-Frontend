@@ -1,5 +1,6 @@
 import { ordersAdapter } from './slice.js';
 
+export const selectOrderDataStatus = state => state.orders.dataStatus;
 export const selectOrderStatus = state => state.orders.status;
 export const selectOrderError = state => state.orders.error;
 export const selectNewOrder = state => state.orders.newOrder;

@@ -5,10 +5,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchOrders } from './duck/thunks.js';
 import { cleanNewOrder, cleanOrderStore } from './duck/slice.js';
 import { Paper } from '@material-ui/core';
-import { selectAllOrders, selectOrderStatus } from './duck/selectors.js';
+import { selectAllOrders, selectOrderDataStatus } from './duck/selectors.js';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import OrdersTable from './OrdersTable.js';
-import { isLoading } from '../shared/utils/store.js';
+import { isLoading } from '../shared/utils/state.js';
 import { selectCurrentCompany } from '../home/duck/selectors.js';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -29,8 +29,8 @@ export default function OrdersOverview() {
     const history = useHistory();
     const company = useSelector(selectCurrentCompany);
     const orders = useSelector(selectAllOrders);
-    const orderStatus = useSelector(selectOrderStatus);
-    const loading = isLoading([orderStatus]);
+    const orderDataStatus = useSelector(selectOrderDataStatus);
+    const loading = isLoading([orderDataStatus]);
 
     useEffect(() => {
         if (company) dispatch(fetchOrders(company._id));
@@ -43,14 +43,14 @@ export default function OrdersOverview() {
     };
 
     return (
-        <Paper className={classes.orderOverviewRoot}>
+        <Paper className={ classes.orderOverviewRoot }>
             <ThemedButton
-                className={classes.newOrder}
-                onClick={onNewOrderClick}
+                className={ classes.newOrder }
+                onClick={ onNewOrderClick }
             >
-                {newOrderButtonLabel}
+                { newOrderButtonLabel }
             </ThemedButton>
-            {orders && <OrdersTable orders={orders} isLoading={loading} />}
+            { orderDataStatus === 'FULFILLED' && <OrdersTable orders={ orders } isLoading={ loading }/> }
         </Paper>
     );
 }

@@ -6,7 +6,7 @@ import OrderDetails from './OrderDetails.js';
 import { fetchOrderById } from './duck/thunks.js';
 import { selectUserStatus } from '../users/duck/selectors.js';
 import { selectOrderById, selectOrderStatus } from './duck/selectors.js';
-import { isLoading } from '../shared/utils/store.js';
+import { determineStatus, isLoading } from '../shared/utils/state.js';
 import Loader from '../shared/components/Loader.js';
 import { selectCurrentCompany, selectHomeStatus } from '../home/duck/selectors.js';
 import { selectClientStatus } from '../clients/duck/selectors.js';
@@ -44,7 +44,7 @@ export default function Order({ match }) {
     const homeStatus = useSelector(selectHomeStatus);
     const clientStatus = useSelector(selectClientStatus);
     const productStatus = useSelector(selectProductStatus);
-    const loading = isLoading([userStatus, orderStatus, homeStatus, clientStatus, productStatus]);
+    const status = determineStatus([userStatus, orderStatus, homeStatus, clientStatus, productStatus]);
     const [tabValue, setTabValue] = useState('details');
 
     const mounted = useRef(false);
@@ -59,7 +59,7 @@ export default function Order({ match }) {
 
     return (
         <Box className={ classes.root }>
-            { loading && <Loader/> }
+            { status === 'PENDING' && <Loader/> }
             { order?.active === false && <Redirect to={ '/home/orders' }/> }
             <Paper>
                 <NavTabs
@@ -69,11 +69,10 @@ export default function Order({ match }) {
                     className={ classes.orderTabs }
                 />
             </Paper>
-            { order && company && clientStatus === 'FULFILLED' && productStatus === 'FULFILLED'
-            && tabValue === 'details' &&
+            { status === 'FULFILLED' && tabValue === 'details' &&
             <OrderDetails order={ order }/>
             }
-            { order && tabValue === 'documents' && <OrderDocuments order={ order }/> }
+            { status === 'FULFILLED' && tabValue === 'documents' && <OrderDocuments order={ order }/> }
         </Box>
     )
 }

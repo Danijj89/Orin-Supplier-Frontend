@@ -12,7 +12,7 @@ import {
     selectHomeStatus,
 } from '../home/duck/selectors.js';
 import { fetchProducts } from './duck/thunks.js';
-import { isLoading } from '../shared/utils/store.js';
+import { isLoading } from '../shared/utils/state.js';
 import ProductTable from './ProductTable.js';
 import ErrorDisplay from '../shared/components/ErrorDisplay.js';
 import { makeStyles } from '@material-ui/core/styles';
