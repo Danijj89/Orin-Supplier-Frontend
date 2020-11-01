@@ -12,8 +12,7 @@ import ClientInfoTable from './ClientInfoTable.js';
 import EditClientButton from './EditClientButton.js';
 import { dateToLocaleDate } from '../shared/utils/format.js';
 import { selectAllUsers, selectUserStatus } from '../users/duck/selectors.js';
-import { determineStatus, isLoading } from '../shared/utils/state.js';
-import { cleanClientStore } from './duck/slice.js';
+import { determineStatus } from '../shared/utils/state.js';
 import { makeStyles } from '@material-ui/core/styles';
 import TextAreaCard from '../shared/components/TextAreaCard.js';
 
@@ -46,8 +45,8 @@ export default function ClientDetails({ match }) {
     const users = useSelector(selectAllUsers);
     const clientStatus = useSelector(selectClientStatus);
     const userStatus = useSelector(selectUserStatus);
-    const status = determineStatus([clientStatus, userStatus]);
-    const loading = isLoading([clientStatus, userStatus]);
+    const shouldCheckClientStatus = Boolean(!client);
+    const status = determineStatus([shouldCheckClientStatus && clientStatus, userStatus]);
 
     const onNotesSubmit = (notes) =>
         dispatch(updateClientNotes({ id: client._id, notes }));
@@ -68,14 +67,14 @@ export default function ClientDetails({ match }) {
 
     useEffect(() => {
         if (!client) dispatch(fetchClientById(id));
-        return () => dispatch(cleanClientStore());
     }, [dispatch, id, client]);
 
     return (
-        <Container>
-            { loading && <Loader/> }
+        <>
+            { status === 'PENDING' && <Loader/> }
             { client?.active === false && <Redirect to={ '/home/clients' }/> }
-            { client && users && (
+            { status === 'FULFILLED' &&
+            <Container>
                 <InfoCard
                     title={ client.name }
                     button={ <EditClientButton client={ client } users={ users }/> }
@@ -87,9 +86,15 @@ export default function ClientDetails({ match }) {
                         />
                     }
                 />
-            ) }
-            { client && <TextAreaCard titleLabel={ notesLabel } className={classes.notesCard} value={ client.notes } onSubmit={ onNotesSubmit }/> }
-            { client && <ClientInfoTable client={ client }/> }
-        </Container>
+                <TextAreaCard
+                    titleLabel={ notesLabel }
+                    className={ classes.notesCard }
+                    value={ client.notes }
+                    onSubmit={ onNotesSubmit }
+                />
+                <ClientInfoTable client={ client }/>
+            </Container>
+            }
+        </>
     );
 }

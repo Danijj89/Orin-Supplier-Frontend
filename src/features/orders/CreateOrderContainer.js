@@ -2,19 +2,17 @@ import React, { useEffect, useRef } from 'react';
 import { Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { startNewOrder } from './duck/thunks.js';
-import { Box } from '@material-ui/core';
 import {
     selectCurrentOrderId,
     selectNewOrder,
-    selectOrderDataStatus,
-    selectOrderError,
+    selectOrderError, selectOrderStatus,
 } from './duck/selectors.js';
 import Loader from '../shared/components/Loader.js';
 import ErrorDisplay from '../shared/components/ErrorDisplay.js';
 import { selectCurrentCompany } from '../home/duck/selectors.js';
 import { selectCurrentUserId } from '../../app/duck/selectors.js';
-import { isLoading } from '../shared/utils/state.js';
-import { selectClientStatus } from '../clients/duck/selectors.js';
+import { determineStatus, isLoading } from '../shared/utils/state.js';
+import { selectClientDataStatus } from '../clients/duck/selectors.js';
 import { fetchClients } from '../clients/duck/thunks.js';
 import CreateOrder from './CreateOrder.js';
 import { selectProductStatus } from '../products/duck/selectors.js';
@@ -25,12 +23,12 @@ export default function CreateOrderContainer() {
     const userId = useSelector(selectCurrentUserId);
     const newOrder = useSelector(selectNewOrder);
     const company = useSelector(selectCurrentCompany);
-    const orderDataStatus = useSelector(selectOrderDataStatus);
-    const clientStatus = useSelector(selectClientStatus);
+    const orderStatus = useSelector(selectOrderStatus);
+    const clientDataStatus = useSelector(selectClientDataStatus);
     const productStatus = useSelector(selectProductStatus);
     const error = useSelector(selectOrderError);
     const currentOrderId = useSelector(selectCurrentOrderId);
-    const loading = isLoading([orderDataStatus, clientStatus, productStatus]);
+    const status = determineStatus([orderStatus, clientDataStatus, productStatus]);
 
     const mounted = useRef(false);
     useEffect(() => {
@@ -40,16 +38,14 @@ export default function CreateOrderContainer() {
             dispatch(fetchProducts(company._id));
             mounted.current = true;
         }
-    }, [dispatch, company, userId, clientStatus]);
+    }, [dispatch, company, userId]);
 
     return (
-        <Box>
+        <>
+            { status === 'PENDING' && <Loader/> }
             { currentOrderId && <Redirect to={ `/home/orders/${ currentOrderId }` }/> }
-            { loading && <Loader/> }
             { error && <ErrorDisplay errors={ [error] }/> }
-            { newOrder && !loading &&
-            <CreateOrder newOrder={newOrder}/>
-            }
-        </Box>
+            { status === 'FULFILLED' && <CreateOrder newOrder={ newOrder }/> }
+        </>
     );
 }

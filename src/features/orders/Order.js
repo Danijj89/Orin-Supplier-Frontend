@@ -6,10 +6,10 @@ import OrderDetails from './OrderDetails.js';
 import { fetchOrderById } from './duck/thunks.js';
 import { selectUserStatus } from '../users/duck/selectors.js';
 import { selectOrderById, selectOrderStatus } from './duck/selectors.js';
-import { determineStatus, isLoading } from '../shared/utils/state.js';
+import { determineStatus } from '../shared/utils/state.js';
 import Loader from '../shared/components/Loader.js';
 import { selectCurrentCompany, selectHomeStatus } from '../home/duck/selectors.js';
-import { selectClientStatus } from '../clients/duck/selectors.js';
+import { selectClientDataStatus } from '../clients/duck/selectors.js';
 import { fetchClients } from '../clients/duck/thunks.js';
 import { selectProductStatus } from '../products/duck/selectors.js';
 import { fetchProducts } from '../products/duck/thunks.js';
@@ -42,20 +42,20 @@ export default function Order({ match }) {
     const userStatus = useSelector(selectUserStatus);
     const orderStatus = useSelector(selectOrderStatus);
     const homeStatus = useSelector(selectHomeStatus);
-    const clientStatus = useSelector(selectClientStatus);
+    const clientDataStatus = useSelector(selectClientDataStatus);
     const productStatus = useSelector(selectProductStatus);
-    const status = determineStatus([userStatus, orderStatus, homeStatus, clientStatus, productStatus]);
+    const status = determineStatus([userStatus, orderStatus, homeStatus, clientDataStatus, productStatus]);
     const [tabValue, setTabValue] = useState('details');
 
     const mounted = useRef(false);
     useEffect(() => {
-        if (!mounted.current && !order) dispatch(fetchOrderById(id));
         if (!mounted.current) {
-            if (clientStatus === 'IDLE' && company) dispatch(fetchClients(company._id));
+            if (!order) dispatch(fetchOrderById(id));
+            if (clientDataStatus === 'IDLE' && company) dispatch(fetchClients(company._id));
             if (productStatus === 'IDLE' && company) dispatch(fetchProducts(company._id));
         }
-        if (clientStatus === 'FULFILLED' && productStatus === 'FULFILLED') mounted.current = true;
-    }, [dispatch, order, id, clientStatus, company, productStatus]);
+        if (status === 'FULFILLED') mounted.current = true;
+    }, [dispatch, order, id, company, status, clientDataStatus, productStatus]);
 
     return (
         <Box className={ classes.root }>

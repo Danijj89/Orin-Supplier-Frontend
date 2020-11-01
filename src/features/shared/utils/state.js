@@ -8,14 +8,11 @@ export function isLoading(statuses) {
 
 export const determineStatus = (statuses) => {
     let isIdle = false;
-    const stats = [];
     for (const status of statuses) {
         if (status === 'PENDING') return 'PENDING';
         if (status === 'REJECTED') return 'REJECTED';
         if (status === 'IDLE') isIdle = true ;
-        stats.push(status);
     }
-    console.log(stats)
-    if (isIdle) return 'IDLE';
+    if (isIdle) return 'PENDING';
     return 'FULFILLED';
 };

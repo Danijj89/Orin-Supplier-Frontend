@@ -14,6 +14,7 @@ export const clientsAdapter = createEntityAdapter({
 });
 
 const initialState = clientsAdapter.getInitialState({
+    dataStatus: 'IDLE',
     status: 'IDLE',
     error: null
 });
@@ -23,6 +24,7 @@ const clientsSlice = createSlice({
     initialState,
     reducers: {
         cleanClientStore: (state, action) => {
+            state.dataStatus = 'IDLE';
             state.status = 'IDLE';
             state.error = null;
         }
@@ -33,7 +35,7 @@ const clientsSlice = createSlice({
         },
         [fetchClients.fulfilled]: (state, action) => {
             clientsAdapter.upsertMany(state, action.payload);
-            state.status = 'FULFILLED';
+            state.dataStatus = 'FULFILLED';
         },
         [fetchClients.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -55,7 +57,7 @@ const clientsSlice = createSlice({
         },
         [fetchClientById.fulfilled]: (state, action) => {
             clientsAdapter.upsertOne(state, action.payload);
-            state.status = 'IDLE';
+            state.status = 'FULFILLED';
         },
         [fetchClientById.rejected]: (state, action) => {
             state.status = 'REJECTED';

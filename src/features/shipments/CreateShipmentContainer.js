@@ -1,12 +1,11 @@
 import React, { useEffect, useRef } from 'react';
-import { Box } from '@material-ui/core';
 import CreateShipment from './CreateShipment.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCurrentCompany, selectHomeStatus } from '../home/duck/selectors.js';
-import { isLoading } from '../shared/utils/state.js';
+import { determineStatus } from '../shared/utils/state.js';
 import Loader from '../shared/components/Loader.js';
 import { fetchClients } from '../clients/duck/thunks.js';
-import { selectClientStatus } from '../clients/duck/selectors.js';
+import { selectClientDataStatus } from '../clients/duck/selectors.js';
 import { selectOrderDataStatus } from '../orders/duck/selectors.js';
 import { fetchOrders } from '../orders/duck/thunks.js';
 import { selectCurrentShipmentId } from './duck/selectors.js';
@@ -18,9 +17,9 @@ export default function CreateShipmentContainer() {
     const company = useSelector(selectCurrentCompany);
     const currentShipmentId = useSelector(selectCurrentShipmentId);
     const homeStatus = useSelector(selectHomeStatus);
-    const clientStatus = useSelector(selectClientStatus);
+    const clientDataStatus = useSelector(selectClientDataStatus);
     const orderDataStatus = useSelector(selectOrderDataStatus);
-    const loading = isLoading([homeStatus, clientStatus, orderDataStatus]);
+    const status = determineStatus([homeStatus, clientDataStatus, orderDataStatus]);
 
     const mounted = useRef(false);
     useEffect(() => {
@@ -33,10 +32,10 @@ export default function CreateShipmentContainer() {
     }, [company, dispatch]);
 
     return (
-        <Box>
+        <>
+            { status === 'PENDING' && <Loader/> }
             { currentShipmentId && <Redirect to={ `/home/shipments/${ currentShipmentId }` }/> }
-            { loading && <Loader/> }
-            { !loading && homeStatus === 'FULFILLED' && <CreateShipment/> }
-        </Box>
+            { status === 'FULFILLED' && <CreateShipment/> }
+        </>
     )
 }

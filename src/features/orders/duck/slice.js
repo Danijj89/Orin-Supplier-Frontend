@@ -59,7 +59,7 @@ const ordersSlice = createSlice({
             newOrder.items = [defaultRowValues];
             state.newOrder = newOrder;
             state.currentOrderId = null;
-            state.status = 'IDLE';
+            state.status = 'FULFILLED';
         },
         [startNewOrder.rejected]: (state, action) => {
             state.status = 'REJECTED';

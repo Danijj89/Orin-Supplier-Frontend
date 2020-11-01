@@ -6,5 +6,6 @@ export const {
     selectEntities: selectClientsMap
 } = clientsAdapter.getSelectors(state => state.clients);
 
+export const selectClientDataStatus = state => state.clients.dataStatus;
 export const selectClientStatus = state => state.clients.status;
 export const selectClientError = state => state.clients.error;
