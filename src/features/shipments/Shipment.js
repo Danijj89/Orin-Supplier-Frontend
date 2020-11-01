@@ -28,9 +28,9 @@ export default function Shipment() {
     const [tabValue, setTabValue] = useState('orders');
 
     const onEditShipmentInfo = () =>
-        history.push(`/home/shipments/edit/${id}`);
+        history.push(`/home/shipments/edit/${id}/details`);
 
-    const onEditOrders = () => history.push(`/home/shipments/new/${id}`);
+    const onEditOrders = () => history.push(`/home/shipments/edit/${id}`);
 
     return (
         <Grid container>
