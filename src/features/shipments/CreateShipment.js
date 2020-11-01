@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory, useParams, useLocation } from 'react-router-dom';
 import { Box, Divider, Typography, Paper, Checkbox, Chip } from '@material-ui/core';
 import { LANGUAGE } from '../../app/constants.js';
 import FormContainer from '../shared/wrappers/FormContainer.js';
@@ -16,7 +16,7 @@ import UnitCounter from '../shared/classes/UnitCounter.js';
 import { makeStyles } from '@material-ui/core/styles';
 import Footer from '../shared/components/Footer.js';
 import { selectCurrentUserId } from '../../app/duck/selectors.js';
-import { createShipment } from './duck/thunks.js';
+import { createShipment, updateShipmentShell } from './duck/thunks.js';
 import ErrorDisplay from '../shared/components/ErrorDisplay.js';
 import { selectOrderShipmentItemMap, selectShipmentById, selectShipmentError } from './duck/selectors.js';
 import { cleanNewShipment } from './duck/slice.js';
@@ -33,7 +33,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const {
-    titleLabel,
+    newTitleLabel,
+    editTitleLabel,
     companyAddressLabel,
     clientLabel,
     clientAddressLabel,
@@ -48,6 +49,9 @@ export default function CreateShipment() {
     const dispatch = useDispatch();
     const history = useHistory();
     const { id } = useParams();
+    const location = useLocation();
+    const isEdit = location.pathname.split('/')[3] === 'edit';
+    const titleLabel = isEdit ? editTitleLabel : newTitleLabel;
     const shipment = useSelector(state => selectShipmentById(state, id));
     const userId = useSelector(selectCurrentUserId);
     const company = useSelector(selectCurrentCompany);
@@ -60,6 +64,8 @@ export default function CreateShipment() {
     const { register, control, errors, getValues, watch, setValue, handleSubmit } = useForm({
         mode: 'onSubmit',
         defaultValues: {
+            _id: shipment?._id,
+            createdBy: isEdit ? null : userId,
             sellerAdd: shipment?.sellerAdd || defaultAddress,
             consignee: clientsMap[shipment?.consignee],
             consigneeAdd: shipment?.consigneeAdd,
@@ -91,12 +97,12 @@ export default function CreateShipment() {
             }
             mounted.current = true;
         } else if (chosenClient && clientsMap.hasOwnProperty(chosenClient._id)) {
-            console.log('here')
             setClientAddresses(chosenClient.addresses.filter(a => a.active));
             setClientOrders(Object.values(ordersMap).filter(order => order.to === chosenClient._id)
                 .map(order => ({ ...order, selected: false })));
+            console.log('here');
         }
-    }, [chosenClient, clientsMap, ordersMap, register]);
+    }, [chosenClient, register]);
 
     const onCheckboxSelection = (value, orderId) => {
         if (value) {
@@ -116,7 +122,6 @@ export default function CreateShipment() {
 
     const onPrevClick = () => history.goBack();
     const onSubmit = (data) => {
-        data.createdBy = userId;
         data.seller = company._id;
         data.sellerAdd = {
             addressId: data.sellerAdd._id,
@@ -139,7 +144,8 @@ export default function CreateShipment() {
             country: data.consigneeAdd.country,
             zip: data.consigneeAdd.zip
         };
-        dispatch(createShipment(data));
+        if (isEdit) dispatch(updateShipmentShell(data));
+        else dispatch(createShipment(data));
         dispatch(cleanNewShipment());
     };
 

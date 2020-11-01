@@ -375,7 +375,8 @@ export const ENGLISH = {
             }
         },
         createShipment: {
-            titleLabel: 'New Shipment',
+            newTitleLabel: 'New Shipment',
+            editTitleLabel: 'Edit',
             companyAddressLabel: 'Shipper / Supplier',
             clientLabel: 'Consignee / Client',
             clientAddressLabel: 'Client Address',

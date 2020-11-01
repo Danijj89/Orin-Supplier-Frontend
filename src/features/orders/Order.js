@@ -44,7 +44,14 @@ export default function Order({ match }) {
     const homeStatus = useSelector(selectHomeStatus);
     const clientDataStatus = useSelector(selectClientDataStatus);
     const productStatus = useSelector(selectProductStatus);
-    const status = determineStatus([userStatus, orderStatus, homeStatus, clientDataStatus, productStatus]);
+    const shouldCheckOrderStatus = Boolean(!order);
+    const status = determineStatus([
+        userStatus,
+        shouldCheckOrderStatus && orderStatus,
+        homeStatus,
+        clientDataStatus,
+        productStatus
+    ]);
     const [tabValue, setTabValue] = useState('details');
 
     const mounted = useRef(false);

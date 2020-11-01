@@ -4,7 +4,7 @@ import { Grid } from '@material-ui/core';
 import InfoCard from '../shared/wrappers/InfoCard.js';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { LANGUAGE } from '../../app/constants.js';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { selectShipmentById } from './duck/selectors.js';
 import NavTabs from '../shared/components/NavTabs.js';
 import ShipmentOrdersTable from './ShipmentOrdersTable.js';

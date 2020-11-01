@@ -31,10 +31,21 @@ const fetchShipmentById = async (id) => {
     return data;
 };
 
+const updateShipmentShell = async (id, update) => {
+    const configs = {
+        method: 'put',
+        url: `shipments/${id}/shell`,
+        data: update
+    };
+    const { data } = await fetchWithAuth(configs);
+    return data;
+};
+
 const ShipmentService = {
     createShipment,
     fetchShipments,
-    fetchShipmentById
+    fetchShipmentById,
+    updateShipmentShell
 };
 
 export default ShipmentService;
