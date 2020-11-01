@@ -400,7 +400,30 @@ export const ENGLISH = {
             }
         },
         shipment: {
-            editShipmentButtonLabel: 'Edit Shipment Information'
+            editShipmentButtonLabel: 'Edit Shipment Information',
+            tabsLabelsMap: {
+                orders: 'Orders Included',
+                documents: 'Documents'
+            },
+            editOrdersButtonLabel: 'Edit Included Orders',
+            shipmentOrdersTable: {
+                tableHeaderLabelsMap: {
+                    ref: 'Sales Order',
+                    clientRef: 'Client Ref',
+                    totalQ: 'Quantity',
+                    crd: 'Cargo Ready',
+                    del: 'Shipping Mode',
+                    production: 'Production',
+                    qa: 'QA',
+                    notes: 'Notes'
+                },
+            }
+        },
+        editShipment: {
+            tabsLabelsMap: {
+                shipment: 'Shipment',
+                products: 'Products'
+            }
         }
     },
     shared: {

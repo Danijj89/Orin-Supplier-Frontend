@@ -17,8 +17,8 @@ import ProductOverview from '../products/ProductOverview.js';
 import Order from '../orders/Order.js';
 import ShipmentOverview from '../shipments/ShipmentOverview.js';
 import CreateShipmentContainer from '../shipments/CreateShipmentContainer.js';
-import Shipment from '../shipments/Shipment.js';
 import EditShipment from '../shipments/EditShipment.js';
+import ShipmentContainer from '../shipments/ShipmentContainer.js';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -114,14 +114,14 @@ export default function Home({ match }) {
                     />
                     <Route
                         exact
-                        path={ `${ match.url }/shipments/:id/edit/shipment` }
+                        path={ `${ match.url }/shipments/:id/edit/:step` }
                         component={ EditShipment }
                         isPrivate
                     />
                     <Route
                         exact
                         path={ `${ match.url }/shipments/:id` }
-                        component={ Shipment }
+                        component={ ShipmentContainer }
                         isPrivate
                     />
                     <Route
