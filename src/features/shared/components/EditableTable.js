@@ -41,7 +41,7 @@ export default function EditableTable(
     { columns, rows, onCellChange, className, footer, onAddRow }) {
     const classes = useStyles();
     const numColumns = columns.reduce((acc, col) => {
-        if(!col.hide) acc += 1;
+        if (!col.hide) acc += 1;
         return acc;
     }, 0);
 
@@ -65,7 +65,7 @@ export default function EditableTable(
         const currRow = columns.map(column => {
                 if (column.hide) return null;
                 if (column.renderCell) return (
-                    <TableCell key={ column.field } width={ column.width }>
+                    <TableCell key={ column.field } width={ column.width } align={ column.align }>
                         { column.renderCell(row) }
                     </TableCell>
                 );

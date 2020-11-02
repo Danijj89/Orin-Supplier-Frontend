@@ -8,7 +8,7 @@ import SideAutoComplete from '../inputs/SideAutoComplete.js';
 import SideCheckBox from '../inputs/SideCheckBox.js';
 import EditableTable from '../components/EditableTable.js';
 import TableTextField from '../inputs/TableTextField.js';
-import { Add as IconAdd, Close as IconClose } from '@material-ui/icons';
+import { Add as IconAdd, Close as IconClose, Delete as IconDelete } from '@material-ui/icons';
 import UnitCounter from '../classes/UnitCounter.js';
 import { getCurrencySymbol } from '../utils/random.js';
 import { useSelector } from 'react-redux';
@@ -77,6 +77,7 @@ export default function RHFOrderProducts({ rhfMethods, isEdit }) {
     };
 
     const onAddRow = () => setValue('items', [...items, defaultRowValues]);
+    const onDeleteRow = (id) => setValue('items', items.filter(item => item._id !== id));
 
     const onCellChange = useCallback((rowIdx, key, newValue) => {
         const newItem = { ...items[rowIdx] };
@@ -87,7 +88,7 @@ export default function RHFOrderProducts({ rhfMethods, isEdit }) {
                     newItem._id = newValue._id;
                     newItem.ref = newValue.sku;
                     newItem.description = newValue.description;
-                } else if (!products.find(product => product.sku === newValue)){
+                } else if (!products.find(product => product.sku === newValue)) {
                     //FIXME: material ui triggers onChange twice with freeSolo + autoSelect
                     // so we need this check to prevent the second onChange to set the newItem._id
                     // to null. Remove if bug is solved.
@@ -129,6 +130,16 @@ export default function RHFOrderProducts({ rhfMethods, isEdit }) {
 
     const columns = [
         { field: 'id', hide: true },
+        {
+            field: 'delete',
+            renderCell: params =>
+                params.idx === 0 ? null :
+                <IconButton size="small" onClick={ () => onDeleteRow(params.id) }>
+                    <IconDelete/>
+                </IconButton>,
+            width: 50,
+            align: 'center'
+        },
         {
             field: 'ref',
             headerName: tableHeaderLabelsMap.ref,
