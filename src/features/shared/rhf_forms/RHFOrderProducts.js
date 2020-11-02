@@ -77,7 +77,7 @@ export default function RHFOrderProducts({ rhfMethods, isEdit }) {
     };
 
     const onAddRow = () => setValue('items', [...items, defaultRowValues]);
-    const onDeleteRow = (id) => setValue('items', items.filter(item => item._id !== id));
+    const onDeleteRow = (idx) => setValue('items', items.filter((_, i) => i !== idx));
 
     const onCellChange = useCallback((rowIdx, key, newValue) => {
         const newItem = { ...items[rowIdx] };
@@ -134,7 +134,7 @@ export default function RHFOrderProducts({ rhfMethods, isEdit }) {
             field: 'delete',
             renderCell: params =>
                 params.idx === 0 ? null :
-                <IconButton size="small" onClick={ () => onDeleteRow(params.id) }>
+                <IconButton size="small" onClick={ () => onDeleteRow(params.idx) }>
                     <IconDelete/>
                 </IconButton>,
             width: 50,
