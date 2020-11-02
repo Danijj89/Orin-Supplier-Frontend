@@ -13,6 +13,7 @@ import { selectShipmentById } from './duck/selectors.js';
 import OrdersInfoForm from './OrdersInfoForm.js';
 import ShipmentInfoForm from './ShipmentInfoForm.js';
 import Footer from '../shared/components/Footer.js';
+import ShipmentProducts from './ShipmentProducts.js';
 
 const {
     titleLabel,
@@ -48,7 +49,8 @@ export default function EditShipment() {
             pod: shipment.pod,
             carrier: shipment.carrier,
             eta: shipment.eta || null,
-            etd: shipment.etd || null
+            etd: shipment.etd || null,
+            items: shipment.items
         }
     });
 
@@ -79,8 +81,7 @@ export default function EditShipment() {
                     </>
                     }
                     { tabValue === 'products' &&
-                        <>
-                        </>
+                    <ShipmentProducts/>
                     }
                 </Box>
             </FormProvider>

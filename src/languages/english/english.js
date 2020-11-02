@@ -461,6 +461,25 @@ export const ENGLISH = {
                     eta: 'ETA',
                     etd: 'ETD'
                 }
+            },
+            products: {
+                formLabels: {
+                    currency: 'Currency',
+                    
+                },
+                productTable: {
+                    tableHeaderLabels: {
+                        ref: 'Item Reference',
+                        description: 'Product Description',
+                        quantity: 'Quantity',
+                        unit: 'Unit',
+                        price: 'Unit Price',
+                        total: 'Amount'
+                    },
+                },
+                errorMessages: {
+                    missingCurrency: 'You must select a currency.'
+                }
             }
         }
     },

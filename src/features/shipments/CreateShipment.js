@@ -105,7 +105,7 @@ export default function CreateShipment() {
             }
             mounted.current = true;
         }
-    }, [chosenClient, register, clientsMap, ordersMap, initialOrderIds]);
+    }, [chosenClient, register, clientsMap, ordersMap, initialOrderIds, setValue]);
 
     const onCheckboxSelection = (value, orderId) => {
         if (value) {

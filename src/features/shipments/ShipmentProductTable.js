@@ -1,52 +1,34 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { Grid, IconButton } from '@material-ui/core';
-import { LANGUAGE } from '../../../app/constants.js';
-import { currenciesOptions, itemUnitsOptions } from '../constants.js';
-import { Controller } from 'react-hook-form';
-import SideAutoComplete from '../inputs/SideAutoComplete.js';
-import SideCheckBox from '../inputs/SideCheckBox.js';
-import EditableTable from '../components/EditableTable.js';
-import TableTextField from '../inputs/TableTextField.js';
+import { IconButton } from '@material-ui/core';
 import { Add as IconAdd, Close as IconClose, Delete as IconDelete } from '@material-ui/icons';
-import UnitCounter from '../classes/UnitCounter.js';
-import { getCurrencySymbol } from '../utils/random.js';
+import TableTextField from '../shared/inputs/TableTextField.js';
+import { itemUnitsOptions } from '../shared/constants.js';
+import { LANGUAGE } from '../../app/constants.js';
+import { useFormContext } from 'react-hook-form';
 import { useSelector } from 'react-redux';
-import { selectAllProducts } from '../../products/duck/selectors.js';
-import { defaultRowValues } from '../../orders/utils/constants.js';
-import { roundTo2Decimal } from '../utils/format.js';
+import { selectAllProducts } from '../products/duck/selectors.js';
+import EditableTable from '../shared/components/EditableTable.js';
+import { defaultRowValues } from '../orders/utils/constants.js';
+import UnitCounter from '../shared/classes/UnitCounter.js';
+import { roundTo2Decimal } from '../shared/utils/format.js';
 
 const {
-    currencyLabel,
-    saveItemsLabel,
-    totalLabel,
-    tableHeaderLabelsMap,
-    errorMessages
-} = LANGUAGE.shared.rhfForms.rhfOrderProducts;
+    tableHeaderLabels
+} = LANGUAGE.shipment.editShipment.products.productTable;
 
-export default function RHFOrderProducts({ rhfMethods, isEdit }) {
-    const { register, control, setValue, getValues, watch, reset, errors } = rhfMethods;
+export default function ShipmentProductTable() {
+    const { register, setValue, watch, getValues, reset } = useFormContext();
     const products = useSelector(selectAllProducts);
 
-    const validateItems = useCallback((items) => {
-        for (const item of items) {
-            if (!(item.ref && item.description && item.quantity && item.unit && item.price))
-                return errorMessages.missingItemInfo;
-        }
-        return true;
-    }, []);
+    const validateItems = useCallback((items) => {}, []);
 
     useEffect(() => {
-        // Check that this is not a new order and that we haven't already registered these fields in the form
-        // by going back and forth in the order creation process
-        if (isEdit || !getValues('items')) {
-            register({ name: 'items' }, { validate: validateItems });
-            register({ name: 'custom1' });
-            register({ name: 'custom2' });
-            register({ name: 'totalQ' });
-            register({ name: 'totalA' });
-        }
-    }, [register, validateItems, getValues, isEdit]);
+        register({ name: 'items' }, { validate: validateItems });
+        register({ name: 'custom1' });
+        register({ name: 'custom2' });
+        register({ name: 'totalQ' });
+        register({ name: 'totalA' });
+    }, [register, validateItems]);
 
     const custom1 = watch('custom1');
     const custom2 = watch('custom2');
@@ -134,15 +116,15 @@ export default function RHFOrderProducts({ rhfMethods, isEdit }) {
             field: 'delete',
             renderCell: params =>
                 params.idx === 0 ? null :
-                <IconButton size="small" onClick={ () => onDeleteRow(params.idx) }>
-                    <IconDelete/>
-                </IconButton>,
+                    <IconButton size="small" onClick={ () => onDeleteRow(params.idx) }>
+                        <IconDelete/>
+                    </IconButton>,
             width: 50,
             align: 'center'
         },
         {
             field: 'ref',
-            headerName: tableHeaderLabelsMap.ref,
+            headerName: tableHeaderLabels.ref,
             type: 'autocomplete',
             options: products.filter(p => p.active),
             getOptionLabel: product => product.sku || product,
@@ -150,7 +132,7 @@ export default function RHFOrderProducts({ rhfMethods, isEdit }) {
         },
         {
             field: 'description',
-            headerName: tableHeaderLabelsMap.description,
+            headerName: tableHeaderLabels.description,
             type: 'text'
         },
         {
@@ -198,13 +180,13 @@ export default function RHFOrderProducts({ rhfMethods, isEdit }) {
         },
         {
             field: 'quantity',
-            headerName: tableHeaderLabelsMap.quantity,
+            headerName: tableHeaderLabels.quantity,
             type: 'number',
             width: 100
         },
         {
             field: 'unit',
-            headerName: tableHeaderLabelsMap.unit,
+            headerName: tableHeaderLabels.unit,
             type: 'dropdown',
             options: itemUnitsOptions,
             getOptionLabel: (option) => option,
@@ -212,13 +194,13 @@ export default function RHFOrderProducts({ rhfMethods, isEdit }) {
         },
         {
             field: 'price',
-            headerName: tableHeaderLabelsMap.price,
+            headerName: tableHeaderLabels.price,
             type: 'number',
             width: 100
         },
         {
             field: 'total',
-            headerName: tableHeaderLabelsMap.total,
+            headerName: tableHeaderLabels.total,
             align: 'right'
         }
     ];
@@ -236,63 +218,15 @@ export default function RHFOrderProducts({ rhfMethods, isEdit }) {
         total: row.total
     }));
 
-    const footer = [[
-        { field: 'label', value: totalLabel, colSpan: numColumns - 4, align: 'right' },
-        { field: 'totalQ', value: UnitCounter.stringRep(totalQ), colSpan: 2, align: 'center' },
-        { field: 'totalA', value: `${ getCurrencySymbol(currency) } ${ totalA }`, colSpan: 2, align: 'right' }
-    ]];
+    const footer = [];
 
     return (
-        <Grid container>
-            <Grid
-                container
-                item
-                justify="space-between"
-                alignItems="center"
-                xs={ 12 }
-            >
-                <Controller
-                    render={ props =>
-                        <SideAutoComplete
-                            { ...props }
-                            options={ currenciesOptions }
-                            label={ currencyLabel }
-                            error={ !!errors.currency }
-                            required
-                        />
-                    }
-                    name="currency"
-                    control={ control }
-                    rules={ { required: errorMessages.currency } }
-                />
-                { !isEdit &&
-                <Controller
-                    render={ ({ value, ...rest }) =>
-                        <SideCheckBox
-                            { ...rest }
-                            label={ saveItemsLabel }
-                            checked={ value }
-                        />
-                    }
-                    name="saveItems"
-                    control={ control }
-                />
-                }
-            </Grid>
-            <Grid item xs={ 12 }>
-                <EditableTable
-                    columns={ columns }
-                    rows={ rows }
-                    onCellChange={ onCellChange }
-                    footer={ footer }
-                    onAddRow={ onAddRow }
-                />
-            </Grid>
-        </Grid>
+        <EditableTable
+            columns={ columns }
+            rows={ rows }
+            footer={ footer }
+            onAddRow={ onAddRow }
+            onCellChange={ onCellChange }
+        />
     )
 }
-
-RHFOrderProducts.propTypes = {
-    rhfMethods: PropTypes.object.isRequired,
-    isEdit: PropTypes.bool
-};

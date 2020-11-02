@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { startNewOrder } from './duck/thunks.js';
 import {
     selectCurrentOrderId,
-    selectNewOrder,
     selectOrderError, selectOrderStatus,
 } from './duck/selectors.js';
 import Loader from '../shared/components/Loader.js';
@@ -22,7 +21,6 @@ import { cleanNewOrder } from './duck/slice.js';
 export default function CreateOrderContainer() {
     const dispatch = useDispatch();
     const userId = useSelector(selectCurrentUserId);
-    const newOrder = useSelector(selectNewOrder);
     const company = useSelector(selectCurrentCompany);
     const orderStatus = useSelector(selectOrderStatus);
     const clientDataStatus = useSelector(selectClientDataStatus);
@@ -47,7 +45,7 @@ export default function CreateOrderContainer() {
             { status === 'PENDING' && <Loader/> }
             { currentOrderId && <Redirect to={ `/home/orders/${ currentOrderId }` }/> }
             { error && <ErrorDisplay errors={ [error] }/> }
-            { !currentOrderId && status === 'FULFILLED' && <CreateOrder newOrder={ newOrder }/> }
+            { !currentOrderId && status === 'FULFILLED' && <CreateOrder /> }
         </>
     );
 }
