@@ -43,6 +43,7 @@ export default function CreateOrder() {
     const company = useSelector(selectCurrentCompany);
     const clientsMap = useSelector(selectClientsMap);
     const [order, setOrder] = useSessionStorage(SESSION_NEW_ORDER, newOrder);
+    console.log(order);
 
     const rhfMethods = useForm({
         mode: 'onSubmit',
@@ -53,7 +54,7 @@ export default function CreateOrder() {
             to: order.to || null,
             toAdd: order.toAdd || null,
             date: new Date(order.date),
-            crd: new Date(order.crd),
+            crd: order.crd ? new Date(order.crd) : null,
             incoterm: order.incoterm || null,
             pay: order.pay,
             clientRef: order.clientRef,

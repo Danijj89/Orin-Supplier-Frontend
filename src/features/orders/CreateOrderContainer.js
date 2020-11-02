@@ -17,6 +17,7 @@ import { fetchClients } from '../clients/duck/thunks.js';
 import CreateOrder from './CreateOrder.js';
 import { selectProductStatus } from '../products/duck/selectors.js';
 import { fetchProducts } from '../products/duck/thunks.js';
+import { cleanNewOrder } from './duck/slice.js';
 
 export default function CreateOrderContainer() {
     const dispatch = useDispatch();
@@ -38,6 +39,7 @@ export default function CreateOrderContainer() {
             dispatch(fetchProducts(company._id));
             mounted.current = true;
         }
+        return () => dispatch(cleanNewOrder());
     }, [dispatch, company, userId]);
 
     return (
