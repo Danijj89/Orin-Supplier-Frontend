@@ -67,16 +67,22 @@ export default function EditShipment() {
                 onChange={ setTabValue }
             />
             <FormProvider { ...rhfMethods }>
-                { tabValue === 'shipment' &&
                 <Box>
-                    <PartiesForm
-                        sellerAddresses={ sellerAddresses }
-                        consigneeAddresses={ consigneeAddresses }
-                    />
-                    <OrdersInfoForm/>
-                    <ShipmentInfoForm/>
+                    { tabValue === 'shipment' &&
+                    <>
+                        <PartiesForm
+                            sellerAddresses={ sellerAddresses }
+                            consigneeAddresses={ consigneeAddresses }
+                        />
+                        <OrdersInfoForm/>
+                        <ShipmentInfoForm/>
+                    </>
+                    }
+                    { tabValue === 'products' &&
+                        <>
+                        </>
+                    }
                 </Box>
-                }
             </FormProvider>
             <Footer
                 prevLabel={ prevButtonLabel }

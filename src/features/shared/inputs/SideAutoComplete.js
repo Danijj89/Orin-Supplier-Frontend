@@ -17,6 +17,7 @@ export default function SideAutoComplete(
         autoSelect,
         freeSolo,
         rows,
+        disabled,
         ...props
     }) {
 
@@ -40,6 +41,7 @@ export default function SideAutoComplete(
             options={ options }
             getOptionLabel={ getOptionLabel }
             getOptionSelected={ getOptionSelected }
+            disabled={ disabled }
             renderInput={ (params) => (
                 <SideTextArea
                     { ...params }
@@ -68,5 +70,6 @@ SideAutoComplete.propTypes = {
     multiple: PropTypes.bool,
     freeSolo: PropTypes.bool,
     autoSelect: PropTypes.bool,
-    rows: PropTypes.number
+    rows: PropTypes.number,
+    disabled: PropTypes.bool
 };

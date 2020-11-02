@@ -39,15 +39,17 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function SideTextArea({
-    label,
-    required,
-    className,
-    error,
-    rows = 1,
-    rowsMax = 1,
-    ...props
-}) {
+export default function SideTextArea(
+    {
+        label,
+        required,
+        className,
+        error,
+        rows = 1,
+        rowsMax = 1,
+        disabled,
+        ...props
+    }) {
     const classes = useStyles();
     const classNames = clsx(
         classes.input,
@@ -56,20 +58,21 @@ export default function SideTextArea({
     );
 
     return (
-        <Box className={classes.container}>
-            <Typography className={classes.label} variant="subtitle1">
-                {label}
-                {required && <span className={classes.required}>*</span>}
+        <Box className={ classes.container }>
+            <Typography className={ classes.label } variant="subtitle1">
+                { label }
+                { required && <span className={ classes.required }>*</span> }
             </Typography>
             <MuiTextField
-                {...props}
-                className={classNames}
-                InputProps={{ ...props.InputProps, disableUnderline: true }}
-                required={required}
-                error={error}
-                rows={rows}
-                rowsMax={rowsMax}
+                { ...props }
+                className={ classNames }
+                InputProps={ { ...props.InputProps, disableUnderline: true } }
+                required={ required }
+                error={ error }
+                rows={ rows }
+                rowsMax={ rowsMax }
                 multiline
+                disabled={ disabled }
             />
         </Box>
     );
@@ -82,4 +85,5 @@ SideTextArea.propTypes = {
     error: PropTypes.bool,
     rows: PropTypes.number,
     rowsMax: PropTypes.number,
+    disabled: PropTypes.bool
 };

@@ -87,7 +87,6 @@ export default function CreateShipment() {
 
     useEffect(() => {
         if (mounted.current && prevClient.current !== chosenClient && clientsMap.hasOwnProperty(chosenClient._id)) {
-            console.log('here')
             setClientAddresses(chosenClient.addresses.filter(a => a.active));
             setClientOrders(Object.values(ordersMap).filter(order => order.to === chosenClient._id)
                 .map(order => ({ ...order, selected: false })));
@@ -242,6 +241,7 @@ export default function CreateShipment() {
                                 error={ !!errors.to }
                                 getOptionLabel={ client => client.name }
                                 getOptionSelected={ client => client._id === getValues('consignee')._id }
+                                disabled={ isEdit }
                                 required
                             />
                         }
