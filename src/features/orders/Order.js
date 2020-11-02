@@ -17,6 +17,7 @@ import { Redirect } from 'react-router-dom';
 import OrderDocuments from './OrderDocuments.js';
 import { makeStyles } from '@material-ui/core/styles';
 import NavTabs from '../shared/components/NavTabs.js';
+import { cleanCurrentOrderId } from './duck/slice.js';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -62,6 +63,7 @@ export default function Order({ match }) {
             if (productStatus === 'IDLE' && company) dispatch(fetchProducts(company._id));
         }
         if (status === 'FULFILLED') mounted.current = true;
+        return () => dispatch(cleanCurrentOrderId());
     }, [dispatch, order, id, company, status, clientDataStatus, productStatus]);
 
     return (

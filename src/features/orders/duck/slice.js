@@ -12,7 +12,7 @@ import { defaultRowValues } from '../utils/constants.js';
 
 export const ordersAdapter = createEntityAdapter({
     selectId: order => order._id,
-    sortComparer: (a, b) => a.crd.localeCompare(b.crd)
+    sortComparer: (a, b) => a.date.localeCompare(b.date)
 });
 
 const initialState = ordersAdapter.getInitialState({
@@ -29,12 +29,13 @@ const ordersSlice = createSlice({
     reducers: {
         cleanNewOrder: (state, action) => {
             state.newOrder = null;
-            state.currentOrderId = null;
             sessionStorage.removeItem(SESSION_NEW_ORDER);
+        },
+        cleanCurrentOrderId: (state, action) => {
+            state.currentOrderId = null;
         },
         cleanOrderStore: (state, action) => {
             state.error = null;
-            state.currentOrderId = null;
             state.status = 'IDLE';
             state.dataStatus = 'IDLE';
         }
@@ -152,7 +153,7 @@ const ordersSlice = createSlice({
 });
 
 export const {
-    cleanNewOrder, cleanOrderStore
+    cleanNewOrder, cleanOrderStore, cleanCurrentOrderId
 } = ordersSlice.actions;
 
 export default ordersSlice.reducer;

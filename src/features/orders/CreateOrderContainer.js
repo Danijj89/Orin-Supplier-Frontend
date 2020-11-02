@@ -47,7 +47,7 @@ export default function CreateOrderContainer() {
             { status === 'PENDING' && <Loader/> }
             { currentOrderId && <Redirect to={ `/home/orders/${ currentOrderId }` }/> }
             { error && <ErrorDisplay errors={ [error] }/> }
-            { status === 'FULFILLED' && <CreateOrder newOrder={ newOrder }/> }
+            { !currentOrderId && status === 'FULFILLED' && <CreateOrder newOrder={ newOrder }/> }
         </>
     );
 }
