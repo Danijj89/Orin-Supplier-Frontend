@@ -11,6 +11,7 @@ export const salesStatusOptions = ['New', 'Working', 'Closed', 'Blocked'];
 export const leadTypesOptions = ['Cold', 'Warm', 'Hot'];
 export const leadPotentialsOptions = ['Low', 'Medium', 'High'];
 export const industriesOptions = ['Apparel', 'Shoeware', 'Metal'];
+export const billOfLandingTypesOptions = [];
 export const orderStatusColors = {
     'Not Started': '#818E9B',
     'In Progress': '#109CF1',

@@ -421,9 +421,46 @@ export const ENGLISH = {
             }
         },
         editShipment: {
+            titleLabel: 'Shipment Information',
             tabsLabelsMap: {
                 shipment: 'Shipment',
                 products: 'Products'
+            },
+            prevButtonLabel: 'Cancel',
+            nextButtonLabel: 'Submit',
+            parties: {
+                titleLabel: 'Parties',
+                formLabels: {
+                    sellerAdd: 'Shipper',
+                    consigneeAdd: 'Consignee',
+                    shipAdd: 'Ship To'
+                },
+                errorMessages: {
+                    missingSellerAdd: 'You must select a seller address.',
+                    missingConsigneeAdd: 'You must select a consignee address.'
+                }
+            },
+            ordersInfo: {
+                titleLabel: 'Order Information',
+                formLabels: {
+                    crd: 'Cargo Ready Date',
+                    incoterm: 'Incoterm',
+                    clientRef: 'Client Order Ref.',
+                    pay: 'Payment Method',
+                    bolType: 'Bill of Landing Type',
+                    coo: 'Country of Manufacture'
+                }
+            },
+            shipmentInfo: {
+                titleLabel: 'Order Information',
+                formLabels: {
+                    del: 'Delivery Method',
+                    pol: 'Port of Loading',
+                    pod: 'Port of Discharge',
+                    carrier: 'Freight Forwarder',
+                    eta: 'ETA',
+                    etd: 'ETD'
+                }
             }
         }
     },

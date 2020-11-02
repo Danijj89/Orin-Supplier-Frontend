@@ -17,8 +17,8 @@ import ProductOverview from '../products/ProductOverview.js';
 import Order from '../orders/Order.js';
 import ShipmentOverview from '../shipments/ShipmentOverview.js';
 import CreateShipmentContainer from '../shipments/CreateShipmentContainer.js';
-import EditShipment from '../shipments/EditShipment.js';
 import ShipmentContainer from '../shipments/ShipmentContainer.js';
+import EditShipmentContainer from '../shipments/EditShipmentContainer.js';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -109,7 +109,7 @@ export default function Home({ match }) {
                     <Route
                         exact
                         path={ `${ match.url }/shipments/edit/:id/details` }
-                        component={ EditShipment }
+                        component={ EditShipmentContainer }
                         isPrivate
                     />
                     <Route

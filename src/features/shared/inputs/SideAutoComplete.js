@@ -16,6 +16,7 @@ export default function SideAutoComplete(
         multiple,
         autoSelect,
         freeSolo,
+        rows,
         ...props
     }) {
 
@@ -32,8 +33,8 @@ export default function SideAutoComplete(
     return (
         <Autocomplete
             { ...props }
-            freeSolo={freeSolo}
-            autoSelect={autoSelect}
+            freeSolo={ freeSolo }
+            autoSelect={ autoSelect }
             multiple={ multiple }
             filterSelectedOptions={ multiple }
             options={ options }
@@ -46,7 +47,8 @@ export default function SideAutoComplete(
                     required={ required }
                     error={ error }
                     className={ className }
-                    rowsMax={8}
+                    rows={ rows }
+                    rowsMax={ 8 }
                 />
             ) }
             onChange={ (_, data) => props.onChange(data) }
@@ -65,5 +67,6 @@ SideAutoComplete.propTypes = {
     getOptionSelected: PropTypes.func,
     multiple: PropTypes.bool,
     freeSolo: PropTypes.bool,
-    autoSelect: PropTypes.bool
+    autoSelect: PropTypes.bool,
+    rows: PropTypes.number
 };
