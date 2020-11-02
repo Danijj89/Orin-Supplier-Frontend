@@ -11,8 +11,8 @@ const { tabsLabelsMap } = LANGUAGE.shipment.editShipment;
 
 export default function EditShipment() {
     const dispatch = useDispatch();
-    const { id, step } = useParams();
-    const [tabValue, setTabValue] = useState(step);
+    const { id } = useParams();
+    const [tabValue, setTabValue] = useState('shipment');
     const shipment = useSelector(state => selectShipmentById(state, id));
 
     useEffect(() => {

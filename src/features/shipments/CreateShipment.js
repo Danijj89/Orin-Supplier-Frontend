@@ -60,6 +60,10 @@ export default function CreateShipment() {
     const orderShipmentItemMap = useSelector(selectOrderShipmentItemMap);
     const shipmentError = useSelector(selectShipmentError);
     const { addresses, defaultAddress } = company;
+    const initialOrderIds = shipment?.items.reduce((acc, item) => {
+        if (!acc.includes(item.order)) acc.push(item.order);
+        return acc;
+    }, []);
 
     const { register, control, errors, getValues, watch, setValue, handleSubmit } = useForm({
         mode: 'onSubmit',
@@ -67,12 +71,9 @@ export default function CreateShipment() {
             _id: shipment?._id,
             createdBy: isEdit ? null : userId,
             sellerAdd: shipment?.sellerAdd || defaultAddress,
-            consignee: clientsMap[shipment?.consignee],
-            consigneeAdd: shipment?.consigneeAdd,
-            orderIds: shipment?.items.reduce((acc, item) => {
-                if (!acc.includes(item.order)) acc.push(item.order);
-                return acc;
-            }, []) || []
+            consignee: clientsMap[shipment?.consignee] || null,
+            consigneeAdd: shipment?.consigneeAdd || null,
+            orderIds: initialOrderIds || []
         }
     });
 
@@ -82,27 +83,29 @@ export default function CreateShipment() {
     const [clientOrders, setClientOrders] = useState([]);
 
     const mounted = useRef(false);
+    const prevClient = useRef(clientsMap[shipment?.consignee] || null);
 
     useEffect(() => {
-        if (!mounted.current) {
+        if (mounted.current && prevClient.current !== chosenClient && clientsMap.hasOwnProperty(chosenClient._id)) {
+            console.log('here')
+            setClientAddresses(chosenClient.addresses.filter(a => a.active));
+            setClientOrders(Object.values(ordersMap).filter(order => order.to === chosenClient._id)
+                .map(order => ({ ...order, selected: false })));
+            prevClient.current = chosenClient;
+        } else if (!mounted.current) {
             register({ name: 'orderIds' },
                 { validate: val => val.length > 0 || errorMessages.atLeastOneOrder });
             if (chosenClient) {
                 setClientOrders(Object.values(ordersMap)
                     .filter(order => order.to === chosenClient._id)
                     .map(order => {
-                        if (orderIds.includes(order._id)) return { ...order, selected: true };
+                        if (initialOrderIds.includes(order._id)) return { ...order, selected: true };
                         return { ...order, selected: false };
                     }));
             }
             mounted.current = true;
-        } else if (chosenClient && clientsMap.hasOwnProperty(chosenClient._id)) {
-            setClientAddresses(chosenClient.addresses.filter(a => a.active));
-            setClientOrders(Object.values(ordersMap).filter(order => order.to === chosenClient._id)
-                .map(order => ({ ...order, selected: false })));
-            console.log('here');
         }
-    }, [chosenClient, register]);
+    }, [chosenClient, register, clientsMap, ordersMap, initialOrderIds]);
 
     const onCheckboxSelection = (value, orderId) => {
         if (value) {
