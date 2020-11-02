@@ -2,6 +2,7 @@ import { LOCALE } from '../../../app/constants.js';
 import { getCurrencySymbol } from './random.js';
 
 export function dateToLocaleDate(date) {
+    if (!date) return null;
     const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' }
     return new Date(date).toLocaleString(LOCALE, dateOptions);
 }
