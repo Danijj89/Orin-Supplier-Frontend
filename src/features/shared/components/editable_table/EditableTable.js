@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import {
     TableContainer,
     Table,
@@ -57,6 +57,14 @@ const EditableTable = React.memo(function EditableTable(
         );
     };
 
+    const tableHead = useMemo(() =>
+            <TableHead>
+                <TableRow>
+                    { columns.map(renderColumn) }
+                </TableRow>
+            </TableHead>
+        , [columns]);
+
     const renderFooter = (row, idx) =>
         <TableRow key={ idx } className={ classes.footerRow }>
             { row.map(cell =>
@@ -75,11 +83,7 @@ const EditableTable = React.memo(function EditableTable(
     return (
         <TableContainer className={ className }>
             <Table>
-                <TableHead>
-                    <TableRow>
-                        { columns.map(renderColumn) }
-                    </TableRow>
-                </TableHead>
+                { tableHead }
                 <TableBody>
                     { rows.map((row, idx) =>
                         <EditableRow
@@ -90,7 +94,7 @@ const EditableTable = React.memo(function EditableTable(
                             onCellChange={ onCellChange }
                         />
                     ) }
-                    <AddRowButtonRow numColumns={numColumns} onAddRow={onAddRow} />
+                    <AddRowButtonRow numColumns={ numColumns } onAddRow={ onAddRow }/>
                 </TableBody>
                 <TableFooter>
                     { footer.map((row, i) => renderFooter(row, i)) }
