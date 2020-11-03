@@ -65,8 +65,6 @@ export default function ShipmentProductTable() {
         idx => () => setValue('items', getValues('items').filter((_, i) => i !== idx)),
         [getValues, setValue]);
 
-    console.log(items);
-
     const onCellChange = useCallback((rowIdx, key, newValue) => {
         const items = getValues('items');
         const newItem = { ...items[rowIdx] };

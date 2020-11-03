@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Grid, IconButton } from '@material-ui/core';
 import { LANGUAGE } from '../../../app/constants.js';
@@ -24,7 +24,7 @@ const {
     errorMessages
 } = LANGUAGE.shared.rhfForms.rhfOrderProducts;
 
-export default function RHFOrderProducts({ rhfMethods, isEdit }) {
+export default function RHFOrderProducts({ rhfMethods, order, isEdit }) {
     const { register, control, setValue, getValues, watch, reset, errors } = rhfMethods;
     const products = useSelector(selectAllProducts);
 
@@ -37,16 +37,17 @@ export default function RHFOrderProducts({ rhfMethods, isEdit }) {
     }, []);
 
     useEffect(() => {
-        // Check that this is not a new order and that we haven't already registered these fields in the form
-        // by going back and forth in the order creation process
-        if (isEdit || !getValues('items')) {
-            register({ name: 'items' }, { validate: validateItems });
-            register({ name: 'custom1' });
-            register({ name: 'custom2' });
-            register({ name: 'totalQ' });
-            register({ name: 'totalA' });
-        }
-    }, [register, validateItems, getValues, isEdit]);
+        register({ name: 'items' }, { validate: validateItems });
+        register({ name: 'custom1' });
+        register({ name: 'custom2' });
+        register({ name: 'totalQ' });
+        register({ name: 'totalA' });
+        setValue('items', order.items);
+        setValue('custom1', order.custom1);
+        setValue('custom2', order.custom2);
+        setValue('totalQ', order.totalQ);
+        setValue('totalA', order.totalA);
+    }, [register, validateItems, setValue, order]);
 
     const custom1 = watch('custom1');
     const custom2 = watch('custom2');
@@ -80,6 +81,7 @@ export default function RHFOrderProducts({ rhfMethods, isEdit }) {
     const onDeleteRow = (idx) => setValue('items', items.filter((_, i) => i !== idx));
 
     const onCellChange = useCallback((rowIdx, key, newValue) => {
+        const items = getValues('items');
         const newItem = { ...items[rowIdx] };
         let newTotalQ;
         switch (key) {
@@ -126,7 +128,8 @@ export default function RHFOrderProducts({ rhfMethods, isEdit }) {
                 newItem[key] = newValue;
         }
         setValue('items', [...items.slice(0, rowIdx), newItem, ...items.slice(rowIdx + 1)])
-    }, [items, setValue, totalA, totalQ, products]);
+    }, [setValue, totalA, totalQ, products, getValues]);
+
 
     const columns = [
         { field: 'id', hide: true },
@@ -134,9 +137,9 @@ export default function RHFOrderProducts({ rhfMethods, isEdit }) {
             field: 'delete',
             renderCell: params =>
                 params.idx === 0 ? null :
-                <IconButton size="small" onClick={ () => onDeleteRow(params.idx) }>
-                    <IconDelete/>
-                </IconButton>,
+                    <IconButton size="small" onClick={ () => onDeleteRow(params.idx) }>
+                        <IconDelete/>
+                    </IconButton>,
             width: 50,
             align: 'center'
         },

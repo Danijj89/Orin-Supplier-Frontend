@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useEffect } from 'react';
 import DocumentStepper from '../shared/DocumentStepper.js';
 import { Box, Paper, Divider, Typography } from '@material-ui/core';
 import RHFOrderProducts from '../shared/rhf_forms/RHFOrderProducts.js';
@@ -71,9 +71,7 @@ export default function CreateOrder() {
             saveItems: order.saveItems,
             autoGenerateRef: order.autoGenerateRef,
             createdBy: order.createdBy
-
-        },
-        shouldUnregister: false
+        }
     });
     const { errors, clearErrors, getValues, handleSubmit } = rhfMethods;
 
@@ -114,7 +112,7 @@ export default function CreateOrder() {
                 { errMessages.length > 0 && <ErrorDisplay errors={ errMessages }/> }
                 { step === 'details' &&
                 <RHFOrderDetails rhfMethods={ rhfMethods } company={ company } clientsMap={ clientsMap }/> }
-                { step === 'products' && <RHFOrderProducts rhfMethods={ rhfMethods }/> }
+                { step === 'products' && <RHFOrderProducts order={order} rhfMethods={ rhfMethods }/> }
             </Paper>
             <Footer
                 prevLabel={ step === 'details' ? prevButtonLabel.details : prevButtonLabel.products }
