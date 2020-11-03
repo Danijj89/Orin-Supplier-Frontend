@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, lazy } from 'react';
 import { useLocation, useRouteMatch } from 'react-router-dom';
 import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -8,18 +8,20 @@ import { selectCurrentUserId } from '../../app/duck/selectors.js';
 import { selectUserById } from '../users/duck/selectors.js';
 import { fetchSessionInfo } from './duck/thunks.js';
 import Route from '../shared/components/AppRoute.js';
-import OrdersOverview from '../orders/OrdersOverview.js';
-import CreateOrderContainer from '../orders/CreateOrderContainer.js';
-import Settings from './Settings.js';
-import ClientDetails from '../clients/ClientDetails.js';
-import ClientOverview from '../clients/ClientOverview.js';
 import { Switch, Redirect } from 'react-router-dom';
-import ProductOverview from '../products/ProductOverview.js';
-import Order from '../orders/Order.js';
-import ShipmentOverview from '../shipments/ShipmentOverview.js';
-import CreateShipmentContainer from '../shipments/CreateShipmentContainer.js';
-import ShipmentContainer from '../shipments/ShipmentContainer.js';
-import EditShipmentContainer from '../shipments/EditShipmentContainer.js';
+import Suspense from '../shared/components/Suspense.js';
+
+const OrdersOverview = lazy(() => import('../orders/OrdersOverview.js'));
+const CreateOrderContainer = lazy(() => import('../orders/CreateOrderContainer.js'));
+const Order = lazy(() => import('../orders/Order.js'));
+const Settings = lazy(() => import('./Settings.js'));
+const ClientDetails = lazy(() => import('../clients/ClientDetails.js'));
+const ClientOverview = lazy(() => import('../clients/ClientOverview.js'));
+const ProductOverview = lazy(() => import( '../products/ProductOverview.js'));
+const ShipmentOverview = lazy(() => import('../shipments/ShipmentOverview.js'));
+const EditShipmentContainer = lazy(() => import('../shipments/EditShipmentContainer.js'));
+const CreateShipmentContainer = lazy(() => import('../shipments/CreateShipmentContainer.js'));
+const ShipmentContainer = lazy(() => import('../shipments/ShipmentContainer.js'));
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -67,63 +69,81 @@ const Home = React.memo(function Home() {
                         path={ [`${ match.path }`, `${ match.path }/orders`] }
                         isPrivate
                     >
-                        <OrdersOverview/>
+                        <Suspense>
+                            <OrdersOverview/>
+                        </Suspense>
                     </Route>
                     <Route
                         exact
                         path={ `${ match.url }/orders/new/:step` }
                         isPrivate
                     >
-                        <CreateOrderContainer/>
+                        <Suspense>
+                            <CreateOrderContainer/>
+                        </Suspense>
                     </Route>
                     <Route
                         exact
                         path={ [`${ match.url }/orders/:id`, `${ match.url }/orders/:id/details`] }
                         isPrivate
                     >
-                        <Order/>
+                        <Suspense>
+                            <Order/>
+                        </Suspense>
                     </Route>
                     <Route
                         exact
                         path={ `${ match.path }/settings/:tab` }
                         isPrivate
                     >
-                        <Settings/>
+                        <Suspense>
+                            <Settings/>
+                        </Suspense>
                     </Route>
                     <Route
                         exact
                         path={ `${ match.url }/clients/:id` }
                         isPrivate
                     >
-                        <ClientDetails/>
+                        <Suspense>
+                            <ClientDetails/>
+                        </Suspense>
                     </Route>
                     <Route
                         exact
                         path={ `${ match.url }/clients` }
                         isPrivate
                     >
-                        <ClientOverview/>
+                        <Suspense>
+                            <ClientOverview/>
+                        </Suspense>
                     </Route>
                     <Route
                         exact
                         path={ `${ match.url }/products` }
                         isPrivate
                     >
-                        <ProductOverview/>
+                        <Suspense>
+                            <ProductOverview/>
+                        </Suspense>
                     </Route>
                     <Route
                         exact
                         path={ `${ match.url }/shipments` }
                         isPrivate
                     >
-                        <ShipmentOverview/>
+                        <Suspense>
+                            <ShipmentOverview/>
+                        </Suspense>
                     </Route>
                     <Route
                         exact
                         path={ `${ match.url }/shipments/edit/:id/details` }
                         isPrivate
                     >
-                        <EditShipmentContainer/>
+                        <Suspense>
+                            <EditShipmentContainer/>
+                        </Suspense>
                     </Route>
                     <Route
                         exact
