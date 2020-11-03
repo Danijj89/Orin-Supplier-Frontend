@@ -14,9 +14,15 @@ export default function App() {
         <MuiThemeProvider theme={ appTheme }>
             <MuiPickersUtilsProvider utils={ DateFnsUtils }>
                 <Switch>
-                    <Route exact path={ ['/', '/login'] } component={ LoginPage }/>
-                    <Route path='/home' component={Home} />
-                    <Route component={ NotFound }/>
+                    <Route exact path={ ['/', '/login'] }>
+                        <LoginPage/>
+                    </Route>
+                    <Route path='/home'>
+                        <Home/>
+                    </Route>
+                    <Route>
+                        <NotFound/>
+                    </Route>
                 </Switch>
             </MuiPickersUtilsProvider>
         </MuiThemeProvider>

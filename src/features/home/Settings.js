@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHistory, Redirect } from 'react-router-dom';
+import { useHistory, Redirect, useParams } from 'react-router-dom';
 import { Container, Tab, Tabs } from '@material-ui/core';
 import { LANGUAGE } from '../../app/constants.js';
 import AccountDetails from '../users/AccountDetails.js';
@@ -12,8 +12,8 @@ import { selectCurrentCompany } from './duck/selectors.js';
 
 const { tabsLabelMap } = LANGUAGE.home.settings;
 
-export default function Settings({ match }) {
-    const { tab } = match.params;
+export default function Settings() {
+    const { tab } = useParams();
     const history = useHistory();
     const tabs = Object.keys(tabsLabelMap);
     const company = useSelector(selectCurrentCompany);

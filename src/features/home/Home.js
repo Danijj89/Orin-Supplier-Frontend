@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useRouteMatch } from 'react-router-dom';
 import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import NavBar from './NavBar.js';
@@ -35,12 +36,12 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function Home({ match }) {
+export default React.memo(function Home() {
     const classes = useStyles();
     const dispatch = useDispatch();
+    const match = useRouteMatch();
     const userId = useSelector(selectCurrentUserId);
     const user = useSelector(state => selectUserById(state, userId));
-
 
     useEffect(() => {
         dispatch(fetchSessionInfo());
@@ -60,75 +61,86 @@ export default function Home({ match }) {
                 <Switch>
                     <Route
                         exact
-                        path={ [`${ match.url }`, `${ match.url }/orders`] }
-                        component={ OrdersOverview }
+                        path={ [`${ match.path }`, `${ match.path }/orders`] }
                         isPrivate
-                    />
+                    >
+                        <OrdersOverview />
+                    </Route>
                     <Route
                         exact
                         path={ `${ match.url }/orders/new/:step` }
-                        component={ CreateOrderContainer }
                         isPrivate
-                    />
+                    >
+                        <CreateOrderContainer />
+                    </Route>
                     <Route
                         exact
                         path={ [`${ match.url }/orders/:id`, `${ match.url }/orders/:id/details`] }
-                        component={ Order }
                         isPrivate
-                    />
+                    >
+                        <Order />
+                    </Route>
                     <Route
                         exact
-                        path={ `${ match.url }/settings/:tab` }
-                        component={ Settings }
+                        path={ `${ match.path }/settings/:tab` }
                         isPrivate
-                    />
+                    >
+                        <Settings />
+                    </Route>
                     <Route
                         exact
                         path={ `${ match.url }/clients/:id` }
-                        component={ ClientDetails }
                         isPrivate
-                    />
+                    >
+                        <ClientDetails />
+                    </Route>
                     <Route
                         exact
                         path={ `${ match.url }/clients` }
-                        component={ ClientOverview }
                         isPrivate
-                    />
+                    >
+                        <ClientOverview />
+                    </Route>
                     <Route
                         exact
                         path={ `${ match.url }/products` }
-                        component={ ProductOverview }
                         isPrivate
-                    />
+                    >
+                        <ProductOverview />
+                    </Route>
                     <Route
                         exact
                         path={ `${ match.url }/shipments` }
-                        component={ ShipmentOverview }
                         isPrivate
-                    />
+                    >
+                        <ShipmentOverview />
+                    </Route>
                     <Route
                         exact
                         path={ `${ match.url }/shipments/edit/:id/details` }
-                        component={ EditShipmentContainer }
                         isPrivate
-                    />
+                    >
+                        <EditShipmentContainer />
+                    </Route>
                     <Route
                         exact
                         path={ [`${ match.url }/shipments/new`, `${ match.url }/shipments/edit/:id` ] }
-                        component={ CreateShipmentContainer }
                         isPrivate
-                    />
+                    >
+                        <CreateShipmentContainer />
+                    </Route>
                     <Route
                         exact
                         path={ `${ match.url }/shipments/:id` }
-                        component={ ShipmentContainer }
                         isPrivate
-                    />
-                    <Route
-                        component={ () => <Redirect to={ '/not_found' }/> }
-                    />
+                    >
+                        <ShipmentContainer />
+                    </Route>
+                    <Route>
+                        <Redirect to={ '/not_found' }/>
+                    </Route>
                 </Switch>
             </Grid>
         </Grid>
     );
-}
+});
