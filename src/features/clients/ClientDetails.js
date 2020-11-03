@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, useParams } from 'react-router-dom';
 import InfoCard from '../shared/wrappers/InfoCard.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectClientById, selectClientStatus } from './duck/selectors.js';
@@ -37,10 +37,10 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function ClientDetails({ match }) {
+export default function ClientDetails() {
     const classes = useStyles();
     const dispatch = useDispatch();
-    const { id } = match.params;
+    const { id } = useParams();
     const client = useSelector((state) => selectClientById(state, id));
     const users = useSelector(selectAllUsers);
     const clientStatus = useSelector(selectClientStatus);

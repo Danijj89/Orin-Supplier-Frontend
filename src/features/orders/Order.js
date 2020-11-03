@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { Paper, Box } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { LANGUAGE } from '../../app/constants.js';
@@ -34,10 +35,10 @@ const useStyles = makeStyles((theme) => ({
 
 const { tabsLabelsMap } = LANGUAGE.order.order;
 
-export default function Order({ match }) {
+export default function Order() {
     const classes = useStyles();
     const dispatch = useDispatch();
-    const { id } = match.params;
+    const { id } = useParams();
     const order = useSelector(state => selectOrderById(state, id));
     const company = useSelector(selectCurrentCompany);
     const userStatus = useSelector(selectUserStatus);
