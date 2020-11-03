@@ -209,7 +209,7 @@ export default function ShipmentProductTable() {
         dim: row.dim
     }));
 
-    const footer = [];
+    const footer = useMemo(() => [], []);
 
     return (
         <EditableTable

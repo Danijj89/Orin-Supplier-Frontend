@@ -50,6 +50,9 @@ const EditShipment = React.memo(function EditShipment() {
             carrier: shipment.carrier,
             eta: shipment.eta || null,
             etd: shipment.etd || null,
+            currency: shipment.currency,
+            measurementUnit: shipment.measurementUnit,
+            weightUnit: shipment.weightUnit,
             items: shipment.items,
             ciCustom1: shipment.ciCustom1,
             ciCustom2: shipment.ciCustom2
