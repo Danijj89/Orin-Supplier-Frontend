@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Box, Card, Typography } from '@material-ui/core';
 import { LANGUAGE } from '../../app/constants.js';
@@ -22,7 +22,7 @@ const {
     nextButtonLabel
 } = LANGUAGE.shipment.editShipment;
 
-export default function EditShipment() {
+const EditShipment = React.memo(function EditShipment() {
     const history = useHistory();
     const { id } = useParams();
     const shipment = useSelector(state => selectShipmentById(state, id));
@@ -50,15 +50,17 @@ export default function EditShipment() {
             carrier: shipment.carrier,
             eta: shipment.eta || null,
             etd: shipment.etd || null,
-            items: shipment.items
+            items: shipment.items,
+            ciCustom1: shipment.ciCustom1,
+            ciCustom2: shipment.ciCustom2
         }
     });
 
-    const onPrevClick = () => history.goBack();
+    const onPrevClick = useCallback(() => history.goBack(), [history]);
 
-    const onSubmit = (data) => {
-        console.log(data);
-    };
+    const onSubmit = useCallback(rhfMethods.handleSubmit(data => {
+        console.log(data)
+    }), []);
 
     return (
         <Card>
@@ -89,8 +91,10 @@ export default function EditShipment() {
                 prevLabel={ prevButtonLabel }
                 nextLabel={ nextButtonLabel }
                 onPrevClick={ onPrevClick }
-                onNextClick={ rhfMethods.handleSubmit(onSubmit) }
+                onNextClick={ onSubmit }
             />
         </Card>
     )
-}
+});
+
+export default EditShipment;

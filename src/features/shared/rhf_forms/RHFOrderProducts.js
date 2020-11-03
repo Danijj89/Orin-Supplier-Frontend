@@ -6,14 +6,14 @@ import { currenciesOptions, itemUnitsOptions } from '../constants.js';
 import { Controller } from 'react-hook-form';
 import SideAutoComplete from '../inputs/SideAutoComplete.js';
 import SideCheckBox from '../inputs/SideCheckBox.js';
-import EditableTable from '../components/EditableTable.js';
+import EditableTable from '../components/editable_table/EditableTable.js';
 import TableTextField from '../inputs/TableTextField.js';
 import { Add as IconAdd, Close as IconClose, Delete as IconDelete } from '@material-ui/icons';
 import UnitCounter from '../classes/UnitCounter.js';
 import { getCurrencySymbol } from '../utils/random.js';
 import { useSelector } from 'react-redux';
 import { selectAllProducts } from '../../products/duck/selectors.js';
-import { defaultRowValues } from '../../orders/utils/constants.js';
+import { defaultOrderRowValues } from '../../orders/utils/constants.js';
 import { roundTo2Decimal } from '../utils/format.js';
 
 const {
@@ -76,7 +76,7 @@ export default function RHFOrderProducts({ rhfMethods, isEdit }) {
         reset(currValues);
     };
 
-    const onAddRow = () => setValue('items', [...items, defaultRowValues]);
+    const onAddRow = () => setValue('items', [...items, defaultOrderRowValues]);
     const onDeleteRow = (idx) => setValue('items', items.filter((_, i) => i !== idx));
 
     const onCellChange = useCallback((rowIdx, key, newValue) => {

@@ -8,7 +8,7 @@ import {
     updateOrderStatus
 } from './thunks.js';
 import { SESSION_NEW_ORDER } from '../../../app/sessionKeys.js';
-import { defaultRowValues } from '../utils/constants.js';
+import { defaultOrderRowValues } from '../utils/constants.js';
 
 export const ordersAdapter = createEntityAdapter({
     selectId: order => order._id,
@@ -57,7 +57,7 @@ const ordersSlice = createSlice({
         },
         [startNewOrder.fulfilled]: (state, action) => {
             const newOrder = action.payload;
-            newOrder.items = [defaultRowValues];
+            newOrder.items = [defaultOrderRowValues];
             state.newOrder = newOrder;
             state.currentOrderId = null;
             state.status = 'FULFILLED';

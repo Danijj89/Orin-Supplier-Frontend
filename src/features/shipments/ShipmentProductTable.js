@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { IconButton } from '@material-ui/core';
 import { Add as IconAdd, Close as IconClose, Delete as IconDelete } from '@material-ui/icons';
 import TableTextField from '../shared/inputs/TableTextField.js';
@@ -6,11 +6,12 @@ import { itemUnitsOptions, packageUnitsOptions } from '../shared/constants.js';
 import { LANGUAGE } from '../../app/constants.js';
 import { useFormContext } from 'react-hook-form';
 import { useSelector } from 'react-redux';
-import { selectAllProducts } from '../products/duck/selectors.js';
-import EditableTable from '../shared/components/EditableTable.js';
-import { defaultRowValues } from '../orders/utils/constants.js';
+import { selectActiveProducts } from '../products/duck/selectors.js';
+import EditableTable from '../shared/components/editable_table/EditableTable.js';
+import { defaultOrderRowValues } from '../orders/utils/constants.js';
 import UnitCounter from '../shared/classes/UnitCounter.js';
 import { roundTo2Decimal } from '../shared/utils/format.js';
+import DeleteIconButton from '../shared/buttons/DeleteIconButton.js';
 
 const {
     tableHeaderLabels
@@ -18,14 +19,13 @@ const {
 
 export default function ShipmentProductTable() {
     const { register, setValue, watch, getValues, reset } = useFormContext();
-    const products = useSelector(selectAllProducts);
-
+    const products = useSelector(selectActiveProducts);
     const validateItems = useCallback((items) => {}, []);
 
     useEffect(() => {
         register({ name: 'items' }, { validate: validateItems });
-        register({ name: 'custom1' });
-        register({ name: 'custom2' });
+        register({ name: 'ciCustom1' });
+        register({ name: 'ciCustom2' });
         register({ name: 'totalQ' });
         register({ name: 'totalA' });
     }, [register, validateItems]);
@@ -41,27 +41,34 @@ export default function ShipmentProductTable() {
         7 + (ciCustom1 ? 1 : 0) + (ciCustom2 ? 1 : 0)
     );
 
-    const onAddColumn = () => {
+    const onAddColumn = useCallback(() => {
         if (ciCustom1 == null) {
             setNumColumns(prev => prev + 1);
-            return setValue('custom1', '');
+            return setValue('ciCustom1', '');
         }
         if (ciCustom2 == null) {
             setNumColumns(prev => prev + 1);
-            return setValue('custom2', '');
+            return setValue('ciCustom2', '');
         }
-    };
+    }, [setValue, ciCustom1, ciCustom2]);
 
-    const onDeleteColumn = (name) => {
+    const onDeleteColumn = useCallback(name => {
         const currValues = getValues();
         currValues[name] = null;
         reset(currValues);
-    };
+    }, [getValues, reset]);
 
-    const onAddRow = () => setValue('items', [...items, defaultRowValues]);
-    const onDeleteRow = (idx) => setValue('items', items.filter((_, i) => i !== idx));
+    const onAddRow = useCallback(
+        () => setValue('items', [...getValues('items'), defaultOrderRowValues]),
+        [setValue, getValues]);
+    const onDeleteRow = useCallback(
+        idx => () => setValue('items', getValues('items').filter((_, i) => i !== idx)),
+        [getValues, setValue]);
+
+    console.log(items);
 
     const onCellChange = useCallback((rowIdx, key, newValue) => {
+        const items = getValues('items');
         const newItem = { ...items[rowIdx] };
         let newTotalQ;
         switch (key) {
@@ -108,17 +115,22 @@ export default function ShipmentProductTable() {
                 newItem[key] = newValue;
         }
         setValue('items', [...items.slice(0, rowIdx), newItem, ...items.slice(rowIdx + 1)])
-    }, [items, setValue, totalA, totalQ, products]);
+    }, [setValue, totalA, totalQ, products, getValues]);
 
-    const columns = [
+    const renderDeleteIcon = useCallback(
+        params => {
+            if (params.idx === 0) return <span/>;
+            return <DeleteIconButton onClick={ onDeleteRow(params.idx)}/>
+        }, [onDeleteRow]);
+    const productGetOptionLabel = useCallback(product => product.sku || product, []);
+    const productGetOptionSelected = useCallback((product, params) => product._id === params.id, []);
+
+
+    const columns = useMemo(() => ([
         { field: 'id', hide: true },
         {
             field: 'delete',
-            renderCell: params =>
-                params.idx === 0 ? null :
-                    <IconButton size="small" onClick={ () => onDeleteRow(params.idx) }>
-                        <IconDelete/>
-                    </IconButton>,
+            renderCell: renderDeleteIcon,
             width: 50,
             align: 'center'
         },
@@ -126,9 +138,9 @@ export default function ShipmentProductTable() {
             field: 'ref',
             headerName: tableHeaderLabels.ref,
             type: 'autocomplete',
-            options: products.filter(p => p.active),
-            getOptionLabel: product => product.sku || product,
-            getOptionSelected: (product, params) => product._id === params.id,
+            options: products,
+            getOptionLabel: productGetOptionLabel,
+            getOptionSelected: productGetOptionSelected,
         },
         {
             field: 'description',
@@ -140,11 +152,11 @@ export default function ShipmentProductTable() {
             field: 'custom1',
             renderHeader: () =>
                 <TableTextField
-                    name="custom1"
+                    name="ciCustom1"
                     inputRef={ register({ required: true }) }
                     InputProps={ {
                         endAdornment:
-                            <IconButton size="small" onClick={ () => onDeleteColumn('custom1') }>
+                            <IconButton size="small" onClick={ () => onDeleteColumn('ciCustom1') }>
                                 <IconClose fontSize="small"/>
                             </IconButton>
                     } }
@@ -157,11 +169,11 @@ export default function ShipmentProductTable() {
             field: 'custom2',
             renderHeader: () =>
                 <TableTextField
-                    name="custom2"
+                    name="ciCustom2"
                     inputRef={ register({ required: true }) }
                     InputProps={ {
                         endAdornment:
-                            <IconButton size="small" onClick={ () => onDeleteColumn('custom2') }>
+                            <IconButton size="small" onClick={ () => onDeleteColumn('ciCustom2') }>
                                 <IconClose fontSize="small"/>
                             </IconButton>
                     } }
@@ -179,76 +191,24 @@ export default function ShipmentProductTable() {
             renderCell: () => null,
             hide: ciCustom1 != null && ciCustom2 != null
         },
-        {
-            field: 'quantity',
-            headerName: tableHeaderLabels.quantity,
-            type: 'number'
-        },
-        {
-            field: 'unit',
-            headerName: tableHeaderLabels.unit,
-            type: 'dropdown',
-            options: itemUnitsOptions,
-            getOptionLabel: (option) => option,
-            width: 50
-        },
-        {
-            field: 'price',
-            headerName: tableHeaderLabels.price,
-            type: 'number'
-        },
-        {
-            field: 'total',
-            headerName: tableHeaderLabels.total,
-            align: 'right',
-            width: 100
-        },
-        {
-            field: 'package',
-            headerName: tableHeaderLabels.package,
-            type: 'number'
-        },
-        {
-            field: 'pUnit',
-            headerName: tableHeaderLabels.pUnit,
-            type: 'dropdown',
-            options: packageUnitsOptions,
-            getOptionLabel: (option) => option,
-            width: 50
-        },
-        {
-            field: 'netW',
-            headerName: tableHeaderLabels.netW,
-            type: 'number'
-        },
-        {
-            field: 'grossW',
-            headerName: tableHeaderLabels.grossW,
-            type: 'number'
-        },
-        {
-            field: 'dim',
-            headerName: tableHeaderLabels.dim,
-            type: 'number'
-        }
-    ];
+    ]), [onDeleteRow, products, onDeleteColumn, ciCustom1, register, ciCustom2, onAddColumn]);
 
     const rows = items.map((row, index) => ({
         id: row._id,
         idx: index,
         ref: row.ref,
         description: row.description,
-        custom1: row.custom1,
-        custom2: row.custom2,
+        ciCustom1: row.ciCustom1,
+        ciCustom2: row.ciCustom2,
         quantity: row.quantity,
         unit: row.unit,
         price: row.price,
         total: row.total,
-        package: row.package || 0,
-        pUnit: row.pUnit || null,
-        netW: row.netW || 0,
-        grossW: row.grossW || 0,
-        dim: row.dim || 0
+        package: row.package,
+        pUnit: row.pUnit,
+        netW: row.netW,
+        grossW: row.grossW,
+        dim: row.dim
     }));
 
     const footer = [];
@@ -263,3 +223,57 @@ export default function ShipmentProductTable() {
         />
     )
 }
+
+
+// {
+//     field: 'quantity',
+//         headerName: tableHeaderLabels.quantity,
+//     type: 'number'
+// },
+// {
+//     field: 'unit',
+//         headerName: tableHeaderLabels.unit,
+//     type: 'dropdown',
+//     options: itemUnitsOptions,
+//     getOptionLabel: (option) => option,
+//     width: 50
+// },
+// {
+//     field: 'price',
+//         headerName: tableHeaderLabels.price,
+//     type: 'number'
+// },
+// {
+//     field: 'total',
+//         headerName: tableHeaderLabels.total,
+//     align: 'right',
+//     width: 100
+// },
+// {
+//     field: 'package',
+//         headerName: tableHeaderLabels.package,
+//     type: 'number'
+// },
+// {
+//     field: 'pUnit',
+//         headerName: tableHeaderLabels.pUnit,
+//     type: 'dropdown',
+//     options: packageUnitsOptions,
+//     getOptionLabel: (option) => option,
+//     width: 50
+// },
+// {
+//     field: 'netW',
+//         headerName: tableHeaderLabels.netW,
+//     type: 'number'
+// },
+// {
+//     field: 'grossW',
+//         headerName: tableHeaderLabels.grossW,
+//     type: 'number'
+// },
+// {
+//     field: 'dim',
+//         headerName: tableHeaderLabels.dim,
+//     type: 'number'
+// }

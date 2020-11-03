@@ -1,4 +1,4 @@
-export const defaultRowValues = {
+export const defaultOrderRowValues = {
     _id: null,
     ref: '',
     description: '',

@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function Footer({ prevLabel, nextLabel, onPrevClick, onNextClick }) {
+const Footer = React.memo(function Footer({ prevLabel, nextLabel, onPrevClick, onNextClick }) {
     const classes = useStyles();
 
     return (
@@ -28,7 +28,7 @@ export default function Footer({ prevLabel, nextLabel, onPrevClick, onNextClick 
             </ThemedButton>
         </Box>
     )
-}
+});
 
 Footer.propTypes = {
     prevLabel: PropTypes.node.isRequired,
@@ -36,3 +36,5 @@ Footer.propTypes = {
     onPrevClick: PropTypes.func.isRequired,
     onNextClick: PropTypes.func.isRequired
 };
+
+export default Footer;
