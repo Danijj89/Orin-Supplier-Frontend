@@ -58,6 +58,7 @@ const EditShipment = React.memo(function EditShipment() {
             ciCustom2: shipment.ciCustom2
         }
     });
+    const { formState } = rhfMethods;
 
     const onPrevClick = useCallback(() => history.goBack(), [history]);
 

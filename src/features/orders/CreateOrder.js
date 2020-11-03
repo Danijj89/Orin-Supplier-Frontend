@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from 'react';
 import DocumentStepper from '../shared/DocumentStepper.js';
 import { Box, Paper, Divider, Typography } from '@material-ui/core';
-import RHFOrderProducts from '../shared/rhf_forms/RHFOrderProducts.js';
+import RHFOrderProducts from '../shared/rhf/forms/RHFOrderProducts.js';
 import { useForm } from 'react-hook-form';
 import useSessionStorage from '../shared/hooks/useSessionStorage.js';
 import { SESSION_NEW_ORDER } from '../../app/sessionKeys.js';
@@ -14,7 +14,7 @@ import { selectNewOrder } from './duck/selectors.js';
 import { createOrder } from './duck/thunks.js';
 import { selectCurrentCompany } from '../home/duck/selectors.js';
 import { selectClientsMap } from '../clients/duck/selectors.js';
-import RHFOrderDetails from '../shared/rhf_forms/RHFOrderDetails.js';
+import RHFOrderDetails from '../shared/rhf/forms/RHFOrderDetails.js';
 import Footer from '../shared/components/Footer.js';
 
 function getCurrentStep(stepLabel) {

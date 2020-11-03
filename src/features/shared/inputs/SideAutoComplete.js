@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Autocomplete } from '@material-ui/lab';
 import { Chip } from '@material-ui/core';
 import SideTextArea from './SideTextArea.js';
 
-export default function SideAutoComplete(
+const SideAutoComplete = React.memo(function SideAutoComplete(
     {
         label,
         required,
@@ -18,6 +18,7 @@ export default function SideAutoComplete(
         freeSolo,
         rows,
         disabled,
+        onChange,
         ...props
     }) {
 
@@ -30,6 +31,8 @@ export default function SideAutoComplete(
                 />
             )
         : null;
+
+    const onValueChange = useCallback((_, data) => onChange(data), [onChange]);
 
     return (
         <Autocomplete
@@ -53,11 +56,11 @@ export default function SideAutoComplete(
                     rowsMax={ 8 }
                 />
             ) }
-            onChange={ (_, data) => props.onChange(data) }
+            onChange={ onValueChange }
             renderTags={ renderTags }
         />
     )
-}
+});
 
 SideAutoComplete.propTypes = {
     label: PropTypes.string.isRequired,
@@ -73,3 +76,5 @@ SideAutoComplete.propTypes = {
     rows: PropTypes.number,
     disabled: PropTypes.bool
 };
+
+export default SideAutoComplete;

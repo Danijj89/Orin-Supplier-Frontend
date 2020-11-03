@@ -1,20 +1,20 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Grid, IconButton } from '@material-ui/core';
-import { LANGUAGE } from '../../../app/constants.js';
-import { currenciesOptions, itemUnitsOptions } from '../constants.js';
+import { LANGUAGE } from '../../../../app/constants.js';
+import { currenciesOptions, itemUnitsOptions } from '../../constants.js';
 import { Controller } from 'react-hook-form';
-import SideAutoComplete from '../inputs/SideAutoComplete.js';
-import SideCheckBox from '../inputs/SideCheckBox.js';
-import EditableTable from '../components/editable_table/EditableTable.js';
-import TableTextField from '../inputs/TableTextField.js';
+import SideAutoComplete from '../../inputs/SideAutoComplete.js';
+import SideCheckBox from '../../inputs/SideCheckBox.js';
+import EditableTable from '../../components/editable_table/EditableTable.js';
+import TableTextField from '../../inputs/TableTextField.js';
 import { Add as IconAdd, Close as IconClose, Delete as IconDelete } from '@material-ui/icons';
-import UnitCounter from '../classes/UnitCounter.js';
-import { getCurrencySymbol } from '../utils/random.js';
+import UnitCounter from '../../classes/UnitCounter.js';
+import { getCurrencySymbol } from '../../utils/random.js';
 import { useSelector } from 'react-redux';
-import { selectAllProducts } from '../../products/duck/selectors.js';
-import { defaultOrderRowValues } from '../../orders/utils/constants.js';
-import { roundTo2Decimal } from '../utils/format.js';
+import { selectAllProducts } from '../../../products/duck/selectors.js';
+import { defaultOrderRowValues } from '../../../orders/utils/constants.js';
+import { roundTo2Decimal } from '../../utils/format.js';
 
 const {
     currencyLabel,

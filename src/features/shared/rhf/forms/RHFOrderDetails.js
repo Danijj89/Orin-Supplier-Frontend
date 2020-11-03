@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { Controller } from 'react-hook-form';
-import { LANGUAGE } from '../../../app/constants.js';
-import SideTextField from '../inputs/SideTextField.js';
-import SideAutoComplete from '../inputs/SideAutoComplete.js';
-import { formatAddress } from '../utils/format.js';
-import SideDateField from '../inputs/SideDateField.js';
-import { deliveryMethodOptions, incotermOptions } from '../constants.js';
-import FormContainer from '../wrappers/FormContainer.js';
+import { LANGUAGE } from '../../../../app/constants.js';
+import SideTextField from '../../inputs/SideTextField.js';
+import SideAutoComplete from '../../inputs/SideAutoComplete.js';
+import { formatAddress } from '../../utils/format.js';
+import SideDateField from '../../inputs/SideDateField.js';
+import { deliveryMethodOptions, incotermOptions } from '../../constants.js';
+import FormContainer from '../../wrappers/FormContainer.js';
 import { Box, Divider, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import SideCheckBox from '../inputs/SideCheckBox.js';
-import SideTextArea from '../inputs/SideTextArea.js';
+import SideCheckBox from '../../inputs/SideCheckBox.js';
+import SideTextArea from '../../inputs/SideTextArea.js';
 import PropTypes from 'prop-types';
-import NewClientAddressButton from '../buttons/NewClientAddressButton.js';
+import NewClientAddressButton from '../../buttons/NewClientAddressButton.js';
 
 const useStyles = makeStyles((theme) => ({
     container: {

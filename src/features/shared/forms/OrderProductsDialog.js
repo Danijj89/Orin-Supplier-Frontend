@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import FormDialog from '../wrappers/FormDialog.js';
 import { useForm } from 'react-hook-form';
-import RHFOrderProducts from '../rhf_forms/RHFOrderProducts.js';
+import RHFOrderProducts from '../rhf/forms/RHFOrderProducts.js';
 
 export default function OrderProductsDialog(
     {

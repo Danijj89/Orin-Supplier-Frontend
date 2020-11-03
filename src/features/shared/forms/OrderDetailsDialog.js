@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import FormDialog from '../wrappers/FormDialog.js';
 import { useForm } from 'react-hook-form';
 import { LANGUAGE } from '../../../app/constants.js';
-import RHFOrderDetails from '../rhf_forms/RHFOrderDetails.js';
+import RHFOrderDetails from '../rhf/forms/RHFOrderDetails.js';
 import PropTypes from 'prop-types';
 
 const {
