@@ -150,14 +150,18 @@ const Home = React.memo(function Home() {
                         path={ [`${ match.url }/shipments/new`, `${ match.url }/shipments/edit/:id`] }
                         isPrivate
                     >
-                        <CreateShipmentContainer/>
+                        <Suspense>
+                            <CreateShipmentContainer/>
+                        </Suspense>
                     </Route>
                     <Route
                         exact
                         path={ `${ match.url }/shipments/:id` }
                         isPrivate
                     >
-                        <ShipmentContainer/>
+                        <Suspense>
+                            <ShipmentContainer/>
+                        </Suspense>
                     </Route>
                     <Route>
                         <Redirect to={ '/not_found' }/>
