@@ -112,7 +112,7 @@ FormDialog.propTypes = {
     submitLabel: PropTypes.string.isRequired,
     className: PropTypes.string,
     onClose: PropTypes.func,
-    children: PropTypes.element,
+    children: PropTypes.node,
     onDelete: PropTypes.func,
     deleteMessage: PropTypes.string,
 };
