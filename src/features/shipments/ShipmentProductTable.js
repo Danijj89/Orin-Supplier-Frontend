@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { IconButton } from '@material-ui/core';
 import { Add as IconAdd, Close as IconClose, Delete as IconDelete } from '@material-ui/icons';
 import TableTextField from '../shared/inputs/TableTextField.js';
-import { itemUnitsOptions } from '../shared/constants.js';
+import { itemUnitsOptions, packageUnitsOptions } from '../shared/constants.js';
 import { LANGUAGE } from '../../app/constants.js';
 import { useFormContext } from 'react-hook-form';
 import { useSelector } from 'react-redux';
@@ -30,23 +30,23 @@ export default function ShipmentProductTable() {
         register({ name: 'totalA' });
     }, [register, validateItems]);
 
-    const custom1 = watch('custom1');
-    const custom2 = watch('custom2');
+    const ciCustom1 = watch('ciCustom1');
+    const ciCustom2 = watch('ciCustom2');
     const items = watch('items');
     const totalQ = watch('totalQ');
     const totalA = watch('totalA');
     const currency = watch('currency');
 
     const [numColumns, setNumColumns] = useState(
-        7 + (custom1 ? 1 : 0) + (custom2 ? 1 : 0)
+        7 + (ciCustom1 ? 1 : 0) + (ciCustom2 ? 1 : 0)
     );
 
     const onAddColumn = () => {
-        if (custom1 == null) {
+        if (ciCustom1 == null) {
             setNumColumns(prev => prev + 1);
             return setValue('custom1', '');
         }
-        if (custom2 == null) {
+        if (ciCustom2 == null) {
             setNumColumns(prev => prev + 1);
             return setValue('custom2', '');
         }
@@ -133,7 +133,8 @@ export default function ShipmentProductTable() {
         {
             field: 'description',
             headerName: tableHeaderLabels.description,
-            type: 'text'
+            type: 'text',
+            width: 200
         },
         {
             field: 'custom1',
@@ -149,7 +150,7 @@ export default function ShipmentProductTable() {
                     } }
                 />,
             type: 'text',
-            hide: custom1 == null,
+            hide: ciCustom1 == null,
             width: 160
         },
         {
@@ -166,7 +167,7 @@ export default function ShipmentProductTable() {
                     } }
                 />,
             type: 'text',
-            hide: custom2 == null,
+            hide: ciCustom2 == null,
             width: 160
         },
         {
@@ -176,13 +177,12 @@ export default function ShipmentProductTable() {
                     <IconAdd/>
                 </IconButton>,
             renderCell: () => null,
-            hide: custom1 != null && custom2 != null
+            hide: ciCustom1 != null && ciCustom2 != null
         },
         {
             field: 'quantity',
             headerName: tableHeaderLabels.quantity,
-            type: 'number',
-            width: 100
+            type: 'number'
         },
         {
             field: 'unit',
@@ -190,18 +190,46 @@ export default function ShipmentProductTable() {
             type: 'dropdown',
             options: itemUnitsOptions,
             getOptionLabel: (option) => option,
-            width: 100
+            width: 50
         },
         {
             field: 'price',
             headerName: tableHeaderLabels.price,
-            type: 'number',
-            width: 100
+            type: 'number'
         },
         {
             field: 'total',
             headerName: tableHeaderLabels.total,
-            align: 'right'
+            align: 'right',
+            width: 100
+        },
+        {
+            field: 'package',
+            headerName: tableHeaderLabels.package,
+            type: 'number'
+        },
+        {
+            field: 'pUnit',
+            headerName: tableHeaderLabels.pUnit,
+            type: 'dropdown',
+            options: packageUnitsOptions,
+            getOptionLabel: (option) => option,
+            width: 50
+        },
+        {
+            field: 'netW',
+            headerName: tableHeaderLabels.netW,
+            type: 'number'
+        },
+        {
+            field: 'grossW',
+            headerName: tableHeaderLabels.grossW,
+            type: 'number'
+        },
+        {
+            field: 'dim',
+            headerName: tableHeaderLabels.dim,
+            type: 'number'
         }
     ];
 
@@ -215,7 +243,12 @@ export default function ShipmentProductTable() {
         quantity: row.quantity,
         unit: row.unit,
         price: row.price,
-        total: row.total
+        total: row.total,
+        package: row.package || 0,
+        pUnit: row.pUnit || null,
+        netW: row.netW || 0,
+        grossW: row.grossW || 0,
+        dim: row.dim || 0
     }));
 
     const footer = [];

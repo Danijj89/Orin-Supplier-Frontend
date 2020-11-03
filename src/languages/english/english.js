@@ -465,7 +465,8 @@ export const ENGLISH = {
             products: {
                 formLabels: {
                     currency: 'Currency',
-                    
+                    measurementUnit: 'Measurement',
+                    weightUnit: 'Weight'
                 },
                 productTable: {
                     tableHeaderLabels: {
@@ -474,7 +475,12 @@ export const ENGLISH = {
                         quantity: 'Quantity',
                         unit: 'Unit',
                         price: 'Unit Price',
-                        total: 'Amount'
+                        total: 'Amount',
+                        package: 'Packaging',
+                        pUnit: 'P. Unit',
+                        netW: 'Net Weight',
+                        grossW: 'Gross Weight',
+                        dim: 'Volume'
                     },
                 },
                 errorMessages: {

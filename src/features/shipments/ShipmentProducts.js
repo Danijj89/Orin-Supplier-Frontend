@@ -4,12 +4,14 @@ import { Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Controller, useFormContext } from 'react-hook-form';
 import SideAutoComplete from '../shared/inputs/SideAutoComplete.js';
-import { currenciesOptions } from '../shared/constants.js';
+import { currenciesOptions, measurementUnitsOptions, weightUnitsOptions } from '../shared/constants.js';
 import { LANGUAGE } from '../../app/constants.js';
 
 const useStyles = makeStyles((theme) => ({
     toolbarContainer: {
-        display: 'flex'
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-end'
     }
 }));
 
@@ -43,15 +45,23 @@ export default function ShipmentProducts() {
                     render={ props =>
                         <SideAutoComplete
                             { ...props }
-                            options={ currenciesOptions }
-                            label={ formLabels.currency }
-                            error={ !!errors.currency }
-                            required
+                            options={ measurementUnitsOptions }
+                            label={ formLabels.measurementUnit }
                         />
                     }
-                    name="currency"
+                    name="measurementUnit"
                     control={ control }
-                    rules={ { required: errorMessages.missingCurrency } }
+                />
+                <Controller
+                    render={ props =>
+                        <SideAutoComplete
+                            { ...props }
+                            options={ weightUnitsOptions }
+                            label={ formLabels.weightUnit }
+                        />
+                    }
+                    name="weightUnit"
+                    control={ control }
                 />
             </Box>
             <ShipmentProductTable/>

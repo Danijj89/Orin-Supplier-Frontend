@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
         marginBottom: theme.spacing(1),
         whiteSpace: 'nowrap',
         display: 'flex',
-        alignItems: 'flex-start',
+        alignItems: props => props.rows === 1 ? 'center' : 'flex-start'
     },
     label: {
         marginRight: theme.spacing(4),
@@ -50,7 +50,7 @@ export default function SideTextArea(
         disabled,
         ...props
     }) {
-    const classes = useStyles();
+    const classes = useStyles({ rows });
     const classNames = clsx(
         classes.input,
         className,
