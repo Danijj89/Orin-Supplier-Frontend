@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import logo from '../../images/orinlogo.png';
 import { LANGUAGE } from '../../app/constants.js';
 import {
@@ -79,10 +79,8 @@ const {
     helloMessageLabel
 } = LANGUAGE.home.navbar;
 
-export default function NavBar({ user }) {
+const NavBar = React.memo(function NavBar({ user, currentTab }) {
     const classes = useStyles();
-    const location = useLocation();
-    const currentTab = location.pathname.split('/')[2];
     const history = useHistory();
 
     const onTabClick = (tabName, href) => history.push(href);
@@ -272,4 +270,6 @@ export default function NavBar({ user }) {
             { renderMobileMenu }
         </div>
     );
-}
+});
+
+export default NavBar;

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useRouteMatch } from 'react-router-dom';
+import { useLocation, useRouteMatch } from 'react-router-dom';
 import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import NavBar from './NavBar.js';
@@ -36,12 +36,15 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default React.memo(function Home() {
+const Home = React.memo(function Home() {
     const classes = useStyles();
     const dispatch = useDispatch();
     const match = useRouteMatch();
+    const location = useLocation();
+    const currentTab = location.pathname.split('/')[2];
     const userId = useSelector(selectCurrentUserId);
     const user = useSelector(state => selectUserById(state, userId));
+
 
     useEffect(() => {
         dispatch(fetchSessionInfo());
@@ -55,7 +58,7 @@ export default React.memo(function Home() {
             className={ classes.root }
         >
             <Grid item>
-                { user && <NavBar user={ user }/> }
+                { user && <NavBar user={ user } currentTab={ currentTab }/> }
             </Grid>
             <Grid item className={ classes.content }>
                 <Switch>
@@ -64,77 +67,77 @@ export default React.memo(function Home() {
                         path={ [`${ match.path }`, `${ match.path }/orders`] }
                         isPrivate
                     >
-                        <OrdersOverview />
+                        <OrdersOverview/>
                     </Route>
                     <Route
                         exact
                         path={ `${ match.url }/orders/new/:step` }
                         isPrivate
                     >
-                        <CreateOrderContainer />
+                        <CreateOrderContainer/>
                     </Route>
                     <Route
                         exact
                         path={ [`${ match.url }/orders/:id`, `${ match.url }/orders/:id/details`] }
                         isPrivate
                     >
-                        <Order />
+                        <Order/>
                     </Route>
                     <Route
                         exact
                         path={ `${ match.path }/settings/:tab` }
                         isPrivate
                     >
-                        <Settings />
+                        <Settings/>
                     </Route>
                     <Route
                         exact
                         path={ `${ match.url }/clients/:id` }
                         isPrivate
                     >
-                        <ClientDetails />
+                        <ClientDetails/>
                     </Route>
                     <Route
                         exact
                         path={ `${ match.url }/clients` }
                         isPrivate
                     >
-                        <ClientOverview />
+                        <ClientOverview/>
                     </Route>
                     <Route
                         exact
                         path={ `${ match.url }/products` }
                         isPrivate
                     >
-                        <ProductOverview />
+                        <ProductOverview/>
                     </Route>
                     <Route
                         exact
                         path={ `${ match.url }/shipments` }
                         isPrivate
                     >
-                        <ShipmentOverview />
+                        <ShipmentOverview/>
                     </Route>
                     <Route
                         exact
                         path={ `${ match.url }/shipments/edit/:id/details` }
                         isPrivate
                     >
-                        <EditShipmentContainer />
+                        <EditShipmentContainer/>
                     </Route>
                     <Route
                         exact
-                        path={ [`${ match.url }/shipments/new`, `${ match.url }/shipments/edit/:id` ] }
+                        path={ [`${ match.url }/shipments/new`, `${ match.url }/shipments/edit/:id`] }
                         isPrivate
                     >
-                        <CreateShipmentContainer />
+                        <CreateShipmentContainer/>
                     </Route>
                     <Route
                         exact
                         path={ `${ match.url }/shipments/:id` }
                         isPrivate
                     >
-                        <ShipmentContainer />
+                        <ShipmentContainer/>
                     </Route>
                     <Route>
                         <Redirect to={ '/not_found' }/>
@@ -144,3 +147,5 @@ export default React.memo(function Home() {
         </Grid>
     );
 });
+
+export default Home;
