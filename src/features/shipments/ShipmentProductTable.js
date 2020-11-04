@@ -7,11 +7,11 @@ import { LANGUAGE } from '../../app/constants.js';
 import { useSelector } from 'react-redux';
 import { selectActiveProducts } from '../products/duck/selectors.js';
 import EditableTable from '../shared/components/editable_table/EditableTable.js';
-import { defaultOrderRowValues } from '../orders/utils/constants.js';
 import UnitCounter from '../shared/classes/UnitCounter.js';
 import { roundToNDecimal } from '../shared/utils/format.js';
 import DeleteIconButton from '../shared/buttons/DeleteIconButton.js';
 import { getCurrencySymbol } from '../shared/utils/random.js';
+import { defaultShipmentRowValues } from './utils/constants.js';
 
 const {
     tableHeaderLabels,
@@ -27,6 +27,8 @@ export default function ShipmentProductTable({ rhfMethods }) {
         register({ name: 'items' }, { validate: validateItems });
         register({ name: 'ciCustom1' });
         register({ name: 'ciCustom2' });
+        register({ name: 'plCustom1' });
+        register({ name: 'plCustom2' });
         register({ name: 'quantity' });
         register({ name: 'total' });
         register({ name: 'package'});
@@ -37,6 +39,8 @@ export default function ShipmentProductTable({ rhfMethods }) {
 
     const ciCustom1 = watch('ciCustom1');
     const ciCustom2 = watch('ciCustom2');
+    const plCustom1 = watch('plCustom1');
+    const plCustom2 = watch('plCustom2');
     const items = watch('items');
     const quantity = watch('quantity');
     const total = watch('total');
@@ -52,7 +56,7 @@ export default function ShipmentProductTable({ rhfMethods }) {
         13 + (ciCustom1 ? 1 : 0) + (ciCustom2 ? 1 : 0)
     );
 
-    const onAddColumn = useCallback(() => {
+    const onAddCiColumn = useCallback(() => {
         if (ciCustom1 == null) {
             setNumColumns(prev => prev + 1);
             return setValue('ciCustom1', '');
@@ -71,7 +75,7 @@ export default function ShipmentProductTable({ rhfMethods }) {
     }, [getValues, reset]);
 
     const onAddRow = useCallback(
-        () => setValue('items', [...getValues('items'), defaultOrderRowValues]),
+        () => setValue('items', [...getValues('items'), defaultShipmentRowValues]),
         [setValue, getValues]);
     const onDeleteRow = useCallback(
         idx => () => setValue('items', getValues('items').filter((_, i) => i !== idx)),
@@ -212,7 +216,7 @@ export default function ShipmentProductTable({ rhfMethods }) {
         {
             field: 'addColumn',
             renderHeader: () =>
-                <IconButton onClick={ onAddColumn } color="primary" size="small">
+                <IconButton onClick={ onAddCiColumn } color="primary" size="small">
                     <IconAdd/>
                 </IconButton>,
             renderCell: () => null,
@@ -273,7 +277,7 @@ export default function ShipmentProductTable({ rhfMethods }) {
     ]), [
         ciCustom1,
         ciCustom2,
-        onAddColumn,
+        onAddCiColumn,
         onDeleteColumn,
         products,
         onDeleteRow
