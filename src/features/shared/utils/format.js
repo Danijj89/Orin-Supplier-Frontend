@@ -11,8 +11,8 @@ export function dateToYYMMDD(dateString) {
     return dateString.substr(0, 10);
 }
 
-export function roundTo2Decimal(n) {
-    return Math.round(n * 1e2) / 1e2;
+export function roundToNDecimal(num, dec) {
+    return Math.round(num * Math.pow(10, dec)) / Math.pow(10, dec);
 }
 
 export function formatAddress(address) {

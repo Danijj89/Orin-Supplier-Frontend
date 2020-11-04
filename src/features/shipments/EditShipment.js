@@ -51,11 +51,19 @@ const EditShipment = React.memo(function EditShipment() {
             eta: shipment.eta || null,
             etd: shipment.etd || null,
             currency: shipment.currency,
+            items: shipment.items,
+            quantity: shipment.quantity,
+            total: shipment.total,
             measurementUnit: shipment.measurementUnit,
             weightUnit: shipment.weightUnit,
-            items: shipment.items,
+            package: shipment.package,
+            netWeight: shipment.netWeight,
+            grossWeight: shipment.grossWeight,
+            dimension: shipment.dimension,
             ciCustom1: shipment.ciCustom1,
-            ciCustom2: shipment.ciCustom2
+            ciCustom2: shipment.ciCustom2,
+            plCustom1: shipment.plCustom1,
+            plCustom2: shipment.plCustom2,
         }
     });
 

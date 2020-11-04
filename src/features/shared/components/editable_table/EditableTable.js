@@ -65,20 +65,24 @@ const EditableTable = React.memo(function EditableTable(
             </TableHead>
         , [columns]);
 
-    const renderFooter = (row, idx) =>
-        <TableRow key={ idx } className={ classes.footerRow }>
-            { row.map(cell =>
-                <TableCell
-                    key={ cell.field }
-                    colSpan={ cell.colSpan }
-                    align={ cell.align }
-                    className={ classes.footerCell }
-                >
-                    { cell.value }
-                </TableCell>
-            ) }
-        </TableRow>;
-
+    const tableFooter = useMemo(() =>
+            <TableFooter>
+                { footer.map((row, i) =>
+                    <TableRow key={ i } className={ classes.footerRow }>
+                        { row.map(cell =>
+                            <TableCell
+                                key={ cell.field }
+                                colSpan={ cell.colSpan }
+                                align={ cell.align }
+                                className={ classes.footerCell }
+                            >
+                                { cell.value }
+                            </TableCell>
+                        ) }
+                    </TableRow>
+                ) }
+            </TableFooter>,
+        [footer, classes.footerRow, classes.footerCell])
 
     return (
         <TableContainer className={ className }>
@@ -96,18 +100,16 @@ const EditableTable = React.memo(function EditableTable(
                     ) }
                     <AddRowButtonRow numColumns={ numColumns } onAddRow={ onAddRow }/>
                 </TableBody>
-                <TableFooter>
-                    { footer.map((row, i) => renderFooter(row, i)) }
-                </TableFooter>
+                { tableFooter }
             </Table>
         </TableContainer>
     )
 }, (prev, next) => {
-    for (const [k, v] of Object.entries(prev.rows)) {
-        if (v !== next.rows[k]) return false;
-    }
     for (let i = 0; i < prev.columns.length; i++) {
         if (prev.columns[i].hide !== next.columns[i].hide) return false;
+    }
+    for (const [k, v] of Object.entries(prev.rows)) {
+        if (v !== next.rows[k]) return false;
     }
     return true;
 });

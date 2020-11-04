@@ -32,11 +32,13 @@ export default class UnitCounter {
     }
 
     static stringRep(unitObj) {
+        const entries = Object.entries(unitObj);
+        if (entries.length === 1) return entries.map(([unit, amount]) => `${ amount } ${ unit }`)
         return Object.entries(unitObj)
             .filter(([unit, amount]) => amount !== 0)
-            .map(([unit, amount]) =>`${ amount } ${ unit }`)
+            .map(([unit, amount]) => `${ amount } ${ unit }`)
             .join(' + ');
-    }
+    };
 
     static totalCount(unitObj) {
         return Object.values(unitObj).reduce((acc, amount) => acc + amount, 0);

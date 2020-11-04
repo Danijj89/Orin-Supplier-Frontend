@@ -14,7 +14,7 @@ import { getCurrencySymbol } from '../../utils/random.js';
 import { useSelector } from 'react-redux';
 import { selectAllProducts } from '../../../products/duck/selectors.js';
 import { defaultOrderRowValues } from '../../../orders/utils/constants.js';
-import { roundTo2Decimal } from '../../utils/format.js';
+import { roundToNDecimal } from '../../utils/format.js';
 
 const {
     currencyLabel,
@@ -105,8 +105,8 @@ export default function RHFOrderProducts({ rhfMethods, order, isEdit }) {
                 newTotalQ = new UnitCounter(itemUnitsOptions, totalQ);
                 newTotalQ.addUnit(newItem.unit, diffQ);
                 setValue('totalQ', newTotalQ.data);
-                setValue('totalA', roundTo2Decimal(totalA + (newItem.price * diffQ)));
-                newItem.total = roundTo2Decimal(newValue * newItem.price);
+                setValue('totalA', roundToNDecimal(totalA + (newItem.price * diffQ), 2));
+                newItem.total = roundToNDecimal(newValue * newItem.price, 2);
                 newItem.quantity = newValue;
                 break;
             case 'unit':
@@ -118,10 +118,10 @@ export default function RHFOrderProducts({ rhfMethods, order, isEdit }) {
                 newItem.unit = newValue;
                 break;
             case 'price':
-                newValue = newValue === '' ? newValue : roundTo2Decimal(newValue);
+                newValue = newValue === '' ? newValue : roundToNDecimal(newValue, 2);
                 const diffP = newValue - newItem.price;
-                setValue('totalA', roundTo2Decimal(totalA + (newItem.quantity * diffP)));
-                newItem.total = roundTo2Decimal(newValue * newItem.quantity);
+                setValue('totalA', roundToNDecimal(totalA + (newItem.quantity * diffP), 2));
+                newItem.total = roundToNDecimal(newValue * newItem.quantity, 2);
                 newItem.price = newValue;
                 break;
             default:

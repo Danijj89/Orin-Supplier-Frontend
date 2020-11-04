@@ -3,9 +3,9 @@ import { Paper } from '@material-ui/core';
 import NewProductButton from './NewProductButton.js';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+    selectProductDataStatus,
     selectProductError,
     selectProductsMap,
-    selectProductStatus,
 } from './duck/selectors.js';
 import {
     selectCurrentCompany,
@@ -30,9 +30,9 @@ export default function ProductOverview() {
     const products = useSelector(selectProductsMap);
     const company = useSelector(selectCurrentCompany);
     const homeStatus = useSelector(selectHomeStatus);
-    const productStatus = useSelector(selectProductStatus);
+    const productDataStatus = useSelector(selectProductDataStatus);
     const productError = useSelector(selectProductError);
-    const status = determineStatus([homeStatus, productStatus]);
+    const status = determineStatus([homeStatus, productDataStatus]);
 
     useEffect(() => {
         if (company) dispatch(fetchProducts(company._id));

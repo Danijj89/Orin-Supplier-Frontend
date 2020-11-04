@@ -12,7 +12,7 @@ import Loader from '../shared/components/Loader.js';
 import { selectCurrentCompany, selectHomeStatus } from '../home/duck/selectors.js';
 import { selectClientDataStatus } from '../clients/duck/selectors.js';
 import { fetchClients } from '../clients/duck/thunks.js';
-import { selectProductStatus } from '../products/duck/selectors.js';
+import { selectProductDataStatus } from '../products/duck/selectors.js';
 import { fetchProducts } from '../products/duck/thunks.js';
 import { Redirect } from 'react-router-dom';
 import OrderDocuments from './OrderDocuments.js';
@@ -45,14 +45,14 @@ export default function Order() {
     const orderStatus = useSelector(selectOrderStatus);
     const homeStatus = useSelector(selectHomeStatus);
     const clientDataStatus = useSelector(selectClientDataStatus);
-    const productStatus = useSelector(selectProductStatus);
+    const productDataStatus = useSelector(selectProductDataStatus);
     const shouldCheckOrderStatus = Boolean(!order);
     const status = determineStatus([
         userStatus,
         shouldCheckOrderStatus && orderStatus,
         homeStatus,
         clientDataStatus,
-        productStatus
+        productDataStatus
     ]);
     const [tabValue, setTabValue] = useState('details');
 
@@ -61,11 +61,11 @@ export default function Order() {
         if (!mounted.current) {
             if (!order) dispatch(fetchOrderById(id));
             if (clientDataStatus === 'IDLE' && company) dispatch(fetchClients(company._id));
-            if (productStatus === 'IDLE' && company) dispatch(fetchProducts(company._id));
+            if (productDataStatus === 'IDLE' && company) dispatch(fetchProducts(company._id));
         }
         if (status === 'FULFILLED') mounted.current = true;
         return () => dispatch(cleanCurrentOrderId());
-    }, [dispatch, order, id, company, status, clientDataStatus, productStatus]);
+    }, [dispatch, order, id, company, status, clientDataStatus, productDataStatus]);
 
     return (
         <Box className={ classes.root }>

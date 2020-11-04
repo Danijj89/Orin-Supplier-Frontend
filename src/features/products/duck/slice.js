@@ -7,6 +7,7 @@ export const productsAdapter = createEntityAdapter({
 });
 
 const initialState = productsAdapter.getInitialState({
+    dataStatus: 'IDLE',
     status: 'IDLE',
     error: null
 });
@@ -21,7 +22,7 @@ const productsSlice = createSlice({
         },
         [fetchProducts.fulfilled]: (state, action) => {
             productsAdapter.upsertMany(state, action.payload);
-            state.status = 'FULFILLED';
+            state.dataStatus = 'FULFILLED';
         },
         [fetchProducts.rejected]: (state, action) => {
             state.status = 'REJECTED';

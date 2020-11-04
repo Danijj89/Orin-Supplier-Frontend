@@ -14,7 +14,7 @@ import { determineStatus } from '../shared/utils/state.js';
 import { selectClientDataStatus } from '../clients/duck/selectors.js';
 import { fetchClients } from '../clients/duck/thunks.js';
 import CreateOrder from './CreateOrder.js';
-import { selectProductStatus } from '../products/duck/selectors.js';
+import { selectProductDataStatus } from '../products/duck/selectors.js';
 import { fetchProducts } from '../products/duck/thunks.js';
 import { cleanNewOrder } from './duck/slice.js';
 
@@ -24,10 +24,10 @@ export default function CreateOrderContainer() {
     const company = useSelector(selectCurrentCompany);
     const orderStatus = useSelector(selectOrderStatus);
     const clientDataStatus = useSelector(selectClientDataStatus);
-    const productStatus = useSelector(selectProductStatus);
+    const productDataStatus = useSelector(selectProductDataStatus);
     const error = useSelector(selectOrderError);
     const currentOrderId = useSelector(selectCurrentOrderId);
-    const status = determineStatus([orderStatus, clientDataStatus, productStatus]);
+    const status = determineStatus([orderStatus, clientDataStatus, productDataStatus]);
 
     const mounted = useRef(false);
     useEffect(() => {

@@ -6,6 +6,7 @@ export const {
     selectEntities: selectProductsMap
 } = productsAdapter.getSelectors(state => state.products);
 
+export const selectProductDataStatus = state => state.products.dataStatus;
 export const selectProductStatus = state => state.products.status;
 export const selectProductError = state => state.products.error;
 export const selectActiveProducts = createSelector(

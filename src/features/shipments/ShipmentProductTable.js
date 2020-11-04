@@ -9,35 +9,47 @@ import { selectActiveProducts } from '../products/duck/selectors.js';
 import EditableTable from '../shared/components/editable_table/EditableTable.js';
 import { defaultOrderRowValues } from '../orders/utils/constants.js';
 import UnitCounter from '../shared/classes/UnitCounter.js';
-import { roundTo2Decimal } from '../shared/utils/format.js';
+import { roundToNDecimal } from '../shared/utils/format.js';
 import DeleteIconButton from '../shared/buttons/DeleteIconButton.js';
+import { getCurrencySymbol } from '../shared/utils/random.js';
 
 const {
-    tableHeaderLabels
+    tableHeaderLabels,
+    totalLabel
 } = LANGUAGE.shipment.editShipment.products.productTable;
 
 export default function ShipmentProductTable({ rhfMethods }) {
     const { register, setValue, watch, getValues, reset } = rhfMethods;
     const products = useSelector(selectActiveProducts);
-    const validateItems = useCallback((items) => {}, []);
+    const validateItems = useCallback((items) => true, []);
 
     useEffect(() => {
         register({ name: 'items' }, { validate: validateItems });
         register({ name: 'ciCustom1' });
         register({ name: 'ciCustom2' });
-        register({ name: 'totalQ' });
-        register({ name: 'totalA' });
+        register({ name: 'quantity' });
+        register({ name: 'total' });
+        register({ name: 'package'});
+        register({ name: 'netWeight'});
+        register({ name: 'grossWeight'});
+        register({ name: 'dimension'});
     }, [register, validateItems]);
 
     const ciCustom1 = watch('ciCustom1');
     const ciCustom2 = watch('ciCustom2');
     const items = watch('items');
-    const totalQ = watch('totalQ');
-    const totalA = watch('totalA');
+    const quantity = watch('quantity');
+    const total = watch('total');
+    const pkg = watch('package');
+    const netWeight = watch('netWeight');
+    const grossWeight = watch('grossWeight');
+    const dimension = watch('dimension');
     const currency = watch('currency');
+    const weightUnit = watch('weightUnit');
+    const measurementUnit = watch('measurementUnit');
 
     const [numColumns, setNumColumns] = useState(
-        7 + (ciCustom1 ? 1 : 0) + (ciCustom2 ? 1 : 0)
+        13 + (ciCustom1 ? 1 : 0) + (ciCustom2 ? 1 : 0)
     );
 
     const onAddColumn = useCallback(() => {
@@ -52,6 +64,7 @@ export default function ShipmentProductTable({ rhfMethods }) {
     }, [setValue, ciCustom1, ciCustom2]);
 
     const onDeleteColumn = useCallback(name => {
+        setNumColumns(prev => prev - 1);
         const currValues = getValues();
         currValues[name] = null;
         reset(currValues);
@@ -68,6 +81,7 @@ export default function ShipmentProductTable({ rhfMethods }) {
         const items = getValues('items');
         const newItem = { ...items[rowIdx] };
         let newTotalQ;
+        let diff;
         switch (key) {
             case 'ref':
                 if (newValue._id) {
@@ -85,49 +99,67 @@ export default function ShipmentProductTable({ rhfMethods }) {
                 break;
             case 'quantity':
                 newValue = newValue === '' ? newValue : parseInt(newValue);
-                const diffQ = newValue - newItem.quantity;
-                newTotalQ = new UnitCounter(itemUnitsOptions, totalQ);
-                newTotalQ.addUnit(newItem.unit, diffQ);
-                setValue('totalQ', newTotalQ.data);
-                setValue('totalA', roundTo2Decimal(totalA + (newItem.price * diffQ)));
-                newItem.total = roundTo2Decimal(newValue * newItem.price);
+                diff = newValue - newItem.quantity;
+                newTotalQ = new UnitCounter(itemUnitsOptions, getValues('quantity'));
+                newTotalQ.addUnit(newItem.unit, diff);
+                setValue('quantity', newTotalQ.data);
+                setValue('total', roundToNDecimal(getValues('total') + (newItem.price * diff), 2));
+                newItem.total = roundToNDecimal(newValue * newItem.price, 2);
                 newItem.quantity = newValue;
                 break;
             case 'unit':
                 const prevUnit = newItem.unit;
-                newTotalQ = new UnitCounter(itemUnitsOptions, totalQ);
+                newTotalQ = new UnitCounter(itemUnitsOptions, getValues('quantity'));
                 newTotalQ.subtractUnit(prevUnit, newItem.quantity);
                 newTotalQ.addUnit(newValue, newItem.quantity);
-                setValue('totalQ', newTotalQ.data);
+                setValue('quantity', newTotalQ.data);
                 newItem.unit = newValue;
                 break;
             case 'price':
-                newValue = newValue === '' ? newValue : roundTo2Decimal(newValue);
-                const diffP = newValue - newItem.price;
-                setValue('totalA', roundTo2Decimal(totalA + (newItem.quantity * diffP)));
-                newItem.total = roundTo2Decimal(newValue * newItem.quantity);
+                newValue = newValue === '' ? newValue : roundToNDecimal(newValue, 2);
+                diff = newValue - newItem.price;
+                setValue('total', roundToNDecimal(getValues('total') + (newItem.quantity * diff), 2));
+                newItem.total = roundToNDecimal(newValue * newItem.quantity, 2);
                 newItem.price = newValue;
+                break;
+            case 'package':
+                newValue = newValue === '' ? newValue : parseInt(newValue);
+                diff = newValue - newItem.package;
+                const newPackage = new UnitCounter(packageUnitsOptions, getValues('package'));
+                newPackage.addUnit(newItem.pUnit, diff);
+                setValue('package', newPackage.data);
+                newItem.package = newValue;
+                break;
+            case 'netW':
+                newValue = newValue === '' ? newValue : roundToNDecimal(newValue, 3);
+                diff = newValue - newItem.netW;
+                setValue('netWeight', roundToNDecimal(getValues('netWeight') + diff, 3));
+                newItem.netW = newValue;
+                break;
+            case 'grossW':
+                newValue = newValue === '' ? newValue : roundToNDecimal(newValue, 3);
+                diff = newValue - newItem.grossW;
+                setValue('grossWeight', roundToNDecimal(getValues('grossWeight') + diff, 3));
+                newItem.grossW = newValue;
+                break;
+            case 'dim':
+                newValue = newValue === '' ? newValue : roundToNDecimal(newValue, 3);
+                diff = newValue - newItem.dim;
+                setValue('dimension', roundToNDecimal(getValues('dimension') + diff, 3));
+                newItem.dim = newValue;
                 break;
             default:
                 newItem[key] = newValue;
         }
         setValue('items', [...items.slice(0, rowIdx), newItem, ...items.slice(rowIdx + 1)])
-    }, [setValue, totalA, totalQ, products, getValues]);
-
-    const renderDeleteIcon = useCallback(
-        params => {
-            if (params.idx === 0) return <span/>;
-            return <DeleteIconButton onClick={ onDeleteRow(params.idx)}/>
-        }, [onDeleteRow]);
-    const productGetOptionLabel = useCallback(product => product.sku || product, []);
-    const productGetOptionSelected = useCallback((product, params) => product._id === params.id, []);
-
+    }, [setValue, products, getValues]);
 
     const columns = useMemo(() => ([
         { field: 'id', hide: true },
         {
             field: 'delete',
-            renderCell: renderDeleteIcon,
+            renderCell: params =>
+                params.idx === 0 ? null : <DeleteIconButton onClick={ onDeleteRow(params.idx) }/>,
             width: 50,
             align: 'center'
         },
@@ -136,8 +168,8 @@ export default function ShipmentProductTable({ rhfMethods }) {
             headerName: tableHeaderLabels.ref,
             type: 'autocomplete',
             options: products,
-            getOptionLabel: productGetOptionLabel,
-            getOptionSelected: productGetOptionSelected,
+            getOptionLabel: product => product.sku || product,
+            getOptionSelected: (product, params) => product._id === params.id,
         },
         {
             field: 'description',
@@ -150,7 +182,6 @@ export default function ShipmentProductTable({ rhfMethods }) {
             renderHeader: () =>
                 <TableTextField
                     name="ciCustom1"
-                    inputRef={ register({ required: true }) }
                     InputProps={ {
                         endAdornment:
                             <IconButton size="small" onClick={ () => onDeleteColumn('ciCustom1') }>
@@ -167,7 +198,6 @@ export default function ShipmentProductTable({ rhfMethods }) {
             renderHeader: () =>
                 <TableTextField
                     name="ciCustom2"
-                    inputRef={ register({ required: true }) }
                     InputProps={ {
                         endAdornment:
                             <IconButton size="small" onClick={ () => onDeleteColumn('ciCustom2') }>
@@ -188,7 +218,68 @@ export default function ShipmentProductTable({ rhfMethods }) {
             renderCell: () => null,
             hide: ciCustom1 != null && ciCustom2 != null
         },
-    ]), [onDeleteRow, products, onDeleteColumn, ciCustom1, register, ciCustom2, onAddColumn]);
+        {
+            field: 'quantity',
+            headerName: tableHeaderLabels.quantity,
+            type: 'number'
+        },
+        {
+            field: 'unit',
+            headerName: tableHeaderLabels.unit,
+            type: 'dropdown',
+            options: itemUnitsOptions,
+            getOptionLabel: (option) => option,
+            width: 50
+        },
+        {
+            field: 'price',
+            headerName: tableHeaderLabels.price,
+            type: 'number'
+        },
+        {
+            field: 'total',
+            headerName: tableHeaderLabels.total,
+            align: 'center',
+            width: 100
+        },
+        {
+            field: 'package',
+            headerName: tableHeaderLabels.package,
+            type: 'number'
+        },
+        {
+            field: 'pUnit',
+            headerName: tableHeaderLabels.pUnit,
+            type: 'dropdown',
+            options: packageUnitsOptions,
+            getOptionLabel: (option) => option,
+            width: 50
+        },
+        {
+            field: 'netW',
+            headerName: tableHeaderLabels.netW,
+            type: 'number'
+        },
+        {
+            field: 'grossW',
+            headerName: tableHeaderLabels.grossW,
+            type: 'number'
+        },
+        {
+            field: 'dim',
+            headerName: tableHeaderLabels.dim,
+            type: 'number'
+        }
+    ]), [
+        ciCustom1,
+        ciCustom2,
+        onAddColumn,
+        onDeleteColumn,
+        products,
+        onDeleteRow
+    ]);
+
+    const currencySymbol = useMemo(() => getCurrencySymbol(currency), [currency]);
 
     const rows = items.map((row, index) => ({
         id: row._id,
@@ -200,7 +291,7 @@ export default function ShipmentProductTable({ rhfMethods }) {
         quantity: row.quantity,
         unit: row.unit,
         price: row.price,
-        total: row.total,
+        total: `${currencySymbol} ${row.total}`,
         package: row.package,
         pUnit: row.pUnit,
         netW: row.netW,
@@ -208,7 +299,26 @@ export default function ShipmentProductTable({ rhfMethods }) {
         dim: row.dim
     }));
 
-    const footer = useMemo(() => [], []);
+    const footer = useMemo(() => [[
+        { field: 'label', value: totalLabel, colSpan: numColumns - 9, align: 'right' },
+        { field: 'quantity', value: UnitCounter.stringRep(quantity), colSpan: 3, align: 'center' },
+        { field: 'total', value: `${ currencySymbol } ${ total }`, colSpan: 1, align: 'center' },
+        { field: 'package', value: UnitCounter.stringRep(pkg), colSpan: 2, align: 'center' },
+        { field: 'netWeight', value: `${weightUnit} ${netWeight}`, colSpan: 1, align: 'center' },
+        { field: 'grossWeight', value: `${weightUnit} ${grossWeight}`, colSpan: 1, align: 'center' },
+        { field: 'dimension', value: `${measurementUnit} ${dimension}`, colSpan: 1, align: 'center' }
+    ]], [
+        numColumns,
+        total,
+        quantity,
+        currencySymbol,
+        pkg,
+        netWeight,
+        grossWeight,
+        dimension,
+        weightUnit,
+        measurementUnit
+    ]);
 
     return (
         <EditableTable
@@ -220,57 +330,3 @@ export default function ShipmentProductTable({ rhfMethods }) {
         />
     )
 }
-
-
-// {
-//     field: 'quantity',
-//         headerName: tableHeaderLabels.quantity,
-//     type: 'number'
-// },
-// {
-//     field: 'unit',
-//         headerName: tableHeaderLabels.unit,
-//     type: 'dropdown',
-//     options: itemUnitsOptions,
-//     getOptionLabel: (option) => option,
-//     width: 50
-// },
-// {
-//     field: 'price',
-//         headerName: tableHeaderLabels.price,
-//     type: 'number'
-// },
-// {
-//     field: 'total',
-//         headerName: tableHeaderLabels.total,
-//     align: 'right',
-//     width: 100
-// },
-// {
-//     field: 'package',
-//         headerName: tableHeaderLabels.package,
-//     type: 'number'
-// },
-// {
-//     field: 'pUnit',
-//         headerName: tableHeaderLabels.pUnit,
-//     type: 'dropdown',
-//     options: packageUnitsOptions,
-//     getOptionLabel: (option) => option,
-//     width: 50
-// },
-// {
-//     field: 'netW',
-//         headerName: tableHeaderLabels.netW,
-//     type: 'number'
-// },
-// {
-//     field: 'grossW',
-//         headerName: tableHeaderLabels.grossW,
-//     type: 'number'
-// },
-// {
-//     field: 'dim',
-//         headerName: tableHeaderLabels.dim,
-//     type: 'number'
-// }

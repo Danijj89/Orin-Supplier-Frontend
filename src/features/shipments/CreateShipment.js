@@ -5,7 +5,7 @@ import { LANGUAGE } from '../../app/constants.js';
 import FormContainer from '../shared/wrappers/FormContainer.js';
 import SideAutoComplete from '../shared/inputs/SideAutoComplete.js';
 import { Controller, useForm } from 'react-hook-form';
-import { dateToLocaleDate, formatAddress, roundTo2Decimal } from '../shared/utils/format.js';
+import { dateToLocaleDate, formatAddress, roundToNDecimal } from '../shared/utils/format.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCurrentCompany } from '../home/duck/selectors.js';
 import { selectClientsMap } from '../clients/duck/selectors.js';
@@ -155,7 +155,7 @@ export default function CreateShipment() {
     const getFulfilledPercentage = (totalQ, orderId) => {
         const totalCount = UnitCounter.totalCount(totalQ);
         const totalFulfilled = orderShipmentItemMap[orderId].reduce((acc, instance) => acc + instance.quantity, 0);
-        return `${ roundTo2Decimal(totalFulfilled / totalCount * 100) }%`;
+        return `${ roundToNDecimal(totalFulfilled / totalCount * 100, 2) }%`;
     };
 
     const columns = [

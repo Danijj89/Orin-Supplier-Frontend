@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Autocomplete } from '@material-ui/lab';
 import { Chip } from '@material-ui/core';
@@ -32,8 +32,6 @@ const SideAutoComplete = React.memo(function SideAutoComplete(
             )
         : null;
 
-    const onValueChange = useCallback((_, data) => onChange(data), [onChange]);
-
     return (
         <Autocomplete
             { ...props }
@@ -56,7 +54,7 @@ const SideAutoComplete = React.memo(function SideAutoComplete(
                     rowsMax={ 8 }
                 />
             ) }
-            onChange={ onValueChange }
+            onChange={ (_, data) => onChange(data) }
             renderTags={ renderTags }
         />
     )
@@ -74,7 +72,8 @@ SideAutoComplete.propTypes = {
     freeSolo: PropTypes.bool,
     autoSelect: PropTypes.bool,
     rows: PropTypes.number,
-    disabled: PropTypes.bool
+    disabled: PropTypes.bool,
+    onChange: PropTypes.func
 };
 
 export default SideAutoComplete;

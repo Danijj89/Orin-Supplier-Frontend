@@ -482,6 +482,7 @@ export const ENGLISH = {
                         grossW: 'Gross Weight',
                         dim: 'Volume'
                     },
+                    totalLabel: 'Total:'
                 },
                 errorMessages: {
                     missingCurrency: 'You must select a currency.'
@@ -629,6 +630,9 @@ export const ENGLISH = {
             },
             textAreaCard: {
                 submitLabel: 'Edit'
+            },
+            errorPage: {
+                backButtonLabel: 'Go Back'
             }
         },
         buttons: {
