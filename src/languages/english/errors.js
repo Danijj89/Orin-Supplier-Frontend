@@ -1,4 +1,5 @@
 export const ENGLISH_ERRORS = {
+    LOGIN_REQUIRED: 'You need to login.',
     LOGIN_FAILURE: 'Invalid email or password.',
     MISSING_DATA: 'Unable to perform operation. Missing required data.',
     CONFIRM_PASSWORD_MISMATCH: 'Password and confirm password don\'t match.',

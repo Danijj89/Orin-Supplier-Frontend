@@ -2,7 +2,7 @@ import React from 'react';
 import InfoCard from '../shared/wrappers/InfoCard.js';
 import { LANGUAGE } from '../../app/constants.js';
 import { Grid } from '@material-ui/core';
-import { Controller, useFormContext } from 'react-hook-form';
+import { Controller } from 'react-hook-form';
 import SideAutoComplete from '../shared/inputs/SideAutoComplete.js';
 import { formatAddress } from '../shared/utils/format.js';
 
@@ -12,8 +12,8 @@ const {
     errorMessages
 } = LANGUAGE.shipment.editShipment.parties;
 
-export default function PartiesForm({ sellerAddresses, consigneeAddresses }) {
-    const { control, errors, watch } = useFormContext();
+export default function PartiesForm({ sellerAddresses, consigneeAddresses, rhfMethods }) {
+    const { control, errors, watch } = rhfMethods;
 
     const sellerAdd = watch('sellerAdd');
     const consigneeAdd = watch('consigneeAdd');

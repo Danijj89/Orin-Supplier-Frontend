@@ -2,7 +2,7 @@ import React from 'react';
 import InfoCard from '../shared/wrappers/InfoCard.js';
 import { LANGUAGE } from '../../app/constants.js';
 import { Grid } from '@material-ui/core';
-import { Controller, useFormContext } from 'react-hook-form';
+import { Controller } from 'react-hook-form';
 import SideDateField from '../shared/inputs/SideDateField.js';
 import SideAutoComplete from '../shared/inputs/SideAutoComplete.js';
 import { billOfLandingTypesOptions, incotermOptions } from '../shared/constants.js';
@@ -13,8 +13,8 @@ const {
     formLabels
 } = LANGUAGE.shipment.editShipment.ordersInfo;
 
-export default function OrdersInfoForm() {
-    const { register, control } = useFormContext();
+export default function OrdersInfoForm({ rhfMethods }) {
+    const { register, control } = rhfMethods;
 
     return (
         <InfoCard

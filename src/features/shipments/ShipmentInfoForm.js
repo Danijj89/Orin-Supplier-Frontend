@@ -4,7 +4,7 @@ import { LANGUAGE } from '../../app/constants.js';
 import { Grid } from '@material-ui/core';
 import SideAutoComplete from '../shared/inputs/SideAutoComplete.js';
 import { deliveryMethodOptions } from '../shared/constants.js';
-import { Controller, useFormContext } from 'react-hook-form';
+import { Controller } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { selectCurrentCompany } from '../home/duck/selectors.js';
 import SideTextField from '../shared/inputs/SideTextField.js';
@@ -15,9 +15,9 @@ const {
     formLabels
 } = LANGUAGE.shipment.editShipment.shipmentInfo;
 
-export default function ShipmentInfoForm() {
+export default function ShipmentInfoForm({ rhfMethods }) {
     const company = useSelector(selectCurrentCompany);
-    const { register, control } = useFormContext();
+    const { register, control } = rhfMethods;
 
     return (
         <InfoCard

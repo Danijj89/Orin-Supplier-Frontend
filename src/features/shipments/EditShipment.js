@@ -1,10 +1,10 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Box, Card, Typography } from '@material-ui/core';
 import { LANGUAGE } from '../../app/constants.js';
 import NavTabs from '../shared/components/NavTabs.js';
 import PartiesForm from './PartiesForm.js';
-import { FormProvider, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { selectCurrentCompany } from '../home/duck/selectors.js';
 import { selectClientById } from '../clients/duck/selectors.js';
@@ -58,7 +58,6 @@ const EditShipment = React.memo(function EditShipment() {
             ciCustom2: shipment.ciCustom2
         }
     });
-    const { formState } = rhfMethods;
 
     const onPrevClick = useCallback(() => history.goBack(), [history]);
 
@@ -74,23 +73,22 @@ const EditShipment = React.memo(function EditShipment() {
                 tabValue={ tabValue }
                 onChange={ setTabValue }
             />
-            <FormProvider { ...rhfMethods }>
-                <Box>
-                    { tabValue === 'shipment' &&
-                    <>
-                        <PartiesForm
-                            sellerAddresses={ sellerAddresses }
-                            consigneeAddresses={ consigneeAddresses }
-                        />
-                        <OrdersInfoForm/>
-                        <ShipmentInfoForm/>
-                    </>
-                    }
-                    { tabValue === 'products' &&
-                    <ShipmentProducts/>
-                    }
-                </Box>
-            </FormProvider>
+            <Box>
+                { tabValue === 'shipment' &&
+                <>
+                    <PartiesForm
+                        sellerAddresses={ sellerAddresses }
+                        consigneeAddresses={ consigneeAddresses }
+                        rhfMethods={ rhfMethods }
+                    />
+                    <OrdersInfoForm rhfMethods={ rhfMethods }/>
+                    <ShipmentInfoForm rhfMethods={ rhfMethods }/>
+                </>
+                }
+                { tabValue === 'products' &&
+                <ShipmentProducts rhfMethods={ rhfMethods }/>
+                }
+            </Box>
             <Footer
                 prevLabel={ prevButtonLabel }
                 nextLabel={ nextButtonLabel }

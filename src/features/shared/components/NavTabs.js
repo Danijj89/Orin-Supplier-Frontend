@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Tab, Tabs } from '@material-ui/core';
 
-export default function NavTabs({ tabsLabelsMap, tabValue, onChange, className }) {
+const NavTabs = React.memo(function NavTabs({ tabsLabelsMap, tabValue, onChange, className }) {
 
     const onTabChange = (event, newValue) => onChange(newValue);
 
@@ -19,7 +19,7 @@ export default function NavTabs({ tabsLabelsMap, tabValue, onChange, className }
             ) }
         </Tabs>
     )
-}
+});
 
 NavTabs.propTypes = {
     tabsLabelsMap: PropTypes.object.isRequired,
@@ -27,3 +27,5 @@ NavTabs.propTypes = {
     onChange: PropTypes.func.isRequired,
     className: PropTypes.string
 };
+
+export default NavTabs;

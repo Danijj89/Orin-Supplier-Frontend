@@ -1,10 +1,9 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { IconButton } from '@material-ui/core';
-import { Add as IconAdd, Close as IconClose, Delete as IconDelete } from '@material-ui/icons';
+import { Add as IconAdd, Close as IconClose } from '@material-ui/icons';
 import TableTextField from '../shared/inputs/TableTextField.js';
 import { itemUnitsOptions, packageUnitsOptions } from '../shared/constants.js';
 import { LANGUAGE } from '../../app/constants.js';
-import { useFormContext } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { selectActiveProducts } from '../products/duck/selectors.js';
 import EditableTable from '../shared/components/editable_table/EditableTable.js';
@@ -17,8 +16,8 @@ const {
     tableHeaderLabels
 } = LANGUAGE.shipment.editShipment.products.productTable;
 
-export default function ShipmentProductTable() {
-    const { register, setValue, watch, getValues, reset } = useFormContext();
+export default function ShipmentProductTable({ rhfMethods }) {
+    const { register, setValue, watch, getValues, reset } = rhfMethods;
     const products = useSelector(selectActiveProducts);
     const validateItems = useCallback((items) => {}, []);
 
