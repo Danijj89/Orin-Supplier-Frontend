@@ -2,6 +2,7 @@ import React, { useCallback } from 'react';
 import TableTextField from '../../inputs/TableTextField.js';
 import { TableCell } from './EditableTable.js';
 
+
 const TextFieldCell = React.memo(function TextFieldCell({ rowIdx, field, value, onCellChange, width, type }) {
 
     const onChange = useCallback(

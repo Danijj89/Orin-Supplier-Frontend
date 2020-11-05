@@ -29,7 +29,10 @@ export const TableCell = withStyles((theme) => ({
         paddingLeft: theme.spacing(0.5),
         paddingRight: theme.spacing(0.5),
         paddingTop: theme.spacing(0.5),
-        paddingBottom: theme.spacing(0.5)
+        paddingBottom: theme.spacing(0.5),
+        '&:last-child': {
+            paddingRight: theme.spacing(0.5)
+        }
     }
 }))(MuiTableCell);
 
@@ -86,7 +89,7 @@ const EditableTable = React.memo(function EditableTable(
 
     return (
         <TableContainer className={ className }>
-            <Table>
+            <Table size="small">
                 { tableHead }
                 <TableBody>
                     { rows.map((row, idx) =>

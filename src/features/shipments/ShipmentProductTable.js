@@ -173,13 +173,12 @@ export default function ShipmentProductTable({ rhfMethods }) {
             type: 'autocomplete',
             options: products,
             getOptionLabel: product => product.sku || product,
-            getOptionSelected: (product, params) => product._id === params.id,
+            getOptionSelected: (product, params) => product._id === params.id
         },
         {
             field: 'description',
             headerName: tableHeaderLabels.description,
-            type: 'text',
-            width: 200
+            type: 'text'
         },
         {
             field: 'custom1',
@@ -225,7 +224,8 @@ export default function ShipmentProductTable({ rhfMethods }) {
         {
             field: 'quantity',
             headerName: tableHeaderLabels.quantity,
-            type: 'number'
+            type: 'number',
+            width: 80
         },
         {
             field: 'unit',
@@ -238,18 +238,20 @@ export default function ShipmentProductTable({ rhfMethods }) {
         {
             field: 'price',
             headerName: tableHeaderLabels.price,
-            type: 'number'
+            type: 'number',
+            width: 80
         },
         {
             field: 'total',
             headerName: tableHeaderLabels.total,
             align: 'center',
-            width: 100
+            width: 140
         },
         {
             field: 'package',
             headerName: tableHeaderLabels.package,
-            type: 'number'
+            type: 'number',
+            width: 80
         },
         {
             field: 'pUnit',
@@ -262,17 +264,20 @@ export default function ShipmentProductTable({ rhfMethods }) {
         {
             field: 'netW',
             headerName: tableHeaderLabels.netW,
-            type: 'number'
+            type: 'number',
+            width: 80
         },
         {
             field: 'grossW',
             headerName: tableHeaderLabels.grossW,
-            type: 'number'
+            type: 'number',
+            width: 80
         },
         {
             field: 'dim',
             headerName: tableHeaderLabels.dim,
-            type: 'number'
+            type: 'number',
+            width: 80
         }
     ]), [
         ciCustom1,

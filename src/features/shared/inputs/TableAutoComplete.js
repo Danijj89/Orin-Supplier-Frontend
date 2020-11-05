@@ -7,11 +7,14 @@ import clsx from 'clsx';
 
 const useStyles = makeStyles((theme) => ({
     inputRoot: {
+        '& .MuiAutocomplete-inputRoot[class*="MuiInput-root"]': {
+            padding: 0
+        },
         '& .MuiAutocomplete-inputRoot[class*="MuiInput-root"] .MuiAutocomplete-input:first-child': {
-            paddingLeft: theme.spacing(1.5),
-            paddingRight: theme.spacing(1.5),
-            paddingTop: theme.spacing(1),
-            paddingBottom: theme.spacing(1)
+            paddingLeft: theme.spacing(1),
+            paddingRight: theme.spacing(1),
+            paddingTop: theme.spacing(0.5),
+            paddingBottom: theme.spacing(0.5)
         }
     }
 }));

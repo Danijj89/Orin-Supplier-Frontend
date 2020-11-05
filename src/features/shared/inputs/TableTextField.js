@@ -11,10 +11,10 @@ const useStyles = makeStyles((theme) => ({
         borderRadius: 4,
         borderColor: theme.palette.grey.main,
         '& .MuiInputBase-input': {
-            paddingLeft: theme.spacing(2),
-            paddingRight: theme.spacing(2),
-            paddingTop: theme.spacing(1),
-            paddingBottom: theme.spacing(1),
+            paddingLeft: theme.spacing(1),
+            paddingRight: theme.spacing(1),
+            paddingTop: theme.spacing(0.5),
+            paddingBottom: theme.spacing(0.5),
             fontSize: '0.875rem',
             textAlign: props => props.type === 'number' && 'right'
         },
