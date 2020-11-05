@@ -1,0 +1,323 @@
+import React, { useCallback, useMemo, useState } from 'react';
+import PropTypes from 'prop-types';
+import { Grid, IconButton } from '@material-ui/core';
+import { Controller, useWatch } from 'react-hook-form';
+import SideAutoComplete from '../../inputs/SideAutoComplete.js';
+import { currenciesOptions, itemUnitsOptions } from '../../constants.js';
+import { LANGUAGE } from '../../../../app/constants.js';
+import EditableTable from '../../components/editable_table/EditableTable.js';
+import DeleteIconButton from '../../buttons/DeleteIconButton.js';
+import TableTextField from '../../inputs/TableTextField.js';
+import { Add as IconAdd, Close as IconClose } from '@material-ui/icons';
+import { getCurrencySymbol } from '../../utils/random.js';
+import UnitCounter from '../../classes/UnitCounter.js';
+import { roundToNDecimal } from '../../utils/format.js';
+
+export const defaultProductRowValues = {
+    _id: null,
+    ref: '',
+    description: '',
+    custom1: '',
+    custom2: '',
+    quantity: 0,
+    unit: 'PCS',
+    price: 0,
+    total: 0
+};
+
+const {
+    formLabels,
+    errorMessages,
+    tableHeaderLabels,
+    totalLabel
+} = LANGUAGE.shared.rhf.forms.productTable;
+
+const RHFProductTable = React.memo(function RHFProductTable(
+    {
+        rhfErrors: errors,
+        rhfControl: control,
+        rhfSetValue: setValue,
+        rhfGetValues: getValues,
+        rhfReset: reset,
+        fieldNames,
+        products
+    }) {
+
+    const custom1 = useWatch({
+        control,
+        name: fieldNames.custom1
+    });
+    const custom2 = useWatch({
+        control,
+        name: fieldNames.custom2
+    });
+    const items = useWatch({
+        control,
+        name: fieldNames.items
+    });
+    const currency = useWatch({
+        control,
+        name: fieldNames.currency
+    });
+    const quantity = useWatch({
+        control,
+        name: fieldNames.quantity
+    });
+    const total = useWatch({
+        control,
+        name: fieldNames.total
+    });
+
+    const initialNumColumns = 7
+        + (typeof custom1 === 'string' ? 1 : 0)
+        + (typeof custom2 === 'string' ? 1 : 0);
+    const [numColumns, setNumColumns] = useState(initialNumColumns);
+
+    const onAddColumn = useCallback(() => {
+        if (custom1 == null) {
+            setNumColumns(prev => prev + 1);
+            return setValue(fieldNames.custom1, '');
+        }
+        if (custom2 == null) {
+            setNumColumns(prev => prev + 1);
+            return setValue(fieldNames.custom2, '');
+        }
+    }, [setValue, custom1, custom2, fieldNames]);
+
+    const onDeleteColumn = useCallback(name => {
+        setNumColumns(prev => prev - 1);
+        const currValues = getValues();
+        currValues[name] = null;
+        reset(currValues);
+    }, [getValues, reset]);
+
+    const onAddRow = useCallback(
+        () => setValue(fieldNames.items, [...getValues(fieldNames.items), defaultProductRowValues]),
+        [setValue, getValues, fieldNames]);
+
+    const onDeleteRow = useCallback(
+        idx => () => setValue(fieldNames.items, getValues(fieldNames.items).filter((_, i) => i !== idx)),
+        [getValues, setValue, fieldNames]);
+
+    const onCellChange = useCallback((rowIdx, key, newValue) => {
+        const items = getValues(fieldNames.items);
+        const newItem = { ...items[rowIdx] };
+        let newTotalQ;
+        let diff;
+        switch (key) {
+            case 'ref':
+                if (newValue._id) {
+                    newItem._id = newValue._id;
+                    newItem.ref = newValue.sku;
+                    newItem.description = newValue.description;
+                } else if (!products.find(product => product.sku === newValue)) {
+                    //FIXME: material ui triggers onChange twice with freeSolo + autoSelect
+                    // so we need this check to prevent the second onChange to set the newItem._id
+                    // to null. Remove if bug is solved.
+                    newItem._id = null;
+                    newItem.description = '';
+                    newItem.ref = newValue;
+                }
+                break;
+            case 'quantity':
+                newValue = newValue === '' ? newValue : parseInt(newValue);
+                diff = newValue - newItem.quantity;
+                newTotalQ = new UnitCounter(itemUnitsOptions, getValues(fieldNames.quantity));
+                newTotalQ.addUnit(newItem.unit, diff);
+                setValue(fieldNames.quantity, newTotalQ.data);
+                setValue(fieldNames.total, roundToNDecimal(getValues(fieldNames.total) + (newItem.price * diff), 2));
+                newItem.total = roundToNDecimal(newValue * newItem.price, 2);
+                newItem.quantity = newValue;
+                break;
+            case 'unit':
+                const prevUnit = newItem.unit;
+                newTotalQ = new UnitCounter(itemUnitsOptions, getValues(fieldNames.quantity));
+                newTotalQ.subtractUnit(prevUnit, newItem.quantity);
+                newTotalQ.addUnit(newValue, newItem.quantity);
+                setValue(fieldNames.quantity, newTotalQ.data);
+                newItem.unit = newValue;
+                break;
+            case 'price':
+                newValue = newValue === '' ? newValue : roundToNDecimal(newValue, 2);
+                diff = newValue - newItem.price;
+                setValue(fieldNames.total, roundToNDecimal(getValues(fieldNames.total) + (newItem.quantity * diff), 2));
+                newItem.total = roundToNDecimal(newValue * newItem.quantity, 2);
+                newItem.price = newValue;
+                break;
+            default:
+                newItem[key] = newValue;
+        }
+        setValue(fieldNames.items, [...items.slice(0, rowIdx), newItem, ...items.slice(rowIdx + 1)])
+    }, [setValue, products, getValues, fieldNames]);
+
+    const columns = useMemo(() => ([
+        { field: 'id', hide: true },
+        {
+            field: 'delete',
+            renderCell: params =>
+                params.idx === 0 ? null : <DeleteIconButton onClick={ onDeleteRow(params.idx) }/>,
+            width: 50,
+            align: 'center'
+        },
+        {
+            field: 'ref',
+            headerName: tableHeaderLabels.ref,
+            type: 'autocomplete',
+            options: products,
+            getOptionLabel: product => product.sku || product,
+            getOptionSelected: (product, params) => product._id === params.id
+        },
+        {
+            field: 'description',
+            headerName: tableHeaderLabels.description,
+            type: 'text'
+        },
+        {
+            field: 'custom1',
+            renderHeader: () =>
+                <TableTextField
+                    name={ fieldNames.custom1 }
+                    InputProps={ {
+                        endAdornment:
+                            <IconButton size="small" onClick={ () => onDeleteColumn(fieldNames.custom1) }>
+                                <IconClose fontSize="small"/>
+                            </IconButton>
+                    } }
+                />,
+            type: 'text',
+            hide: custom1 == null,
+            width: 160
+        },
+        {
+            field: 'custom2',
+            renderHeader: () =>
+                <TableTextField
+                    name={ fieldNames.custom2 }
+                    InputProps={ {
+                        endAdornment:
+                            <IconButton size="small" onClick={ () => onDeleteColumn(fieldNames.custom2) }>
+                                <IconClose fontSize="small"/>
+                            </IconButton>
+                    } }
+                />,
+            type: 'text',
+            hide: custom2 == null,
+            width: 160
+        },
+        {
+            field: 'addColumn',
+            renderHeader: () =>
+                <IconButton onClick={ onAddColumn } color="primary" size="small">
+                    <IconAdd/>
+                </IconButton>,
+            renderCell: () => null,
+            hide: custom1 != null && custom2 != null
+        },
+        {
+            field: 'quantity',
+            headerName: tableHeaderLabels.quantity,
+            type: 'number',
+            width: 80
+        },
+        {
+            field: 'unit',
+            headerName: tableHeaderLabels.unit,
+            type: 'dropdown',
+            options: itemUnitsOptions,
+            getOptionLabel: (option) => option,
+            width: 50
+        },
+        {
+            field: 'price',
+            headerName: tableHeaderLabels.price,
+            type: 'number',
+            width: 80
+        },
+        {
+            field: 'total',
+            headerName: tableHeaderLabels.total,
+            align: 'center',
+            width: 140
+        }
+    ]), [
+        custom1,
+        custom2,
+        onAddColumn,
+        onDeleteColumn,
+        products,
+        onDeleteRow,
+        fieldNames
+    ]);
+
+    const currencySymbol = useMemo(() => getCurrencySymbol(currency), [currency]);
+
+    // make sure custom column field names are the same as the item
+    // field names
+    const rows = items.map((row, index) => ({
+        id: row._id,
+        idx: index,
+        ref: row.ref,
+        description: row.description,
+        custom1: row[fieldNames.custom1],
+        custom2: row[fieldNames.custom2],
+        quantity: row.quantity,
+        unit: row.unit,
+        price: row.price,
+        total: `${ currencySymbol } ${ row.total }`,
+    }));
+
+    const footer = useMemo(() => [[
+        { field: 'label', value: totalLabel, colSpan: numColumns - 9, align: 'right' },
+        { field: 'quantity', value: UnitCounter.stringRep(quantity), colSpan: 3, align: 'center' },
+        { field: 'total', value: `${ currencySymbol } ${ total }`, colSpan: 1, align: 'center' }
+    ]], [numColumns, total, quantity, currencySymbol]);
+
+    return (
+        <Grid container>
+            <Grid container item justify="flex-end" xs={ 12 }>
+                <Controller
+                    render={ props =>
+                        <SideAutoComplete
+                            { ...props }
+                            options={ currenciesOptions }
+                            label={ formLabels.currency }
+                            error={ !!errors.currency }
+                            required
+                        />
+                    }
+                    name={ fieldNames.currency }
+                    control={ control }
+                    rules={ { required: errorMessages.missingCurrency } }
+                />
+            </Grid>
+            <Grid item xs={ 12 }>
+                <EditableTable
+                    columns={ columns }
+                    rows={ rows }
+                    footer={ footer }
+                    onAddRow={ onAddRow }
+                    onCellChange={ onCellChange }
+                />
+            </Grid>
+        </Grid>
+    )
+});
+
+RHFProductTable.propTypes = {
+    rhfErrors: PropTypes.object.isRequired,
+    rhfControl: PropTypes.object.isRequired,
+    rhfSetValue: PropTypes.func.isRequired,
+    rhfGetValues: PropTypes.func.isRequired,
+    rhfReset: PropTypes.func.isRequired,
+    fieldNames: PropTypes.exact({
+        custom1: PropTypes.string.isRequired,
+        custom2: PropTypes.string.isRequired,
+        currency: PropTypes.string.isRequired,
+        items: PropTypes.string.isRequired,
+        quantity: PropTypes.string.isRequired,
+        total: PropTypes.string.isRequired
+    }).isRequired,
+    products: PropTypes.array.isRequired
+};
+
+export default RHFProductTable;

@@ -1,10 +1,10 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Box, Card, Typography } from '@material-ui/core';
 import { LANGUAGE } from '../../app/constants.js';
 import NavTabs from '../shared/components/NavTabs.js';
 import PartiesForm from './PartiesForm.js';
-import { useForm } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { selectCurrentCompany } from '../home/duck/selectors.js';
 import { selectClientById } from '../clients/duck/selectors.js';
@@ -13,7 +13,8 @@ import { selectShipmentById } from './duck/selectors.js';
 import OrdersInfoForm from './OrdersInfoForm.js';
 import ShipmentInfoForm from './ShipmentInfoForm.js';
 import Footer from '../shared/components/Footer.js';
-import ShipmentProducts from './ShipmentProducts.js';
+import RHFProductTable from '../shared/rhf/forms/RHFProductTable.js';
+import { selectActiveProducts } from '../products/duck/selectors.js';
 
 const {
     titleLabel,
@@ -22,12 +23,22 @@ const {
     nextButtonLabel
 } = LANGUAGE.shipment.editShipment;
 
+const productTableFieldNames = {
+    custom1: 'ciCustom1',
+    custom2: 'ciCustom2',
+    currency: 'currency',
+    items: 'items',
+    quantity: 'quantity',
+    total: 'total'
+};
+
 const EditShipment = React.memo(function EditShipment() {
     const history = useHistory();
     const { id } = useParams();
     const shipment = useSelector(state => selectShipmentById(state, id));
     const company = useSelector(selectCurrentCompany);
     const client = useSelector(state => selectClientById(state, shipment.consignee));
+    const products = useSelector(selectActiveProducts);
     const sellerAddresses = company.addresses.filter(a => a.active);
     const consigneeAddresses = client.addresses.filter(a => a.active);
     const [tabValue, setTabValue] = useState('shipment');
@@ -66,6 +77,17 @@ const EditShipment = React.memo(function EditShipment() {
             plCustom2: shipment.plCustom2,
         }
     });
+    const { register, control, errors, setValue, getValues, reset } = rhfMethods;
+
+    const validateItems = useCallback((items) => true, []);
+
+    useEffect(() => {
+        register({ name: productTableFieldNames.items }, { validate: validateItems });
+        register({ name: productTableFieldNames.custom1 });
+        register({ name: productTableFieldNames.custom2 });
+        register({ name: productTableFieldNames.quantity });
+        register({ name: productTableFieldNames.total });
+    }, [register, validateItems]);
 
     const onPrevClick = useCallback(() => history.goBack(), [history]);
 
@@ -94,8 +116,17 @@ const EditShipment = React.memo(function EditShipment() {
                 </>
                 }
                 { tabValue === 'products' &&
-                <ShipmentProducts rhfMethods={ rhfMethods }/>
+                <RHFProductTable
+                    rhfErrors={ errors }
+                    rhfControl={ control }
+                    rhfSetValue={ setValue }
+                    rhfGetValues={ getValues }
+                    rhfReset={ reset }
+                    products={ products }
+                    fieldNames={ productTableFieldNames }
+                />
                 }
+                {/*{ tabValue === 'measures' && <ShipmentMeasures /> }*/ }
             </Box>
             <Footer
                 prevLabel={ prevButtonLabel }

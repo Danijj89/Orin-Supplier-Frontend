@@ -424,7 +424,9 @@ export const ENGLISH = {
             titleLabel: 'Shipment Information',
             tabsLabelsMap: {
                 shipment: 'Shipment',
-                products: 'Products'
+                products: 'Products',
+                measures: 'Measures',
+                consolidation: 'Consolidation'
             },
             prevButtonLabel: 'Cancel',
             nextButtonLabel: 'Submit',
@@ -464,28 +466,30 @@ export const ENGLISH = {
             },
             products: {
                 formLabels: {
-                    currency: 'Currency',
-                    measurementUnit: 'Measurement',
-                    weightUnit: 'Weight'
+                    currency: 'Currency'
                 },
-                productTable: {
-                    tableHeaderLabels: {
-                        ref: 'Item Reference',
-                        description: 'Product Description',
-                        quantity: 'Quantity',
-                        unit: 'Unit',
-                        price: 'Unit Price',
-                        total: 'Amount',
-                        package: 'Packaging',
-                        pUnit: 'P. Unit',
-                        netW: 'Net Weight',
-                        grossW: 'Gross Weight',
-                        dim: 'Volume'
-                    },
-                    totalLabel: 'Total:'
+                tableHeaderLabels: {
+                    ref: 'Item Reference',
+                    description: 'Product Description',
+                    quantity: 'Quantity',
+                    unit: 'Unit',
+                    price: 'Unit Price',
+                    total: 'Amount',
+                    package: 'Packaging',
+                    pUnit: 'P. Unit',
+                    netW: 'Net Weight',
+                    grossW: 'Gross Weight',
+                    dim: 'Volume'
                 },
+                totalLabel: 'Total:',
                 errorMessages: {
                     missingCurrency: 'You must select a currency.'
+                }
+            },
+            measures: {
+                formLabels: {
+                    measurementUnit: 'Measurement Unit',
+                    weightUnit: 'Weight Unit'
                 }
             }
         }
@@ -565,6 +569,28 @@ export const ENGLISH = {
                 statusLabel: 'Status',
                 estimatedLabel: 'Estimated',
                 actualLabel: 'Actual'
+            }
+        },
+        rhf: {
+            forms: {
+                productTable: {
+                    formLabels: {
+                        currency: 'Currency',
+                        saveItems: 'Save New Items To Inventory'
+                    },
+                    totalLabel: 'Total:',
+                    tableHeaderLabels: {
+                        ref: 'Item Reference',
+                        description: 'Product Description',
+                        quantity: 'Quantity',
+                        unit: 'Unit',
+                        price: 'Unit Price',
+                        total: 'Amount'
+                    },
+                    errorMessages: {
+                        missingCurrency: 'You must select a currency.',
+                    }
+                }
             }
         },
         rhfForms: {
