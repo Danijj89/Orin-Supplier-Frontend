@@ -19,7 +19,8 @@ const SideAutoComplete = React.memo(function SideAutoComplete(
         rows,
         disabled,
         onChange,
-        ...props
+        value,
+        onBlur
     }) {
 
     const renderTags = multiple
@@ -34,7 +35,6 @@ const SideAutoComplete = React.memo(function SideAutoComplete(
 
     return (
         <Autocomplete
-            { ...props }
             freeSolo={ freeSolo }
             autoSelect={ autoSelect }
             multiple={ multiple }
@@ -56,6 +56,8 @@ const SideAutoComplete = React.memo(function SideAutoComplete(
             ) }
             onChange={ (_, data) => onChange(data) }
             renderTags={ renderTags }
+            value={ value }
+            onBlur={ onBlur }
         />
     )
 });
@@ -73,7 +75,9 @@ SideAutoComplete.propTypes = {
     autoSelect: PropTypes.bool,
     rows: PropTypes.number,
     disabled: PropTypes.bool,
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
+    value: PropTypes.any,
+    onBlur: PropTypes.func
 };
 
 export default SideAutoComplete;

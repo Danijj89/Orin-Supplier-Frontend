@@ -107,7 +107,7 @@ const EditShipment = React.memo(function EditShipment() {
                         errors={ errors }
                         control={ control }
                     />
-                    <OrdersInfoForm rhfMethods={ rhfMethods }/>
+                    <OrdersInfoForm register={ register } control={ control }/>
                     <ShipmentInfoForm rhfMethods={ rhfMethods }/>
                 </Box>
                 <Box hidden={ tabValue !== 'products' }>

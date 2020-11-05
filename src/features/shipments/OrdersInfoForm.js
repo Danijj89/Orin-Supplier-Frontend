@@ -13,9 +13,7 @@ const {
     formLabels
 } = LANGUAGE.shipment.editShipment.ordersInfo;
 
-export default function OrdersInfoForm({ rhfMethods }) {
-    const { register, control } = rhfMethods;
-
+const OrdersInfoForm = React.memo(function OrdersInfoForm({ register, control }) {
     return (
         <InfoCard
             title={ titleLabel }
@@ -76,4 +74,6 @@ export default function OrdersInfoForm({ rhfMethods }) {
             }
         />
     )
-}
+});
+
+export default OrdersInfoForm;
