@@ -50,7 +50,8 @@ const RHFProductTable = React.memo(function RHFProductTable(
         rhfGetValues: getValues,
         rhfReset: reset,
         fieldNames,
-        products
+        products,
+        className
     }) {
 
     const custom1 = useWatch({
@@ -286,10 +287,10 @@ const RHFProductTable = React.memo(function RHFProductTable(
     ]], [numColumns, total, quantity, currencySymbol]);
 
     return (
-        <Grid container>
+        <Grid container className={ className }>
             { isError &&
             <Grid container item justify="center" xs={ 12 }>
-                <ErrorDisplay errors={errorMessages} />
+                <ErrorDisplay errors={ errorMessages }/>
             </Grid>
             }
             <Grid container item justify="flex-end" xs={ 12 }>
@@ -335,7 +336,8 @@ RHFProductTable.propTypes = {
         quantity: PropTypes.string.isRequired,
         total: PropTypes.string.isRequired
     }).isRequired,
-    products: PropTypes.array.isRequired
+    products: PropTypes.array.isRequired,
+    className: PropTypes.string
 };
 
 export default RHFProductTable;

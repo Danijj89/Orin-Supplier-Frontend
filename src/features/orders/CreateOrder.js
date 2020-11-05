@@ -16,7 +16,7 @@ import { selectClientsMap } from '../clients/duck/selectors.js';
 import RHFOrderDetails from '../shared/rhf/forms/RHFOrderDetails.js';
 import Footer from '../shared/components/Footer.js';
 import RHFProductTable, { validateItems } from '../shared/rhf/forms/RHFProductTable.js';
-import { selectAllProducts } from '../products/duck/selectors.js';
+import { selectActiveProducts } from '../products/duck/selectors.js';
 
 function getCurrentStep(stepLabel) {
     switch (stepLabel) {
@@ -52,7 +52,7 @@ export default function CreateOrder() {
     const newOrder = useSelector(selectNewOrder);
     const company = useSelector(selectCurrentCompany);
     const clientsMap = useSelector(selectClientsMap);
-    const products = useSelector(selectAllProducts);
+    const products = useSelector(selectActiveProducts);
     const [order, setOrder] = useSessionStorage(SESSION_NEW_ORDER, newOrder);
 
     const rhfMethods = useForm({

@@ -2,7 +2,7 @@ import React from 'react';
 import InfoCard from '../shared/wrappers/InfoCard.js';
 import { LANGUAGE } from '../../app/constants.js';
 import { Grid } from '@material-ui/core';
-import { Controller } from 'react-hook-form';
+import { Controller, useWatch } from 'react-hook-form';
 import SideAutoComplete from '../shared/inputs/SideAutoComplete.js';
 import { formatAddress } from '../shared/utils/format.js';
 
@@ -12,19 +12,28 @@ const {
     errorMessages
 } = LANGUAGE.shipment.editShipment.parties;
 
-export default function PartiesForm({ sellerAddresses, consigneeAddresses, rhfMethods }) {
-    const { control, errors, watch } = rhfMethods;
+const PartiesForm = React.memo(function PartiesForm(
+    { sellerAddresses, consigneeAddresses, control, errors }) {
 
-    const sellerAdd = watch('sellerAdd');
-    const consigneeAdd = watch('consigneeAdd');
-    const shipAdd = watch('shipAdd');
+    const sellerAdd = useWatch({
+        control,
+        name: 'sellerAdd'
+    });
+    const consigneeAdd = useWatch({
+        control,
+        name: 'consigneeAdd'
+    });
+    const shipAdd = useWatch({
+        control,
+        name: 'shipAdd'
+    });
 
     return (
         <InfoCard
             title={ titleLabel }
             content={
                 <Grid container>
-                    <Grid item xs={4}>
+                    <Grid item xs={ 4 }>
                         <Controller
                             render={ (props) =>
                                 <SideAutoComplete
@@ -32,7 +41,7 @@ export default function PartiesForm({ sellerAddresses, consigneeAddresses, rhfMe
                                     options={ sellerAddresses }
                                     label={ formLabels.sellerAdd }
                                     error={ !!errors.sellerAdd }
-                                    rows={8}
+                                    rows={ 8 }
                                     getOptionLabel={ address => formatAddress(address) }
                                     getOptionSelected={ address => address._id === sellerAdd._id
                                         || address._id === sellerAdd.addressId }
@@ -44,7 +53,7 @@ export default function PartiesForm({ sellerAddresses, consigneeAddresses, rhfMe
                             rules={ { required: errorMessages.missingSellerAdd } }
                         />
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid item xs={ 4 }>
                         <Controller
                             render={ (props) => (
                                 <SideAutoComplete
@@ -52,7 +61,7 @@ export default function PartiesForm({ sellerAddresses, consigneeAddresses, rhfMe
                                     options={ consigneeAddresses }
                                     label={ formLabels.consigneeAdd }
                                     error={ !!errors.consigneeAdd }
-                                    rows={8}
+                                    rows={ 8 }
                                     getOptionLabel={ address => formatAddress(address) }
                                     getOptionSelected={ address => address._id === consigneeAdd._id
                                         || address._id === consigneeAdd.addressId }
@@ -64,14 +73,14 @@ export default function PartiesForm({ sellerAddresses, consigneeAddresses, rhfMe
                             rules={ { required: errorMessages.missingConsigneeAdd } }
                         />
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid item xs={ 4 }>
                         <Controller
                             render={ (props) => (
                                 <SideAutoComplete
                                     { ...props }
                                     options={ consigneeAddresses }
                                     label={ formLabels.shipAdd }
-                                    rows={8}
+                                    rows={ 8 }
                                     getOptionLabel={ address => formatAddress(address) }
                                     getOptionSelected={ address => address._id === shipAdd._id
                                         || address._id === shipAdd.addressId }
@@ -85,4 +94,6 @@ export default function PartiesForm({ sellerAddresses, consigneeAddresses, rhfMe
             }
         />
     )
-}
+});
+
+export default PartiesForm;
