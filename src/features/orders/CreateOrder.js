@@ -1,7 +1,6 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import DocumentStepper from '../shared/DocumentStepper.js';
 import { Box, Paper, Divider, Typography } from '@material-ui/core';
-import RHFOrderProducts from '../shared/rhf/forms/RHFOrderProducts.js';
 import { useForm } from 'react-hook-form';
 import useSessionStorage from '../shared/hooks/useSessionStorage.js';
 import { SESSION_NEW_ORDER } from '../../app/sessionKeys.js';
@@ -16,6 +15,8 @@ import { selectCurrentCompany } from '../home/duck/selectors.js';
 import { selectClientsMap } from '../clients/duck/selectors.js';
 import RHFOrderDetails from '../shared/rhf/forms/RHFOrderDetails.js';
 import Footer from '../shared/components/Footer.js';
+import RHFProductTable, { validateItems } from '../shared/rhf/forms/RHFProductTable.js';
+import { selectAllProducts } from '../products/duck/selectors.js';
 
 function getCurrentStep(stepLabel) {
     switch (stepLabel) {
@@ -35,6 +36,15 @@ const {
     nextButtonLabel
 } = LANGUAGE.order.createOrder;
 
+const productTableFieldNames = {
+    custom1: 'custom1',
+    custom2: 'custom2',
+    currency: 'currency',
+    items: 'items',
+    quantity: 'totalQ',
+    total: 'totalA'
+};
+
 export default function CreateOrder() {
     const dispatch = useDispatch();
     const history = useHistory();
@@ -42,6 +52,7 @@ export default function CreateOrder() {
     const newOrder = useSelector(selectNewOrder);
     const company = useSelector(selectCurrentCompany);
     const clientsMap = useSelector(selectClientsMap);
+    const products = useSelector(selectAllProducts);
     const [order, setOrder] = useSessionStorage(SESSION_NEW_ORDER, newOrder);
 
     const rhfMethods = useForm({
@@ -73,7 +84,15 @@ export default function CreateOrder() {
             createdBy: order.createdBy
         }
     });
-    const { errors, clearErrors, getValues, handleSubmit } = rhfMethods;
+    const { register, control, errors, clearErrors, setValue, getValues, reset, handleSubmit } = rhfMethods;
+
+    useEffect(() => {
+        register({ name: productTableFieldNames.items }, { validate: validateItems });
+        register({ name: productTableFieldNames.custom1 });
+        register({ name: productTableFieldNames.custom2 });
+        register({ name: productTableFieldNames.quantity });
+        register({ name: productTableFieldNames.total });
+    }, [register]);
 
     const errMessages = Object.values(errors).map(err => err.message);
 
@@ -112,7 +131,17 @@ export default function CreateOrder() {
                 { errMessages.length > 0 && <ErrorDisplay errors={ errMessages }/> }
                 { step === 'details' &&
                 <RHFOrderDetails rhfMethods={ rhfMethods } company={ company } clientsMap={ clientsMap }/> }
-                { step === 'products' && <RHFOrderProducts order={order} rhfMethods={ rhfMethods }/> }
+                { step === 'products' &&
+                <RHFProductTable
+                    rhfErrors={ errors }
+                    rhfControl={ control }
+                    rhfSetValue={ setValue }
+                    rhfGetValues={ getValues }
+                    rhfReset={ reset }
+                    fieldNames={ productTableFieldNames }
+                    products={ products }
+                />
+                }
             </Paper>
             <Footer
                 prevLabel={ step === 'details' ? prevButtonLabel.details : prevButtonLabel.products }

@@ -12,6 +12,14 @@ import { Add as IconAdd, Close as IconClose } from '@material-ui/icons';
 import { getCurrencySymbol } from '../../utils/random.js';
 import UnitCounter from '../../classes/UnitCounter.js';
 import { roundToNDecimal } from '../../utils/format.js';
+import ErrorDisplay from '../../components/ErrorDisplay.js';
+
+const {
+    formLabels,
+    errorMessages,
+    tableHeaderLabels,
+    totalLabel
+} = LANGUAGE.shared.rhf.forms.productTable;
 
 export const defaultProductRowValues = {
     _id: null,
@@ -25,12 +33,14 @@ export const defaultProductRowValues = {
     total: 0
 };
 
-const {
-    formLabels,
-    errorMessages,
-    tableHeaderLabels,
-    totalLabel
-} = LANGUAGE.shared.rhf.forms.productTable;
+export const validateItems = (items) => {
+    if (!items.length) return errorMessages.missingItems;
+    for (const item of items) {
+        if (!(item.ref && item.quantity && item.unit && item.price))
+            return errorMessages.missingItemInfo;
+    }
+    return true;
+};
 
 const RHFProductTable = React.memo(function RHFProductTable(
     {
@@ -67,6 +77,9 @@ const RHFProductTable = React.memo(function RHFProductTable(
         control,
         name: fieldNames.total
     });
+
+    const errorMessages = Object.values(errors).map(err => err.message);
+    const isError = errorMessages.length > 0;
 
     const initialNumColumns = 7
         + (typeof custom1 === 'string' ? 1 : 0)
@@ -274,6 +287,11 @@ const RHFProductTable = React.memo(function RHFProductTable(
 
     return (
         <Grid container>
+            { isError &&
+            <Grid container item justify="center" xs={ 12 }>
+                <ErrorDisplay errors={errorMessages} />
+            </Grid>
+            }
             <Grid container item justify="flex-end" xs={ 12 }>
                 <Controller
                     render={ props =>

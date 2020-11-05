@@ -589,6 +589,8 @@ export const ENGLISH = {
                     },
                     errorMessages: {
                         missingCurrency: 'You must select a currency.',
+                        missingItemInfo: 'Some item is missing information.',
+                        missingItems: 'You need to add at least one item'
                     }
                 }
             }
@@ -614,23 +616,6 @@ export const ENGLISH = {
                 portOfLoadingLabel: 'Port of Loading',
                 portOfDestinationLabel: 'Port of Destination',
                 shippingCarrierLabel: 'Shipping Carrier',
-            },
-            rhfOrderProducts: {
-                currencyLabel: 'Currency',
-                saveItemsLabel: 'Save New Items To Inventory',
-                totalLabel: 'Total:',
-                tableHeaderLabelsMap: {
-                    ref: 'Item Reference',
-                    description: 'Product Description',
-                    quantity: 'Quantity',
-                    unit: 'Unit',
-                    price: 'Unit Price',
-                    total: 'Amount'
-                },
-                errorMessages: {
-                    currency: 'You must select a currency.',
-                    missingItemInfo: 'Some item is missing information.',
-                }
             }
         },
         components: {

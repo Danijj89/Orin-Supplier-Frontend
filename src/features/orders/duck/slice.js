@@ -8,7 +8,7 @@ import {
     updateOrderStatus
 } from './thunks.js';
 import { SESSION_NEW_ORDER } from '../../../app/sessionKeys.js';
-import { defaultOrderRowValues } from '../utils/constants.js';
+import { defaultProductRowValues } from '../../shared/rhf/forms/RHFProductTable.js';
 
 export const ordersAdapter = createEntityAdapter({
     selectId: order => order._id,
@@ -57,7 +57,7 @@ const ordersSlice = createSlice({
         },
         [startNewOrder.fulfilled]: (state, action) => {
             const newOrder = action.payload;
-            newOrder.items = [defaultOrderRowValues];
+            newOrder.items = [defaultProductRowValues];
             state.newOrder = newOrder;
             state.currentOrderId = null;
             state.status = 'FULFILLED';
