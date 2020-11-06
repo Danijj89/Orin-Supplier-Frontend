@@ -31,7 +31,7 @@ export const TableCell = withStyles((theme) => ({
         paddingTop: theme.spacing(0.5),
         paddingBottom: theme.spacing(0.5),
         '&:last-child': {
-            paddingRight: theme.spacing(0.5)
+            paddingRight: theme.spacing(3)
         }
     }
 }))(MuiTableCell);

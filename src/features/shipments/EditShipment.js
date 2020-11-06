@@ -15,7 +15,6 @@ import ShipmentInfoForm from './ShipmentInfoForm.js';
 import Footer from '../shared/components/Footer.js';
 import RHFProductTable, { validateItems } from '../shared/rhf/forms/RHFProductTable.js';
 import { selectActiveProducts } from '../products/duck/selectors.js';
-import ShipmentMeasures from './ShipmentMeasures.js';
 
 const {
     titleLabel,
@@ -77,7 +76,7 @@ const EditShipment = React.memo(function EditShipment() {
             plCustom2: shipment.plCustom2,
         }
     });
-    const { register, control, errors, setValue, getValues, reset } = rhfMethods;
+    const { register, control, errors, setValue, getValues } = rhfMethods;
 
     useEffect(() => {
         register({ name: productTableFieldNames.items }, { validate: validateItems });
@@ -118,13 +117,12 @@ const EditShipment = React.memo(function EditShipment() {
                         rhfControl={ control }
                         rhfSetValue={ setValue }
                         rhfGetValues={ getValues }
-                        rhfReset={ reset }
                         products={ products }
                         fieldNames={ productTableFieldNames }
                     />
                 </Box>
                 <Box hidden={ tabValue !== 'measures' }>
-                    <ShipmentMeasures/>
+
                 </Box>
             </Box>
             <Footer

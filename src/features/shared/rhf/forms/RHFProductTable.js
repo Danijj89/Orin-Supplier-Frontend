@@ -48,7 +48,6 @@ const RHFProductTable = React.memo(function RHFProductTable(
         rhfControl: control,
         rhfSetValue: setValue,
         rhfGetValues: getValues,
-        rhfReset: reset,
         fieldNames,
         products,
         className
@@ -88,22 +87,27 @@ const RHFProductTable = React.memo(function RHFProductTable(
     const [numColumns, setNumColumns] = useState(initialNumColumns);
 
     const onAddColumn = useCallback(() => {
-        if (custom1 == null) {
+        if (getValues(fieldNames.custom1) == null) {
             setNumColumns(prev => prev + 1);
             return setValue(fieldNames.custom1, '');
         }
-        if (custom2 == null) {
+        if (getValues(fieldNames.custom2) == null) {
             setNumColumns(prev => prev + 1);
             return setValue(fieldNames.custom2, '');
         }
-    }, [setValue, custom1, custom2, fieldNames]);
+    }, [setValue, getValues, fieldNames]);
 
     const onDeleteColumn = useCallback(name => {
         setNumColumns(prev => prev - 1);
-        const currValues = getValues();
-        currValues[name] = null;
-        reset(currValues);
-    }, [getValues, reset]);
+        setValue(name, null);
+        setValue(
+            fieldNames.items,
+            getValues(fieldNames.items).map(item => {
+                item[name] = '';
+                return item;
+            })
+        );
+    }, [setValue, getValues, fieldNames]);
 
     const onAddRow = useCallback(
         () => setValue(fieldNames.items, [...getValues(fieldNames.items), defaultProductRowValues]),
@@ -157,6 +161,12 @@ const RHFProductTable = React.memo(function RHFProductTable(
                 setValue(fieldNames.total, roundToNDecimal(getValues(fieldNames.total) + (newItem.quantity * diff), 2));
                 newItem.total = roundToNDecimal(newValue * newItem.quantity, 2);
                 newItem.price = newValue;
+                break;
+            case 'custom1':
+                newItem[fieldNames.custom1] = newValue;
+                break;
+            case 'custom2':
+                newItem[fieldNames.custom2] = newValue;
                 break;
             default:
                 newItem[key] = newValue;
@@ -231,7 +241,7 @@ const RHFProductTable = React.memo(function RHFProductTable(
             field: 'quantity',
             headerName: tableHeaderLabels.quantity,
             type: 'number',
-            width: 80
+            width: 120
         },
         {
             field: 'unit',
@@ -245,13 +255,13 @@ const RHFProductTable = React.memo(function RHFProductTable(
             field: 'price',
             headerName: tableHeaderLabels.price,
             type: 'number',
-            width: 80
+            width: 120
         },
         {
             field: 'total',
             headerName: tableHeaderLabels.total,
-            align: 'center',
-            width: 140
+            align: 'right',
+            width: 200
         }
     ]), [
         custom1,
@@ -281,9 +291,9 @@ const RHFProductTable = React.memo(function RHFProductTable(
     }));
 
     const footer = useMemo(() => [[
-        { field: 'label', value: totalLabel, colSpan: numColumns - 9, align: 'right' },
+        { field: 'label', value: totalLabel, colSpan: numColumns === 9 ? numColumns - 4 : numColumns - 3, align: 'right' },
         { field: 'quantity', value: UnitCounter.stringRep(quantity), colSpan: 3, align: 'center' },
-        { field: 'total', value: `${ currencySymbol } ${ total }`, colSpan: 1, align: 'center' }
+        { field: 'total', value: `${ currencySymbol } ${ total }`, colSpan: 1, align: 'right' }
     ]], [numColumns, total, quantity, currencySymbol]);
 
     const currencyDropdown = useMemo(() =>
@@ -331,7 +341,6 @@ RHFProductTable.propTypes = {
     rhfControl: PropTypes.object.isRequired,
     rhfSetValue: PropTypes.func.isRequired,
     rhfGetValues: PropTypes.func.isRequired,
-    rhfReset: PropTypes.func.isRequired,
     fieldNames: PropTypes.exact({
         custom1: PropTypes.string.isRequired,
         custom2: PropTypes.string.isRequired,

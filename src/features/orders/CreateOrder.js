@@ -84,7 +84,7 @@ export default function CreateOrder() {
             createdBy: order.createdBy
         }
     });
-    const { register, control, errors, clearErrors, setValue, getValues, reset, handleSubmit } = rhfMethods;
+    const { register, control, errors, clearErrors, setValue, getValues, handleSubmit } = rhfMethods;
 
     useEffect(() => {
         register({ name: productTableFieldNames.items }, { validate: validateItems });
@@ -137,7 +137,6 @@ export default function CreateOrder() {
                     rhfControl={ control }
                     rhfSetValue={ setValue }
                     rhfGetValues={ getValues }
-                    rhfReset={ reset }
                     fieldNames={ productTableFieldNames }
                     products={ products }
                 />

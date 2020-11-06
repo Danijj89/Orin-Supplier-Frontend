@@ -72,7 +72,6 @@ export default function OrderProductsDialog(
                 rhfControl={ control }
                 rhfSetValue={ setValue }
                 rhfGetValues={ getValues }
-                rhfReset={ reset }
                 fieldNames={ productTableFieldNames }
                 products={ products }
             />
