@@ -139,6 +139,7 @@ const EditShipment = React.memo(function EditShipment() {
                         rhfGetValues={ getValues }
                         products={ products }
                         fieldNames={ productTableFieldNames }
+                        isEdit
                     />
                 </Box>
                 <Box hidden={ tabValue !== 'measures' }>

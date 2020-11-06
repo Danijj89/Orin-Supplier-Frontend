@@ -14,6 +14,7 @@ import UnitCounter from '../../classes/UnitCounter.js';
 import { roundToNDecimal } from '../../utils/format.js';
 import ErrorDisplay from '../../components/ErrorDisplay.js';
 import { defaultProductRowValues } from './util/constants.js';
+import SideCheckBox from '../../inputs/SideCheckBox.js';
 
 const {
     formLabels,
@@ -30,6 +31,7 @@ const RHFProductTable = React.memo(function RHFProductTable(
         rhfGetValues: getValues,
         fieldNames,
         products,
+        isEdit,
         className
     }) {
 
@@ -303,6 +305,19 @@ const RHFProductTable = React.memo(function RHFProductTable(
             }
             <Grid container item justify="flex-end" xs={ 12 }>
                 { currencyDropdown }
+                { !isEdit &&
+                <Controller
+                    render={ ({ value, ...rest }) =>
+                        <SideCheckBox
+                            { ...rest }
+                            label={ formLabels.saveItems }
+                            checked={ value }
+                        />
+                    }
+                    name="saveItems"
+                    control={ control }
+                />
+                }
             </Grid>
             <Grid item xs={ 12 }>
                 <EditableTable
@@ -331,6 +346,7 @@ RHFProductTable.propTypes = {
         total: PropTypes.string.isRequired
     }).isRequired,
     products: PropTypes.array.isRequired,
+    isEdit: PropTypes.bool,
     className: PropTypes.string
 };
 

@@ -75,6 +75,7 @@ export default function OrderProductsDialog(
                 rhfGetValues={ getValues }
                 fieldNames={ productTableFieldNames }
                 products={ products }
+                isEdit
             />
         </FormDialog>
     )
