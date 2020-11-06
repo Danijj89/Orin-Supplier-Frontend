@@ -286,6 +286,23 @@ const RHFProductTable = React.memo(function RHFProductTable(
         { field: 'total', value: `${ currencySymbol } ${ total }`, colSpan: 1, align: 'center' }
     ]], [numColumns, total, quantity, currencySymbol]);
 
+    const currencyDropdown = useMemo(() =>
+            <Controller
+                render={ props =>
+                    <SideAutoComplete
+                        { ...props }
+                        options={ currenciesOptions }
+                        label={ formLabels.currency }
+                        error={ !!errors.currency }
+                        required
+                    />
+                }
+                name={ fieldNames.currency }
+                control={ control }
+                rules={ { required: errorMessages.missingCurrency } }
+            />
+        , [control, errorMessages.missingCurrency, errors.currency, fieldNames.currency]);
+
     return (
         <Grid container className={ className }>
             { isError &&
@@ -294,20 +311,7 @@ const RHFProductTable = React.memo(function RHFProductTable(
             </Grid>
             }
             <Grid container item justify="flex-end" xs={ 12 }>
-                <Controller
-                    render={ props =>
-                        <SideAutoComplete
-                            { ...props }
-                            options={ currenciesOptions }
-                            label={ formLabels.currency }
-                            error={ !!errors.currency }
-                            required
-                        />
-                    }
-                    name={ fieldNames.currency }
-                    control={ control }
-                    rules={ { required: errorMessages.missingCurrency } }
-                />
+                { currencyDropdown }
             </Grid>
             <Grid item xs={ 12 }>
                 <EditableTable

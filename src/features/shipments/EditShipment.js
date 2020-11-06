@@ -6,7 +6,7 @@ import NavTabs from '../shared/components/NavTabs.js';
 import PartiesForm from './PartiesForm.js';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
-import { selectCompanyActiveAddresses } from '../home/duck/selectors.js';
+import { selectCompanyActiveAddresses, selectCompanyPorts } from '../home/duck/selectors.js';
 import { selectClientActiveAddresses } from '../clients/duck/selectors.js';
 import { useParams } from 'react-router-dom';
 import { selectShipmentById } from './duck/selectors.js';
@@ -15,6 +15,7 @@ import ShipmentInfoForm from './ShipmentInfoForm.js';
 import Footer from '../shared/components/Footer.js';
 import RHFProductTable, { validateItems } from '../shared/rhf/forms/RHFProductTable.js';
 import { selectActiveProducts } from '../products/duck/selectors.js';
+import ShipmentMeasures from './ShipmentMeasures.js';
 
 const {
     titleLabel,
@@ -39,6 +40,7 @@ const EditShipment = React.memo(function EditShipment() {
     const products = useSelector(selectActiveProducts);
     const sellerAddresses = useSelector(selectCompanyActiveAddresses);
     const consigneeAddresses = useSelector(state => selectClientActiveAddresses(state, shipment.consignee));
+    const ports = useSelector(selectCompanyPorts);
     const [tabValue, setTabValue] = useState('shipment');
 
     const rhfMethods = useForm({
@@ -108,7 +110,7 @@ const EditShipment = React.memo(function EditShipment() {
                         control={ control }
                     />
                     <OrdersInfoForm register={ register } control={ control }/>
-                    <ShipmentInfoForm rhfMethods={ rhfMethods }/>
+                    <ShipmentInfoForm ports={ ports } register={ register } control={ control }/>
                 </Box>
                 <Box hidden={ tabValue !== 'products' }>
                     <RHFProductTable
@@ -121,8 +123,9 @@ const EditShipment = React.memo(function EditShipment() {
                         fieldNames={ productTableFieldNames }
                     />
                 </Box>
-
-                {/*{ tabValue === 'measures' && <ShipmentMeasures /> }*/ }
+                <Box hidden={ tabValue !== 'measures' }>
+                    <ShipmentMeasures/>
+                </Box>
             </Box>
             <Footer
                 prevLabel={ prevButtonLabel }

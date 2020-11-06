@@ -7,3 +7,4 @@ export const selectCompanyActiveAddresses = createSelector(
     state => state.home.company.addresses,
     addresses => addresses.filter(a => a.active)
 );
+export const selectCompanyPorts = state => state.home.company.ports;

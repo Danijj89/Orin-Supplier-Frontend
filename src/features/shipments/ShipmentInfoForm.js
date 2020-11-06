@@ -5,8 +5,6 @@ import { Grid } from '@material-ui/core';
 import SideAutoComplete from '../shared/inputs/SideAutoComplete.js';
 import { deliveryMethodOptions } from '../shared/constants.js';
 import { Controller } from 'react-hook-form';
-import { useSelector } from 'react-redux';
-import { selectCurrentCompany } from '../home/duck/selectors.js';
 import SideTextField from '../shared/inputs/SideTextField.js';
 import SideDateField from '../shared/inputs/SideDateField.js';
 
@@ -15,9 +13,7 @@ const {
     formLabels
 } = LANGUAGE.shipment.editShipment.shipmentInfo;
 
-export default function ShipmentInfoForm({ rhfMethods }) {
-    const company = useSelector(selectCurrentCompany);
-    const { register, control } = rhfMethods;
+const ShipmentInfoForm = React.memo(function ShipmentInfoForm({ ports, register, control }) {
 
     return (
         <InfoCard
@@ -42,7 +38,7 @@ export default function ShipmentInfoForm({ rhfMethods }) {
                                     { ...props }
                                     freeSolo
                                     autoSelect
-                                    options={ company.ports }
+                                    options={ ports }
                                     label={ formLabels.pol }
                                 />
                             ) }
@@ -55,7 +51,7 @@ export default function ShipmentInfoForm({ rhfMethods }) {
                                     { ...props }
                                     freeSolo
                                     autoSelect
-                                    options={ company.ports }
+                                    options={ ports }
                                     label={ formLabels.pod }
                                 />
                             ) }
@@ -94,4 +90,6 @@ export default function ShipmentInfoForm({ rhfMethods }) {
             }
         />
     )
-}
+});
+
+export default ShipmentInfoForm;
