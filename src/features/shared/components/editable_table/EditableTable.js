@@ -12,8 +12,13 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import EditableRow from './EditableRow.js';
 import AddRowButtonRow from './AddRowButtonRow.js';
+import clsx from 'clsx';
 
 const useStyles = makeStyles((theme) => ({
+    container: {
+        paddingLeft: theme.spacing(2),
+        paddingRight: theme.spacing(2)
+    },
     footerRow: {
         height: 69
     },
@@ -31,7 +36,10 @@ export const TableCell = withStyles((theme) => ({
         paddingTop: theme.spacing(0.5),
         paddingBottom: theme.spacing(0.5),
         '&:last-child': {
-            paddingRight: theme.spacing(3)
+            paddingRight: theme.spacing(0.5)
+        },
+        '&:first-child': {
+            paddingLeft: theme.spacing(0.5)
         }
     }
 }))(MuiTableCell);
@@ -88,7 +96,7 @@ const EditableTable = React.memo(function EditableTable(
         [footer, classes.footerRow, classes.footerCell])
 
     return (
-        <TableContainer className={ className }>
+        <TableContainer className={ clsx(classes.container, className) }>
             <Table size="small">
                 { tableHead }
                 <TableBody>
@@ -101,7 +109,7 @@ const EditableTable = React.memo(function EditableTable(
                             onCellChange={ onCellChange }
                         />
                     ) }
-                    <AddRowButtonRow numColumns={ numColumns } onAddRow={ onAddRow }/>
+                    { onAddRow && <AddRowButtonRow numColumns={ numColumns } onAddRow={ onAddRow }/> }
                 </TableBody>
                 { tableFooter }
             </Table>
@@ -121,7 +129,7 @@ EditableTable.propTypes = {
     rows: PropTypes.array.isRequired,
     columns: PropTypes.array.isRequired,
     onCellChange: PropTypes.func.isRequired,
-    onAddRow: PropTypes.func.isRequired,
+    onAddRow: PropTypes.func,
     className: PropTypes.string,
     footer: PropTypes.array
 };

@@ -13,6 +13,7 @@ import { getCurrencySymbol } from '../../utils/random.js';
 import UnitCounter from '../../classes/UnitCounter.js';
 import { roundToNDecimal } from '../../utils/format.js';
 import ErrorDisplay from '../../components/ErrorDisplay.js';
+import { defaultProductRowValues } from './util/constants.js';
 
 const {
     formLabels,
@@ -20,27 +21,6 @@ const {
     tableHeaderLabels,
     totalLabel
 } = LANGUAGE.shared.rhf.forms.productTable;
-
-export const defaultProductRowValues = {
-    _id: null,
-    ref: '',
-    description: '',
-    custom1: '',
-    custom2: '',
-    quantity: 0,
-    unit: 'PCS',
-    price: 0,
-    total: 0
-};
-
-export const validateItems = (items) => {
-    if (!items.length) return errorMessages.missingItems;
-    for (const item of items) {
-        if (!(item.ref && item.quantity && item.unit && item.price))
-            return errorMessages.missingItemInfo;
-    }
-    return true;
-};
 
 const RHFProductTable = React.memo(function RHFProductTable(
     {
@@ -78,12 +58,13 @@ const RHFProductTable = React.memo(function RHFProductTable(
         name: fieldNames.total
     });
 
-    const errorMessages = Object.values(errors).map(err => err.message);
-    const isError = errorMessages.length > 0;
+    const errMessages = Object.values(errors).map(err => err.message);
+    const isError = errMessages.length > 0;
 
-    const initialNumColumns = 7
+    const initialNumColumns = 8
         + (typeof custom1 === 'string' ? 1 : 0)
-        + (typeof custom2 === 'string' ? 1 : 0);
+        + (typeof custom2 === 'string' ? 1 : 0)
+        - (typeof custom1 === 'string' && typeof custom2 === 'string' ? 1 : 0);
     const [numColumns, setNumColumns] = useState(initialNumColumns);
 
     const onAddColumn = useCallback(() => {
@@ -92,19 +73,19 @@ const RHFProductTable = React.memo(function RHFProductTable(
             return setValue(fieldNames.custom1, '');
         }
         if (getValues(fieldNames.custom2) == null) {
-            setNumColumns(prev => prev + 1);
             return setValue(fieldNames.custom2, '');
         }
     }, [setValue, getValues, fieldNames]);
 
     const onDeleteColumn = useCallback(name => {
-        setNumColumns(prev => prev - 1);
+        if (name === fieldNames.custom1) setNumColumns(prev => prev - 1);
         setValue(name, null);
         setValue(
             fieldNames.items,
             getValues(fieldNames.items).map(item => {
-                item[name] = '';
-                return item;
+                const newItem = {...item};
+                newItem[name] = '';
+                return newItem;
             })
         );
     }, [setValue, getValues, fieldNames]);
@@ -291,7 +272,7 @@ const RHFProductTable = React.memo(function RHFProductTable(
     }));
 
     const footer = useMemo(() => [[
-        { field: 'label', value: totalLabel, colSpan: numColumns === 9 ? numColumns - 4 : numColumns - 3, align: 'right' },
+        { field: 'label', value: totalLabel, colSpan: numColumns - 4, align: 'right' },
         { field: 'quantity', value: UnitCounter.stringRep(quantity), colSpan: 3, align: 'center' },
         { field: 'total', value: `${ currencySymbol } ${ total }`, colSpan: 1, align: 'right' }
     ]], [numColumns, total, quantity, currencySymbol]);
@@ -311,13 +292,13 @@ const RHFProductTable = React.memo(function RHFProductTable(
                 control={ control }
                 rules={ { required: errorMessages.missingCurrency } }
             />
-        , [control, errorMessages.missingCurrency, errors.currency, fieldNames.currency]);
+        , [control, errors.currency, fieldNames.currency]);
 
     return (
         <Grid container className={ className }>
             { isError &&
             <Grid container item justify="center" xs={ 12 }>
-                <ErrorDisplay errors={ errorMessages }/>
+                <ErrorDisplay errors={ errMessages }/>
             </Grid>
             }
             <Grid container item justify="flex-end" xs={ 12 }>

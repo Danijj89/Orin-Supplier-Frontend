@@ -13,8 +13,10 @@ import { selectShipmentById } from './duck/selectors.js';
 import OrdersInfoForm from './OrdersInfoForm.js';
 import ShipmentInfoForm from './ShipmentInfoForm.js';
 import Footer from '../shared/components/Footer.js';
-import RHFProductTable, { validateItems } from '../shared/rhf/forms/RHFProductTable.js';
+import RHFProductTable from '../shared/rhf/forms/RHFProductTable.js';
 import { selectActiveProducts } from '../products/duck/selectors.js';
+import RHFMeasureTable from '../shared/rhf/forms/RHFMeasureTable.js';
+import { validateItems } from '../shared/rhf/forms/util/helpers.js';
 
 const {
     titleLabel,
@@ -30,6 +32,18 @@ const productTableFieldNames = {
     items: 'items',
     quantity: 'quantity',
     total: 'total'
+};
+
+const measureTableFieldNames = {
+    custom1: 'plCustom1',
+    custom2: 'plCustom2',
+    package: 'package',
+    netWeight: 'netWeight',
+    grossWeight: 'grossWeight',
+    dimension: 'dimension',
+    weightUnit: 'weightUnit',
+    measurementUnit: 'measurementUnit',
+    items: productTableFieldNames.items
 };
 
 const EditShipment = React.memo(function EditShipment() {
@@ -60,20 +74,20 @@ const EditShipment = React.memo(function EditShipment() {
             carrier: shipment.carrier,
             eta: shipment.eta || null,
             etd: shipment.etd || null,
-            currency: shipment.currency,
-            items: shipment.items,
-            quantity: shipment.quantity,
-            total: shipment.total,
-            measurementUnit: shipment.measurementUnit,
-            weightUnit: shipment.weightUnit,
-            package: shipment.package,
-            netWeight: shipment.netWeight,
-            grossWeight: shipment.grossWeight,
-            dimension: shipment.dimension,
-            ciCustom1: shipment.ciCustom1,
-            ciCustom2: shipment.ciCustom2,
-            plCustom1: shipment.plCustom1,
-            plCustom2: shipment.plCustom2,
+            [productTableFieldNames.currency]: shipment.currency,
+            [productTableFieldNames.items]: shipment.items,
+            [productTableFieldNames.quantity]: shipment.quantity,
+            [productTableFieldNames.total]: shipment.total,
+            [measureTableFieldNames.measurementUnit]: shipment.measurementUnit,
+            [measureTableFieldNames.weightUnit]: shipment.weightUnit,
+            [measureTableFieldNames.package]: shipment.package,
+            [measureTableFieldNames.netWeight]: shipment.netWeight,
+            [measureTableFieldNames.grossWeight]: shipment.grossWeight,
+            [measureTableFieldNames.dimension]: shipment.dimension,
+            [productTableFieldNames.custom1]: shipment.ciCustom1,
+            [productTableFieldNames.custom2]: shipment.ciCustom2,
+            [measureTableFieldNames.custom1]: shipment.plCustom1,
+            [measureTableFieldNames.custom2]: shipment.plCustom2,
         }
     });
     const { register, control, errors, setValue, getValues } = rhfMethods;
@@ -84,6 +98,12 @@ const EditShipment = React.memo(function EditShipment() {
         register({ name: productTableFieldNames.custom2 });
         register({ name: productTableFieldNames.quantity });
         register({ name: productTableFieldNames.total });
+        register({ name: measureTableFieldNames.custom1 });
+        register({ name: measureTableFieldNames.custom2 });
+        register({ name: measureTableFieldNames.package });
+        register({ name: measureTableFieldNames.netWeight });
+        register({ name: measureTableFieldNames.grossWeight });
+        register({ name: measureTableFieldNames.dimension });
     }, [register]);
 
     const onPrevClick = useCallback(() => history.goBack(), [history]);
@@ -122,7 +142,13 @@ const EditShipment = React.memo(function EditShipment() {
                     />
                 </Box>
                 <Box hidden={ tabValue !== 'measures' }>
-
+                    <RHFMeasureTable
+                        rhfControl={ control }
+                        rhfGetValues={ getValues }
+                        rhfSetValue={ setValue }
+                        rhfErrors={ errors }
+                        fieldNames={ measureTableFieldNames }
+                    />
                 </Box>
             </Box>
             <Footer

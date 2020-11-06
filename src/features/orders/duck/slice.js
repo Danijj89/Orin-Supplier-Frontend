@@ -8,7 +8,7 @@ import {
     updateOrderStatus
 } from './thunks.js';
 import { SESSION_NEW_ORDER } from '../../../app/sessionKeys.js';
-import { defaultProductRowValues } from '../../shared/rhf/forms/RHFProductTable.js';
+import { defaultProductRowValues } from '../../shared/rhf/forms/util/constants.js';
 
 export const ordersAdapter = createEntityAdapter({
     selectId: order => order._id,

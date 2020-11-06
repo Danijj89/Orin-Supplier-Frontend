@@ -15,8 +15,9 @@ import { selectCurrentCompany } from '../home/duck/selectors.js';
 import { selectClientsMap } from '../clients/duck/selectors.js';
 import RHFOrderDetails from '../shared/rhf/forms/RHFOrderDetails.js';
 import Footer from '../shared/components/Footer.js';
-import RHFProductTable, { validateItems } from '../shared/rhf/forms/RHFProductTable.js';
+import RHFProductTable from '../shared/rhf/forms/RHFProductTable.js';
 import { selectActiveProducts } from '../products/duck/selectors.js';
+import { validateItems } from '../shared/rhf/forms/util/helpers.js';
 
 function getCurrentStep(stepLabel) {
     switch (stepLabel) {

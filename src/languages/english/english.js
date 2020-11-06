@@ -465,9 +465,6 @@ export const ENGLISH = {
                 }
             },
             products: {
-                formLabels: {
-                    currency: 'Currency'
-                },
                 tableHeaderLabels: {
                     ref: 'Item Reference',
                     description: 'Product Description',
@@ -589,8 +586,34 @@ export const ENGLISH = {
                     },
                     errorMessages: {
                         missingCurrency: 'You must select a currency.',
-                        missingItemInfo: 'Some item is missing information.',
-                        missingItems: 'You need to add at least one item'
+                    }
+                },
+                measureTable: {
+                    formLabels: {
+                        measurementUnit: 'Measurement Unit',
+                        weightUnit: 'Weight Unit'
+                    },
+                    tableHeaderLabels: {
+                        ref: 'Item Reference',
+                        description: 'Product Description',
+                        package: 'Packaging',
+                        pUnit: 'P. Unit',
+                        netW: 'Net Weight',
+                        grossW: 'Gross Weight',
+                        dim: 'Volume'
+                    },
+                    totalLabel: 'Total:',
+                    errorMessages: {
+                        missingMeasurementUnit: 'You must select a measurement unit.',
+                        missingWeightUnit: 'You must select a weight unit.'
+                    }
+                },
+                util: {
+                    helpers: {
+                        errorMessages: {
+                            missingItemInfo: 'Some item is missing information.',
+                            missingItems: 'You need to add at least one item'
+                        }
                     }
                 }
             }
