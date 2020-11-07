@@ -570,6 +570,30 @@ export const ENGLISH = {
         },
         rhf: {
             forms: {
+                orderDetails: {
+                    detailsTitleLabel: 'Order Details',
+                    shippingInfoTitleLabel: 'Shipping Information (Optional)',
+                    formLabels: {
+                        fulfilled: 'Mark as Fulfilled',
+                        autoGenerateRef: 'Auto-generate Order Number?',
+                        ref: 'Order Number',
+                        date: 'Order Date',
+                        fromAdd: 'Seller Address',
+                        to: 'Buyer',
+                        toAdd: 'Buyer Address',
+                        crd: 'Cargo Ready Date',
+                        realCrd: 'Actual Ready Date',
+                        incoterm: 'Incoterm',
+                        pay: 'Payment Method',
+                        clientRef: 'Client Reference',
+                        notes: 'Remarks',
+                        shipAdd: 'Ship to',
+                        del: 'Delivery Method',
+                        pol: 'Port of Loading',
+                        pod: 'Port of Destination',
+                        carrier: 'Shipping Carrier'
+                    }
+                },
                 productTable: {
                     formLabels: {
                         currency: 'Currency',
@@ -616,29 +640,6 @@ export const ENGLISH = {
                         }
                     }
                 }
-            }
-        },
-        rhfForms: {
-            rhfOrderDetails: {
-                detailsTitleLabel: 'Order Details',
-                fulfilledLabel: 'Mark as Fulfilled',
-                autoGenerateRefLabel: 'Auto-generate Order Number?',
-                orderReferenceLabel: 'Order Number',
-                dateLabel: 'Order Date',
-                companyAddressLabel: 'Seller Address',
-                clientLabel: 'Buyer',
-                clientAddressLabel: 'Buyer Address',
-                crdLabel: 'Cargo Ready Date',
-                realCrdLabel: 'Actual Ready Date',
-                incotermLabel: 'Incoterm',
-                paymentMethodLabel: 'Payment Method',
-                clientReferenceLabel: 'Client Reference',
-                notesLabel: 'Remarks',
-                shippingInfoTitleLabel: 'Shipping Information (Optional)',
-                deliveryMethodLabel: 'Delivery Method',
-                portOfLoadingLabel: 'Port of Loading',
-                portOfDestinationLabel: 'Port of Destination',
-                shippingCarrierLabel: 'Shipping Carrier',
             }
         },
         components: {

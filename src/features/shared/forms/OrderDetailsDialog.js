@@ -11,7 +11,6 @@ const {
 
 const orderDetailsFieldNames = {
     ref: 'ref',
-    date: 'date',
     fromAdd: 'fromAdd',
     to: 'to',
     toAdd: 'toAdd',
@@ -19,7 +18,7 @@ const orderDetailsFieldNames = {
     incoterm: 'incoterm',
     pay: 'pay',
     clientRef: 'clientRef',
-    notes: 'notes',
+    shipAdd: 'shipAdd',
     del: 'del',
     pol: 'pol',
     pod: 'pod',
@@ -52,20 +51,21 @@ const OrderDetailsDialog = React.memo(function OrderDetailsDialog(
 
     useEffect(() => {
         reset({
-            ref: order?.ref,
-            fulfilled: order?.fulfilled,
-            fromAdd: order?.fromAdd,
-            to: order?.to && clientsMap[order.to],
-            toAdd: order?.toAdd,
-            incoterm: order?.incoterm,
-            crd: order?.crd,
-            realCrd: order?.realCrd,
-            clientRef: order?.clientRef,
-            pol: order?.pol,
-            pod: order?.pod,
-            pay: order?.pay,
-            del: order?.del,
-            carrier: order?.carrier
+            [orderDetailsFieldNames.ref]: order?.ref,
+            [orderDetailsFieldNames.fulfilled]: order?.fulfilled,
+            [orderDetailsFieldNames.fromAdd]: order?.fromAdd,
+            [orderDetailsFieldNames.to]: order?.to && clientsMap[order.to],
+            [orderDetailsFieldNames.toAdd]: order?.toAdd,
+            [orderDetailsFieldNames.incoterm]: order?.incoterm,
+            [orderDetailsFieldNames.crd]: order?.crd,
+            [orderDetailsFieldNames.realCrd]: order?.realCrd,
+            [orderDetailsFieldNames.clientRef]: order?.clientRef,
+            [orderDetailsFieldNames.shipAdd]: order?.shipAdd,
+            [orderDetailsFieldNames.pol]: order?.pol,
+            [orderDetailsFieldNames.pod]: order?.pod,
+            [orderDetailsFieldNames.pay]: order?.pay,
+            [orderDetailsFieldNames.del]: order?.del,
+            [orderDetailsFieldNames.carrier]: order?.carrier
         });
     }, [reset, order, clientsMap]);
 

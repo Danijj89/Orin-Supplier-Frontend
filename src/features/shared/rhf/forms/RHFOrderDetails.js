@@ -30,25 +30,9 @@ const useStyles = makeStyles((theme) => ({
 
 const {
     detailsTitleLabel,
-    fulfilledLabel,
-    autoGenerateRefLabel,
-    orderReferenceLabel,
-    dateLabel,
-    companyAddressLabel,
-    clientLabel,
-    clientAddressLabel,
-    crdLabel,
-    realCrdLabel,
-    incotermLabel,
-    paymentMethodLabel,
-    clientReferenceLabel,
-    notesLabel,
     shippingInfoTitleLabel,
-    deliveryMethodLabel,
-    portOfLoadingLabel,
-    portOfDestinationLabel,
-    shippingCarrierLabel
-} = LANGUAGE.shared.rhfForms.rhfOrderDetails;
+    formLabels
+} = LANGUAGE.shared.rhf.forms.orderDetails;
 
 const RHFOrderDetails = React.memo(function RHFOrderDetails(
     {
@@ -98,7 +82,7 @@ const RHFOrderDetails = React.memo(function RHFOrderDetails(
                         render={ ({ value, ...rest }) =>
                             <SideCheckBox
                                 { ...rest }
-                                label={ fulfilledLabel }
+                                label={ formLabels.fulfilled }
                                 checked={ value }
                             />
                         }
@@ -110,7 +94,7 @@ const RHFOrderDetails = React.memo(function RHFOrderDetails(
                         render={ ({ value, ...rest }) =>
                             <SideCheckBox
                                 { ...rest }
-                                label={ autoGenerateRefLabel }
+                                label={ formLabels.autoGenerateRef }
                                 checked={ value }
                             />
                         }
@@ -119,9 +103,9 @@ const RHFOrderDetails = React.memo(function RHFOrderDetails(
                     /> }
                     <SideTextField
                         name={ fieldNames.ref }
-                        label={ orderReferenceLabel }
+                        label={ formLabels.ref }
                         inputRef={ register({ required: !autoGenerateRef }) }
-                        error={ !!errors.name }
+                        error={ !!errors[fieldNames.ref] }
                         required={ !autoGenerateRef }
                         disabled={ isEdit || autoGenerateRef }
                     />
@@ -130,8 +114,8 @@ const RHFOrderDetails = React.memo(function RHFOrderDetails(
                         render={ props =>
                             <SideDateField
                                 { ...props }
-                                label={ dateLabel }
-                                error={ !!errors.date }
+                                label={ formLabels.date }
+                                error={ !!errors[fieldNames.date] }
                                 required
                             />
                         }
@@ -144,8 +128,8 @@ const RHFOrderDetails = React.memo(function RHFOrderDetails(
                             <SideAutoComplete
                                 { ...props }
                                 options={ companyAddresses.filter(a => a.active) }
-                                label={ companyAddressLabel }
-                                error={ !!errors.fromAdd }
+                                label={ formLabels.fromAdd }
+                                error={ !!errors[fieldNames.fromAdd] }
                                 getOptionLabel={ address => formatAddress(address) }
                                 getOptionSelected={ address => address._id === getValues(fieldNames.fromAdd)._id
                                     || address._id === getValues(fieldNames.fromAdd).addressId }
@@ -161,8 +145,8 @@ const RHFOrderDetails = React.memo(function RHFOrderDetails(
                             <SideAutoComplete
                                 { ...props }
                                 options={ Object.values(clientsMap).filter(c => c.active) }
-                                label={ clientLabel }
-                                error={ !!errors.to }
+                                label={ formLabels.to }
+                                error={ !!errors[fieldNames.to] }
                                 getOptionLabel={ client => client.name }
                                 getOptionSelected={ client => client._id === getValues(fieldNames.to)._id }
                                 required
@@ -177,8 +161,8 @@ const RHFOrderDetails = React.memo(function RHFOrderDetails(
                             <SideAutoComplete
                                 { ...props }
                                 options={ clientAddresses }
-                                label={ clientAddressLabel }
-                                error={ !!errors.toAdd }
+                                label={ formLabels.toAdd }
+                                error={ !!errors[fieldNames.toAdd] }
                                 getOptionLabel={ address => formatAddress(address) }
                                 getOptionSelected={ address => address._id === getValues(fieldNames.toAdd)._id
                                     || address._id === getValues(fieldNames.toAdd).addressId }
@@ -194,7 +178,7 @@ const RHFOrderDetails = React.memo(function RHFOrderDetails(
                         render={ props =>
                             <SideDateField
                                 { ...props }
-                                label={ crdLabel }
+                                label={ formLabels.crd }
                             />
                         }
                         name={ fieldNames.crd }
@@ -205,7 +189,7 @@ const RHFOrderDetails = React.memo(function RHFOrderDetails(
                         render={ props =>
                             <SideDateField
                                 { ...props }
-                                label={ realCrdLabel }
+                                label={ formLabels.realCrd }
                             />
                         }
                         name={ fieldNames.realCrd }
@@ -216,25 +200,25 @@ const RHFOrderDetails = React.memo(function RHFOrderDetails(
                             <SideAutoComplete
                                 { ...props }
                                 options={ incotermOptions }
-                                label={ incotermLabel }
+                                label={ formLabels.incoterm }
                             />
                         ) }
                         name={ fieldNames.incoterm }
                         control={ control }
                     />
                     <SideTextField
-                        label={ paymentMethodLabel }
+                        label={ formLabels.pay }
                         name={ fieldNames.pay }
                         inputRef={ register }
                     />
                     <SideTextField
-                        label={ clientReferenceLabel }
+                        label={ formLabels.clientRef }
                         name={ fieldNames.clientRef }
                         inputRef={ register }
                     />
                     { !isEdit &&
                     <SideTextArea
-                        label={ notesLabel }
+                        label={ formLabels.notes }
                         name={ fieldNames.notes }
                         inputRef={ register }
                         rows={ 4 }
@@ -250,8 +234,22 @@ const RHFOrderDetails = React.memo(function RHFOrderDetails(
                         render={ (props) => (
                             <SideAutoComplete
                                 { ...props }
+                                options={ clientAddresses }
+                                label={ formLabels.shipAdd }
+                                getOptionLabel={ address => formatAddress(address) }
+                                getOptionSelected={ address => address._id === getValues(fieldNames.shipAdd)._id
+                                    || address._id === getValues(fieldNames.shipAdd).addressId }
+                            />
+                        ) }
+                        name={ fieldNames.shipAdd }
+                        control={ control }
+                    />
+                    <Controller
+                        render={ (props) => (
+                            <SideAutoComplete
+                                { ...props }
                                 options={ deliveryMethodOptions }
-                                label={ deliveryMethodLabel }
+                                label={ formLabels.del }
                             />
                         ) }
                         name={ fieldNames.del }
@@ -264,7 +262,7 @@ const RHFOrderDetails = React.memo(function RHFOrderDetails(
                                 freeSolo
                                 autoSelect
                                 options={ companyPorts }
-                                label={ portOfLoadingLabel }
+                                label={ formLabels.pol }
                             />
                         ) }
                         name={ fieldNames.pol }
@@ -277,14 +275,14 @@ const RHFOrderDetails = React.memo(function RHFOrderDetails(
                                 freeSolo
                                 autoSelect
                                 options={ companyPorts }
-                                label={ portOfDestinationLabel }
+                                label={ formLabels.pod }
                             />
                         ) }
                         name={ fieldNames.pod }
                         control={ control }
                     />
                     <SideTextField
-                        label={ shippingCarrierLabel }
+                        label={ formLabels.carrier }
                         name={ fieldNames.carrier }
                         inputRef={ register }
                     />
@@ -305,7 +303,6 @@ RHFOrderDetails.propTypes = {
     clientsMap: PropTypes.object.isRequired,
     fieldNames: PropTypes.exact({
         ref: PropTypes.string.isRequired,
-        date: PropTypes.string.isRequired,
         fromAdd: PropTypes.string.isRequired,
         to: PropTypes.string.isRequired,
         toAdd: PropTypes.string.isRequired,
@@ -313,11 +310,13 @@ RHFOrderDetails.propTypes = {
         incoterm: PropTypes.string.isRequired,
         pay: PropTypes.string.isRequired,
         clientRef: PropTypes.string.isRequired,
-        notes: PropTypes.string.isRequired,
+        shipAdd: PropTypes.string.isRequired,
         del: PropTypes.string.isRequired,
         pol: PropTypes.string.isRequired,
         pod: PropTypes.string.isRequired,
         carrier: PropTypes.string.isRequired,
+        date: PropTypes.string,
+        notes: PropTypes.string,
         autoGenerateRef: PropTypes.string,
         fulfilled: PropTypes.string,
         realCrd: PropTypes.string
