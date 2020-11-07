@@ -235,6 +235,7 @@ const RHFMeasureTable = React.memo(function RHFMeasureTable(
             width: 80
         }
     ]), [
+        register,
         custom1,
         custom2,
         fieldNames,
