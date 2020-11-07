@@ -9,14 +9,34 @@ const {
     deleteMessage
 } = LANGUAGE.shared.forms.orderDetailsDialog;
 
-export default function OrderDetailsDialog(
+const orderDetailsFieldNames = {
+    ref: 'ref',
+    date: 'date',
+    fromAdd: 'fromAdd',
+    to: 'to',
+    toAdd: 'toAdd',
+    crd: 'crd',
+    incoterm: 'incoterm',
+    pay: 'pay',
+    clientRef: 'clientRef',
+    notes: 'notes',
+    del: 'del',
+    pol: 'pol',
+    pod: 'pod',
+    carrier: 'carrier',
+    fulfilled: 'fulfilled',
+    realCrd: 'realCrd'
+};
+
+const OrderDetailsDialog = React.memo(function OrderDetailsDialog(
     {
         isOpen,
         onSubmit,
         onCancel,
         submitLabel,
         order,
-        company,
+        companyAddresses,
+        companyPorts,
         clientsMap,
         titleLabel,
         onDelete
@@ -26,7 +46,7 @@ export default function OrderDetailsDialog(
         mode: 'onSubmit'
     });
 
-    const { handleSubmit, reset } = rhfMethods;
+    const { register, control, setValue, getValues, errors, handleSubmit, reset } = rhfMethods;
 
     const onFormSubmit = data => onSubmit(data);
 
@@ -59,10 +79,21 @@ export default function OrderDetailsDialog(
             onDelete={ onDelete }
             deleteMessage={ deleteMessage }
         >
-            <RHFOrderDetails rhfMethods={ rhfMethods } company={company} clientsMap={clientsMap} isEdit/>
+            <RHFOrderDetails
+                rhfRegister={ register }
+                rhfErrors={errors}
+                rhfControl={control}
+                rhfGetValues={getValues}
+                rhfSetValue={setValue}
+                companyAddresses={companyAddresses}
+                companyPorts={companyPorts}
+                clientsMap={clientsMap}
+                fieldNames={orderDetailsFieldNames}
+                isEdit
+            />
         </FormDialog>
     )
-}
+});
 
 OrderDetailsDialog.propTypes = {
     isOpen: PropTypes.bool.isRequired,
@@ -71,7 +102,10 @@ OrderDetailsDialog.propTypes = {
     submitLabel: PropTypes.string.isRequired,
     titleLabel: PropTypes.string.isRequired,
     order: PropTypes.object,
-    company: PropTypes.object,
-    clientsMap: PropTypes.object,
+    companyAddresses: PropTypes.array.isRequired,
+    companyPorts: PropTypes.array.isRequired,
+    clientsMap: PropTypes.object.isRequired,
     onDelete: PropTypes.func
 };
+
+export default OrderDetailsDialog;

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Controller } from 'react-hook-form';
+import { Controller, useWatch } from 'react-hook-form';
 import { LANGUAGE } from '../../../../app/constants.js';
 import SideTextField from '../../inputs/SideTextField.js';
 import SideAutoComplete from '../../inputs/SideAutoComplete.js';
@@ -13,6 +13,7 @@ import SideCheckBox from '../../inputs/SideCheckBox.js';
 import SideTextArea from '../../inputs/SideTextArea.js';
 import PropTypes from 'prop-types';
 import NewClientAddressButton from '../../buttons/NewClientAddressButton.js';
+import clsx from 'clsx';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -49,26 +50,46 @@ const {
     shippingCarrierLabel
 } = LANGUAGE.shared.rhfForms.rhfOrderDetails;
 
-export default function RHFOrderDetails({ rhfMethods, isEdit, company, clientsMap }) {
+const RHFOrderDetails = React.memo(function RHFOrderDetails(
+    {
+        rhfRegister: register,
+        rhfErrors: errors,
+        rhfControl: control,
+        rhfGetValues: getValues,
+        rhfSetValue: setValue,
+        isEdit,
+        companyAddresses,
+        companyPorts,
+        clientsMap,
+        fieldNames,
+        className
+    }) {
     const classes = useStyles();
-    const { addresses, ports } = company;
-    const { register, errors, control, getValues, watch, setValue } = rhfMethods;
+
+    const client = useWatch({
+        control,
+        name: fieldNames.to
+    });
+
+    const autoGenerateRef = useWatch({
+        control,
+        name: fieldNames.autoGenerateRef
+    })
+
     const [clientAddresses, setClientAddresses] = useState([]);
-    const chosenClient = watch('to');
-    const autoGenerateRef = watch('autoGenerateRef');
 
     useEffect(() => {
-        if (chosenClient && clientsMap.hasOwnProperty(chosenClient._id)) {
-            if (chosenClient.incoterm) setValue('incoterm', chosenClient.incoterm);
-            if (chosenClient.payment) setValue('pay', chosenClient.payment);
-            if (chosenClient.addresses) setClientAddresses(chosenClient.addresses.filter(a => a.active));
+        if (client && clientsMap.hasOwnProperty(client._id)) {
+            if (client.incoterm) setValue(fieldNames.incoterm, client.incoterm);
+            if (client.payment) setValue(fieldNames.pay, client.payment);
+            if (client.addresses) setClientAddresses(client.addresses.filter(a => a.active));
         }
-    }, [chosenClient, setValue, clientsMap]);
+    }, [client, setValue, clientsMap, fieldNames]);
 
-    const shouldShowAddAddressButton = !isEdit && chosenClient;
+    const shouldShowAddAddressButton = !isEdit && client;
 
     return (
-        <Box className={ classes.container }>
+        <Box className={ clsx(classes.container, className) }>
             <Box className={ classes.details }>
                 { !isEdit && <Typography variant="h5">{ detailsTitleLabel }</Typography> }
                 <FormContainer>
@@ -81,7 +102,7 @@ export default function RHFOrderDetails({ rhfMethods, isEdit, company, clientsMa
                                 checked={ value }
                             />
                         }
-                        name="fulfilled"
+                        name={ fieldNames.fulfilled }
                         control={ control }
                     /> }
                     { !isEdit &&
@@ -93,11 +114,11 @@ export default function RHFOrderDetails({ rhfMethods, isEdit, company, clientsMa
                                 checked={ value }
                             />
                         }
-                        name="autoGenerateRef"
+                        name={ fieldNames.autoGenerateRef }
                         control={ control }
                     /> }
                     <SideTextField
-                        name="ref"
+                        name={ fieldNames.ref }
                         label={ orderReferenceLabel }
                         inputRef={ register({ required: !autoGenerateRef }) }
                         error={ !!errors.name }
@@ -114,7 +135,7 @@ export default function RHFOrderDetails({ rhfMethods, isEdit, company, clientsMa
                                 required
                             />
                         }
-                        name="date"
+                        name={ fieldNames.date }
                         control={ control }
                         rules={ { required: true } }
                     /> }
@@ -122,16 +143,16 @@ export default function RHFOrderDetails({ rhfMethods, isEdit, company, clientsMa
                         render={ (props) =>
                             <SideAutoComplete
                                 { ...props }
-                                options={ addresses.filter(a => a.active) }
+                                options={ companyAddresses.filter(a => a.active) }
                                 label={ companyAddressLabel }
                                 error={ !!errors.fromAdd }
                                 getOptionLabel={ address => formatAddress(address) }
-                                getOptionSelected={ address => address._id === getValues('fromAdd')._id
-                                    || address._id === getValues('fromAdd').addressId }
+                                getOptionSelected={ address => address._id === getValues(fieldNames.fromAdd)._id
+                                    || address._id === getValues(fieldNames.fromAdd).addressId }
                                 required
                             />
                         }
-                        name="fromAdd"
+                        name={ fieldNames.fromAdd }
                         control={ control }
                         rules={ { required: true } }
                     />
@@ -143,11 +164,11 @@ export default function RHFOrderDetails({ rhfMethods, isEdit, company, clientsMa
                                 label={ clientLabel }
                                 error={ !!errors.to }
                                 getOptionLabel={ client => client.name }
-                                getOptionSelected={ client => client._id === getValues('to')._id }
+                                getOptionSelected={ client => client._id === getValues(fieldNames.to)._id }
                                 required
                             />
                         }
-                        name="to"
+                        name={ fieldNames.to }
                         control={ control }
                         rules={ { required: true } }
                     />
@@ -159,16 +180,16 @@ export default function RHFOrderDetails({ rhfMethods, isEdit, company, clientsMa
                                 label={ clientAddressLabel }
                                 error={ !!errors.toAdd }
                                 getOptionLabel={ address => formatAddress(address) }
-                                getOptionSelected={ address => address._id === getValues('toAdd')._id
-                                    || address._id === getValues('toAdd').addressId }
+                                getOptionSelected={ address => address._id === getValues(fieldNames.toAdd)._id
+                                    || address._id === getValues(fieldNames.toAdd).addressId }
                                 required
                             />
                         ) }
-                        name="toAdd"
+                        name={ fieldNames.toAdd }
                         control={ control }
                         rules={ { required: true } }
                     />
-                    { shouldShowAddAddressButton && <NewClientAddressButton client={chosenClient} /> }
+                    { shouldShowAddAddressButton && <NewClientAddressButton client={ client }/> }
                     <Controller
                         render={ props =>
                             <SideDateField
@@ -176,7 +197,7 @@ export default function RHFOrderDetails({ rhfMethods, isEdit, company, clientsMa
                                 label={ crdLabel }
                             />
                         }
-                        name="crd"
+                        name={ fieldNames.crd }
                         control={ control }
                     />
                     { isEdit &&
@@ -187,7 +208,7 @@ export default function RHFOrderDetails({ rhfMethods, isEdit, company, clientsMa
                                 label={ realCrdLabel }
                             />
                         }
-                        name="realCrd"
+                        name={ fieldNames.realCrd }
                         control={ control }
                     /> }
                     <Controller
@@ -198,23 +219,23 @@ export default function RHFOrderDetails({ rhfMethods, isEdit, company, clientsMa
                                 label={ incotermLabel }
                             />
                         ) }
-                        name="incoterm"
+                        name={ fieldNames.incoterm }
                         control={ control }
                     />
                     <SideTextField
                         label={ paymentMethodLabel }
-                        name="pay"
+                        name={ fieldNames.pay }
                         inputRef={ register }
                     />
                     <SideTextField
                         label={ clientReferenceLabel }
-                        name="clientRef"
+                        name={ fieldNames.clientRef }
                         inputRef={ register }
                     />
                     { !isEdit &&
                     <SideTextArea
                         label={ notesLabel }
-                        name="notes"
+                        name={ fieldNames.notes }
                         inputRef={ register }
                         rows={ 4 }
                         rowsMax={ 8 }
@@ -233,7 +254,7 @@ export default function RHFOrderDetails({ rhfMethods, isEdit, company, clientsMa
                                 label={ deliveryMethodLabel }
                             />
                         ) }
-                        name="del"
+                        name={ fieldNames.del }
                         control={ control }
                     />
                     <Controller
@@ -242,11 +263,11 @@ export default function RHFOrderDetails({ rhfMethods, isEdit, company, clientsMa
                                 { ...props }
                                 freeSolo
                                 autoSelect
-                                options={ ports }
+                                options={ companyPorts }
                                 label={ portOfLoadingLabel }
                             />
                         ) }
-                        name="pol"
+                        name={ fieldNames.pol }
                         control={ control }
                     />
                     <Controller
@@ -255,27 +276,54 @@ export default function RHFOrderDetails({ rhfMethods, isEdit, company, clientsMa
                                 { ...props }
                                 freeSolo
                                 autoSelect
-                                options={ ports }
+                                options={ companyPorts }
                                 label={ portOfDestinationLabel }
                             />
                         ) }
-                        name="pod"
+                        name={ fieldNames.pod }
                         control={ control }
                     />
                     <SideTextField
                         label={ shippingCarrierLabel }
-                        name="carrier"
+                        name={ fieldNames.carrier }
                         inputRef={ register }
                     />
                 </FormContainer>
             </Box>
         </Box>
     )
-}
+});
 
 RHFOrderDetails.propTypes = {
-    rhfMethods: PropTypes.object.isRequired,
-    company: PropTypes.object.isRequired,
+    rhfRegister: PropTypes.func.isRequired,
+    rhfErrors: PropTypes.object.isRequired,
+    rhfControl: PropTypes.object.isRequired,
+    rhfGetValues: PropTypes.func.isRequired,
+    rhfSetValue: PropTypes.func.isRequired,
+    companyAddresses: PropTypes.array.isRequired,
+    companyPorts: PropTypes.array.isRequired,
     clientsMap: PropTypes.object.isRequired,
-    isEdit: PropTypes.bool
+    fieldNames: PropTypes.exact({
+        ref: PropTypes.string.isRequired,
+        date: PropTypes.string.isRequired,
+        fromAdd: PropTypes.string.isRequired,
+        to: PropTypes.string.isRequired,
+        toAdd: PropTypes.string.isRequired,
+        crd: PropTypes.string.isRequired,
+        incoterm: PropTypes.string.isRequired,
+        pay: PropTypes.string.isRequired,
+        clientRef: PropTypes.string.isRequired,
+        notes: PropTypes.string.isRequired,
+        del: PropTypes.string.isRequired,
+        pol: PropTypes.string.isRequired,
+        pod: PropTypes.string.isRequired,
+        carrier: PropTypes.string.isRequired,
+        autoGenerateRef: PropTypes.string,
+        fulfilled: PropTypes.string,
+        realCrd: PropTypes.string
+    }).isRequired,
+    isEdit: PropTypes.bool,
+    className: PropTypes.string
 };
+
+export default RHFOrderDetails;

@@ -85,7 +85,7 @@ const RHFProductTable = React.memo(function RHFProductTable(
         setValue(
             fieldNames.items,
             getValues(fieldNames.items).map(item => {
-                const newItem = {...item};
+                const newItem = { ...item };
                 newItem[name] = '';
                 return newItem;
             })
@@ -314,7 +314,7 @@ const RHFProductTable = React.memo(function RHFProductTable(
                             checked={ value }
                         />
                     }
-                    name="saveItems"
+                    name={ fieldNames.saveItems }
                     control={ control }
                 />
                 }
@@ -343,7 +343,8 @@ RHFProductTable.propTypes = {
         currency: PropTypes.string.isRequired,
         items: PropTypes.string.isRequired,
         quantity: PropTypes.string.isRequired,
-        total: PropTypes.string.isRequired
+        total: PropTypes.string.isRequired,
+        saveItems: PropTypes.string
     }).isRequired,
     products: PropTypes.array.isRequired,
     isEdit: PropTypes.bool,

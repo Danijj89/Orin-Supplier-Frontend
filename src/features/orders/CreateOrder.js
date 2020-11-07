@@ -11,7 +11,7 @@ import { cleanNewOrder } from './duck/slice.js';
 import ErrorDisplay from '../shared/components/ErrorDisplay.js';
 import { selectNewOrder } from './duck/selectors.js';
 import { createOrder } from './duck/thunks.js';
-import { selectCurrentCompany } from '../home/duck/selectors.js';
+import { selectCompanyActiveAddresses, selectCompanyPorts } from '../home/duck/selectors.js';
 import { selectClientsMap } from '../clients/duck/selectors.js';
 import RHFOrderDetails from '../shared/rhf/forms/RHFOrderDetails.js';
 import Footer from '../shared/components/Footer.js';
@@ -37,13 +37,32 @@ const {
     nextButtonLabel
 } = LANGUAGE.order.createOrder;
 
+const orderDetailsFieldNames = {
+    ref: 'ref',
+    date: 'date',
+    fromAdd: 'fromAdd',
+    to: 'to',
+    toAdd: 'toAdd',
+    crd: 'crd',
+    incoterm: 'incoterm',
+    pay: 'pay',
+    clientRef: 'clientRef',
+    notes: 'notes',
+    del: 'del',
+    pol: 'pol',
+    pod: 'pod',
+    carrier: 'carrier',
+    autoGenerateRef: 'autoGenerateRef'
+};
+
 const productTableFieldNames = {
     custom1: 'custom1',
     custom2: 'custom2',
     currency: 'currency',
     items: 'items',
     quantity: 'totalQ',
-    total: 'totalA'
+    total: 'totalA',
+    saveItems: 'saveItems'
 };
 
 export default function CreateOrder() {
@@ -51,7 +70,8 @@ export default function CreateOrder() {
     const history = useHistory();
     const { step } = useParams();
     const newOrder = useSelector(selectNewOrder);
-    const company = useSelector(selectCurrentCompany);
+    const companyAddresses = useSelector(selectCompanyActiveAddresses);
+    const companyPorts = useSelector(selectCompanyPorts);
     const clientsMap = useSelector(selectClientsMap);
     const products = useSelector(selectActiveProducts);
     const [order, setOrder] = useSessionStorage(SESSION_NEW_ORDER, newOrder);
@@ -59,29 +79,29 @@ export default function CreateOrder() {
     const rhfMethods = useForm({
         mode: 'onSubmit',
         defaultValues: {
-            ref: !order.autoGenerateRef ? order.ref : null,
+            [orderDetailsFieldNames.ref]: !order.autoGenerateRef ? order.ref : null,
             from: order.from,
-            fromAdd: order.fromAdd,
-            to: order.to || null,
-            toAdd: order.toAdd || null,
-            date: new Date(order.date),
-            crd: order.crd ? new Date(order.crd) : null,
-            incoterm: order.incoterm || null,
-            pay: order.pay,
-            clientRef: order.clientRef,
-            notes: order.notes,
-            pol: order.pol || null,
-            pod: order.pod || null,
-            del: order.del,
-            carrier: order.carrier,
-            currency: order.currency,
-            items: order.items,
-            custom1: order.custom1,
-            custom2: order.custom2,
-            totalQ: order.totalQ,
-            totalA: order.totalA,
-            saveItems: order.saveItems,
-            autoGenerateRef: order.autoGenerateRef,
+            [orderDetailsFieldNames.fromAdd]: order.fromAdd,
+            [orderDetailsFieldNames.to]: order.to || null,
+            [orderDetailsFieldNames.toAdd]: order.toAdd || null,
+            [orderDetailsFieldNames.date]: new Date(order.date),
+            [orderDetailsFieldNames.crd]: order.crd ? new Date(order.crd) : null,
+            [orderDetailsFieldNames.incoterm]: order.incoterm || null,
+            [orderDetailsFieldNames.pay]: order.pay,
+            [orderDetailsFieldNames.clientRef]: order.clientRef,
+            [orderDetailsFieldNames.notes]: order.notes,
+            [orderDetailsFieldNames.pol]: order.pol || null,
+            [orderDetailsFieldNames.pod]: order.pod || null,
+            [orderDetailsFieldNames.del]: order.del,
+            [orderDetailsFieldNames.carrier]: order.carrier,
+            [productTableFieldNames.currency]: order.currency,
+            [productTableFieldNames.items]: order.items,
+            [productTableFieldNames.custom1]: order.custom1,
+            [productTableFieldNames.custom2]: order.custom2,
+            [productTableFieldNames.totalQ]: order.totalQ,
+            [productTableFieldNames.totalA]: order.totalA,
+            [productTableFieldNames.saveItems]: order.saveItems,
+            [orderDetailsFieldNames.autoGenerateRef]: order.autoGenerateRef,
             createdBy: order.createdBy
         }
     });
@@ -130,18 +150,29 @@ export default function CreateOrder() {
             <Divider/>
             <Paper>
                 { errMessages.length > 0 && <ErrorDisplay errors={ errMessages }/> }
-                { step === 'details' &&
-                <RHFOrderDetails rhfMethods={ rhfMethods } company={ company } clientsMap={ clientsMap }/> }
-                { step === 'products' &&
-                <RHFProductTable
-                    rhfErrors={ errors }
-                    rhfControl={ control }
-                    rhfSetValue={ setValue }
-                    rhfGetValues={ getValues }
-                    fieldNames={ productTableFieldNames }
-                    products={ products }
-                />
-                }
+                <Box hidden={ step !== 'details' }>
+                    <RHFOrderDetails
+                        rhfRegister={ register }
+                        rhfErrors={ errors }
+                        rhfControl={ control }
+                        rhfGetValues={ getValues }
+                        rhfSetValue={ setValue }
+                        companyAddresses={ companyAddresses }
+                        companyPorts={ companyPorts }
+                        clientsMap={ clientsMap }
+                        fieldNames={ orderDetailsFieldNames }
+                    />
+                </Box>
+                <Box hidden={ step !== 'products' }>
+                    <RHFProductTable
+                        rhfErrors={ errors }
+                        rhfControl={ control }
+                        rhfSetValue={ setValue }
+                        rhfGetValues={ getValues }
+                        fieldNames={ productTableFieldNames }
+                        products={ products }
+                    />
+                </Box>
             </Paper>
             <Footer
                 prevLabel={ step === 'details' ? prevButtonLabel.details : prevButtonLabel.products }
