@@ -630,7 +630,8 @@ export const ENGLISH = {
                     totalLabel: 'Total:',
                     errorMessages: {
                         missingMeasurementUnit: 'You must select a measurement unit.',
-                        missingWeightUnit: 'You must select a weight unit.'
+                        missingWeightUnit: 'You must select a weight unit.',
+                        missingCustomColumnName: 'You must give a name to all custom columns.'
                     }
                 },
                 util: {

@@ -167,6 +167,7 @@ export default function CreateOrder() {
                 </Box>
                 <Box hidden={ step !== 'products' }>
                     <RHFProductTable
+                        rhfRegister={ register }
                         rhfErrors={ errors }
                         rhfControl={ control }
                         rhfSetValue={ setValue }

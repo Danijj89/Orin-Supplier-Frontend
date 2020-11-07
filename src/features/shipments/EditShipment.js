@@ -133,6 +133,7 @@ const EditShipment = React.memo(function EditShipment() {
                 </Box>
                 <Box hidden={ tabValue !== 'products' }>
                     <RHFProductTable
+                        rhfRegister={ register }
                         rhfErrors={ errors }
                         rhfControl={ control }
                         rhfSetValue={ setValue }
@@ -144,6 +145,7 @@ const EditShipment = React.memo(function EditShipment() {
                 </Box>
                 <Box hidden={ tabValue !== 'measures' }>
                     <RHFMeasureTable
+                        rhfRegister={ register }
                         rhfControl={ control }
                         rhfGetValues={ getValues }
                         rhfSetValue={ setValue }

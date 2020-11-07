@@ -35,7 +35,6 @@ export default function TableTextField({ type, className, ...props }) {
     //         target.type = 'number';
     //     }
     // }
-    console.log(props.value)
 
     return (
         <TextField
