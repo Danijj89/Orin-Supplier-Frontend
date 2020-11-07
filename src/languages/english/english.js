@@ -610,6 +610,7 @@ export const ENGLISH = {
                     },
                     errorMessages: {
                         missingCurrency: 'You must select a currency.',
+                        missingCustomColumnName: 'You must give a name to all custom columns.'
                     }
                 },
                 measureTable: {

@@ -2,6 +2,8 @@ import { packageUnitsOptions } from '../../../constants.js';
 
 export const defaultProductRowValues = {
     _id: null,
+    product: null,
+    order: null,
     ref: '',
     description: '',
     quantity: 0,

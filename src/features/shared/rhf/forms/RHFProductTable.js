@@ -25,6 +25,7 @@ const {
 
 const RHFProductTable = React.memo(function RHFProductTable(
     {
+        rhfRegister: register,
         rhfErrors: errors,
         rhfControl: control,
         rhfSetValue: setValue,
@@ -101,6 +102,8 @@ const RHFProductTable = React.memo(function RHFProductTable(
         [getValues, setValue, fieldNames]);
 
     const onCellChange = useCallback((rowIdx, key, newValue) => {
+        console.log(key);
+        console.log(newValue);
         const items = getValues(fieldNames.items);
         const newItem = { ...items[rowIdx] };
         let newTotalQ;
@@ -108,16 +111,12 @@ const RHFProductTable = React.memo(function RHFProductTable(
         switch (key) {
             case 'ref':
                 if (newValue._id) {
-                    newItem._id = newValue._id;
+                    newItem.product = newValue._id;
                     newItem.ref = newValue.sku;
                     newItem.description = newValue.description;
-                } else if (!products.find(product => product.sku === newValue)) {
-                    //FIXME: material ui triggers onChange twice with freeSolo + autoSelect
-                    // so we need this check to prevent the second onChange to set the newItem._id
-                    // to null. Remove if bug is solved.
-                    newItem._id = null;
-                    newItem.description = '';
+                } else {
                     newItem.ref = newValue;
+                    newItem.description = '';
                 }
                 break;
             case 'quantity':
@@ -155,7 +154,7 @@ const RHFProductTable = React.memo(function RHFProductTable(
                 newItem[key] = newValue;
         }
         setValue(fieldNames.items, [...items.slice(0, rowIdx), newItem, ...items.slice(rowIdx + 1)])
-    }, [setValue, products, getValues, fieldNames]);
+    }, [setValue, getValues, fieldNames]);
 
     const columns = useMemo(() => ([
         { field: 'id', hide: true },
@@ -184,6 +183,7 @@ const RHFProductTable = React.memo(function RHFProductTable(
             renderHeader: () =>
                 <TableTextField
                     name={ fieldNames.custom1 }
+                    inputRef={ register({ required: errorMessages.missingCustomColumnName }) }
                     InputProps={ {
                         endAdornment:
                             <IconButton size="small" onClick={ () => onDeleteColumn(fieldNames.custom1) }>
@@ -200,6 +200,7 @@ const RHFProductTable = React.memo(function RHFProductTable(
             renderHeader: () =>
                 <TableTextField
                     name={ fieldNames.custom2 }
+                    inputRef={ register({ required: errorMessages.missingCustomColumnName }) }
                     InputProps={ {
                         endAdornment:
                             <IconButton size="small" onClick={ () => onDeleteColumn(fieldNames.custom2) }>
@@ -247,6 +248,7 @@ const RHFProductTable = React.memo(function RHFProductTable(
             width: 200
         }
     ]), [
+        register,
         custom1,
         custom2,
         onAddColumn,
@@ -329,6 +331,7 @@ const RHFProductTable = React.memo(function RHFProductTable(
 });
 
 RHFProductTable.propTypes = {
+    rhfRegister: PropTypes.func.isRequired,
     rhfErrors: PropTypes.object.isRequired,
     rhfControl: PropTypes.object.isRequired,
     rhfSetValue: PropTypes.func.isRequired,

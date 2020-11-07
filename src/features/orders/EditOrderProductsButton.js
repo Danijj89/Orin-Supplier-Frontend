@@ -12,7 +12,7 @@ const {
     dialogSubmitLabel
 } = LANGUAGE.order.order.orderDetails.orderProductTable.editOrderProductsButton;
 
-export default function EditOrderProductsButton({ order, className }) {
+export default function EditOrderProductsButton({ order, productMap, className }) {
     const dispatch = useDispatch();
     const [isEdit, setIsEdit] = useState(false);
 
@@ -21,13 +21,17 @@ export default function EditOrderProductsButton({ order, className }) {
 
     const onSubmit = (data) => {
         data.id = order._id;
-        for (const item of data.items) {
-            if (!item.product) {
-                item.product = item._id;
+        data.items = data.items.map(item => {
+            if (!item._id) {
                 item.order = order._id;
-                item._id = null;
+            } else if (!item.product && productMap.hasOwnProperty(item._id)) {
+                const newItem = { ...item };
+                newItem.product = newItem._id;
+                newItem.order = order._id;
+                return newItem;
             }
-        }
+            return item;
+        });
         dispatch(updateOrderProducts(data));
         setIsEdit(false);
     };

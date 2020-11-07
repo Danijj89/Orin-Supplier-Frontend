@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import FormDialog from '../wrappers/FormDialog.js';
 import { useForm } from 'react-hook-form';
@@ -40,23 +40,26 @@ export default function OrderProductsDialog(
     const { register, errors, control, setValue, getValues, handleSubmit, reset } = rhfMethods;
 
     const onFormSubmit = data => onSubmit(data);
-
+    const mounted = useRef(false);
     useEffect(() => {
-        register({ name: productTableFieldNames.items }, { validate: validateItems });
-        register({ name: productTableFieldNames.custom1 });
-        register({ name: productTableFieldNames.custom2 });
-        register({ name: productTableFieldNames.quantity });
-        register({ name: productTableFieldNames.total });
+        if (mounted.current) {
+            register({ name: productTableFieldNames.items }, { validate: validateItems });
+            register({ name: productTableFieldNames.custom1 });
+            register({ name: productTableFieldNames.custom2 });
+            register({ name: productTableFieldNames.quantity });
+            register({ name: productTableFieldNames.total });
+        }
+        mounted.current = true;
     }, [register]);
 
     useEffect(() => {
         reset({
-            custom1: order.custom1,
-            custom2: order.custom2,
-            items: order.items,
-            totalQ: order.totalQ,
-            totalA: order.totalA,
-            currency: order.currency
+            [productTableFieldNames.custom1]: order.custom1,
+            [productTableFieldNames.custom2]: order.custom2,
+            [productTableFieldNames.items]: order.items,
+            [productTableFieldNames.quantity]: order.totalQ,
+            [productTableFieldNames.total]: order.totalA,
+            [productTableFieldNames.currency]: order.currency
         });
     }, [reset, order]);
 
@@ -69,6 +72,7 @@ export default function OrderProductsDialog(
             onSubmit={ handleSubmit(onFormSubmit) }
         >
             <RHFProductTable
+                rhfRegister={ register }
                 rhfErrors={ errors }
                 rhfControl={ control }
                 rhfSetValue={ setValue }

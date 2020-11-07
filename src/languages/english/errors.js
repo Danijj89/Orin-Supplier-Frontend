@@ -11,5 +11,6 @@ export const ENGLISH_ERRORS = {
     DUPLICATE_PRODUCT_SKU: 'Unable to perform the update. The given SKU already exists.',
     SHIPMENT_CURRENCY_MISMATCH: 'Unable to create a shipment. Chosen orders have different currencies.',
     SHIPMENT_SHIP_ADDRESS_MISMATCH: 'Unable to create a shipment. Chosen orders have different shipping addresses.',
+    SHIPMENT_EXCESSIVE_CUSTOM_COLUMNS: 'Unable to create a shipment. Chosen orders have too many different custom columns.',
     DEFAULT: 'Error occurred. Please try again later.'
 };
