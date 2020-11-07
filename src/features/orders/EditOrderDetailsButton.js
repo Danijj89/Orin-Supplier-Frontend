@@ -27,18 +27,9 @@ export default function EditOrderDetailsButton({ order, className }) {
     const onDelete = () => dispatch(deleteOrder(order._id));
 
     const onSubmit = (data) => {
-        const { fromAdd, toAdd, ...rest } = data;
-        rest._id = order._id;
-        rest.to = rest.to._id;
-        if (!fromAdd.addressId) {
-            const { _id, type, phone, email, ...address } = fromAdd;
-            rest.fromAdd = { addressId: _id, ...address };
-        }
-        if (!toAdd.addressId) {
-            const { _id, type, phone, email, ...address } = toAdd;
-            rest.toAdd = { addressId: _id, ...address };
-        }
-        dispatch(updateOrderDetails(rest));
+        data._id = order._id;
+        data.to = data.to._id;
+        dispatch(updateOrderDetails(data));
         setIsEdit(false);
     };
 
