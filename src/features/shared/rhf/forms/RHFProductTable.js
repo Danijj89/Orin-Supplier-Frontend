@@ -102,8 +102,6 @@ const RHFProductTable = React.memo(function RHFProductTable(
         [getValues, setValue, fieldNames]);
 
     const onCellChange = useCallback((rowIdx, key, newValue) => {
-        console.log(key);
-        console.log(newValue);
         const items = getValues(fieldNames.items);
         const newItem = { ...items[rowIdx] };
         let newTotalQ;

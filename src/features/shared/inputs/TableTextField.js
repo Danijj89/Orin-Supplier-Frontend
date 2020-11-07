@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function  TableTextField({ type, className, ...props }) {
+export default function TableTextField({ type, className, ...props }) {
     const classes = useStyles({ type });
     const classNames = clsx(classes.input, className);
 
@@ -35,6 +35,7 @@ export default function  TableTextField({ type, className, ...props }) {
     //         target.type = 'number';
     //     }
     // }
+    console.log(props.value)
 
     return (
         <TextField
@@ -42,6 +43,7 @@ export default function  TableTextField({ type, className, ...props }) {
             type={ type }
             className={ classNames }
             InputProps={ { ...props.InputProps, disableUnderline: true } }
+            value={ props.value === null ? '' : props.value }
         />
     )
 }
