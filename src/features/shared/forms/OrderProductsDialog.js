@@ -29,12 +29,12 @@ export default function OrderProductsDialog(
     const rhfMethods = useForm({
         mode: 'onSubmit',
         defaultValues: {
-            custom1: order.custom1,
-            custom2: order.custom2,
-            items: order.items,
-            totalQ: order.totalQ,
-            totalA: order.totalA,
-            currency: order.currency
+            [productTableFieldNames.custom1]: order.custom1,
+            [productTableFieldNames.custom2]: order.custom2,
+            [productTableFieldNames.items]: order.items,
+            [productTableFieldNames.quantity]: order.totalQ,
+            [productTableFieldNames.total]: order.totalA,
+            [productTableFieldNames.currency]: order.currency
         }
     });
     const { register, errors, control, setValue, getValues, handleSubmit, reset } = rhfMethods;
