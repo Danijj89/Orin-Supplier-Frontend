@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ThemedButton from '../buttons/ThemedButton.js';
-import { Box } from '@material-ui/core';
+import { Box, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
@@ -12,6 +12,15 @@ const useStyles = makeStyles((theme) => ({
         paddingTop: theme.spacing(1),
         paddingBottom: theme.spacing(1),
         width: '100%'
+    },
+    cancelButton: {
+        color: theme.palette.danger.main,
+        borderColor: theme.palette.danger.main,
+        '&:hover': {
+            color: theme.palette.danger.dark,
+            borderColor: theme.palette.danger.dark,
+        },
+        marginRight: theme.spacing(1),
     }
 }));
 
@@ -20,12 +29,15 @@ const Footer = React.memo(function Footer({ prevLabel, nextLabel, onPrevClick, o
 
     return (
         <Box className={ classes.container }>
-            <ThemedButton onClick={ onPrevClick }>
+            <Grid container justify="center"
+                alignItems="center">
+            <ThemedButton className={classes.cancelButton} onClick={ onPrevClick } variant = 'outlined'>
                 { prevLabel }
             </ThemedButton>
             <ThemedButton onClick={ onNextClick }>
                 { nextLabel }
             </ThemedButton>
+            </Grid>
         </Box>
     )
 });

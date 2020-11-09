@@ -18,6 +18,18 @@ import Footer from '../shared/components/Footer.js';
 import RHFProductTable from '../shared/rhf/forms/RHFProductTable.js';
 import { selectActiveProducts } from '../products/duck/selectors.js';
 import { validateItems } from '../shared/rhf/forms/util/helpers.js';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+    orderRoot: {
+         margin: theme.spacing(2),
+         marginTop: theme.spacing(0),
+    },
+    newOrderLabel: {
+        marginTop: '-10px',
+        marginBottom: theme.spacing(1),
+    },
+}));
 
 function getCurrentStep(stepLabel) {
     switch (stepLabel) {
@@ -47,6 +59,7 @@ const productTableFieldNames = {
 };
 
 export default function CreateOrder() {
+    const classes = useStyles();
     const dispatch = useDispatch();
     const history = useHistory();
     const { step } = useParams();
@@ -123,13 +136,14 @@ export default function CreateOrder() {
     };
 
     return (
-        <Box>
+        <Box >
+            <Box className={classes.orderRoot}>
             { getCurrentStep(step) === -1 && <Redirect to={ '/home/orders' }/> }
             <DocumentStepper activeStep={ getCurrentStep(step) } steps={ Object.values(stepLabelsMap) }/>
-            <Typography variant="h5">{ titleLabel }</Typography>
+            <Typography className={classes.newOrderLabel} variant="h5">{ titleLabel }</Typography>
             <Divider/>
             <Paper>
-                { errMessages.length > 0 && <ErrorDisplay errors={ errMessages }/> }
+                {/* { errMessages.length > 0 && <ErrorDisplay errors={ errMessages }/> } */}
                 { step === 'details' &&
                 <RHFOrderDetails rhfMethods={ rhfMethods } company={ company } clientsMap={ clientsMap }/> }
                 { step === 'products' &&
@@ -143,12 +157,14 @@ export default function CreateOrder() {
                 />
                 }
             </Paper>
-            <Footer
-                prevLabel={ step === 'details' ? prevButtonLabel.details : prevButtonLabel.products }
-                nextLabel={ step === 'details' ? nextButtonLabel.details : nextButtonLabel.products }
-                onPrevClick={ onPrevClick }
-                onNextClick={ onNextClick }
-            />
+            
+            </Box>
+                <Footer
+                    prevLabel={ step === 'details' ? prevButtonLabel.details : prevButtonLabel.products }
+                    nextLabel={ step === 'details' ? nextButtonLabel.details : nextButtonLabel.products }
+                    onPrevClick={ onPrevClick }
+                    onNextClick={ onNextClick }
+                />
         </Box>
     )
 }

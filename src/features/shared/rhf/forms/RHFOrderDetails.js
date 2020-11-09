@@ -7,7 +7,7 @@ import { formatAddress } from '../../utils/format.js';
 import SideDateField from '../../inputs/SideDateField.js';
 import { deliveryMethodOptions, incotermOptions } from '../../constants.js';
 import FormContainer from '../../wrappers/FormContainer.js';
-import { Box, Divider, Typography } from '@material-ui/core';
+import { Box, Divider, Typography, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import SideCheckBox from '../../inputs/SideCheckBox.js';
 import SideTextArea from '../../inputs/SideTextArea.js';
@@ -69,6 +69,8 @@ export default function RHFOrderDetails({ rhfMethods, isEdit, company, clientsMa
 
     return (
         <Box className={ classes.container }>
+            <Grid container justify="center">
+            <Grid item>
             <Box className={ classes.details }>
                 { !isEdit && <Typography variant="h5">{ detailsTitleLabel }</Typography> }
                 <FormContainer>
@@ -221,7 +223,11 @@ export default function RHFOrderDetails({ rhfMethods, isEdit, company, clientsMa
                     /> }
                 </FormContainer>
             </Box>
+            </Grid>
+            
             <Divider orientation="vertical" flexItem/>
+            
+            <Grid item >
             <Box className={ classes.shipping }>
                 { !isEdit && <Typography variant="h5">{ shippingInfoTitleLabel }</Typography> }
                 <FormContainer>
@@ -269,6 +275,8 @@ export default function RHFOrderDetails({ rhfMethods, isEdit, company, clientsMa
                     />
                 </FormContainer>
             </Box>
+            </Grid>
+            </Grid>
         </Box>
     )
 }

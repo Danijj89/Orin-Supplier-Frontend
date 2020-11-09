@@ -25,10 +25,24 @@ const useStyles = makeStyles((theme) => ({
     chipContainer: {
         borderStyle: 'solid',
         borderWidth: 1,
-        borderColor: theme.palette.tertiary.main,
+        borderColor: theme.palette.grey.light,
         minHeight: 50,
         margin: theme.spacing(1),
-        padding: 0
+        padding: 0,
+        borderRadius: '5px',
+        paddingTop: theme.spacing(1),
+        paddingLeft: theme.spacing(1),
+    },
+    shipmentRoot: {
+         margin: theme.spacing(2),
+         marginTop: theme.spacing(0),
+    },
+    newShipmentLabel: {
+        marginTop: '-10px',
+        marginBottom: theme.spacing(1),
+    },
+    chip: {
+        marginRight: theme.spacing(1),
     }
 }));
 
@@ -211,7 +225,8 @@ export default function CreateShipment() {
 
     return (
         <Box>
-            <Typography variant="h5">{ titleLabel }</Typography>
+        <Box className={classes.shipmentRoot}>
+            <Typography className={classes.newShipmentLabel} variant="h5">{ titleLabel }</Typography>
             <Divider/>
             <Paper>
                 { errs.length > 0 && <ErrorDisplay errors={ errs }/> }
@@ -274,10 +289,13 @@ export default function CreateShipment() {
                             key={ id }
                             component="li"
                             label={ ordersMap[id].ref }
+                            className = {classes.chip}
                         />) }
                 </Box>
                 <Table columns={ columns } rows={ rows }/>
             </Paper>
+            
+        </Box>
             <Footer
                 prevLabel={ prevButtonLabel }
                 nextLabel={ nextButtonLabel }

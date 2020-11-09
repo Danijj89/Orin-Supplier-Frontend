@@ -11,10 +11,21 @@ import { determineStatus } from '../shared/utils/state.js';
 import { selectShipmentDataStatus } from './duck/selectors.js';
 import ShipmentsTable from './ShipmentsTable.js';
 import Loader from '../shared/components/Loader.js';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+    shipmentOverviewRoot: {
+        margin: theme.spacing(2),
+    },
+    newShipmentButton: {
+        margin: theme.spacing(2),
+    }
+}));
 
 const { newShipmentButtonLabel } = LANGUAGE.shipment.overview;
 
 export default function ShipmentOverview() {
+    const classes = useStyles();
     const history = useHistory();
     const dispatch = useDispatch();
     const company = useSelector(selectCurrentCompany);
@@ -35,9 +46,10 @@ export default function ShipmentOverview() {
         <>
             { status === 'PENDING' && <Loader/> }
             { status === 'FULFILLED' &&
-            <Paper>
+            <Paper className = {classes.shipmentOverviewRoot}>
                 <ThemedButton
                     onClick={ onNewOrderClick }
+                    className={ classes.newShipmentButton }
                 >
                     { newShipmentButtonLabel }
                 </ThemedButton>

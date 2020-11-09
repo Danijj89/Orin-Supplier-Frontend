@@ -45,7 +45,6 @@ export default function ClientOverview() {
                     userId={ userId }
                     companyId={ company._id }
                     users={ users }
-                    className={ classes.newClientButton }
                 />
                 <ClientsTable />
             </Paper> }

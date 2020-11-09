@@ -24,8 +24,8 @@ const useStyles = makeStyles((theme) => ({
     root: {
         padding: theme.spacing(2),
         [theme.breakpoints.up('lg')]: {
-            paddingLeft: theme.spacing(25),
-            paddingRight: theme.spacing(25),
+            paddingLeft: theme.spacing(10),
+            paddingRight: theme.spacing(10),
         },
     },
     orderTabs: {
