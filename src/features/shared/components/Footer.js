@@ -14,14 +14,18 @@ const useStyles = makeStyles((theme) => ({
         width: '100%'
     },
     cancelButton: {
-        color: theme.palette.danger.main,
-        borderColor: theme.palette.danger.main,
+        color: theme.palette.danger.light,
+        borderColor: theme.palette.danger.light,
         '&:hover': {
-            color: theme.palette.danger.dark,
+            color: theme.palette.white.main,
             borderColor: theme.palette.danger.dark,
+            backgroundColor: theme.palette.danger.main,
         },
         marginRight: theme.spacing(1),
-    }
+    },
+    submitButton: {
+        width: theme.spacing(20),
+    },
 }));
 
 const Footer = React.memo(function Footer({ prevLabel, nextLabel, onPrevClick, onNextClick }) {
@@ -34,7 +38,7 @@ const Footer = React.memo(function Footer({ prevLabel, nextLabel, onPrevClick, o
             <ThemedButton className={classes.cancelButton} onClick={ onPrevClick } variant = 'outlined'>
                 { prevLabel }
             </ThemedButton>
-            <ThemedButton onClick={ onNextClick }>
+            <ThemedButton className={classes.submitButton} onClick={ onNextClick }>
                 { nextLabel }
             </ThemedButton>
             </Grid>

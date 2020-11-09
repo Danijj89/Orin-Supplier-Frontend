@@ -25,6 +25,7 @@ let appTheme = createMuiTheme({
         danger: {
             main: '#F45B69' /* Fiery Rose */,
             dark: '#990B16' /* Carmine */,
+            light: '#ed6e85' /* Paradise pink */,
         },
         warning: {
             main: '#FFBA08' /* Selective Yellow */,

@@ -38,7 +38,6 @@ const useStyles = makeStyles((theme) => ({
          marginTop: theme.spacing(0),
     },
     newShipmentLabel: {
-        marginTop: '-10px',
         marginBottom: theme.spacing(1),
     },
     chip: {
