@@ -4,7 +4,7 @@ import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { LANGUAGE } from '../../app/constants.js';
 import OrderDetailsDialog from '../shared/forms/OrderDetailsDialog.js';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectCurrentCompany } from '../home/duck/selectors.js';
+import { selectCompanyActiveAddresses, selectCompanyPorts } from '../home/duck/selectors.js';
 import { selectClientsMap } from '../clients/duck/selectors.js';
 import { deleteOrder, updateOrderDetails } from './duck/thunks.js';
 
@@ -16,7 +16,8 @@ const {
 
 export default function EditOrderDetailsButton({ order, className }) {
     const dispatch = useDispatch();
-    const company = useSelector(selectCurrentCompany);
+    const companyAddresses = useSelector(selectCompanyActiveAddresses);
+    const companyPorts = useSelector(selectCompanyPorts);
     const clientsMap = useSelector(selectClientsMap);
     const [isEdit, setIsEdit] = useState(false);
 
@@ -26,18 +27,9 @@ export default function EditOrderDetailsButton({ order, className }) {
     const onDelete = () => dispatch(deleteOrder(order._id));
 
     const onSubmit = (data) => {
-        const { fromAdd, toAdd, ...rest } = data;
-        rest._id = order._id;
-        rest.to = rest.to._id;
-        if (!fromAdd.addressId) {
-            const { _id, type, phone, email, ...address } = fromAdd;
-            rest.fromAdd = { addressId: _id, ...address };
-        }
-        if (!toAdd.addressId) {
-            const { _id, type, phone, email, ...address } = toAdd;
-            rest.toAdd = { addressId: _id, ...address };
-        }
-        dispatch(updateOrderDetails(rest));
+        data._id = order._id;
+        data.to = data.to._id;
+        dispatch(updateOrderDetails(data));
         setIsEdit(false);
     };
 
@@ -50,7 +42,8 @@ export default function EditOrderDetailsButton({ order, className }) {
             </ThemedButton>
             <OrderDetailsDialog
                 order={ order }
-                company={ company }
+                companyAddresses={ companyAddresses }
+                companyPorts={ companyPorts }
                 clientsMap={ clientsMap }
                 isOpen={ isEdit }
                 titleLabel={ dialogTitleLabel }

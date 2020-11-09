@@ -9,14 +9,33 @@ const {
     deleteMessage
 } = LANGUAGE.shared.forms.orderDetailsDialog;
 
-export default function OrderDetailsDialog(
+const orderDetailsFieldNames = {
+    ref: 'ref',
+    fromAdd: 'fromAdd',
+    to: 'to',
+    toAdd: 'toAdd',
+    crd: 'crd',
+    incoterm: 'incoterm',
+    pay: 'pay',
+    clientRef: 'clientRef',
+    shipAdd: 'shipAdd',
+    del: 'del',
+    pol: 'pol',
+    pod: 'pod',
+    carrier: 'carrier',
+    fulfilled: 'fulfilled',
+    realCrd: 'realCrd'
+};
+
+const OrderDetailsDialog = React.memo(function OrderDetailsDialog(
     {
         isOpen,
         onSubmit,
         onCancel,
         submitLabel,
         order,
-        company,
+        companyAddresses,
+        companyPorts,
         clientsMap,
         titleLabel,
         onDelete
@@ -26,26 +45,27 @@ export default function OrderDetailsDialog(
         mode: 'onSubmit'
     });
 
-    const { handleSubmit, reset } = rhfMethods;
+    const { register, control, setValue, getValues, errors, handleSubmit, reset } = rhfMethods;
 
     const onFormSubmit = data => onSubmit(data);
 
     useEffect(() => {
         reset({
-            ref: order?.ref,
-            fulfilled: order?.fulfilled,
-            fromAdd: order?.fromAdd,
-            to: order?.to && clientsMap[order.to],
-            toAdd: order?.toAdd,
-            incoterm: order?.incoterm,
-            crd: order?.crd,
-            realCrd: order?.realCrd,
-            clientRef: order?.clientRef,
-            pol: order?.pol,
-            pod: order?.pod,
-            pay: order?.pay,
-            del: order?.del,
-            carrier: order?.carrier
+            [orderDetailsFieldNames.ref]: order?.ref,
+            [orderDetailsFieldNames.fulfilled]: order?.fulfilled,
+            [orderDetailsFieldNames.fromAdd]: order?.fromAdd,
+            [orderDetailsFieldNames.to]: order?.to && clientsMap[order.to],
+            [orderDetailsFieldNames.toAdd]: order?.toAdd,
+            [orderDetailsFieldNames.incoterm]: order?.incoterm,
+            [orderDetailsFieldNames.crd]: order?.crd,
+            [orderDetailsFieldNames.realCrd]: order?.realCrd,
+            [orderDetailsFieldNames.clientRef]: order?.clientRef,
+            [orderDetailsFieldNames.shipAdd]: order?.shipAdd,
+            [orderDetailsFieldNames.pol]: order?.pol,
+            [orderDetailsFieldNames.pod]: order?.pod,
+            [orderDetailsFieldNames.pay]: order?.pay,
+            [orderDetailsFieldNames.del]: order?.del,
+            [orderDetailsFieldNames.carrier]: order?.carrier
         });
     }, [reset, order, clientsMap]);
 
@@ -59,10 +79,21 @@ export default function OrderDetailsDialog(
             onDelete={ onDelete }
             deleteMessage={ deleteMessage }
         >
-            <RHFOrderDetails rhfMethods={ rhfMethods } company={company} clientsMap={clientsMap} isEdit/>
+            <RHFOrderDetails
+                rhfRegister={ register }
+                rhfErrors={errors}
+                rhfControl={control}
+                rhfGetValues={getValues}
+                rhfSetValue={setValue}
+                companyAddresses={companyAddresses}
+                companyPorts={companyPorts}
+                clientsMap={clientsMap}
+                fieldNames={orderDetailsFieldNames}
+                isEdit
+            />
         </FormDialog>
     )
-}
+});
 
 OrderDetailsDialog.propTypes = {
     isOpen: PropTypes.bool.isRequired,
@@ -71,7 +102,10 @@ OrderDetailsDialog.propTypes = {
     submitLabel: PropTypes.string.isRequired,
     titleLabel: PropTypes.string.isRequired,
     order: PropTypes.object,
-    company: PropTypes.object,
-    clientsMap: PropTypes.object,
+    companyAddresses: PropTypes.array.isRequired,
+    companyPorts: PropTypes.array.isRequired,
+    clientsMap: PropTypes.object.isRequired,
     onDelete: PropTypes.func
 };
+
+export default OrderDetailsDialog;

@@ -12,7 +12,7 @@ import { defaultProductRowValues } from '../../shared/rhf/forms/util/constants.j
 
 export const ordersAdapter = createEntityAdapter({
     selectId: order => order._id,
-    sortComparer: (a, b) => a.date.localeCompare(b.date)
+    sortComparer: (a, b) => b.createdAt.localeCompare(a.createdAt)
 });
 
 const initialState = ordersAdapter.getInitialState({

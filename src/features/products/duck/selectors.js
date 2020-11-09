@@ -13,3 +13,14 @@ export const selectActiveProducts = createSelector(
     state => state.products.entities,
     entities => Object.values(entities).filter(p => p.active)
 );
+
+export const selectActiveProductMap = createSelector(
+    state => state.products.entities,
+    entities => {
+        const result = {};
+        for (const [id, product] of Object.entries(entities)) {
+            if (product.active) result[id] = product;
+        }
+        return result;
+    }
+);

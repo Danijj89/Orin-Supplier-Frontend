@@ -20,6 +20,7 @@ const {
 
 const RHFMeasureTable = React.memo(function RHFMeasureTable(
     {
+        rhfRegister: register,
         rhfControl: control,
         rhfGetValues: getValues,
         rhfSetValue: setValue,
@@ -163,6 +164,7 @@ const RHFMeasureTable = React.memo(function RHFMeasureTable(
             renderHeader: () =>
                 <TableTextField
                     name={ fieldNames.custom1 }
+                    inputRef={ register({ required: errorMessages.missingCustomColumnName }) }
                     InputProps={ {
                         endAdornment:
                             <IconButton size="small" onClick={ () => onDeleteColumn(fieldNames.custom1) }>
@@ -179,6 +181,7 @@ const RHFMeasureTable = React.memo(function RHFMeasureTable(
             renderHeader: () =>
                 <TableTextField
                     name={ fieldNames.custom2 }
+                    inputRef={ register({ required: errorMessages.missingCustomColumnName }) }
                     InputProps={ {
                         endAdornment:
                             <IconButton size="small" onClick={ () => onDeleteColumn(fieldNames.custom2) }>
@@ -232,6 +235,7 @@ const RHFMeasureTable = React.memo(function RHFMeasureTable(
             width: 80
         }
     ]), [
+        register,
         custom1,
         custom2,
         fieldNames,
@@ -314,6 +318,7 @@ const RHFMeasureTable = React.memo(function RHFMeasureTable(
 });
 
 RHFMeasureTable.propTypes = {
+    rhfRegister: PropTypes.func.isRequired,
     rhfControl: PropTypes.object.isRequired,
     rhfGetValues: PropTypes.func.isRequired,
     rhfSetValue: PropTypes.func.isRequired,

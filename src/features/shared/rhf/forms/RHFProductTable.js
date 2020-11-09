@@ -14,6 +14,7 @@ import UnitCounter from '../../classes/UnitCounter.js';
 import { roundToNDecimal } from '../../utils/format.js';
 import ErrorDisplay from '../../components/ErrorDisplay.js';
 import { defaultProductRowValues } from './util/constants.js';
+import SideCheckBox from '../../inputs/SideCheckBox.js';
 
 const {
     formLabels,
@@ -24,12 +25,14 @@ const {
 
 const RHFProductTable = React.memo(function RHFProductTable(
     {
+        rhfRegister: register,
         rhfErrors: errors,
         rhfControl: control,
         rhfSetValue: setValue,
         rhfGetValues: getValues,
         fieldNames,
         products,
+        isEdit,
         className
     }) {
 
@@ -83,7 +86,7 @@ const RHFProductTable = React.memo(function RHFProductTable(
         setValue(
             fieldNames.items,
             getValues(fieldNames.items).map(item => {
-                const newItem = {...item};
+                const newItem = { ...item };
                 newItem[name] = '';
                 return newItem;
             })
@@ -106,16 +109,12 @@ const RHFProductTable = React.memo(function RHFProductTable(
         switch (key) {
             case 'ref':
                 if (newValue._id) {
-                    newItem._id = newValue._id;
+                    newItem.product = newValue._id;
                     newItem.ref = newValue.sku;
                     newItem.description = newValue.description;
-                } else if (!products.find(product => product.sku === newValue)) {
-                    //FIXME: material ui triggers onChange twice with freeSolo + autoSelect
-                    // so we need this check to prevent the second onChange to set the newItem._id
-                    // to null. Remove if bug is solved.
-                    newItem._id = null;
-                    newItem.description = '';
+                } else {
                     newItem.ref = newValue;
+                    newItem.description = '';
                 }
                 break;
             case 'quantity':
@@ -153,7 +152,7 @@ const RHFProductTable = React.memo(function RHFProductTable(
                 newItem[key] = newValue;
         }
         setValue(fieldNames.items, [...items.slice(0, rowIdx), newItem, ...items.slice(rowIdx + 1)])
-    }, [setValue, products, getValues, fieldNames]);
+    }, [setValue, getValues, fieldNames]);
 
     const columns = useMemo(() => ([
         { field: 'id', hide: true },
@@ -182,6 +181,7 @@ const RHFProductTable = React.memo(function RHFProductTable(
             renderHeader: () =>
                 <TableTextField
                     name={ fieldNames.custom1 }
+                    inputRef={ register({ required: errorMessages.missingCustomColumnName }) }
                     InputProps={ {
                         endAdornment:
                             <IconButton size="small" onClick={ () => onDeleteColumn(fieldNames.custom1) }>
@@ -198,6 +198,7 @@ const RHFProductTable = React.memo(function RHFProductTable(
             renderHeader: () =>
                 <TableTextField
                     name={ fieldNames.custom2 }
+                    inputRef={ register({ required: errorMessages.missingCustomColumnName }) }
                     InputProps={ {
                         endAdornment:
                             <IconButton size="small" onClick={ () => onDeleteColumn(fieldNames.custom2) }>
@@ -245,6 +246,7 @@ const RHFProductTable = React.memo(function RHFProductTable(
             width: 200
         }
     ]), [
+        register,
         custom1,
         custom2,
         onAddColumn,
@@ -277,23 +279,6 @@ const RHFProductTable = React.memo(function RHFProductTable(
         { field: 'total', value: `${ currencySymbol } ${ total }`, colSpan: 1, align: 'right' }
     ]], [numColumns, total, quantity, currencySymbol]);
 
-    const currencyDropdown = useMemo(() =>
-            <Controller
-                render={ props =>
-                    <SideAutoComplete
-                        { ...props }
-                        options={ currenciesOptions }
-                        label={ formLabels.currency }
-                        error={ !!errors.currency }
-                        required
-                    />
-                }
-                name={ fieldNames.currency }
-                control={ control }
-                rules={ { required: errorMessages.missingCurrency } }
-            />
-        , [control, errors.currency, fieldNames.currency]);
-
     return (
         <Grid container className={ className }>
             { isError &&
@@ -302,7 +287,33 @@ const RHFProductTable = React.memo(function RHFProductTable(
             </Grid>
             }
             <Grid container item justify="flex-end" xs={ 12 }>
-                { currencyDropdown }
+                <Controller
+                    render={ props =>
+                        <SideAutoComplete
+                            { ...props }
+                            options={ currenciesOptions }
+                            label={ formLabels.currency }
+                            error={ !!errors[fieldNames.currency] }
+                            required
+                        />
+                    }
+                    name={ fieldNames.currency }
+                    control={ control }
+                    rules={ { required: errorMessages.missingCurrency } }
+                />
+                { !isEdit &&
+                <Controller
+                    render={ ({ value, ...rest }) =>
+                        <SideCheckBox
+                            { ...rest }
+                            label={ formLabels.saveItems }
+                            checked={ value }
+                        />
+                    }
+                    name={ fieldNames.saveItems }
+                    control={ control }
+                />
+                }
             </Grid>
             <Grid item xs={ 12 }>
                 <EditableTable
@@ -318,6 +329,7 @@ const RHFProductTable = React.memo(function RHFProductTable(
 });
 
 RHFProductTable.propTypes = {
+    rhfRegister: PropTypes.func.isRequired,
     rhfErrors: PropTypes.object.isRequired,
     rhfControl: PropTypes.object.isRequired,
     rhfSetValue: PropTypes.func.isRequired,
@@ -328,9 +340,11 @@ RHFProductTable.propTypes = {
         currency: PropTypes.string.isRequired,
         items: PropTypes.string.isRequired,
         quantity: PropTypes.string.isRequired,
-        total: PropTypes.string.isRequired
+        total: PropTypes.string.isRequired,
+        saveItems: PropTypes.string
     }).isRequired,
     products: PropTypes.array.isRequired,
+    isEdit: PropTypes.bool,
     className: PropTypes.string
 };
 

@@ -29,7 +29,7 @@ export default function Table(
     { rows, columns, className, onRowClick, dense, disableRowHover, footer }) {
     const classes = useStyles();
     const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(5);
+    const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const numColumns = columns.reduce((acc, col) => {
         if (!col.hide) acc += 1;
         return acc;
@@ -144,7 +144,7 @@ export default function Table(
                     <TableRow>
                         <TablePagination
                             labelRowsPerPage={ rowsPerPageLabel }
-                            rowsPerPageOptions={ [5, 10, 25, { label: paginationAllLabel, value: -1 }] }
+                            rowsPerPageOptions={ [10, 25, 50, { label: paginationAllLabel, value: -1 }] }
                             colSpan={ numColumns }
                             count={ rows.length }
                             rowsPerPage={ rowsPerPage }
