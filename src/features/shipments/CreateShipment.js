@@ -19,7 +19,7 @@ import { selectCurrentUserId } from '../../app/duck/selectors.js';
 import { createShipment, updateShipmentShell } from './duck/thunks.js';
 import ErrorDisplay from '../shared/components/ErrorDisplay.js';
 import { selectOrderShipmentItemMap, selectShipmentById, selectShipmentError } from './duck/selectors.js';
-import { cleanNewShipment } from './duck/slice.js';
+import { cleanNewShipment, cleanShipmentError } from './duck/slice.js';
 
 const useStyles = makeStyles((theme) => ({
     chipContainer: {
@@ -106,6 +106,10 @@ export default function CreateShipment() {
             mounted.current = true;
         }
     }, [chosenClient, register, clientsMap, ordersMap, initialOrderIds, setValue]);
+
+    useEffect(() => {
+        dispatch(cleanShipmentError());
+    }, [dispatch])
 
     const onCheckboxSelection = (value, orderId) => {
         if (value) {

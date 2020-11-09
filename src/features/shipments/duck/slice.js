@@ -17,8 +17,11 @@ const shipmentsSlice = createSlice({
     name: 'shipments',
     initialState,
     reducers: {
-        cleanNewShipment: (state) => {
+        cleanNewShipment: (state, action) => {
             state.currentShipmentId = null;
+        },
+        cleanShipmentError: (state, action) => {
+            state.error = null;
         }
     },
     extraReducers: {
@@ -73,6 +76,6 @@ const shipmentsSlice = createSlice({
     }
 });
 
-export const { cleanNewShipment } = shipmentsSlice.actions;
+export const { cleanNewShipment, cleanShipmentError } = shipmentsSlice.actions;
 
 export default shipmentsSlice.reducer;
