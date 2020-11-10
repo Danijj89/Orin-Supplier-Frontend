@@ -637,6 +637,10 @@ export const ENGLISH = {
                     }
                 },
                 consolidationTable: {
+                    formLabels: {
+                        measurementUnit: 'Measurement Unit',
+                        weightUnit: 'Weight Unit'
+                    },
                     tableHeaderLabels: {
                         description: 'Description',
                         localD: 'Local Description',
@@ -648,6 +652,7 @@ export const ENGLISH = {
                         grossW: 'Gross Weight',
                         dim: 'Volume'
                     },
+                    totalLabel: 'Total:',
                     errorMessages: {
                         missingCustomColumnName: 'You must give a name to all custom columns.'
                     }

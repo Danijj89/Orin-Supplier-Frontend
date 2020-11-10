@@ -16,6 +16,7 @@ import Footer from '../shared/components/Footer.js';
 import RHFProductTable, { validateItems } from '../shared/rhf/forms/RHFProductTable.js';
 import { selectActiveProducts } from '../products/duck/selectors.js';
 import RHFMeasureTable from '../shared/rhf/forms/RHFMeasureTable.js';
+import RHFConsolidationTable from '../shared/rhf/forms/RHFConsolidationTable.js';
 
 const {
     titleLabel,
@@ -43,6 +44,18 @@ const measureTableFieldNames = {
     weightUnit: 'weightUnit',
     measurementUnit: 'measurementUnit',
     items: productTableFieldNames.items
+};
+
+const consolidationTableFieldNames = {
+    custom1: 'coCustom1',
+    custom2: 'coCustom2',
+    package: 'coPackage',
+    netWeight: 'coNetWeight',
+    grossWeight: 'coGrossWeight',
+    dimension: 'coDimension',
+    weightUnit: measureTableFieldNames.weightUnit,
+    measurementUnit: measureTableFieldNames.measurementUnit,
+    items: 'coItems'
 };
 
 const EditShipment = React.memo(function EditShipment() {
@@ -87,6 +100,13 @@ const EditShipment = React.memo(function EditShipment() {
             [productTableFieldNames.custom2]: shipment.ciCustom2,
             [measureTableFieldNames.custom1]: shipment.plCustom1,
             [measureTableFieldNames.custom2]: shipment.plCustom2,
+            [consolidationTableFieldNames.custom1]: shipment.coCustom1,
+            [consolidationTableFieldNames.custom2]: shipment.coCustom2,
+            [consolidationTableFieldNames.package]: shipment.coPackage,
+            [consolidationTableFieldNames.netWeight]: shipment.coNetWeight,
+            [consolidationTableFieldNames.grossWeight]: shipment.coGrossWeight,
+            [consolidationTableFieldNames.dimension]: shipment.coDimension,
+            [consolidationTableFieldNames.items]: shipment.coItems || []
         }
     });
     const { register, control, errors, setValue, getValues } = rhfMethods;
@@ -103,6 +123,13 @@ const EditShipment = React.memo(function EditShipment() {
         register({ name: measureTableFieldNames.netWeight });
         register({ name: measureTableFieldNames.grossWeight });
         register({ name: measureTableFieldNames.dimension });
+        register({ name: consolidationTableFieldNames.custom1 });
+        register({ name: consolidationTableFieldNames.custom2 });
+        register({ name: consolidationTableFieldNames.package });
+        register({ name: consolidationTableFieldNames.netWeight });
+        register({ name: consolidationTableFieldNames.grossWeight });
+        register({ name: consolidationTableFieldNames.dimension });
+        register({ name: consolidationTableFieldNames.items });
     }, [register]);
 
     const onPrevClick = useCallback(() => history.goBack(), [history]);
@@ -150,6 +177,16 @@ const EditShipment = React.memo(function EditShipment() {
                         rhfSetValue={ setValue }
                         rhfErrors={ errors }
                         fieldNames={ measureTableFieldNames }
+                    />
+                </Box>
+                <Box hidden={ tabValue !== 'consolidation' }>
+                    <RHFConsolidationTable
+                        rhfRegister={ register }
+                        rhfControl={ control }
+                        rhfSetValue={ setValue }
+                        rhfGetValues={ getValues }
+                        rhfErrors={ errors }
+                        fieldNames={ consolidationTableFieldNames }
                     />
                 </Box>
             </Box>
