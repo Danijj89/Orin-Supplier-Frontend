@@ -610,7 +610,9 @@ export const ENGLISH = {
                     },
                     errorMessages: {
                         missingCurrency: 'You must select a currency.',
-                        missingCustomColumnName: 'You must give a name to all custom columns.'
+                        missingCustomColumnName: 'You must give a name to all custom columns.',
+                        missingItemInfo: 'Some item is missing information.',
+                        missingItems: 'You need to add at least one item'
                     }
                 },
                 measureTable: {
@@ -634,12 +636,20 @@ export const ENGLISH = {
                         missingCustomColumnName: 'You must give a name to all custom columns.'
                     }
                 },
-                util: {
-                    helpers: {
-                        errorMessages: {
-                            missingItemInfo: 'Some item is missing information.',
-                            missingItems: 'You need to add at least one item'
-                        }
+                consolidationTable: {
+                    tableHeaderLabels: {
+                        description: 'Description',
+                        localD: 'Local Description',
+                        hsc: 'HTS Code',
+                        dg: 'DG',
+                        package: 'Packaging',
+                        pUnit: 'Unit',
+                        netW: 'Net Weight',
+                        grossW: 'Gross Weight',
+                        dim: 'Volume'
+                    },
+                    errorMessages: {
+                        missingCustomColumnName: 'You must give a name to all custom columns.'
                     }
                 }
             }

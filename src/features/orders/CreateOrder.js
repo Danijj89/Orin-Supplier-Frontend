@@ -15,9 +15,8 @@ import { selectCompanyActiveAddresses, selectCompanyPorts } from '../home/duck/s
 import { selectClientsMap } from '../clients/duck/selectors.js';
 import RHFOrderDetails from '../shared/rhf/forms/RHFOrderDetails.js';
 import Footer from '../shared/components/Footer.js';
-import RHFProductTable from '../shared/rhf/forms/RHFProductTable.js';
+import RHFProductTable, { validateItems } from '../shared/rhf/forms/RHFProductTable.js';
 import { selectActiveProducts } from '../products/duck/selectors.js';
-import { validateItems } from '../shared/rhf/forms/util/helpers.js';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({

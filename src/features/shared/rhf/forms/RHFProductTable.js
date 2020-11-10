@@ -23,6 +23,15 @@ const {
     totalLabel
 } = LANGUAGE.shared.rhf.forms.productTable;
 
+export const validateItems = (items) => {
+    if (!items.length) return errorMessages.missingItems;
+    for (const item of items) {
+        if (!(item.ref && item.quantity && item.unit && item.price))
+            return errorMessages.missingItemInfo;
+    }
+    return true;
+};
+
 const RHFProductTable = React.memo(function RHFProductTable(
     {
         rhfRegister: register,

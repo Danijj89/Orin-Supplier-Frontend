@@ -2,10 +2,9 @@ import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import FormDialog from '../wrappers/FormDialog.js';
 import { useForm } from 'react-hook-form';
-import RHFProductTable from '../rhf/forms/RHFProductTable.js';
+import RHFProductTable, { validateItems } from '../rhf/forms/RHFProductTable.js';
 import { useSelector } from 'react-redux';
 import { selectActiveProducts } from '../../products/duck/selectors.js';
-import { validateItems } from '../rhf/forms/util/helpers.js';
 
 const productTableFieldNames = {
     custom1: 'custom1',

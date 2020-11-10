@@ -13,10 +13,9 @@ import { selectShipmentById } from './duck/selectors.js';
 import OrdersInfoForm from './OrdersInfoForm.js';
 import ShipmentInfoForm from './ShipmentInfoForm.js';
 import Footer from '../shared/components/Footer.js';
-import RHFProductTable from '../shared/rhf/forms/RHFProductTable.js';
+import RHFProductTable, { validateItems } from '../shared/rhf/forms/RHFProductTable.js';
 import { selectActiveProducts } from '../products/duck/selectors.js';
 import RHFMeasureTable from '../shared/rhf/forms/RHFMeasureTable.js';
-import { validateItems } from '../shared/rhf/forms/util/helpers.js';
 
 const {
     titleLabel,
