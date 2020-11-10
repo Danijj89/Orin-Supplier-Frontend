@@ -143,6 +143,12 @@ const RHFMeasureTable = React.memo(function RHFMeasureTable(
                 setValue(fieldNames.dimension, roundToNDecimal(getValues(fieldNames.dimension) + diff, 3));
                 newItem.dim = newValue;
                 break;
+            case 'custom1':
+                newItem[fieldNames.custom1] = newValue;
+                break;
+            case 'custom2':
+                newItem[fieldNames.custom2] = newValue;
+                break;
             default:
                 newItem[key] = newValue;
         }
