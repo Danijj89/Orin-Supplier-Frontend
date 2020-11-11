@@ -1,5 +1,11 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import { createShipment, fetchShipmentById, fetchShipments, updateShipmentShell } from './thunks.js';
+import {
+    createShipment,
+    fetchShipmentById,
+    fetchShipments,
+    updateShipmentInfo,
+    updateShipmentShell
+} from './thunks.js';
 
 export const shipmentsAdapter = createEntityAdapter({
     selectId: shipment => shipment._id,
@@ -21,6 +27,10 @@ const shipmentsSlice = createSlice({
             state.currentShipmentId = null;
         },
         cleanShipmentError: (state, action) => {
+            state.error = null;
+        },
+        cleanShipmentStatus: (state, action) => {
+            state.status = 'IDLE';
             state.error = null;
         }
     },
@@ -73,9 +83,22 @@ const shipmentsSlice = createSlice({
             state.status = 'REJECTED';
             state.error = action.payload.message;
         },
+        [updateShipmentInfo.pending]: (state, action) => {
+            state.status = 'PENDING';
+        },
+        [updateShipmentInfo.fulfilled]: (state, action) => {
+            const { id, update: changes } = action.payload;
+            shipmentsAdapter.updateOne(state, { id, changes });
+            state.currentShipmentId = id;
+            state.status = 'FULFILLED';
+        },
+        [updateShipmentInfo.rejected]: (state, action) => {
+            state.status = 'REJECTED';
+            state.error = action.payload.message;
+        },
     }
 });
 
-export const { cleanNewShipment, cleanShipmentError } = shipmentsSlice.actions;
+export const { cleanNewShipment, cleanShipmentError, cleanShipmentStatus } = shipmentsSlice.actions;
 
 export default shipmentsSlice.reducer;

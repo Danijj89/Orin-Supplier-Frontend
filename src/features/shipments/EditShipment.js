@@ -1,24 +1,25 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import { Box, Card, Typography } from '@material-ui/core';
 import { LANGUAGE } from '../../app/constants.js';
 import NavTabs from '../shared/components/NavTabs.js';
 import { useForm } from 'react-hook-form';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { selectShipmentById } from './duck/selectors.js';
-import Footer from '../shared/components/Footer.js';
+import { selectShipmentById, selectShipmentError, selectShipmentStatus } from './duck/selectors.js';
 import RHFProductTable, { validateItems } from '../shared/rhf/forms/RHFProductTable.js';
 import { selectActiveProducts } from '../products/duck/selectors.js';
 import RHFMeasureTable from '../shared/rhf/forms/RHFMeasureTable.js';
 import RHFConsolidationTable from '../shared/rhf/forms/RHFConsolidationTable.js';
 import ShipmentInfo from './ShipmentInfo.js';
+import Loader from '../shared/components/Loader.js';
+import SuccessMessage from '../shared/components/SuccessMessage.js';
+import { cleanShipmentStatus } from './duck/slice.js';
+import ErrorDisplay from '../shared/components/ErrorDisplay.js';
 
 const {
     titleLabel,
     tabsLabelsMap,
-    prevButtonLabel,
-    nextButtonLabel
+    successMessage
 } = LANGUAGE.shipment.editShipment;
 
 const productTableFieldNames = {
@@ -55,11 +56,20 @@ const consolidationTableFieldNames = {
 };
 
 const EditShipment = React.memo(function EditShipment() {
-    const history = useHistory();
+    const dispatch = useDispatch();
     const { id } = useParams();
+    const shipmentStatus = useSelector(selectShipmentStatus);
+    const shipmentError = useSelector(selectShipmentError);
     const shipment = useSelector(state => selectShipmentById(state, id));
     const products = useSelector(selectActiveProducts);
     const [tabValue, setTabValue] = useState('shipment');
+
+    const onTabChange = useCallback(
+        (newTab) => {
+            setTabValue(newTab);
+            dispatch(cleanShipmentStatus());
+        },
+        [dispatch]);
 
     const rhfMethods = useForm({
         mode: 'onSubmit',
@@ -108,13 +118,8 @@ const EditShipment = React.memo(function EditShipment() {
         register({ name: consolidationTableFieldNames.grossWeight });
         register({ name: consolidationTableFieldNames.dimension });
         register({ name: consolidationTableFieldNames.items });
-    }, [register]);
-
-    const onPrevClick = useCallback(() => history.goBack(), [history]);
-
-    const onSubmit = useCallback(rhfMethods.handleSubmit(data => {
-        console.log(data)
-    }), []);
+        dispatch(cleanShipmentStatus());
+    }, [register, dispatch]);
 
     return (
         <Card>
@@ -122,8 +127,11 @@ const EditShipment = React.memo(function EditShipment() {
             <NavTabs
                 tabsLabelsMap={ tabsLabelsMap }
                 tabValue={ tabValue }
-                onChange={ setTabValue }
+                onChange={ onTabChange }
             />
+            { shipmentStatus === 'REJECTED' && <ErrorDisplay errors={ [shipmentError] }/> }
+            { shipmentStatus === 'FULFILLED' && <SuccessMessage message={ successMessage }/> }
+            { shipmentStatus === 'PENDING' && <Loader/> }
             <Box>
                 <Box hidden={ tabValue !== 'shipment' }>
                     <ShipmentInfo shipment={ shipment }/>
@@ -161,12 +169,6 @@ const EditShipment = React.memo(function EditShipment() {
                     />
                 </Box>
             </Box>
-            <Footer
-                prevLabel={ prevButtonLabel }
-                nextLabel={ nextButtonLabel }
-                onPrevClick={ onPrevClick }
-                onNextClick={ onSubmit }
-            />
         </Card>
     )
 });

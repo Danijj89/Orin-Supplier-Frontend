@@ -1,6 +1,6 @@
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectCompanyActiveAddresses, selectCompanyPorts } from '../home/duck/selectors.js';
 import { selectClientActiveAddresses } from '../clients/duck/selectors.js';
 import { Grid } from '@material-ui/core';
@@ -8,11 +8,12 @@ import SideAutoComplete from '../shared/inputs/SideAutoComplete.js';
 import { formatAddress } from '../shared/utils/format.js';
 import InfoCard from '../shared/wrappers/InfoCard.js';
 import { LANGUAGE } from '../../app/constants.js';
-import { Box } from '@material-ui/core';
 import SideDateField from '../shared/inputs/SideDateField.js';
 import { billOfLandingTypesOptions, deliveryMethodOptions, incotermOptions } from '../shared/constants.js';
 import SideTextField from '../shared/inputs/SideTextField.js';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
+import { updateShipmentInfo } from './duck/thunks.js';
+import { addressToDocAddress } from '../shared/utils/entityConversion.js';
 
 const {
     partiesTitleLabel,
@@ -24,6 +25,7 @@ const {
 } = LANGUAGE.shipment.editShipment.shipmentInfo;
 
 const ShipmentInfo = React.memo(function ShipmentInfo({ shipment }) {
+    const dispatch = useDispatch();
     const sellerAddresses = useSelector(selectCompanyActiveAddresses);
     const consigneeAddresses = useSelector(state => selectClientActiveAddresses(state, shipment.consignee));
     const ports = useSelector(selectCompanyPorts);
@@ -35,17 +37,15 @@ const ShipmentInfo = React.memo(function ShipmentInfo({ shipment }) {
             consigneeAdd: consigneeAddresses.find(a => a._id === shipment.consigneeAdd.addressId),
             shipAdd: consigneeAddresses.find(a => a._id === shipment.shipAdd?.addressId) || null,
             crd: shipment.crd || null,
-            incoterm: shipment.incoterm,
-            clientRef: shipment.clientRef,
-            pay: shipment.pay,
-            bolType: shipment.bolType,
+            incoterm: shipment.incoterm || null,
+            bolType: shipment.bolType || null,
             coo: shipment.coo,
-            del: shipment.del,
-            pol: shipment.pol,
-            pod: shipment.pod,
+            del: shipment.del || null,
+            pol: shipment.pol || null,
+            pod: shipment.pod || null,
             carrier: shipment.carrier,
             eta: shipment.eta || null,
-            etd: shipment.etd || null,
+            etd: shipment.etd || null
         }
     });
 
@@ -53,7 +53,15 @@ const ShipmentInfo = React.memo(function ShipmentInfo({ shipment }) {
     const consigneeAdd = watch('consigneeAdd');
     const shipAdd = watch('shipAdd');
 
-    const onSubmit = (data) => {}
+    const onSubmit = (data) => {
+        data.sellerAdd = addressToDocAddress(data.sellerAdd);
+        data.consigneeAdd = addressToDocAddress(data.consigneeAdd);
+        data.shipAdd = addressToDocAddress(data.shipAdd);
+        data.crd = data.crd?.toString();
+        data.eta = data.eta?.toString();
+        data.etd = data.etd?.toString();
+        dispatch(updateShipmentInfo({ id: shipment._id, ...data }));
+    };
 
     return (
         <form onSubmit={ handleSubmit(onSubmit) } autoComplete="off">
@@ -147,18 +155,8 @@ const ShipmentInfo = React.memo(function ShipmentInfo({ shipment }) {
                                 name="incoterm"
                                 control={ control }
                             />
-                            <SideTextField
-                                label={ formLabels.clientRef }
-                                name="clientRef"
-                                inputRef={ register }
-                            />
                         </Grid>
                         <Grid container item justify="flex-end" xs={ 6 }>
-                            <SideTextField
-                                label={ formLabels.pay }
-                                name="pay"
-                                inputRef={ register }
-                            />
                             <Controller
                                 render={ (props) => (
                                     <SideAutoComplete

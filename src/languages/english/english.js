@@ -428,8 +428,7 @@ export const ENGLISH = {
                 measures: 'Measures',
                 consolidation: 'Consolidation'
             },
-            prevButtonLabel: 'Cancel',
-            nextButtonLabel: 'Submit',
+            successMessage: 'Update Successful!',
             shipmentInfo: {
                 partiesTitleLabel: 'Parties',
                 orderInfoTitleLabel: 'Order Information',
@@ -441,7 +440,6 @@ export const ENGLISH = {
                     crd: 'Cargo Ready Date',
                     incoterm: 'Incoterm',
                     clientRef: 'Client Order Ref.',
-                    pay: 'Payment Method',
                     bolType: 'Bill of Landing Type',
                     coo: 'Country of Manufacture',
                     del: 'Delivery Method',
