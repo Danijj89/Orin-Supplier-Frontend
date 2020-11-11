@@ -6,8 +6,6 @@ import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { selectShipmentById, selectShipmentError, selectShipmentStatus } from './duck/selectors.js';
-import RHFProductTable, { validateItems } from '../shared/rhf/forms/RHFProductTable.js';
-import { selectActiveProducts } from '../products/duck/selectors.js';
 import RHFMeasureTable from '../shared/rhf/forms/RHFMeasureTable.js';
 import RHFConsolidationTable from '../shared/rhf/forms/RHFConsolidationTable.js';
 import ShipmentInfo from './ShipmentInfo.js';
@@ -15,21 +13,13 @@ import Loader from '../shared/components/Loader.js';
 import SuccessMessage from '../shared/components/SuccessMessage.js';
 import { cleanShipmentStatus } from './duck/slice.js';
 import ErrorDisplay from '../shared/components/ErrorDisplay.js';
+import ShipmentProductTable from './ShipmentProductTable.js';
 
 const {
     titleLabel,
     tabsLabelsMap,
     successMessage
 } = LANGUAGE.shipment.editShipment;
-
-const productTableFieldNames = {
-    custom1: 'ciCustom1',
-    custom2: 'ciCustom2',
-    currency: 'currency',
-    items: 'items',
-    quantity: 'quantity',
-    total: 'total'
-};
 
 const measureTableFieldNames = {
     custom1: 'plCustom1',
@@ -40,7 +30,7 @@ const measureTableFieldNames = {
     dimension: 'dimension',
     weightUnit: 'weightUnit',
     measurementUnit: 'measurementUnit',
-    items: productTableFieldNames.items
+    items: 'items'
 };
 
 const consolidationTableFieldNames = {
@@ -50,8 +40,8 @@ const consolidationTableFieldNames = {
     netWeight: 'coNetWeight',
     grossWeight: 'coGrossWeight',
     dimension: 'coDimension',
-    weightUnit: measureTableFieldNames.weightUnit,
-    measurementUnit: measureTableFieldNames.measurementUnit,
+    weightUnit: 'weightUnit',
+    measurementUnit: 'measurementUnit',
     items: 'coItems'
 };
 
@@ -61,7 +51,7 @@ const EditShipment = React.memo(function EditShipment() {
     const shipmentStatus = useSelector(selectShipmentStatus);
     const shipmentError = useSelector(selectShipmentError);
     const shipment = useSelector(state => selectShipmentById(state, id));
-    const products = useSelector(selectActiveProducts);
+
     const [tabValue, setTabValue] = useState('shipment');
 
     const onTabChange = useCallback(
@@ -74,18 +64,13 @@ const EditShipment = React.memo(function EditShipment() {
     const rhfMethods = useForm({
         mode: 'onSubmit',
         defaultValues: {
-            [productTableFieldNames.currency]: shipment.currency,
-            [productTableFieldNames.items]: shipment.items,
-            [productTableFieldNames.quantity]: shipment.quantity,
-            [productTableFieldNames.total]: shipment.total,
+            [measureTableFieldNames.items]: shipment.items,
             [measureTableFieldNames.measurementUnit]: shipment.measurementUnit,
             [measureTableFieldNames.weightUnit]: shipment.weightUnit,
             [measureTableFieldNames.package]: shipment.package,
             [measureTableFieldNames.netWeight]: shipment.netWeight,
             [measureTableFieldNames.grossWeight]: shipment.grossWeight,
             [measureTableFieldNames.dimension]: shipment.dimension,
-            [productTableFieldNames.custom1]: shipment.ciCustom1,
-            [productTableFieldNames.custom2]: shipment.ciCustom2,
             [measureTableFieldNames.custom1]: shipment.plCustom1,
             [measureTableFieldNames.custom2]: shipment.plCustom2,
             [consolidationTableFieldNames.custom1]: shipment.coCustom1,
@@ -100,11 +85,7 @@ const EditShipment = React.memo(function EditShipment() {
     const { register, control, errors, setValue, getValues } = rhfMethods;
 
     useEffect(() => {
-        register({ name: productTableFieldNames.items }, { validate: validateItems });
-        register({ name: productTableFieldNames.custom1 });
-        register({ name: productTableFieldNames.custom2 });
-        register({ name: productTableFieldNames.quantity });
-        register({ name: productTableFieldNames.total });
+        register({ name: measureTableFieldNames.items });
         register({ name: measureTableFieldNames.custom1 });
         register({ name: measureTableFieldNames.custom2 });
         register({ name: measureTableFieldNames.package });
@@ -137,16 +118,7 @@ const EditShipment = React.memo(function EditShipment() {
                     <ShipmentInfo shipment={ shipment }/>
                 </Box>
                 <Box hidden={ tabValue !== 'products' }>
-                    <RHFProductTable
-                        rhfRegister={ register }
-                        rhfErrors={ errors }
-                        rhfControl={ control }
-                        rhfSetValue={ setValue }
-                        rhfGetValues={ getValues }
-                        products={ products }
-                        fieldNames={ productTableFieldNames }
-                        isEdit
-                    />
+                    <ShipmentProductTable shipment={ shipment }/>
                 </Box>
                 <Box hidden={ tabValue !== 'measures' }>
                     <RHFMeasureTable

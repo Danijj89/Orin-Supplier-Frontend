@@ -38,7 +38,7 @@ export const updateShipmentShell = createAsyncThunk('shipments/updateShipmentShe
     });
 
 export const updateShipmentInfo = createAsyncThunk('shipment/updateShipmentInfo',
-    async ({ id, ...update}, {rejectWithValue}) => {
+    async ({ id, ...update }, { rejectWithValue }) => {
         try {
             await ShipmentService.updateShipmentInfo(id, update);
             return { id, update };
@@ -46,3 +46,12 @@ export const updateShipmentInfo = createAsyncThunk('shipment/updateShipmentInfo'
             return rejectWithValue(err.response.data);
         }
     });
+
+export const updateShipmentProducts = createAsyncThunk('shipment/updateShipmentProducts',
+    async ({ id, update }, { rejectWithValue }) => {
+        try {
+            return await ShipmentService.updateShipmentProducts(id, update);
+        } catch (err) {
+            return rejectWithValue(err.response.data);
+        }
+    })

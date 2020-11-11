@@ -1,5 +1,5 @@
-export function addressToDocAddress(address) {
-    return {
+export const addressToDocAddress = (address) => (
+    {
         addressId: address._id,
         name: address.name,
         address: address.address,
@@ -8,5 +8,35 @@ export function addressToDocAddress(address) {
         administrative: address.administrative,
         country: address.country,
         zip: address.zip
-    };
-}
+    }
+);
+
+
+export const tableItemsToOrderItems = (tableItems, orderId = null) =>
+    tableItems.map(item => ({
+            _id: item._id,
+            order: orderId,
+            product: item.product,
+            ref: item.ref,
+            description: item.description,
+            quantity: item.quantity,
+            unit: item.unit,
+            price: item.price,
+            total: item.total,
+            custom1: item.custom1,
+            custom2: item.custom2
+        }));
+
+export const productTableItemsToItems = (tableItems) =>
+    tableItems.map(item => ({
+        _id: item._id,
+        product: item.product,
+        ref: item.ref,
+        description: item.description,
+        quantity: item.quantity,
+        unit: item.unit,
+        price: item.price,
+        total: item.total,
+        ciCustom1: item.ciCustom1,
+        ciCustom2: item.ciCustom2,
+    }));

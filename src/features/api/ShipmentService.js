@@ -51,12 +51,23 @@ const updateShipmentInfo = async (id, update) => {
     return data;
 };
 
+const updateShipmentProducts = async (id, update) => {
+    const configs = {
+        method: 'put',
+        url: `shipments/${id}/products`,
+        data: update
+    };
+    const { data } = await fetchWithAuth(configs);
+    return data;
+};
+
 const ShipmentService = {
     createShipment,
     fetchShipments,
     fetchShipmentById,
     updateShipmentShell,
-    updateShipmentInfo
+    updateShipmentInfo,
+    updateShipmentProducts
 };
 
 export default ShipmentService;

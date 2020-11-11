@@ -3,7 +3,7 @@ import {
     createShipment,
     fetchShipmentById,
     fetchShipments,
-    updateShipmentInfo,
+    updateShipmentInfo, updateShipmentProducts,
     updateShipmentShell
 } from './thunks.js';
 
@@ -89,13 +89,24 @@ const shipmentsSlice = createSlice({
         [updateShipmentInfo.fulfilled]: (state, action) => {
             const { id, update: changes } = action.payload;
             shipmentsAdapter.updateOne(state, { id, changes });
-            state.currentShipmentId = id;
             state.status = 'FULFILLED';
         },
         [updateShipmentInfo.rejected]: (state, action) => {
             state.status = 'REJECTED';
             state.error = action.payload.message;
         },
+        [updateShipmentProducts.pending]: (state, action) => {
+            state.status = 'PENDING';
+        },
+        [updateShipmentProducts.fulfilled]: (state, action) => {
+            const { _id, ...changes } = action.payload;
+            shipmentsAdapter.updateOne(state, { id: _id, changes });
+            state.status = 'FULFILLED';
+        },
+        [updateShipmentProducts.rejected]: (state, action) => {
+            state.status = 'REJECTED';
+            state.error = action.payload.message;
+        }
     }
 });
 

@@ -455,24 +455,8 @@ export const ENGLISH = {
                     missingConsigneeAdd: 'You must select a consignee address.'
                 }
             },
-            products: {
-                tableHeaderLabels: {
-                    ref: 'Item Reference',
-                    description: 'Product Description',
-                    quantity: 'Quantity',
-                    unit: 'Unit',
-                    price: 'Unit Price',
-                    total: 'Amount',
-                    package: 'Packaging',
-                    pUnit: 'P. Unit',
-                    netW: 'Net Weight',
-                    grossW: 'Gross Weight',
-                    dim: 'Volume'
-                },
-                totalLabel: 'Total:',
-                errorMessages: {
-                    missingCurrency: 'You must select a currency.'
-                }
+            productTable: {
+                submitButtonLabel: 'Submit'
             },
             measures: {
                 formLabels: {
