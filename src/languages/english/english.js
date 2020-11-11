@@ -430,38 +430,31 @@ export const ENGLISH = {
             },
             prevButtonLabel: 'Cancel',
             nextButtonLabel: 'Submit',
-            parties: {
-                titleLabel: 'Parties',
+            shipmentInfo: {
+                partiesTitleLabel: 'Parties',
+                orderInfoTitleLabel: 'Order Information',
+                shippingTitleLabel: 'Shipping Information',
                 formLabels: {
                     sellerAdd: 'Shipper',
                     consigneeAdd: 'Consignee',
-                    shipAdd: 'Ship To'
-                },
-                errorMessages: {
-                    missingSellerAdd: 'You must select a seller address.',
-                    missingConsigneeAdd: 'You must select a consignee address.'
-                }
-            },
-            ordersInfo: {
-                titleLabel: 'Order Information',
-                formLabels: {
+                    shipAdd: 'Ship To',
                     crd: 'Cargo Ready Date',
                     incoterm: 'Incoterm',
                     clientRef: 'Client Order Ref.',
                     pay: 'Payment Method',
                     bolType: 'Bill of Landing Type',
-                    coo: 'Country of Manufacture'
-                }
-            },
-            shipmentInfo: {
-                titleLabel: 'Order Information',
-                formLabels: {
+                    coo: 'Country of Manufacture',
                     del: 'Delivery Method',
                     pol: 'Port of Loading',
                     pod: 'Port of Discharge',
                     carrier: 'Freight Forwarder',
                     eta: 'ETA',
                     etd: 'ETD'
+                },
+                submitButtonLabel: 'Update',
+                errorMessages: {
+                    missingSellerAdd: 'You must select a seller address.',
+                    missingConsigneeAdd: 'You must select a consignee address.'
                 }
             },
             products: {

@@ -3,20 +3,16 @@ import { useHistory } from 'react-router-dom';
 import { Box, Card, Typography } from '@material-ui/core';
 import { LANGUAGE } from '../../app/constants.js';
 import NavTabs from '../shared/components/NavTabs.js';
-import PartiesForm from './PartiesForm.js';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
-import { selectCompanyActiveAddresses, selectCompanyPorts } from '../home/duck/selectors.js';
-import { selectClientActiveAddresses } from '../clients/duck/selectors.js';
 import { useParams } from 'react-router-dom';
 import { selectShipmentById } from './duck/selectors.js';
-import OrdersInfoForm from './OrdersInfoForm.js';
-import ShipmentInfoForm from './ShipmentInfoForm.js';
 import Footer from '../shared/components/Footer.js';
 import RHFProductTable, { validateItems } from '../shared/rhf/forms/RHFProductTable.js';
 import { selectActiveProducts } from '../products/duck/selectors.js';
 import RHFMeasureTable from '../shared/rhf/forms/RHFMeasureTable.js';
 import RHFConsolidationTable from '../shared/rhf/forms/RHFConsolidationTable.js';
+import ShipmentInfo from './ShipmentInfo.js';
 
 const {
     titleLabel,
@@ -63,29 +59,11 @@ const EditShipment = React.memo(function EditShipment() {
     const { id } = useParams();
     const shipment = useSelector(state => selectShipmentById(state, id));
     const products = useSelector(selectActiveProducts);
-    const sellerAddresses = useSelector(selectCompanyActiveAddresses);
-    const consigneeAddresses = useSelector(state => selectClientActiveAddresses(state, shipment.consignee));
-    const ports = useSelector(selectCompanyPorts);
     const [tabValue, setTabValue] = useState('shipment');
 
     const rhfMethods = useForm({
         mode: 'onSubmit',
         defaultValues: {
-            sellerAdd: sellerAddresses.find(a => a._id === shipment.sellerAdd.addressId),
-            consigneeAdd: consigneeAddresses.find(a => a._id === shipment.consigneeAdd.addressId),
-            shipAdd: consigneeAddresses.find(a => a._id === shipment.shipAdd?.addressId) || null,
-            crd: shipment.crd || null,
-            incoterm: shipment.incoterm,
-            clientRef: shipment.clientRef,
-            pay: shipment.pay,
-            bolType: shipment.bolType,
-            coo: shipment.coo,
-            del: shipment.del,
-            pol: shipment.pol,
-            pod: shipment.pod,
-            carrier: shipment.carrier,
-            eta: shipment.eta || null,
-            etd: shipment.etd || null,
             [productTableFieldNames.currency]: shipment.currency,
             [productTableFieldNames.items]: shipment.items,
             [productTableFieldNames.quantity]: shipment.quantity,
@@ -148,14 +126,7 @@ const EditShipment = React.memo(function EditShipment() {
             />
             <Box>
                 <Box hidden={ tabValue !== 'shipment' }>
-                    <PartiesForm
-                        sellerAddresses={ sellerAddresses }
-                        consigneeAddresses={ consigneeAddresses }
-                        errors={ errors }
-                        control={ control }
-                    />
-                    <OrdersInfoForm register={ register } control={ control }/>
-                    <ShipmentInfoForm ports={ ports } register={ register } control={ control }/>
+                    <ShipmentInfo shipment={ shipment }/>
                 </Box>
                 <Box hidden={ tabValue !== 'products' }>
                     <RHFProductTable

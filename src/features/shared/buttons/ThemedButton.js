@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { Button } from '@material-ui/core';
@@ -34,8 +34,8 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function ThemedButton(
-    { children, variant = 'contained', className, onClick, ...props }) {
+const ThemedButton = React.memo(function ThemedButton(
+    { children, variant = 'contained', className, onClick, type }) {
     const classes = useStyles();
     const classNames = clsx(
         variant === 'outlined' && classes.outlined,
@@ -44,26 +44,30 @@ export default function ThemedButton(
         className
     );
 
-
-    const onButtonClick = (e) => {
+    const onButtonClick = useCallback(
+        e => {
         e.stopPropagation();
         onClick && onClick();
-    };
+    }, [onClick]);
 
     return (
         <Button
-            { ...props }
             className={ classNames }
             variant={ variant }
             onClick={ onButtonClick }
+            type={ type }
         >
             { children }
         </Button>
     )
-}
+});
 
 ThemedButton.propTypes = {
     className: PropTypes.string,
     children: PropTypes.node,
     variant: PropTypes.oneOf(['contained', 'outlined', 'text']),
+    onClick: PropTypes.func,
+    type: PropTypes.string
 };
+
+export default ThemedButton;
