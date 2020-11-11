@@ -99,7 +99,7 @@ export default function CreateShipment() {
     const prevClient = useRef(clientsMap[shipment?.consignee] || null);
 
     useEffect(() => {
-        if (mounted.current && prevClient.current !== chosenClient && clientsMap.hasOwnProperty(chosenClient._id)) {
+        if (mounted.current && chosenClient && prevClient.current !== chosenClient && clientsMap.hasOwnProperty(chosenClient._id)) {
             setClientAddresses(chosenClient.addresses.filter(a => a.active));
             setValue('consigneeAdd', null);
             setClientOrders(Object.values(ordersMap).filter(order => order.to === chosenClient._id)
