@@ -5,6 +5,7 @@ import OrderProductsDialog from '../shared/forms/OrderProductsDialog.js';
 import { LANGUAGE } from '../../app/constants.js';
 import { useDispatch } from 'react-redux';
 import { updateOrderProducts } from './duck/thunks.js';
+import { tableItemsToOrderItems } from '../shared/utils/entityConversion.js';
 
 const {
     buttonLabel,
@@ -12,7 +13,7 @@ const {
     dialogSubmitLabel
 } = LANGUAGE.order.order.orderDetails.orderProductTable.editOrderProductsButton;
 
-export default function EditOrderProductsButton({ order, productMap, className }) {
+export default function EditOrderProductsButton({ order, className }) {
     const dispatch = useDispatch();
     const [isEdit, setIsEdit] = useState(false);
 
@@ -21,17 +22,7 @@ export default function EditOrderProductsButton({ order, productMap, className }
 
     const onSubmit = (data) => {
         data.id = order._id;
-        data.items = data.items.map(item => {
-            if (!item._id) {
-                item.order = order._id;
-            } else if (!item.product && productMap.hasOwnProperty(item._id)) {
-                const newItem = { ...item };
-                newItem.product = newItem._id;
-                newItem.order = order._id;
-                return newItem;
-            }
-            return item;
-        });
+        data.items = tableItemsToOrderItems(data.items, order._id);
         dispatch(updateOrderProducts(data));
         setIsEdit(false);
     };

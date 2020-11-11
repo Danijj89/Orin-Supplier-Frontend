@@ -124,6 +124,7 @@ const RHFProductTable = React.memo(function RHFProductTable(
                 } else {
                     newItem.ref = newValue;
                     newItem.description = '';
+                    newItem.product = null;
                 }
                 break;
             case 'quantity':
