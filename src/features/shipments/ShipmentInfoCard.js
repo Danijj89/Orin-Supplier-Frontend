@@ -2,7 +2,6 @@ import React, { useMemo } from 'react';
 import InfoCard from '../shared/wrappers/InfoCard.js';
 import { LANGUAGE } from '../../app/constants.js';
 import ColumnInfoDisplay from '../shared/wrappers/ColumnInfoDisplay.js';
-import { Typography } from '@material-ui/core';
 import ShipmentStatusPill from './ShipmentStatusPill.js';
 
 const {

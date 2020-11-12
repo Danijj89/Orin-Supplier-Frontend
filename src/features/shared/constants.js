@@ -18,3 +18,4 @@ export const orderStatusColors = {
     Completed: '#2ED47A',
     Exception: '#F7685B',
 };
+export const shipmentStatuses = ['Unbooked', 'Booked', 'Space Released', 'Shipped', 'Archived', 'Delayed'];

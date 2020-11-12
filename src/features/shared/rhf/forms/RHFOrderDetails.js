@@ -7,7 +7,7 @@ import { formatAddress } from '../../utils/format.js';
 import SideDateField from '../../inputs/SideDateField.js';
 import { deliveryMethodOptions, incotermOptions } from '../../constants.js';
 import FormContainer from '../../wrappers/FormContainer.js';
-import { Box, Divider, Typography, Grid } from '@material-ui/core';
+import { Divider, Typography, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import SideCheckBox from '../../inputs/SideCheckBox.js';
 import SideTextArea from '../../inputs/SideTextArea.js';

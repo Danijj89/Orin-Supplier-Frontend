@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { Grid } from '@material-ui/core';
-import InfoCard from '../shared/wrappers/InfoCard.js';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { LANGUAGE } from '../../app/constants.js';
 import { useSelector } from 'react-redux';
