@@ -418,6 +418,19 @@ export const ENGLISH = {
                     qa: 'QA',
                     notes: 'Notes'
                 },
+            },
+            shipmentInfoCard: {
+                titleLabel: 'Shipment Information',
+                labels: {
+                    status: 'Status',
+                    crd: 'Cargo Ready',
+                    del: 'Mode',
+                    carrier: 'Forwarder',
+                    pol: 'Port of Loading',
+                    pod: 'Port of Destination',
+                    etd: 'Est. time of Departure',
+                    eta: 'Est. time of Arrival'
+                }
             }
         },
         editShipment: {

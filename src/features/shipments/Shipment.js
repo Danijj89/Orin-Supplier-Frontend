@@ -9,6 +9,7 @@ import { selectShipmentById } from './duck/selectors.js';
 import NavTabs from '../shared/components/NavTabs.js';
 import ShipmentOrdersTable from './ShipmentOrdersTable.js';
 import { selectOrdersByIds } from '../orders/duck/selectors.js';
+import ShipmentInfoCard from './ShipmentInfoCard.js';
 
 const {
     editShipmentButtonLabel,
@@ -28,17 +29,17 @@ export default function Shipment() {
     const [tabValue, setTabValue] = useState('orders');
 
     const onEditShipmentInfo = () =>
-        history.push(`/home/shipments/edit/${id}/details`);
+        history.push(`/home/shipments/edit/${ id }/details`);
 
-    const onEditOrders = () => history.push(`/home/shipments/edit/${id}`);
+    const onEditOrders = () => history.push(`/home/shipments/edit/${ id }`);
 
     return (
         <Grid container>
             <Grid item xs={ 6 }>
-                <InfoCard/>
+                <ShipmentInfoCard shipment={ shipment }/>
             </Grid>
             <Grid item xs={ 6 }>
-                <InfoCard/>
+                <ShipmentInfoCard shipment={ shipment }/>
             </Grid>
             <Grid item xs={ 12 }>
                 <ThemedButton onClick={ onEditShipmentInfo }>

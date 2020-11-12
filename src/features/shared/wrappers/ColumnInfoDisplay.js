@@ -54,6 +54,7 @@ export default function ColumnInfoDisplay({ leftData, rightData }) {
                             wrap="wrap"
                             xs={ 7 }>
                             <Typography
+                                component="div"
                                 className={ classes.content }
                                 align="left">
                                 { displayItem.value }
