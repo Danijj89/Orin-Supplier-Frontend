@@ -422,6 +422,7 @@ export const ENGLISH = {
         },
         editShipment: {
             titleLabel: 'Shipment Information',
+            cancelButtonLabel: 'Cancel',
             tabsLabelsMap: {
                 shipment: 'Shipment',
                 products: 'Products',

@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { Box, Card, Typography } from '@material-ui/core';
 import { LANGUAGE } from '../../app/constants.js';
 import NavTabs from '../shared/components/NavTabs.js';
@@ -13,15 +14,18 @@ import ErrorDisplay from '../shared/components/ErrorDisplay.js';
 import ShipmentProductTable from './ShipmentProductTable.js';
 import ShipmentMeasureTable from './ShipmentMeasureTable.js';
 import ShipmentConsolidationTable from './ShipmentConsolidationTable.js';
+import ThemedButton from '../shared/buttons/ThemedButton.js';
 
 const {
     titleLabel,
+    cancelButtonLabel,
     tabsLabelsMap,
     successMessage
 } = LANGUAGE.shipment.editShipment;
 
 const EditShipment = React.memo(function EditShipment() {
     const dispatch = useDispatch();
+    const history = useHistory();
     const { id } = useParams();
     const shipmentStatus = useSelector(selectShipmentStatus);
     const shipmentError = useSelector(selectShipmentError);
@@ -36,12 +40,17 @@ const EditShipment = React.memo(function EditShipment() {
         },
         [dispatch]);
 
+    const onCancel = useCallback(
+        () => history.goBack(),
+        [history]);
+
     useEffect(() => {
         dispatch(cleanShipmentStatus());
     }, [dispatch]);
 
     return (
         <Card>
+            <ThemedButton onClick={ onCancel }>{ cancelButtonLabel }</ThemedButton>
             <Typography variant="h5">{ titleLabel }</Typography>
             <NavTabs
                 tabsLabelsMap={ tabsLabelsMap }
