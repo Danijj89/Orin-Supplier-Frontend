@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Container } from '@material-ui/core';
+import { Container, Grid } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectStatus } from '../../app/duck/selectors.js';
 import { makeStyles } from '@material-ui/core/styles';
@@ -9,8 +9,8 @@ import InfoCard from '../shared/wrappers/InfoCard.js';
 import EditCompanyInfoButton from './EditCompanyInfoButton.js';
 import CompanyAddressCards from './CompanyAddressCards.js';
 import { LANGUAGE } from '../../app/constants.js';
-import ColumnInfoDisplay from '../shared/wrappers/ColumnInfoDisplay.js';
 import { selectHomeError } from './duck/selectors.js';
+import DividerDataDisplay from '../shared/wrappers/DividerDisplay.js';
 
 const useStyles = makeStyles((theme) => ({
     topCard: {
@@ -44,7 +44,7 @@ export default function CompanyDetails({ company }) {
         }
     }, [dispatch, status]);
 
-    const leftData = [
+    const data = [
         { label: taxNumberLabel, value: company?.taxNumber },
         { label: defaultCurrencyLabel, value: company?.defaultCurrency },
         { label: industriesLabel, value: company?.industries },
@@ -60,9 +60,11 @@ export default function CompanyDetails({ company }) {
                 title={ company?.defaultAddress?.name }
                 button={ <EditCompanyInfoButton company={ company }/> }
                 content={
-                    <ColumnInfoDisplay
-                        leftData={ leftData }
-                    />
+                    <Grid container>
+                        <Grid container item xs={ 12 }>
+                            <DividerDataDisplay data={ data }/>
+                        </Grid>
+                    </Grid>
                 }
             />
             <CompanyAddressCards className={ classes.table } company={ company }/>

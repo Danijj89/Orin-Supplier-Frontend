@@ -3,10 +3,9 @@ import { Redirect, useParams } from 'react-router-dom';
 import InfoCard from '../shared/wrappers/InfoCard.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectClientById, selectClientStatus } from './duck/selectors.js';
-import { Container } from '@material-ui/core';
+import { Container, Grid } from '@material-ui/core';
 import { fetchClientById, updateClientNotes } from './duck/thunks.js';
 import Loader from '../shared/components/Loader.js';
-import ColumnInfoDisplay from '../shared/wrappers/ColumnInfoDisplay.js';
 import { LANGUAGE } from '../../app/constants.js';
 import ClientInfoTable from './ClientInfoTable.js';
 import EditClientButton from './EditClientButton.js';
@@ -15,6 +14,7 @@ import { selectAllUsers, selectUserStatus } from '../users/duck/selectors.js';
 import { determineStatus } from '../shared/utils/state.js';
 import { makeStyles } from '@material-ui/core/styles';
 import TextAreaCard from '../shared/components/TextAreaCard.js';
+import DividerDataDisplay from '../shared/wrappers/DividerDisplay.js';
 
 const {
     assignedToLabel,
@@ -80,10 +80,14 @@ export default function ClientDetails() {
                     button={ <EditClientButton client={ client } users={ users }/> }
                     className={ classes.clientInfoCard }
                     content={
-                        <ColumnInfoDisplay
-                            leftData={ leftData }
-                            rightData={ rightData }
-                        />
+                        <Grid container>
+                            <Grid container item md={ 6 }>
+                                <DividerDataDisplay data={ leftData }/>
+                            </Grid>
+                            <Grid container item md={ 6 }>
+                                <DividerDataDisplay data={ rightData }/>
+                            </Grid>
+                        </Grid>
                     }
                 />
                 <TextAreaCard

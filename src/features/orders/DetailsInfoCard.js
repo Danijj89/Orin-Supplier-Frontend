@@ -1,12 +1,13 @@
 import React from 'react';
 import { LANGUAGE } from '../../app/constants.js';
 import InfoCard from '../shared/wrappers/InfoCard.js';
-import ColumnInfoDisplay from '../shared/wrappers/ColumnInfoDisplay.js';
 import { dateToLocaleDate, formatAddress, formatCurrency } from '../shared/utils/format.js';
 import UnitCounter from '../shared/classes/UnitCounter.js';
 import { useSelector } from 'react-redux';
 import { selectUserById } from '../users/duck/selectors.js';
 import EditOrderDetailsButton from './EditOrderDetailsButton.js';
+import { Grid } from '@material-ui/core';
+import DividerDataDisplay from '../shared/wrappers/DividerDisplay.js';
 
 const {
     titleLabel,
@@ -49,10 +50,14 @@ export default function DetailsInfoCard({ order }) {
             title={ titleLabel }
             button={ <EditOrderDetailsButton order={ order }/> }
             content={
-                <ColumnInfoDisplay
-                    leftData={ leftData }
-                    rightData={ rightData }
-                />
+                <Grid container>
+                    <Grid container item md={ 6 }>
+                        <DividerDataDisplay data={ leftData }/>
+                    </Grid>
+                    <Grid container item md={ 6 }>
+                        <DividerDataDisplay data={ rightData }/>
+                    </Grid>
+                </Grid>
             }
         />
     )

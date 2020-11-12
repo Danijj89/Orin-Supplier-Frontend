@@ -29,7 +29,10 @@ const useStyles = makeStyles((theme) => ({
         color: theme.palette.backgroundPrimary.main,
         paddingLeft: theme.spacing(1),
         paddingRight: theme.spacing(1),
-        borderRadius: 4
+        paddingTop: theme.spacing(0.5),
+        paddingBottom: theme.spacing(0.5),
+        borderRadius: 4,
+        alignSelf: 'flex-start'
     }
 }));
 

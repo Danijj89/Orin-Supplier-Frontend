@@ -1,8 +1,10 @@
 import React, { useMemo } from 'react';
 import InfoCard from '../shared/wrappers/InfoCard.js';
 import { LANGUAGE } from '../../app/constants.js';
-import ColumnInfoDisplay from '../shared/wrappers/ColumnInfoDisplay.js';
 import ShipmentStatusPill from './ShipmentStatusPill.js';
+import { dateToLocaleDate } from '../shared/utils/format.js';
+import { Grid } from '@material-ui/core';
+import DividerDataDisplay from '../shared/wrappers/DividerDisplay.js';
 
 const {
     titleLabel,
@@ -13,7 +15,7 @@ const ShipmentInfoCard = React.memo(function ShipmentInfoCard({ shipment }) {
 
     const leftData = useMemo(() => [
         { label: labels.status, value: <ShipmentStatusPill status={ shipment.status }/> },
-        { label: labels.crd, value: shipment.crd },
+        { label: labels.crd, value: dateToLocaleDate(shipment.crd) },
         { label: labels.del, value: shipment.del },
         { label: labels.carrier, value: shipment.carrier }
     ], [
@@ -39,10 +41,14 @@ const ShipmentInfoCard = React.memo(function ShipmentInfoCard({ shipment }) {
         <InfoCard
             title={ titleLabel }
             content={
-                <ColumnInfoDisplay
-                    leftData={ leftData }
-                    rightData={ rightData }
-                />
+                <Grid container>
+                    <Grid container item md={ 6 }>
+                        <DividerDataDisplay data={ leftData }/>
+                    </Grid>
+                    <Grid container item md={ 6 }>
+                        <DividerDataDisplay data={ rightData }/>
+                    </Grid>
+                </Grid>
             }
         />
     )
