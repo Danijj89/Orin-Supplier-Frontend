@@ -2,11 +2,9 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Box, Card, Typography } from '@material-ui/core';
 import { LANGUAGE } from '../../app/constants.js';
 import NavTabs from '../shared/components/NavTabs.js';
-import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { selectShipmentById, selectShipmentError, selectShipmentStatus } from './duck/selectors.js';
-import RHFConsolidationTable from '../shared/rhf/forms/RHFConsolidationTable.js';
 import ShipmentInfo from './ShipmentInfo.js';
 import Loader from '../shared/components/Loader.js';
 import SuccessMessage from '../shared/components/SuccessMessage.js';
@@ -14,24 +12,13 @@ import { cleanShipmentStatus } from './duck/slice.js';
 import ErrorDisplay from '../shared/components/ErrorDisplay.js';
 import ShipmentProductTable from './ShipmentProductTable.js';
 import ShipmentMeasureTable from './ShipmentMeasureTable.js';
+import ShipmentConsolidationTable from './ShipmentConsolidationTable.js';
 
 const {
     titleLabel,
     tabsLabelsMap,
     successMessage
 } = LANGUAGE.shipment.editShipment;
-
-const consolidationTableFieldNames = {
-    custom1: 'coCustom1',
-    custom2: 'coCustom2',
-    package: 'coPackage',
-    netWeight: 'coNetWeight',
-    grossWeight: 'coGrossWeight',
-    dimension: 'coDimension',
-    weightUnit: 'weightUnit',
-    measurementUnit: 'measurementUnit',
-    items: 'coItems'
-};
 
 const EditShipment = React.memo(function EditShipment() {
     const dispatch = useDispatch();
@@ -49,32 +36,9 @@ const EditShipment = React.memo(function EditShipment() {
         },
         [dispatch]);
 
-    const rhfMethods = useForm({
-        mode: 'onSubmit',
-        defaultValues: {
-            [consolidationTableFieldNames.custom1]: shipment.coCustom1,
-            [consolidationTableFieldNames.custom2]: shipment.coCustom2,
-            [consolidationTableFieldNames.package]: shipment.coPackage,
-            [consolidationTableFieldNames.netWeight]: shipment.coNetWeight,
-            [consolidationTableFieldNames.grossWeight]: shipment.coGrossWeight,
-            [consolidationTableFieldNames.dimension]: shipment.coDimension,
-            [consolidationTableFieldNames.measurementUnit]: shipment.measurementUnit,
-            [consolidationTableFieldNames.weightUnit]: shipment.weightUnit,
-            [consolidationTableFieldNames.items]: shipment.coItems || []
-        }
-    });
-    const { register, control, errors, setValue, getValues } = rhfMethods;
-
     useEffect(() => {
-        register({ name: consolidationTableFieldNames.custom1 });
-        register({ name: consolidationTableFieldNames.custom2 });
-        register({ name: consolidationTableFieldNames.package });
-        register({ name: consolidationTableFieldNames.netWeight });
-        register({ name: consolidationTableFieldNames.grossWeight });
-        register({ name: consolidationTableFieldNames.dimension });
-        register({ name: consolidationTableFieldNames.items });
         dispatch(cleanShipmentStatus());
-    }, [register, dispatch]);
+    }, [dispatch]);
 
     return (
         <Card>
@@ -98,14 +62,7 @@ const EditShipment = React.memo(function EditShipment() {
                     <ShipmentMeasureTable shipment={ shipment }/>
                 </Box>
                 <Box hidden={ tabValue !== 'consolidation' }>
-                    <RHFConsolidationTable
-                        rhfRegister={ register }
-                        rhfControl={ control }
-                        rhfSetValue={ setValue }
-                        rhfGetValues={ getValues }
-                        rhfErrors={ errors }
-                        fieldNames={ consolidationTableFieldNames }
-                    />
+                    <ShipmentConsolidationTable shipment={ shipment }/>
                 </Box>
             </Box>
         </Card>

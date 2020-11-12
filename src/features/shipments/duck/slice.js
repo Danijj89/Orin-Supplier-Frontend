@@ -2,7 +2,7 @@ import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import {
     createShipment,
     fetchShipmentById,
-    fetchShipments,
+    fetchShipments, updateShipmentConsolidation,
     updateShipmentInfo, updateShipmentMeasures, updateShipmentProducts,
     updateShipmentShell
 } from './thunks.js';
@@ -116,6 +116,18 @@ const shipmentsSlice = createSlice({
             state.status = 'FULFILLED';
         },
         [updateShipmentMeasures.rejected]: (state, action) => {
+            state.status = 'REJECTED';
+            state.error = action.payload.message;
+        },
+        [updateShipmentConsolidation.pending]: (state, action) => {
+            state.status = 'PENDING';
+        },
+        [updateShipmentConsolidation.fulfilled]: (state, action) => {
+            const { _id, ...changes } = action.payload;
+            shipmentsAdapter.updateOne(state, { id: _id, changes });
+            state.status = 'FULFILLED';
+        },
+        [updateShipmentConsolidation.rejected]: (state, action) => {
             state.status = 'REJECTED';
             state.error = action.payload.message;
         }

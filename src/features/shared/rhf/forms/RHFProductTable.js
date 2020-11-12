@@ -70,8 +70,8 @@ const RHFProductTable = React.memo(function RHFProductTable(
         name: fieldNames.total
     });
 
-    const errMessages = Object.values(errors).map(err => err.message);
-    const isError = errMessages.length > 0;
+    const errMessages = useMemo(() => Object.values(errors).map(err => err.message), [errors]);
+    const isError = useMemo(() => errMessages.length > 0, [errMessages]);
 
     const initialNumColumns = 8
         + (typeof custom1 === 'string' ? 1 : 0)

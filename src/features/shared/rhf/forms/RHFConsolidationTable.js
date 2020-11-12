@@ -11,6 +11,7 @@ import { measurementUnitsOptions, packageUnitsOptions, weightUnitsOptions } from
 import SideAutoComplete from '../../inputs/SideAutoComplete.js';
 import UnitCounter from '../../classes/UnitCounter.js';
 import { roundToNDecimal } from '../../utils/format.js';
+import ErrorDisplay from '../../components/ErrorDisplay.js';
 
 export const defaultConsolidationItemValues = {
     _id: null,
@@ -91,6 +92,9 @@ const RHFConsolidationTable = React.memo(function RHFConsolidationTable(
         name: fieldNames.measurementUnit
     });
 
+    const errMessages = useMemo(() => Object.values(errors).map(err => err.message), [errors]);
+    const isError = useMemo(() => errMessages.length > 0, [errMessages]);
+
     const initialNumColumns = 11
         + (typeof custom1 === 'string' ? 1 : 0)
         + (typeof custom2 === 'string' ? 1 : 0)
@@ -170,12 +174,6 @@ const RHFConsolidationTable = React.memo(function RHFConsolidationTable(
                 setValue(fieldNames.dimension, roundToNDecimal(getValues(fieldNames.dimension) + diff, 3));
                 newItem.dim = newValue;
                 break;
-            case 'custom1':
-                newItem[fieldNames.custom1] = newValue;
-                break;
-            case 'custom2':
-                newItem[fieldNames.custom2] = newValue;
-                break;
             default:
                 newItem[key] = newValue;
         }
@@ -222,7 +220,7 @@ const RHFConsolidationTable = React.memo(function RHFConsolidationTable(
                     inputRef={ register({ required: errorMessages.missingCustomColumnName }) }
                     InputProps={ {
                         endAdornment:
-                            <IconButton size="small" onClick={ () => onDeleteColumn(fieldNames.custom1) }>
+                            <IconButton size="small" onClick={ () => onDeleteColumn('custom1') }>
                                 <IconClose fontSize="small"/>
                             </IconButton>
                     } }
@@ -239,7 +237,7 @@ const RHFConsolidationTable = React.memo(function RHFConsolidationTable(
                     inputRef={ register({ required: errorMessages.missingCustomColumnName }) }
                     InputProps={ {
                         endAdornment:
-                            <IconButton size="small" onClick={ () => onDeleteColumn(fieldNames.custom2) }>
+                            <IconButton size="small" onClick={ () => onDeleteColumn('custom2') }>
                                 <IconClose fontSize="small"/>
                             </IconButton>
                     } }
@@ -298,8 +296,8 @@ const RHFConsolidationTable = React.memo(function RHFConsolidationTable(
         localD: row.localD,
         hsc: row.hsc,
         dg: row.dg,
-        custom1: row[fieldNames.custom1],
-        custom2: row[fieldNames.custom2],
+        custom1: row.custom1,
+        custom2: row.custom2,
         package: row.package,
         pUnit: row.pUnit,
         netW: row.netW,
@@ -325,6 +323,11 @@ const RHFConsolidationTable = React.memo(function RHFConsolidationTable(
 
     return (
         <Grid container className={ className }>
+            { isError &&
+            <Grid container item justify="center" xs={ 12 }>
+                <ErrorDisplay errors={ errMessages }/>
+            </Grid>
+            }
             <Grid container item justify="flex-end" xs={ 12 }>
                 <Controller
                     render={ props =>

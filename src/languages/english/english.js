@@ -461,11 +461,8 @@ export const ENGLISH = {
             measureTable: {
                 submitButtonLabel: 'Submit'
             },
-            measures: {
-                formLabels: {
-                    measurementUnit: 'Measurement Unit',
-                    weightUnit: 'Weight Unit'
-                }
+            consolidationTable: {
+                submitButtonLabel: 'Submit'
             }
         }
     },

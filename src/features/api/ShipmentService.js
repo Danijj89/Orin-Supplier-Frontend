@@ -71,6 +71,16 @@ const updateShipmentMeasures = async (id, update) => {
     return data;
 };
 
+const updateShipmentConsolidation = async (id, update) => {
+    const configs = {
+        method: 'put',
+        url: `shipments/${id}/consolidation`,
+        data: update
+    };
+    const { data } = await fetchWithAuth(configs);
+    return data;
+};
+
 const ShipmentService = {
     createShipment,
     fetchShipments,
@@ -78,7 +88,8 @@ const ShipmentService = {
     updateShipmentShell,
     updateShipmentInfo,
     updateShipmentProducts,
-    updateShipmentMeasures
+    updateShipmentMeasures,
+    updateShipmentConsolidation
 };
 
 export default ShipmentService;

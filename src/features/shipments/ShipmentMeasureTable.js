@@ -48,7 +48,6 @@ const ShipmentMeasureTable = React.memo(function ShipmentMeasureTable({ shipment
         register({ name: measureTableFieldNames.netWeight });
         register({ name: measureTableFieldNames.grossWeight });
         register({ name: measureTableFieldNames.dimension });
-        register({ name: measureTableFieldNames.dimension });
     }, [register]);
 
     const onSubmit = (data) => {

@@ -64,3 +64,12 @@ export const updateShipmentMeasures = createAsyncThunk('shipment/updateShipmentM
             return rejectWithValue(err.response.data);
         }
     });
+
+export const updateShipmentConsolidation = createAsyncThunk('shipment/updateShipmentConsolidation',
+    async ({ id, update }, { rejectWithValue }) => {
+        try {
+            return await ShipmentService.updateShipmentConsolidation(id, update);
+        } catch (err) {
+            return rejectWithValue(err.response.data);
+        }
+    });
