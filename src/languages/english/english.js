@@ -431,6 +431,15 @@ export const ENGLISH = {
                     etd: 'Est. time of Departure',
                     eta: 'Est. time of Arrival'
                 }
+            },
+            documentStatusCard: {
+                titleLabel: 'Document Status',
+                labels: {
+                    docCutOff: 'Doc Cut Off',
+                    bol: 'Bill of Landing No',
+                    bolType: 'Bill Release Type',
+                    released: 'Released'
+                }
             }
         },
         editShipment: {
