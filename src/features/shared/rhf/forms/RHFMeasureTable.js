@@ -10,6 +10,7 @@ import TableTextField from '../../inputs/TableTextField.js';
 import { Add as IconAdd, Close as IconClose } from '@material-ui/icons';
 import UnitCounter from '../../classes/UnitCounter.js';
 import { roundToNDecimal } from '../../utils/format.js';
+import ErrorDisplay from '../../components/ErrorDisplay.js';
 
 const {
     formLabels,
@@ -17,6 +18,16 @@ const {
     totalLabel,
     errorMessages
 } = LANGUAGE.shared.rhf.forms.measureTable;
+
+export const validateItemMeasures = (items) => {
+    if (!items.length) return errorMessages.missingItems;
+    for (const item of items) {
+        if (!(item.package && item.pUnit && item.netW && item.grossW && item.dim)) {
+            return errorMessages.missingItemInfo;
+        }
+    }
+    return true;
+}
 
 const RHFMeasureTable = React.memo(function RHFMeasureTable(
     {
@@ -73,6 +84,9 @@ const RHFMeasureTable = React.memo(function RHFMeasureTable(
         control,
         name: fieldNames.measurementUnit
     });
+
+    const errMessages = useMemo(() => Object.values(errors).map(err => err.message), [errors]);
+    const isError = useMemo(() => errMessages.length > 0, [errMessages]);
 
     const initialNumColumns = 8
         + (typeof custom1 === 'string' ? 1 : 0)
@@ -281,6 +295,11 @@ const RHFMeasureTable = React.memo(function RHFMeasureTable(
 
     return (
         <Grid container className={ className }>
+            { isError &&
+            <Grid container item justify="center" xs={ 12 }>
+                <ErrorDisplay errors={ errMessages }/>
+            </Grid>
+            }
             <Grid container item justify="flex-end" xs={ 12 }>
                 <Controller
                     render={ props =>

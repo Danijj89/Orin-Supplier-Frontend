@@ -40,3 +40,15 @@ export const productTableItemsToItems = (tableItems) =>
         ciCustom1: item.ciCustom1,
         ciCustom2: item.ciCustom2,
     }));
+
+export const measureTableItemsToItems = (tableItems) =>
+    tableItems.map(item => ({
+        _id: item._id,
+        package: item.package,
+        pUnit: item.pUnit,
+        netW: item.netW,
+        grossW: item.grossW,
+        dim: item.dim,
+        plCustom1: item.plCustom1,
+        plCustom2: item.plCustom2,
+    }));

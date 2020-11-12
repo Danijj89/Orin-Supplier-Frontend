@@ -458,6 +458,9 @@ export const ENGLISH = {
             productTable: {
                 submitButtonLabel: 'Submit'
             },
+            measureTable: {
+                submitButtonLabel: 'Submit'
+            },
             measures: {
                 formLabels: {
                     measurementUnit: 'Measurement Unit',
@@ -608,7 +611,9 @@ export const ENGLISH = {
                     errorMessages: {
                         missingMeasurementUnit: 'You must select a measurement unit.',
                         missingWeightUnit: 'You must select a weight unit.',
-                        missingCustomColumnName: 'You must give a name to all custom columns.'
+                        missingCustomColumnName: 'You must give a name to all custom columns.',
+                        missingItemInfo: 'Some item is missing information.',
+                        missingItems: 'You need to add at least one item'
                     }
                 },
                 consolidationTable: {

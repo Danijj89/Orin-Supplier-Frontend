@@ -55,3 +55,12 @@ export const updateShipmentProducts = createAsyncThunk('shipment/updateShipmentP
             return rejectWithValue(err.response.data);
         }
     })
+
+export const updateShipmentMeasures = createAsyncThunk('shipment/updateShipmentMeasures',
+    async ({ id, update }, { rejectWithValue }) => {
+        try {
+            return await ShipmentService.updateShipmentMeasures(id, update);
+        } catch (err) {
+            return rejectWithValue(err.response.data);
+        }
+    });
