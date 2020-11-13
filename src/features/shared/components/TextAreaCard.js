@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     },
     title: {
         fontWeight: 'bold',
-        paddingTop: theme.spacing(1),
+        paddingTop: '12px',
         paddingBottom: theme.spacing(1),
         paddingLeft: theme.spacing(2),
         paddingRight: theme.spacing(2),
@@ -56,7 +56,7 @@ export default function TextAreaCard({ titleLabel, value, className, onSubmit })
 
     return (
         <Card className={ clsx(classes.container, className) }>
-            <Typography className={classes.title}> { titleLabel }</Typography>
+            <Typography variant = "h5" className={classes.title}> { titleLabel }</Typography>
             <Divider/>
             { !isEdit &&
             <Typography onClick={ onDisplayClick } className={ classes.display }>
