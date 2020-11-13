@@ -5,6 +5,7 @@ import TextFieldCell from './TextFieldCell.js';
 import AutoCompleteCell from './AutoCompleteCell.js';
 import TextCell from './TextCell.js';
 import CustomCell from './CustomCell.js';
+import CheckBoxCell from './CheckBoxCell.js';
 
 const EditableRow = React.memo(function EditableRow({ columns, row, rowIdx, onCellChange }) {
 
@@ -12,11 +13,11 @@ const EditableRow = React.memo(function EditableRow({ columns, row, rowIdx, onCe
             if (column.hide) return null;
             if (column.renderCell) return (
                 <CustomCell
-                    key={column.field}
-                    row={row}
-                    render={column.renderCell}
-                    width={column.width}
-                    align={column.align}
+                    key={ column.field }
+                    row={ row }
+                    render={ column.renderCell }
+                    width={ column.width }
+                    align={ column.align }
                 />
             );
             switch (column.type) {
@@ -72,6 +73,17 @@ const EditableRow = React.memo(function EditableRow({ columns, row, rowIdx, onCe
                             getOptionSelected={ column.getOptionSelected }
                         />
                     );
+                case 'checkbox':
+                    return (
+                        <CheckBoxCell
+                            key={ column.field }
+                            checked={ row[column.field] }
+                            onCellChange={ onCellChange }
+                            rowIdx={ rowIdx }
+                            field={ column.field }
+                            width={ column.width }
+                        />
+                    )
                 default:
                     return (
                         <TextCell

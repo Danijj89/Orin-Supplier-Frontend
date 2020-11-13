@@ -23,6 +23,15 @@ const {
     totalLabel
 } = LANGUAGE.shared.rhf.forms.productTable;
 
+export const validateItems = (items) => {
+    if (!items.length) return errorMessages.missingItems;
+    for (const item of items) {
+        if (!(item.ref && item.quantity && item.unit && item.price))
+            return errorMessages.missingItemInfo;
+    }
+    return true;
+};
+
 const RHFProductTable = React.memo(function RHFProductTable(
     {
         rhfRegister: register,
@@ -61,8 +70,8 @@ const RHFProductTable = React.memo(function RHFProductTable(
         name: fieldNames.total
     });
 
-    const errMessages = Object.values(errors).map(err => err.message);
-    const isError = errMessages.length > 0;
+    const errMessages = useMemo(() => Object.values(errors).map(err => err.message), [errors]);
+    const isError = useMemo(() => errMessages.length > 0, [errMessages]);
 
     const initialNumColumns = 8
         + (typeof custom1 === 'string' ? 1 : 0)
@@ -115,6 +124,7 @@ const RHFProductTable = React.memo(function RHFProductTable(
                 } else {
                     newItem.ref = newValue;
                     newItem.description = '';
+                    newItem.product = null;
                 }
                 break;
             case 'quantity':

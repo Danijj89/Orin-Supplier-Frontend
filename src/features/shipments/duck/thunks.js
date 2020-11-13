@@ -36,3 +36,40 @@ export const updateShipmentShell = createAsyncThunk('shipments/updateShipmentShe
             return rejectWithValue(err.response.data);
         }
     });
+
+export const updateShipmentInfo = createAsyncThunk('shipment/updateShipmentInfo',
+    async ({ id, ...update }, { rejectWithValue }) => {
+        try {
+            await ShipmentService.updateShipmentInfo(id, update);
+            return { id, update };
+        } catch (err) {
+            return rejectWithValue(err.response.data);
+        }
+    });
+
+export const updateShipmentProducts = createAsyncThunk('shipment/updateShipmentProducts',
+    async ({ id, update }, { rejectWithValue }) => {
+        try {
+            return await ShipmentService.updateShipmentProducts(id, update);
+        } catch (err) {
+            return rejectWithValue(err.response.data);
+        }
+    })
+
+export const updateShipmentMeasures = createAsyncThunk('shipment/updateShipmentMeasures',
+    async ({ id, update }, { rejectWithValue }) => {
+        try {
+            return await ShipmentService.updateShipmentMeasures(id, update);
+        } catch (err) {
+            return rejectWithValue(err.response.data);
+        }
+    });
+
+export const updateShipmentConsolidation = createAsyncThunk('shipment/updateShipmentConsolidation',
+    async ({ id, update }, { rejectWithValue }) => {
+        try {
+            return await ShipmentService.updateShipmentConsolidation(id, update);
+        } catch (err) {
+            return rejectWithValue(err.response.data);
+        }
+    });

@@ -422,72 +422,48 @@ export const ENGLISH = {
         },
         editShipment: {
             titleLabel: 'Shipment Information',
+            cancelButtonLabel: 'Cancel',
             tabsLabelsMap: {
                 shipment: 'Shipment',
                 products: 'Products',
                 measures: 'Measures',
                 consolidation: 'Consolidation'
             },
-            prevButtonLabel: 'Cancel',
-            nextButtonLabel: 'Submit',
-            parties: {
-                titleLabel: 'Parties',
+            successMessage: 'Update Successful!',
+            shipmentInfo: {
+                partiesTitleLabel: 'Parties',
+                orderInfoTitleLabel: 'Order Information',
+                shippingTitleLabel: 'Shipping Information',
                 formLabels: {
                     sellerAdd: 'Shipper',
                     consigneeAdd: 'Consignee',
-                    shipAdd: 'Ship To'
-                },
-                errorMessages: {
-                    missingSellerAdd: 'You must select a seller address.',
-                    missingConsigneeAdd: 'You must select a consignee address.'
-                }
-            },
-            ordersInfo: {
-                titleLabel: 'Order Information',
-                formLabels: {
+                    shipAdd: 'Ship To',
                     crd: 'Cargo Ready Date',
                     incoterm: 'Incoterm',
                     clientRef: 'Client Order Ref.',
-                    pay: 'Payment Method',
                     bolType: 'Bill of Landing Type',
-                    coo: 'Country of Manufacture'
-                }
-            },
-            shipmentInfo: {
-                titleLabel: 'Order Information',
-                formLabels: {
+                    coo: 'Country of Manufacture',
                     del: 'Delivery Method',
                     pol: 'Port of Loading',
                     pod: 'Port of Discharge',
                     carrier: 'Freight Forwarder',
                     eta: 'ETA',
                     etd: 'ETD'
-                }
-            },
-            products: {
-                tableHeaderLabels: {
-                    ref: 'Item Reference',
-                    description: 'Product Description',
-                    quantity: 'Quantity',
-                    unit: 'Unit',
-                    price: 'Unit Price',
-                    total: 'Amount',
-                    package: 'Packaging',
-                    pUnit: 'P. Unit',
-                    netW: 'Net Weight',
-                    grossW: 'Gross Weight',
-                    dim: 'Volume'
                 },
-                totalLabel: 'Total:',
+                submitButtonLabel: 'Update',
                 errorMessages: {
-                    missingCurrency: 'You must select a currency.'
+                    missingSellerAdd: 'You must select a seller address.',
+                    missingConsigneeAdd: 'You must select a consignee address.'
                 }
             },
-            measures: {
-                formLabels: {
-                    measurementUnit: 'Measurement Unit',
-                    weightUnit: 'Weight Unit'
-                }
+            productTable: {
+                submitButtonLabel: 'Submit'
+            },
+            measureTable: {
+                submitButtonLabel: 'Submit'
+            },
+            consolidationTable: {
+                submitButtonLabel: 'Submit'
             }
         }
     },
@@ -610,7 +586,9 @@ export const ENGLISH = {
                     },
                     errorMessages: {
                         missingCurrency: 'You must select a currency.',
-                        missingCustomColumnName: 'You must give a name to all custom columns.'
+                        missingCustomColumnName: 'You must give a name to all custom columns.',
+                        missingItemInfo: 'Some item is missing information.',
+                        missingItems: 'You need to add at least one item'
                     }
                 },
                 measureTable: {
@@ -631,15 +609,30 @@ export const ENGLISH = {
                     errorMessages: {
                         missingMeasurementUnit: 'You must select a measurement unit.',
                         missingWeightUnit: 'You must select a weight unit.',
-                        missingCustomColumnName: 'You must give a name to all custom columns.'
+                        missingCustomColumnName: 'You must give a name to all custom columns.',
+                        missingItemInfo: 'Some item is missing information.',
+                        missingItems: 'You need to add at least one item'
                     }
                 },
-                util: {
-                    helpers: {
-                        errorMessages: {
-                            missingItemInfo: 'Some item is missing information.',
-                            missingItems: 'You need to add at least one item'
-                        }
+                consolidationTable: {
+                    formLabels: {
+                        measurementUnit: 'Measurement Unit',
+                        weightUnit: 'Weight Unit'
+                    },
+                    tableHeaderLabels: {
+                        description: 'Description',
+                        localD: 'Local Description',
+                        hsc: 'HTS Code',
+                        dg: 'DG',
+                        package: 'Packaging',
+                        pUnit: 'Unit',
+                        netW: 'Net Weight',
+                        grossW: 'Gross Weight',
+                        dim: 'Volume'
+                    },
+                    totalLabel: 'Total:',
+                    errorMessages: {
+                        missingCustomColumnName: 'You must give a name to all custom columns.'
                     }
                 }
             }

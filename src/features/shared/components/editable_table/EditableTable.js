@@ -52,6 +52,7 @@ const EditableTable = React.memo(function EditableTable(
         return acc;
     }, 0);
 
+
     const renderColumn = (column) => {
         if (column.hide) return null;
         if (column.renderHeader) {
@@ -116,11 +117,11 @@ const EditableTable = React.memo(function EditableTable(
         </TableContainer>
     )
 }, (prev, next) => {
-    for (let i = 0; i < prev.columns.length; i++) {
+    for (let i = 0; i < next.columns.length; i++) {
         if (prev.columns[i].hide !== next.columns[i].hide) return false;
     }
-    for (const [k, v] of Object.entries(prev.rows)) {
-        if (v !== next.rows[k]) return false;
+    for (const [k, v] of Object.entries(next.rows)) {
+        if (v !== prev.rows[k]) return false;
     }
     return true;
 });

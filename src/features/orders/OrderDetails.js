@@ -4,13 +4,12 @@ import DetailsInfoCard from './DetailsInfoCard.js';
 import StatusInfoCard from './StatusInfoCard.js';
 import TextAreaCard from '../shared/components/TextAreaCard.js';
 import { LANGUAGE } from '../../app/constants.js';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { updateOrderNotes } from './duck/thunks.js';
 import OrderProductTable from './OrderProductTable.js';
 import InfoCard from '../shared/wrappers/InfoCard.js';
 import EditOrderProductsButton from './EditOrderProductsButton.js';
 import { makeStyles } from '@material-ui/core/styles';
-import { selectActiveProductMap } from '../products/duck/selectors.js';
 
 const useStyles = makeStyles((theme) => ({
     detailsInfoCard: {
@@ -33,7 +32,6 @@ const { notesLabel, productTableTitleLabel } = LANGUAGE.order.order.orderDetails
 export default function OrderDetails({ order }) {
     const dispatch = useDispatch();
     const classes = useStyles();
-    const productMap = useSelector(selectActiveProductMap);
     const onNotesSubmit = (notes) =>
         dispatch(updateOrderNotes({ id: order._id, notes }));
 
@@ -55,7 +53,7 @@ export default function OrderDetails({ order }) {
             <Grid item xs={ 12 } className={ classes.productsTable }>
                 <InfoCard
                     title={ productTableTitleLabel }
-                    button={ <EditOrderProductsButton order={ order } productMap={ productMap }/> }
+                    button={ <EditOrderProductsButton order={ order }/> }
                     content={ <OrderProductTable order={ order }/> }
                 />
             </Grid>
