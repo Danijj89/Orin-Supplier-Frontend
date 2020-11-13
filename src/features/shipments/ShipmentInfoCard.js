@@ -42,10 +42,10 @@ const ShipmentInfoCard = React.memo(function ShipmentInfoCard({ shipment }) {
             title={ titleLabel }
             content={
                 <Grid container>
-                    <Grid container item md={ 6 }>
+                    <Grid container item sm={ 6 }>
                         <DividerDataDisplay data={ leftData }/>
                     </Grid>
-                    <Grid container item md={ 6 }>
+                    <Grid container item sm={ 6 }>
                         <DividerDataDisplay data={ rightData }/>
                     </Grid>
                 </Grid>

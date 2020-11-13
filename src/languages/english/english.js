@@ -407,6 +407,14 @@ export const ENGLISH = {
                 documents: 'Documents'
             },
             editOrdersButtonLabel: 'Edit Included Orders',
+            documentButton: {
+                buttonLabel: 'Generate Document',
+                dialogTitleLabel: 'Choose a Document to Generate',
+                submitButtonLabel: 'Continue',
+                formLabels: {
+                    type: 'Document'
+                }
+            },
             shipmentOrdersTable: {
                 tableHeaderLabelsMap: {
                     ref: 'Sales Order',

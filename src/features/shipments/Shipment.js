@@ -10,6 +10,7 @@ import ShipmentOrdersTable from './ShipmentOrdersTable.js';
 import { selectOrdersByIds } from '../orders/duck/selectors.js';
 import ShipmentInfoCard from './ShipmentInfoCard.js';
 import DocumentStatusCard from './DocumentStatusCard.js';
+import DocumentButton from './DocumentButton.js';
 
 const {
     editShipmentButtonLabel,
@@ -35,16 +36,17 @@ export default function Shipment() {
 
     return (
         <Grid container>
-            <Grid item xs={ 6 }>
+            <Grid item lg={ 6 }>
                 <ShipmentInfoCard shipment={ shipment }/>
             </Grid>
-            <Grid item xs={ 6 }>
+            <Grid item lg={ 6 }>
                 <DocumentStatusCard shipment={ shipment }/>
             </Grid>
-            <Grid item xs={ 12 }>
+            <Grid container item xs={ 12 }>
                 <ThemedButton onClick={ onEditShipmentInfo }>
                     { editShipmentButtonLabel }
                 </ThemedButton>
+                <DocumentButton />
             </Grid>
             <Grid item xs={ 12 }>
                 <NavTabs
