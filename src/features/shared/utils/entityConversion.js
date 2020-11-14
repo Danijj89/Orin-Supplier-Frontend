@@ -14,18 +14,18 @@ export const addressToDocAddress = (address) => (
 
 export const tableItemsToOrderItems = (tableItems, orderId = null) =>
     tableItems.map(item => ({
-            _id: item._id,
-            order: orderId,
-            product: item.product,
-            ref: item.ref,
-            description: item.description,
-            quantity: item.quantity,
-            unit: item.unit,
-            price: item.price,
-            total: item.total,
-            custom1: item.custom1,
-            custom2: item.custom2
-        }));
+        _id: item._id,
+        order: orderId,
+        product: item.product,
+        ref: item.ref,
+        description: item.description,
+        quantity: item.quantity,
+        unit: item.unit,
+        price: item.price,
+        total: item.total,
+        custom1: item.custom1,
+        custom2: item.custom2
+    }));
 
 export const productTableItemsToItems = (tableItems) =>
     tableItems.map(item => ({
@@ -52,3 +52,20 @@ export const measureTableItemsToItems = (tableItems) =>
         plCustom1: item.plCustom1,
         plCustom2: item.plCustom2,
     }));
+
+export const shipmentToCommercialInvoice = (shipment) => ({
+    autoGenerateRef: true,
+    ref: null,
+    sellerAdd: shipment.sellerAdd,
+    consigneeAdd: shipment.consigneeAdd,
+    coo: shipment.coo,
+    clientRefs: shipment.clientRefs,
+    payRefs: shipment.payRefs,
+    notes: null,
+    currency: shipment.currency,
+    items: shipment.items,
+    quantity: shipment.quantity,
+    total: shipment.total,
+    custom1: shipment.ciCustom1,
+    custom2: shipment.ciCustom2
+});

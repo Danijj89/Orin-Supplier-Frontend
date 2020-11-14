@@ -269,30 +269,7 @@ export const ENGLISH = {
                     }
                 }
             }
-        },
-        orderDocuments: {
-            tableTitle: 'Generated Documents',
-            tableHeaders: ['Document Type', 'Created By', 'Date Created'],
-            docTypeMap: {
-                CI: 'Commercial Invoice',
-                PO: 'Purchase Order',
-                PL: 'Packing List',
-            },
-            deleteDocumentMessage:
-                'Are you sure you want to delete this document?',
-            deleteDocumentButtonCancel: 'Cancel',
-            deleteDocumentButtonConfirm: 'Delete',
-        },
-        orderProductTable: {
-            tableTitleLabel: 'Product components',
-            editButtonLabel: 'Edit',
-            addRowButton: 'Add',
-            errorMessages: {
-                currencyRequired: 'You must select a currency.',
-                missingItemInfo: 'Some item is missing information.',
-            },
-            totalsLabel: 'Total:',
-        },
+        }
     },
     commercialInvoice: {
         createCI: {
@@ -412,7 +389,7 @@ export const ENGLISH = {
                 dialogTitleLabel: 'Choose a Document to Generate',
                 submitButtonLabel: 'Continue',
                 formLabels: {
-                    type: 'Document'
+                    document: 'Document'
                 }
             },
             shipmentOrdersTable: {
@@ -494,6 +471,28 @@ export const ENGLISH = {
             },
             consolidationTable: {
                 submitButtonLabel: 'Submit'
+            }
+        }
+    },
+    documents: {
+        ci: {
+            detailsPrevButtonLabel: 'Cancel',
+            detailsNextButtonLabel: 'Next',
+            productsPrevButtonLabel: 'Details',
+            productsNextButtonLabel: 'Download',
+            details: {
+                titleLabel: 'Commercial Invoice Details',
+                formLabels: {
+                    autoGenerateRef: 'Auto-generate Invoice Number',
+                    ref: 'Invoice Number',
+                    sellerAdd: 'Seller Address',
+                    consignee: 'Client',
+                    consigneeAdd: 'Client Address',
+                    coo: 'Country of Manufacture',
+                    clientRefs: 'PO References',
+                    payRefs: 'Payment References',
+                    notes: 'Notes'
+                }
             }
         }
     },

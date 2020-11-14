@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import Box from '@material-ui/core/Box';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import FormDialog from '../shared/wrappers/FormDialog.js';
@@ -17,12 +17,13 @@ const {
 
 const DocumentButton = React.memo(function DocumentButton() {
     const history = useHistory();
+    const { id } = useParams();
     const [isEdit, setIsEdit] = useState(false);
 
     const { control, errors, getValues, handleSubmit } = useForm({
         mode: 'onSubmit',
         defaultValues: {
-            type: documentTypesOptions[0]
+            document: documentTypesOptions[0]
         }
     });
 
@@ -30,17 +31,17 @@ const DocumentButton = React.memo(function DocumentButton() {
     const onCancel = useCallback(() => setIsEdit(false), []);
 
     const onSubmit = useCallback((data) => {
-        switch (data.type) {
+        switch (data.document.type) {
             case 'ci':
-                history.push('/home/documents/ci/new');
+                history.push(`/home/documents/ci/new?shipment=${id}`);
                 break;
             case 'pl':
-                history.push('/home/documents/pl/new');
+                history.push(`/home/documents/pl/new?shipment=${id}`);
                 break;
             default:
                 history.push('/home/shipments');
         }
-    }, [history]);
+    }, [history, id]);
 
     return (
         <Box>
@@ -58,13 +59,13 @@ const DocumentButton = React.memo(function DocumentButton() {
                             { ...props }
                             options={ documentTypesOptions }
                             getOptionLabel={ option => option.name }
-                            getOptionSelected={ option => option.type === getValues('type').type }
-                            label={ formLabels.type }
-                            error={ !!errors.type }
+                            getOptionSelected={ option => option.type === getValues('document').type }
+                            label={ formLabels.document }
+                            error={ !!errors.document }
                             required
                         />
                     }
-                    name="type"
+                    name="document"
                     control={ control }
                     rules={ { required: true } }
                 />

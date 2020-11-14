@@ -41,7 +41,8 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function SideTextField({ label, required, className, error, disabled, ...props }) {
+const SideTextField = React.memo(function SideTextField(
+    { label, required, className, error, disabled, name, inputRef, value, ...props }) {
     const classes = useStyles();
     const classNames = clsx(
         classes.input,
@@ -51,14 +52,17 @@ export default function SideTextField({ label, required, className, error, disab
     );
 
     return (
-        <Box className={classes.container}>
-            <Typography className={classes.label} variant="subtitle1">
-                {label}
-                {required && <span className={classes.required}>*</span>}
+        <Box className={ classes.container }>
+            <Typography className={ classes.label } variant="subtitle1">
+                { label }
+                { required && <span className={ classes.required }>*</span> }
             </Typography>
             <MuiTextField
                 { ...props }
                 className={ classNames }
+                name={ name }
+                value={ value }
+                inputRef={ inputRef }
                 InputProps={ { ...props.InputProps, disableUnderline: true, autoComplete: 'nope' } }
                 required={ required }
                 error={ error }
@@ -66,12 +70,17 @@ export default function SideTextField({ label, required, className, error, disab
             />
         </Box>
     );
-}
+});
 
 SideTextField.propTypes = {
     label: PropTypes.string.isRequired,
+    name: PropTypes.string,
+    inputRef: PropTypes.func,
     required: PropTypes.bool,
     className: PropTypes.string,
     error: PropTypes.bool,
-    disabled: PropTypes.bool
+    disabled: PropTypes.bool,
+    value: PropTypes.any
 };
+
+export default SideTextField;

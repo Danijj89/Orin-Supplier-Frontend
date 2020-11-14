@@ -6,6 +6,7 @@ import ordersReducer from '../features/orders/duck/slice.js';
 import clientReducer from '../features/clients/duck/slice.js';
 import productReducer from '../features/products/duck/slice.js';
 import shipmentReducer from '../features/shipments/duck/slice.js';
+import documentReducer from '../features/documents/duck/slice.js';
 
 export default configureStore({
     reducer: {
@@ -15,6 +16,7 @@ export default configureStore({
         clients: clientReducer,
         products: productReducer,
         orders: ordersReducer,
-        shipments: shipmentReducer
+        shipments: shipmentReducer,
+        documents: documentReducer
     }
 });
