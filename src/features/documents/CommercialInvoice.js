@@ -10,8 +10,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectActiveProducts } from '../products/duck/selectors.js';
 import useSessionStorage from '../shared/hooks/useSessionStorage.js';
 import { SESSION_NEW_DOCUMENT } from '../../app/sessionKeys.js';
-import { shipmentToCommercialInvoice } from '../shared/utils/entityConversion.js';
+import { addressToDocAddress, shipmentToCommercialInvoice } from '../shared/utils/entityConversion.js';
 import { cleanDocumentError, cleanNewDocument } from './duck/slice.js';
+import { createCommercialInvoice } from './duck/thunks.js';
+import { selectCompanyActiveAddresses } from '../home/duck/selectors.js';
+import { selectClientActiveAddresses, selectClientById } from '../clients/duck/selectors.js';
 
 const detailsFieldNames = {
     autoGenerateRef: 'autoGenerateRef',
@@ -45,6 +48,9 @@ const CommercialInvoice = React.memo(function CommercialInvoice({ shipment }) {
     const history = useHistory();
     const [step, setStep] = useState('details');
     const products = useSelector(selectActiveProducts);
+    const companyAddresses = useSelector(selectCompanyActiveAddresses);
+    const consignee = useSelector(state => selectClientById(state, shipment.consignee));
+    const consigneeAddresses = useSelector(state => selectClientActiveAddresses(state, shipment.consignee));
     const isDetailsStep = useMemo(() => step === 'details', [step]);
     const initialCI = shipmentToCommercialInvoice(shipment);
     const [commercialInvoice, setCommercialInvoice] = useSessionStorage(SESSION_NEW_DOCUMENT, initialCI);
@@ -54,8 +60,8 @@ const CommercialInvoice = React.memo(function CommercialInvoice({ shipment }) {
         defaultValues: {
             [detailsFieldNames.autoGenerateRef]: commercialInvoice.autoGenerateRef,
             [detailsFieldNames.ref]: commercialInvoice.ref,
-            [detailsFieldNames.sellerAdd]: commercialInvoice.sellerAdd,
-            [detailsFieldNames.consigneeAdd]: commercialInvoice.consigneeAdd,
+            [detailsFieldNames.sellerAdd]: companyAddresses.find(a => a._id === commercialInvoice.sellerAdd.addressId),
+            [detailsFieldNames.consigneeAdd]: consigneeAddresses.find(a => a._id === commercialInvoice.consigneeAdd.addressId),
             [detailsFieldNames.coo]: commercialInvoice.coo,
             [detailsFieldNames.clientRefs]: commercialInvoice.clientRefs,
             [detailsFieldNames.payRefs]: commercialInvoice.payRefs,
@@ -78,8 +84,12 @@ const CommercialInvoice = React.memo(function CommercialInvoice({ shipment }) {
     }, [register]);
 
     const onSubmit = useCallback(
-        (data) => {},
-        []);
+        (data) => {
+            data.sellerAdd = addressToDocAddress(data.sellerAdd);
+            data.consigneeAdd = addressToDocAddress(data.consigneeAdd);
+            dispatch(createCommercialInvoice({ shipmentId: shipment._id, commercialInvoice: data }))
+        },
+        [dispatch, shipment._id]);
 
     const onPrevClick = useCallback(
         () => {
@@ -114,7 +124,9 @@ const CommercialInvoice = React.memo(function CommercialInvoice({ shipment }) {
                     rhfErrors={ errors }
                     rhfGetValues={ getValues }
                     fieldNames={ detailsFieldNames }
-                    shipment={ shipment }
+                    companyAddresses={ companyAddresses }
+                    consigneeAddresses={ consigneeAddresses }
+                    consignee={ consignee }
                 />
             </Box>
             <Box hidden={ step !== 'products' }>

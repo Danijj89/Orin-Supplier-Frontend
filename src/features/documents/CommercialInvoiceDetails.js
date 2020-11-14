@@ -7,9 +7,6 @@ import { Controller, useWatch } from 'react-hook-form';
 import SideTextField from '../shared/inputs/SideTextField.js';
 import SideAutoComplete from '../shared/inputs/SideAutoComplete.js';
 import { formatAddress } from '../shared/utils/format.js';
-import { useSelector } from 'react-redux';
-import { selectCompanyActiveAddresses } from '../home/duck/selectors.js';
-import { selectClientActiveAddresses, selectClientById } from '../clients/duck/selectors.js';
 import SideTextArea from '../shared/inputs/SideTextArea.js';
 
 const {
@@ -24,7 +21,9 @@ const CommercialInvoiceDetails = React.memo(function CommercialInvoiceDetails(
         rhfErrors: errors,
         rhfGetValues: getValues,
         fieldNames,
-        shipment
+        companyAddresses,
+        consigneeAddresses,
+        consignee
     }) {
 
     const autoGenerateRef = useWatch({
@@ -32,9 +31,7 @@ const CommercialInvoiceDetails = React.memo(function CommercialInvoiceDetails(
         name: fieldNames.autoGenerateRef
     });
 
-    const companyAddresses = useSelector(selectCompanyActiveAddresses);
-    const consignee = useSelector(state => selectClientById(state, shipment.consignee));
-    const clientAddresses = useSelector(state => selectClientActiveAddresses(state, shipment.consignee));
+
 
     return (
         <Grid container>
@@ -89,7 +86,7 @@ const CommercialInvoiceDetails = React.memo(function CommercialInvoiceDetails(
                         render={ (props) => (
                             <SideAutoComplete
                                 { ...props }
-                                options={ clientAddresses }
+                                options={ consigneeAddresses }
                                 label={ formLabels.consigneeAdd }
                                 error={ !!errors[fieldNames.consigneeAdd] }
                                 getOptionLabel={ address => formatAddress(address) }
