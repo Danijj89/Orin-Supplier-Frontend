@@ -33,7 +33,8 @@ const productsFieldNames = {
     currency: 'currency',
     items: 'items',
     quantity: 'quantity',
-    total: 'total'
+    total: 'total',
+    marks: 'marks'
 };
 
 const {
@@ -71,7 +72,8 @@ const CommercialInvoice = React.memo(function CommercialInvoice({ shipment }) {
             [productsFieldNames.quantity]: commercialInvoice.quantity,
             [productsFieldNames.total]: commercialInvoice.total,
             [productsFieldNames.custom1]: commercialInvoice.custom1,
-            [productsFieldNames.custom2]: commercialInvoice.custom2
+            [productsFieldNames.custom2]: commercialInvoice.custom2,
+            [productsFieldNames.marks]: commercialInvoice.marks
         }
     });
 

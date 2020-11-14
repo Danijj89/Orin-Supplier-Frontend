@@ -14,7 +14,8 @@ const productTableFieldNames = {
     currency: 'currency',
     items: 'items',
     quantity: 'quantity',
-    total: 'total'
+    total: 'total',
+    marks: 'marks'
 };
 
 const {
@@ -34,6 +35,7 @@ const ShipmentProductTable = React.memo(function ShipmentProductTable(
             [productTableFieldNames.total]: shipment.total,
             [productTableFieldNames.custom1]: shipment.ciCustom1,
             [productTableFieldNames.custom2]: shipment.ciCustom2,
+            [productTableFieldNames.marks]: shipment.marks,
         }
     });
 
@@ -49,7 +51,6 @@ const ShipmentProductTable = React.memo(function ShipmentProductTable(
         data.items = productTableItemsToItems(data.items);
         dispatch(updateShipmentProducts({ id: shipment._id, update: data }));
     };
-
 
     return (
         <form onSubmit={ handleSubmit(onSubmit) } autoComplete="off">

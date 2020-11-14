@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Grid, IconButton } from '@material-ui/core';
+import { Grid, IconButton, TextField as MuiTextField } from '@material-ui/core';
 import { Controller, useWatch } from 'react-hook-form';
 import SideAutoComplete from '../../inputs/SideAutoComplete.js';
 import { currenciesOptions, itemUnitsOptions } from '../../constants.js';
@@ -15,12 +15,14 @@ import { roundToNDecimal } from '../../utils/format.js';
 import ErrorDisplay from '../../components/ErrorDisplay.js';
 import { defaultProductRowValues } from './util/constants.js';
 import SideCheckBox from '../../inputs/SideCheckBox.js';
+import TextArea from '../../inputs/TextArea.js';
 
 const {
     formLabels,
     errorMessages,
     tableHeaderLabels,
-    totalLabel
+    totalLabel,
+    marksPlaceholderLabel
 } = LANGUAGE.shared.rhf.forms.productTable;
 
 export const validateItems = (items) => {
@@ -334,6 +336,15 @@ const RHFProductTable = React.memo(function RHFProductTable(
                     onCellChange={ onCellChange }
                 />
             </Grid>
+            <Grid container item xs={ 12 }>
+                <TextArea
+                    name={ fieldNames.marks }
+                    inputRef={ register }
+                    rows={ 4 }
+                    rowsMax={ 8 }
+                    placeholder={ marksPlaceholderLabel }
+                />
+            </Grid>
         </Grid>
     )
 });
@@ -351,6 +362,7 @@ RHFProductTable.propTypes = {
         items: PropTypes.string.isRequired,
         quantity: PropTypes.string.isRequired,
         total: PropTypes.string.isRequired,
+        marks: PropTypes.string.isRequired,
         saveItems: PropTypes.string
     }).isRequired,
     products: PropTypes.array.isRequired,

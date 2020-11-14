@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Box, Card, Typography } from '@material-ui/core';
+import { Paper, Box, Typography } from '@material-ui/core';
 import { LANGUAGE } from '../../app/constants.js';
 import NavTabs from '../shared/components/NavTabs.js';
 import { useDispatch, useSelector } from 'react-redux';
@@ -49,7 +49,7 @@ const EditShipment = React.memo(function EditShipment() {
     }, [dispatch]);
 
     return (
-        <Card>
+        <Paper>
             <ThemedButton onClick={ onCancel }>{ cancelButtonLabel }</ThemedButton>
             <Typography variant="h5">{ titleLabel }</Typography>
             <NavTabs
@@ -60,21 +60,21 @@ const EditShipment = React.memo(function EditShipment() {
             { shipmentStatus === 'REJECTED' && <ErrorDisplay errors={ [shipmentError] }/> }
             { shipmentStatus === 'FULFILLED' && <SuccessMessage message={ successMessage }/> }
             { shipmentStatus === 'PENDING' && <Loader/> }
-            <Box>
+            <Paper style={{ display: 'flex'}}>
                 <Box hidden={ tabValue !== 'shipment' }>
                     <ShipmentInfo shipment={ shipment }/>
                 </Box>
-                <Box hidden={ tabValue !== 'products' }>
-                    <ShipmentProductTable shipment={ shipment }/>
-                </Box>
+                { tabValue === 'products' &&
+                <ShipmentProductTable shipment={ shipment }/>
+                }
                 <Box hidden={ tabValue !== 'measures' }>
                     <ShipmentMeasureTable shipment={ shipment }/>
                 </Box>
                 <Box hidden={ tabValue !== 'consolidation' }>
                     <ShipmentConsolidationTable shipment={ shipment }/>
                 </Box>
-            </Box>
-        </Card>
+            </Paper>
+        </Paper>
     )
 });
 

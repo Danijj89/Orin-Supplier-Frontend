@@ -12,7 +12,8 @@ const productTableFieldNames = {
     currency: 'currency',
     items: 'items',
     quantity: 'totalQ',
-    total: 'totalA'
+    total: 'totalA',
+    marks: 'marks'
 };
 
 export default function OrderProductsDialog(
@@ -33,7 +34,8 @@ export default function OrderProductsDialog(
             [productTableFieldNames.items]: order.items,
             [productTableFieldNames.quantity]: order.totalQ,
             [productTableFieldNames.total]: order.totalA,
-            [productTableFieldNames.currency]: order.currency
+            [productTableFieldNames.currency]: order.currency,
+            [productTableFieldNames.marks]: order.marks,
         }
     });
     const { register, errors, control, setValue, getValues, handleSubmit, reset } = rhfMethods;

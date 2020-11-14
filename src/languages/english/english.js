@@ -613,6 +613,7 @@ export const ENGLISH = {
                         price: 'Unit Price',
                         total: 'Amount'
                     },
+                    marksPlaceholderLabel: 'Marks...',
                     errorMessages: {
                         missingCurrency: 'You must select a currency.',
                         missingCustomColumnName: 'You must give a name to all custom columns.',
