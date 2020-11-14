@@ -11,11 +11,24 @@ import { Add as IconAdd, Close as IconClose } from '@material-ui/icons';
 import UnitCounter from '../../classes/UnitCounter.js';
 import { roundToNDecimal } from '../../utils/format.js';
 import ErrorDisplay from '../../components/ErrorDisplay.js';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+    marks: {
+        padding: theme.spacing(2)
+    },
+    marksLabel: {
+        fontWeight: 'bold',
+        marginRight: theme.spacing(2)
+    }
+}))
 
 const {
     formLabels,
     tableHeaderLabels,
     totalLabel,
+    marksLabel,
     errorMessages
 } = LANGUAGE.shared.rhf.forms.measureTable;
 
@@ -39,6 +52,7 @@ const RHFMeasureTable = React.memo(function RHFMeasureTable(
         fieldNames,
         className
     }) {
+    const classes = useStyles();
 
     const custom1 = useWatch({
         control,
@@ -110,7 +124,7 @@ const RHFMeasureTable = React.memo(function RHFMeasureTable(
         setValue(
             fieldNames.items,
             getValues(fieldNames.items).map(item => {
-                const newItem = {...item};
+                const newItem = { ...item };
                 newItem[name] = '';
                 return newItem;
             })
@@ -337,6 +351,10 @@ const RHFMeasureTable = React.memo(function RHFMeasureTable(
                     onCellChange={ onCellChange }
                     footer={ footer }
                 />
+            </Grid>
+            <Grid container item xs={ 12 } className={ classes.marks }>
+                <Typography className={ classes.marksLabel }>{ marksLabel }</Typography>
+                <Typography>{ getValues('marks') }</Typography>
             </Grid>
         </Grid>
     )

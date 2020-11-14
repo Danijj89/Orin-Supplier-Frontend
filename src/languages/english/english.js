@@ -636,6 +636,7 @@ export const ENGLISH = {
                         dim: 'Volume'
                     },
                     totalLabel: 'Total:',
+                    marksLabel: 'Marks:',
                     errorMessages: {
                         missingMeasurementUnit: 'You must select a measurement unit.',
                         missingWeightUnit: 'You must select a weight unit.',

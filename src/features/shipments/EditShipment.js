@@ -60,16 +60,16 @@ const EditShipment = React.memo(function EditShipment() {
             { shipmentStatus === 'REJECTED' && <ErrorDisplay errors={ [shipmentError] }/> }
             { shipmentStatus === 'FULFILLED' && <SuccessMessage message={ successMessage }/> }
             { shipmentStatus === 'PENDING' && <Loader/> }
-            <Paper style={{ display: 'flex'}}>
+            <Paper style={ { display: 'flex' } }>
                 <Box hidden={ tabValue !== 'shipment' }>
                     <ShipmentInfo shipment={ shipment }/>
                 </Box>
                 { tabValue === 'products' &&
                 <ShipmentProductTable shipment={ shipment }/>
                 }
-                <Box hidden={ tabValue !== 'measures' }>
-                    <ShipmentMeasureTable shipment={ shipment }/>
-                </Box>
+                { tabValue === 'measures' &&
+                <ShipmentMeasureTable shipment={ shipment }/>
+                }
                 <Box hidden={ tabValue !== 'consolidation' }>
                     <ShipmentConsolidationTable shipment={ shipment }/>
                 </Box>

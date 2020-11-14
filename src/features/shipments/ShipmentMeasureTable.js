@@ -16,7 +16,8 @@ const measureTableFieldNames = {
     dimension: 'dimension',
     weightUnit: 'weightUnit',
     measurementUnit: 'measurementUnit',
-    items: 'items'
+    items: 'items',
+    marks: 'marks'
 };
 
 const {
@@ -36,7 +37,8 @@ const ShipmentMeasureTable = React.memo(function ShipmentMeasureTable({ shipment
             [measureTableFieldNames.grossWeight]: shipment.grossWeight,
             [measureTableFieldNames.dimension]: shipment.dimension,
             [measureTableFieldNames.custom1]: shipment.plCustom1,
-            [measureTableFieldNames.custom2]: shipment.plCustom2
+            [measureTableFieldNames.custom2]: shipment.plCustom2,
+            [measureTableFieldNames.marks]: shipment.marks
         }
     });
 
