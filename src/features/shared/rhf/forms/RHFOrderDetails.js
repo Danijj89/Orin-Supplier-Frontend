@@ -1,9 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { Controller, useWatch } from 'react-hook-form';
+import { useWatch } from 'react-hook-form';
 import { LANGUAGE } from '../../../../app/constants.js';
 import SideTextField from '../../inputs/SideTextField.js';
 import { formatAddress } from '../../utils/format.js';
-import SideDateField from '../../inputs/SideDateField.js';
 import { deliveryMethodOptions, incotermOptions } from '../../constants.js';
 import FormContainer from '../../wrappers/FormContainer.js';
 import { Divider, Typography, Grid } from '@material-ui/core';
@@ -125,7 +124,6 @@ const RHFOrderDetails = React.memo(function RHFOrderDetails(
                         getOptionLabel={ formatAddress }
                         getOptionSelected={ fromAddGetOptionSelected }
                         error={ !!errors[fieldNames.fromAdd] }
-                        rows={ 7 }
                         rowsMax={ 8 }
                         required
                     />
@@ -147,6 +145,7 @@ const RHFOrderDetails = React.memo(function RHFOrderDetails(
                         getOptionLabel={ formatAddress }
                         getOptionSelected={ toAddGetOptionSelected }
                         error={ !!errors[fieldNames.toAdd] }
+                        rows={ 7 }
                         required
                     />
                     { shouldShowAddAddressButton && <NewClientAddressButton client={ client }/> }
@@ -156,15 +155,10 @@ const RHFOrderDetails = React.memo(function RHFOrderDetails(
                         label={ formLabels.crd }
                     />
                     { isEdit &&
-                    <Controller
-                        render={ props =>
-                            <SideDateField
-                                { ...props }
-                                label={ formLabels.realCrd }
-                            />
-                        }
+                    <RHFDateField
+                        rhfControl={ control }
                         name={ fieldNames.realCrd }
-                        control={ control }
+                        label={ formLabels.realCrd }
                     /> }
                     <RHFAutoComplete
                         rhfControl={ control }
