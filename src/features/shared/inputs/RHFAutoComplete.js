@@ -116,7 +116,7 @@ RHFAutoComplete.propTypes = {
     options: PropTypes.array.isRequired,
     getOptionLabel: PropTypes.func,
     getOptionSelected: PropTypes.func,
-    error: PropTypes.object,
+    error: PropTypes.bool,
     required: PropTypes.oneOfType([
         PropTypes.bool,
         PropTypes.string

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Box, TextField as MuiTextField, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -51,18 +51,26 @@ const SideTextField = React.memo(function SideTextField(
         disabled && classes.disabled
     );
 
+    const isRequired = useMemo(() => Boolean(required), [required]);
+    const rules = useMemo(
+        () => isRequired && { required: required },
+        [isRequired, required]);
+    const actualInputRef = useMemo(
+        () => inputRef && inputRef(rules),
+        [inputRef, rules]);
+
     return (
         <Box className={ classes.container }>
             <Typography className={ classes.label } variant="subtitle1">
                 { label }
-                { required && <span className={ classes.required }>*</span> }
+                { isRequired && <span className={ classes.required }>*</span> }
             </Typography>
             <MuiTextField
                 { ...props }
                 className={ classNames }
                 name={ name }
                 value={ value }
-                inputRef={ inputRef }
+                inputRef={ actualInputRef }
                 InputProps={ { ...props.InputProps, disableUnderline: true, autoComplete: 'nope' } }
                 required={ required }
                 error={ error }
