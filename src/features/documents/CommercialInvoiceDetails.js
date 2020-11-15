@@ -1,13 +1,17 @@
-import React from 'react';
-import { Divider, Grid, Typography } from '@material-ui/core';
+import React, { useCallback } from 'react';
 import { LANGUAGE } from '../../app/constants.js';
 import FormContainer from '../shared/wrappers/FormContainer.js';
-import { Controller, useWatch } from 'react-hook-form';
+import { useWatch } from 'react-hook-form';
 import SideTextField from '../shared/inputs/SideTextField.js';
-import SideAutoComplete from '../shared/inputs/SideAutoComplete.js';
 import { formatAddress } from '../shared/utils/format.js';
 import SideTextArea from '../shared/inputs/SideTextArea.js';
 import CheckBox from '../shared/inputs/CheckBox.js';
+import Box from '@material-ui/core/Box';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import Divider from '@material-ui/core/Divider';
+import RHFAutoComplete from '../shared/inputs/RHFAutoComplete.js';
+import { isAddressEqualToDocAddress } from '../shared/utils/addresses.js';
 
 const {
     titleLabel,
@@ -31,79 +35,73 @@ const CommercialInvoiceDetails = React.memo(function CommercialInvoiceDetails(
         name: fieldNames.autoGenerateRef
     });
 
-
+    const sellerAddGetOptionSelected = useCallback(
+        a => isAddressEqualToDocAddress(a, getValues(fieldNames.sellerAdd)),
+        [getValues, fieldNames.sellerAdd]);
+    const consigneeAddGetOptionSelected = useCallback(
+        a => isAddressEqualToDocAddress(a, getValues(fieldNames.consigneeAdd)),
+        [getValues, fieldNames.consigneeAdd]);
 
     return (
-        <Grid container>
+        <Grid container justify="center">
             <Grid item xs={ 12 }>
                 <Typography variant="h5">{ titleLabel }</Typography>
             </Grid>
             <Grid item>
                 <FormContainer>
                     <CheckBox
-                        name={fieldNames.autoGenerateRef}
-                        label={formLabels.autoGenerateRef}
-                        inputRef={register}
+                        name={ fieldNames.autoGenerateRef }
+                        label={ formLabels.autoGenerateRef }
+                        inputRef={ register }
+                        checked
                     />
                     <SideTextField
                         name={ fieldNames.ref }
                         label={ formLabels.ref }
-                        inputRef={ register({ required: !autoGenerateRef }) }
+                        inputRef={ register }
                         error={ !!errors[fieldNames.ref] }
                         required={ !autoGenerateRef }
                         disabled={ autoGenerateRef }
                     />
-                    <Controller
-                        render={ (props) =>
-                            <SideAutoComplete
-                                { ...props }
-                                options={ companyAddresses.filter(a => a.active) }
-                                label={ formLabels.sellerAdd }
-                                error={ !!errors[fieldNames.sellerAdd] }
-                                getOptionLabel={ address => formatAddress(address) }
-                                getOptionSelected={ address => address._id === getValues(fieldNames.sellerAdd)._id
-                                    || address._id === getValues(fieldNames.sellerAdd).addressId }
-                                required
-                                rows={ 7 }
-                            />
-                        }
+                    <RHFAutoComplete
+                        rhfControl={ control }
                         name={ fieldNames.sellerAdd }
-                        control={ control }
-                        rules={ { required: true } }
+                        label={ formLabels.sellerAdd }
+                        options={ companyAddresses }
+                        error={ !!errors[fieldNames.sellerAdd] }
+                        getOptionLabel={ formatAddress }
+                        getOptionSelected={ sellerAddGetOptionSelected }
+                        rowsMax={ 8 }
+                        required
                     />
                     <SideTextField
                         label={ formLabels.consignee }
                         value={ consignee.name }
                         disabled
                     />
-                    <Controller
-                        render={ (props) => (
-                            <SideAutoComplete
-                                { ...props }
-                                options={ consigneeAddresses }
-                                label={ formLabels.consigneeAdd }
-                                error={ !!errors[fieldNames.consigneeAdd] }
-                                getOptionLabel={ address => formatAddress(address) }
-                                getOptionSelected={ address => address._id === getValues(fieldNames.consigneeAdd)._id
-                                    || address._id === getValues(fieldNames.consigneeAdd).addressId }
-                                required
-                                rows={ 7 }
-                            />
-                        ) }
+                    <RHFAutoComplete
+                        rhfControl={ control }
                         name={ fieldNames.consigneeAdd }
-                        control={ control }
-                        rules={ { required: true } }
+                        label={ formLabels.consigneeAdd }
+                        options={ consigneeAddresses }
+                        error={ !!errors[fieldNames.consigneeAdd] }
+                        getOptionLabel={ formatAddress }
+                        getOptionSelected={ consigneeAddGetOptionSelected }
+                        rowsMax={ 8 }
+                        required
                     />
                     <SideTextField
                         name={ fieldNames.coo }
                         label={ formLabels.coo }
-                        inputRef={ register({ required: true }) }
+                        inputRef={ register }
                         error={ !!errors[fieldNames.coo] }
                         required
                     />
                 </FormContainer>
             </Grid>
-            <Divider orientation="vertical" flexItem/>
+            <Grid item>
+                <Box component={ Divider } display={ { xs: 'none', lg: 'block' } } orientation="vertical"/>
+            </Grid>
             <Grid item>
                 <FormContainer>
                     <SideTextField

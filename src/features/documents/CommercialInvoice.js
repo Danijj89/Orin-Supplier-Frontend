@@ -89,7 +89,8 @@ const CommercialInvoice = React.memo(function CommercialInvoice({ shipment }) {
         (data) => {
             data.sellerAdd = addressToDocAddress(data.sellerAdd);
             data.consigneeAdd = addressToDocAddress(data.consigneeAdd);
-            dispatch(createCommercialInvoice({ shipmentId: shipment._id, commercialInvoice: data }))
+            console.log(data);
+            // dispatch(createCommercialInvoice({ shipmentId: shipment._id, commercialInvoice: data }))
         },
         [dispatch, shipment._id]);
 

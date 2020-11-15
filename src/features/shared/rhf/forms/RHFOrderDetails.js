@@ -146,7 +146,7 @@ const RHFOrderDetails = React.memo(function RHFOrderDetails(
                         getOptionLabel={ formatAddress }
                         getOptionSelected={ toAddGetOptionSelected }
                         error={ !!errors[fieldNames.toAdd] }
-                        rows={ 7 }
+                        rowsMax={ 8 }
                         required
                     />
                     { shouldShowAddAddressButton && <NewClientAddressButton client={ client }/> }
@@ -200,7 +200,7 @@ const RHFOrderDetails = React.memo(function RHFOrderDetails(
                         options={ clientAddresses }
                         getOptionLabel={ formatAddress }
                         getOptionSelected={ shipAddGetOptionSelected }
-                        rows={ 7 }
+                        rowsMax={ 8 }
                     />
                     <RHFAutoComplete
                         rhfControl={ control }

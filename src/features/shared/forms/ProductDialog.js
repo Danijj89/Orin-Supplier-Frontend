@@ -19,7 +19,7 @@ const {
 export default function ProductDialog(
     { isOpen, onSubmit, onCancel, submitLabel, product, titleLabel, onDelete, isEdit }) {
 
-    const { register, errors, handleSubmit, reset, watch, control } = useForm({
+    const { register, errors, handleSubmit, reset, watch } = useForm({
         mode: 'onSubmit'
     });
 

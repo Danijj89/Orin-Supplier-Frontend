@@ -19,13 +19,14 @@ const CheckBox = React.memo(function CheckBox(
         label,
         labelPlacement = 'start',
         inputRef,
+        checked,
         className
     }) {
     const classes = useStyles();
 
     return (
         <FormControlLabel
-            control={ <Checkbox color="primary"/> }
+            control={ <Checkbox color="primary" defaultChecked={ checked }/> }
             name={ name }
             label={ label }
             labelPlacement={ labelPlacement }
@@ -40,6 +41,7 @@ CheckBox.propTypes = {
     label: PropTypes.node.isRequired,
     inputRef: PropTypes.func.isRequired,
     labelPlacement: PropTypes.oneOf(['bottom', 'end', 'start', 'top']),
+    checked: PropTypes.bool,
     className: PropTypes.string
 };
 
