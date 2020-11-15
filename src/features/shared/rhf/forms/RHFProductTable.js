@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Grid, IconButton, TextField as MuiTextField } from '@material-ui/core';
+import { Grid, IconButton } from '@material-ui/core';
 import { Controller, useWatch } from 'react-hook-form';
 import SideAutoComplete from '../../inputs/SideAutoComplete.js';
 import { currenciesOptions, itemUnitsOptions } from '../../constants.js';
@@ -14,8 +14,8 @@ import UnitCounter from '../../classes/UnitCounter.js';
 import { roundToNDecimal } from '../../utils/format.js';
 import ErrorDisplay from '../../components/ErrorDisplay.js';
 import { defaultProductRowValues } from './util/constants.js';
-import SideCheckBox from '../../inputs/SideCheckBox.js';
 import TextArea from '../../inputs/TextArea.js';
+import CheckBox from '../../inputs/CheckBox.js';
 
 const {
     formLabels,
@@ -314,18 +314,11 @@ const RHFProductTable = React.memo(function RHFProductTable(
                     rules={ { required: errorMessages.missingCurrency } }
                 />
                 { !isEdit &&
-                <Controller
-                    render={ ({ value, ...rest }) =>
-                        <SideCheckBox
-                            { ...rest }
-                            label={ formLabels.saveItems }
-                            checked={ value }
-                        />
-                    }
+                <CheckBox
                     name={ fieldNames.saveItems }
-                    control={ control }
-                />
-                }
+                    label={ formLabels.saveItems }
+                    inputRef={ register }
+                /> }
             </Grid>
             <Grid item xs={ 12 }>
                 <EditableTable

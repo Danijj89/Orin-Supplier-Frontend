@@ -354,7 +354,7 @@ const RHFMeasureTable = React.memo(function RHFMeasureTable(
             </Grid>
             <Grid container item xs={ 12 } className={ classes.marks }>
                 <Typography className={ classes.marksLabel }>{ marksLabel }</Typography>
-                <Typography>{ getValues('marks') }</Typography>
+                <Typography>{ getValues(fieldNames.marks) }</Typography>
             </Grid>
         </Grid>
     )
@@ -375,7 +375,8 @@ RHFMeasureTable.propTypes = {
         grossWeight: PropTypes.string.isRequired,
         dimension: PropTypes.string.isRequired,
         weightUnit: PropTypes.string.isRequired,
-        measurementUnit: PropTypes.string.isRequired
+        measurementUnit: PropTypes.string.isRequired,
+        marks: PropTypes.string.isRequired
     }),
     className: PropTypes.string
 };

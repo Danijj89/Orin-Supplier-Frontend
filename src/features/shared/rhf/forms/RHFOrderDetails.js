@@ -9,10 +9,10 @@ import { deliveryMethodOptions, incotermOptions } from '../../constants.js';
 import FormContainer from '../../wrappers/FormContainer.js';
 import { Divider, Typography, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import SideCheckBox from '../../inputs/SideCheckBox.js';
 import SideTextArea from '../../inputs/SideTextArea.js';
 import PropTypes from 'prop-types';
 import NewClientAddressButton from '../../buttons/NewClientAddressButton.js';
+import CheckBox from '../../inputs/CheckBox.js';
 
 const useStyles = makeStyles((theme) => ({
     details: {
@@ -53,7 +53,7 @@ const RHFOrderDetails = React.memo(function RHFOrderDetails(
     const autoGenerateRef = useWatch({
         control,
         name: fieldNames.autoGenerateRef
-    })
+    });
 
     const [clientAddresses, setClientAddresses] = useState([]);
 
@@ -73,28 +73,16 @@ const RHFOrderDetails = React.memo(function RHFOrderDetails(
                 { !isEdit && <Typography variant="h5">{ detailsTitleLabel }</Typography> }
                 <FormContainer>
                     { isEdit &&
-                    <Controller
-                        render={ ({ value, ...rest }) =>
-                            <SideCheckBox
-                                { ...rest }
-                                label={ formLabels.fulfilled }
-                                checked={ value }
-                            />
-                        }
+                    <CheckBox
+                        inputRef={ register }
                         name={ fieldNames.fulfilled }
-                        control={ control }
+                        label={ formLabels.fulfilled }
                     /> }
                     { !isEdit &&
-                    <Controller
-                        render={ ({ value, ...rest }) =>
-                            <SideCheckBox
-                                { ...rest }
-                                label={ formLabels.autoGenerateRef }
-                                checked={ value }
-                            />
-                        }
+                    <CheckBox
                         name={ fieldNames.autoGenerateRef }
-                        control={ control }
+                        label={ formLabels.autoGenerateRef }
+                        inputRef={ register }
                     /> }
                     <SideTextField
                         name={ fieldNames.ref }
@@ -129,7 +117,7 @@ const RHFOrderDetails = React.memo(function RHFOrderDetails(
                                 getOptionSelected={ address => address._id === getValues(fieldNames.fromAdd)._id
                                     || address._id === getValues(fieldNames.fromAdd).addressId }
                                 required
-                                rows={7}
+                                rows={ 7 }
                             />
                         }
                         name={ fieldNames.fromAdd }
@@ -163,7 +151,7 @@ const RHFOrderDetails = React.memo(function RHFOrderDetails(
                                 getOptionSelected={ address => address._id === getValues(fieldNames.toAdd)._id
                                     || address._id === getValues(fieldNames.toAdd).addressId }
                                 required
-                                rows={7}
+                                rows={ 7 }
                             />
                         ) }
                         name={ fieldNames.toAdd }
@@ -236,7 +224,7 @@ const RHFOrderDetails = React.memo(function RHFOrderDetails(
                                 getOptionLabel={ address => formatAddress(address) }
                                 getOptionSelected={ address => address._id === getValues(fieldNames.shipAdd)._id
                                     || address._id === getValues(fieldNames.shipAdd).addressId }
-                                rows={7}
+                                rows={ 7 }
                             />
                         ) }
                         name={ fieldNames.shipAdd }
@@ -322,5 +310,7 @@ RHFOrderDetails.propTypes = {
     isEdit: PropTypes.bool,
     className: PropTypes.string
 };
+
+// RHFOrderDetails.whyDidYouRender = true;
 
 export default RHFOrderDetails;

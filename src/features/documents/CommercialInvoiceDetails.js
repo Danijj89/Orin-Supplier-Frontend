@@ -2,12 +2,12 @@ import React from 'react';
 import { Divider, Grid, Typography } from '@material-ui/core';
 import { LANGUAGE } from '../../app/constants.js';
 import FormContainer from '../shared/wrappers/FormContainer.js';
-import SideCheckBox from '../shared/inputs/SideCheckBox.js';
 import { Controller, useWatch } from 'react-hook-form';
 import SideTextField from '../shared/inputs/SideTextField.js';
 import SideAutoComplete from '../shared/inputs/SideAutoComplete.js';
 import { formatAddress } from '../shared/utils/format.js';
 import SideTextArea from '../shared/inputs/SideTextArea.js';
+import CheckBox from '../shared/inputs/CheckBox.js';
 
 const {
     titleLabel,
@@ -40,16 +40,10 @@ const CommercialInvoiceDetails = React.memo(function CommercialInvoiceDetails(
             </Grid>
             <Grid item>
                 <FormContainer>
-                    <Controller
-                        render={ ({ value, ...rest }) =>
-                            <SideCheckBox
-                                { ...rest }
-                                label={ formLabels.autoGenerateRef }
-                                checked={ value }
-                            />
-                        }
-                        name={ fieldNames.autoGenerateRef }
-                        control={ control }
+                    <CheckBox
+                        name={fieldNames.autoGenerateRef}
+                        label={formLabels.autoGenerateRef}
+                        inputRef={register}
                     />
                     <SideTextField
                         name={ fieldNames.ref }
