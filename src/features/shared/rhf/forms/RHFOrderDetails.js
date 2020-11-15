@@ -14,6 +14,7 @@ import CheckBox from '../../inputs/CheckBox.js';
 import RHFAutoComplete from '../../inputs/RHFAutoComplete.js';
 import { isAddressEqualToDocAddress } from '../../utils/addresses.js';
 import RHFDateField from '../../inputs/RHFDateField.js';
+import Box from '@material-ui/core/Box';
 
 const useStyles = makeStyles((theme) => ({
     details: {
@@ -186,7 +187,9 @@ const RHFOrderDetails = React.memo(function RHFOrderDetails(
                     /> }
                 </FormContainer>
             </Grid>
-            <Divider orientation="vertical" flexItem/>
+            <Grid item>
+                <Box component={Divider} display={{ xs: 'none', lg: 'block' }}  orientation="vertical"/>
+            </Grid>
             <Grid item className={ classes.shipping }>
                 { !isEdit && <Typography variant="h5">{ shippingInfoTitleLabel }</Typography> }
                 <FormContainer>
