@@ -1,5 +1,6 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { SESSION_NEW_DOCUMENT } from '../../../app/sessionKeys.js';
+import { createCommercialInvoice } from './thunks.js';
 
 
 export const documentAdapter = createEntityAdapter({
@@ -24,7 +25,19 @@ const documentsSlice = createSlice({
             state.error = null;
         }
     },
-    extraReducers: {}
+    extraReducers: {
+        [createCommercialInvoice.pending]: (state, action) => {
+            state.status = 'PENDING';
+        },
+        [createCommercialInvoice.fulfilled]: (state, action) => {
+            documentAdapter.upsertOne(state, action.payload);
+            state.status = 'IDLE';
+        },
+        [createCommercialInvoice.rejected]: (state, action) => {
+            state.status = 'REJECTED';
+            state.error = action.payload.message;
+        }
+    }
 });
 
 export const { cleanNewDocument, cleanDocumentError } = documentsSlice.actions;
