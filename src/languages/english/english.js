@@ -383,7 +383,6 @@ export const ENGLISH = {
                 orders: 'Orders Included',
                 documents: 'Documents'
             },
-            editOrdersButtonLabel: 'Edit Included Orders',
             documentButton: {
                 buttonLabel: 'Generate Document',
                 dialogTitleLabel: 'Choose a Document to Generate',
@@ -403,6 +402,7 @@ export const ENGLISH = {
                     qa: 'QA',
                     notes: 'Notes'
                 },
+                editOrdersButtonLabel: 'Edit Included Orders'
             },
             shipmentInfoCard: {
                 titleLabel: 'Shipment Information',

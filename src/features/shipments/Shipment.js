@@ -14,25 +14,17 @@ import DocumentButton from './DocumentButton.js';
 
 const {
     editShipmentButtonLabel,
-    tabsLabelsMap,
-    editOrdersButtonLabel
+    tabsLabelsMap
 } = LANGUAGE.shipment.shipment;
 
 export default function Shipment() {
     const history = useHistory();
     const { id } = useParams();
     const shipment = useSelector(state => selectShipmentById(state, id));
-    const orderIds = shipment.items.reduce((acc, item) => {
-        if (!acc.includes(item.order)) acc.push(item.order);
-        return acc;
-    }, []);
-    const orders = useSelector(state => selectOrdersByIds(state, orderIds));
     const [tabValue, setTabValue] = useState('orders');
 
     const onEditShipmentInfo = () =>
         history.push(`/home/shipments/edit/${ id }/details`);
-
-    const onEditOrders = () => history.push(`/home/shipments/edit/${ id }`);
 
     return (
         <Grid container>
@@ -54,10 +46,7 @@ export default function Shipment() {
                     tabValue={ tabValue }
                     onChange={ setTabValue }
                 />
-                <ThemedButton onClick={ onEditOrders }>
-                    { editOrdersButtonLabel }
-                </ThemedButton>
-                <ShipmentOrdersTable orders={ orders }/>
+                { tabValue === 'orders' && <ShipmentOrdersTable /> }
             </Grid>
         </Grid>
     )

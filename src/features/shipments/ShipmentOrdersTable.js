@@ -4,12 +4,28 @@ import StatusDisplay from '../orders/StatusDisplay.js';
 import UnitCounter from '../shared/classes/UnitCounter.js';
 import { dateToLocaleDate } from '../shared/utils/format.js';
 import { LANGUAGE } from '../../app/constants.js';
+import { Box } from '@material-ui/core';
+import ThemedButton from '../shared/buttons/ThemedButton.js';
+import { useHistory, useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { selectShipmentById } from './duck/selectors.js';
+import { selectOrdersByIds } from '../orders/duck/selectors.js';
 
 const {
-    tableHeaderLabelsMap
+    tableHeaderLabelsMap,
+    editOrdersButtonLabel
 } = LANGUAGE.shipment.shipment.shipmentOrdersTable;
 
-export default function ShipmentOrdersTable({ orders }) {
+export default function ShipmentOrdersTable() {
+    const history = useHistory();
+    const { id } = useParams();
+    const shipment = useSelector(state => selectShipmentById(state, id));
+    const orderIds = shipment.items.reduce((acc, item) => {
+        if (!acc.includes(item.order)) acc.push(item.order);
+        return acc;
+    }, []);
+    const orders = useSelector(state => selectOrdersByIds(state, orderIds));
+    const onEditOrders = () => history.push(`/home/shipments/edit/${ id }`);
 
     const columns = [
         { field: 'id', hide: true },
@@ -48,6 +64,11 @@ export default function ShipmentOrdersTable({ orders }) {
     }));
 
     return (
-        <Table columns={ columns } rows={ rows }/>
+        <Box>
+            <ThemedButton onClick={ onEditOrders }>
+                { editOrdersButtonLabel }
+            </ThemedButton>
+            <Table columns={ columns } rows={ rows }/>
+        </Box>
     )
 }
