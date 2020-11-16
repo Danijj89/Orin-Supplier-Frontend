@@ -1,6 +1,6 @@
 export const documentTypesOptions = [
-    { type: 'ci', name: 'Commercial Invoice'},
-    { type: 'pl', name: 'Packing List'},
+    { type: 'CI', name: 'Commercial Invoice'},
+    { type: 'PL', name: 'Packing List'},
 ];
 export const deliveryMethodOptions = ['Ocean', 'Air'];
 export const itemUnitsOptions = ['PCS', 'CTN'];

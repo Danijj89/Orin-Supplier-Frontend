@@ -7,10 +7,10 @@ import { useSelector } from 'react-redux';
 import { selectShipmentById } from './duck/selectors.js';
 import NavTabs from '../shared/components/NavTabs.js';
 import ShipmentOrdersTable from './ShipmentOrdersTable.js';
-import { selectOrdersByIds } from '../orders/duck/selectors.js';
 import ShipmentInfoCard from './ShipmentInfoCard.js';
 import DocumentStatusCard from './DocumentStatusCard.js';
 import DocumentButton from './DocumentButton.js';
+import ShipmentDocumentTable from './ShipmentDocumentTable.js';
 
 const {
     editShipmentButtonLabel,
@@ -47,6 +47,7 @@ export default function Shipment() {
                     onChange={ setTabValue }
                 />
                 { tabValue === 'orders' && <ShipmentOrdersTable /> }
+                { tabValue === 'documents' && <ShipmentDocumentTable />}
             </Grid>
         </Grid>
     )

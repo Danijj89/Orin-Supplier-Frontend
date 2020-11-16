@@ -32,10 +32,10 @@ const DocumentButton = React.memo(function DocumentButton() {
 
     const onSubmit = useCallback((data) => {
         switch (data.document.type) {
-            case 'ci':
+            case 'CI':
                 history.push(`/home/documents/ci/new?shipment=${id}`);
                 break;
-            case 'pl':
+            case 'PL':
                 history.push(`/home/documents/pl/new?shipment=${id}`);
                 break;
             default:

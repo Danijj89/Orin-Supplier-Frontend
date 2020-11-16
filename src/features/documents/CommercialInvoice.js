@@ -16,11 +16,13 @@ import {
     shipmentToCommercialInvoice
 } from '../shared/utils/entityConversion.js';
 import { cleanDocumentError, cleanNewDocument } from './duck/slice.js';
-import { createCommercialInvoice } from './duck/thunks.js';
 import { selectCompanyActiveAddresses } from '../home/duck/selectors.js';
 import { selectClientActiveAddresses, selectClientById } from '../clients/duck/selectors.js';
 import { findAddressFromAddresses } from '../shared/utils/addresses.js';
 import { selectCurrentUserId } from '../../app/duck/selectors.js';
+import { createDocument } from '../shipments/duck/thunks.js';
+
+const DOCUMENT_TYPE = 'CI';
 
 const detailsFieldNames = {
     autoGenerateRef: 'autoGenerateRef',
@@ -62,6 +64,7 @@ const CommercialInvoice = React.memo(function CommercialInvoice({ shipment }) {
     const isDetailsStep = useMemo(() => step === 'details', [step]);
     const initialCI = shipmentToCommercialInvoice(shipment);
     const [commercialInvoice, setCommercialInvoice] = useSessionStorage(SESSION_NEW_DOCUMENT, initialCI);
+    console.log(shipment)
 
     const { register, control, errors, getValues, setValue, handleSubmit } = useForm({
         mode: 'onSubmit',
@@ -94,16 +97,18 @@ const CommercialInvoice = React.memo(function CommercialInvoice({ shipment }) {
 
     const onSubmit = useCallback(
         (data) => {
+            data.type = DOCUMENT_TYPE;
+            data.seller = shipment.seller;
             data.sellerAdd = addressToDocAddress(data.sellerAdd);
+            data.consignee = shipment.consignee;
             data.consigneeAdd = addressToDocAddress(data.consigneeAdd);
             data.items = productTableItemsToDocItems(data.items);
             data.createdBy = userId;
-            console.log(data);
-            // dispatch(createCommercialInvoice({ shipmentId: shipment._id, commercialInvoice: data }))
+            dispatch(createDocument({ id: shipment._id, doc: data }))
             dispatch(cleanNewDocument());
-            history.push(`/home/shipments/${shipment._id}`);
+            history.push(`/home/shipments/${ shipment._id }`);
         },
-        [dispatch, shipment._id, history, userId]);
+        [dispatch, shipment._id, shipment.seller, shipment.consignee, history, userId]);
 
     const onPrevClick = useCallback(
         () => {
