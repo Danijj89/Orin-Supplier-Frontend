@@ -38,7 +38,7 @@ export const productTableItemsToItems = (tableItems) =>
         price: item.price,
         total: item.total,
         ciCustom1: item.ciCustom1,
-        ciCustom2: item.ciCustom2,
+        ciCustom2: item.ciCustom2
     }));
 
 export const measureTableItemsToItems = (tableItems) =>
@@ -69,3 +69,15 @@ export const shipmentToCommercialInvoice = (shipment) => ({
     custom1: shipment.ciCustom1,
     custom2: shipment.ciCustom2
 });
+
+export const productTableItemsToDocItems = (tableItems) =>
+    tableItems.map(item => ({
+        ref: item.ref,
+        description: item.description,
+        quantity: item.quantity,
+        unit: item.unit,
+        price: item.price,
+        total: item.total,
+        ciCustom1: item.ciCustom1,
+        ciCustom2: item.ciCustom2
+    }));
