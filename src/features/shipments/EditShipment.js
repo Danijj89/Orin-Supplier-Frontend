@@ -15,6 +15,31 @@ import ShipmentProductTable from './ShipmentProductTable.js';
 import ShipmentMeasureTable from './ShipmentMeasureTable.js';
 import ShipmentConsolidationTable from './ShipmentConsolidationTable.js';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+         margin: theme.spacing(2),
+    },
+    rootCard: {
+        padding: theme.spacing(2),
+    },
+    cancelButton: {
+        marginBottom: theme.spacing(1),
+        color: theme.palette.danger.light,
+        borderColor: theme.palette.danger.light,
+        '&:hover': {
+            color: theme.palette.white.main,
+            borderColor: theme.palette.danger.dark,
+            backgroundColor: theme.palette.danger.main,
+        },
+    },
+    shipmentCards: {
+        marginTop: theme.spacing(2),
+        marginBottom: theme.spacing(2),
+    }
+
+}));
 
 const {
     titleLabel,
@@ -24,6 +49,7 @@ const {
 } = LANGUAGE.shipment.editShipment;
 
 const EditShipment = React.memo(function EditShipment() {
+    const classes = useStyles();
     const dispatch = useDispatch();
     const history = useHistory();
     const { id } = useParams();
@@ -49,8 +75,15 @@ const EditShipment = React.memo(function EditShipment() {
     }, [dispatch]);
 
     return (
-        <Card>
-            <ThemedButton onClick={ onCancel }>{ cancelButtonLabel }</ThemedButton>
+
+        <Box className={classes.root}>
+        <ThemedButton 
+            className={classes.cancelButton} onClick={ onCancel }
+            variant={"outlined"}
+        >
+                { cancelButtonLabel }
+        </ThemedButton>
+        <Card className={classes.rootCard}>
             <Typography variant="h5">{ titleLabel }</Typography>
             <NavTabs
                 tabsLabelsMap={ tabsLabelsMap }
@@ -61,20 +94,23 @@ const EditShipment = React.memo(function EditShipment() {
             { shipmentStatus === 'FULFILLED' && <SuccessMessage message={ successMessage }/> }
             { shipmentStatus === 'PENDING' && <Loader/> }
             <Box>
-                <Box hidden={ tabValue !== 'shipment' }>
+                <Box className={classes.shipmentCards} hidden={ tabValue !== 'shipment' }>
                     <ShipmentInfo shipment={ shipment }/>
                 </Box>
-                <Box hidden={ tabValue !== 'products' }>
+                <Box className={classes.shipmentCards} hidden={ tabValue !== 'products' }>
                     <ShipmentProductTable shipment={ shipment }/>
                 </Box>
-                <Box hidden={ tabValue !== 'measures' }>
+                <Box className={classes.shipmentCards} hidden={ tabValue !== 'measures' }>
                     <ShipmentMeasureTable shipment={ shipment }/>
                 </Box>
-                <Box hidden={ tabValue !== 'consolidation' }>
+                <Box className={classes.shipmentCards} hidden={ tabValue !== 'consolidation' }>
                     <ShipmentConsolidationTable shipment={ shipment }/>
                 </Box>
+                
             </Box>
+            
         </Card>
+        </Box>
     )
 });
 

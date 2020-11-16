@@ -5,6 +5,8 @@ import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { LANGUAGE } from '../../app/constants.js';
 import { useDispatch } from 'react-redux';
 import { updateShipmentConsolidation } from './duck/thunks.js';
+import { makeStyles } from '@material-ui/core/styles';
+
 
 const consolidationTableFieldNames = {
     custom1: 'coCustom1',
@@ -18,13 +20,20 @@ const consolidationTableFieldNames = {
     items: 'items'
 };
 
+const useStyles = makeStyles((theme) => ({
+    submitButton: {
+         marginTop: theme.spacing(2),
+    },
+
+}));
+
 const {
     submitButtonLabel
 } = LANGUAGE.shipment.editShipment.consolidationTable;
 
 const ShipmentConsolidationTable = React.memo(function ShipmentConsolidationTable({ shipment }) {
     const dispatch = useDispatch();
-
+    const classes = useStyles();
     const { register, control, errors, setValue, getValues, handleSubmit } = useForm({
         mode: 'onSubmit',
         defaultValues: {
@@ -63,7 +72,7 @@ const ShipmentConsolidationTable = React.memo(function ShipmentConsolidationTabl
                 rhfErrors={ errors }
                 fieldNames={ consolidationTableFieldNames }
             />
-            <ThemedButton type="submit">{ submitButtonLabel }</ThemedButton>
+            <ThemedButton className={classes.submitButton} type="submit">{ submitButtonLabel }</ThemedButton>
         </form>
 
     )

@@ -7,6 +7,7 @@ import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { LANGUAGE } from '../../app/constants.js';
 import { updateShipmentProducts } from './duck/thunks.js';
 import { productTableItemsToItems } from '../shared/utils/entityConversion.js';
+import { makeStyles } from '@material-ui/core/styles';
 
 const productTableFieldNames = {
     custom1: 'ciCustom1',
@@ -17,12 +18,20 @@ const productTableFieldNames = {
     total: 'total'
 };
 
+const useStyles = makeStyles((theme) => ({
+    submitButton: {
+         marginTop: theme.spacing(2),
+    },
+
+}));
+
 const {
     submitButtonLabel
 } = LANGUAGE.shipment.editShipment.productTable;
 
 const ShipmentProductTable = React.memo(function ShipmentProductTable(
     { shipment }) {
+    const classes = useStyles();
     const dispatch = useDispatch();
     const products = useSelector(selectActiveProducts);
     const { register, control, errors, setValue, getValues, handleSubmit } = useForm({
@@ -63,7 +72,7 @@ const ShipmentProductTable = React.memo(function ShipmentProductTable(
                 fieldNames={ productTableFieldNames }
                 isEdit
             />
-            <ThemedButton type="submit">{ submitButtonLabel }</ThemedButton>
+            <ThemedButton className={classes.submitButton} type="submit">{ submitButtonLabel }</ThemedButton>
         </form>
     )
 });

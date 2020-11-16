@@ -6,6 +6,7 @@ import { LANGUAGE } from '../../app/constants.js';
 import { useDispatch } from 'react-redux';
 import { updateShipmentMeasures } from './duck/thunks.js';
 import { measureTableItemsToItems } from '../shared/utils/entityConversion.js';
+import { makeStyles } from '@material-ui/core/styles';
 
 const measureTableFieldNames = {
     custom1: 'plCustom1',
@@ -19,11 +20,19 @@ const measureTableFieldNames = {
     items: 'items'
 };
 
+const useStyles = makeStyles((theme) => ({
+    submitButton: {
+         marginTop: theme.spacing(2),
+    },
+
+}));
+
 const {
     submitButtonLabel
 } = LANGUAGE.shipment.editShipment.measureTable;
 
 const ShipmentMeasureTable = React.memo(function ShipmentMeasureTable({ shipment }) {
+    const classes = useStyles();
     const dispatch = useDispatch();
     const { register, control, errors, setValue, getValues, handleSubmit } = useForm({
         mode: 'onSubmit',
@@ -65,7 +74,7 @@ const ShipmentMeasureTable = React.memo(function ShipmentMeasureTable({ shipment
                 rhfErrors={ errors }
                 fieldNames={ measureTableFieldNames }
             />
-            <ThemedButton type="submit">{ submitButtonLabel }</ThemedButton>
+            <ThemedButton className={classes.submitButton} type="submit">{ submitButtonLabel }</ThemedButton>
         </form>
 
     )

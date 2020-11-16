@@ -14,6 +14,7 @@ import SideTextField from '../shared/inputs/SideTextField.js';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { updateShipmentInfo } from './duck/thunks.js';
 import { addressToDocAddress } from '../shared/utils/entityConversion.js';
+import { makeStyles } from '@material-ui/core/styles';
 
 const {
     partiesTitleLabel,
@@ -23,6 +24,14 @@ const {
     submitButtonLabel,
     errorMessages
 } = LANGUAGE.shipment.editShipment.shipmentInfo;
+
+const useStyles = makeStyles((theme) => ({
+    shipmentCards: {
+        marginTop: theme.spacing(3),
+        marginBottom: theme.spacing(2),
+    }
+
+}));
 
 const ShipmentInfo = React.memo(function ShipmentInfo({ shipment }) {
     const dispatch = useDispatch();
@@ -49,6 +58,7 @@ const ShipmentInfo = React.memo(function ShipmentInfo({ shipment }) {
         }
     });
 
+    const classes = useStyles();
     const sellerAdd = watch('sellerAdd');
     const consigneeAdd = watch('consigneeAdd');
     const shipAdd = watch('shipAdd');
@@ -67,6 +77,7 @@ const ShipmentInfo = React.memo(function ShipmentInfo({ shipment }) {
         <form onSubmit={ handleSubmit(onSubmit) } autoComplete="off">
             <InfoCard
                 title={ partiesTitleLabel }
+                className={classes.shipmentCards}
                 content={
                     <Grid container>
                         <Grid item xs={ 4 }>
@@ -130,6 +141,7 @@ const ShipmentInfo = React.memo(function ShipmentInfo({ shipment }) {
                 }
             />
             <InfoCard
+                className={classes.shipmentCards}
                 title={ orderInfoTitleLabel }
                 content={
                     <Grid container>
@@ -178,6 +190,7 @@ const ShipmentInfo = React.memo(function ShipmentInfo({ shipment }) {
                 }
             />
             <InfoCard
+                className={classes.shipmentCards}
                 title={ shippingTitleLabel }
                 content={
                     <Grid container>
