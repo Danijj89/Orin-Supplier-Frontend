@@ -64,7 +64,6 @@ const CommercialInvoice = React.memo(function CommercialInvoice({ shipment }) {
     const isDetailsStep = useMemo(() => step === 'details', [step]);
     const initialCI = shipmentToCommercialInvoice(shipment);
     const [commercialInvoice, setCommercialInvoice] = useSessionStorage(SESSION_NEW_DOCUMENT, initialCI);
-    console.log(shipment)
 
     const { register, control, errors, getValues, setValue, handleSubmit } = useForm({
         mode: 'onSubmit',
