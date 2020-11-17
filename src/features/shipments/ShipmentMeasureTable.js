@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 import { updateShipmentMeasures } from './duck/thunks.js';
 import { measureTableItemsToItems } from '../shared/utils/entityConversion.js';
 import { makeStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
 
 const measureTableFieldNames = {
     custom1: 'plCustom1',
@@ -62,23 +63,24 @@ const ShipmentMeasureTable = React.memo(function ShipmentMeasureTable({ shipment
     }, [register]);
 
     const onSubmit = (data) => {
-        data.items = measureTableItemsToItems(data.items);
+        data.items = measureTableItemsToItems(data.items, shipment._id);
         dispatch(updateShipmentMeasures({ id: shipment._id, update: data }));
     };
 
     return (
-        <form onSubmit={ handleSubmit(onSubmit) } autoComplete="off">
-            <RHFMeasureTable
-                rhfRegister={ register }
-                rhfControl={ control }
-                rhfGetValues={ getValues }
-                rhfSetValue={ setValue }
-                rhfErrors={ errors }
-                fieldNames={ measureTableFieldNames }
-            />
-            <ThemedButton className={classes.submitButton} type="submit">{ submitButtonLabel }</ThemedButton>
-        </form>
-
+        <Paper>
+            <form onSubmit={ handleSubmit(onSubmit) } autoComplete="off">
+                <RHFMeasureTable
+                    rhfRegister={ register }
+                    rhfControl={ control }
+                    rhfGetValues={ getValues }
+                    rhfSetValue={ setValue }
+                    rhfErrors={ errors }
+                    fieldNames={ measureTableFieldNames }
+                />
+                <ThemedButton className={classes.submitButton} type="submit">{ submitButtonLabel }</ThemedButton>
+            </form>
+        </Paper>
     )
 });
 

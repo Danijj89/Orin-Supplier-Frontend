@@ -8,6 +8,7 @@ import { LANGUAGE } from '../../app/constants.js';
 import { updateShipmentProducts } from './duck/thunks.js';
 import { productTableItemsToItems } from '../shared/utils/entityConversion.js';
 import { makeStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
 
 const productTableFieldNames = {
     custom1: 'ciCustom1',
@@ -56,24 +57,26 @@ const ShipmentProductTable = React.memo(function ShipmentProductTable(
     }, [register]);
 
     const onSubmit = (data) => {
-        data.items = productTableItemsToItems(data.items);
+        data.items = productTableItemsToItems(data.items, shipment._id);
         dispatch(updateShipmentProducts({ id: shipment._id, update: data }));
     };
 
     return (
-        <form onSubmit={ handleSubmit(onSubmit) } autoComplete="off">
-            <RHFProductTable
-                rhfRegister={ register }
-                rhfErrors={ errors }
-                rhfControl={ control }
-                rhfSetValue={ setValue }
-                rhfGetValues={ getValues }
-                products={ products }
-                fieldNames={ productTableFieldNames }
-                isEdit
-            />
-            <ThemedButton className={classes.submitButton} type="submit">{ submitButtonLabel }</ThemedButton>
-        </form>
+        <Paper>
+            <form onSubmit={ handleSubmit(onSubmit) } autoComplete="off">
+                <RHFProductTable
+                    rhfRegister={ register }
+                    rhfErrors={ errors }
+                    rhfControl={ control }
+                    rhfSetValue={ setValue }
+                    rhfGetValues={ getValues }
+                    products={ products }
+                    fieldNames={ productTableFieldNames }
+                    isEdit
+                />
+                <ThemedButton className={classes.submitButton} type="submit">{ submitButtonLabel }</ThemedButton>
+            </form>
+        </Paper>
     )
 });
 

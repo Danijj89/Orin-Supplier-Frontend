@@ -6,6 +6,7 @@ import { LANGUAGE } from '../../app/constants.js';
 import { useDispatch } from 'react-redux';
 import { updateShipmentConsolidation } from './duck/thunks.js';
 import { makeStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
 
 
 const consolidationTableFieldNames = {
@@ -17,14 +18,13 @@ const consolidationTableFieldNames = {
     dimension: 'coDimension',
     weightUnit: 'weightUnit',
     measurementUnit: 'measurementUnit',
-    items: 'items'
+    items: 'coItems'
 };
 
 const useStyles = makeStyles((theme) => ({
     submitButton: {
          marginTop: theme.spacing(2),
-    },
-
+    }
 }));
 
 const {
@@ -59,22 +59,28 @@ const ShipmentConsolidationTable = React.memo(function ShipmentConsolidationTabl
         register({ name: consolidationTableFieldNames.items });
     }, [register]);
 
-    const onSubmit = (data) =>
+    const onSubmit = (data) => {
+        data.coItems = data.coItems.map(item => {
+            item.shipment = shipment._id;
+            return item;
+        });
         dispatch(updateShipmentConsolidation({ id: shipment._id, update: data}));
+    };
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
-            <RHFConsolidationTable
-                rhfRegister={ register }
-                rhfControl={ control }
-                rhfSetValue={ setValue }
-                rhfGetValues={ getValues }
-                rhfErrors={ errors }
-                fieldNames={ consolidationTableFieldNames }
-            />
-            <ThemedButton className={classes.submitButton} type="submit">{ submitButtonLabel }</ThemedButton>
-        </form>
-
+        <Paper>
+            <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
+                <RHFConsolidationTable
+                    rhfRegister={ register }
+                    rhfControl={ control }
+                    rhfSetValue={ setValue }
+                    rhfGetValues={ getValues }
+                    rhfErrors={ errors }
+                    fieldNames={ consolidationTableFieldNames }
+                />
+                <ThemedButton className={classes.submitButton} type="submit">{ submitButtonLabel }</ThemedButton>
+            </form>
+        </Paper>
     )
 });
 

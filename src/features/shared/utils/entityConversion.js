@@ -27,10 +27,11 @@ export const tableItemsToOrderItems = (tableItems, orderId = null) =>
         custom2: item.custom2
     }));
 
-export const productTableItemsToItems = (tableItems) =>
+export const productTableItemsToItems = (tableItems, shipmentId) =>
     tableItems.map(item => ({
         _id: item._id,
         product: item.product,
+        shipment: shipmentId,
         ref: item.ref,
         description: item.description,
         quantity: item.quantity,
@@ -41,10 +42,11 @@ export const productTableItemsToItems = (tableItems) =>
         ciCustom2: item.ciCustom2
     }));
 
-export const measureTableItemsToItems = (tableItems) =>
+export const measureTableItemsToItems = (tableItems, shipmentId) =>
     tableItems.map(item => ({
         _id: item._id,
         package: item.package,
+        shipment: shipmentId,
         pUnit: item.pUnit,
         netW: item.netW,
         grossW: item.grossW,
