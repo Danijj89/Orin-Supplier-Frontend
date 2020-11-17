@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { LANGUAGE } from '../../app/constants.js';
 import { useDispatch } from 'react-redux';
-import { updateShipmentConsolidation } from './duck/thunks.js';
+import { updateShipment } from './duck/thunks.js';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 
@@ -64,7 +64,7 @@ const ShipmentConsolidationTable = React.memo(function ShipmentConsolidationTabl
             item.shipment = shipment._id;
             return item;
         });
-        dispatch(updateShipmentConsolidation({ id: shipment._id, update: data}));
+        dispatch(updateShipment({ id: shipment._id, update: data}));
     };
 
     return (

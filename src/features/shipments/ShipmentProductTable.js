@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectActiveProducts } from '../products/duck/selectors.js';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { LANGUAGE } from '../../app/constants.js';
-import { updateShipmentProducts } from './duck/thunks.js';
+import { updateShipment } from './duck/thunks.js';
 import { productTableItemsToItems } from '../shared/utils/entityConversion.js';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
@@ -58,7 +58,7 @@ const ShipmentProductTable = React.memo(function ShipmentProductTable(
 
     const onSubmit = (data) => {
         data.items = productTableItemsToItems(data.items, shipment._id);
-        dispatch(updateShipmentProducts({ id: shipment._id, update: data }));
+        dispatch(updateShipment({ id: shipment._id, update: data }));
     };
 
     return (
