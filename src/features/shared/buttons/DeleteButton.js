@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function DeleteButton({ onDelete, deleteMessage, className }) {
+const DeleteButton = React.memo(function DeleteButton({ onDelete, deleteMessage, className }) {
     const classes = useStyles();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -53,10 +53,12 @@ export default function DeleteButton({ onDelete, deleteMessage, className }) {
             />
         </Box>
     );
-}
+});
 
 DeleteButton.propTypes = {
     onDelete: PropTypes.func.isRequired,
     deleteMessage: PropTypes.string.isRequired,
     className: PropTypes.string,
 };
+
+export default DeleteButton;

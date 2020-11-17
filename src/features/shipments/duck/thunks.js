@@ -73,3 +73,12 @@ export const updateShipmentConsolidation = createAsyncThunk('shipment/updateShip
             return rejectWithValue(err.response.data);
         }
     });
+
+export const createDocument = createAsyncThunk('shipment/createDocument',
+    async ({ id, doc }, { rejectWithValue }) => {
+        try {
+            return await ShipmentService.createDocument(id, doc);
+        } catch (err) {
+            return rejectWithValue(err.response.data);
+        }
+    });

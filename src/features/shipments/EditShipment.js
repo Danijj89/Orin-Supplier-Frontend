@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Box, Card, Typography } from '@material-ui/core';
+import { Box, Typography } from '@material-ui/core';
 import { LANGUAGE } from '../../app/constants.js';
 import NavTabs from '../shared/components/NavTabs.js';
 import { useDispatch, useSelector } from 'react-redux';
@@ -16,13 +16,11 @@ import ShipmentMeasureTable from './ShipmentMeasureTable.js';
 import ShipmentConsolidationTable from './ShipmentConsolidationTable.js';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { makeStyles } from '@material-ui/core/styles';
+import Card from '@material-ui/core/Card';
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-         margin: theme.spacing(2),
-    },
-    rootCard: {
-        padding: theme.spacing(2),
+    container: {
+        margin: theme.spacing(2),
     },
     cancelButton: {
         marginBottom: theme.spacing(1),
@@ -32,13 +30,8 @@ const useStyles = makeStyles((theme) => ({
             color: theme.palette.white.main,
             borderColor: theme.palette.danger.dark,
             backgroundColor: theme.palette.danger.main,
-        },
-    },
-    shipmentCards: {
-        marginTop: theme.spacing(2),
-        marginBottom: theme.spacing(2),
+        }
     }
-
 }));
 
 const {
@@ -75,41 +68,37 @@ const EditShipment = React.memo(function EditShipment() {
     }, [dispatch]);
 
     return (
-
-        <Box className={classes.root}>
-        <ThemedButton 
-            className={classes.cancelButton} onClick={ onCancel }
-            variant={"outlined"}
-        >
-                { cancelButtonLabel }
-        </ThemedButton>
-        <Card className={classes.rootCard}>
-            <Typography variant="h5">{ titleLabel }</Typography>
-            <NavTabs
-                tabsLabelsMap={ tabsLabelsMap }
-                tabValue={ tabValue }
-                onChange={ onTabChange }
-            />
-            { shipmentStatus === 'REJECTED' && <ErrorDisplay errors={ [shipmentError] }/> }
-            { shipmentStatus === 'FULFILLED' && <SuccessMessage message={ successMessage }/> }
-            { shipmentStatus === 'PENDING' && <Loader/> }
+        <Box className={ classes.container }>
+            <Card>
+                <ThemedButton
+                    onClick={ onCancel }
+                    variant="outlined"
+                    className={ classes.cancelButton }
+                >{ cancelButtonLabel }</ThemedButton>
+                <Typography variant="h5">{ titleLabel }</Typography>
+                <NavTabs
+                    tabsLabelsMap={ tabsLabelsMap }
+                    tabValue={ tabValue }
+                    onChange={ onTabChange }
+                />
+                { shipmentStatus === 'REJECTED' && <ErrorDisplay errors={ [shipmentError] }/> }
+                { shipmentStatus === 'FULFILLED' && <SuccessMessage message={ successMessage }/> }
+                { shipmentStatus === 'PENDING' && <Loader/> }
+            </Card>
             <Box>
-                <Box className={classes.shipmentCards} hidden={ tabValue !== 'shipment' }>
+                <Box hidden={ tabValue !== 'shipment' }>
                     <ShipmentInfo shipment={ shipment }/>
                 </Box>
-                <Box className={classes.shipmentCards} hidden={ tabValue !== 'products' }>
-                    <ShipmentProductTable shipment={ shipment }/>
-                </Box>
-                <Box className={classes.shipmentCards} hidden={ tabValue !== 'measures' }>
-                    <ShipmentMeasureTable shipment={ shipment }/>
-                </Box>
-                <Box className={classes.shipmentCards} hidden={ tabValue !== 'consolidation' }>
+                { tabValue === 'products' &&
+                <ShipmentProductTable shipment={ shipment }/>
+                }
+                { tabValue === 'measures' &&
+                <ShipmentMeasureTable shipment={ shipment }/>
+                }
+                <Box hidden={ tabValue !== 'consolidation' }>
                     <ShipmentConsolidationTable shipment={ shipment }/>
                 </Box>
-                
             </Box>
-            
-        </Card>
         </Box>
     )
 });

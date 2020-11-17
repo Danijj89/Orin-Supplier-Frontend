@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function NewClientAddressButton({ client, className }) {
+const NewClientAddressButton = React.memo(function NewClientAddressButton({ client, className }) {
     const classes = useStyles();
     const dispatch = useDispatch();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -51,9 +51,11 @@ export default function NewClientAddressButton({ client, className }) {
             />
         </Box>
     );
-}
+});
 
 NewClientAddressButton.propTypes = {
     client: PropTypes.object,
     className: PropTypes.string
 };
+
+export default NewClientAddressButton;

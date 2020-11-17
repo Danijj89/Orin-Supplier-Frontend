@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Tab, Tabs } from '@material-ui/core';
 
 const NavTabs = React.memo(function NavTabs({ tabsLabelsMap, tabValue, onChange, className }) {
 
-    const onTabChange = (event, newValue) => onChange(newValue);
+    const onTabChange = useCallback((event, newValue) => onChange(newValue), [onChange]);
 
     return (
         <Tabs

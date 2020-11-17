@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Box, TextField as MuiTextField, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -41,7 +41,8 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function SideTextField({ label, required, className, error, disabled, ...props }) {
+const SideTextField = React.memo(function SideTextField(
+    { label, required, className, error, disabled, name, inputRef, value, ...props }) {
     const classes = useStyles();
     const classNames = clsx(
         classes.input,
@@ -50,15 +51,26 @@ export default function SideTextField({ label, required, className, error, disab
         disabled && classes.disabled
     );
 
+    const isRequired = useMemo(() => Boolean(required), [required]);
+    const rules = useMemo(
+        () => isRequired && { required: required },
+        [isRequired, required]);
+    const actualInputRef = useMemo(
+        () => inputRef && inputRef(rules),
+        [inputRef, rules]);
+
     return (
-        <Box className={classes.container}>
-            <Typography className={classes.label} variant="subtitle1">
-                {label}
-                {required && <span className={classes.required}>*</span>}
+        <Box className={ classes.container }>
+            <Typography className={ classes.label } variant="subtitle1">
+                { label }
+                { isRequired && <span className={ classes.required }>*</span> }
             </Typography>
             <MuiTextField
                 { ...props }
                 className={ classNames }
+                name={ name }
+                value={ value }
+                inputRef={ actualInputRef }
                 InputProps={ { ...props.InputProps, disableUnderline: true, autoComplete: 'nope' } }
                 required={ required }
                 error={ error }
@@ -66,12 +78,17 @@ export default function SideTextField({ label, required, className, error, disab
             />
         </Box>
     );
-}
+});
 
 SideTextField.propTypes = {
     label: PropTypes.string.isRequired,
+    name: PropTypes.string,
+    inputRef: PropTypes.func,
     required: PropTypes.bool,
     className: PropTypes.string,
     error: PropTypes.bool,
-    disabled: PropTypes.bool
+    disabled: PropTypes.bool,
+    value: PropTypes.any
 };
+
+export default SideTextField;

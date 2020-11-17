@@ -28,9 +28,8 @@ const {
 const useStyles = makeStyles((theme) => ({
     shipmentCards: {
         marginTop: theme.spacing(3),
-        marginBottom: theme.spacing(2),
+        marginBottom: theme.spacing(2)
     }
-
 }));
 
 const ShipmentInfo = React.memo(function ShipmentInfo({ shipment }) {

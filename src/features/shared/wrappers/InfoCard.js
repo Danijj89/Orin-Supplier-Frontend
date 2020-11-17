@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function InfoCard(
+const InfoCard = React.memo(function InfoCard(
     { title, content, className, button }) {
     const classes = useStyles();
 
@@ -64,11 +64,13 @@ export default function InfoCard(
             </Grid>
         </Card>
     )
-}
+});
 
 InfoCard.propTypes = {
-    title: PropTypes.string,
-    content: PropTypes.element,
+    title: PropTypes.string.isRequired,
+    content: PropTypes.element.isRequired,
     className: PropTypes.string,
     button: PropTypes.element
 };
+
+export default InfoCard;

@@ -6,6 +6,7 @@ import clsx from 'clsx';
 
 const useStyles = makeStyles((theme) => ({
     input: {
+        flex: '1 1 auto',
         borderWidth: 1,
         borderStyle: 'solid',
         borderRadius: 8,

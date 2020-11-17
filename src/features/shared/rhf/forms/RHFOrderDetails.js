@@ -1,18 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import { Controller, useWatch } from 'react-hook-form';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useWatch } from 'react-hook-form';
 import { LANGUAGE } from '../../../../app/constants.js';
 import SideTextField from '../../inputs/SideTextField.js';
-import SideAutoComplete from '../../inputs/SideAutoComplete.js';
 import { formatAddress } from '../../utils/format.js';
-import SideDateField from '../../inputs/SideDateField.js';
 import { deliveryMethodOptions, incotermOptions } from '../../constants.js';
 import FormContainer from '../../wrappers/FormContainer.js';
-import { Box, Divider, Typography, Grid } from '@material-ui/core';
+import { Divider, Typography, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import SideCheckBox from '../../inputs/SideCheckBox.js';
 import SideTextArea from '../../inputs/SideTextArea.js';
 import PropTypes from 'prop-types';
 import NewClientAddressButton from '../../buttons/NewClientAddressButton.js';
+import CheckBox from '../../inputs/CheckBox.js';
+import RHFAutoComplete from '../../inputs/RHFAutoComplete.js';
+import { isAddressEqualToDocAddress } from '../../utils/addresses.js';
+import RHFDateField from '../../inputs/RHFDateField.js';
+import Box from '@material-ui/core/Box';
 
 const useStyles = makeStyles((theme) => ({
     details: {
@@ -53,7 +55,7 @@ const RHFOrderDetails = React.memo(function RHFOrderDetails(
     const autoGenerateRef = useWatch({
         control,
         name: fieldNames.autoGenerateRef
-    })
+    });
 
     const [clientAddresses, setClientAddresses] = useState([]);
 
@@ -67,141 +69,103 @@ const RHFOrderDetails = React.memo(function RHFOrderDetails(
 
     const shouldShowAddAddressButton = !isEdit && client;
 
+    const fromAddGetOptionSelected = useCallback(
+        a => isAddressEqualToDocAddress(a, getValues(fieldNames.fromAdd)),
+        [fieldNames.fromAdd, getValues]);
+    const clients = useMemo(() => Object.values(clientsMap).filter(c => c.active), [clientsMap]);
+    const toGetOptionLabel = useCallback(client => client.name, []);
+    const toGetOptionSelected = useCallback(
+        client => client._id === getValues(fieldNames.to)._id,
+        [getValues, fieldNames.to]);
+    const toAddGetOptionSelected = useCallback(
+        a => isAddressEqualToDocAddress(a, getValues(fieldNames.toAdd)),
+        [getValues, fieldNames.toAdd]);
+    const shipAddGetOptionSelected = useCallback(
+        a => isAddressEqualToDocAddress(a, getValues(fieldNames.shipAdd)),
+        [getValues, fieldNames.shipAdd]);
+
     return (
         <Grid container justify="center" className={ className }>
             <Grid item className={ classes.details }>
                 { !isEdit && <Typography variant="h5">{ detailsTitleLabel }</Typography> }
                 <FormContainer>
                     { isEdit &&
-                    <Controller
-                        render={ ({ value, ...rest }) =>
-                            <SideCheckBox
-                                { ...rest }
-                                label={ formLabels.fulfilled }
-                                checked={ value }
-                            />
-                        }
+                    <CheckBox
+                        inputRef={ register }
                         name={ fieldNames.fulfilled }
-                        control={ control }
+                        label={ formLabels.fulfilled }
                     /> }
                     { !isEdit &&
-                    <Controller
-                        render={ ({ value, ...rest }) =>
-                            <SideCheckBox
-                                { ...rest }
-                                label={ formLabels.autoGenerateRef }
-                                checked={ value }
-                            />
-                        }
+                    <CheckBox
                         name={ fieldNames.autoGenerateRef }
-                        control={ control }
+                        label={ formLabels.autoGenerateRef }
+                        inputRef={ register }
                     /> }
                     <SideTextField
                         name={ fieldNames.ref }
                         label={ formLabels.ref }
-                        inputRef={ register({ required: !autoGenerateRef }) }
+                        inputRef={ register }
                         error={ !!errors[fieldNames.ref] }
                         required={ !autoGenerateRef }
                         disabled={ isEdit || autoGenerateRef }
                     />
                     { !isEdit &&
-                    <Controller
-                        render={ props =>
-                            <SideDateField
-                                { ...props }
-                                label={ formLabels.date }
-                                error={ !!errors[fieldNames.date] }
-                                required
-                            />
-                        }
+                    <RHFDateField
+                        rhfControl={ control }
                         name={ fieldNames.date }
-                        control={ control }
-                        rules={ { required: true } }
+                        label={ formLabels.date }
+                        required
+                        error={ !!errors[fieldNames.date] }
                     /> }
-                    <Controller
-                        render={ (props) =>
-                            <SideAutoComplete
-                                { ...props }
-                                options={ companyAddresses.filter(a => a.active) }
-                                label={ formLabels.fromAdd }
-                                error={ !!errors[fieldNames.fromAdd] }
-                                getOptionLabel={ address => formatAddress(address) }
-                                getOptionSelected={ address => address._id === getValues(fieldNames.fromAdd)._id
-                                    || address._id === getValues(fieldNames.fromAdd).addressId }
-                                required
-                                rows={7}
-                            />
-                        }
+                    <RHFAutoComplete
+                        rhfControl={ control }
                         name={ fieldNames.fromAdd }
-                        control={ control }
-                        rules={ { required: true } }
+                        label={ formLabels.fromAdd }
+                        options={ companyAddresses }
+                        getOptionLabel={ formatAddress }
+                        getOptionSelected={ fromAddGetOptionSelected }
+                        error={ !!errors[fieldNames.fromAdd] }
+                        rowsMax={ 8 }
+                        required
                     />
-                    <Controller
-                        render={ (props) =>
-                            <SideAutoComplete
-                                { ...props }
-                                options={ Object.values(clientsMap).filter(c => c.active) }
-                                label={ formLabels.to }
-                                error={ !!errors[fieldNames.to] }
-                                getOptionLabel={ client => client.name }
-                                getOptionSelected={ client => client._id === getValues(fieldNames.to)._id }
-                                required
-                            />
-                        }
+                    <RHFAutoComplete
+                        rhfControl={ control }
                         name={ fieldNames.to }
-                        control={ control }
-                        rules={ { required: true } }
+                        label={ formLabels.to }
+                        options={ clients }
+                        getOptionLabel={ toGetOptionLabel }
+                        getOptionSelected={ toGetOptionSelected }
+                        error={ !!errors[fieldNames.to] }
+                        required
                     />
-                    <Controller
-                        render={ (props) => (
-                            <SideAutoComplete
-                                { ...props }
-                                options={ clientAddresses }
-                                label={ formLabels.toAdd }
-                                error={ !!errors[fieldNames.toAdd] }
-                                getOptionLabel={ address => formatAddress(address) }
-                                getOptionSelected={ address => address._id === getValues(fieldNames.toAdd)._id
-                                    || address._id === getValues(fieldNames.toAdd).addressId }
-                                required
-                                rows={7}
-                            />
-                        ) }
+                    <RHFAutoComplete
+                        rhfControl={ control }
                         name={ fieldNames.toAdd }
-                        control={ control }
-                        rules={ { required: true } }
+                        label={ formLabels.toAdd }
+                        options={ clientAddresses }
+                        getOptionLabel={ formatAddress }
+                        getOptionSelected={ toAddGetOptionSelected }
+                        error={ !!errors[fieldNames.toAdd] }
+                        rowsMax={ 8 }
+                        required
                     />
                     { shouldShowAddAddressButton && <NewClientAddressButton client={ client }/> }
-                    <Controller
-                        render={ props =>
-                            <SideDateField
-                                { ...props }
-                                label={ formLabels.crd }
-                            />
-                        }
+                    <RHFDateField
+                        rhfControl={ control }
                         name={ fieldNames.crd }
-                        control={ control }
+                        label={ formLabels.crd }
                     />
                     { isEdit &&
-                    <Controller
-                        render={ props =>
-                            <SideDateField
-                                { ...props }
-                                label={ formLabels.realCrd }
-                            />
-                        }
+                    <RHFDateField
+                        rhfControl={ control }
                         name={ fieldNames.realCrd }
-                        control={ control }
+                        label={ formLabels.realCrd }
                     /> }
-                    <Controller
-                        render={ (props) => (
-                            <SideAutoComplete
-                                { ...props }
-                                options={ incotermOptions }
-                                label={ formLabels.incoterm }
-                            />
-                        ) }
+                    <RHFAutoComplete
+                        rhfControl={ control }
                         name={ fieldNames.incoterm }
-                        control={ control }
+                        label={ formLabels.incoterm }
+                        options={ incotermOptions }
                     />
                     <SideTextField
                         label={ formLabels.pay }
@@ -223,61 +187,42 @@ const RHFOrderDetails = React.memo(function RHFOrderDetails(
                     /> }
                 </FormContainer>
             </Grid>
-            <Divider orientation="vertical" flexItem/>
+            <Grid item>
+                <Box component={Divider} display={{ xs: 'none', lg: 'block' }}  orientation="vertical"/>
+            </Grid>
             <Grid item className={ classes.shipping }>
                 { !isEdit && <Typography variant="h5">{ shippingInfoTitleLabel }</Typography> }
                 <FormContainer>
-                    <Controller
-                        render={ (props) => (
-                            <SideAutoComplete
-                                { ...props }
-                                options={ clientAddresses }
-                                label={ formLabels.shipAdd }
-                                getOptionLabel={ address => formatAddress(address) }
-                                getOptionSelected={ address => address._id === getValues(fieldNames.shipAdd)._id
-                                    || address._id === getValues(fieldNames.shipAdd).addressId }
-                                rows={7}
-                            />
-                        ) }
+                    <RHFAutoComplete
+                        rhfControl={ control }
                         name={ fieldNames.shipAdd }
-                        control={ control }
+                        label={ formLabels.shipAdd }
+                        options={ clientAddresses }
+                        getOptionLabel={ formatAddress }
+                        getOptionSelected={ shipAddGetOptionSelected }
+                        rowsMax={ 8 }
                     />
-                    <Controller
-                        render={ (props) => (
-                            <SideAutoComplete
-                                { ...props }
-                                options={ deliveryMethodOptions }
-                                label={ formLabels.del }
-                            />
-                        ) }
+                    <RHFAutoComplete
+                        rhfControl={ control }
                         name={ fieldNames.del }
-                        control={ control }
+                        label={ formLabels.del }
+                        options={ deliveryMethodOptions }
                     />
-                    <Controller
-                        render={ (props) => (
-                            <SideAutoComplete
-                                { ...props }
-                                freeSolo
-                                autoSelect
-                                options={ companyPorts }
-                                label={ formLabels.pol }
-                            />
-                        ) }
+                    <RHFAutoComplete
+                        rhfControl={ control }
                         name={ fieldNames.pol }
-                        control={ control }
+                        label={ formLabels.pol }
+                        options={ companyPorts }
+                        freeSolo
+                        autoSelect
                     />
-                    <Controller
-                        render={ (props) => (
-                            <SideAutoComplete
-                                { ...props }
-                                freeSolo
-                                autoSelect
-                                options={ companyPorts }
-                                label={ formLabels.pod }
-                            />
-                        ) }
+                    <RHFAutoComplete
+                        rhfControl={ control }
                         name={ fieldNames.pod }
-                        control={ control }
+                        label={ formLabels.pod }
+                        options={ companyPorts }
+                        freeSolo
+                        autoSelect
                     />
                     <SideTextField
                         label={ formLabels.carrier }
@@ -324,3 +269,18 @@ RHFOrderDetails.propTypes = {
 };
 
 export default RHFOrderDetails;
+
+// { !isEdit &&
+// <Controller
+//     render={ props =>
+//         <SideDateField
+//             { ...props }
+//             label={ formLabels.date }
+//             error={ !!errors[fieldNames.date] }
+//             required
+//         />
+//     }
+//     name={ fieldNames.date }
+//     control={ control }
+//     rules={ { required: true } }
+// /> }

@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import FormDialog from '../wrappers/FormDialog.js';
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import SideTextField from '../inputs/SideTextField.js';
 import { LANGUAGE } from '../../../app/constants.js';
-import SideCheckBox from '../inputs/SideCheckBox.js';
 import PropTypes from 'prop-types';
+import CheckBox from '../inputs/CheckBox.js';
 
 const {
     autoGenerateLabel,
@@ -19,7 +19,7 @@ const {
 export default function ProductDialog(
     { isOpen, onSubmit, onCancel, submitLabel, product, titleLabel, onDelete, isEdit }) {
 
-    const { register, errors, handleSubmit, reset, watch, control } = useForm({
+    const { register, errors, handleSubmit, reset, watch } = useForm({
         mode: 'onSubmit'
     });
 
@@ -49,18 +49,11 @@ export default function ProductDialog(
             deleteMessage={ deleteMessage }
         >
             { !isEdit &&
-            <Controller
-                render={ ({ value, ...rest }) =>
-                    <SideCheckBox
-                        {...rest}
-                        label={ autoGenerateLabel }
-                        checked={value}
-                    />
-                }
+            <CheckBox
                 name="autoGenerate"
-                control={control}
-            />
-            }
+                label={ autoGenerateLabel }
+                inputRef={ register }
+            /> }
             <SideTextField
                 label={ skuLabel }
                 name="sku"

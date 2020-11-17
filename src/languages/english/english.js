@@ -269,30 +269,7 @@ export const ENGLISH = {
                     }
                 }
             }
-        },
-        orderDocuments: {
-            tableTitle: 'Generated Documents',
-            tableHeaders: ['Document Type', 'Created By', 'Date Created'],
-            docTypeMap: {
-                CI: 'Commercial Invoice',
-                PO: 'Purchase Order',
-                PL: 'Packing List',
-            },
-            deleteDocumentMessage:
-                'Are you sure you want to delete this document?',
-            deleteDocumentButtonCancel: 'Cancel',
-            deleteDocumentButtonConfirm: 'Delete',
-        },
-        orderProductTable: {
-            tableTitleLabel: 'Product components',
-            editButtonLabel: 'Edit',
-            addRowButton: 'Add',
-            errorMessages: {
-                currencyRequired: 'You must select a currency.',
-                missingItemInfo: 'Some item is missing information.',
-            },
-            totalsLabel: 'Total:',
-        },
+        }
     },
     commercialInvoice: {
         createCI: {
@@ -406,7 +383,14 @@ export const ENGLISH = {
                 orders: 'Orders Included',
                 documents: 'Documents'
             },
-            editOrdersButtonLabel: 'Edit Included Orders',
+            documentButton: {
+                buttonLabel: 'Generate Document',
+                dialogTitleLabel: 'Choose a Document to Generate',
+                submitButtonLabel: 'Continue',
+                formLabels: {
+                    document: 'Document'
+                }
+            },
             shipmentOrdersTable: {
                 tableHeaderLabelsMap: {
                     ref: 'Sales Order',
@@ -418,6 +402,29 @@ export const ENGLISH = {
                     qa: 'QA',
                     notes: 'Notes'
                 },
+                editOrdersButtonLabel: 'Edit Included Orders'
+            },
+            shipmentInfoCard: {
+                titleLabel: 'Shipment Information',
+                labels: {
+                    status: 'Status',
+                    crd: 'Cargo Ready',
+                    del: 'Mode',
+                    carrier: 'Forwarder',
+                    pol: 'Port of Loading',
+                    pod: 'Port of Destination',
+                    etd: 'Est. time of Departure',
+                    eta: 'Est. time of Arrival'
+                }
+            },
+            documentStatusCard: {
+                titleLabel: 'Document Status',
+                labels: {
+                    docCutOff: 'Doc Cut Off',
+                    bol: 'Bill of Landing No',
+                    bolType: 'Bill Release Type',
+                    released: 'Released'
+                }
             }
         },
         editShipment: {
@@ -464,6 +471,28 @@ export const ENGLISH = {
             },
             consolidationTable: {
                 submitButtonLabel: 'Submit'
+            }
+        }
+    },
+    documents: {
+        ci: {
+            detailsPrevButtonLabel: 'Cancel',
+            detailsNextButtonLabel: 'Next',
+            productsPrevButtonLabel: 'Details',
+            productsNextButtonLabel: 'Download',
+            details: {
+                titleLabel: 'Commercial Invoice Details',
+                formLabels: {
+                    autoGenerateRef: 'Auto-generate Invoice Number',
+                    ref: 'Invoice Number',
+                    sellerAdd: 'Seller Address',
+                    consignee: 'Client',
+                    consigneeAdd: 'Client Address',
+                    coo: 'Country of Manufacture',
+                    clientRefs: 'PO References',
+                    payRefs: 'Payment References',
+                    notes: 'Notes'
+                }
             }
         }
     },
@@ -584,6 +613,7 @@ export const ENGLISH = {
                         price: 'Unit Price',
                         total: 'Amount'
                     },
+                    marksPlaceholderLabel: 'Marks...',
                     errorMessages: {
                         missingCurrency: 'You must select a currency.',
                         missingCustomColumnName: 'You must give a name to all custom columns.',
@@ -606,6 +636,7 @@ export const ENGLISH = {
                         dim: 'Volume'
                     },
                     totalLabel: 'Total:',
+                    marksLabel: 'Marks:',
                     errorMessages: {
                         missingMeasurementUnit: 'You must select a measurement unit.',
                         missingWeightUnit: 'You must select a weight unit.',

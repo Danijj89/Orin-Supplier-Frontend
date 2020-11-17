@@ -22,6 +22,7 @@ const ShipmentOverview = lazy(() => import('../shipments/ShipmentOverview.js'));
 const EditShipmentContainer = lazy(() => import('../shipments/EditShipmentContainer.js'));
 const CreateShipmentContainer = lazy(() => import('../shipments/CreateShipmentContainer.js'));
 const ShipmentContainer = lazy(() => import('../shipments/ShipmentContainer.js'));
+const CommercialInvoiceContainer = lazy(() => import('../documents/CommercialInvoiceContainer.js'));
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -161,6 +162,15 @@ const Home = React.memo(function Home() {
                     >
                         <Suspense>
                             <ShipmentContainer/>
+                        </Suspense>
+                    </Route>
+                    <Route
+                        exact
+                        path={ `${ match.url }/documents/ci/new` }
+                        isPrivate
+                    >
+                        <Suspense>
+                            <CommercialInvoiceContainer />
                         </Suspense>
                     </Route>
                     <Route>

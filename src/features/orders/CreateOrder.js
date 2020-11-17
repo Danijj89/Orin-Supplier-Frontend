@@ -74,7 +74,8 @@ const productTableFieldNames = {
     items: 'items',
     quantity: 'totalQ',
     total: 'totalA',
-    saveItems: 'saveItems'
+    saveItems: 'saveItems',
+    marks: 'marks'
 };
 
 export default function CreateOrder() {
@@ -114,6 +115,7 @@ export default function CreateOrder() {
             [productTableFieldNames.custom2]: order.custom2,
             [productTableFieldNames.quantity]: order.totalQ,
             [productTableFieldNames.total]: order.totalA,
+            [productTableFieldNames.marks]: order.marks,
             [productTableFieldNames.saveItems]: order.saveItems,
             [orderDetailsFieldNames.autoGenerateRef]: order.autoGenerateRef,
             createdBy: order.createdBy
@@ -157,7 +159,7 @@ export default function CreateOrder() {
     };
 
     return (
-        <Box >
+        <Box>
             <Box className={classes.orderRoot}>
             { getCurrentStep(step) === -1 && <Redirect to={ '/home/orders' }/> }
             <DocumentStepper activeStep={ getCurrentStep(step) } steps={ Object.values(stepLabelsMap) }/>

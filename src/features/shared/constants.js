@@ -1,4 +1,7 @@
-export const documentTypesOptions = ['CI', 'PL'];
+export const documentTypesOptions = [
+    { type: 'CI', name: 'Commercial Invoice'},
+    { type: 'PL', name: 'Packing List'},
+];
 export const deliveryMethodOptions = ['Ocean', 'Air'];
 export const itemUnitsOptions = ['PCS', 'CTN'];
 export const packageUnitsOptions = ['CTN', 'PLT'];
@@ -18,3 +21,4 @@ export const orderStatusColors = {
     Completed: '#2ED47A',
     Exception: '#F7685B',
 };
+export const shipmentStatuses = ['Unbooked', 'Booked', 'Space Released', 'Shipped', 'Archived', 'Delayed'];
