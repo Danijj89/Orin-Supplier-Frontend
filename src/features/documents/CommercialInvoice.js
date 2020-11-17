@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { Paper, Box } from '@material-ui/core';
 import { LANGUAGE } from '../../app/constants.js';
 import { useForm } from 'react-hook-form';
@@ -12,7 +12,7 @@ import useSessionStorage from '../shared/hooks/useSessionStorage.js';
 import { SESSION_NEW_DOCUMENT } from '../../app/sessionKeys.js';
 import {
     addressToDocAddress,
-    productTableItemsToDocItems,
+    productTableItemsToDocItems, productTableItemsToItems,
     shipmentToCommercialInvoice
 } from '../shared/utils/entityConversion.js';
 import { cleanDocumentError, cleanNewDocument } from './duck/slice.js';
@@ -21,6 +21,8 @@ import { selectClientActiveAddresses, selectClientById } from '../clients/duck/s
 import { findAddressFromAddresses } from '../shared/utils/addresses.js';
 import { selectCurrentUserId } from '../../app/duck/selectors.js';
 import { createDocument } from '../shipments/duck/thunks.js';
+import queryString from 'query-string';
+import { selectShipmentById } from '../shipments/duck/selectors.js';
 
 const DOCUMENT_TYPE = 'CI';
 
@@ -52,8 +54,11 @@ const {
     productsNextButtonLabel
 } = LANGUAGE.documents.ci;
 
-const CommercialInvoice = React.memo(function CommercialInvoice({ shipment }) {
+const CommercialInvoice = React.memo(function CommercialInvoice() {
     const dispatch = useDispatch();
+    const location = useLocation();
+    const parsed = queryString.parse(location.search);
+    const shipment = useSelector(state => selectShipmentById(state, parsed.shipment));
     const history = useHistory();
     const [step, setStep] = useState('details');
     const products = useSelector(selectActiveProducts);
@@ -97,17 +102,16 @@ const CommercialInvoice = React.memo(function CommercialInvoice({ shipment }) {
     const onSubmit = useCallback(
         (data) => {
             data.type = DOCUMENT_TYPE;
-            data.seller = shipment.seller;
             data.sellerAdd = addressToDocAddress(data.sellerAdd);
-            data.consignee = shipment.consignee;
             data.consigneeAdd = addressToDocAddress(data.consigneeAdd);
-            data.items = productTableItemsToDocItems(data.items);
+            data.docItems = productTableItemsToDocItems(data.items);
+            data.items = productTableItemsToItems(data.items, shipment._id);
             data.createdBy = userId;
             dispatch(createDocument({ id: shipment._id, doc: data }))
             dispatch(cleanNewDocument());
             history.push(`/home/shipments/${ shipment._id }`);
         },
-        [dispatch, shipment._id, shipment.seller, shipment.consignee, history, userId]);
+        [dispatch, shipment._id, history, userId]);
 
     const onPrevClick = useCallback(
         () => {

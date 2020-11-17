@@ -48,7 +48,7 @@ const CommercialInvoiceContainer = React.memo(function CommercialInvoiceContaine
         <>
             { status === 'REJECTED' && <ErrorPage errors={ errors }/> }
             { status === 'PENDING' && <Loader/> }
-            { status === 'FULFILLED' && <CommercialInvoice shipment={ shipment }/> }
+            { status === 'FULFILLED' && <CommercialInvoice /> }
         </>
     )
 });
