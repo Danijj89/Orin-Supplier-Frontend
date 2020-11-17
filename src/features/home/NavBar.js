@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import logo from '../../images/orinlogo.png';
 import { LANGUAGE } from '../../app/constants.js';
 import {
@@ -25,6 +25,12 @@ import {
 } from '@material-ui/icons';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MoreIcon from '@material-ui/icons/MoreVert';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectCurrentCompany } from './duck/selectors.js';
+import { fetchOrders } from '../orders/duck/thunks.js';
+import { fetchClients } from '../clients/duck/thunks.js';
+import { fetchShipments } from '../shipments/duck/thunks.js';
+import { fetchProducts } from '../products/duck/thunks.js';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -79,11 +85,35 @@ const {
     helloMessageLabel
 } = LANGUAGE.home.navbar;
 
-const NavBar = React.memo(function NavBar({ user, currentTab }) {
+const NavBar = React.memo(function NavBar({ user }) {
     const classes = useStyles();
+    const dispatch = useDispatch();
     const history = useHistory();
+    const location = useLocation();
+    const currentTab = location.pathname.split('/')[2];
+    const company = useSelector(selectCurrentCompany);
 
-    const onTabClick = (tabName, href) => history.push(href);
+    const onTabClick = (tabName, href) => {
+        if (tabName === currentTab) {
+            switch (tabName) {
+                case 'orders':
+                    dispatch(fetchOrders(company._id));
+                    break;
+                case 'clients':
+                    dispatch(fetchClients(company._id));
+                    break;
+                case 'shipments':
+                    dispatch(fetchShipments({ companyId: company._id }));
+                    break;
+                case 'products':
+                    dispatch(fetchProducts(company._id));
+                    break;
+                default:
+            }
+        } else {
+            history.push(href);
+        }
+    }
 
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 

@@ -1,5 +1,5 @@
 import React, { useEffect, lazy } from 'react';
-import { useLocation, useRouteMatch } from 'react-router-dom';
+import { useRouteMatch } from 'react-router-dom';
 import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import NavBar from './NavBar.js';
@@ -43,8 +43,6 @@ const Home = React.memo(function Home() {
     const classes = useStyles();
     const dispatch = useDispatch();
     const match = useRouteMatch();
-    const location = useLocation();
-    const currentTab = location.pathname.split('/')[2];
     const userId = useSelector(selectCurrentUserId);
     const user = useSelector(state => selectUserById(state, userId));
 
@@ -61,7 +59,7 @@ const Home = React.memo(function Home() {
             className={ classes.root }
         >
             <Grid item>
-                { user && <NavBar user={ user } currentTab={ currentTab }/> }
+                { user && <NavBar user={ user } /> }
             </Grid>
             <Grid item className={ classes.content }>
                 <Switch>
