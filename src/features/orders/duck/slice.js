@@ -4,8 +4,7 @@ import {
     fetchOrderById,
     fetchOrders,
     startNewOrder,
-    updateOrder,
-    updateOrderProducts
+    updateOrder
 } from './thunks.js';
 import { SESSION_NEW_ORDER } from '../../../app/sessionKeys.js';
 import { defaultProductRowValues } from '../../shared/rhf/forms/util/constants.js';

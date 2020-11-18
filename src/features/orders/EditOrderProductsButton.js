@@ -4,7 +4,7 @@ import { Box } from '@material-ui/core';
 import OrderProductsDialog from '../shared/forms/OrderProductsDialog.js';
 import { LANGUAGE } from '../../app/constants.js';
 import { useDispatch } from 'react-redux';
-import { updateOrder, updateOrderProducts } from './duck/thunks.js';
+import { updateOrder } from './duck/thunks.js';
 import { tableItemsToOrderItems } from '../shared/utils/entityConversion.js';
 
 const {
