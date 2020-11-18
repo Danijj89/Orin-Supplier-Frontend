@@ -12,10 +12,8 @@ export const addressToDocAddress = (address) => (
 );
 
 
-export const tableItemsToOrderItems = (tableItems, orderId = null) =>
+export const tableItemsToOrderItems = (tableItems) =>
     tableItems.map(item => ({
-        _id: item._id,
-        order: orderId,
         product: item.product,
         ref: item.ref,
         description: item.description,

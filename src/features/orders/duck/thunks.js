@@ -20,9 +20,9 @@ export const startNewOrder = createAsyncThunk('orders/startNewOrder',
     });
 
 export const createOrder = createAsyncThunk('orders/createOrder',
-    async (order, { rejectWithValue, dispatch }) => {
+    async ({ data }, { rejectWithValue, dispatch }) => {
         try {
-            return await OrderService.createOrder(order);
+            return await OrderService.createOrder(data);
         } catch (err) {
             return rejectWithValue(err.response.data);
         }

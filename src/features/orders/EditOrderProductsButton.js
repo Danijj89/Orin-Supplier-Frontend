@@ -22,7 +22,7 @@ export default function EditOrderProductsButton({ order, className }) {
 
     const onSubmit = (data) => {
         data.id = order._id;
-        data.items = tableItemsToOrderItems(data.items, order._id);
+        data.items = tableItemsToOrderItems(data.items);
         dispatch(updateOrderProducts(data));
         setIsEdit(false);
     };

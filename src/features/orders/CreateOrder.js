@@ -18,6 +18,7 @@ import Footer from '../shared/components/Footer.js';
 import RHFProductTable, { validateItems } from '../shared/rhf/forms/RHFProductTable.js';
 import { selectActiveProducts } from '../products/duck/selectors.js';
 import { makeStyles } from '@material-ui/core/styles';
+import { addressToDocAddress, tableItemsToOrderItems } from '../shared/utils/entityConversion.js';
 
 const useStyles = makeStyles((theme) => ({
     orderRoot: {
@@ -145,8 +146,12 @@ export default function CreateOrder() {
     };
 
     const onSubmit = (data) => {
+        data.fromAdd = addressToDocAddress(data.fromAdd);
+        data.toAdd = addressToDocAddress(data.toAdd);
+        if (data.shipAdd) data.shipAdd = addressToDocAddress(data.shipAdd);
         data.to = data.to._id;
-        dispatch(createOrder(data));
+        data.items = tableItemsToOrderItems(data.items);
+        dispatch(createOrder({ data }));
     };
 
     const onNextClick = () => {
