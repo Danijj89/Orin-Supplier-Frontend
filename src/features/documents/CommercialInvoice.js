@@ -23,6 +23,7 @@ import { selectCurrentUserId } from '../../app/duck/selectors.js';
 import { createDocument } from '../shipments/duck/thunks.js';
 import queryString from 'query-string';
 import { selectShipmentById } from '../shipments/duck/selectors.js';
+import { selectActiveOrdersMap } from '../orders/duck/selectors.js';
 
 const DOCUMENT_TYPE = 'CI';
 
@@ -59,6 +60,7 @@ const CommercialInvoice = React.memo(function CommercialInvoice() {
     const location = useLocation();
     const parsed = queryString.parse(location.search);
     const shipment = useSelector(state => selectShipmentById(state, parsed.shipment));
+    const ordersMap = useSelector(selectActiveOrdersMap);
     const history = useHistory();
     const [step, setStep] = useState('details');
     const products = useSelector(selectActiveProducts);
@@ -160,7 +162,9 @@ const CommercialInvoice = React.memo(function CommercialInvoice() {
                     rhfGetValues={ getValues }
                     fieldNames={ productsFieldNames }
                     products={ products }
+                    ordersMap={ ordersMap }
                     isEdit
+                    isShipment
                 />
             </Box>
             <Footer

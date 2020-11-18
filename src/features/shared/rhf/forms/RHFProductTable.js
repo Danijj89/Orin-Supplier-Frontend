@@ -1,8 +1,7 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Grid, IconButton } from '@material-ui/core';
-import { Controller, useWatch } from 'react-hook-form';
-import SideAutoComplete from '../../inputs/SideAutoComplete.js';
+import { useWatch } from 'react-hook-form';
 import { currenciesOptions, itemUnitsOptions } from '../../constants.js';
 import { LANGUAGE } from '../../../../app/constants.js';
 import EditableTable from '../../components/editable_table/EditableTable.js';
@@ -16,12 +15,14 @@ import ErrorDisplay from '../../components/ErrorDisplay.js';
 import { defaultProductRowValues } from './util/constants.js';
 import TextArea from '../../inputs/TextArea.js';
 import CheckBox from '../../inputs/CheckBox.js';
+import RHFAutoComplete from '../../inputs/RHFAutoComplete.js';
 
 const {
     formLabels,
     errorMessages,
     tableHeaderLabels,
     totalLabel,
+    notInOrderLabel,
     marksPlaceholderLabel
 } = LANGUAGE.shared.rhf.forms.productTable;
 
@@ -44,6 +45,8 @@ const RHFProductTable = React.memo(function RHFProductTable(
         fieldNames,
         products,
         isEdit,
+        isShipment,
+        ordersMap,
         className
     }) {
 
@@ -71,6 +74,14 @@ const RHFProductTable = React.memo(function RHFProductTable(
         control,
         name: fieldNames.total
     });
+
+    const ordersMapWithDefault = useMemo(
+        () => {
+            const temp = { ...ordersMap };
+            temp['0'] = { _id: 0, ref: notInOrderLabel };
+            return temp;
+        },
+        [ordersMap]);
 
     const errMessages = useMemo(() => Object.values(errors).map(err => err.message), [errors]);
     const isError = useMemo(() => errMessages.length > 0, [errMessages]);
@@ -118,15 +129,20 @@ const RHFProductTable = React.memo(function RHFProductTable(
         let newTotalQ;
         let diff;
         switch (key) {
+            case 'order':
+                newItem.order = newValue._id;
+                break;
             case 'ref':
                 if (newValue._id) {
                     newItem.product = newValue._id;
                     newItem.ref = newValue.sku;
                     newItem.description = newValue.description;
+                    newItem.order = 0;
                 } else {
                     newItem.ref = newValue;
                     newItem.description = '';
                     newItem.product = null;
+                    newItem.order = 0;
                 }
                 break;
             case 'quantity':
@@ -174,6 +190,16 @@ const RHFProductTable = React.memo(function RHFProductTable(
                 params.idx === 0 ? null : <DeleteIconButton onClick={ onDeleteRow(params.idx) }/>,
             width: 50,
             align: 'center'
+        },
+        {
+            field: 'order',
+            hide: !isShipment,
+            headerName: tableHeaderLabels.order,
+            type: 'dropdown',
+            options: Object.values(ordersMapWithDefault),
+            getOptionLabel: order => order.ref,
+            getOptionSelected: (order, value) => order._id === value._id,
+            width: 140
         },
         {
             field: 'ref',
@@ -265,7 +291,9 @@ const RHFProductTable = React.memo(function RHFProductTable(
         onDeleteColumn,
         products,
         onDeleteRow,
-        fieldNames
+        fieldNames,
+        isShipment,
+        ordersMapWithDefault
     ]);
 
     const currencySymbol = useMemo(() => getCurrencySymbol(currency), [currency]);
@@ -275,6 +303,7 @@ const RHFProductTable = React.memo(function RHFProductTable(
     const rows = items.map((row, index) => ({
         id: row._id,
         idx: index,
+        order: ordersMapWithDefault[row.order] || ordersMapWithDefault['0'],
         ref: row.ref,
         description: row.description,
         custom1: row[fieldNames.custom1],
@@ -299,19 +328,13 @@ const RHFProductTable = React.memo(function RHFProductTable(
             </Grid>
             }
             <Grid container item justify="flex-end" xs={ 12 }>
-                <Controller
-                    render={ props =>
-                        <SideAutoComplete
-                            { ...props }
-                            options={ currenciesOptions }
-                            label={ formLabels.currency }
-                            error={ !!errors[fieldNames.currency] }
-                            required
-                        />
-                    }
+                <RHFAutoComplete
+                    rhfControl={ control }
                     name={ fieldNames.currency }
-                    control={ control }
-                    rules={ { required: errorMessages.missingCurrency } }
+                    label={ formLabels.currency }
+                    options={ currenciesOptions }
+                    error={ !!errors[fieldNames.currency] }
+                    required={ errorMessages.missingCurrency }
                 />
                 { !isEdit &&
                 <CheckBox
@@ -360,6 +383,8 @@ RHFProductTable.propTypes = {
     }).isRequired,
     products: PropTypes.array.isRequired,
     isEdit: PropTypes.bool,
+    isShipment: PropTypes.bool,
+    ordersMap: PropTypes.object,
     className: PropTypes.string
 };
 

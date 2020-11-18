@@ -1,4 +1,5 @@
 import { ordersAdapter } from './slice.js';
+import { createSelector } from '@reduxjs/toolkit';
 
 export const selectOrderDataStatus = state => state.orders.dataStatus;
 export const selectOrderStatus = state => state.orders.status;
@@ -13,3 +14,11 @@ export const {
     selectById: selectOrderById,
     selectEntities: selectOrdersMap
 } = ordersAdapter.getSelectors(state => state.orders);
+
+export const selectActiveOrdersMap = createSelector(
+    selectAllOrders,
+    orders => orders.reduce((acc, order) => {
+        if (order.active && !order.fulfilled) acc[order._id] = order;
+        return acc;
+    }, {})
+);

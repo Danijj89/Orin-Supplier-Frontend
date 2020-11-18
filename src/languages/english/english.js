@@ -615,7 +615,9 @@ export const ENGLISH = {
                         saveItems: 'Save New Items To Inventory'
                     },
                     totalLabel: 'Total:',
+                    notInOrderLabel: 'None',
                     tableHeaderLabels: {
+                        order: 'Order ID',
                         ref: 'Item Reference',
                         description: 'Product Description',
                         quantity: 'Quantity',

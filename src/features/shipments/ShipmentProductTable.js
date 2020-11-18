@@ -9,6 +9,7 @@ import { updateShipment } from './duck/thunks.js';
 import { productTableItemsToItems } from '../shared/utils/entityConversion.js';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
+import { selectOrdersMap } from '../orders/duck/selectors.js';
 
 const productTableFieldNames = {
     custom1: 'ciCustom1',
@@ -22,7 +23,7 @@ const productTableFieldNames = {
 
 const useStyles = makeStyles((theme) => ({
     submitButton: {
-         marginTop: theme.spacing(2),
+        marginTop: theme.spacing(2),
     },
 }));
 
@@ -35,6 +36,7 @@ const ShipmentProductTable = React.memo(function ShipmentProductTable(
     const classes = useStyles();
     const dispatch = useDispatch();
     const products = useSelector(selectActiveProducts);
+    const ordersMap = useSelector(selectOrdersMap);
     const { register, control, errors, setValue, getValues, handleSubmit } = useForm({
         mode: 'onSubmit',
         defaultValues: {
@@ -71,10 +73,12 @@ const ShipmentProductTable = React.memo(function ShipmentProductTable(
                     rhfSetValue={ setValue }
                     rhfGetValues={ getValues }
                     products={ products }
+                    ordersMap={ ordersMap }
                     fieldNames={ productTableFieldNames }
                     isEdit
+                    isShipment
                 />
-                <ThemedButton className={classes.submitButton} type="submit">{ submitButtonLabel }</ThemedButton>
+                <ThemedButton className={ classes.submitButton } type="submit">{ submitButtonLabel }</ThemedButton>
             </form>
         </Paper>
     )

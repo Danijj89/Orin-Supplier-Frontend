@@ -12,6 +12,8 @@ import { fetchShipmentById } from '../shipments/duck/thunks.js';
 import { selectClientDataStatus, selectClientError } from '../clients/duck/selectors.js';
 import { fetchClients } from '../clients/duck/thunks.js';
 import { cleanNewDocument } from './duck/slice.js';
+import { selectOrderDataStatus, selectOrderError } from '../orders/duck/selectors.js';
+import { fetchOrders } from '../orders/duck/thunks.js';
 
 const CommercialInvoiceContainer = React.memo(function CommercialInvoiceContainer() {
     const dispatch = useDispatch();
@@ -25,20 +27,30 @@ const CommercialInvoiceContainer = React.memo(function CommercialInvoiceContaine
     const shipmentError = useSelector(selectShipmentError);
     const clientDataStatus = useSelector(selectClientDataStatus);
     const clientError = useSelector(selectClientError);
+    const orderDataStatus = useSelector(selectOrderDataStatus);
+    const orderError = useSelector(selectOrderError);
 
-    const errors = useMemo(() => [homeError, shipmentError, clientError],
-        [homeError, shipmentError, clientError]);
+    const errors = useMemo(() => [homeError, shipmentError, clientError, orderError],
+        [homeError, shipmentError, clientError, orderError]);
 
     const status = useMemo(() => determineStatus([
         homeStatus,
         !shipment && shipmentStatus,
-        clientDataStatus
-    ]), [homeStatus, shipment, shipmentStatus, clientDataStatus]);
+        clientDataStatus,
+        orderDataStatus
+    ]), [
+        homeStatus,
+        shipment,
+        shipmentStatus,
+        clientDataStatus,
+        orderDataStatus
+    ]);
 
     useEffect(() => {
         if (!shipment) dispatch(fetchShipmentById({ id: parsed.shipment }))
         if (clientDataStatus === 'IDLE' && company) dispatch(fetchClients(company._id));
-    }, [dispatch, parsed.shipment, shipment, company, clientDataStatus]);
+        if (orderDataStatus === 'IDLE' && company) dispatch(fetchOrders(company._id));
+    }, [dispatch, parsed.shipment, shipment, company, clientDataStatus, orderDataStatus]);
 
     useEffect(() => {
         return () => dispatch(cleanNewDocument());
@@ -48,7 +60,7 @@ const CommercialInvoiceContainer = React.memo(function CommercialInvoiceContaine
         <>
             { status === 'REJECTED' && <ErrorPage errors={ errors }/> }
             { status === 'PENDING' && <Loader/> }
-            { status === 'FULFILLED' && <CommercialInvoice /> }
+            { status === 'FULFILLED' && <CommercialInvoice/> }
         </>
     )
 });

@@ -30,19 +30,23 @@ export const tableItemsToOrderItems = (tableItems) =>
     });
 
 export const productTableItemsToItems = (tableItems, shipmentId) =>
-    tableItems.map(item => ({
-        _id: item._id,
-        product: item.product,
-        shipment: shipmentId,
-        ref: item.ref,
-        description: item.description,
-        quantity: item.quantity,
-        unit: item.unit,
-        price: item.price,
-        total: item.total,
-        ciCustom1: item.ciCustom1,
-        ciCustom2: item.ciCustom2
-    }));
+    tableItems.map(item => {
+        const temp = {
+            order: item.order || null,
+            shipment: shipmentId,
+            ref: item.ref,
+            description: item.description,
+            quantity: item.quantity,
+            unit: item.unit,
+            price: item.price,
+            total: item.total,
+            ciCustom1: item.ciCustom1,
+            ciCustom2: item.ciCustom2
+        };
+        if (item._id) temp._id = item._id;
+        if (item.product) temp.product = item.product;
+        return temp;
+    });
 
 export const measureTableItemsToItems = (tableItems, shipmentId) =>
     tableItems.map(item => ({
