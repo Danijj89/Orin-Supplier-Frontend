@@ -52,12 +52,9 @@ const SideTextField = React.memo(function SideTextField(
     );
 
     const isRequired = useMemo(() => Boolean(required), [required]);
-    const rules = useMemo(
-        () => isRequired && { required: required },
-        [isRequired, required]);
     const actualInputRef = useMemo(
-        () => inputRef && inputRef(rules),
-        [inputRef, rules]);
+        () => inputRef ? inputRef({ required: required }) : null,
+        [inputRef, required]);
 
     return (
         <Box className={ classes.container }>
