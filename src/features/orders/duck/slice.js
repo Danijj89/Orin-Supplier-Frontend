@@ -4,8 +4,8 @@ import {
     fetchOrderById,
     fetchOrders,
     startNewOrder,
-    updateOrderDetails, updateOrderNotes, updateOrderProducts,
-    updateOrderStatus
+    updateOrder,
+    updateOrderProducts
 } from './thunks.js';
 import { SESSION_NEW_ORDER } from '../../../app/sessionKeys.js';
 import { defaultProductRowValues } from '../../shared/rhf/forms/util/constants.js';
@@ -90,39 +90,15 @@ const ordersSlice = createSlice({
             state.status = 'REJECTED';
             state.error = action.payload.message;
         },
-        [updateOrderDetails.pending]: (state, action) => {
+        [updateOrder.pending]: (state, action) => {
             state.status = 'PENDING';
         },
-        [updateOrderDetails.fulfilled]: (state, action) => {
+        [updateOrder.fulfilled]: (state, action) => {
             const { _id, ...changes } = action.payload;
             ordersAdapter.updateOne(state, { id: _id, changes });
             state.status = 'IDLE';
         },
-        [updateOrderDetails.rejected]: (state, action) => {
-            state.status = 'REJECTED';
-            state.error = action.payload.message;
-        },
-        [updateOrderStatus.pending]: (state, action) => {
-            state.status = 'PENDING';
-        },
-        [updateOrderStatus.fulfilled]: (state, action) => {
-            const { id, status } = action.payload;
-            ordersAdapter.updateOne(state, { id, changes: { status } });
-            state.status = 'IDLE';
-        },
-        [updateOrderStatus.rejected]: (state, action) => {
-            state.status = 'REJECTED';
-            state.error = action.payload.message;
-        },
-        [updateOrderNotes.pending]: (state, action) => {
-            state.status = 'PENDING';
-        },
-        [updateOrderNotes.fulfilled]: (state, action) => {
-            const { id, notes } = action.payload;
-            ordersAdapter.updateOne(state, { id, changes: { notes } });
-            state.status = 'IDLE';
-        },
-        [updateOrderNotes.rejected]: (state, action) => {
+        [updateOrder.rejected]: (state, action) => {
             state.status = 'REJECTED';
             state.error = action.payload.message;
         },

@@ -5,11 +5,11 @@ import StatusInfoCard from './StatusInfoCard.js';
 import TextAreaCard from '../shared/components/TextAreaCard.js';
 import { LANGUAGE } from '../../app/constants.js';
 import { useDispatch } from 'react-redux';
-import { updateOrderNotes } from './duck/thunks.js';
 import OrderProductTable from './OrderProductTable.js';
 import InfoCard from '../shared/wrappers/InfoCard.js';
 import EditOrderProductsButton from './EditOrderProductsButton.js';
 import { makeStyles } from '@material-ui/core/styles';
+import { updateOrder } from './duck/thunks.js';
 
 const useStyles = makeStyles((theme) => ({
     detailsInfoCard: {
@@ -33,7 +33,7 @@ export default function OrderDetails({ order }) {
     const dispatch = useDispatch();
     const classes = useStyles();
     const onNotesSubmit = (notes) =>
-        dispatch(updateOrderNotes({ id: order._id, notes }));
+        dispatch(updateOrder({ id: order._id, update: notes }));
 
     return (
         <Grid container className={ classes.root }>

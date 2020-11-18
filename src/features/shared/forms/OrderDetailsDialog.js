@@ -73,7 +73,14 @@ const OrderDetailsDialog = React.memo(function OrderDetailsDialog(
             [orderDetailsFieldNames.del]: order.del,
             [orderDetailsFieldNames.carrier]: order.carrier
         });
-    }, [reset, order, initialClientAddress, initialCompanyAddress, client]);
+    }, [
+        reset,
+        order, 
+        initialClientAddress,
+        initialCompanyAddress,
+        initialClientShipAddress,
+        client
+    ]);
 
     const onFormSubmit = data => onSubmit(data);
 

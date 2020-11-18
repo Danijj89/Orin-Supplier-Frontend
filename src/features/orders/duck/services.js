@@ -44,31 +44,11 @@ const fetchOrderById = async (id) => {
     return data;
 };
 
-const updateOrderDetails = async (id, update) => {
+const updateOrder = async (id, update) => {
     const configs = {
         method: 'put',
-        url: `/orders/${id}/details`,
+        url: `/orders/${id}`,
         data: update
-    };
-    const { data } = await fetchWithAuth(configs);
-    return data;
-};
-
-const updateOrderStatus = async (id, status) => {
-    const configs = {
-        method: 'put',
-        url: `/orders/${id}/status`,
-        data: status
-    };
-    const { data } = await fetchWithAuth(configs);
-    return data;
-};
-
-const updateOrderNotes = async (id, notes) => {
-    const configs = {
-        method: 'put',
-        url: `/orders/${id}/notes`,
-        data: notes
     };
     const { data } = await fetchWithAuth(configs);
     return data;
@@ -124,9 +104,7 @@ const OrderService = {
     fetchNewOrderData,
     createOrder,
     fetchOrderById,
-    updateOrderDetails,
-    updateOrderStatus,
-    updateOrderNotes,
+    updateOrder,
     updateOrderProducts,
     deleteOrder,
     // generatePOFiles,

@@ -6,7 +6,7 @@ import OrderDetailsDialog from '../shared/forms/OrderDetailsDialog.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCompanyActiveAddresses, selectCompanyPorts } from '../home/duck/selectors.js';
 import { selectClientsMap } from '../clients/duck/selectors.js';
-import { deleteOrder, updateOrderDetails } from './duck/thunks.js';
+import { deleteOrder, updateOrder } from './duck/thunks.js';
 import { addressToDocAddress } from '../shared/utils/entityConversion.js';
 
 const {
@@ -32,7 +32,7 @@ export default function EditOrderDetailsButton({ order, className }) {
         data.fromAdd = addressToDocAddress(data.fromAdd);
         data.toAdd = addressToDocAddress(data.toAdd);
         if (data.shipAdd) data.shipAdd = addressToDocAddress(data.shipAdd);
-        dispatch(updateOrderDetails({ id: order._id, update: data }));
+        dispatch(updateOrder({ id: order._id, update: data }));
         setIsEdit(false);
     };
 

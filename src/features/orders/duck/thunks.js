@@ -37,30 +37,10 @@ export const fetchOrderById = createAsyncThunk('orders/fetchOrderById',
         }
     });
 
-export const updateOrderDetails = createAsyncThunk('orders/updateOrderDetails',
+export const updateOrder = createAsyncThunk('orders/updateOrderDetails',
     async ({ id, update }, { rejectWithValue }) => {
         try {
-            return await OrderService.updateOrderDetails(id, update);
-        } catch (err) {
-            return rejectWithValue(err.response.data);
-        }
-    });
-
-export const updateOrderStatus = createAsyncThunk('orders/updateOrderStatus',
-    async ({ id, ...status }, { rejectWithValue }) => {
-        try {
-            await OrderService.updateOrderStatus(id, { status });
-            return { id, status };
-        } catch (err) {
-            return rejectWithValue(err.response.data);
-        }
-    });
-
-export const updateOrderNotes = createAsyncThunk('orders/updateOrderNotes',
-    async ({ id, notes }, { rejectWithValue }) => {
-        try {
-            await OrderService.updateOrderNotes(id, { notes });
-            return { id, notes };
+            return await OrderService.updateOrder(id, update);
         } catch (err) {
             return rejectWithValue(err.response.data);
         }

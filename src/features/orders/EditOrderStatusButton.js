@@ -4,7 +4,7 @@ import ThemedButton from '../shared/buttons/ThemedButton.js';
 import OrderStatusDialog from '../shared/forms/OrderStatusDialog.js';
 import { LANGUAGE } from '../../app/constants.js';
 import { useDispatch } from 'react-redux';
-import { updateOrderStatus } from './duck/thunks.js';
+import { updateOrder } from './duck/thunks.js';
 
 const {
     buttonLabel,
@@ -20,8 +20,7 @@ export default function EditOrderStatusButton({ orderId, status, className }) {
     const onCancel = () => setIsEdit(false);
 
     const onSubmit = (data) => {
-        data.id = orderId;
-        dispatch(updateOrderStatus(data));
+        dispatch(updateOrder({ id: orderId, update: { status: data } }));
         setIsEdit(false);
     };
 
