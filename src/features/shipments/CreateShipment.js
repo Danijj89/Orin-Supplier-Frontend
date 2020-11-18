@@ -20,6 +20,7 @@ import { createShipment, updateShipmentShell } from './duck/thunks.js';
 import ErrorDisplay from '../shared/components/ErrorDisplay.js';
 import { selectOrderShipmentItemMap, selectShipmentById, selectShipmentError } from './duck/selectors.js';
 import { cleanNewShipment, cleanShipmentError } from './duck/slice.js';
+import { addressToDocAddress } from '../shared/utils/entityConversion.js';
 
 const useStyles = makeStyles((theme) => ({
     chipContainer: {
@@ -143,29 +144,11 @@ export default function CreateShipment() {
     const onPrevClick = () => history.goBack();
     const onSubmit = (data) => {
         data.seller = company._id;
-        data.sellerAdd = {
-            addressId: data.sellerAdd._id,
-            name: data.sellerAdd.name,
-            address: data.sellerAdd.address,
-            address2: data.sellerAdd.address2,
-            city: data.sellerAdd.city,
-            administrative: data.sellerAdd.administrative,
-            country: data.sellerAdd.country,
-            zip: data.sellerAdd.zip
-        };
+        data.sellerAdd = addressToDocAddress(data.sellerAdd);
         data.consignee = data.consignee._id;
-        data.consigneeAdd = {
-            addressId: data.consigneeAdd._id,
-            name: data.consigneeAdd.name,
-            address: data.consigneeAdd.address,
-            address2: data.consigneeAdd.address2,
-            city: data.consigneeAdd.city,
-            administrative: data.consigneeAdd.administrative,
-            country: data.consigneeAdd.country,
-            zip: data.consigneeAdd.zip
-        };
+        data.consigneeAdd = addressToDocAddress(data.consigneeAdd);
         if (isEdit) dispatch(updateShipmentShell(data));
-        else dispatch(createShipment(data));
+        else dispatch(createShipment({ data }));
         dispatch(cleanNewShipment());
     };
 
