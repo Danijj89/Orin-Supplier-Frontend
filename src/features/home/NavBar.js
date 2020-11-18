@@ -110,9 +110,8 @@ const NavBar = React.memo(function NavBar({ user }) {
                     break;
                 default:
             }
-        } else {
-            history.push(href);
         }
+        history.push(href);
     }
 
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
