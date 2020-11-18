@@ -25,7 +25,7 @@ const { paginationAllLabel, rowsPerPageLabel } = LANGUAGE.shared.components.tabl
 
 const ROW_HEIGHT = 69;
 
-export default function Table(
+const Table = React.memo(function Table(
     { rows, columns, className, onRowClick, dense, disableRowHover, footer }) {
     const classes = useStyles();
     const [page, setPage] = React.useState(0);
@@ -158,7 +158,7 @@ export default function Table(
             </MuiTable>
         </TableContainer>
     )
-};
+});
 
 Table.propTypes = {
     rows: PropTypes.array.isRequired,
@@ -169,3 +169,5 @@ Table.propTypes = {
     disableRowHover: PropTypes.bool,
     disablePagination: PropTypes.bool
 };
+
+export default Table;

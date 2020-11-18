@@ -6,7 +6,7 @@ import FormDialog from '../shared/wrappers/FormDialog.js';
 import { LANGUAGE } from '../../app/constants.js';
 import { Controller, useForm } from 'react-hook-form';
 import SideAutoComplete from '../shared/inputs/SideAutoComplete.js';
-import { documentTypesOptions } from '../shared/constants.js';
+import { documentObjectTypesOptions } from '../shared/constants.js';
 
 const {
     buttonLabel,
@@ -23,7 +23,7 @@ const DocumentButton = React.memo(function DocumentButton() {
     const { control, errors, getValues, handleSubmit } = useForm({
         mode: 'onSubmit',
         defaultValues: {
-            document: documentTypesOptions[0]
+            document: documentObjectTypesOptions[0]
         }
     });
 
@@ -57,7 +57,7 @@ const DocumentButton = React.memo(function DocumentButton() {
                     render={ props =>
                         <SideAutoComplete
                             { ...props }
-                            options={ documentTypesOptions }
+                            options={ documentObjectTypesOptions }
                             getOptionLabel={ option => option.name }
                             getOptionSelected={ option => option.type === getValues('document').type }
                             label={ formLabels.document }

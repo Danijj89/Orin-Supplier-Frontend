@@ -109,7 +109,7 @@ const CommercialInvoice = React.memo(function CommercialInvoice() {
             data.createdBy = userId;
             dispatch(createDocument({ id: shipment._id, doc: data }))
             dispatch(cleanNewDocument());
-            history.push(`/home/shipments/${ shipment._id }`);
+            history.push(`/home/shipments/${ shipment._id }?tab=documents`);
         },
         [dispatch, shipment._id, history, userId]);
 

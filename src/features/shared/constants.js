@@ -1,7 +1,11 @@
-export const documentTypesOptions = [
+export const documentObjectTypesOptions = [
     { type: 'CI', name: 'Commercial Invoice'},
     { type: 'PL', name: 'Packing List'},
 ];
+export const documentTypesOptions = documentObjectTypesOptions.reduce((acc, doc) => {
+    acc[doc.type] = doc.name;
+    return acc;
+}, {})
 export const deliveryMethodOptions = ['Ocean', 'Air'];
 export const itemUnitsOptions = ['PCS', 'CTN'];
 export const packageUnitsOptions = ['CTN', 'PLT'];

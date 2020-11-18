@@ -144,6 +144,11 @@ export default function CreateOrder() {
         }
     };
 
+    const onSubmit = (data) => {
+        data.to = data.to._id;
+        dispatch(createOrder(data));
+    };
+
     const onNextClick = () => {
         if (step === 'details') {
             setOrder(getValues());
@@ -151,11 +156,6 @@ export default function CreateOrder() {
         } else if (step === 'products') {
             handleSubmit(onSubmit)();
         }
-    };
-
-    const onSubmit = (data) => {
-        data.to = data.to._id;
-        dispatch(createOrder(data));
     };
 
     return (

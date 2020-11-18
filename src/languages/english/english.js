@@ -404,6 +404,14 @@ export const ENGLISH = {
                 },
                 editOrdersButtonLabel: 'Edit Included Orders'
             },
+            shipmentDocumentTable: {
+                tableHeaderLabelsMap: {
+                    ref: 'Document No.',
+                    type: 'Document Type',
+                    createdAt: 'Created At',
+                    createdBy: 'Created By'
+                }
+            },
             shipmentInfoCard: {
                 titleLabel: 'Shipment Information',
                 labels: {

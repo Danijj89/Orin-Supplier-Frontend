@@ -19,6 +19,8 @@ export const selectOrderShipmentItemMap = state => {
     return resultMap;
 };
 
+export const selectShipmentDocuments = (state, id) => state.shipments.entities[id].documents;
+
 export const {
     selectAll: selectAllShipments,
     selectById: selectShipmentById
