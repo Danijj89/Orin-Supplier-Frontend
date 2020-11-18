@@ -44,30 +44,38 @@ const OrderDetailsDialog = React.memo(function OrderDetailsDialog(
     const rhfMethods = useForm({
         mode: 'onSubmit'
     });
-
     const { register, control, setValue, getValues, errors, handleSubmit, reset } = rhfMethods;
 
-    const onFormSubmit = data => onSubmit(data);
+    const initialCompanyAddress = companyAddresses.find(a => a._id === order.fromAdd?.addressId);
+    const client = order.to ? clientsMap[order.to] : null;
+    const initialClientAddress = client
+        ? client.addresses.find(a => a._id === order.toAdd?.addressId)
+        : null;
+    const initialClientShipAddress = client
+        ? client.addresses.find(a => a._id === order.shipAdd?.addressId)
+        : null;
 
     useEffect(() => {
         reset({
-            [orderDetailsFieldNames.ref]: order?.ref,
-            [orderDetailsFieldNames.fulfilled]: order?.fulfilled,
-            [orderDetailsFieldNames.fromAdd]: order?.fromAdd,
-            [orderDetailsFieldNames.to]: order?.to && clientsMap[order.to],
-            [orderDetailsFieldNames.toAdd]: order?.toAdd,
-            [orderDetailsFieldNames.incoterm]: order?.incoterm,
-            [orderDetailsFieldNames.crd]: order?.crd,
-            [orderDetailsFieldNames.realCrd]: order?.realCrd,
-            [orderDetailsFieldNames.clientRef]: order?.clientRef,
-            [orderDetailsFieldNames.shipAdd]: order?.shipAdd,
-            [orderDetailsFieldNames.pol]: order?.pol,
-            [orderDetailsFieldNames.pod]: order?.pod,
-            [orderDetailsFieldNames.pay]: order?.pay,
-            [orderDetailsFieldNames.del]: order?.del,
-            [orderDetailsFieldNames.carrier]: order?.carrier
+            [orderDetailsFieldNames.ref]: order.ref,
+            [orderDetailsFieldNames.fulfilled]: order.fulfilled,
+            [orderDetailsFieldNames.fromAdd]: initialCompanyAddress,
+            [orderDetailsFieldNames.to]: client,
+            [orderDetailsFieldNames.toAdd]: initialClientAddress,
+            [orderDetailsFieldNames.incoterm]: order.incoterm,
+            [orderDetailsFieldNames.crd]: order.crd || null,
+            [orderDetailsFieldNames.realCrd]: order.realCrd || null,
+            [orderDetailsFieldNames.clientRef]: order.clientRef,
+            [orderDetailsFieldNames.shipAdd]: initialClientShipAddress,
+            [orderDetailsFieldNames.pol]: order.pol || null,
+            [orderDetailsFieldNames.pod]: order.pod || null,
+            [orderDetailsFieldNames.pay]: order.pay,
+            [orderDetailsFieldNames.del]: order.del,
+            [orderDetailsFieldNames.carrier]: order.carrier
         });
-    }, [reset, order, clientsMap]);
+    }, [reset, order, initialClientAddress, initialCompanyAddress, client]);
+
+    const onFormSubmit = data => onSubmit(data);
 
     return (
         <FormDialog
@@ -81,14 +89,14 @@ const OrderDetailsDialog = React.memo(function OrderDetailsDialog(
         >
             <RHFOrderDetails
                 rhfRegister={ register }
-                rhfErrors={errors}
-                rhfControl={control}
-                rhfGetValues={getValues}
-                rhfSetValue={setValue}
-                companyAddresses={companyAddresses}
-                companyPorts={companyPorts}
-                clientsMap={clientsMap}
-                fieldNames={orderDetailsFieldNames}
+                rhfErrors={ errors }
+                rhfControl={ control }
+                rhfGetValues={ getValues }
+                rhfSetValue={ setValue }
+                companyAddresses={ companyAddresses }
+                companyPorts={ companyPorts }
+                clientsMap={ clientsMap }
+                fieldNames={ orderDetailsFieldNames }
                 isEdit
             />
         </FormDialog>
