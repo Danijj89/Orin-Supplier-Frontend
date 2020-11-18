@@ -4,7 +4,7 @@ import { Box } from '@material-ui/core';
 import OrderProductsDialog from '../shared/forms/OrderProductsDialog.js';
 import { LANGUAGE } from '../../app/constants.js';
 import { useDispatch } from 'react-redux';
-import { updateOrderProducts } from './duck/thunks.js';
+import { updateOrder, updateOrderProducts } from './duck/thunks.js';
 import { tableItemsToOrderItems } from '../shared/utils/entityConversion.js';
 
 const {
@@ -23,7 +23,7 @@ export default function EditOrderProductsButton({ order, className }) {
     const onSubmit = (data) => {
         data.id = order._id;
         data.items = tableItemsToOrderItems(data.items);
-        dispatch(updateOrderProducts(data));
+        dispatch(updateOrder({ id: order._id, update: data }));
         setIsEdit(false);
     };
 

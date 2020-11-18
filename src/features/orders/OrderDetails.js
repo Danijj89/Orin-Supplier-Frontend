@@ -33,7 +33,7 @@ export default function OrderDetails({ order }) {
     const dispatch = useDispatch();
     const classes = useStyles();
     const onNotesSubmit = (notes) =>
-        dispatch(updateOrder({ id: order._id, update: notes }));
+        dispatch(updateOrder({ id: order._id, update: { notes } }));
 
     return (
         <Grid container className={ classes.root }>

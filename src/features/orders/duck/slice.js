@@ -102,18 +102,6 @@ const ordersSlice = createSlice({
             state.status = 'REJECTED';
             state.error = action.payload.message;
         },
-        [updateOrderProducts.pending]: (state, action) => {
-            state.status = 'PENDING';
-        },
-        [updateOrderProducts.fulfilled]: (state, action) => {
-            const { _id, ...updatedOrder } = action.payload;
-            ordersAdapter.updateOne(state, { id: _id, changes: updatedOrder });
-            state.status = 'IDLE';
-        },
-        [updateOrderProducts.rejected]: (state, action) => {
-            state.status = 'REJECTED';
-            state.error = action.payload.message;
-        },
         [deleteOrder.pending]: (state, action) => {
             state.status = 'PENDING';
         },

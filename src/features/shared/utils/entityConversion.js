@@ -13,17 +13,21 @@ export const addressToDocAddress = (address) => (
 
 
 export const tableItemsToOrderItems = (tableItems) =>
-    tableItems.map(item => ({
-        product: item.product,
-        ref: item.ref,
-        description: item.description,
-        quantity: item.quantity,
-        unit: item.unit,
-        price: item.price,
-        total: item.total,
-        custom1: item.custom1,
-        custom2: item.custom2
-    }));
+    tableItems.map(item => {
+        const temp = {
+            product: item.product,
+            ref: item.ref,
+            description: item.description,
+            quantity: item.quantity,
+            unit: item.unit,
+            price: item.price,
+            total: item.total,
+            custom1: item.custom1,
+            custom2: item.custom2
+        };
+        if (item._id) temp._id = item._id;
+        return temp;
+    });
 
 export const productTableItemsToItems = (tableItems, shipmentId) =>
     tableItems.map(item => ({
