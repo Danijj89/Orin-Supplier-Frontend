@@ -409,7 +409,9 @@ export const ENGLISH = {
                     ref: 'Document No.',
                     type: 'Document Type',
                     createdAt: 'Created At',
-                    createdBy: 'Created By'
+                    createdBy: 'Created By',
+                    excel: 'Download Excel',
+                    pdf: 'Download PDF'
                 }
             },
             shipmentInfoCard: {

@@ -5,15 +5,20 @@ import { downloadFile } from '../shared/utils/file.js';
 
 export default function OrderDocuments({ order }) {
 
-    const onGenerateDoc = async () => {
-        const file = await DocumentService.downloadOrder(order._id, 'xlsx');
-        downloadFile(file, `${order.fileName}.xlsx`);
+    const onGenerateDoc = async (ext) => {
+        const file = await DocumentService.downloadOrder(order._id, ext);
+        downloadFile(file, `${ order.fileName }.${ ext }`);
     }
 
     return (
-        <ThemedButton
-            onClick={ onGenerateDoc }
-        >Generate Document</ThemedButton>
+        <>
+            <ThemedButton
+                onClick={ () => onGenerateDoc('xlsx') }
+            >Generate Excel</ThemedButton>
+            <ThemedButton
+                onClick={ () => onGenerateDoc('pdf') }
+            >Generate PDF</ThemedButton>
+        </>
     )
 }
 

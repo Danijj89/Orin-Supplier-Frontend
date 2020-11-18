@@ -21,9 +21,9 @@ const ShipmentDocumentTable = React.memo(function ShipmentDocumentTable() {
     const documents = useSelector(state => selectShipmentDocuments(state, id));
     const usersMap = useSelector(selectUsersMap);
 
-    const onExcelDownload = useCallback(
-        async (documentId, fileName) => {
-            const file = await DocumentService.downloadShipmentDocument(id, documentId, 'xlsx');
+    const onDownload = useCallback(
+        async (documentId, fileName, ext) => {
+            const file = await DocumentService.downloadShipmentDocument(id, documentId, ext);
             downloadFile(file, fileName);
         },
         [id]);
@@ -35,12 +35,24 @@ const ShipmentDocumentTable = React.memo(function ShipmentDocumentTable() {
         { field: 'createdAt', headerName: tableHeaderLabelsMap.createdAt },
         { field: 'createdBy', headerName: tableHeaderLabelsMap.createdBy },
         {
-            field: 'download',
+            field: 'excel',
+            headerName: tableHeaderLabelsMap.excel,
             renderCell: (params) =>
-                <IconButton onClick={ () => onExcelDownload(params.id, params.fileName) }>
+                <IconButton onClick={ () => onDownload(params.id, params.fileName, 'xlsx') }>
                     <IconDownload/>
                 </IconButton>,
-            align: 'center'
+            align: 'center',
+            width: 50
+        },
+        {
+            field: 'pdf',
+            headerName: tableHeaderLabelsMap.pdf,
+            renderCell: (params) =>
+                <IconButton onClick={ () => onDownload(params.id, params.fileName, 'pdf') }>
+                    <IconDownload/>
+                </IconButton>,
+            align: 'center',
+            width: 50
         }
     ];
 
