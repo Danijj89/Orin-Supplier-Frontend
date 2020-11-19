@@ -4,7 +4,7 @@ import { Box, Paper, Divider, Typography } from '@material-ui/core';
 import { useForm } from 'react-hook-form';
 import useSessionStorage from '../shared/hooks/useSessionStorage.js';
 import { SESSION_NEW_ORDER } from '../../app/sessionKeys.js';
-import { Redirect, useParams, useHistory } from 'react-router-dom';
+import { Redirect, useHistory, useLocation } from 'react-router-dom';
 import { LANGUAGE } from '../../app/constants.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { cleanNewOrder } from './duck/slice.js';
@@ -19,6 +19,7 @@ import RHFProductTable, { validateItems } from '../shared/rhf/forms/RHFProductTa
 import { selectActiveProducts } from '../products/duck/selectors.js';
 import { makeStyles } from '@material-ui/core/styles';
 import { addressToDocAddress, tableItemsToOrderItems } from '../shared/utils/entityConversion.js';
+import queryString from 'query-string';
 
 const useStyles = makeStyles((theme) => ({
     orderRoot: {
@@ -83,7 +84,8 @@ export default function CreateOrder() {
     const classes = useStyles();
     const dispatch = useDispatch();
     const history = useHistory();
-    const { step } = useParams();
+    const location = useLocation();
+    const { step } = queryString.parse(location.search);
     const newOrder = useSelector(selectNewOrder);
     const companyAddresses = useSelector(selectCompanyActiveAddresses);
     const companyPorts = useSelector(selectCompanyPorts);
@@ -141,7 +143,7 @@ export default function CreateOrder() {
         } else if (step === 'products') {
             clearErrors();
             setOrder(getValues());
-            history.push('/home/orders/new/details');
+            history.push('/home/orders/new?step=details');
         }
     };
 
@@ -157,7 +159,7 @@ export default function CreateOrder() {
     const onNextClick = () => {
         if (step === 'details') {
             setOrder(getValues());
-            history.push('/home/orders/new/products');
+            history.push('/home/orders/new?step=products');
         } else if (step === 'products') {
             handleSubmit(onSubmit)();
         }
