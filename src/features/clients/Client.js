@@ -38,7 +38,15 @@ const Client = React.memo(function Client() {
                 value={ client.notes }
                 onSubmit={ onNotesSubmit }
             />
-            <ClientInfoTable client={ client }/>
+            <ClientInfoTable
+                clientId={ client._id }
+                clientName={ client.name }
+                clientAddresses={ client.addresses }
+                clientDefaultAddress={ client.defaultAddress }
+                clientContact={ client.contact }
+                clientDefaultContact={ client.defaultContact }
+                clientOrders={ client.orders }
+            />
         </Container>
     );
 });

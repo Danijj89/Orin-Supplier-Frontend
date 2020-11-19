@@ -8,7 +8,16 @@ import NavTabs from '../shared/components/NavTabs.js';
 
 const { tabsLabelsMap } = LANGUAGE.client.clientDetails;
 
-const ClientInfoTable = React.memo(function ClientInfoTable({ client }) {
+const ClientInfoTable = React.memo(function ClientInfoTable(
+    {
+        clientId,
+        clientName,
+        clientAddresses,
+        clientDefaultAddress,
+        clientContact,
+        clientDefaultContact,
+        clientOrders
+    }) {
     const [tabValue, setTabValue] = useState('addresses');
 
     return (
@@ -18,9 +27,23 @@ const ClientInfoTable = React.memo(function ClientInfoTable({ client }) {
                 tabValue={ tabValue }
                 onChange={ setTabValue }
             />
-            { client && tabValue === 'addresses' && <ClientAddressCards client={ client }/> }
-            { client && tabValue === 'contacts' && <ClientContactsTable client={ client }/> }
-            { client && tabValue === 'orders' && <ClientOrdersTable orders={ client.orders }/> }
+            { tabValue === 'addresses' &&
+            <ClientAddressCards
+                clientId={ clientId }
+                clientName={ clientName }
+                clientAddresses={ clientAddresses }
+                clientDefaultAddress={ clientDefaultAddress }
+            /> }
+            { tabValue === 'contacts' &&
+            <ClientContactsTable
+                clientId={ clientId }
+                clientContacts={ clientContact }
+                clientDefaultContact={ clientDefaultContact }
+            /> }
+            { tabValue === 'orders' &&
+            <ClientOrdersTable
+                orders={ clientOrders }
+            /> }
         </Paper>
     )
 });

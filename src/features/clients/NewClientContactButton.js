@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function NewClientContactButton({ client, ...props }) {
+export default function NewClientContactButton({ clientId, className }) {
     const classes = useStyles();
     const dispatch = useDispatch();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -29,22 +29,22 @@ export default function NewClientContactButton({ client, ...props }) {
 
     const onSubmit = (data) => {
         const { id, ...rest } = data;
-        rest.clientId = client._id;
+        rest.clientId = clientId;
         dispatch(addNewClientContact(rest));
         setIsDialogOpen(false);
     };
 
     return (
-        <Box {...props}>
-            <ThemedButton onClick={onClick} className={classes.newContact}>
-                {newButtonLabel}
+        <Box className={ className }>
+            <ThemedButton onClick={ onClick } className={ classes.newContact }>
+                { newButtonLabel }
             </ThemedButton>
             <ContactDialog
-                isOpen={isDialogOpen}
-                titleLabel={newDialogTitleLabel}
-                submitLabel={newDialogSubmitLabel}
-                onCancel={onCancel}
-                onSubmit={onSubmit}
+                isOpen={ isDialogOpen }
+                titleLabel={ newDialogTitleLabel }
+                submitLabel={ newDialogSubmitLabel }
+                onCancel={ onCancel }
+                onSubmit={ onSubmit }
             />
         </Box>
     );

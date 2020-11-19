@@ -20,18 +20,18 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const NewClientAddressButton = React.memo(function NewClientAddressButton({ client, className }) {
+const NewClientAddressButton = React.memo(function NewClientAddressButton({ clientId, clientName, className }) {
     const classes = useStyles();
     const dispatch = useDispatch();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
-    const address = { name: client?.name };
+    const address = { name: clientName };
 
     const onClick = () => setIsDialogOpen(true);
     const onCancel = () => setIsDialogOpen(false);
 
     const onSubmit = (data) => {
         const { _id, ...rest } = data;
-        rest.clientId = client._id;
+        rest.clientId = clientId;
         setIsDialogOpen(false)
         dispatch(addNewClientAddress(rest));
     };
@@ -54,7 +54,8 @@ const NewClientAddressButton = React.memo(function NewClientAddressButton({ clie
 });
 
 NewClientAddressButton.propTypes = {
-    client: PropTypes.object,
+    clientId: PropTypes.string,
+    clientName: PropTypes.string,
     className: PropTypes.string
 };
 

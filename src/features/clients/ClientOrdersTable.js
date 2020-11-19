@@ -4,12 +4,11 @@ import { LANGUAGE } from '../../app/constants.js';
 import Table from '../shared/components/Table.js';
 import UnitCounter from '../shared/classes/UnitCounter.js';
 
-
 const {
     ordersTableHeadersMap
 } = LANGUAGE.client.clientDetails.clientOrdersTable;
 
-export default function ClientOrdersTable({ orders }) {
+export default function ClientOrdersTable({ clientOrders }) {
     const history = useHistory();
 
     const onRowClick = (params) => history.push(`/home/orders/${ params.id }`);
@@ -25,7 +24,7 @@ export default function ClientOrdersTable({ orders }) {
         { field: 'del', headerName: ordersTableHeadersMap.del }
     ];
 
-    const rows = orders.filter(order => order.active).map(order => ({
+    const rows = clientOrders.filter(order => order.active).map(order => ({
         id: order._id,
         ref: order.ref,
         clientRef: order.clientRef,

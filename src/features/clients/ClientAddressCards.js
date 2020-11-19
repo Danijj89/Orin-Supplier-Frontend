@@ -29,10 +29,9 @@ const {
     editAddressDialogSubmitLabel,
 } = LANGUAGE.client.clientDetails.clientAddressCards;
 
-export default function ClientAddressCards({ client, className }) {
+export default function ClientAddressCards({ clientId, clientName, clientAddresses, clientDefaultAddress, className }) {
     const classes = useStyles();
     const dispatch = useDispatch();
-    const { _id: clientId, addresses, defaultAddress } = client;
     const [isEditAddressOpen, setIsEditAddressOpen] = useState(false);
     const [editAddress, setEditAddress] = useState(null);
 
@@ -45,7 +44,7 @@ export default function ClientAddressCards({ client, className }) {
         dispatch(updateDefaultClientAddress({ clientId, addressId }));
 
     const onEditAddress = (addressId) => {
-        setEditAddress(addresses.find((a) => a._id === addressId));
+        setEditAddress(clientAddresses.find((a) => a._id === addressId));
         setIsEditAddressOpen(true);
     };
 
@@ -64,11 +63,11 @@ export default function ClientAddressCards({ client, className }) {
             </Typography>
             <Box className={ classes.cards }>
                 <Grid container>
-                    { addresses.filter(address => address.active).map((address) => (
+                    { clientAddresses.filter(address => address.active).map((address) => (
                         <Grid item xs={ 12 } sm={ 6 } lg={ 4 } key={ address._id }>
                             <AddressCard
                                 address={ address }
-                                isDefault={ defaultAddress._id === address._id }
+                                isDefault={ clientDefaultAddress._id === address._id }
                                 onEdit={ () => onEditAddress(address._id) }
                                 onDelete={ () => onDeleteAddress(address._id) }
                                 onSetDefault={ () => onSetDefaultAddress(address._id) }
@@ -89,7 +88,8 @@ export default function ClientAddressCards({ client, className }) {
             ) }
             <NewClientAddressButton
                 className={ classes.newAddressButton }
-                client={ client }
+                clientId={ clientId }
+                clientName={ clientName }
             />
         </Paper>
     );

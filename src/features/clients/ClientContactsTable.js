@@ -13,14 +13,13 @@ const {
     editDialogTitleLabel
 } = LANGUAGE.client.clientDetails.clientContactsTable;
 
-export default function ClientContactsTable({ client }) {
+export default function ClientContactsTable({ clientId, clientContacts, clientDefaultContact }) {
     const dispatch = useDispatch();
-    const { _id: clientId, contacts, defaultContact } = client;
     const [isEdit, setIsEdit] = useState(false);
     const [editContact, setEditContact] = useState(null);
 
     const onRowClick = (params) => {
-        setEditContact(contacts.find(c => c._id === params.id));
+        setEditContact(clientContacts.find(c => c._id === params.id));
         setIsEdit(true);
     };
 
@@ -47,7 +46,7 @@ export default function ClientContactsTable({ client }) {
         { field: 'additional', headerName: contactTableHeadersMap.additional }
     ];
 
-    const rows = contacts.filter(contact => contact.active).map(contact => ({
+    const rows = clientContacts.filter(contact => contact.active).map(contact => ({
         id: contact._id,
         name: contact.name,
         email: contact.email,
@@ -74,13 +73,13 @@ export default function ClientContactsTable({ client }) {
                     onCancel={ onEditCancel }
                     onSubmit={ onEditSubmit }
                     onDelete={
-                        editContact._id !== defaultContact._id
+                        editContact._id !== clientDefaultContact._id
                             ? () => onDeleteContact(editContact._id)
                             : null
                     }
                 />
             ) }
-            <NewClientContactButton client={ client }/>
+            <NewClientContactButton clientId={ clientId }/>
         </Box>
     )
 }
