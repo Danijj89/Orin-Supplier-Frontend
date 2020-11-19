@@ -1,17 +1,15 @@
 import React, { useEffect } from 'react';
-import { Redirect, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import InfoCard from '../shared/wrappers/InfoCard.js';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectClientById, selectClientStatus } from './duck/selectors.js';
+import { selectClientById } from './duck/selectors.js';
 import { Container, Grid } from '@material-ui/core';
 import { fetchClientById, updateClientNotes } from './duck/thunks.js';
-import Loader from '../shared/components/Loader.js';
 import { LANGUAGE } from '../../app/constants.js';
 import ClientInfoTable from './ClientInfoTable.js';
 import EditClientButton from './EditClientButton.js';
 import { dateToLocaleDate } from '../shared/utils/format.js';
-import { selectAllUsers, selectUserStatus } from '../users/duck/selectors.js';
-import { determineStatus } from '../shared/utils/state.js';
+import { selectAllUsers } from '../users/duck/selectors.js';
 import { makeStyles } from '@material-ui/core/styles';
 import TextAreaCard from '../shared/components/TextAreaCard.js';
 import DividerDataDisplay from '../shared/wrappers/DividerDisplay.js';
@@ -37,16 +35,12 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function ClientDetails() {
+export default function Client() {
     const classes = useStyles();
     const dispatch = useDispatch();
     const { id } = useParams();
     const client = useSelector((state) => selectClientById(state, id));
     const users = useSelector(selectAllUsers);
-    const clientStatus = useSelector(selectClientStatus);
-    const userStatus = useSelector(selectUserStatus);
-    const shouldCheckClientStatus = Boolean(!client);
-    const status = determineStatus([shouldCheckClientStatus && clientStatus, userStatus]);
 
     const onNotesSubmit = (notes) =>
         dispatch(updateClientNotes({ id: client._id, notes }));
@@ -70,35 +64,29 @@ export default function ClientDetails() {
     }, [dispatch, id, client]);
 
     return (
-        <>
-            { status === 'PENDING' && <Loader/> }
-            { client?.active === false && <Redirect to={ '/home/clients' }/> }
-            { status === 'FULFILLED' &&
-            <Container>
-                <InfoCard
-                    title={ client.name }
-                    button={ <EditClientButton client={ client } users={ users }/> }
-                    className={ classes.clientInfoCard }
-                    content={
-                        <Grid container>
-                            <Grid container item md={ 6 }>
-                                <DividerDataDisplay data={ leftData }/>
-                            </Grid>
-                            <Grid container item md={ 6 }>
-                                <DividerDataDisplay data={ rightData }/>
-                            </Grid>
+        <Container>
+            <InfoCard
+                title={ client.name }
+                button={ <EditClientButton client={ client } users={ users }/> }
+                className={ classes.clientInfoCard }
+                content={
+                    <Grid container>
+                        <Grid container item md={ 6 }>
+                            <DividerDataDisplay data={ leftData }/>
                         </Grid>
-                    }
-                />
-                <TextAreaCard
-                    titleLabel={ notesLabel }
-                    className={ classes.notesCard }
-                    value={ client.notes }
-                    onSubmit={ onNotesSubmit }
-                />
-                <ClientInfoTable client={ client }/>
-            </Container>
-            }
-        </>
+                        <Grid container item md={ 6 }>
+                            <DividerDataDisplay data={ rightData }/>
+                        </Grid>
+                    </Grid>
+                }
+            />
+            <TextAreaCard
+                titleLabel={ notesLabel }
+                className={ classes.notesCard }
+                value={ client.notes }
+                onSubmit={ onNotesSubmit }
+            />
+            <ClientInfoTable client={ client }/>
+        </Container>
     );
 }
