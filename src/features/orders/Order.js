@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux';
 import { LANGUAGE } from '../../app/constants.js';
 import OrderDetails from './OrderDetails.js';
 import { selectOrderById } from './duck/selectors.js';
-import { Redirect } from 'react-router-dom';
 import OrderDocuments from './OrderDocuments.js';
 import { makeStyles } from '@material-ui/core/styles';
 import NavTabs from '../shared/components/NavTabs.js';

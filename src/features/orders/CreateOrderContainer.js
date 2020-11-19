@@ -2,13 +2,10 @@ import React, { useEffect, useRef } from 'react';
 import { Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-    selectCurrentOrderId,
-    selectOrderError, selectOrderStatus,
+    selectCurrentOrderId
 } from './duck/selectors.js';
 import Loader from '../shared/components/Loader.js';
-import ErrorMessages from '../shared/components/ErrorMessages.js';
 import { selectCompanyId, selectHomeError, selectHomeStatus } from '../home/duck/selectors.js';
-import { selectCurrentUserId } from '../../app/duck/selectors.js';
 import { determineStatus } from '../shared/utils/state.js';
 import { selectClientDataStatus, selectClientError } from '../clients/duck/selectors.js';
 import { fetchClients } from '../clients/duck/thunks.js';

@@ -10,7 +10,7 @@ import CreateOrderProducts from './CreateOrderProducts.js';
 import useSessionStorage from '../shared/hooks/useSessionStorage.js';
 import { SESSION_NEW_ORDER } from '../../app/sessionKeys.js';
 import { useSelector } from 'react-redux';
-import { selectCompanyId, selectCurrentCompany } from '../home/duck/selectors.js';
+import { selectCurrentCompany } from '../home/duck/selectors.js';
 import { deliveryMethodOptions, itemUnitsOptions } from '../shared/constants.js';
 import { selectCurrentUserId } from '../../app/duck/selectors.js';
 import { defaultProductRowValues } from '../shared/rhf/forms/util/constants.js';

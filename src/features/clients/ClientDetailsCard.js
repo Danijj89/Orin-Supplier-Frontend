@@ -22,16 +22,18 @@ const {
 const ClientDetailsCard = React.memo(function ClientDetailsDataDisplay({ client }) {
     const classes = useStyles();
     const usersMap = useSelector(selectUsersMap);
+    const defaultContactName = client.defaultContact?.name || null;
+    const defaultContactEmail = client.defaultContact?.email || null;
 
     const leftData = useMemo(() => [
         { label: formLabels.assignedTo, value: usersMap[client.assignedTo].name },
-        { label: formLabels.primaryContact, value: client.defaultContact?.name },
-        { label: formLabels.contactEmail, value: client.defaultContact?.email },
+        { label: formLabels.primaryContact, value: defaultContactName },
+        { label: formLabels.contactEmail, value: defaultContactEmail },
         { label: formLabels.taxNumber, value: client.taxNumber }
     ], [
         client.assignedTo,
-        client.defaultContact.name,
-        client.defaultContact.email,
+        defaultContactName,
+        defaultContactEmail,
         client.taxNumber,
         usersMap
     ]);

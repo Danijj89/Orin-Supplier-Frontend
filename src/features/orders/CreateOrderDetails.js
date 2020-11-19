@@ -40,7 +40,7 @@ const CreateOrderDetails = React.memo(function CreateOrderDetails({ order, setOr
     const companyPorts = useSelector(selectCompanyPorts);
     const clientsMap = useSelector(selectClientsMap);
 
-    const { register, control, errors, clearErrors, setValue, getValues, handleSubmit } = useForm({
+    const { register, control, errors, setValue, getValues, handleSubmit } = useForm({
         mode: 'onSubmit',
         defaultValues: {
             [orderDetailsFieldNames.ref]: !order.autoGenerateRef ? order.ref : null,
