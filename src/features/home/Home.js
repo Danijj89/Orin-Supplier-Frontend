@@ -13,7 +13,7 @@ import Suspense from '../shared/components/Suspense.js';
 
 const OrderOverviewContainer = lazy(() => import('../orders/OrderOverviewContainer.js'));
 const CreateOrderContainer = lazy(() => import('../orders/CreateOrderContainer.js'));
-const Order = lazy(() => import('../orders/Order.js'));
+const OrderContainer = lazy(() => import('../orders/OrderContainer.js'));
 const Settings = lazy(() => import('./Settings.js'));
 const ClientDetails = lazy(() => import('../clients/ClientDetails.js'));
 const ClientOverview = lazy(() => import('../clients/ClientOverview.js'));
@@ -87,7 +87,7 @@ const Home = React.memo(function Home() {
                         isPrivate
                     >
                         <Suspense>
-                            <Order/>
+                            <OrderContainer/>
                         </Suspense>
                     </Route>
                     <Route

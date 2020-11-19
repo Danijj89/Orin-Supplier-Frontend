@@ -8,7 +8,7 @@ import {
     selectProductsMap,
 } from './duck/selectors.js';
 import {
-    selectCurrentCompany,
+    selectCompanyId,
     selectHomeStatus,
 } from '../home/duck/selectors.js';
 import { fetchProducts } from './duck/thunks.js';
@@ -28,15 +28,15 @@ export default function ProductOverview() {
     const classes = useStyles();
     const dispatch = useDispatch();
     const products = useSelector(selectProductsMap);
-    const company = useSelector(selectCurrentCompany);
+    const companyId = useSelector(selectCompanyId);
     const homeStatus = useSelector(selectHomeStatus);
     const productDataStatus = useSelector(selectProductDataStatus);
     const productError = useSelector(selectProductError);
     const status = determineStatus([homeStatus, productDataStatus]);
 
     useEffect(() => {
-        if (company) dispatch(fetchProducts(company._id));
-    }, [dispatch, company]);
+        if (companyId) dispatch(fetchProducts({ companyId }));
+    }, [dispatch, companyId]);
 
     return (
         <>
@@ -44,7 +44,7 @@ export default function ProductOverview() {
             { productError && <ErrorMessages errors={ [productError] }/> }
             { status === 'FULFILLED' &&
             <Paper className={ classes.productOverviewRoot }>
-                <NewProductButton companyId={ company._id }/>
+                <NewProductButton companyId={ companyId }/>
                 <ProductTable products={ products }/>
             </Paper>
             }

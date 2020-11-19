@@ -2,9 +2,9 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import ClientService from '../../api/ClientService.js';
 
 export const fetchClients = createAsyncThunk('clients/fetchClients',
-    async (id, { rejectWithValue }) => {
+    async ({ companyId }, { rejectWithValue }) => {
         try {
-            return await ClientService.fetchClients(id);
+            return await ClientService.fetchClients(companyId);
         } catch (err) {
             return rejectWithValue(err.response.data);
         }

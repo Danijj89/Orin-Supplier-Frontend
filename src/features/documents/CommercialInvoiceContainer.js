@@ -49,7 +49,7 @@ const CommercialInvoiceContainer = React.memo(function CommercialInvoiceContaine
 
     useEffect(() => {
         if (!shipment) dispatch(fetchShipmentById({ id: parsed.shipment }))
-        if (clientDataStatus === 'IDLE' && companyId) dispatch(fetchClients(companyId));
+        if (clientDataStatus === 'IDLE' && companyId) dispatch(fetchClients({ companyId }));
         if (orderDataStatus === 'IDLE' && companyId) dispatch(fetchOrders({ companyId }));
     }, [dispatch, parsed.shipment, shipment, companyId, clientDataStatus, orderDataStatus]);
 

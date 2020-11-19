@@ -47,7 +47,7 @@ export default function EditShipmentContainer() {
     useEffect(() => {
         if (!shipment) dispatch(fetchShipmentById({ id }));
         if (shipment && !client) dispatch(fetchClientById(shipment.consignee));
-        if (productDataStatus === 'IDLE' && companyId) dispatch(fetchProducts(companyId));
+        if (productDataStatus === 'IDLE' && companyId) dispatch(fetchProducts({ companyId }));
         if (orderDataStatus === 'IDLE' && companyId) dispatch(fetchOrders({ companyId }))
     }, [dispatch, id, shipment, client, productDataStatus, orderDataStatus, companyId]);
 

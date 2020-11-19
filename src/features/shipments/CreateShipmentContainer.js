@@ -25,7 +25,7 @@ export default function CreateShipmentContainer() {
     useEffect(() => {
         if (!mounted.current && companyId) {
             dispatch(fetchShipments({ companyId }));
-            dispatch(fetchClients(companyId));
+            dispatch(fetchClients({ companyId }));
             dispatch(fetchOrders({ companyId }));
             mounted.current = true;
         }

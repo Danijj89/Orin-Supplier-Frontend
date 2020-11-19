@@ -100,13 +100,13 @@ const NavBar = React.memo(function NavBar({ user }) {
                     dispatch(fetchOrders({ companyId }));
                     break;
                 case 'clients':
-                    dispatch(fetchClients(companyId));
+                    dispatch(fetchClients({ companyId }));
                     break;
                 case 'shipments':
                     dispatch(fetchShipments({ companyId }));
                     break;
                 case 'products':
-                    dispatch(fetchProducts(companyId));
+                    dispatch(fetchProducts({ companyId }));
                     break;
                 default:
             }

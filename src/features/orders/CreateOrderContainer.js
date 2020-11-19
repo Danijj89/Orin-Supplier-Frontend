@@ -8,7 +8,7 @@ import {
 } from './duck/selectors.js';
 import Loader from '../shared/components/Loader.js';
 import ErrorMessages from '../shared/components/ErrorMessages.js';
-import { selectCurrentCompany } from '../home/duck/selectors.js';
+import { selectCompanyId } from '../home/duck/selectors.js';
 import { selectCurrentUserId } from '../../app/duck/selectors.js';
 import { determineStatus } from '../shared/utils/state.js';
 import { selectClientDataStatus } from '../clients/duck/selectors.js';
@@ -21,7 +21,7 @@ import { cleanNewOrder } from './duck/slice.js';
 export default function CreateOrderContainer() {
     const dispatch = useDispatch();
     const userId = useSelector(selectCurrentUserId);
-    const company = useSelector(selectCurrentCompany);
+    const companyId = useSelector(selectCompanyId);
     const orderStatus = useSelector(selectOrderStatus);
     const clientDataStatus = useSelector(selectClientDataStatus);
     const productDataStatus = useSelector(selectProductDataStatus);
@@ -31,21 +31,21 @@ export default function CreateOrderContainer() {
 
     const mounted = useRef(false);
     useEffect(() => {
-        if (!mounted.current && company) {
-            dispatch(startNewOrder({ userId, companyId: company._id }));
-            dispatch(fetchClients(company._id));
-            dispatch(fetchProducts(company._id));
+        if (!mounted.current && companyId) {
+            dispatch(startNewOrder({ userId, companyId }));
+            dispatch(fetchClients({ companyId }));
+            dispatch(fetchProducts({ companyId }));
             mounted.current = true;
         }
         return () => dispatch(cleanNewOrder());
-    }, [dispatch, company, userId]);
+    }, [dispatch, companyId, userId]);
 
     return (
         <>
             { status === 'PENDING' && <Loader/> }
             { currentOrderId && <Redirect to={ `/home/orders/${ currentOrderId }` }/> }
             { error && <ErrorMessages errors={ [error] }/> }
-            { !currentOrderId && status === 'FULFILLED' && <CreateOrder /> }
+            { !currentOrderId && status === 'FULFILLED' && <CreateOrder/> }
         </>
     );
 }

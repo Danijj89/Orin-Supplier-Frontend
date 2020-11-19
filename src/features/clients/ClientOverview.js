@@ -8,7 +8,7 @@ import ClientsTable from './ClientsTable.js';
 import NewClientButton from './NewClientButton.js';
 import { selectAllUsers, selectUserStatus } from '../users/duck/selectors.js';
 import {
-    selectCurrentCompany,
+    selectCompanyId,
     selectHomeStatus,
 } from '../home/duck/selectors.js';
 import { determineStatus } from '../shared/utils/state.js';
@@ -25,7 +25,7 @@ export default function ClientOverview() {
     const classes = useStyles();
     const dispatch = useDispatch();
     const userId = useSelector(selectCurrentUserId);
-    const company = useSelector(selectCurrentCompany);
+    const companyId = useSelector(selectCompanyId);
     const users = useSelector(selectAllUsers);
     const clientDataStatus = useSelector(selectClientDataStatus);
     const homeStatus = useSelector(selectHomeStatus);
@@ -33,8 +33,8 @@ export default function ClientOverview() {
     const status = determineStatus([clientDataStatus, homeStatus, userStatus]);
 
     useEffect(() => {
-        if (company) dispatch(fetchClients(company._id));
-    }, [dispatch, company]);
+        if (companyId) dispatch(fetchClients({companyId}));
+    }, [dispatch, companyId]);
 
     return (
         <>
@@ -43,7 +43,7 @@ export default function ClientOverview() {
             <Paper className={ classes.clientOverviewRoot }>
                 <NewClientButton
                     userId={ userId }
-                    companyId={ company._id }
+                    companyId={ companyId }
                     users={ users }
                 />
                 <ClientsTable />

@@ -20,3 +20,12 @@ export const resetPassword = createAsyncThunk('users/resetPassword',
             return rejectWithValue(err.response.data);
         }
     });
+
+export const fetchUsers = createAsyncThunk('users/fetchUsers',
+    async ({ companyId }, { rejectWithValue }) => {
+        try {
+            return await UserService.fetchUsers(companyId);
+        } catch (err) {
+            return rejectWithValue(err.response.data);
+        }
+    });
