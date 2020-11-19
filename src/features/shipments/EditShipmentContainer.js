@@ -8,7 +8,7 @@ import Loader from '../shared/components/Loader.js';
 import EditShipment from './EditShipment.js';
 import { selectClientById, selectClientError, selectClientStatus } from '../clients/duck/selectors.js';
 import { fetchClientById } from '../clients/duck/thunks.js';
-import { selectCurrentCompany, selectHomeError, selectHomeStatus } from '../home/duck/selectors.js';
+import { selectCompanyId, selectHomeError, selectHomeStatus } from '../home/duck/selectors.js';
 import { selectProductDataStatus } from '../products/duck/selectors.js';
 import { fetchProducts } from '../products/duck/thunks.js';
 import ErrorPage from '../shared/components/ErrorPage.js';
@@ -18,9 +18,7 @@ import { fetchOrders } from '../orders/duck/thunks.js';
 export default function EditShipmentContainer() {
     const dispatch = useDispatch();
     const { id } = useParams();
-    const company = useSelector(selectCurrentCompany);
-    const shipment = useSelector(state => selectShipmentById(state, id));
-    const client = useSelector(state => selectClientById(state, shipment?.consignee));
+
     const homeStatus = useSelector(selectHomeStatus);
     const shipmentStatus = useSelector(selectShipmentStatus);
     const clientStatus = useSelector(selectClientStatus);
@@ -31,6 +29,10 @@ export default function EditShipmentContainer() {
     const clientError = useSelector(selectClientError);
     const productError = useSelector(selectClientError);
     const orderError = useSelector(selectOrderError);
+
+    const companyId = useSelector(selectCompanyId);
+    const shipment = useSelector(state => selectShipmentById(state, id));
+    const client = useSelector(state => selectClientById(state, shipment?.consignee));
 
     const errors = [homeError, shipmentError, clientError, productError, orderError];
 
@@ -45,9 +47,9 @@ export default function EditShipmentContainer() {
     useEffect(() => {
         if (!shipment) dispatch(fetchShipmentById({ id }));
         if (shipment && !client) dispatch(fetchClientById(shipment.consignee));
-        if (productDataStatus === 'IDLE' && company) dispatch(fetchProducts(company._id));
-        if (orderDataStatus === 'IDLE' && company) dispatch(fetchOrders(company._id))
-    }, [dispatch, id, shipment, client, productDataStatus, orderDataStatus, company]);
+        if (productDataStatus === 'IDLE' && companyId) dispatch(fetchProducts(companyId));
+        if (orderDataStatus === 'IDLE' && companyId) dispatch(fetchOrders({ companyId }))
+    }, [dispatch, id, shipment, client, productDataStatus, orderDataStatus, companyId]);
 
     return (
         <>

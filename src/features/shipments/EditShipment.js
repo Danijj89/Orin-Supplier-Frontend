@@ -10,7 +10,7 @@ import ShipmentInfo from './ShipmentInfo.js';
 import Loader from '../shared/components/Loader.js';
 import SuccessMessage from '../shared/components/SuccessMessage.js';
 import { cleanShipmentStatus } from './duck/slice.js';
-import ErrorDisplay from '../shared/components/ErrorDisplay.js';
+import ErrorMessages from '../shared/components/ErrorMessages.js';
 import ShipmentProductTable from './ShipmentProductTable.js';
 import ShipmentMeasureTable from './ShipmentMeasureTable.js';
 import ShipmentConsolidationTable from './ShipmentConsolidationTable.js';
@@ -81,7 +81,7 @@ const EditShipment = React.memo(function EditShipment() {
                     tabValue={ tabValue }
                     onChange={ onTabChange }
                 />
-                { shipmentStatus === 'REJECTED' && <ErrorDisplay errors={ [shipmentError] }/> }
+                { shipmentStatus === 'REJECTED' && <ErrorMessages errors={ [shipmentError] }/> }
                 { shipmentStatus === 'FULFILLED' && <SuccessMessage message={ successMessage }/> }
                 { shipmentStatus === 'PENDING' && <Loader/> }
             </Card>

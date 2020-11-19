@@ -11,7 +11,7 @@ import { measurementUnitsOptions, packageUnitsOptions, weightUnitsOptions } from
 import SideAutoComplete from '../../inputs/SideAutoComplete.js';
 import UnitCounter from '../../classes/UnitCounter.js';
 import { roundToNDecimal } from '../../utils/format.js';
-import ErrorDisplay from '../../components/ErrorDisplay.js';
+import ErrorMessages from '../../components/ErrorMessages.js';
 
 export const defaultConsolidationItemValues = {
     _id: null,
@@ -325,7 +325,7 @@ const RHFConsolidationTable = React.memo(function RHFConsolidationTable(
         <Grid container className={ className }>
             { isError &&
             <Grid container item justify="center" xs={ 12 }>
-                <ErrorDisplay errors={ errMessages }/>
+                <ErrorMessages errors={ errMessages }/>
             </Grid>
             }
             <Grid container item justify="flex-end" xs={ 12 }>

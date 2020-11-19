@@ -12,7 +12,7 @@ import { submitPLTableInfo } from './duck/slice.js';
 import CreatePLProductTable from './CreatePLProductTable.js';
 import UnitCounter from '../shared/classes/UnitCounter.js';
 import { submitPLForPreview } from './duck/thunks.js';
-import ErrorDisplayer from '../shared/components/ErrorDisplay.js';
+import ErrorDisplayer from '../shared/components/ErrorMessages.js';
 
 
 const {

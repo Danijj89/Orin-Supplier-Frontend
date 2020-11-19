@@ -17,7 +17,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Footer from '../shared/components/Footer.js';
 import { selectCurrentUserId } from '../../app/duck/selectors.js';
 import { createShipment, updateShipmentShell } from './duck/thunks.js';
-import ErrorDisplay from '../shared/components/ErrorDisplay.js';
+import ErrorMessages from '../shared/components/ErrorMessages.js';
 import { selectOrderShipmentItemMap, selectShipmentById, selectShipmentError } from './duck/selectors.js';
 import { cleanNewShipment, cleanShipmentError } from './duck/slice.js';
 import { addressToDocAddress } from '../shared/utils/entityConversion.js';
@@ -215,7 +215,7 @@ export default function CreateShipment() {
             <Typography className={classes.newShipmentLabel} variant="h5">{ titleLabel }</Typography>
             <Divider/>
             <Paper>
-                { errs.length > 0 && <ErrorDisplay errors={ errs }/> }
+                { errs.length > 0 && <ErrorMessages errors={ errs }/> }
                 <FormContainer>
                     <Controller
                         render={ (props) =>

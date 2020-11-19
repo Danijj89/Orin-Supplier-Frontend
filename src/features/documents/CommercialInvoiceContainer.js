@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo } from 'react';
 import CommercialInvoice from './CommercialInvoice.js';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectCurrentCompany, selectHomeError, selectHomeStatus } from '../home/duck/selectors.js';
+import { selectCompanyId, selectHomeError, selectHomeStatus } from '../home/duck/selectors.js';
 import { determineStatus } from '../shared/utils/state.js';
 import Loader from '../shared/components/Loader.js';
 import ErrorPage from '../shared/components/ErrorPage.js';
@@ -19,8 +19,6 @@ const CommercialInvoiceContainer = React.memo(function CommercialInvoiceContaine
     const dispatch = useDispatch();
     const location = useLocation();
     const parsed = queryString.parse(location.search);
-    const shipment = useSelector(state => selectShipmentById(state, parsed.shipment));
-    const company = useSelector(selectCurrentCompany);
     const homeStatus = useSelector(selectHomeStatus);
     const homeError = useSelector(selectHomeError);
     const shipmentStatus = useSelector(selectShipmentStatus);
@@ -29,6 +27,9 @@ const CommercialInvoiceContainer = React.memo(function CommercialInvoiceContaine
     const clientError = useSelector(selectClientError);
     const orderDataStatus = useSelector(selectOrderDataStatus);
     const orderError = useSelector(selectOrderError);
+
+    const shipment = useSelector(state => selectShipmentById(state, parsed.shipment));
+    const companyId = useSelector(selectCompanyId);
 
     const errors = useMemo(() => [homeError, shipmentError, clientError, orderError],
         [homeError, shipmentError, clientError, orderError]);
@@ -48,9 +49,9 @@ const CommercialInvoiceContainer = React.memo(function CommercialInvoiceContaine
 
     useEffect(() => {
         if (!shipment) dispatch(fetchShipmentById({ id: parsed.shipment }))
-        if (clientDataStatus === 'IDLE' && company) dispatch(fetchClients(company._id));
-        if (orderDataStatus === 'IDLE' && company) dispatch(fetchOrders(company._id));
-    }, [dispatch, parsed.shipment, shipment, company, clientDataStatus, orderDataStatus]);
+        if (clientDataStatus === 'IDLE' && companyId) dispatch(fetchClients(companyId));
+        if (orderDataStatus === 'IDLE' && companyId) dispatch(fetchOrders({ companyId }));
+    }, [dispatch, parsed.shipment, shipment, companyId, clientDataStatus, orderDataStatus]);
 
     useEffect(() => {
         return () => dispatch(cleanNewDocument());

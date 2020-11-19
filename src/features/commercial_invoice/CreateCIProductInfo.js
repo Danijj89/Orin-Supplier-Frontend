@@ -17,7 +17,7 @@ import { submitCIForPreview } from './duck/thunks.js';
 import { useForm } from 'react-hook-form';
 import UnitCounter from '../shared/classes/UnitCounter.js';
 import RHFThemedDropdown from '../shared/rhf/RHFThemedDropdown.js';
-import ErrorDisplayer from '../shared/components/ErrorDisplay.js';
+import ErrorDisplayer from '../shared/components/ErrorMessages.js';
 
 const { currencyLabel, marksLabel, buttonNext, buttonPrev, errorMessages } = LANGUAGE.commercialInvoice.createCIProductInfo;
 

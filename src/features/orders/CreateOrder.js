@@ -8,7 +8,7 @@ import { Redirect, useParams, useHistory } from 'react-router-dom';
 import { LANGUAGE } from '../../app/constants.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { cleanNewOrder } from './duck/slice.js';
-import ErrorDisplay from '../shared/components/ErrorDisplay.js';
+import ErrorMessages from '../shared/components/ErrorMessages.js';
 import { selectNewOrder } from './duck/selectors.js';
 import { createOrder } from './duck/thunks.js';
 import { selectCompanyActiveAddresses, selectCompanyPorts } from '../home/duck/selectors.js';
@@ -171,7 +171,7 @@ export default function CreateOrder() {
             <Typography className={classes.newOrderLabel} variant="h5">{ titleLabel }</Typography>
             <Divider/>
             <Paper>
-                { errMessages.length > 0 && <ErrorDisplay errors={ errMessages }/> }
+                { errMessages.length > 0 && <ErrorMessages errors={ errMessages }/> }
                 <Box hidden={ step !== 'details' }>
                     <RHFOrderDetails
                         rhfRegister={ register }

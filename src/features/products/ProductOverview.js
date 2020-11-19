@@ -14,7 +14,7 @@ import {
 import { fetchProducts } from './duck/thunks.js';
 import { determineStatus } from '../shared/utils/state.js';
 import ProductTable from './ProductTable.js';
-import ErrorDisplay from '../shared/components/ErrorDisplay.js';
+import ErrorMessages from '../shared/components/ErrorMessages.js';
 import { makeStyles } from '@material-ui/core/styles';
 import Loader from '../shared/components/Loader.js';
 
@@ -41,7 +41,7 @@ export default function ProductOverview() {
     return (
         <>
             { status === 'PENDING' && <Loader/> }
-            { productError && <ErrorDisplay errors={ [productError] }/> }
+            { productError && <ErrorMessages errors={ [productError] }/> }
             { status === 'FULFILLED' &&
             <Paper className={ classes.productOverviewRoot }>
                 <NewProductButton companyId={ company._id }/>

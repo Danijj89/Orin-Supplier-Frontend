@@ -26,7 +26,7 @@ import {
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectCurrentCompany } from './duck/selectors.js';
+import { selectCompanyId } from './duck/selectors.js';
 import { fetchOrders } from '../orders/duck/thunks.js';
 import { fetchClients } from '../clients/duck/thunks.js';
 import { fetchShipments } from '../shipments/duck/thunks.js';
@@ -91,22 +91,22 @@ const NavBar = React.memo(function NavBar({ user }) {
     const history = useHistory();
     const location = useLocation();
     const currentTab = location.pathname.split('/')[2];
-    const company = useSelector(selectCurrentCompany);
+    const companyId = useSelector(selectCompanyId);
 
     const onTabClick = (tabName, href) => {
         if (tabName === currentTab) {
             switch (tabName) {
                 case 'orders':
-                    dispatch(fetchOrders(company._id));
+                    dispatch(fetchOrders({ companyId }));
                     break;
                 case 'clients':
-                    dispatch(fetchClients(company._id));
+                    dispatch(fetchClients(companyId));
                     break;
                 case 'shipments':
-                    dispatch(fetchShipments({ companyId: company._id }));
+                    dispatch(fetchShipments({ companyId }));
                     break;
                 case 'products':
-                    dispatch(fetchProducts(company._id));
+                    dispatch(fetchProducts(companyId));
                     break;
                 default:
             }

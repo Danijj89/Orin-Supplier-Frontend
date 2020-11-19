@@ -11,7 +11,7 @@ import Route from '../shared/components/AppRoute.js';
 import { Switch, Redirect } from 'react-router-dom';
 import Suspense from '../shared/components/Suspense.js';
 
-const OrdersOverview = lazy(() => import('../orders/OrdersOverview.js'));
+const OrderOverviewContainer = lazy(() => import('../orders/OrderOverviewContainer.js'));
 const CreateOrderContainer = lazy(() => import('../orders/CreateOrderContainer.js'));
 const Order = lazy(() => import('../orders/Order.js'));
 const Settings = lazy(() => import('./Settings.js'));
@@ -59,7 +59,7 @@ const Home = React.memo(function Home() {
             className={ classes.root }
         >
             <Grid item>
-                { user && <NavBar user={ user } /> }
+                { user && <NavBar user={ user }/> }
             </Grid>
             <Grid item className={ classes.content }>
                 <Switch>
@@ -69,7 +69,7 @@ const Home = React.memo(function Home() {
                         isPrivate
                     >
                         <Suspense>
-                            <OrdersOverview/>
+                            <OrderOverviewContainer/>
                         </Suspense>
                     </Route>
                     <Route
@@ -168,7 +168,7 @@ const Home = React.memo(function Home() {
                         isPrivate
                     >
                         <Suspense>
-                            <CommercialInvoiceContainer />
+                            <CommercialInvoiceContainer/>
                         </Suspense>
                     </Route>
                     <Route>

@@ -12,7 +12,7 @@ const useStyles = makeStyles({
     }
 })
 
-export default function ErrorDisplay({ errors, className }) {
+const ErrorMessages = React.memo(function ErrorMessages({ errors, className }) {
     const classes = useStyles();
 
     return (
@@ -27,9 +27,11 @@ export default function ErrorDisplay({ errors, className }) {
         </Box>
 
     )
-}
+});
 
-ErrorDisplay.propTypes = {
+ErrorMessages.propTypes = {
     errors: PropTypes.array.isRequired,
     className: PropTypes.string
 };
+
+export default ErrorMessages;

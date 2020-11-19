@@ -7,7 +7,7 @@ import {
     selectOrderError, selectOrderStatus,
 } from './duck/selectors.js';
 import Loader from '../shared/components/Loader.js';
-import ErrorDisplay from '../shared/components/ErrorDisplay.js';
+import ErrorMessages from '../shared/components/ErrorMessages.js';
 import { selectCurrentCompany } from '../home/duck/selectors.js';
 import { selectCurrentUserId } from '../../app/duck/selectors.js';
 import { determineStatus } from '../shared/utils/state.js';
@@ -44,7 +44,7 @@ export default function CreateOrderContainer() {
         <>
             { status === 'PENDING' && <Loader/> }
             { currentOrderId && <Redirect to={ `/home/orders/${ currentOrderId }` }/> }
-            { error && <ErrorDisplay errors={ [error] }/> }
+            { error && <ErrorMessages errors={ [error] }/> }
             { !currentOrderId && status === 'FULFILLED' && <CreateOrder /> }
         </>
     );

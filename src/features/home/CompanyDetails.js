@@ -3,7 +3,7 @@ import { Container, Grid } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectStatus } from '../../app/duck/selectors.js';
 import { makeStyles } from '@material-ui/core/styles';
-import ErrorDisplay from '../shared/components/ErrorDisplay.js';
+import ErrorMessages from '../shared/components/ErrorMessages.js';
 import { cleanError } from '../../app/duck/slice.js';
 import InfoCard from '../shared/wrappers/InfoCard.js';
 import EditCompanyInfoButton from './EditCompanyInfoButton.js';
@@ -54,7 +54,7 @@ export default function CompanyDetails({ company }) {
 
     return (
         <Container className={ classes.companyContainer }>
-            { homeError && <ErrorDisplay errors={ [homeError] }/> }
+            { homeError && <ErrorMessages errors={ [homeError] }/> }
             <InfoCard
                 className={ classes.topCard }
                 title={ company?.defaultAddress?.name }
