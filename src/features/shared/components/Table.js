@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import {
     Table as MuiTable,
@@ -34,7 +34,16 @@ const Table = React.memo(function Table(
         if (!col.hide) acc += 1;
         return acc;
     }, 0);
-    const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+
+    const emptyRows = useMemo(() => {
+            const rowsInPage = rows.length - page * rowsPerPage;
+            const maxEmptyRows = 5;
+            return Math.min(
+                maxEmptyRows - rowsInPage,
+                rowsPerPage
+            );
+        },
+        [rowsPerPage, page, rows.length]);
 
     const onPageChange = (event, newPage) => setPage(newPage);
     const onRowsChangePerPage = (event) => {
