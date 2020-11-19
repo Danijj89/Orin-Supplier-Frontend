@@ -10,15 +10,6 @@ export const fetchOrders = createAsyncThunk('orders/fetchOrders',
         }
     });
 
-export const startNewOrder = createAsyncThunk('orders/startNewOrder',
-    async ({ userId, companyId }, { rejectWithValue }) => {
-        try {
-            return OrderService.fetchNewOrderData(userId, companyId);
-        } catch (err) {
-            return rejectWithValue(err.response.data);
-        }
-    });
-
 export const createOrder = createAsyncThunk('orders/createOrder',
     async ({ data }, { rejectWithValue, dispatch }) => {
         try {

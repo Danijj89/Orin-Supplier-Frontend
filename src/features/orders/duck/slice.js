@@ -3,11 +3,9 @@ import {
     createOrder, deleteOrder,
     fetchOrderById,
     fetchOrders,
-    startNewOrder,
     updateOrder
 } from './thunks.js';
 import { SESSION_NEW_ORDER } from '../../../app/sessionKeys.js';
-import { defaultProductRowValues } from '../../shared/rhf/forms/util/constants.js';
 
 export const ordersAdapter = createEntityAdapter({
     selectId: order => order._id,
@@ -18,7 +16,6 @@ const initialState = ordersAdapter.getInitialState({
     dataStatus: 'IDLE',
     status: 'IDLE',
     error: null,
-    newOrder: null,
     currentOrderId: null
 });
 
@@ -27,7 +24,6 @@ const ordersSlice = createSlice({
     initialState,
     reducers: {
         cleanNewOrder: (state, action) => {
-            state.newOrder = null;
             sessionStorage.removeItem(SESSION_NEW_ORDER);
         },
         cleanCurrentOrderId: (state, action) => {
@@ -47,20 +43,6 @@ const ordersSlice = createSlice({
             ordersAdapter.upsertMany(state, action.payload);
         },
         [fetchOrders.rejected]: (state, action) => {
-            state.status = 'REJECTED';
-            state.error = action.payload.message;
-        },
-        [startNewOrder.pending]: (state, action) => {
-            state.status = 'PENDING';
-        },
-        [startNewOrder.fulfilled]: (state, action) => {
-            const newOrder = action.payload;
-            newOrder.items = [defaultProductRowValues];
-            state.newOrder = newOrder;
-            state.currentOrderId = null;
-            state.status = 'FULFILLED';
-        },
-        [startNewOrder.rejected]: (state, action) => {
             state.status = 'REJECTED';
             state.error = action.payload.message;
         },

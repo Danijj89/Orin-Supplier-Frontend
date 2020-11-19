@@ -12,19 +12,6 @@ const fetchOrdersByCompanyId = async (id) => {
     return data;
 };
 
-const fetchNewOrderData = async (userId, companyId) => {
-    const configs = {
-        method: 'get',
-        url: `/orders/new`,
-        params: {
-            user: userId,
-            company: companyId
-        }
-    };
-    const { data } = await fetchWithAuth(configs);
-    return data;
-};
-
 const createOrder = async (order) => {
     const configs = {
         method: 'post',
@@ -63,43 +50,12 @@ const deleteOrder = async (id) => {
     return data;
 };
 
-
-// const generatePOFiles = async (order) => {
-//     const configs = {
-//         method: 'post',
-//         responseType: 'blob',
-//         url: '/file/po',
-//         data: order
-//     };
-//     const { data } = await fetchWithAuth(configs);
-//     return data;
-// }
-//
-
-//
-// const getPdfFilePreview = async (filename) => {
-//     const configs = {
-//         method: 'get',
-//         url: `/orders/preview/${filename}.pdf`,
-//         responseType: 'blob',
-//     };
-//     const { data } = await fetchWithAuth(configs);
-//     return data;
-// }
-//
-
-
 const OrderService = {
     fetchOrdersByCompanyId,
-    fetchNewOrderData,
     createOrder,
     fetchOrderById,
     updateOrder,
-    deleteOrder,
-    // generatePOFiles,
-    // fetchOrderById,
-    // getPdfFilePreview,
-
+    deleteOrder
 };
 
 export default OrderService;

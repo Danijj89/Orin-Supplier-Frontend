@@ -3,14 +3,17 @@ import DocumentStepper from '../shared/DocumentStepper.js';
 import { Box, Paper, Divider, Typography } from '@material-ui/core';
 import { Redirect, useLocation } from 'react-router-dom';
 import { LANGUAGE } from '../../app/constants.js';
-import { useSelector } from 'react-redux';
-import { selectNewOrder } from './duck/selectors.js';
 import { makeStyles } from '@material-ui/core/styles';
 import queryString from 'query-string';
 import CreateOrderDetails from './CreateOrderDetails.js';
 import CreateOrderProducts from './CreateOrderProducts.js';
 import useSessionStorage from '../shared/hooks/useSessionStorage.js';
 import { SESSION_NEW_ORDER } from '../../app/sessionKeys.js';
+import { useSelector } from 'react-redux';
+import { selectCompanyId, selectCurrentCompany } from '../home/duck/selectors.js';
+import { deliveryMethodOptions, itemUnitsOptions } from '../shared/constants.js';
+import { selectCurrentUserId } from '../../app/duck/selectors.js';
+import { defaultProductRowValues } from '../shared/rhf/forms/util/constants.js';
 
 const useStyles = makeStyles((theme) => ({
     orderRoot: {
@@ -43,7 +46,22 @@ const CreateOrder = React.memo(function CreateOrder() {
     const classes = useStyles();
     const location = useLocation();
     const { step } = queryString.parse(location.search);
-    const newOrder = useSelector(selectNewOrder);
+    const company = useSelector(selectCurrentCompany);
+    const userId = useSelector(selectCurrentUserId);
+
+    const newOrder = {
+        from: company._id,
+        fromAdd: company.defaultAddress,
+        date: Date.now(),
+        del: deliveryMethodOptions[0],
+        currency: company.defaultCurrency,
+        totalQ: { [itemUnitsOptions[0]]: 0 },
+        totalA: 0,
+        createdBy: userId,
+        saveItems: false,
+        autoGenerateRef: false,
+        items: [defaultProductRowValues]
+    };
     const [order, setOrder] = useSessionStorage(SESSION_NEW_ORDER, newOrder);
 
     return (
