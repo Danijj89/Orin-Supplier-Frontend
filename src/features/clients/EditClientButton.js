@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Box } from '@material-ui/core';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import ClientDialog from '../shared/forms/ClientDialog.js';
 import { LANGUAGE } from '../../app/constants.js';
 import { deleteClient, updateClient } from './duck/thunks.js';
+import { selectAllActiveUsers } from '../users/duck/selectors.js';
 
 const {
     buttonLabel,
@@ -12,8 +13,9 @@ const {
     dialogSubmitLabel
 } = LANGUAGE.client.clientDetails.editClientButton;
 
-export default function EditClientButton({ client, users, ...props }) {
+const EditClientButton = React.memo(function EditClientButton({ client, className }) {
     const dispatch = useDispatch();
+    const users = useSelector(selectAllActiveUsers);
     const [isEdit, setIsEdit] = useState(false);
 
     const onEdit = () => setIsEdit(true);
@@ -22,7 +24,7 @@ export default function EditClientButton({ client, users, ...props }) {
     const onDelete = (id) => dispatch(deleteClient(id));
 
     const onSubmitEditDialog = (data) => {
-        const { contactName, contactEmail, ...rest} = data;
+        const { contactName, contactEmail, ...rest } = data;
         rest.id = client._id;
         rest.assignedTo = data.assignedTo._id;
         dispatch(updateClient(rest));
@@ -30,7 +32,7 @@ export default function EditClientButton({ client, users, ...props }) {
     };
 
     return (
-        <Box { ...props }>
+        <Box className={ className }>
             <ThemedButton
                 onClick={ onEdit }
                 variant="outlined"
@@ -45,9 +47,11 @@ export default function EditClientButton({ client, users, ...props }) {
                 submitLabel={ dialogSubmitLabel }
                 onSubmit={ onSubmitEditDialog }
                 onCancel={ onCancelEditDialog }
-                onDelete={() => onDelete(client._id)}
+                onDelete={ () => onDelete(client._id) }
                 isEdit
             />
         </Box>
     )
-}
+});
+
+export default EditClientButton;

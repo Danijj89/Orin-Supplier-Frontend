@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
 
 const { submitLabel } = LANGUAGE.shared.components.textAreaCard;
 
-export default function TextAreaCard({ titleLabel, value, className, onSubmit }) {
+const TextAreaCard = React.memo(function TextAreaCard({ titleLabel, value, className, onSubmit }) {
     const classes = useStyles();
     const [isEdit, setIsEdit] = useState(false);
     const [val, setVal] = useState(value);
@@ -84,4 +84,6 @@ export default function TextAreaCard({ titleLabel, value, className, onSubmit })
             }
         </Card>
     )
-}
+});
+
+export default TextAreaCard;

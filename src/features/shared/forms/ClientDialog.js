@@ -49,7 +49,7 @@ export default function ClientDialog(
             source: client?.source,
             incoterm: client?.incoterm || 'FOB',
             payment: client?.payment,
-            notes: client?.notes
+            notes: !isEdit && client?.notes
         });
     }, [reset, client, isEdit]);
 
@@ -127,7 +127,7 @@ export default function ClientDialog(
                 inputRef={ register }
                 error={ !!errors.payment }
             />
-            <SideTextArea
+            { !isEdit && <SideTextArea
                 name="notes"
                 multiline
                 rows={ 4 }
@@ -135,7 +135,7 @@ export default function ClientDialog(
                 label={ notesLabel }
                 inputRef={ register }
                 error={ !!errors.notes }
-            />
+            /> }
         </FormDialog>
     )
 }

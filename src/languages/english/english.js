@@ -104,14 +104,18 @@ export const ENGLISH = {
             },
         },
         clientDetails: {
-            assignedToLabel: 'Assigned To',
-            primaryContactLabel: 'Primary Contact',
-            contactEmailLabel: 'Contact Email',
-            taxNumberLabel: 'Tax Number',
-            sourceLabel: 'Source',
-            incotermLabel: 'Default Incoterm',
-            paymentLabel: 'Default Payment Term',
-            clientSinceLabel: 'Client Since',
+            clientDetailsDataDisplay: {
+                formLabels: {
+                    assignedTo: 'Assigned To',
+                    primaryContact: 'Primary Contact',
+                    contactEmail: 'Contact Email',
+                    taxNumber: 'Tax Number',
+                    source: 'Source',
+                    incoterm: 'Default Incoterm',
+                    payment: 'Default Payment Term',
+                    clientSince: 'Client Since'
+                }
+            },
             notesLabel: 'Notes',
             tabsLabelsMap: {
                 addresses: 'Addresses',
