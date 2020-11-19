@@ -15,7 +15,7 @@ const OrderOverviewContainer = lazy(() => import('../orders/OrderOverviewContain
 const CreateOrderContainer = lazy(() => import('../orders/CreateOrderContainer.js'));
 const OrderContainer = lazy(() => import('../orders/OrderContainer.js'));
 const Settings = lazy(() => import('./Settings.js'));
-const ClientDetails = lazy(() => import('../clients/Client.js'));
+const ClientContainer = lazy(() => import('../clients/ClientContainer.js'));
 const ClientOverview = lazy(() => import('../clients/ClientOverview.js'));
 const ProductOverview = lazy(() => import( '../products/ProductOverview.js'));
 const ShipmentOverview = lazy(() => import('../shipments/ShipmentOverview.js'));
@@ -105,7 +105,7 @@ const Home = React.memo(function Home() {
                         isPrivate
                     >
                         <Suspense>
-                            <ClientDetails/>
+                            <ClientContainer/>
                         </Suspense>
                     </Route>
                     <Route
