@@ -120,6 +120,7 @@ const EditableTable = React.memo(function EditableTable(
     for (let i = 0; i < next.columns.length; i++) {
         if (prev.columns[i].hide !== next.columns[i].hide) return false;
     }
+    if (prev.rows.length !== next.rows.length) return false;
     for (const [k, v] of Object.entries(next.rows)) {
         if (v !== prev.rows[k]) return false;
     }

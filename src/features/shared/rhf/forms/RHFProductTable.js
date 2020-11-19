@@ -187,7 +187,7 @@ const RHFProductTable = React.memo(function RHFProductTable(
         {
             field: 'delete',
             renderCell: params =>
-                params.idx === 0 ? null : <DeleteIconButton onClick={ onDeleteRow(params.idx) }/>,
+                <DeleteIconButton onClick={ onDeleteRow(params.idx) }/>,
             width: 50,
             align: 'center'
         },
