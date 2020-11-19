@@ -34,7 +34,6 @@ export default function Order() {
 
     return (
         <Box className={ classes.root }>
-            { order?.active === false && <Redirect to={ '/home/orders' }/> }
             <Paper>
                 <NavTabs
                     tabsLabelsMap={ tabsLabelsMap }
