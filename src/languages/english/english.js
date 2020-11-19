@@ -31,7 +31,7 @@ export const ENGLISH = {
             helloMessageLabel: 'Hello'
         },
         settings: {
-            tabsLabelMap: {
+            tabsLabelsMap: {
                 account: 'Account',
                 colleagues: 'Colleagues',
                 company: 'Company',

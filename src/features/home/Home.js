@@ -14,7 +14,7 @@ import Suspense from '../shared/components/Suspense.js';
 const OrderOverviewContainer = lazy(() => import('../orders/OrderOverviewContainer.js'));
 const CreateOrderContainer = lazy(() => import('../orders/CreateOrderContainer.js'));
 const OrderContainer = lazy(() => import('../orders/OrderContainer.js'));
-const Settings = lazy(() => import('./Settings.js'));
+const SettingsContainer = lazy(() => import('./SettingsContainer.js'));
 const ClientContainer = lazy(() => import('../clients/ClientContainer.js'));
 const ClientOverviewContainer = lazy(() => import('../clients/ClientOverviewContainer.js'));
 const ProductOverviewContainer = lazy(() => import( '../products/ProductOverviewContainer.js'));
@@ -92,11 +92,11 @@ const Home = React.memo(function Home() {
                     </Route>
                     <Route
                         exact
-                        path={ `${ match.path }/settings/:tab` }
+                        path={ `${ match.path }/settings` }
                         isPrivate
                     >
                         <Suspense>
-                            <Settings/>
+                            <SettingsContainer/>
                         </Suspense>
                     </Route>
                     <Route

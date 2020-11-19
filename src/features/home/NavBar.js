@@ -168,7 +168,7 @@ const NavBar = React.memo(function NavBar({ user }) {
                 { tabsLabelsMap.products }
             </MenuItem>
             <MenuItem
-                onClick={ () => onTabClick('settings', '/home/settings/account') }
+                onClick={ () => onTabClick('settings', '/home/settings?tab=account') }
             >
                 <IconButton color="inherit">
                     <AccountCircle/>
@@ -279,7 +279,7 @@ const NavBar = React.memo(function NavBar({ user }) {
                         <IconButton
                             edge="end"
                             onClick={ () =>
-                                onTabClick('settings', '/home/settings/account')
+                                onTabClick('settings', '/home/settings?tab=account')
                             }
                             color="inherit"
                         >

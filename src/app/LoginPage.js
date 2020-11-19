@@ -95,7 +95,7 @@ export default function LoginPage() {
 
     return (
         <Grid container className={ classes.container }>
-            { userId && <Redirect to={ '/home/settings/account' }/> }
+            { userId && <Redirect to={ '/home/settings?tab=account' }/> }
             <Grid item xs={ 5 } className={ classes.leftPanel }>
                 <CardMedia className={ classes.logo } component="img" src={ logo } alt="Logo"/>
                 <Typography variant="h3">{ title }</Typography>
