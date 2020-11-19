@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import Table from '../shared/components/Table.js';
 import StatusDisplay from '../orders/StatusDisplay.js';
 import UnitCounter from '../shared/classes/UnitCounter.js';
@@ -32,6 +32,7 @@ const ShipmentOrdersTable = React.memo(function ShipmentOrdersTable({ shipment }
     }, []);
     const orders = useSelector(state => selectOrdersByIds(state, orderIds));
     const onEditOrders = () => history.push(`/home/shipments/edit/${ shipment._id }`);
+    const onRowClick = useCallback((params) => history.push(`/home/orders/${ params.id }`), [history]);
 
     const columns = [
         { field: 'id', hide: true },
@@ -74,7 +75,7 @@ const ShipmentOrdersTable = React.memo(function ShipmentOrdersTable({ shipment }
             <ThemedButton onClick={ onEditOrders } className={ classes.button }>
                 { editOrdersButtonLabel }
             </ThemedButton>
-            <Table columns={ columns } rows={ rows }/>
+            <Table columns={ columns } rows={ rows } onRowClick={ onRowClick }/>
         </Box>
     )
 });

@@ -7,7 +7,7 @@ import { LANGUAGE } from '../../../app/constants.js';
 
 const { backButtonLabel } = LANGUAGE.shared.components.errorPage;
 
-const ErrorPage = React.memo(function ErrorPage({ errors }) {
+const ErrorPage = React.memo(function ErrorPage({ errors, className }) {
     const history = useHistory();
     const onClick = () => history.push('/home');
     return (
@@ -21,7 +21,8 @@ const ErrorPage = React.memo(function ErrorPage({ errors }) {
 });
 
 ErrorPage.propTypes = {
-    errors: PropTypes.array.isRequired
+    errors: PropTypes.array.isRequired,
+    className: PropTypes.string
 };
 
 export default ErrorPage;

@@ -268,6 +268,9 @@ export const ENGLISH = {
                         dialogSubmitLabel: 'Update'
                     }
                 }
+            },
+            errorMessages: {
+                orderWasDeleted: 'The order you selected is no longer existent.'
             }
         }
     },

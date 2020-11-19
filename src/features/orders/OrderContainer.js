@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectOrderById, selectOrderDataStatus, selectOrderError } from './duck/selectors.js';
 import { determineStatus } from '../shared/utils/state.js';
@@ -14,7 +14,12 @@ import { fetchClients } from '../clients/duck/thunks.js';
 import { selectProductDataStatus, selectProductError } from '../products/duck/selectors.js';
 import { fetchProducts } from '../products/duck/thunks.js';
 import Order from './Order.js';
-import { Redirect, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import { LANGUAGE } from '../../app/constants.js';
+
+const {
+    errorMessages
+} = LANGUAGE.order.order;
 
 const OrderContainer = React.memo(function OrderContainer() {
     const dispatch = useDispatch();
@@ -40,6 +45,7 @@ const OrderContainer = React.memo(function OrderContainer() {
 
     const companyId = useSelector(selectCompanyId);
     const order = useSelector(state => selectOrderById(state, id));
+    const isOrderInactive = useMemo(() => order?.active === false, [order]);
 
     const fetched = useRef(false);
     useEffect(() => {
@@ -58,10 +64,10 @@ const OrderContainer = React.memo(function OrderContainer() {
 
     return (
         <>
-            { order?.active === false && <Redirect to={ '/home/orders' }/> }
+            { isOrderInactive && <ErrorPage errors={ [errorMessages.orderWasDeleted] }/> }
             { status === 'REJECTED' && <ErrorPage errors={ errors }/> }
             { status === 'PENDING' && <Loader/> }
-            { status === 'FULFILLED' && <Order/> }
+            { !isOrderInactive && status === 'FULFILLED' && <Order/> }
         </>
     )
 });
