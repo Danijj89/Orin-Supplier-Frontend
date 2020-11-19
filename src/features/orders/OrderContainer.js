@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectOrderDataStatus, selectOrderError } from './duck/selectors.js';
 import { determineStatus } from '../shared/utils/state.js';
@@ -38,13 +38,16 @@ const OrderContainer = React.memo(function OrderContainer() {
     const errors = [orderError, homeError, userError, clientError, productError];
 
     const companyId = useSelector(selectCompanyId);
+    const fetched = useRef(false);
 
     useEffect(() => {
-        if (orderDataStatus === 'IDLE' && companyId)
-            dispatch(fetchOrders({ companyId }));
-        dispatch(fetchUsers({ companyId }));
-        dispatch(fetchClients({ companyId }));
-        dispatch(fetchProducts({ companyId }));
+        if (!fetched.current && companyId) {
+            if (orderDataStatus === 'IDLE') dispatch(fetchOrders({ companyId }));
+            dispatch(fetchUsers({ companyId }));
+            dispatch(fetchClients({ companyId }));
+            dispatch(fetchProducts({ companyId }));
+            fetched.current = true;
+        }
     }, [dispatch, orderDataStatus, companyId]);
 
     useEffect(() => {
