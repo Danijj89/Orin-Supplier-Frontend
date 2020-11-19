@@ -274,48 +274,6 @@ export const ENGLISH = {
             }
         }
     },
-    commercialInvoice: {
-        createCI: {
-            steps: ['Invoice Info', 'Products', 'Review'],
-            title: 'Commercial Invoice',
-        },
-        createCIDetailsForm: {
-            invoiceNumber: 'Invoice Number*',
-            invoiceDate: 'Invoice Date',
-            importer: 'Importer',
-            importerAddress: 'Importer Address',
-            exporter: 'Exporter',
-            exporterAddressLabel: 'Exporter Address',
-            countryOfManufacture: 'Country of Manufacture',
-            buttonCancel: 'Cancel',
-            buttonNext: 'Next: Product Info',
-        },
-        createCIAdditionalInfo: {
-            title: 'Additional Information (Optional)',
-            additionalNotes: 'Additional Notes',
-            salesContract: 'Sales Contract Number',
-            paymentReference: 'Payment Reference',
-            portOfLoading: 'Port of Loading',
-            portOfDestination: 'Port of Destination',
-        },
-        createCIProductInfo: {
-            ordersLabel: 'Purchase Orders',
-            currencyLabel: 'Currencies',
-            marksLabel: 'Marks and Numbers',
-            buttonPrev: 'Back: Invoice Details',
-            buttonNext: 'Next: Review',
-            errorMessages: {
-                poRefs: 'You must reference at least one Purchase Order.',
-                currency: 'You must select a currency.',
-                atLeastOneOrder: 'You must choose at least one Purchase Order.',
-                missingItemInfo: 'Some item is missing information.',
-            },
-        },
-        createCIProductTable: {
-            totals: 'Total:',
-            addRowButton: 'Add',
-        },
-    },
     packingList: {
         createPL: {
             steps: ['Packing List', 'Product Info', 'Review'],

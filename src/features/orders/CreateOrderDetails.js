@@ -66,7 +66,7 @@ const CreateOrderDetails = React.memo(function CreateOrderDetails({ order, setOr
 
     const onPrevClick = () => {
         dispatch(cleanNewOrder());
-        history.goBack();
+        history.push('/home/orders');
     };
 
     const onNextClick = (data) => {

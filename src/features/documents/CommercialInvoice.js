@@ -119,14 +119,14 @@ const CommercialInvoice = React.memo(function CommercialInvoice() {
         () => {
             if (isDetailsStep) {
                 dispatch(cleanNewDocument());
-                history.goBack();
+                history.push(`/home/shipments/${ shipment._id }`);
             } else {
                 dispatch(cleanDocumentError());
                 setCommercialInvoice(getValues());
                 setStep('details');
             }
         },
-        [history, dispatch, isDetailsStep, getValues, setCommercialInvoice]);
+        [history, dispatch, isDetailsStep, getValues, setCommercialInvoice, shipment._id]);
 
     const onNextClick = useCallback(
         (data) => {
