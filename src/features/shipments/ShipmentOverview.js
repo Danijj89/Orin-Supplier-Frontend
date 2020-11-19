@@ -1,16 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { Paper } from '@material-ui/core';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { LANGUAGE } from '../../app/constants.js';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { cleanNewShipment } from './duck/slice.js';
-import { selectCurrentCompany, selectHomeStatus } from '../home/duck/selectors.js';
-import { fetchShipments } from './duck/thunks.js';
-import { determineStatus } from '../shared/utils/state.js';
-import { selectShipmentDataStatus } from './duck/selectors.js';
 import ShipmentsTable from './ShipmentsTable.js';
-import Loader from '../shared/components/Loader.js';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
@@ -28,14 +23,6 @@ export default function ShipmentOverview() {
     const classes = useStyles();
     const history = useHistory();
     const dispatch = useDispatch();
-    const company = useSelector(selectCurrentCompany);
-    const homeStatus = useSelector(selectHomeStatus);
-    const shipmentDataStatus = useSelector(selectShipmentDataStatus);
-    const status = determineStatus([homeStatus, shipmentDataStatus]);
-
-    useEffect(() => {
-        if (company) dispatch(fetchShipments({ companyId: company._id }));
-    }, [company, dispatch]);
 
     const onNewOrderClick = () => {
         dispatch(cleanNewShipment());
@@ -43,20 +30,15 @@ export default function ShipmentOverview() {
     }
 
     return (
-        <>
-            { status === 'PENDING' && <Loader/> }
-            { status === 'FULFILLED' &&
-            <Paper className = {classes.shipmentOverviewRoot}>
-                <ThemedButton
-                    onClick={ onNewOrderClick }
-                    className={ classes.newShipmentButton }
-                >
-                    { newShipmentButtonLabel }
-                </ThemedButton>
-                <ShipmentsTable />
-            </Paper>
-            }
-        </>
+        <Paper className={ classes.shipmentOverviewRoot }>
+            <ThemedButton
+                onClick={ onNewOrderClick }
+                className={ classes.newShipmentButton }
+            >
+                { newShipmentButtonLabel }
+            </ThemedButton>
+            <ShipmentsTable/>
+        </Paper>
     )
 }
 
