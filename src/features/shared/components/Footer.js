@@ -28,19 +28,36 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const Footer = React.memo(function Footer({ prevLabel, nextLabel, onPrevClick, onNextClick }) {
+const Footer = React.memo(function Footer(
+    {
+        prevLabel,
+        nextLabel,
+        onPrevClick,
+        onNextClick,
+        prevButtonType,
+        nextButtonType
+    }) {
     const classes = useStyles();
 
     return (
         <Box className={ classes.container }>
             <Grid container justify="center"
-                alignItems="center">
-            <ThemedButton className={classes.cancelButton} onClick={ onPrevClick } variant = 'outlined'>
-                { prevLabel }
-            </ThemedButton>
-            <ThemedButton className={classes.submitButton} onClick={ onNextClick }>
-                { nextLabel }
-            </ThemedButton>
+                  alignItems="center">
+                <ThemedButton
+                    className={ classes.cancelButton }
+                    onClick={ onPrevClick }
+                    variant='outlined'
+                    type={ prevButtonType }
+                >
+                    { prevLabel }
+                </ThemedButton>
+                <ThemedButton
+                    className={ classes.submitButton }
+                    onClick={ onNextClick }
+                    type={ nextButtonType }
+                >
+                    { nextLabel }
+                </ThemedButton>
             </Grid>
         </Box>
     )
@@ -49,8 +66,10 @@ const Footer = React.memo(function Footer({ prevLabel, nextLabel, onPrevClick, o
 Footer.propTypes = {
     prevLabel: PropTypes.node.isRequired,
     nextLabel: PropTypes.node.isRequired,
-    onPrevClick: PropTypes.func.isRequired,
-    onNextClick: PropTypes.func.isRequired
+    onPrevClick: PropTypes.func,
+    onNextClick: PropTypes.func,
+    prevButtonType: PropTypes.string,
+    nextButtonType: PropTypes.string
 };
 
 export default Footer;

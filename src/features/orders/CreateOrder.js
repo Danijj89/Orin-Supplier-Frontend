@@ -1,30 +1,21 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import DocumentStepper from '../shared/DocumentStepper.js';
 import { Box, Paper, Divider, Typography } from '@material-ui/core';
-import { useForm } from 'react-hook-form';
+import { Redirect, useLocation } from 'react-router-dom';
+import { LANGUAGE } from '../../app/constants.js';
+import { useSelector } from 'react-redux';
+import { selectNewOrder } from './duck/selectors.js';
+import { makeStyles } from '@material-ui/core/styles';
+import queryString from 'query-string';
+import CreateOrderDetails from './CreateOrderDetails.js';
+import CreateOrderProducts from './CreateOrderProducts.js';
 import useSessionStorage from '../shared/hooks/useSessionStorage.js';
 import { SESSION_NEW_ORDER } from '../../app/sessionKeys.js';
-import { Redirect, useHistory, useLocation } from 'react-router-dom';
-import { LANGUAGE } from '../../app/constants.js';
-import { useDispatch, useSelector } from 'react-redux';
-import { cleanNewOrder } from './duck/slice.js';
-import ErrorMessages from '../shared/components/ErrorMessages.js';
-import { selectNewOrder } from './duck/selectors.js';
-import { createOrder } from './duck/thunks.js';
-import { selectCompanyActiveAddresses, selectCompanyPorts } from '../home/duck/selectors.js';
-import { selectClientsMap } from '../clients/duck/selectors.js';
-import RHFOrderDetails from '../shared/rhf/forms/RHFOrderDetails.js';
-import Footer from '../shared/components/Footer.js';
-import RHFProductTable, { validateItems } from '../shared/rhf/forms/RHFProductTable.js';
-import { selectActiveProducts } from '../products/duck/selectors.js';
-import { makeStyles } from '@material-ui/core/styles';
-import { addressToDocAddress, tableItemsToOrderItems } from '../shared/utils/entityConversion.js';
-import queryString from 'query-string';
 
 const useStyles = makeStyles((theme) => ({
     orderRoot: {
-         margin: theme.spacing(2),
-         marginTop: theme.spacing(0),
+        margin: theme.spacing(2),
+        marginTop: theme.spacing(0),
     },
     newOrderLabel: {
         marginTop: '-10px',
@@ -45,167 +36,31 @@ function getCurrentStep(stepLabel) {
 
 const {
     titleLabel,
-    stepLabelsMap,
-    prevButtonLabel,
-    nextButtonLabel
+    stepLabelsMap
 } = LANGUAGE.order.createOrder;
 
-const orderDetailsFieldNames = {
-    ref: 'ref',
-    date: 'date',
-    fromAdd: 'fromAdd',
-    to: 'to',
-    toAdd: 'toAdd',
-    crd: 'crd',
-    incoterm: 'incoterm',
-    pay: 'pay',
-    clientRef: 'clientRef',
-    notes: 'notes',
-    shipAdd: 'shipAdd',
-    del: 'del',
-    pol: 'pol',
-    pod: 'pod',
-    carrier: 'carrier',
-    autoGenerateRef: 'autoGenerateRef'
-};
-
-const productTableFieldNames = {
-    custom1: 'custom1',
-    custom2: 'custom2',
-    currency: 'currency',
-    items: 'items',
-    quantity: 'totalQ',
-    total: 'totalA',
-    saveItems: 'saveItems',
-    marks: 'marks'
-};
-
-export default function CreateOrder() {
+const CreateOrder = React.memo(function CreateOrder() {
     const classes = useStyles();
-    const dispatch = useDispatch();
-    const history = useHistory();
     const location = useLocation();
     const { step } = queryString.parse(location.search);
     const newOrder = useSelector(selectNewOrder);
-    const companyAddresses = useSelector(selectCompanyActiveAddresses);
-    const companyPorts = useSelector(selectCompanyPorts);
-    const clientsMap = useSelector(selectClientsMap);
-    const products = useSelector(selectActiveProducts);
     const [order, setOrder] = useSessionStorage(SESSION_NEW_ORDER, newOrder);
-
-    const rhfMethods = useForm({
-        mode: 'onSubmit',
-        defaultValues: {
-            [orderDetailsFieldNames.ref]: !order.autoGenerateRef ? order.ref : null,
-            from: order.from,
-            [orderDetailsFieldNames.fromAdd]: order.fromAdd,
-            [orderDetailsFieldNames.to]: order.to || null,
-            [orderDetailsFieldNames.toAdd]: order.toAdd || null,
-            [orderDetailsFieldNames.date]: new Date(order.date),
-            [orderDetailsFieldNames.crd]: order.crd ? new Date(order.crd) : null,
-            [orderDetailsFieldNames.incoterm]: order.incoterm || null,
-            [orderDetailsFieldNames.pay]: order.pay,
-            [orderDetailsFieldNames.clientRef]: order.clientRef,
-            [orderDetailsFieldNames.notes]: order.notes,
-            [orderDetailsFieldNames.shipAdd]: order.shipAdd || null,
-            [orderDetailsFieldNames.pol]: order.pol || null,
-            [orderDetailsFieldNames.pod]: order.pod || null,
-            [orderDetailsFieldNames.del]: order.del,
-            [orderDetailsFieldNames.carrier]: order.carrier,
-            [productTableFieldNames.currency]: order.currency,
-            [productTableFieldNames.items]: order.items,
-            [productTableFieldNames.custom1]: order.custom1,
-            [productTableFieldNames.custom2]: order.custom2,
-            [productTableFieldNames.quantity]: order.totalQ,
-            [productTableFieldNames.total]: order.totalA,
-            [productTableFieldNames.marks]: order.marks,
-            [productTableFieldNames.saveItems]: order.saveItems,
-            [orderDetailsFieldNames.autoGenerateRef]: order.autoGenerateRef,
-            createdBy: order.createdBy
-        }
-    });
-    const { register, control, errors, clearErrors, setValue, getValues, handleSubmit } = rhfMethods;
-
-    useEffect(() => {
-        register({ name: productTableFieldNames.items }, { validate: validateItems });
-        register({ name: productTableFieldNames.custom1 });
-        register({ name: productTableFieldNames.custom2 });
-        register({ name: productTableFieldNames.quantity });
-        register({ name: productTableFieldNames.total });
-    }, [register]);
-
-    const errMessages = Object.values(errors).map(err => err.message);
-
-    const onPrevClick = () => {
-        if (step === 'details') {
-            dispatch(cleanNewOrder());
-            history.goBack();
-        } else if (step === 'products') {
-            clearErrors();
-            setOrder(getValues());
-            history.push('/home/orders/new?step=details');
-        }
-    };
-
-    const onSubmit = (data) => {
-        data.fromAdd = addressToDocAddress(data.fromAdd);
-        data.toAdd = addressToDocAddress(data.toAdd);
-        if (data.shipAdd) data.shipAdd = addressToDocAddress(data.shipAdd);
-        data.to = data.to._id;
-        data.items = tableItemsToOrderItems(data.items);
-        dispatch(createOrder({ data }));
-    };
-
-    const onNextClick = () => {
-        if (step === 'details') {
-            setOrder(getValues());
-            history.push('/home/orders/new?step=products');
-        } else if (step === 'products') {
-            handleSubmit(onSubmit)();
-        }
-    };
 
     return (
         <Box>
-            <Box className={classes.orderRoot}>
-            { getCurrentStep(step) === -1 && <Redirect to={ '/home/orders' }/> }
-            <DocumentStepper activeStep={ getCurrentStep(step) } steps={ Object.values(stepLabelsMap) }/>
-            <Typography className={classes.newOrderLabel} variant="h5">{ titleLabel }</Typography>
-            <Divider/>
-            <Paper>
-                { errMessages.length > 0 && <ErrorMessages errors={ errMessages }/> }
-                <Box hidden={ step !== 'details' }>
-                    <RHFOrderDetails
-                        rhfRegister={ register }
-                        rhfErrors={ errors }
-                        rhfControl={ control }
-                        rhfGetValues={ getValues }
-                        rhfSetValue={ setValue }
-                        companyAddresses={ companyAddresses }
-                        companyPorts={ companyPorts }
-                        clientsMap={ clientsMap }
-                        fieldNames={ orderDetailsFieldNames }
-                    />
-                </Box>
-                <Box hidden={ step !== 'products' }>
-                    <RHFProductTable
-                        rhfRegister={ register }
-                        rhfErrors={ errors }
-                        rhfControl={ control }
-                        rhfSetValue={ setValue }
-                        rhfGetValues={ getValues }
-                        fieldNames={ productTableFieldNames }
-                        products={ products }
-                    />
-                </Box>
-            </Paper>
+            <Box className={ classes.orderRoot }>
+                { getCurrentStep(step) === -1 && <Redirect to={ '/home/orders' }/> }
+                <DocumentStepper activeStep={ getCurrentStep(step) } steps={ Object.values(stepLabelsMap) }/>
+                <Typography className={ classes.newOrderLabel } variant="h5">{ titleLabel }</Typography>
+                <Divider/>
+                <Paper>
+                    { step === 'details' && <CreateOrderDetails order={ order } setOrder={ setOrder }/> }
+                    { step === 'products' && <CreateOrderProducts order={ order } setOrder={ setOrder }/> }
+                </Paper>
             </Box>
-                <Footer
-                    prevLabel={ step === 'details' ? prevButtonLabel.details : prevButtonLabel.products }
-                    nextLabel={ step === 'details' ? nextButtonLabel.details : nextButtonLabel.products }
-                    onPrevClick={ onPrevClick }
-                    onNextClick={ onNextClick }
-                />
+
         </Box>
     )
-}
+});
+
+export default CreateOrder;

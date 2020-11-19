@@ -199,13 +199,13 @@ export const ENGLISH = {
                 products: 'Products',
             },
             titleLabel: 'New Order',
-            prevButtonLabel: {
-                details: 'Cancel',
-                products: 'Back: Details',
+            createOrderDetails: {
+                prevButtonLabel: 'Cancel',
+                nextButtonLabel: 'Next: Products'
             },
-            nextButtonLabel: {
-                details: 'Next: Products',
-                products: 'Submit',
+            createOrderProducts: {
+                prevButtonLabel: 'Back: Details',
+                nextButtonLabel: 'Submit'
             }
         },
         order: {
