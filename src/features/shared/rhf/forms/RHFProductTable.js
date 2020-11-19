@@ -11,7 +11,6 @@ import { Add as IconAdd, Close as IconClose } from '@material-ui/icons';
 import { getCurrencySymbol } from '../../utils/random.js';
 import UnitCounter from '../../classes/UnitCounter.js';
 import { roundToNDecimal } from '../../utils/format.js';
-import ErrorMessages from '../../components/ErrorMessages.js';
 import { defaultProductRowValues } from './util/constants.js';
 import TextArea from '../../inputs/TextArea.js';
 import CheckBox from '../../inputs/CheckBox.js';
@@ -82,9 +81,6 @@ const RHFProductTable = React.memo(function RHFProductTable(
             return temp;
         },
         [ordersMap]);
-
-    const errMessages = useMemo(() => Object.values(errors).map(err => err.message), [errors]);
-    const isError = useMemo(() => errMessages.length > 0, [errMessages]);
 
     const initialNumColumns = 8
         + (typeof custom1 === 'string' ? 1 : 0)
@@ -322,11 +318,6 @@ const RHFProductTable = React.memo(function RHFProductTable(
 
     return (
         <Grid container className={ className }>
-            { isError &&
-            <Grid container item justify="center" xs={ 12 }>
-                <ErrorMessages errors={ errMessages }/>
-            </Grid>
-            }
             <Grid container item justify="flex-end" xs={ 12 }>
                 <RHFAutoComplete
                     rhfControl={ control }

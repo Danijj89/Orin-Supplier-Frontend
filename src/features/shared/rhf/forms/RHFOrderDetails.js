@@ -274,18 +274,3 @@ RHFOrderDetails.propTypes = {
 };
 
 export default RHFOrderDetails;
-
-// { !isEdit &&
-// <Controller
-//     render={ props =>
-//         <SideDateField
-//             { ...props }
-//             label={ formLabels.date }
-//             error={ !!errors[fieldNames.date] }
-//             required
-//         />
-//     }
-//     name={ fieldNames.date }
-//     control={ control }
-//     rules={ { required: true } }
-// /> }
