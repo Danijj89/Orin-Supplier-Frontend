@@ -7,7 +7,12 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        marginLeft: theme.spacing(1)
+        minHeight: '250px',
+        marginLeft: theme.spacing(1),
+        [theme.breakpoints.down('md')]: {
+            marginLeft: theme.spacing(0),
+            marginBottom: theme.spacing(2),
+    },
     }
 }));
 
@@ -37,7 +42,7 @@ const DocumentStatusCard = React.memo(function DocumentStatusCard({ shipment }) 
             className={ classes.root }
             content={
                 <Grid container>
-                    <Grid container item md={6}>
+                    <Grid container item md={7}>
                         <DividerDataDisplay data={ data }/>
                     </Grid>
                 </Grid>

@@ -34,7 +34,11 @@ const useStyles = makeStyles((theme) => ({
     },
     navTabs: {
         marginTop: theme.spacing(5),
+    },
+    editShipmentButton: {
+        marginRight: theme.spacing(2),
     }
+
 }));
 
 
@@ -52,14 +56,14 @@ export default function Shipment() {
 
     return (
         <Grid container className={ classes.root }>
-            <Grid item lg={ 6 }>
+            <Grid item lg={ 6 } sm= {12}>
                 <ShipmentInfoCard shipment={ shipment }/>
             </Grid>
-            <Grid item lg={ 6 }>
+            <Grid item lg={ 6 } sm= {12}>
                 <DocumentStatusCard shipment={ shipment }/>
             </Grid>
             <Grid container item xs={ 12 } className={ classes.shipmentActions }>
-                <ThemedButton onClick={ onEditShipmentInfo }>
+                <ThemedButton className={classes.editShipmentButton} onClick={ onEditShipmentInfo }>
                     { editShipmentButtonLabel }
                 </ThemedButton>
                 <DocumentButton/>

@@ -388,8 +388,8 @@ export const ENGLISH = {
                     carrier: 'Forwarder',
                     pol: 'Port of Loading',
                     pod: 'Port of Destination',
-                    etd: 'Est. time of Departure',
-                    eta: 'Est. time of Arrival'
+                    etd: 'ETD',
+                    eta: 'ETA'
                 }
             },
             documentStatusCard: {
