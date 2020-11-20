@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Controller } from 'react-hook-form';
-import SideTextField from './SideTextField.js';
+import SideTextField from '../../inputs/SideTextField.js';
 import { KeyboardDatePicker } from '@material-ui/pickers';
 
 const RHFDateField = React.memo(function RHFDateField(

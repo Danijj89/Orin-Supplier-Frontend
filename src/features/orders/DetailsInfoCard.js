@@ -31,7 +31,7 @@ export default function DetailsInfoCard({ order }) {
     const leftData = [
         { label: orderReferenceLabel, value: order.ref },
         { label: companyLabel, value: formatAddress(order.fromAdd) },
-        { label: dateLabel, value: order.date },
+        { label: dateLabel, value: dateToLocaleDate(order.date) },
         { label: crdLabel, value: dateToLocaleDate(order.crd) },
         { label: incotermLabel, value: order.incoterm },
         { label: quantityLabel, value: UnitCounter.stringRep(order.totalQ) }

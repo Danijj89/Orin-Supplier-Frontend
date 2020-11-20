@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Controller } from 'react-hook-form';
 import { Autocomplete } from '@material-ui/lab';
-import SideTextArea from './SideTextArea.js';
+import SideTextArea from '../../inputs/SideTextArea.js';
 
 const RHFAutoComplete = React.memo(function RHFAutoComplete(
     {
