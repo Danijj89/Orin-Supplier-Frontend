@@ -240,7 +240,7 @@ const RHFMeasureTable = React.memo(function RHFMeasureTable(
             field: 'package',
             headerName: tableHeaderLabels.package,
             type: 'number',
-            width: 80
+            width: 100
         },
         {
             field: 'pUnit',
@@ -254,19 +254,19 @@ const RHFMeasureTable = React.memo(function RHFMeasureTable(
             field: 'netW',
             headerName: tableHeaderLabels.netW,
             type: 'number',
-            width: 80
+            width: 100
         },
         {
             field: 'grossW',
             headerName: tableHeaderLabels.grossW,
             type: 'number',
-            width: 80
+            width: 100
         },
         {
             field: 'dim',
             headerName: tableHeaderLabels.dim,
             type: 'number',
-            width: 80
+            width: 100
         }
     ]), [
         register,
@@ -377,7 +377,7 @@ RHFMeasureTable.propTypes = {
         weightUnit: PropTypes.string.isRequired,
         measurementUnit: PropTypes.string.isRequired,
         marks: PropTypes.string.isRequired
-    }),
+    }).isRequired,
     className: PropTypes.string
 };
 

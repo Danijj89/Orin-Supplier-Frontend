@@ -9,6 +9,7 @@ import { fetchShipments } from '../shipments/duck/thunks.js';
 import PackingList from './PackingList.js';
 import { selectClientDataStatus, selectClientError } from '../clients/duck/selectors.js';
 import { fetchClients } from '../clients/duck/thunks.js';
+import { cleanNewDocument } from './duck/slice.js';
 
 const PackingListContainer = React.memo(function PackingListContainer() {
     const dispatch = useDispatch();
@@ -28,12 +29,16 @@ const PackingListContainer = React.memo(function PackingListContainer() {
     const fetched = useRef(false);
     useEffect(() => {
         if (!fetched.current && companyId) {
+            dispatch(cleanNewDocument());
             if (shipmentDataStatus === 'IDLE') dispatch(fetchShipments({ companyId }));
             dispatch(fetchClients({ companyId }));
             fetched.current = true;
         }
     }, [dispatch, shipmentDataStatus, companyId]);
 
+    useEffect(() => {
+        return () => dispatch(cleanNewDocument());
+    }, [dispatch]);
 
     return (
         <>

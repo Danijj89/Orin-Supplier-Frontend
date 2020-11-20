@@ -78,18 +78,6 @@ export const shipmentToCommercialInvoice = (shipment) => ({
     custom2: shipment.ciCustom2
 });
 
-export const productTableItemsToDocItems = (tableItems) =>
-    tableItems.map(item => ({
-        ref: item.ref,
-        description: item.description,
-        quantity: item.quantity,
-        unit: item.unit,
-        price: item.price,
-        total: item.total,
-        ciCustom1: item.ciCustom1,
-        ciCustom2: item.ciCustom2
-    }));
-
 export const shipmentToPackingList = (shipment) => ({
     autoGenerateRef: true,
     ref: null,
@@ -97,6 +85,7 @@ export const shipmentToPackingList = (shipment) => ({
     consignee: shipment.consignee,
     consigneeAdd: shipment.consigneeAdd,
     notes: null,
+    items: shipment.items,
     measurementUnit: shipment.measurementUnit,
     weightUnit: shipment.weightUnit,
     package: shipment.package,

@@ -12,10 +12,9 @@ import useSessionStorage from '../shared/hooks/useSessionStorage.js';
 import { SESSION_NEW_DOCUMENT } from '../../app/sessionKeys.js';
 import {
     addressToDocAddress,
-    productTableItemsToDocItems, productTableItemsToItems,
     shipmentToCommercialInvoice
 } from '../shared/utils/entityConversion.js';
-import { cleanDocumentError, cleanNewDocument } from './duck/slice.js';
+import { cleanNewDocument } from './duck/slice.js';
 import { selectCompanyActiveAddresses } from '../home/duck/selectors.js';
 import { selectClientActiveAddresses, selectClientById } from '../clients/duck/selectors.js';
 import { findAddressFromAddresses } from '../shared/utils/addresses.js';
@@ -107,11 +106,8 @@ const CommercialInvoice = React.memo(function CommercialInvoice() {
             data.seller = shipment.seller;
             data.sellerAdd = addressToDocAddress(data.sellerAdd);
             data.consigneeAdd = addressToDocAddress(data.consigneeAdd);
-            data.docItems = productTableItemsToDocItems(data.items);
-            data.items = productTableItemsToItems(data.items, shipment._id);
             data.createdBy = userId;
             dispatch(createDocument({ id: shipment._id, doc: data }))
-            dispatch(cleanNewDocument());
             history.push(`/home/shipments/${ shipment._id }?tab=documents`);
         },
         [dispatch, shipment._id, shipment.seller, history, userId]);
@@ -122,7 +118,6 @@ const CommercialInvoice = React.memo(function CommercialInvoice() {
                 dispatch(cleanNewDocument());
                 history.push(`/home/shipments/${ shipment._id }`);
             } else {
-                dispatch(cleanDocumentError());
                 setCommercialInvoice(getValues());
                 setStep('details');
             }

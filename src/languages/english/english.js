@@ -454,7 +454,7 @@ export const ENGLISH = {
             detailsPrevButtonLabel: 'Cancel',
             detailsNextButtonLabel: 'Next',
             productsPrevButtonLabel: 'Details',
-            productsNextButtonLabel: 'Download',
+            productsNextButtonLabel: 'Generate',
             details: {
                 titleLabel: 'Commercial Invoice Details',
                 formLabels: {
@@ -471,8 +471,6 @@ export const ENGLISH = {
             }
         },
         pl: {
-            productsPrevButtonLabel: 'Details',
-            productsNextButtonLabel: 'Download',
             details: {
                 titleLabel: 'Packing List Details',
                 formLabels: {
@@ -486,6 +484,11 @@ export const ENGLISH = {
                 },
                 prevButtonLabel: 'Cancel',
                 nextButtonLabel: 'Next',
+            },
+            products: {
+                titleLabel: 'Packing List Products',
+                prevButtonLabel: 'Details',
+                nextButtonLabel: 'Generate',
             }
         }
     },
