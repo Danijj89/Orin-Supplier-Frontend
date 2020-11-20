@@ -89,3 +89,20 @@ export const productTableItemsToDocItems = (tableItems) =>
         ciCustom1: item.ciCustom1,
         ciCustom2: item.ciCustom2
     }));
+
+export const shipmentToPackingList = (shipment) => ({
+    autoGenerateRef: true,
+    ref: null,
+    sellerAdd: shipment.sellerAdd,
+    consignee: shipment.consignee,
+    consigneeAdd: shipment.consigneeAdd,
+    notes: null,
+    measurementUnit: shipment.measurementUnit,
+    weightUnit: shipment.weightUnit,
+    package: shipment.package,
+    netWeight: shipment.netWeight,
+    grossWeight: shipment.grossWeight,
+    dimension: shipment.dimension,
+    custom1: shipment.plCustom1,
+    custom2: shipment.plCustom2
+});

@@ -1,5 +1,6 @@
 
 export function isAddressEqualToDocAddress(address, docAddress) {
+    console.log(address, docAddress)
     return address._id === docAddress._id
         || address._id === docAddress.addressId;
 }

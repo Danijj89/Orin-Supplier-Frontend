@@ -104,6 +104,7 @@ const CommercialInvoice = React.memo(function CommercialInvoice() {
     const onSubmit = useCallback(
         (data) => {
             data.type = DOCUMENT_TYPE;
+            data.seller = shipment.seller;
             data.sellerAdd = addressToDocAddress(data.sellerAdd);
             data.consigneeAdd = addressToDocAddress(data.consigneeAdd);
             data.docItems = productTableItemsToDocItems(data.items);
@@ -113,7 +114,7 @@ const CommercialInvoice = React.memo(function CommercialInvoice() {
             dispatch(cleanNewDocument());
             history.push(`/home/shipments/${ shipment._id }?tab=documents`);
         },
-        [dispatch, shipment._id, history, userId]);
+        [dispatch, shipment._id, shipment.seller, history, userId]);
 
     const onPrevClick = useCallback(
         () => {
@@ -129,7 +130,7 @@ const CommercialInvoice = React.memo(function CommercialInvoice() {
         [history, dispatch, isDetailsStep, getValues, setCommercialInvoice, shipment._id]);
 
     const onNextClick = useCallback(
-        (data) => {
+        () => {
             if (isDetailsStep) {
                 setCommercialInvoice(getValues());
                 setStep('products');

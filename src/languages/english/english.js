@@ -469,6 +469,24 @@ export const ENGLISH = {
                     notes: 'Notes'
                 }
             }
+        },
+        pl: {
+            productsPrevButtonLabel: 'Details',
+            productsNextButtonLabel: 'Download',
+            details: {
+                titleLabel: 'Packing List Details',
+                formLabels: {
+                    autoGenerateRef: 'Auto-generate Invoice Number',
+                    ref: 'Invoice Number',
+                    sellerAdd: 'Seller Address',
+                    consignee: 'Client',
+                    consigneeAdd: 'Client Address',
+                    ciRef: 'Invoice Number',
+                    notes: 'Notes'
+                },
+                prevButtonLabel: 'Cancel',
+                nextButtonLabel: 'Next',
+            }
         }
     },
     shared: {
