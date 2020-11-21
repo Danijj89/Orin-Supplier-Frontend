@@ -42,7 +42,8 @@ const useStyles = makeStyles((theme) => ({
     bottomPanel: {
         display: 'flex',
         flexFlow: 'column',
-        flex: '1 1 auto'
+        flex: '1 1 auto',
+        justifyContent: 'center'
     }
 }));
 
