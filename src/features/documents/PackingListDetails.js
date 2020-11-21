@@ -9,7 +9,7 @@ import SideTextArea from '../shared/inputs/SideTextArea.js';
 import { LANGUAGE } from '../../app/constants.js';
 import { useForm } from 'react-hook-form';
 import { findAddressFromAddresses } from '../shared/utils/addresses.js';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { selectCompanyActiveAddresses } from '../home/duck/selectors.js';
 import { selectClientActiveAddresses, selectClientById } from '../clients/duck/selectors.js';
 import { selectShipmentCommercialInvoices } from '../shipments/duck/selectors.js';
@@ -28,13 +28,13 @@ const fieldNames = {
     ref: 'ref',
     sellerAdd: 'sellerAdd',
     consigneeAdd: 'consigneeAdd',
+    shipAdd: 'shipAdd',
     ciRef: 'ciRef',
     notes: 'notes'
 };
 
 const PackingListDetails = React.memo(function PackingListDetails(
     { packingList, setPackingList, shipmentId, setStep }) {
-    const dispatch = useDispatch();
     const history = useHistory();
     const companyAddresses = useSelector(selectCompanyActiveAddresses);
     const consignee = useSelector(state => selectClientById(state, packingList.consignee));
@@ -48,6 +48,7 @@ const PackingListDetails = React.memo(function PackingListDetails(
             [fieldNames.ref]: packingList.ref,
             [fieldNames.sellerAdd]: findAddressFromAddresses(packingList.sellerAdd, companyAddresses),
             [fieldNames.consigneeAdd]: findAddressFromAddresses(packingList.consigneeAdd, consigneeAddresses),
+            [fieldNames.shipAdd]: findAddressFromAddresses(packingList.shipAdd, consigneeAddresses),
             [fieldNames.ciRef]: commercialInvoices.length ? commercialInvoices[0] : null,
             [fieldNames.notes]: packingList.notes
         }
@@ -57,7 +58,6 @@ const PackingListDetails = React.memo(function PackingListDetails(
 
     const onPrevClick = () =>
         history.push(`/home/shipments/${ shipmentId }`);
-
 
     const onNextClick = (data) => {
         setPackingList(prev => ({ ...prev, ...data }));
@@ -107,6 +107,15 @@ const PackingListDetails = React.memo(function PackingListDetails(
                     getOptionSelected={ (option, value) => option._id === value._id }
                     rowsMax={ 8 }
                     required
+                />
+                <RHFAutoComplete
+                    rhfControl={ control }
+                    name={ fieldNames.shipAdd }
+                    label={ formLabels.shipAdd }
+                    options={ consigneeAddresses }
+                    getOptionLabel={ formatAddress }
+                    getOptionSelected={ (option, value) => option._id === value._id }
+                    rowsMax={ 8 }
                 />
                 <RHFAutoComplete
                     rhfControl={ control }

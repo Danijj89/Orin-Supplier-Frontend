@@ -85,6 +85,7 @@ export const shipmentToPackingList = (shipment) => ({
     sellerAdd: shipment.sellerAdd,
     consignee: shipment.consignee,
     consigneeAdd: shipment.consigneeAdd,
+    shipAdd: shipment.shipAdd,
     notes: null,
     items: shipment.items,
     measurementUnit: shipment.measurementUnit,

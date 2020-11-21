@@ -487,6 +487,7 @@ export const ENGLISH = {
                     sellerAdd: 'Seller Address',
                     consignee: 'Client',
                     consigneeAdd: 'Client Address',
+                    shipAdd: 'Shipping Address',
                     ciRef: 'Invoice Number',
                     notes: 'Notes'
                 },

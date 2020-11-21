@@ -78,6 +78,7 @@ const PackingListProducts = React.memo(function PackingListProducts(
         actualData.seller = companyId;
         actualData.sellerAdd = addressToDocAddress(actualData.sellerAdd);
         actualData.consigneeAdd = addressToDocAddress(actualData.consigneeAdd);
+        if (actualData.shipAdd) actualData.shipAdd = addressToDocAddress(actualData.shipAdd);
         actualData.ciRef = actualData.ciRef.ref;
         actualData.createdBy = userId;
         dispatch(createDocument({ id: shipmentId, doc: actualData }));
