@@ -43,7 +43,7 @@ const Client = React.memo(function Client() {
                 clientName={ client.name }
                 clientAddresses={ client.addresses }
                 clientDefaultAddress={ client.defaultAddress }
-                clientContact={ client.contact }
+                clientContacts={ client.contacts }
                 clientDefaultContact={ client.defaultContact }
                 clientOrders={ client.orders }
             />

@@ -14,7 +14,7 @@ const ClientInfoTable = React.memo(function ClientInfoTable(
         clientName,
         clientAddresses,
         clientDefaultAddress,
-        clientContact,
+        clientContacts,
         clientDefaultContact,
         clientOrders
     }) {
@@ -37,12 +37,12 @@ const ClientInfoTable = React.memo(function ClientInfoTable(
             { tabValue === 'contacts' &&
             <ClientContactsTable
                 clientId={ clientId }
-                clientContacts={ clientContact }
+                clientContacts={ clientContacts }
                 clientDefaultContact={ clientDefaultContact }
             /> }
             { tabValue === 'orders' &&
             <ClientOrdersTable
-                orders={ clientOrders }
+                clientOrders={ clientOrders }
             /> }
         </Paper>
     )
