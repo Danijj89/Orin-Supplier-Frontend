@@ -65,6 +65,7 @@ export const shipmentToCommercialInvoice = (shipment) => ({
     autoGenerateRef: true,
     ref: null,
     sellerAdd: shipment.sellerAdd,
+    consignee: shipment.consignee,
     consigneeAdd: shipment.consigneeAdd,
     coo: shipment.coo,
     clientRefs: shipment.clientRefs,

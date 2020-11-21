@@ -456,10 +456,6 @@ export const ENGLISH = {
     },
     documents: {
         ci: {
-            detailsPrevButtonLabel: 'Cancel',
-            detailsNextButtonLabel: 'Next',
-            productsPrevButtonLabel: 'Details',
-            productsNextButtonLabel: 'Generate',
             details: {
                 titleLabel: 'Commercial Invoice Details',
                 formLabels: {
@@ -472,7 +468,14 @@ export const ENGLISH = {
                     clientRefs: 'PO References',
                     payRefs: 'Payment References',
                     notes: 'Notes'
-                }
+                },
+                prevButtonLabel: 'Cancel',
+                nextButtonLabel: 'Next',
+            },
+            products: {
+                titleLabel: 'Commercial Invoice Products',
+                prevButtonLabel: 'Details',
+                nextButtonLabel: 'Generate',
             }
         },
         pl: {

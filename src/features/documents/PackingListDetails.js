@@ -13,7 +13,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectCompanyActiveAddresses } from '../home/duck/selectors.js';
 import { selectClientActiveAddresses, selectClientById } from '../clients/duck/selectors.js';
 import { selectShipmentCommercialInvoices } from '../shipments/duck/selectors.js';
-import { cleanNewDocument } from './duck/slice.js';
 import { useHistory } from 'react-router-dom';
 import Footer from '../shared/components/Footer.js';
 
@@ -54,12 +53,11 @@ const PackingListDetails = React.memo(function PackingListDetails(
         }
     });
 
-    const autoGenerateRef = watch('autoGenerateRef');
+    const autoGenerateRef = watch(fieldNames.autoGenerateRef);
 
-    const onPrevClick = () => {
-        dispatch(cleanNewDocument());
+    const onPrevClick = () =>
         history.push(`/home/shipments/${ shipmentId }`);
-    };
+
 
     const onNextClick = (data) => {
         setPackingList(prev => ({ ...prev, ...data }));
