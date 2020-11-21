@@ -273,6 +273,11 @@ export const ENGLISH = {
                     }
                 }
             },
+            orderDocuments: {
+                shipmentDocumentsCard: {
+                    titleLabel: 'Shipment No:',
+                }
+            },
             errorMessages: {
                 orderWasDeleted: 'The order you selected is no longer existent.'
             }

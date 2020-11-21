@@ -23,10 +23,17 @@ const useStyles = makeStyles((theme) => ({
 
 const { paginationAllLabel, rowsPerPageLabel } = LANGUAGE.shared.components.table;
 
-const ROW_HEIGHT = 69;
-
 const Table = React.memo(function Table(
-    { rows, columns, className, onRowClick, dense, disableRowHover, footer }) {
+    {
+        rows,
+        columns,
+        className,
+        onRowClick,
+        dense,
+        disableRowHover,
+        footer,
+        maxEmptyRows = 5
+    }) {
     const classes = useStyles();
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -34,16 +41,16 @@ const Table = React.memo(function Table(
         if (!col.hide) acc += 1;
         return acc;
     }, 0);
+    const rowHeight = dense ? 61 : 69;
 
     const emptyRows = useMemo(() => {
             const rowsInPage = rows.length - page * rowsPerPage;
-            const maxEmptyRows = 5;
             return Math.min(
                 maxEmptyRows - rowsInPage,
                 rowsPerPage
             );
         },
-        [rowsPerPage, page, rows.length]);
+        [rowsPerPage, page, rows.length, maxEmptyRows]);
 
     const onPageChange = (event, newPage) => setPage(newPage);
     const onRowsChangePerPage = (event) => {
@@ -143,7 +150,7 @@ const Table = React.memo(function Table(
                             : rows
                     ).map(renderRow) }
                     { emptyRows > 0 && (
-                        <TableRow style={ { height: ROW_HEIGHT * emptyRows } }>
+                        <TableRow style={ { height: rowHeight * emptyRows } }>
                             <TableCell colSpan={ numColumns }/>
                         </TableRow>
                     ) }
@@ -176,7 +183,8 @@ Table.propTypes = {
     onRowClick: PropTypes.func,
     dense: PropTypes.bool,
     disableRowHover: PropTypes.bool,
-    disablePagination: PropTypes.bool
+    disablePagination: PropTypes.bool,
+    maxEmptyRows: PropTypes.number
 };
 
 export default Table;

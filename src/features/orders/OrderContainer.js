@@ -16,6 +16,8 @@ import { fetchProducts } from '../products/duck/thunks.js';
 import Order from './Order.js';
 import { useParams } from 'react-router-dom';
 import { LANGUAGE } from '../../app/constants.js';
+import { selectShipmentDataStatus, selectShipmentError } from '../shipments/duck/selectors.js';
+import { fetchShipments } from '../shipments/duck/thunks.js';
 
 const {
     errorMessages
@@ -34,14 +36,18 @@ const OrderContainer = React.memo(function OrderContainer() {
     const clientError = useSelector(selectClientError);
     const productDataStatus = useSelector(selectProductDataStatus);
     const productError = useSelector(selectProductError);
+    const shipmentDataStatus = useSelector(selectShipmentDataStatus);
+    const shipmentError = useSelector(selectShipmentError);
+
     const status = determineStatus([
         orderDataStatus,
         homeStatus,
         userDataStatus,
         clientDataStatus,
-        productDataStatus
+        productDataStatus,
+        shipmentDataStatus
     ]);
-    const errors = [orderError, homeError, userError, clientError, productError];
+    const errors = [orderError, homeError, userError, clientError, productError, shipmentError];
 
     const companyId = useSelector(selectCompanyId);
     const order = useSelector(state => selectOrderById(state, id));
@@ -54,6 +60,7 @@ const OrderContainer = React.memo(function OrderContainer() {
             dispatch(fetchUsers({ companyId }));
             dispatch(fetchClients({ companyId }));
             dispatch(fetchProducts({ companyId }));
+            dispatch(fetchShipments({ companyId }));
             fetched.current = true;
         }
     }, [dispatch, orderDataStatus, companyId]);
