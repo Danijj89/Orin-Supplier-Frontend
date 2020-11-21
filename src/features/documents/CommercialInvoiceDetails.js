@@ -5,12 +5,12 @@ import { useWatch } from 'react-hook-form';
 import SideTextField from '../shared/inputs/SideTextField.js';
 import { formatAddress } from '../shared/utils/format.js';
 import SideTextArea from '../shared/inputs/SideTextArea.js';
-import CheckBox from '../shared/inputs/CheckBox.js';
+import RHFCheckBox from '../shared/rhf/inputs/RHFCheckBox.js';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
-import RHFAutoComplete from '../shared/inputs/RHFAutoComplete.js';
+import RHFAutoComplete from '../shared/rhf/inputs/RHFAutoComplete.js';
 import { isAddressEqualToDocAddress } from '../shared/utils/addresses.js';
 
 const {
@@ -49,11 +49,10 @@ const CommercialInvoiceDetails = React.memo(function CommercialInvoiceDetails(
             </Grid>
             <Grid item>
                 <FormContainer>
-                    <CheckBox
+                    <RHFCheckBox
                         name={ fieldNames.autoGenerateRef }
                         label={ formLabels.autoGenerateRef }
-                        inputRef={ register }
-                        checked
+                        rhfControl={ control }
                     />
                     <SideTextField
                         name={ fieldNames.ref }

@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import SideTextField from '../inputs/SideTextField.js';
 import { LANGUAGE } from '../../../app/constants.js';
 import PropTypes from 'prop-types';
-import CheckBox from '../inputs/CheckBox.js';
+import RHFCheckBox from '../rhf/inputs/RHFCheckBox.js';
 
 const {
     autoGenerateLabel,
@@ -19,7 +19,7 @@ const {
 export default function ProductDialog(
     { isOpen, onSubmit, onCancel, submitLabel, product, titleLabel, onDelete, isEdit }) {
 
-    const { register, errors, handleSubmit, reset, watch } = useForm({
+    const { register, control, errors, handleSubmit, reset, watch } = useForm({
         mode: 'onSubmit'
     });
 
@@ -49,10 +49,10 @@ export default function ProductDialog(
             deleteMessage={ deleteMessage }
         >
             { !isEdit &&
-            <CheckBox
+            <RHFCheckBox
                 name="autoGenerate"
                 label={ autoGenerateLabel }
-                inputRef={ register }
+                rhfControl={ control }
             /> }
             <SideTextField
                 label={ skuLabel }

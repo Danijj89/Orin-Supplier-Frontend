@@ -65,18 +65,15 @@ const CreateOrder = React.memo(function CreateOrder() {
     const [order, setOrder] = useSessionStorage(SESSION_NEW_ORDER, newOrder);
 
     return (
-        <Box>
-            <Box className={ classes.orderRoot }>
-                { getCurrentStep(step) === -1 && <Redirect to={ '/home/orders' }/> }
-                <DocumentStepper activeStep={ getCurrentStep(step) } steps={ Object.values(stepLabelsMap) }/>
-                <Typography className={ classes.newOrderLabel } variant="h5">{ titleLabel }</Typography>
-                <Divider/>
-                <Paper>
-                    { step === 'details' && <CreateOrderDetails order={ order } setOrder={ setOrder }/> }
-                    { step === 'products' && <CreateOrderProducts order={ order } setOrder={ setOrder }/> }
-                </Paper>
-            </Box>
-
+        <Box className={ classes.orderRoot }>
+            { getCurrentStep(step) === -1 && <Redirect to={ '/home/orders' }/> }
+            <DocumentStepper activeStep={ getCurrentStep(step) } steps={ Object.values(stepLabelsMap) }/>
+            <Typography className={ classes.newOrderLabel } variant="h5">{ titleLabel }</Typography>
+            <Divider/>
+            <Paper>
+                { step === 'details' && <CreateOrderDetails order={ order } setOrder={ setOrder }/> }
+                { step === 'products' && <CreateOrderProducts order={ order } setOrder={ setOrder }/> }
+            </Paper>
         </Box>
     )
 });

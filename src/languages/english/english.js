@@ -273,6 +273,11 @@ export const ENGLISH = {
                     }
                 }
             },
+            orderDocuments: {
+                shipmentDocumentsCard: {
+                    titleLabel: 'Shipment No:',
+                }
+            },
             errorMessages: {
                 orderWasDeleted: 'The order you selected is no longer existent.'
             }
@@ -454,7 +459,7 @@ export const ENGLISH = {
             detailsPrevButtonLabel: 'Cancel',
             detailsNextButtonLabel: 'Next',
             productsPrevButtonLabel: 'Details',
-            productsNextButtonLabel: 'Download',
+            productsNextButtonLabel: 'Generate',
             details: {
                 titleLabel: 'Commercial Invoice Details',
                 formLabels: {
@@ -468,6 +473,27 @@ export const ENGLISH = {
                     payRefs: 'Payment References',
                     notes: 'Notes'
                 }
+            }
+        },
+        pl: {
+            details: {
+                titleLabel: 'Packing List Details',
+                formLabels: {
+                    autoGenerateRef: 'Auto-generate Invoice Number',
+                    ref: 'Invoice Number',
+                    sellerAdd: 'Seller Address',
+                    consignee: 'Client',
+                    consigneeAdd: 'Client Address',
+                    ciRef: 'Invoice Number',
+                    notes: 'Notes'
+                },
+                prevButtonLabel: 'Cancel',
+                nextButtonLabel: 'Next',
+            },
+            products: {
+                titleLabel: 'Packing List Products',
+                prevButtonLabel: 'Details',
+                nextButtonLabel: 'Generate',
             }
         }
     },

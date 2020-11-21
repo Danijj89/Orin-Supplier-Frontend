@@ -1,22 +1,17 @@
-import React, { useEffect, useMemo, useRef } from 'react';
-import CommercialInvoice from './CommercialInvoice.js';
+import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCompanyId, selectHomeError, selectHomeStatus } from '../home/duck/selectors.js';
+import { selectShipmentDataStatus, selectShipmentError } from '../shipments/duck/selectors.js';
 import { determineStatus } from '../shared/utils/state.js';
-import Loader from '../shared/components/Loader.js';
 import ErrorPage from '../shared/components/ErrorPage.js';
-import {
-    selectShipmentDataStatus,
-    selectShipmentError
-} from '../shipments/duck/selectors.js';
+import Loader from '../shared/components/Loader.js';
 import { fetchShipments } from '../shipments/duck/thunks.js';
+import PackingList from './PackingList.js';
 import { selectClientDataStatus, selectClientError } from '../clients/duck/selectors.js';
 import { fetchClients } from '../clients/duck/thunks.js';
 import { cleanNewDocument } from './duck/slice.js';
-import { selectOrderDataStatus, selectOrderError } from '../orders/duck/selectors.js';
-import { fetchOrders } from '../orders/duck/thunks.js';
 
-const CommercialInvoiceContainer = React.memo(function CommercialInvoiceContainer() {
+const PackingListContainer = React.memo(function PackingListContainer() {
     const dispatch = useDispatch();
 
     const homeStatus = useSelector(selectHomeStatus);
@@ -25,23 +20,9 @@ const CommercialInvoiceContainer = React.memo(function CommercialInvoiceContaine
     const shipmentError = useSelector(selectShipmentError);
     const clientDataStatus = useSelector(selectClientDataStatus);
     const clientError = useSelector(selectClientError);
-    const orderDataStatus = useSelector(selectOrderDataStatus);
-    const orderError = useSelector(selectOrderError);
 
-    const errors = useMemo(() => [homeError, shipmentError, clientError, orderError],
-        [homeError, shipmentError, clientError, orderError]);
-
-    const status = useMemo(() => determineStatus([
-        homeStatus,
-        shipmentDataStatus,
-        clientDataStatus,
-        orderDataStatus
-    ]), [
-        homeStatus,
-        shipmentDataStatus,
-        clientDataStatus,
-        orderDataStatus
-    ]);
+    const status = determineStatus([homeStatus, shipmentDataStatus, clientDataStatus]);
+    const errors = [homeError, shipmentError, clientError];
 
     const companyId = useSelector(selectCompanyId);
 
@@ -51,10 +32,9 @@ const CommercialInvoiceContainer = React.memo(function CommercialInvoiceContaine
             dispatch(cleanNewDocument());
             if (shipmentDataStatus === 'IDLE') dispatch(fetchShipments({ companyId }));
             dispatch(fetchClients({ companyId }));
-            dispatch(fetchOrders({ companyId }));
             fetched.current = true;
         }
-    }, [dispatch, companyId, shipmentDataStatus]);
+    }, [dispatch, shipmentDataStatus, companyId]);
 
     useEffect(() => {
         return () => dispatch(cleanNewDocument());
@@ -64,9 +44,9 @@ const CommercialInvoiceContainer = React.memo(function CommercialInvoiceContaine
         <>
             { status === 'REJECTED' && <ErrorPage errors={ errors }/> }
             { status === 'PENDING' && <Loader/> }
-            { status === 'FULFILLED' && <CommercialInvoice/> }
+            { status === 'FULFILLED' && <PackingList/> }
         </>
     )
 });
 
-export default CommercialInvoiceContainer;
+export default PackingListContainer;

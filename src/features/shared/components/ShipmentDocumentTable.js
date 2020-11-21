@@ -1,32 +1,32 @@
 import React, { useCallback } from 'react';
-import { useParams } from 'react-router-dom';
-import Table from '../shared/components/Table.js';
+import PropTypes from 'prop-types';
+import Table from './Table.js';
 import { useSelector } from 'react-redux';
-import { selectShipmentDocuments } from './duck/selectors.js';
-import { LANGUAGE } from '../../app/constants.js';
+import { selectShipmentDocuments } from '../../shipments/duck/selectors.js';
+import { LANGUAGE } from '../../../app/constants.js';
 import { GetApp as IconDownload } from '@material-ui/icons';
 import { IconButton } from '@material-ui/core';
-import { documentTypesOptions } from '../shared/constants.js';
-import { selectUsersMap } from '../users/duck/selectors.js';
-import { dateToLocaleDate } from '../shared/utils/format.js';
-import DocumentService from '../api/DocumentService.js';
-import { downloadFile } from '../shared/utils/file.js';
+import { documentTypesOptions } from '../constants.js';
+import { selectUsersMap } from '../../users/duck/selectors.js';
+import { dateToLocaleDate } from '../utils/format.js';
+import DocumentService from '../../api/DocumentService.js';
+import { downloadFile } from '../utils/file.js';
 
 const {
     tableHeaderLabelsMap
 } = LANGUAGE.shipment.shipment.shipmentDocumentTable;
 
-const ShipmentDocumentTable = React.memo(function ShipmentDocumentTable() {
-    const { id } = useParams();
-    const documents = useSelector(state => selectShipmentDocuments(state, id));
+const ShipmentDocumentTable = React.memo(function ShipmentDocumentTable(
+    { shipmentId, maxEmptyRows, className }) {
+    const documents = useSelector(state => selectShipmentDocuments(state, shipmentId));
     const usersMap = useSelector(selectUsersMap);
 
     const onDownload = useCallback(
         async (documentId, fileName, ext) => {
-            const file = await DocumentService.downloadShipmentDocument(id, documentId, ext);
+            const file = await DocumentService.downloadShipmentDocument(shipmentId, documentId, ext);
             downloadFile(file, fileName);
         },
-        [id]);
+        [shipmentId]);
 
     const columns = [
         { field: 'id', hide: true },
@@ -38,7 +38,10 @@ const ShipmentDocumentTable = React.memo(function ShipmentDocumentTable() {
             field: 'excel',
             headerName: tableHeaderLabelsMap.excel,
             renderCell: (params) =>
-                <IconButton onClick={ () => onDownload(params.id, params.fileName, 'xlsx') }>
+                <IconButton
+                    onClick={ () => onDownload(params.id, params.fileName, 'xlsx') }
+                    size="small"
+                >
                     <IconDownload/>
                 </IconButton>,
             align: 'center',
@@ -48,7 +51,10 @@ const ShipmentDocumentTable = React.memo(function ShipmentDocumentTable() {
             field: 'pdf',
             headerName: tableHeaderLabelsMap.pdf,
             renderCell: (params) =>
-                <IconButton onClick={ () => onDownload(params.id, params.fileName, 'pdf') }>
+                <IconButton
+                    onClick={ () => onDownload(params.id, params.fileName, 'pdf') }
+                    size="small"
+                >
                     <IconDownload/>
                 </IconButton>,
             align: 'center',
@@ -66,9 +72,21 @@ const ShipmentDocumentTable = React.memo(function ShipmentDocumentTable() {
     }));
 
     return (
-        <Table rows={ rows } columns={ columns }/>
-    )
+        <Table
+            rows={ rows }
+            columns={ columns }
+            dense
+            maxEmptyRows={ maxEmptyRows }
+            className={ className }
+        />
+    );
 });
+
+ShipmentDocumentTable.propTypes = {
+    shipmentId: PropTypes.string.isRequired,
+    maxEmptyRows: PropTypes.number,
+    className: PropTypes.string
+};
 
 export default ShipmentDocumentTable;
 

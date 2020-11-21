@@ -14,8 +14,8 @@ import { roundToNDecimal } from '../../utils/format.js';
 import ErrorMessages from '../../components/ErrorMessages.js';
 import { defaultProductRowValues } from './util/constants.js';
 import TextArea from '../../inputs/TextArea.js';
-import CheckBox from '../../inputs/CheckBox.js';
-import RHFAutoComplete from '../../inputs/RHFAutoComplete.js';
+import RHFCheckBox from '../inputs/RHFCheckBox.js';
+import RHFAutoComplete from '../inputs/RHFAutoComplete.js';
 
 const {
     formLabels,
@@ -337,10 +337,10 @@ const RHFProductTable = React.memo(function RHFProductTable(
                     required={ errorMessages.missingCurrency }
                 />
                 { !isEdit &&
-                <CheckBox
+                <RHFCheckBox
                     name={ fieldNames.saveItems }
                     label={ formLabels.saveItems }
-                    inputRef={ register }
+                    rhfControl={ control }
                 /> }
             </Grid>
             <Grid item xs={ 12 }>

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Checkbox, FormControlLabel } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
+import { Controller } from 'react-hook-form';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -13,37 +14,42 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const CheckBox = React.memo(function CheckBox(
+const RHFCheckBox = React.memo(function RHFCheckBox(
     {
         name,
         label,
+        rhfControl: control,
         labelPlacement = 'start',
-        inputRef,
-        checked,
         className
     }) {
     const classes = useStyles();
 
     return (
-        <FormControlLabel
-            control={ <Checkbox color="primary" defaultChecked={ checked }/> }
+        <Controller
             name={ name }
-            label={ label }
-            labelPlacement={ labelPlacement }
-            inputRef={ inputRef }
-            className={ clsx(classes.root, className) }
+            render={ ({ onChange, value, ...rest }) =>
+                <FormControlLabel
+                    { ...rest }
+                    control={ <Checkbox color="primary"/> }
+                    label={ label }
+                    labelPlacement={ labelPlacement }
+                    className={ clsx(classes.root, className) }
+                    onChange={ e => onChange(e.target.checked) }
+                    checked={ value }
+                />
+            }
+            control={ control }
         />
     )
 });
 
-CheckBox.propTypes = {
+RHFCheckBox.propTypes = {
     name: PropTypes.string.isRequired,
     label: PropTypes.node.isRequired,
-    inputRef: PropTypes.func.isRequired,
+    rhfControl: PropTypes.object,
     labelPlacement: PropTypes.oneOf(['bottom', 'end', 'start', 'top']),
-    checked: PropTypes.bool,
     className: PropTypes.string
 };
 
-export default CheckBox;
+export default RHFCheckBox;
 

@@ -1,4 +1,5 @@
 import { shipmentsAdapter } from './slice.js';
+import { createSelector } from '@reduxjs/toolkit';
 
 export const selectShipmentStatus = state => state.shipments.status;
 export const selectShipmentDataStatus = state => state.shipments.dataStatus;
@@ -20,6 +21,10 @@ export const selectOrderShipmentItemMap = state => {
 };
 
 export const selectShipmentDocuments = (state, id) => state.shipments.entities[id].documents;
+export const selectShipmentCommercialInvoices = createSelector(
+    (state, id) => state.shipments.entities[id].documents,
+    documents => documents.filter(doc => doc.type === 'CI' && doc.active)
+);
 
 export const {
     selectAll: selectAllShipments,
