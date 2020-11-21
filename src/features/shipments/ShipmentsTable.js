@@ -2,7 +2,7 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectAllShipments } from './duck/selectors.js';
-import Table from '../shared/components/Table.js';
+import Table from '../shared/components/table/Table.js';
 import { LANGUAGE } from '../../app/constants.js';
 
 const { tableHeadersMap } = LANGUAGE.shipment.overview.shipmentsTable;

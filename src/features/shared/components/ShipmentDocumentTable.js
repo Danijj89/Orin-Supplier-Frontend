@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-import Table from './Table.js';
+import Table from './table/Table.js';
 import { useSelector } from 'react-redux';
 import { selectShipmentDocuments } from '../../shipments/duck/selectors.js';
 import { LANGUAGE } from '../../../app/constants.js';

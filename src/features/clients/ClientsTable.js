@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { ChatBubble as IconChatFull, ChatBubbleOutline as IconChatEmpty } from '@material-ui/icons';
 import { LANGUAGE } from '../../app/constants.js';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
-import Table from '../shared/components/Table.js';
+import Table from '../shared/components/table/Table.js';
 import { useSelector } from 'react-redux';
 import { selectAllClients } from './duck/selectors.js';
 

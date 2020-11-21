@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Table from '../shared/components/Table.js';
+import Table from '../shared/components/table/Table.js';
 import { LANGUAGE } from '../../app/constants.js';
 import ProductDialog from '../shared/forms/ProductDialog.js';
 import { useDispatch } from 'react-redux';

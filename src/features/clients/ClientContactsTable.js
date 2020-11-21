@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { LANGUAGE } from '../../app/constants.js';
-import Table from '../shared/components/Table.js';
+import Table from '../shared/components/table/Table.js';
 import { Box } from '@material-ui/core';
 import ContactDialog from '../shared/forms/ContactDialog.js';
 import { useDispatch } from 'react-redux';

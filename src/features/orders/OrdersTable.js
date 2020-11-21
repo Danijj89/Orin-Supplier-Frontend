@@ -1,6 +1,6 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import Table from '../shared/components/Table.js';
+import Table from '../shared/components/table/Table.js';
 import { LANGUAGE } from '../../app/constants.js';
 import UnitCounter from '../shared/classes/UnitCounter.js';
 import { dateToLocaleDate } from '../shared/utils/format.js';

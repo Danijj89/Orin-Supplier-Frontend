@@ -1,5 +1,5 @@
 import React from 'react';
-import Table from '../shared/components/Table.js';
+import Table from '../shared/components/table/Table.js';
 import { LANGUAGE } from '../../app/constants.js';
 import UnitCounter from '../shared/classes/UnitCounter.js';
 import { getCurrencySymbol } from '../shared/utils/random.js';

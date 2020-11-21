@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectCurrentCompany } from '../home/duck/selectors.js';
 import { selectClientsMap } from '../clients/duck/selectors.js';
 import { selectOrdersMap } from '../orders/duck/selectors.js';
-import Table from '../shared/components/Table.js';
+import Table from '../shared/components/table/Table.js';
 import StatusDisplay from '../orders/StatusDisplay.js';
 import UnitCounter from '../shared/classes/UnitCounter.js';
 import { makeStyles } from '@material-ui/core/styles';

@@ -3,17 +3,20 @@ import PropTypes from 'prop-types';
 import {
     Table as MuiTable,
     TableContainer,
-    TableHead,
     TableCell,
     TableRow,
     TableBody,
     TableFooter,
     TablePagination
 } from '@material-ui/core';
-import { LANGUAGE } from '../../../app/constants.js';
+import { LANGUAGE } from '../../../../app/constants.js';
 import { makeStyles } from '@material-ui/core/styles';
+import TableHeader from './TableHeader.js';
 
 const useStyles = makeStyles((theme) => ({
+    table: {
+        minWidth: 1000
+    },
     footerCell: {
         fontWeight: 'bold',
         fontSize: '1rem',
@@ -22,6 +25,32 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const { paginationAllLabel, rowsPerPageLabel } = LANGUAGE.shared.components.table;
+
+function descendingComparator(a, b, orderBy) {
+    if (b[orderBy] < a[orderBy]) {
+        return -1;
+    }
+    if (b[orderBy] > a[orderBy]) {
+        return 1;
+    }
+    return 0;
+}
+
+function getComparator(order, orderBy) {
+    return order === 'desc'
+        ? (a, b) => descendingComparator(a, b, orderBy)
+        : (a, b) => -descendingComparator(a, b, orderBy);
+}
+
+function stableSort(array, comparator) {
+    const stabilizedThis = array.map((el, index) => [el, index]);
+    stabilizedThis.sort((a, b) => {
+        const order = comparator(a[0], b[0]);
+        if (order !== 0) return order;
+        return a[1] - b[1];
+    });
+    return stabilizedThis.map((el) => el[0]);
+}
 
 const Table = React.memo(function Table(
     {
@@ -35,6 +64,8 @@ const Table = React.memo(function Table(
         maxEmptyRows = 5
     }) {
     const classes = useStyles();
+    const [order, setOrder] = React.useState('asc');
+    const [orderBy, setOrderBy] = React.useState();
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const numColumns = columns.reduce((acc, col) => {
@@ -52,6 +83,12 @@ const Table = React.memo(function Table(
         },
         [rowsPerPage, page, rows.length, maxEmptyRows]);
 
+    const onSort = (field) => {
+        const isAsc = orderBy === field && order === 'asc';
+        setOrder(isAsc ? 'desc' : 'asc');
+        setOrderBy(field);
+    }
+
     const onPageChange = (event, newPage) => setPage(newPage);
     const onRowsChangePerPage = (event) => {
         setRowsPerPage(parseInt(event.target.value, 10));
@@ -61,31 +98,6 @@ const Table = React.memo(function Table(
     const onRowClicked = (row) => {
         if (onRowClick) return onRowClick(row);
     };
-
-    const renderColumn = (column) => {
-        if (column.hide) return null;
-        if (column.renderHeader) {
-            return (
-                <TableCell
-                    key={ column.field }
-                    width={ column.width }
-                    align={ column.align }
-                >
-                    { column.renderHeader() }
-                </TableCell>
-            );
-        }
-        return (
-            <TableCell
-                key={ column.field }
-                width={ column.width }
-                align={ column.align }
-            >
-                { column.headerName }
-            </TableCell>
-        );
-    };
-
 
     const renderRow = (row, index) => {
         const currRow = columns.map(column => {
@@ -135,19 +147,20 @@ const Table = React.memo(function Table(
             ) }
         </TableRow>;
 
-
     return (
         <TableContainer className={ className }>
             <MuiTable stickyHeader size={ dense && 'small' }>
-                <TableHead>
-                    <TableRow>
-                        { columns.map(renderColumn) }
-                    </TableRow>
-                </TableHead>
+                <TableHeader
+                    columns={ columns }
+                    order={ order }
+                    orderBy={ orderBy }
+                    onSort={ onSort }
+                />
                 <TableBody>
                     { (rowsPerPage > 0
-                            ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                            : rows
+                            ? stableSort(rows, getComparator(order, orderBy))
+                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                            : stableSort(rows, getComparator(order, orderBy))
                     ).map(renderRow) }
                     { emptyRows > 0 && (
                         <TableRow style={ { height: rowHeight * emptyRows } }>
