@@ -252,6 +252,14 @@ export const ENGLISH = {
                         buttonLabel: 'Edit',
                         titleLabel: 'Order Status',
                         submitLabel: 'Update'
+                    },
+                    orderStatusDialog: {
+                        procurementTitleLabel: 'Procurement',
+                        productionTitleLabel: 'Production',
+                        qaTitleLabel: 'QA',
+                        statusLabel: 'Status',
+                        estimatedLabel: 'Estimated',
+                        actualLabel: 'Actual'
                     }
                 },
                 notesLabel: 'Notes',
@@ -568,14 +576,6 @@ export const ENGLISH = {
             },
             orderDetailsDialog: {
                 deleteMessage: 'Are you sure you want to delete this order?'
-            },
-            orderStatusDialog: {
-                procurementTitleLabel: 'Procurement',
-                productionTitleLabel: 'Production',
-                qaTitleLabel: 'QA',
-                statusLabel: 'Status',
-                estimatedLabel: 'Estimated',
-                actualLabel: 'Actual'
             }
         },
         rhf: {
