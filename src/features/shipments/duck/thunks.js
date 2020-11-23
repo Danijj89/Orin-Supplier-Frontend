@@ -37,7 +37,7 @@ export const updateShipmentShell = createAsyncThunk('shipments/updateShipmentShe
         }
     });
 
-export const updateShipmentInfo = createAsyncThunk('shipment/updateShipmentInfo',
+export const updateShipmentInfo = createAsyncThunk('shipments/updateShipmentInfo',
     async ({ id, ...update }, { rejectWithValue }) => {
         try {
             await ShipmentService.updateShipmentInfo(id, update);
@@ -47,7 +47,7 @@ export const updateShipmentInfo = createAsyncThunk('shipment/updateShipmentInfo'
         }
     });
 
-export const updateShipment = createAsyncThunk('shipment/updateShipment',
+export const updateShipment = createAsyncThunk('shipments/updateShipment',
     async ({ id, update }, { rejectWithValue }) => {
         try {
             return await ShipmentService.updateShipment(id, update);
@@ -56,10 +56,20 @@ export const updateShipment = createAsyncThunk('shipment/updateShipment',
         }
     });
 
-export const createDocument = createAsyncThunk('shipment/createDocument',
+export const createDocument = createAsyncThunk('shipments/createDocument',
     async ({ id, doc }, { rejectWithValue }) => {
         try {
             return await ShipmentService.createDocument(id, doc);
+        } catch (err) {
+            return rejectWithValue(err.response.data);
+        }
+    });
+
+export const deleteShipment = createAsyncThunk('shipments/deleteShipment',
+    async ({ shipmentId }, { rejectWithValue }) => {
+        try {
+            await ShipmentService.deleteShipment(shipmentId);
+            return shipmentId;
         } catch (err) {
             return rejectWithValue(err.response.data);
         }

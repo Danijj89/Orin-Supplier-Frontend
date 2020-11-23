@@ -418,6 +418,7 @@ export const ENGLISH = {
         editShipment: {
             titleLabel: 'Shipment Information',
             cancelButtonLabel: 'Cancel',
+            deleteMessage: 'Are you sure you want to delete this shipment?',
             tabsLabelsMap: {
                 shipment: 'Shipment',
                 products: 'Products',

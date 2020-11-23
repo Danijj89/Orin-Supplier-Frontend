@@ -1,7 +1,7 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import {
     createDocument,
-    createShipment,
+    createShipment, deleteShipment,
     fetchShipmentById,
     fetchShipments, updateShipment,
     updateShipmentInfo,
@@ -78,7 +78,7 @@ const shipmentsSlice = createSlice({
             const { _id, ...changes } = action.payload;
             shipmentsAdapter.updateOne(state, { id: _id, changes });
             state.currentShipmentId = _id;
-            state.status = 'FULFILLED';
+            state.status = 'IDLE';
         },
         [updateShipmentShell.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -90,7 +90,7 @@ const shipmentsSlice = createSlice({
         [updateShipmentInfo.fulfilled]: (state, action) => {
             const { id, update: changes } = action.payload;
             shipmentsAdapter.updateOne(state, { id, changes });
-            state.status = 'FULFILLED';
+            state.status = 'IDLE';
         },
         [updateShipmentInfo.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -102,7 +102,7 @@ const shipmentsSlice = createSlice({
         [updateShipment.fulfilled]: (state, action) => {
             const { _id, ...changes } = action.payload;
             shipmentsAdapter.updateOne(state, { id: _id, changes });
-            state.status = 'FULFILLED';
+            state.status = 'IDLE';
         },
         [updateShipment.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -114,9 +114,20 @@ const shipmentsSlice = createSlice({
         [createDocument.fulfilled]: (state, action) => {
             const { _id, ...changes } = action.payload;
             shipmentsAdapter.updateOne(state, { id: _id, changes });
-            state.status = 'FULFILLED';
+            state.status = 'IDLE';
         },
         [createDocument.rejected]: (state, action) => {
+            state.status = 'REJECTED';
+            state.error = action.payload.message;
+        },
+        [deleteShipment.pending]: (state, action) => {
+            state.status = 'PENDING';
+        },
+        [deleteShipment.fulfilled]: (state, action) => {
+            shipmentsAdapter.updateOne(state, { id: action.payload, changes: { active: false } });
+            state.status = 'IDLE';
+        },
+        [deleteShipment.rejected]: (state, action) => {
             state.status = 'REJECTED';
             state.error = action.payload.message;
         }

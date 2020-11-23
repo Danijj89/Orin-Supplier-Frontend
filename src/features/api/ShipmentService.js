@@ -71,6 +71,15 @@ const createDocument = async (id, doc) => {
     return data;
 };
 
+const deleteShipment = async (id) => {
+    const configs = {
+        method: 'delete',
+        url: `shipments/${id}`
+    };
+    const { data } = await fetchWithAuth(configs);
+    return data;
+};
+
 const ShipmentService = {
     createShipment,
     fetchShipments,
@@ -78,7 +87,8 @@ const ShipmentService = {
     updateShipmentShell,
     updateShipmentInfo,
     updateShipment,
-    createDocument
+    createDocument,
+    deleteShipment
 };
 
 export default ShipmentService;

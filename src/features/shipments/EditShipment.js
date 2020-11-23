@@ -17,6 +17,9 @@ import ShipmentConsolidationTable from './ShipmentConsolidationTable.js';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
+import Grid from '@material-ui/core/Grid';
+import DeleteButton from '../shared/buttons/DeleteButton.js';
+import { deleteShipment } from './duck/thunks.js';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -38,7 +41,8 @@ const {
     titleLabel,
     cancelButtonLabel,
     tabsLabelsMap,
-    successMessage
+    successMessage,
+    deleteMessage
 } = LANGUAGE.shipment.editShipment;
 
 const EditShipment = React.memo(function EditShipment() {
@@ -52,6 +56,10 @@ const EditShipment = React.memo(function EditShipment() {
 
     const [tabValue, setTabValue] = useState('shipment');
 
+    useEffect(() => {
+        dispatch(cleanShipmentStatus());
+    }, [dispatch]);
+
     const onTabChange = useCallback(
         (newTab) => {
             setTabValue(newTab);
@@ -63,27 +71,42 @@ const EditShipment = React.memo(function EditShipment() {
         () => history.goBack(),
         [history]);
 
-    useEffect(() => {
-        dispatch(cleanShipmentStatus());
-    }, [dispatch]);
+    const onDelete = useCallback(
+        () => {
+            dispatch(deleteShipment({ shipmentId: id}));
+            history.push('/home/shipments');
+        },
+        [history, dispatch, id]);
 
     return (
         <Box className={ classes.container }>
             <Card>
-                <ThemedButton
-                    onClick={ onCancel }
-                    variant="outlined"
-                    className={ classes.cancelButton }
-                >{ cancelButtonLabel }</ThemedButton>
-                <Typography variant="h5">{ titleLabel }</Typography>
-                <NavTabs
-                    tabsLabelsMap={ tabsLabelsMap }
-                    tabValue={ tabValue }
-                    onChange={ onTabChange }
-                />
-                { shipmentStatus === 'REJECTED' && <ErrorMessages errors={ [shipmentError] }/> }
-                { shipmentStatus === 'FULFILLED' && <SuccessMessage message={ successMessage }/> }
-                { shipmentStatus === 'PENDING' && <Loader/> }
+                <Grid container>
+                    <Grid container item justify="space-between">
+                        <ThemedButton
+                            onClick={ onCancel }
+                            variant="outlined"
+                            className={ classes.cancelButton }
+                        >{ cancelButtonLabel }</ThemedButton>
+                        <DeleteButton
+                            onDelete={ onDelete }
+                            deleteMessage={deleteMessage }
+                        />
+                    </Grid>
+                    <Grid item>
+                        <Typography variant="h5">{ titleLabel }</Typography>
+                    </Grid>
+                    <Grid item>
+                        <NavTabs
+                            tabsLabelsMap={ tabsLabelsMap }
+                            tabValue={ tabValue }
+                            onChange={ onTabChange }
+                        />
+                        { shipmentStatus === 'REJECTED' && <ErrorMessages errors={ [shipmentError] }/> }
+                        { shipmentStatus === 'FULFILLED' && <SuccessMessage message={ successMessage }/> }
+                        { shipmentStatus === 'PENDING' && <Loader/> }
+                    </Grid>
+                </Grid>
             </Card>
             <Box>
                 <Box hidden={ tabValue !== 'shipment' }>
