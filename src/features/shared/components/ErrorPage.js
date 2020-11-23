@@ -10,9 +10,7 @@ const { backButtonLabel } = LANGUAGE.shared.components.errorPage;
 
 const ErrorPage = React.memo(function ErrorPage({ errors, className }) {
     const history = useHistory();
-    const onClick = () => history.push('/home/settings');
-
-
+    const onClick = () => history.push('/home');
 
     return (
         <Box className={ className }>

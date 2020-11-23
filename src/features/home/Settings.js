@@ -19,6 +19,7 @@ export default function Settings() {
     const history = useHistory();
     const location = useLocation();
     const { tab } = queryString.parse(location.search);
+    const tabValue = tab || 'account';
     const company = useSelector(selectCurrentCompany);
     const userId = useSelector(selectCurrentUserId);
     const user = useSelector(state => selectUserById(state, userId));
@@ -31,12 +32,12 @@ export default function Settings() {
         <Container>
             <NavTabs
                 tabsLabelsMap={ tabsLabelsMap }
-                tabValue={ tab || 'account' }
+                tabValue={ tabValue }
                 onChange={ onTabChange }
             />
-            { tab === 'account' && <AccountDetails user={ user }/> }
-            { tab === 'colleagues' && <CompanyUsers users={ users }/> }
-            { tab === 'company' && <CompanyDetails company={ company }/> }
+            { tabValue === 'account' && <AccountDetails user={ user }/> }
+            { tabValue === 'colleagues' && <CompanyUsers users={ users }/> }
+            { tabValue === 'company' && <CompanyDetails company={ company }/> }
         </Container>
     )
 }

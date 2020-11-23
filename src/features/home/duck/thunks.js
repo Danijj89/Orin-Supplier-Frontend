@@ -46,10 +46,9 @@ export const deleteAddress = createAsyncThunk('home/deleteAddress',
     });
 
 export const updateAddress = createAsyncThunk('home/updateAddress',
-    async ({ companyId, ...update }, { rejectWithValue }) => {
+    async ({ companyId, addressId, update }, { rejectWithValue }) => {
         try {
-            await CompanyService.updateAddress(companyId, update._id, update);
-            return update;
+            return await CompanyService.updateAddress(companyId, addressId, update);
         } catch (err) {
             return rejectWithValue(err.response.data);
         }
@@ -73,3 +72,13 @@ export const createCompanyBankDetail = createAsyncThunk('home/createCompanyBankD
             return rejectWithValue(err.response.data);
         }
     });
+
+export const deleteCompanyBankDetail = createAsyncThunk('home/deleteCompanyBankDetail',
+    async ({ id }, { rejectWithValue }) => {
+        try {
+            return await CompanyService.deleteCompanyBankDetail(id);
+        } catch (err) {
+            return rejectWithValue(err.response.data);
+        }
+    });
+

@@ -5,8 +5,7 @@ import { useDispatch } from 'react-redux';
 import AddressDialog from '../shared/forms/AddressDialog.js';
 import NewCompanyAddressButton from './NewCompanyAddressButton.js';
 import { makeStyles } from '@material-ui/core/styles';
-import { deleteAddress, updateDefaultAddress } from './duck/thunks.js';
-import { updateAddress } from '../clients/duck/thunks.js';
+import { deleteAddress, updateAddress, updateDefaultAddress } from './duck/thunks.js';
 import AddressCard from '../shared/components/AddressCard.js';
 
 const useStyles = makeStyles((theme) => ({
@@ -52,8 +51,9 @@ export default function CompanyAddressCards({ company, className }) {
     const onEditAddressCancel = () => setIsEditAddressOpen(false);
 
     const onEditAddressSubmit = (data) => {
+        const { _id, ...update } = data;
         data.companyId = companyId;
-        dispatch(updateAddress(data));
+        dispatch(updateAddress({ companyId, addressId: _id, update }));
         setIsEditAddressOpen(false);
     };
 

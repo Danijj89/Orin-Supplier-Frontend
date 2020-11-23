@@ -33,7 +33,7 @@ const {
 
 export default function CompanyDetails({ company }) {
     const classes = useStyles();
-    const [tabValue, setTabValue] = useState('bankDetails');
+    const [tabValue, setTabValue] = useState('addresses');
 
     const data = [
         { label: taxNumberLabel, value: company?.taxNumber },

@@ -18,8 +18,8 @@ const homeSlice = createSlice({
     name: 'home',
     initialState,
     reducers: {
-        cleanHomeState: (state, action) => {
-            state.status = 'IDLE';
+        cleanHomeError: (state, action) => {
+            state.status = 'FULFILLED';
             state.error = null;
         }
     },
@@ -72,10 +72,7 @@ const homeSlice = createSlice({
             state.status = 'PENDING';
         },
         [updateAddress.fulfilled]: (state, action) => {
-            const updatedAddress = action.payload;
-
-            state.company.addresses = state.company.addresses.map(
-                address => address._id === updatedAddress._id ? updatedAddress : address);
+            state.company = action.payload;
             state.status = 'FULFILLED';
         },
         [updateAddress.rejected]: (state, action) => {
@@ -104,6 +101,6 @@ const homeSlice = createSlice({
     }
 });
 
-export const { cleanHomeState } = homeSlice.actions;
+export const { cleanHomeError } = homeSlice.actions;
 
 export default homeSlice.reducer;
