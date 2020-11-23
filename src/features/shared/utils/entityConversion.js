@@ -69,6 +69,7 @@ export const shipmentToCommercialInvoice = (shipment) => ({
     consigneeAdd: shipment.consigneeAdd,
     crd: shipment.crd,
     coo: shipment.coo,
+    incoterm: shipment.incoterm,
     clientRefs: shipment.clientRefs,
     payRefs: shipment.payRefs,
     pol: shipment.pol,

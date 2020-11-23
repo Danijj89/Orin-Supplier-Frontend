@@ -50,7 +50,6 @@ const CompanyBankDetails = React.memo(function CompanyBankDetails() {
                                 <IconEdit/>
                             </IconButton>
                         </ListItemIcon>
-                        <DeleteIconButton onClick={}
                     </ListItem>
                 ) }
             </List>

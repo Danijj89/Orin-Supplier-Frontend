@@ -68,7 +68,6 @@ export const ENGLISH = {
                 titleLabel: 'Bank Details',
                 tableHeaderLabelsMap: {
                     bankDetail: 'Details',
-                    edit
                 }
             }
         },
@@ -486,6 +485,7 @@ export const ENGLISH = {
                     consigneeAdd: 'Client Address',
                     crd: 'Cargo Ready',
                     coo: 'Country of Manufacture',
+                    incoterm: 'Incoterm',
                     clientRefs: 'PO References',
                     payRefs: 'Payment References',
                     pol: 'Port of Loading',

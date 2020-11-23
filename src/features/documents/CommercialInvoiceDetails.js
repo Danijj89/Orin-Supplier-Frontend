@@ -19,6 +19,7 @@ import Footer from '../shared/components/Footer.js';
 import { useHistory, useLocation } from 'react-router-dom';
 import queryString from 'query-string';
 import RHFDateField from '../shared/rhf/inputs/RHFDateField.js';
+import { incotermOptions } from '../shared/constants.js';
 
 const {
     titleLabel,
@@ -34,6 +35,7 @@ const fieldNames = {
     consigneeAdd: 'consigneeAdd',
     crd: 'crd',
     coo: 'coo',
+    incoterm: 'incoterm',
     clientRefs: 'clientRefs',
     payRefs: 'payRefs',
     pol: 'pol',
@@ -64,6 +66,7 @@ const CommercialInvoiceDetails = React.memo(function CommercialInvoiceDetails(
             [fieldNames.consigneeAdd]: findAddressFromAddresses(commercialInvoice.consigneeAdd, consigneeAddresses),
             [fieldNames.crd]: commercialInvoice.crd,
             [fieldNames.coo]: commercialInvoice.coo,
+            [fieldNames.incoterm]: commercialInvoice.incoterm,
             [fieldNames.clientRefs]: commercialInvoice.clientRefs,
             [fieldNames.payRefs]: commercialInvoice.payRefs,
             [fieldNames.pol]: commercialInvoice.pol,
@@ -128,6 +131,14 @@ const CommercialInvoiceDetails = React.memo(function CommercialInvoiceDetails(
                             getOptionLabel={ formatAddress }
                             getOptionSelected={ (option, value) => option._id === value._id }
                             rowsMax={ 8 }
+                            required
+                        />
+                        <RHFAutoComplete
+                            rhfControl={ control }
+                            name={ fieldNames.incoterm }
+                            label={ formLabels.incoterm }
+                            options={ incotermOptions }
+                            error={ !!errors.incoterm }
                             required
                         />
                         <SideTextField
