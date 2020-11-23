@@ -71,18 +71,6 @@ const OrderStatusDialog = React.memo(function OrderStatusDialog(
     const qaStatus = watch('qaStatus');
 
     useEffect(() => {
-        register({ name: "procurementStatus" });
-        register({ name: "productionStatus" });
-        register({ name: "qaStatus" });
-        register({ name: "procurementEstimated" });
-        register({ name: "productionEstimated" });
-        register({ name: "qaEstimated" });
-        register({ name: "procurementActual" });
-        register({ name: "productionActual" });
-        register({ name: "qaActual" });
-    }, [register]);
-
-    useEffect(() => {
         if (procurementStatus === 'Completed') setValue('procurementActual', new Date());
         else if (productionStatus === 'Completed') setValue('productionActual', new Date());
         else if (qaStatus === 'Completed') setValue('qaActual', new Date());
