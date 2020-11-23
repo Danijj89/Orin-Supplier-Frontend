@@ -100,3 +100,26 @@ export const shipmentToPackingList = (shipment) => ({
     custom1: shipment.plCustom1,
     custom2: shipment.plCustom2
 });
+
+export const shipmentToSalesContract = (shipment) => ({
+    autoGenerateRef: true,
+    ref: null,
+    sellerAdd: shipment.sellerAdd,
+    consignee: shipment.consignee,
+    consigneeAdd: shipment.consigneeAdd,
+    date: new Date(),
+    bankDetails: null,
+    termsOfPayment: null,
+    timeOfShipment: null,
+    insurance: null,
+    customText: null,
+    pol: shipment.pol,
+    pod: shipment.pod,
+    notes: null,
+    currency: shipment.currency,
+    items: shipment.items,
+    quantity: shipment.quantity,
+    total: shipment.total,
+    custom1: shipment.ciCustom1,
+    custom2: shipment.ciCustom2
+});
