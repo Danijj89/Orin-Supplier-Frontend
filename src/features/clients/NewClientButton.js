@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function NewClientButton({ userId, companyId, users, ...props }) {
+export default function NewClientButton({ userId, companyId, users, className }) {
     const classes = useStyles();
     const dispatch = useDispatch();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -36,15 +36,15 @@ export default function NewClientButton({ userId, companyId, users, ...props }) 
     };
 
     return (
-        <Box { ...props }>
+        <Box className={ className }>
             <ThemedButton
                 onClick={ onClick }
-                className={classes.newClient}
+                className={ classes.newClient }
             >{ newClientButtonLabel }</ThemedButton>
             <ClientDialog
                 isOpen={ isDialogOpen }
                 client={ client }
-                users={users}
+                users={ users }
                 titleLabel={ newClientDialogTitleLabel }
                 submitLabel={ newClientSubmitButtonLabel }
                 onCancel={ onCancel }
