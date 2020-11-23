@@ -94,8 +94,7 @@ const homeSlice = createSlice({
             state.error = action.payload.message;
         },
         [createCompanyBankDetail.fulfilled]: (state, action) => {
-            const { bankDetails } = action.payload;
-            state.company.bankDetails = bankDetails;
+            state.company = action.payload;
             state.status = 'FULFILLED';
         },
         [createCompanyBankDetail.rejected]: (state, action) => {
