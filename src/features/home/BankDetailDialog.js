@@ -16,8 +16,10 @@ const BankDetailDialog = React.memo(function BankDetailDialog(
     const { register, errors, handleSubmit } = useForm({
         mode: 'onSubmit',
         defaultValues: {
+            _id: bankDetail?._id,
             detail: bankDetail?.detail
-        }
+        },
+        shouldUnregister: false
     });
     const onFormSubmit = (data) => onSubmit(data);
 
@@ -34,11 +36,12 @@ const BankDetailDialog = React.memo(function BankDetailDialog(
             <SideTextArea
                 label={ detailLabel }
                 name="detail"
-                inputRef={ register }
+                inputRef={ register({ required: true }) }
                 error={ !!errors.detail }
                 required
                 rows={ 4 }
                 rowsMax={ 8 }
+                autoFocus
             />
         </FormDialog>
     )

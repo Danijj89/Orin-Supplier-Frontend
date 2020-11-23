@@ -4,7 +4,7 @@ import {
     deleteAddress, deleteCompanyBankDetail,
     fetchSessionInfo,
     updateAddress,
-    updateCompany,
+    updateCompany, updateCompanyBankDetail,
     updateDefaultAddress
 } from './thunks.js';
 
@@ -109,6 +109,14 @@ const homeSlice = createSlice({
             state.status = 'REJECTED';
             state.error = action.payload.message;
         },
+        [updateCompanyBankDetail.fulfilled]: (state, action) => {
+            state.company = action.payload;
+            state.status = 'FULFILLED';
+        },
+        [updateCompanyBankDetail.rejected]: (state, action) => {
+            state.status = 'REJECTED';
+            state.error = action.payload.message;
+        }
     }
 });
 

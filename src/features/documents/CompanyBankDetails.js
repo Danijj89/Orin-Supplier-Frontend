@@ -12,7 +12,7 @@ import { Edit as IconEdit } from '@material-ui/icons';
 import IconButton from '@material-ui/core/IconButton';
 import BankDetailDialog from '../home/BankDetailDialog.js';
 import NewBankDetailButton from '../home/NewBankDetailButton.js';
-import { deleteCompanyBankDetail } from '../home/duck/thunks.js';
+import { deleteCompanyBankDetail, updateCompanyBankDetail } from '../home/duck/thunks.js';
 
 const useStyles = makeStyles((theme) => ({
     cards: {
@@ -42,8 +42,10 @@ const CompanyBankDetails = React.memo(function CompanyBankDetails() {
     const [isEdit, setIsEdit] = useState(false);
     const [editBankDetail, setEditBankDetail] = useState(null);
 
-    const onDelete = (id) =>
+    const onDelete = (id) => {
         dispatch(deleteCompanyBankDetail({ companyId, bankDetailId: id }));
+        setIsEdit(false);
+    };
 
     const onCancel = () => setIsEdit(false);
 
@@ -52,7 +54,11 @@ const CompanyBankDetails = React.memo(function CompanyBankDetails() {
         setIsEdit(true);
     };
 
-    const onSubmit = (data) => dispatch();
+    const onUpdate = (data) => {
+        const { _id, ...update } = data;
+        dispatch(updateCompanyBankDetail({ companyId, bankDetailId: _id, update }));
+        setIsEdit(false);
+    };
 
     return (
         <Box>
@@ -77,7 +83,7 @@ const CompanyBankDetails = React.memo(function CompanyBankDetails() {
                 titleLabel={ dialogTitleLabel }
                 submitLabel={ dialogSubmitLabel }
                 onCancel={ onCancel }
-                onSubmit={ onSubmit }
+                onSubmit={ onUpdate }
                 onDelete={ () => onDelete(editBankDetail._id) }
             />
             }

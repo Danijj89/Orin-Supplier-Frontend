@@ -42,13 +42,15 @@ const useStyles = makeStyles((theme) => ({
 export default function SideTextArea(
     {
         label,
+        name,
         required,
         className,
+        inputRef,
         error,
         rows = 1,
         rowsMax = 1,
         disabled,
-        ...props
+        autoFocus
     }) {
     const classes = useStyles({ rows, rowsMax });
     const classNames = clsx(
@@ -64,15 +66,17 @@ export default function SideTextArea(
                 { required && <span className={ classes.required }>*</span> }
             </Typography>
             <MuiTextField
-                { ...props }
                 className={ classNames }
-                InputProps={ { ...props.InputProps, disableUnderline: true } }
+                InputProps={ { disableUnderline: true } }
                 required={ required }
                 error={ error }
                 rows={ rows }
                 rowsMax={ rowsMax }
                 multiline
                 disabled={ disabled }
+                autoFocus={ autoFocus }
+                name={ name }
+                inputRef={ inputRef }
             />
         </Box>
     );
@@ -85,5 +89,6 @@ SideTextArea.propTypes = {
     error: PropTypes.bool,
     rows: PropTypes.number,
     rowsMax: PropTypes.number,
-    disabled: PropTypes.bool
+    disabled: PropTypes.bool,
+    autoFocus: PropTypes.bool
 };
