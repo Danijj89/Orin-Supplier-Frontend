@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import {
-    addNewAddress,
+    addNewAddress, createCompanyBankDetail,
     deleteAddress,
     fetchSessionInfo,
     updateAddress,
@@ -40,7 +40,7 @@ const homeSlice = createSlice({
         },
         [updateCompany.fulfilled]: (state, action) => {
             state.company = action.payload;
-            state.status = 'IDLE';
+            state.status = 'FULFILLED';
         },
         [updateCompany.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -49,7 +49,7 @@ const homeSlice = createSlice({
         [addNewAddress.fulfilled]: (state, action) => {
             const { addresses } = action.payload;
             state.company.addresses = addresses;
-            state.status = 'IDLE';
+            state.status = 'FULFILLED';
         },
         [addNewAddress.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -62,7 +62,7 @@ const homeSlice = createSlice({
             const id = action.payload;
             const addressIdx = state.company.addresses.findIndex(add => add._id === id);
             state.company.addresses[addressIdx].active = false;
-            state.status = 'IDLE';
+            state.status = 'FULFILLED';
         },
         [deleteAddress.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -76,7 +76,7 @@ const homeSlice = createSlice({
 
             state.company.addresses = state.company.addresses.map(
                 address => address._id === updatedAddress._id ? updatedAddress : address);
-            state.status = 'IDLE';
+            state.status = 'FULFILLED';
         },
         [updateAddress.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -87,9 +87,18 @@ const homeSlice = createSlice({
         },
         [updateDefaultAddress.fulfilled]: (state, action) => {
             state.company.defaultAddress = state.company.addresses.find(address => address._id === action.payload);
-            state.status = 'IDLE';
+            state.status = 'FULFILLED';
         },
         [updateDefaultAddress.rejected]: (state, action) => {
+            state.status = 'REJECTED';
+            state.error = action.payload.message;
+        },
+        [createCompanyBankDetail.fulfilled]: (state, action) => {
+            const { bankDetails } = action.payload;
+            state.company.bankDetails = bankDetails;
+            state.status = 'FULFILLED';
+        },
+        [createCompanyBankDetail.rejected]: (state, action) => {
             state.status = 'REJECTED';
             state.error = action.payload.message;
         }

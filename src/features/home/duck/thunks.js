@@ -64,3 +64,12 @@ export const updateDefaultAddress = createAsyncThunk('home/updateDefaultAddress'
             return rejectWithValue(err.response.data);
         }
     });
+
+export const createCompanyBankDetail = createAsyncThunk('home/createCompanyBankDetail',
+    async ({ id, data }, { rejectWithValue }) => {
+        try {
+            return await CompanyService.createCompanyBankDetail(id, data);
+        } catch (err) {
+            return rejectWithValue(err.response.data);
+        }
+    });

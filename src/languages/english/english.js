@@ -66,9 +66,17 @@ export const ENGLISH = {
             },
             bankDetails: {
                 titleLabel: 'Bank Details',
-                tableHeaderLabelsMap: {
-                    bankDetail: 'Details',
-                }
+                dialogTitleLabel: 'Edit Bank Details',
+                dialogSubmitLabel: 'Update'
+            },
+            bankDetailDialog: {
+                detailLabel: 'Bank Details',
+                deleteMessage: 'Are you sure you want to delete this bank details?'
+            },
+            newBankDetailButton: {
+                buttonLabel: 'Add Bank Details',
+                dialogTitleLabel: 'New Bank Details',
+                dialogSubmitLabel: 'Create'
             }
         },
         newAddressButton: {

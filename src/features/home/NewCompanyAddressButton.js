@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function NewCompanyAddressButton({ company, ...props }) {
+export default function NewCompanyAddressButton({ company, className }) {
     const classes = useStyles();
     const dispatch = useDispatch();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -36,20 +36,20 @@ export default function NewCompanyAddressButton({ company, ...props }) {
     };
 
     return (
-        <Box {...props}>
+        <Box className={ className }>
             <ThemedButton
-                onClick={onClick}
-                className={classes.newAddressButton}
+                onClick={ onClick }
+                className={ classes.newAddressButton }
             >
-                {newAddressButtonLabel}
+                { newAddressButtonLabel }
             </ThemedButton>
             <AddressDialog
-                isOpen={isDialogOpen}
-                address={address}
-                titleLabel={newAddressDialogTitleLabel}
-                submitLabel={newAddressDialogSubmitLabel}
-                onCancel={onCancel}
-                onSubmit={onSubmit}
+                isOpen={ isDialogOpen }
+                address={ address }
+                titleLabel={ newAddressDialogTitleLabel }
+                submitLabel={ newAddressDialogSubmitLabel }
+                onCancel={ onCancel }
+                onSubmit={ onSubmit }
             />
         </Box>
     );

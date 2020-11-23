@@ -21,9 +21,23 @@ const {
 
 export default function AddressDialog({ isOpen, onSubmit, onCancel, submitLabel, address, titleLabel, onDelete }) {
     const { register, errors, handleSubmit, reset } = useForm({
-        mode: 'onSubmit'
+        mode: 'onSubmit',
+        defaultValues: {
+            _id: address?._id,
+            type: address?.type,
+            name: address?.name,
+            address: address?.address,
+            address2: address?.address2,
+            city: address?.city,
+            administrative: address?.administrative,
+            country: address?.country,
+            zip: address?.zip,
+            phone: address?.phone,
+            email: address?.email
+        }
     });
     const onFormSubmit = (data) => onSubmit(data);
+
 
     useEffect(() => {
         reset({
@@ -62,14 +76,14 @@ export default function AddressDialog({ isOpen, onSubmit, onCancel, submitLabel,
             <SideTextField
                 label={ nameLabel }
                 name="name"
-                inputRef={ register({ required: true }) }
+                inputRef={ register }
                 error={ !!errors.name }
                 required
             />
             <SideTextField
                 label={ addressLabel }
                 name="address"
-                inputRef={ register({ required: true }) }
+                inputRef={ register }
                 error={ !!errors.address }
                 required
             />
@@ -82,7 +96,7 @@ export default function AddressDialog({ isOpen, onSubmit, onCancel, submitLabel,
             <SideTextField
                 label={ cityLabel }
                 name="city"
-                inputRef={ register({ required: true }) }
+                inputRef={ register }
                 error={ !!errors.city }
                 required
             />
@@ -95,7 +109,7 @@ export default function AddressDialog({ isOpen, onSubmit, onCancel, submitLabel,
             <SideTextField
                 label={ countryLabel }
                 name="country"
-                inputRef={ register({ required: true }) }
+                inputRef={ register }
                 error={ !!errors.country }
                 required
             />

@@ -48,12 +48,23 @@ const updateCompany = async (id, update) => {
     return data;
 };
 
+const createCompanyBankDetail = async (id, bankDetail) => {
+    const configs = {
+        method: 'post',
+        url: `companies/${id}`,
+        data: bankDetail
+    };
+    const { data } = await fetchWithAuth(configs);
+    return data;
+};
+
 const CompanyService = {
     addNewAddress,
     deleteAddress,
     updateAddress,
     updateDefaultAddress,
-    updateCompany
+    updateCompany,
+    createCompanyBankDetail
 };
 
 export default CompanyService;

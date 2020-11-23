@@ -1,10 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Box, Typography } from '@material-ui/core';
-import AddressDialog from '../shared/forms/AddressDialog.js';
-import NewCompanyAddressButton from '../home/NewCompanyAddressButton.js';
 import { makeStyles } from '@material-ui/core/styles';
 import { LANGUAGE } from '../../app/constants.js';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectCompanyBankDetails } from '../home/duck/selectors.js';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -12,7 +10,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import { Edit as IconEdit } from '@material-ui/icons';
 import IconButton from '@material-ui/core/IconButton';
-import DeleteIconButton from '../shared/buttons/DeleteIconButton.js';
+import BankDetailDialog from '../home/BankDetailDialog.js';
+import NewBankDetailButton from '../home/NewBankDetailButton.js';
 
 const useStyles = makeStyles((theme) => ({
     cards: {
@@ -29,12 +28,28 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const {
-    titleLabel
+    titleLabel,
+    dialogTitleLabel,
+    dialogSubmitLabel
 } = LANGUAGE.home.companyDetails.bankDetails;
 
 const CompanyBankDetails = React.memo(function CompanyBankDetails() {
     const classes = useStyles();
+    const dispatch = useDispatch();
     const bankDetails = useSelector(selectCompanyBankDetails);
+    const [isEdit, setIsEdit] = useState(false);
+    const [editBankDetail, setEditBankDetail] = useState(null);
+
+    const onDelete = (id) => {};
+
+    const onCancel = () => setIsEdit(false);
+
+    const onEdit = (bankDetail) => {
+        setEditBankDetail(bankDetail);
+        setIsEdit(true);
+    };
+
+    const onSubmit = (data) => dispatch();
 
     return (
         <Box>
@@ -42,34 +57,31 @@ const CompanyBankDetails = React.memo(function CompanyBankDetails() {
                 { titleLabel }
             </Typography>
             <List>
-                { bankDetails.map((bankDetail, index) =>
-                    <ListItem key={ index }>
-                        <ListItemText primary={ bankDetail }/>
+                { bankDetails.map((bankDetail, idx) =>
+                    <ListItem key={ idx }>
+                        <ListItemText primary={ bankDetail.detail }/>
                         <ListItemIcon>
-                            <IconButton>
+                            <IconButton onClick={ () => onEdit(bankDetail) }>
                                 <IconEdit/>
                             </IconButton>
                         </ListItemIcon>
                     </ListItem>
                 ) }
             </List>
+            { editBankDetail &&
+            <BankDetailDialog
+                isOpen={ isEdit }
+                bankDetail={ editBankDetail }
+                titleLabel={ dialogTitleLabel }
+                submitLabel={ dialogSubmitLabel }
+                onCancel={ onCancel }
+                onSubmit={ onSubmit }
+                onDelete={ () => onDelete(editBankDetail._id) }
+            />
+            }
+            <NewBankDetailButton />
         </Box>
     )
 });
 
 export default CompanyBankDetails;
-
-// { editAddress && (
-//     <AddressDialog
-//         isOpen={ isEditAddressOpen }
-//         address={ editAddress }
-//         titleLabel={ editAddressDialogTitleLabel }
-//         submitLabel={ editAddressDialogSubmitLabel }
-//         onCancel={ onEditAddressCancel }
-//         onSubmit={ onEditAddressSubmit }
-//     />
-// ) }
-// <NewCompanyAddressButton
-//     className={ classes.newAddressButton }
-//     company={ company }
-// />
