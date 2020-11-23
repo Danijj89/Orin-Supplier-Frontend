@@ -4,15 +4,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import { LANGUAGE } from '../../app/constants.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectActiveCompanyBankDetails, selectCompanyId } from '../home/duck/selectors.js';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import { Edit as IconEdit } from '@material-ui/icons';
-import IconButton from '@material-ui/core/IconButton';
 import BankDetailDialog from '../home/BankDetailDialog.js';
 import NewBankDetailButton from '../home/NewBankDetailButton.js';
 import { deleteCompanyBankDetail, updateCompanyBankDetail } from '../home/duck/thunks.js';
+import Table from '../shared/components/table/Table.js';
 
 const useStyles = makeStyles((theme) => ({
     cards: {
@@ -31,7 +26,8 @@ const useStyles = makeStyles((theme) => ({
 const {
     titleLabel,
     dialogTitleLabel,
-    dialogSubmitLabel
+    dialogSubmitLabel,
+    tableHeaderLabelsMap
 } = LANGUAGE.home.companyDetails.bankDetails;
 
 const CompanyBankDetails = React.memo(function CompanyBankDetails() {
@@ -49,8 +45,8 @@ const CompanyBankDetails = React.memo(function CompanyBankDetails() {
 
     const onCancel = () => setIsEdit(false);
 
-    const onEdit = (bankDetail) => {
-        setEditBankDetail(bankDetail);
+    const onRowClick = (params) => {
+        setEditBankDetail(params);
         setIsEdit(true);
     };
 
@@ -60,22 +56,22 @@ const CompanyBankDetails = React.memo(function CompanyBankDetails() {
         setIsEdit(false);
     };
 
+    const columns = [
+        { field: 'id', hide: true},
+        { field: 'detail', headerName: tableHeaderLabelsMap.detail}
+    ];
+
+    const rows = bankDetails.map(bankDetail => ({
+        id: bankDetail._id,
+        detail: bankDetail.detail
+    }));
+
     return (
         <Box>
             <Typography className={ classes.title } variant="h5">
                 { titleLabel }
             </Typography>
-            <List>
-                { bankDetails.map((bankDetail, idx) => <ListItem key={ idx }>
-                        <ListItemText primary={ bankDetail.detail }/>
-                        <ListItemIcon>
-                            <IconButton onClick={ () => onEdit(bankDetail) }>
-                                <IconEdit/>
-                            </IconButton>
-                        </ListItemIcon>
-                    </ListItem>
-                ) }
-            </List>
+            <Table rows={rows} columns={columns} onRowClick={onRowClick}/>
             { editBankDetail &&
             <BankDetailDialog
                 isOpen={ isEdit }

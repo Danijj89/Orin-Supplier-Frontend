@@ -67,7 +67,10 @@ export const ENGLISH = {
             bankDetails: {
                 titleLabel: 'Bank Details',
                 dialogTitleLabel: 'Edit Bank Details',
-                dialogSubmitLabel: 'Update'
+                dialogSubmitLabel: 'Update',
+                tableHeaderLabelsMap: {
+                    detail: 'Bank Details'
+                }
             },
             bankDetailDialog: {
                 detailLabel: 'Bank Details',
