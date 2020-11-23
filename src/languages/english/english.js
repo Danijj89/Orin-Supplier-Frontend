@@ -472,9 +472,12 @@ export const ENGLISH = {
                     sellerAdd: 'Seller Address',
                     consignee: 'Client',
                     consigneeAdd: 'Client Address',
+                    crd: 'Cargo Ready',
                     coo: 'Country of Manufacture',
                     clientRefs: 'PO References',
                     payRefs: 'Payment References',
+                    pol: 'Port of Loading',
+                    pod: 'Port of Destination',
                     notes: 'Notes'
                 },
                 prevButtonLabel: 'Cancel',

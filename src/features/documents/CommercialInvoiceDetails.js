@@ -13,11 +13,12 @@ import Divider from '@material-ui/core/Divider';
 import RHFAutoComplete from '../shared/rhf/inputs/RHFAutoComplete.js';
 import { findAddressFromAddresses } from '../shared/utils/addresses.js';
 import { useSelector } from 'react-redux';
-import { selectCompanyActiveAddresses } from '../home/duck/selectors.js';
+import { selectCompanyActiveAddresses, selectCompanyPorts } from '../home/duck/selectors.js';
 import { selectClientActiveAddresses, selectClientById } from '../clients/duck/selectors.js';
 import Footer from '../shared/components/Footer.js';
 import { useHistory, useLocation } from 'react-router-dom';
 import queryString from 'query-string';
+import RHFDateField from '../shared/rhf/inputs/RHFDateField.js';
 
 const {
     titleLabel,
@@ -31,9 +32,12 @@ const fieldNames = {
     ref: 'ref',
     sellerAdd: 'sellerAdd',
     consigneeAdd: 'consigneeAdd',
+    crd: 'crd',
     coo: 'coo',
     clientRefs: 'clientRefs',
     payRefs: 'payRefs',
+    pol: 'pol',
+    pod: 'pod',
     notes: 'notes'
 };
 
@@ -49,6 +53,7 @@ const CommercialInvoiceDetails = React.memo(function CommercialInvoiceDetails(
     const companyAddresses = useSelector(selectCompanyActiveAddresses);
     const consignee = useSelector(state => selectClientById(state, commercialInvoice.consignee));
     const consigneeAddresses = useSelector(state => selectClientActiveAddresses(state, commercialInvoice.consignee));
+    const companyPorts = useSelector(selectCompanyPorts);
 
     const { register, control, errors, watch, handleSubmit } = useForm({
         mode: 'onSubmit',
@@ -57,9 +62,12 @@ const CommercialInvoiceDetails = React.memo(function CommercialInvoiceDetails(
             [fieldNames.ref]: commercialInvoice.ref,
             [fieldNames.sellerAdd]: findAddressFromAddresses(commercialInvoice.sellerAdd, companyAddresses),
             [fieldNames.consigneeAdd]: findAddressFromAddresses(commercialInvoice.consigneeAdd, consigneeAddresses),
+            [fieldNames.crd]: commercialInvoice.crd,
             [fieldNames.coo]: commercialInvoice.coo,
             [fieldNames.clientRefs]: commercialInvoice.clientRefs,
             [fieldNames.payRefs]: commercialInvoice.payRefs,
+            [fieldNames.pol]: commercialInvoice.pol,
+            [fieldNames.pod]: commercialInvoice.pod,
             [fieldNames.notes]: commercialInvoice.notes,
         }
     });
@@ -136,6 +144,11 @@ const CommercialInvoiceDetails = React.memo(function CommercialInvoiceDetails(
                 </Grid>
                 <Grid item>
                     <FormContainer>
+                        <RHFDateField
+                            rhfControl={ control }
+                            name={ fieldNames.crd }
+                            label={ formLabels.crd }
+                        />
                         <SideTextField
                             name={ fieldNames.clientRefs }
                             label={ formLabels.clientRefs }
@@ -145,6 +158,22 @@ const CommercialInvoiceDetails = React.memo(function CommercialInvoiceDetails(
                             name={ fieldNames.payRefs }
                             label={ formLabels.payRefs }
                             inputRef={ register }
+                        />
+                        <RHFAutoComplete
+                            rhfControl={ control }
+                            name={ fieldNames.pol }
+                            label={ formLabels.pol }
+                            options={ companyPorts }
+                            freeSolo
+                            autoSelect
+                        />
+                        <RHFAutoComplete
+                            rhfControl={ control }
+                            name={ fieldNames.pod }
+                            label={ formLabels.pod }
+                            options={ companyPorts }
+                            freeSolo
+                            autoSelect
                         />
                         <SideTextArea
                             label={ formLabels.notes }
