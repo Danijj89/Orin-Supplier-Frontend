@@ -193,7 +193,7 @@ export default function CreateShipment() {
         { field: 'fulfilled', headerName: tableHeaderLabelsMap.fulfilled, align: 'center' }
     ];
 
-    const rows = clientOrders.filter(order => order.active && !order.fulfilled).map(order => ({
+    const rows = clientOrders.filter(order => order.active && !order.archived).map(order => ({
         id: order._id,
         selected: order.selected,
         ref: order.ref,

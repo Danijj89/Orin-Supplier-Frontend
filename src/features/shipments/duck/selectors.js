@@ -7,7 +7,7 @@ export const selectShipmentError = state => state.shipments.error;
 export const selectCurrentShipmentId = state => state.shipments.currentShipmentId;
 export const selectOrderShipmentItemMap = state => {
     const resultMap = Object.values(state.orders.entities)
-        .filter(order => order.active && !order.fulfilled).reduce((acc, order) => {
+        .filter(order => order.active && !order.archived).reduce((acc, order) => {
             acc[order._id] = [];
             return acc;
         } , {});

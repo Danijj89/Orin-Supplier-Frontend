@@ -23,7 +23,7 @@ const orderDetailsFieldNames = {
     pol: 'pol',
     pod: 'pod',
     carrier: 'carrier',
-    fulfilled: 'fulfilled',
+    archived: 'archived',
     realCrd: 'realCrd'
 };
 
@@ -58,7 +58,7 @@ const OrderDetailsDialog = React.memo(function OrderDetailsDialog(
     useEffect(() => {
         reset({
             [orderDetailsFieldNames.ref]: order.ref,
-            [orderDetailsFieldNames.fulfilled]: order.fulfilled,
+            [orderDetailsFieldNames.archived]: order.archived,
             [orderDetailsFieldNames.fromAdd]: initialCompanyAddress,
             [orderDetailsFieldNames.to]: client,
             [orderDetailsFieldNames.toAdd]: initialClientAddress,

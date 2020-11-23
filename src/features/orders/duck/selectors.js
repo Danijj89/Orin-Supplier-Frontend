@@ -17,7 +17,7 @@ export const {
 export const selectActiveOrdersMap = createSelector(
     selectAllOrders,
     orders => orders.reduce((acc, order) => {
-        if (order.active && !order.fulfilled) acc[order._id] = order;
+        if (order.active && !order.archived) acc[order._id] = order;
         return acc;
     }, {})
 );

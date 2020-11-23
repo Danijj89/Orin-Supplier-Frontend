@@ -587,7 +587,7 @@ export const ENGLISH = {
                     detailsTitleLabel: 'Order Details',
                     shippingInfoTitleLabel: 'Shipping Information (Optional)',
                     formLabels: {
-                        fulfilled: 'Mark as Fulfilled',
+                        archived: 'Mark as Fulfilled',
                         autoGenerateRef: 'Auto-generate Order Number?',
                         ref: 'Order Number',
                         date: 'Order Date',

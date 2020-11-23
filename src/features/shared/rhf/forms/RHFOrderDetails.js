@@ -97,8 +97,8 @@ const RHFOrderDetails = React.memo(function RHFOrderDetails(
                     { isEdit &&
                     <RHFCheckBox
                         rhfControl={ control }
-                        name={ fieldNames.fulfilled }
-                        label={ formLabels.fulfilled }
+                        name={ fieldNames.archived }
+                        label={ formLabels.archived }
                     /> }
                     { !isEdit &&
                     <RHFCheckBox
@@ -266,7 +266,7 @@ RHFOrderDetails.propTypes = {
         date: PropTypes.string,
         notes: PropTypes.string,
         autoGenerateRef: PropTypes.string,
-        fulfilled: PropTypes.string,
+        archived: PropTypes.string,
         realCrd: PropTypes.string
     }).isRequired,
     isEdit: PropTypes.bool,
