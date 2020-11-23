@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import {
     addNewAddress, createCompanyBankDetail,
-    deleteAddress,
+    deleteAddress, deleteCompanyBankDetail,
     fetchSessionInfo,
     updateAddress,
     updateCompany,
@@ -97,7 +97,18 @@ const homeSlice = createSlice({
         [createCompanyBankDetail.rejected]: (state, action) => {
             state.status = 'REJECTED';
             state.error = action.payload.message;
-        }
+        },
+        [deleteCompanyBankDetail.pending]: (state, action) => {
+            state.status = 'PENDING';
+        },
+        [deleteCompanyBankDetail.fulfilled]: (state, action) => {
+            state.company = action.payload;
+            state.status = 'FULFILLED';
+        },
+        [deleteCompanyBankDetail.rejected]: (state, action) => {
+            state.status = 'REJECTED';
+            state.error = action.payload.message;
+        },
     }
 });
 

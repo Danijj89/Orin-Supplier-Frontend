@@ -74,9 +74,9 @@ export const createCompanyBankDetail = createAsyncThunk('home/createCompanyBankD
     });
 
 export const deleteCompanyBankDetail = createAsyncThunk('home/deleteCompanyBankDetail',
-    async ({ id }, { rejectWithValue }) => {
+    async ({ companyId, bankDetailId }, { rejectWithValue }) => {
         try {
-            return await CompanyService.deleteCompanyBankDetail(id);
+            return await CompanyService.deleteCompanyBankDetail(companyId, bankDetailId);
         } catch (err) {
             return rejectWithValue(err.response.data);
         }

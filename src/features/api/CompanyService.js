@@ -51,17 +51,17 @@ const updateCompany = async (id, update) => {
 const createCompanyBankDetail = async (id, bankDetail) => {
     const configs = {
         method: 'post',
-        url: `companies/${id}`,
+        url: `companies/${id}/bankDetails`,
         data: bankDetail
     };
     const { data } = await fetchWithAuth(configs);
     return data;
 };
 
-const deleteCompanyBankDetail = async (id) => {
+const deleteCompanyBankDetail = async (companyId, bankDetailsId) => {
     const configs = {
         method: 'delete',
-        url: `companies/${id}`
+        url: `companies/${companyId}/bankDetails/${bankDetailsId}`
     };
     const { data } = await fetchWithAuth(configs);
     return data;
