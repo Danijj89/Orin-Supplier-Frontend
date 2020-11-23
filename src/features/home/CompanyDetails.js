@@ -1,16 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import { Container, Grid } from '@material-ui/core';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectStatus } from '../../app/duck/selectors.js';
 import { makeStyles } from '@material-ui/core/styles';
-import ErrorMessages from '../shared/components/ErrorMessages.js';
-import { cleanError } from '../../app/duck/slice.js';
 import InfoCard from '../shared/wrappers/InfoCard.js';
 import EditCompanyInfoButton from './EditCompanyInfoButton.js';
 import CompanyAddressCards from './CompanyAddressCards.js';
 import { LANGUAGE } from '../../app/constants.js';
-import { selectHomeError } from './duck/selectors.js';
 import DividerDataDisplay from '../shared/wrappers/DividerDisplay.js';
+import NavTabs from '../shared/components/NavTabs.js';
+import Paper from '@material-ui/core/Paper';
+import CompanyBankDetails from '../documents/CompanyBankDetails.js';
 
 const useStyles = makeStyles((theme) => ({
     topCard: {
@@ -29,20 +27,13 @@ const {
     defaultCurrencyLabel,
     industriesLabel,
     emailLabel,
-    phoneLabel
+    phoneLabel,
+    tabsLabelsMap
 } = LANGUAGE.home.companyDetails;
 
 export default function CompanyDetails({ company }) {
     const classes = useStyles();
-    const dispatch = useDispatch();
-    const status = useSelector(selectStatus);
-    const homeError = useSelector(selectHomeError);
-
-    useEffect(() => {
-        if (status === 'REJECTED') {
-            return () => dispatch(cleanError());
-        }
-    }, [dispatch, status]);
+    const [tabValue, setTabValue] = useState('addresses');
 
     const data = [
         { label: taxNumberLabel, value: company?.taxNumber },
@@ -54,7 +45,6 @@ export default function CompanyDetails({ company }) {
 
     return (
         <Container className={ classes.companyContainer }>
-            { homeError && <ErrorMessages errors={ [homeError] }/> }
             <InfoCard
                 className={ classes.topCard }
                 title={ company?.defaultAddress?.name }
@@ -67,7 +57,19 @@ export default function CompanyDetails({ company }) {
                     </Grid>
                 }
             />
-            <CompanyAddressCards className={ classes.table } company={ company }/>
+            <Paper>
+                <NavTabs
+                    tabsLabelsMap={ tabsLabelsMap }
+                    tabValue={ tabValue }
+                    onChange={ setTabValue }
+                />
+                { tabValue === 'addresses' &&
+                <CompanyAddressCards className={ classes.table } company={ company }/>
+                }
+                { tabValue === 'bankDetails' &&
+                <CompanyBankDetails/>
+                }
+            </Paper>
         </Container>
     );
 }

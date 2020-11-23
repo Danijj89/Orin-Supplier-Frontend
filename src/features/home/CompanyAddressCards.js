@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Paper, Box, Typography, Grid } from '@material-ui/core';
+import { Box, Typography, Grid } from '@material-ui/core';
 import { LANGUAGE } from '../../app/constants.js';
 import { useDispatch } from 'react-redux';
 import AddressDialog from '../shared/forms/AddressDialog.js';
@@ -61,7 +61,7 @@ export default function CompanyAddressCards({ company, className }) {
         addressId === legalAddress._id || addressId === defaultAddress._id;
 
     return (
-        <Paper className={className}>
+        <Box className={className}>
             <Typography className={classes.addressTitle} variant="h5">
                 {addressesTableTitleLabel}
             </Typography>
@@ -96,6 +96,6 @@ export default function CompanyAddressCards({ company, className }) {
                 className={classes.newAddressButton}
                 company={company}
             />
-        </Paper>
+        </Box>
     );
 }

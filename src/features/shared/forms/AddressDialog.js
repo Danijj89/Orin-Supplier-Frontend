@@ -55,7 +55,9 @@ export default function AddressDialog({ isOpen, onSubmit, onCancel, submitLabel,
                 label={ typeLabel }
                 name="type"
                 inputRef={ register }
+                error={ !!errors.type }
                 autoFocus
+                required
             />
             <SideTextField
                 label={ nameLabel }

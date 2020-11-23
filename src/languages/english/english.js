@@ -60,6 +60,17 @@ export const ENGLISH = {
             industriesLabel: 'Industry',
             emailLabel: 'Company Email',
             phoneLabel: 'Company Phone',
+            tabsLabelsMap: {
+                addresses: 'Addresses',
+                bankDetails: 'Bank Details'
+            },
+            bankDetails: {
+                titleLabel: 'Bank Details',
+                tableHeaderLabelsMap: {
+                    bankDetail: 'Details',
+                    edit
+                }
+            }
         },
         newAddressButton: {
             typeLabel: 'Address Type',
