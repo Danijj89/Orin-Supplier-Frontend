@@ -75,7 +75,7 @@ const SalesContractProducts = React.memo(function SalesContractProducts(
         data.seller = companyId;
         data.sellerAdd = addressToDocAddress(data.sellerAdd);
         data.consigneeAdd = addressToDocAddress(data.consigneeAdd);
-        data.bankDetails = data.bankDetails.detail;
+        if (data.bankDetails) data.bankDetails = data.bankDetails.detail;
         data.createdBy = userId;
         dispatch(createDocument({ id: shipmentId, doc: data }))
         history.push(`/home/shipments/${ shipmentId }?tab=documents`);
