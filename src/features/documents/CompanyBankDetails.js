@@ -57,8 +57,8 @@ const CompanyBankDetails = React.memo(function CompanyBankDetails() {
     };
 
     const columns = [
-        { field: 'id', hide: true},
-        { field: 'detail', headerName: tableHeaderLabelsMap.detail}
+        { field: 'id', hide: true },
+        { field: 'detail', headerName: tableHeaderLabelsMap.detail }
     ];
 
     const rows = bankDetails.map(bankDetail => ({
@@ -71,7 +71,7 @@ const CompanyBankDetails = React.memo(function CompanyBankDetails() {
             <Typography className={ classes.title } variant="h5">
                 { titleLabel }
             </Typography>
-            <Table rows={rows} columns={columns} onRowClick={onRowClick}/>
+            <Table rows={ rows } columns={ columns } onRowClick={ onRowClick }/>
             { editBankDetail &&
             <BankDetailDialog
                 isOpen={ isEdit }

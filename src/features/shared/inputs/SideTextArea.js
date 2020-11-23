@@ -50,7 +50,8 @@ export default function SideTextArea(
         rows = 1,
         rowsMax = 1,
         disabled,
-        autoFocus
+        autoFocus,
+        ...props
     }) {
     const classes = useStyles({ rows, rowsMax });
     const classNames = clsx(
@@ -66,8 +67,9 @@ export default function SideTextArea(
                 { required && <span className={ classes.required }>*</span> }
             </Typography>
             <MuiTextField
+                {...props}
                 className={ classNames }
-                InputProps={ { disableUnderline: true } }
+                InputProps={ { ...props.InputProps, disableUnderline: true } }
                 required={ required }
                 error={ error }
                 rows={ rows }

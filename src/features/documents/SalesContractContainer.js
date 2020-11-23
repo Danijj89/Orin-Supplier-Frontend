@@ -29,7 +29,6 @@ const SalesContractContainer = React.memo(function SalesContractContainer() {
     const fetched = useRef(false);
     useEffect(() => {
         if (!fetched.current && companyId) {
-            dispatch(cleanNewDocument());
             if (shipmentDataStatus === 'IDLE') dispatch(fetchShipments({ companyId }));
             dispatch(fetchClients({ companyId }));
             fetched.current = true;

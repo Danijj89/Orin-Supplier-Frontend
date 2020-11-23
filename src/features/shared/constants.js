@@ -1,6 +1,7 @@
 export const documentObjectTypesOptions = [
-    { type: 'CI', name: 'Commercial Invoice'},
-    { type: 'PL', name: 'Packing List'},
+    { type: 'CI', name: 'Commercial Invoice' },
+    { type: 'PL', name: 'Packing List' },
+    { type: 'SC', name: 'Sales Contract' }
 ];
 export const documentTypesOptions = documentObjectTypesOptions.reduce((acc, doc) => {
     acc[doc.type] = doc.name;
