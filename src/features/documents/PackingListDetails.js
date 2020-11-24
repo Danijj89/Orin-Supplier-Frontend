@@ -3,6 +3,7 @@ import Typography from '@material-ui/core/Typography';
 import FormContainer from '../shared/wrappers/FormContainer.js';
 import RHFCheckBox from '../shared/rhf/inputs/RHFCheckBox.js';
 import SideTextField from '../shared/inputs/SideTextField.js';
+import Grid from '@material-ui/core/Grid';
 import RHFAutoComplete from '../shared/rhf/inputs/RHFAutoComplete.js';
 import { formatAddress } from '../shared/utils/format.js';
 import SideTextArea from '../shared/inputs/SideTextArea.js';
@@ -15,6 +16,7 @@ import { selectClientActiveAddresses, selectClientById } from '../clients/duck/s
 import { selectShipmentCommercialInvoices } from '../shipments/duck/selectors.js';
 import { useHistory } from 'react-router-dom';
 import Footer from '../shared/components/Footer.js';
+import { makeStyles } from '@material-ui/core/styles';
 
 const {
     titleLabel,
@@ -33,8 +35,15 @@ const fieldNames = {
     notes: 'notes'
 };
 
+const useStyles = makeStyles((theme) => ({
+    title: {
+        padding: theme.spacing(2),
+    }
+}));
+
 const PackingListDetails = React.memo(function PackingListDetails(
     { packingList, setPackingList, shipmentId, setStep }) {
+    const classes = useStyles();
     const history = useHistory();
     const companyAddresses = useSelector(selectCompanyActiveAddresses);
     const consignee = useSelector(state => selectClientById(state, packingList.consignee));
@@ -66,7 +75,8 @@ const PackingListDetails = React.memo(function PackingListDetails(
 
     return (
         <form onSubmit={ handleSubmit(onNextClick) } autoComplete="off">
-            <Typography variant="h5">{ titleLabel }</Typography>
+            <Typography className={classes.title} variant="h5">{ titleLabel }</Typography>
+            <Grid container justify="center">
             <FormContainer>
                 <RHFCheckBox
                     name={ fieldNames.autoGenerateRef }
@@ -133,6 +143,7 @@ const PackingListDetails = React.memo(function PackingListDetails(
                     rowsMax={ 8 }
                 />
             </FormContainer>
+            </Grid>
             <Footer
                 prevLabel={ prevButtonLabel }
                 nextLabel={ nextButtonLabel }

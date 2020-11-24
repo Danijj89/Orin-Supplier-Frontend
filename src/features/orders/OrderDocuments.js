@@ -4,6 +4,14 @@ import DocumentService from '../api/DocumentService.js';
 import { downloadFile } from '../shared/utils/file.js';
 import Paper from '@material-ui/core/Paper';
 import ShipmentDocumentsCard from './ShipmentDocumentsCard.js';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+    shipmentCards: {
+        marginBottom: theme.spacing(3),
+        marginTop: theme.spacing(1)
+    }
+}));
 
 export default function OrderDocuments({ order }) {
 
@@ -11,6 +19,7 @@ export default function OrderDocuments({ order }) {
         const file = await DocumentService.downloadOrder(order._id, ext);
         downloadFile(file, `${ order.fileName }.${ ext }`);
     };
+    const classes = useStyles();
 
     return (
         <Paper>
@@ -21,7 +30,7 @@ export default function OrderDocuments({ order }) {
                 onClick={ () => onGenerateDoc('pdf') }
             >Generate PDF</ThemedButton>
             { order.shipmentIds.map(id =>
-                <ShipmentDocumentsCard key={ id } shipmentId={ id }/>
+                <ShipmentDocumentsCard className={classes.shipmentCards} key={ id } shipmentId={ id }/>
             ) }
         </Paper>
     )

@@ -20,6 +20,8 @@ import { useHistory, useLocation } from 'react-router-dom';
 import queryString from 'query-string';
 import RHFDateField from '../shared/rhf/inputs/RHFDateField.js';
 import { incotermOptions } from '../shared/constants.js';
+import { makeStyles } from '@material-ui/core/styles';
+
 
 const {
     titleLabel,
@@ -43,12 +45,24 @@ const fieldNames = {
     notes: 'notes'
 };
 
+const useStyles = makeStyles((theme) => ({
+    root: {
+        marginTop: theme.spacing(1),
+        padding: theme.spacing(1),
+        paddingBottom: theme.spacing(6),
+    },
+    title: {
+        padding: theme.spacing(2),
+    }
+}));
+
 const CommercialInvoiceDetails = React.memo(function CommercialInvoiceDetails(
     {
         commercialInvoice,
         setCommercialInvoice,
         setStep
     }) {
+    const classes = useStyles();
     const location = useLocation();
     const { shipment: shipmentId } = queryString.parse(location.search);
     const history = useHistory();
@@ -87,9 +101,9 @@ const CommercialInvoiceDetails = React.memo(function CommercialInvoiceDetails(
 
     return (
         <form onSubmit={ handleSubmit(onNextClick) } autoComplete="off">
-            <Grid container justify="center">
+            <Grid container className={classes.root} justify="center">
                 <Grid item xs={ 12 }>
-                    <Typography variant="h5">{ titleLabel }</Typography>
+                    <Typography className={classes.title} variant="h5">{ titleLabel }</Typography>
                 </Grid>
                 <Grid item>
                     <FormContainer>

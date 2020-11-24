@@ -8,21 +8,30 @@ import { useSelector } from 'react-redux';
 import { selectShipmentById } from '../shipments/duck/selectors.js';
 import Grid from '@material-ui/core/Grid';
 import ShipmentDocumentTable from '../shared/components/ShipmentDocumentTable.js';
+import { makeStyles } from '@material-ui/core/styles';
+
 
 const {
     titleLabel
 } = LANGUAGE.order.order.orderDocuments.shipmentDocumentsCard;
 
-const ShipmentDocumentsCard = React.memo(function ShipmentDocumentsCard({ shipmentId }) {
+const useStyles = makeStyles((theme) => ({
+    shipmentIDLabel: {
+        paddingLeft: theme.spacing(2),
+    }
+}));
+
+const ShipmentDocumentsCard = React.memo(function ShipmentDocumentsCard({ shipmentId, className }) {
+    const classes = useStyles();
     const history = useHistory();
     const shipment = useSelector(state => selectShipmentById(state, shipmentId));
 
     const onShipmentClick = () => history.push(`/home/shipments/${ shipmentId }`);
 
     return (
-        <Grid container>
+        <Grid className = {className} container>
             <Grid container item alignItems="center">
-                <Typography variant="subtitle1">{ titleLabel }</Typography>
+                <Typography className={classes.shipmentIDLabel} variant="subtitle1">{ titleLabel }</Typography>
                 <ThemedButton variant="text" onClick={ onShipmentClick }>
                     { shipment.ref }
                 </ThemedButton>
