@@ -7,13 +7,11 @@ import SideTextField from '../inputs/SideTextField.js';
 
 const { passwordLabel, newPasswordLabel, confirmPasswordLabel } = LANGUAGE.shared.forms.resetPasswordDialog;
 
-export default function ResetPassWordDialog(
+const ResetPassWordDialog = React.memo(function ResetPassWordDialog(
     { isOpen, titleLabel, submitLabel, onSubmit, onCancel, className }) {
     const { register, errors, handleSubmit } = useForm({
         mode: 'onSubmit'
     });
-
-    const onFormSubmit = (data) => onSubmit(data);
 
     return (
         <FormDialog
@@ -22,7 +20,7 @@ export default function ResetPassWordDialog(
             titleLabel={ titleLabel }
             submitLabel={ submitLabel }
             onCancel={ onCancel }
-            onSubmit={ handleSubmit(onFormSubmit) }
+            onSubmit={ handleSubmit(onSubmit) }
         >
             <SideTextField
                 label={ passwordLabel }
@@ -31,7 +29,6 @@ export default function ResetPassWordDialog(
                 inputRef={ register({ required: true }) }
                 error={ !!errors.password }
                 required
-                fullWidth
                 autoFocus
             />
             <SideTextField
@@ -41,7 +38,6 @@ export default function ResetPassWordDialog(
                 inputRef={ register({ required: true }) }
                 error={ !!errors.newPassword }
                 required
-                fullWidth
             />
             <SideTextField
                 label={ confirmPasswordLabel }
@@ -50,13 +46,12 @@ export default function ResetPassWordDialog(
                 inputRef={ register({ required: true }) }
                 error={ !!errors.confirmPassword }
                 required
-                fullWidth
             />
         </FormDialog>
     )
-}
+});
 
-FormDialog.propTypes = {
+ResetPassWordDialog.propTypes = {
     onSubmit: PropTypes.func.isRequired,
     onCancel: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
@@ -64,3 +59,5 @@ FormDialog.propTypes = {
     submitLabel: PropTypes.string.isRequired,
     className: PropTypes.string,
 };
+
+export default ResetPassWordDialog;

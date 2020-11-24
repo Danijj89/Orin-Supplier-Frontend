@@ -10,16 +10,6 @@ export const updateUser = createAsyncThunk('users/updateUser',
         }
     });
 
-export const resetPassword = createAsyncThunk('users/resetPassword',
-    async (data, { rejectWithValue }) => {
-        const { id, ...rest } = data;
-        try {
-            return await UserService.resetPassword(id, rest);
-        } catch (err) {
-            return rejectWithValue(err.response.data);
-        }
-    });
-
 export const fetchUsers = createAsyncThunk('users/fetchUsers',
     async ({ companyId }, { rejectWithValue }) => {
         try {

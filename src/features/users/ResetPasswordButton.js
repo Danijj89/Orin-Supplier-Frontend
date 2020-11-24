@@ -4,7 +4,7 @@ import { Box } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import ResetPassWordDialog from '../shared/forms/ResetPasswordDialog.js';
-import { resetPassword } from './duck/thunks.js';
+import { updateUser } from './duck/thunks.js';
 
 const {
     resetButtonLabel,
@@ -12,7 +12,7 @@ const {
     dialogSubmitLabel,
 } = LANGUAGE.home.resetPasswordButton;
 
-export default function ResetPasswordButton({ userId, ...props }) {
+const ResetPasswordButton = React.memo(function ResetPasswordButton({ userId, className }) {
     const dispatch = useDispatch();
     const [isEdit, setIsEdit] = useState(false);
 
@@ -20,17 +20,16 @@ export default function ResetPasswordButton({ userId, ...props }) {
     const onCancelResetDialog = () => setIsEdit(false);
 
     const onSubmitResetDialog = (data) => {
-        data.id = userId;
-        dispatch(resetPassword(data));
+        dispatch(updateUser({ userId, update: data }));
         setIsEdit(false);
     };
 
     return (
-        <Box { ...props }>
+        <Box className={ className }>
             <ThemedButton
-                onClick={onEdit}
+                onClick={ onEdit }
             >
-                {resetButtonLabel}
+                { resetButtonLabel }
             </ThemedButton>
             <ResetPassWordDialog
                 isOpen={ isEdit }
@@ -41,4 +40,6 @@ export default function ResetPasswordButton({ userId, ...props }) {
             />
         </Box>
     )
-}
+});
+
+export default ResetPasswordButton;

@@ -1,6 +1,5 @@
 import { AXIOS_REQUEST_CONFIG } from '../../app/constants.js';
 import axios from 'axios';
-import { fetchWithAuth } from './utils.js';
 
 const signIn = async (data) => {
     const configs = {

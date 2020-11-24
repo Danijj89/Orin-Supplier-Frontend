@@ -1,5 +1,5 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import { fetchUsers, resetPassword, updateUser } from './thunks.js';
+import { fetchUsers, updateUser } from './thunks.js';
 
 export const usersAdapter = createEntityAdapter({
     selectId: user => user._id,
@@ -32,16 +32,6 @@ const usersSlice = createSlice({
             state.status = 'IDLE';
         },
         [updateUser.rejected]: (state, action) => {
-            state.status = 'REJECTED';
-            state.error = action.payload.message;
-        },
-        [resetPassword.pending]: (state, action) => {
-            state.status = 'PENDING';
-        },
-        [resetPassword.fulfilled]: (state, action) => {
-            state.status = 'IDLE';
-        },
-        [resetPassword.rejected]: (state, action) => {
             state.status = 'REJECTED';
             state.error = action.payload.message;
         },
