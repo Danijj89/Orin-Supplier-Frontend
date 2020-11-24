@@ -27,7 +27,7 @@ const Client = React.memo(function Client() {
     const client = useSelector((state) => selectClientById(state, id));
 
     const onNotesSubmit = (notes) =>
-        dispatch(updateClientNotes({ id: client._id, notes }));
+        dispatch(updateClientNotes({ id: client._id, notes: { notes } }));
 
     return (
         <Container>

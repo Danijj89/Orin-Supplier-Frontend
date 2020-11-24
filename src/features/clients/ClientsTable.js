@@ -1,24 +1,24 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { ChatBubble as IconChatFull, ChatBubbleOutline as IconChatEmpty } from '@material-ui/icons';
 import { LANGUAGE } from '../../app/constants.js';
-import ThemedButton from '../shared/buttons/ThemedButton.js';
 import Table from '../shared/components/table/Table.js';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectAllClients } from './duck/selectors.js';
+import PopoverNotes from '../shared/components/PopoverNotes.js';
+import { updateClientNotes } from './duck/thunks.js';
 
 const { clientTableHeadersMap } = LANGUAGE.client.clientOverview;
 
 export default function ClientsTable() {
     const history = useHistory();
+    const dispatch = useDispatch();
     const clients = useSelector(selectAllClients);
 
     const onRowClick = (row) =>
         history.push(`/home/clients/${ row.id }`);
 
-    const renderNotes = (params) => params.notes
-        ? <ThemedButton variant="text"><IconChatFull/></ThemedButton>
-        : <ThemedButton variant="text"><IconChatEmpty/></ThemedButton>;
+    const onNotesSubmit = (clientId, data) =>
+        dispatch(updateClientNotes({ id: clientId, notes: data }));
 
     const columns = [
         { field: 'id', hide: true },
@@ -29,7 +29,15 @@ export default function ClientsTable() {
         { field: 'salesYTD', headerName: clientTableHeadersMap.salesYTD, type: 'number' },
         { field: 'orderCountYTD', headerName: clientTableHeadersMap.orderCountYTD, type: 'number' },
         { field: 'assignedTo', headerName: clientTableHeadersMap.assignedTo },
-        { field: 'notes', headerName: clientTableHeadersMap.notes, renderCell: renderNotes, }
+        {
+            field: 'notes',
+            headerName: clientTableHeadersMap.notes,
+            renderCell: (params) =>
+                <PopoverNotes
+                    notes={ params.notes }
+                    onSubmit={ (data) => onNotesSubmit(params.id, data)}
+                />
+        }
     ];
 
     const rows = clients.filter(client => client.active).map(client => ({
@@ -45,6 +53,6 @@ export default function ClientsTable() {
     }));
 
     return (
-        <Table rows={ rows } columns={ columns } onRowClick={ onRowClick } />
+        <Table rows={ rows } columns={ columns } onRowClick={ onRowClick }/>
     )
 }

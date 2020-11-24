@@ -48,7 +48,7 @@ const DocumentButton = React.memo(function DocumentButton() {
             default:
                 history.push('/home/shipments');
         }
-    }, [history, id]);
+    }, [dispatch, history, id]);
 
     return (
         <Box>

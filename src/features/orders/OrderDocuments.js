@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function OrderDocuments({ order }) {
 
-    const onGenerateDoc = async (ext) => {
+    const onGenerateDoc = async (event, ext) => {
         const file = await DocumentService.downloadOrder(order._id, ext);
         downloadFile(file, `${ order.fileName }.${ ext }`);
     };
@@ -24,10 +24,10 @@ export default function OrderDocuments({ order }) {
     return (
         <Paper>
             <ThemedButton
-                onClick={ () => onGenerateDoc('xlsx') }
+                onClick={ event => onGenerateDoc(event, 'xlsx') }
             >Generate Excel</ThemedButton>
             <ThemedButton
-                onClick={ () => onGenerateDoc('pdf') }
+                onClick={ event => onGenerateDoc(event, 'pdf') }
             >Generate PDF</ThemedButton>
             { order.shipmentIds.map(id =>
                 <ShipmentDocumentsCard className={classes.shipmentCards} key={ id } shipmentId={ id }/>

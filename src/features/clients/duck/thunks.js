@@ -118,7 +118,7 @@ export const deleteClient = createAsyncThunk('clients/deleteClient',
 export const updateClientNotes = createAsyncThunk('clients/updateClientNotes',
     async ({ id, notes }, { rejectWithValue }) => {
         try {
-            await ClientService.updateClientNotes(id, { notes });
+            await ClientService.updateClientNotes(id, notes);
             return { id, notes };
         } catch (err) {
             return rejectWithValue(err.response.data);
