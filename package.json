@@ -15,7 +15,6 @@
     "@types/react-router-dom": "^5.1.5",
     "@welldone-software/why-did-you-render": "^5.0.0",
     "axios": "^0.19.2",
-    "classnames": "^2.2.6",
     "clsx": "^1.1.1",
     "date-fns": "^2.16.1",
     "jquery": "^3.5.1",
@@ -28,7 +27,7 @@
     "react-hook-form": "^6.1.0",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "^3.4.3",
+    "react-scripts": "^3.4.4",
     "typescript": "^3.9.7"
   },
   "scripts": {
