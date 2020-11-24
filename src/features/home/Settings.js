@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import { Container } from '@material-ui/core';
 import { LANGUAGE } from '../../app/constants.js';
@@ -15,20 +16,24 @@ import queryString from 'query-string';
 const { tabsLabelsMap } = LANGUAGE.home.settings;
 
 export default function Settings() {
+    const history = useHistory();
     const location = useLocation();
     const { tab } = queryString.parse(location.search);
+    const tabValue = tab || 'account';
     const company = useSelector(selectCurrentCompany);
     const userId = useSelector(selectCurrentUserId);
-    const [tabValue, setTabValue] = useState(tab || 'account');
     const user = useSelector(state => selectUserById(state, userId));
     const users = useSelector(selectAllUsers);
+
+    const onTabChange = (newValue) =>
+        history.push(`/home/settings?tab=${newValue}`);
 
     return (
         <Container>
             <NavTabs
                 tabsLabelsMap={ tabsLabelsMap }
                 tabValue={ tabValue }
-                onChange={ setTabValue }
+                onChange={ onTabChange }
             />
             { tabValue === 'account' && <AccountDetails user={ user }/> }
             { tabValue === 'colleagues' && <CompanyUsers users={ users }/> }

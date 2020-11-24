@@ -7,6 +7,8 @@ import { LANGUAGE } from '../../app/constants.js';
 import { Controller, useForm } from 'react-hook-form';
 import SideAutoComplete from '../shared/inputs/SideAutoComplete.js';
 import { documentObjectTypesOptions } from '../shared/constants.js';
+import { useDispatch } from 'react-redux';
+import { cleanNewDocument } from '../documents/duck/slice.js';
 
 const {
     buttonLabel,
@@ -17,6 +19,7 @@ const {
 
 const DocumentButton = React.memo(function DocumentButton() {
     const history = useHistory();
+    const dispatch = useDispatch();
     const { id } = useParams();
     const [isEdit, setIsEdit] = useState(false);
 
@@ -31,12 +34,16 @@ const DocumentButton = React.memo(function DocumentButton() {
     const onCancel = useCallback(() => setIsEdit(false), []);
 
     const onSubmit = useCallback((data) => {
+        dispatch(cleanNewDocument());
         switch (data.document.type) {
             case 'CI':
                 history.push(`/home/documents/ci/new?shipment=${id}`);
                 break;
             case 'PL':
                 history.push(`/home/documents/pl/new?shipment=${id}`);
+                break;
+            case 'SC':
+                history.push(`/home/documents/sc/new?step=details&shipment=${id}`);
                 break;
             default:
                 history.push('/home/shipments');

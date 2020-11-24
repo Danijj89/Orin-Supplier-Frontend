@@ -66,9 +66,20 @@ export const ENGLISH = {
             },
             bankDetails: {
                 titleLabel: 'Bank Details',
+                dialogTitleLabel: 'Edit Bank Details',
+                dialogSubmitLabel: 'Update',
                 tableHeaderLabelsMap: {
-                    bankDetail: 'Details',
+                    detail: 'Bank Details'
                 }
+            },
+            bankDetailDialog: {
+                detailLabel: 'Bank Details',
+                deleteMessage: 'Are you sure you want to delete this bank details?'
+            },
+            newBankDetailButton: {
+                buttonLabel: 'Add Bank Details',
+                dialogTitleLabel: 'New Bank Details',
+                dialogSubmitLabel: 'Create'
             }
         },
         newAddressButton: {
@@ -301,35 +312,6 @@ export const ENGLISH = {
             }
         }
     },
-    packingList: {
-        createPL: {
-            steps: ['Packing List', 'Product Info', 'Review'],
-            title: 'Packing List',
-        },
-        createPLDetailsForm: {
-            plRefLabel: 'Packing List Number*',
-            dateLabel: 'Packing List Date',
-            notesLabel: 'Notes',
-            cancelButton: 'Cancel',
-            nextButton: 'Next: Product Data',
-        },
-        createPLProductInfo: {
-            measurementUnitLabel: 'Measurement Unit',
-            weightUnitLabel: 'Weight Unit',
-            marksLabel: 'Marks and Numbers',
-            prevButton: 'Back: Details',
-            nextButton: 'Next: Preview',
-            errorMessages: {
-                missingItemInfo: 'Some item is missing information.',
-                mUnit: 'You must select a measurement unit.',
-                wUnit: 'You must select a weight unit.',
-            },
-        },
-        createPLProductTable: {
-            addRowButton: 'Add',
-            totalsText: 'Totals:',
-        },
-    },
     shipment: {
         overview: {
             newShipmentButtonLabel: 'New Shipment',
@@ -505,7 +487,7 @@ export const ENGLISH = {
             details: {
                 titleLabel: 'Packing List Details',
                 formLabels: {
-                    autoGenerateRef: 'Auto-generate Invoice Number',
+                    autoGenerateRef: 'Auto-generate Packing List Number',
                     ref: 'Invoice Number',
                     sellerAdd: 'Seller Address',
                     consignee: 'Client',
@@ -519,6 +501,34 @@ export const ENGLISH = {
             },
             products: {
                 titleLabel: 'Packing List Products',
+                prevButtonLabel: 'Details',
+                nextButtonLabel: 'Generate',
+            }
+        },
+        sc: {
+            details: {
+                titleLabel: 'Sales Contract Details',
+                formLabels: {
+                    autoGenerateRef: 'Auto-generate Contract Number',
+                    ref: 'Invoice Number',
+                    sellerAdd: 'Seller Address',
+                    consignee: 'Client',
+                    consigneeAdd: 'Client Address',
+                    date: 'Date',
+                    bankDetails: 'Bank Details',
+                    termsOfPayment: 'Terms of Payment',
+                    timeOfShipment: 'Time of Shipment',
+                    insurance: 'Insurance',
+                    customText: 'Custom Text',
+                    pol: 'Port of Loading',
+                    pod: 'Port of Destination',
+                    notes: 'Package'
+                },
+                prevButtonLabel: 'Cancel',
+                nextButtonLabel: 'Next',
+            },
+            products: {
+                titleLabel: 'Contract Products',
                 prevButtonLabel: 'Details',
                 nextButtonLabel: 'Generate',
             }

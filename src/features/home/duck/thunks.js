@@ -46,10 +46,9 @@ export const deleteAddress = createAsyncThunk('home/deleteAddress',
     });
 
 export const updateAddress = createAsyncThunk('home/updateAddress',
-    async ({ companyId, ...update }, { rejectWithValue }) => {
+    async ({ companyId, addressId, update }, { rejectWithValue }) => {
         try {
-            await CompanyService.updateAddress(companyId, update._id, update);
-            return update;
+            return await CompanyService.updateAddress(companyId, addressId, update);
         } catch (err) {
             return rejectWithValue(err.response.data);
         }
@@ -64,3 +63,31 @@ export const updateDefaultAddress = createAsyncThunk('home/updateDefaultAddress'
             return rejectWithValue(err.response.data);
         }
     });
+
+export const createCompanyBankDetail = createAsyncThunk('home/createCompanyBankDetail',
+    async ({ id, data }, { rejectWithValue }) => {
+        try {
+            return await CompanyService.createCompanyBankDetail(id, data);
+        } catch (err) {
+            return rejectWithValue(err.response.data);
+        }
+    });
+
+export const deleteCompanyBankDetail = createAsyncThunk('home/deleteCompanyBankDetail',
+    async ({ companyId, bankDetailId }, { rejectWithValue }) => {
+        try {
+            return await CompanyService.deleteCompanyBankDetail(companyId, bankDetailId);
+        } catch (err) {
+            return rejectWithValue(err.response.data);
+        }
+    });
+
+export const updateCompanyBankDetail = createAsyncThunk('home/updateCompanyBankDetail',
+    async ({ companyId, bankDetailId, update }, { rejectWithValue }) => {
+        try {
+            return await CompanyService.updateCompanyBankDetail(companyId, bankDetailId, update);
+        } catch (err) {
+            return rejectWithValue(err.response.data);
+        }
+    });
+

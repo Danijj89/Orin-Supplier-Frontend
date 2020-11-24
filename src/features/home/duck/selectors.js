@@ -9,4 +9,7 @@ export const selectCompanyActiveAddresses = createSelector(
 );
 export const selectCompanyPorts = state => state.home.company.ports;
 export const selectCompanyId = state => state.home.company?._id;
-export const selectCompanyBankDetails = state => state.home.company.bankDetails;
+export const selectActiveCompanyBankDetails = createSelector(
+    state => state.home.company.bankDetails,
+    bankDetails => bankDetails.filter(bd => bd.active)
+);

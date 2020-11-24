@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Box, Button } from '@material-ui/core';
+import { Box, Button, IconButton } from '@material-ui/core';
+import { Delete as IconDelete } from '@material-ui/icons';
 import { LANGUAGE } from '../../../app/constants.js';
 import { makeStyles } from '@material-ui/core/styles';
 import FormDialog from '../wrappers/FormDialog.js';
@@ -18,7 +19,8 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const DeleteButton = React.memo(function DeleteButton({ onDelete, deleteMessage, className }) {
+const DeleteButton = React.memo(function DeleteButton(
+    { onDelete, deleteMessage, variant = 'text', className }) {
     const classes = useStyles();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -36,20 +38,25 @@ const DeleteButton = React.memo(function DeleteButton({ onDelete, deleteMessage,
 
     return (
         <Box>
+            { variant === 'text' &&
             <Button
-                onClick={(e) => onDialogOpen(e)}
+                onClick={ (e) => onDialogOpen(e) }
                 size="small"
                 color="inherit"
-                className={classNames(classes.button, className)}
+                className={ classNames(classes.button, className) }
             >
-                {deleteButtonLabel}
-            </Button>
+                { deleteButtonLabel }
+            </Button> }
+            { variant === 'icon' &&
+            <IconButton>
+                <IconDelete/>
+            </IconButton> }
             <FormDialog
-                isOpen={isDialogOpen}
-                titleLabel={deleteMessage}
-                submitLabel={confirmButton}
-                onCancel={onCancel}
-                onSubmit={onConfirm}
+                isOpen={ isDialogOpen }
+                titleLabel={ deleteMessage }
+                submitLabel={ confirmButton }
+                onCancel={ onCancel }
+                onSubmit={ onConfirm }
             />
         </Box>
     );
@@ -58,6 +65,7 @@ const DeleteButton = React.memo(function DeleteButton({ onDelete, deleteMessage,
 DeleteButton.propTypes = {
     onDelete: PropTypes.func.isRequired,
     deleteMessage: PropTypes.string.isRequired,
+    variant: PropTypes.oneOf(['variant', 'icon']),
     className: PropTypes.string,
 };
 
