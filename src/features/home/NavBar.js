@@ -31,6 +31,7 @@ import { fetchOrders } from '../orders/duck/thunks.js';
 import { fetchClients } from '../clients/duck/thunks.js';
 import { fetchShipments } from '../shipments/duck/thunks.js';
 import { fetchProducts } from '../products/duck/thunks.js';
+import { selectCurrentUser } from '../../app/duck/selectors.js';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -85,13 +86,14 @@ const {
     helloMessageLabel
 } = LANGUAGE.home.navbar;
 
-const NavBar = React.memo(function NavBar({ user }) {
+const NavBar = React.memo(function NavBar() {
     const classes = useStyles();
     const dispatch = useDispatch();
     const history = useHistory();
     const location = useLocation();
     const currentTab = location.pathname.split('/')[2];
     const companyId = useSelector(selectCompanyId);
+    const user = useSelector(selectCurrentUser);
 
     const onTabClick = (tabName, href) => {
         if (tabName === currentTab) {

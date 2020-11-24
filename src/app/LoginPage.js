@@ -10,7 +10,7 @@ import { useForm } from 'react-hook-form';
 import { makeStyles } from '@material-ui/core/styles';
 import loginImg from '../images/login.png';
 import { signIn } from './duck/thunks.js';
-import { selectAppError, selectCurrentUserId } from './duck/selectors.js';
+import { selectAppError, selectCurrentUser } from './duck/selectors.js';
 
 const {
     title, emailLabel, errorMessages,
@@ -76,7 +76,7 @@ export default function LoginPage() {
     const classes = useStyles();
     const dispatch = useDispatch();
     const appError = useSelector(selectAppError);
-    const userId = useSelector(selectCurrentUserId);
+    const user = useSelector(selectCurrentUser);
 
     const { register, errors, handleSubmit } = useForm({
         mode: 'onSubmit',
@@ -95,7 +95,7 @@ export default function LoginPage() {
 
     return (
         <Grid container className={ classes.container }>
-            { userId && <Redirect to={ '/home/settings?tab=account' }/> }
+            { user && <Redirect to={ '/home/settings?tab=account' }/> }
             <Grid item xs={ 5 } className={ classes.leftPanel }>
                 <CardMedia className={ classes.logo } component="img" src={ logo } alt="Logo"/>
                 <Typography variant="h3">{ title }</Typography>

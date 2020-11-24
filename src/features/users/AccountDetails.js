@@ -4,7 +4,7 @@ import { LANGUAGE } from '../../app/constants.js';
 import { useDispatch, useSelector } from 'react-redux';
 import TextWithLabel from '../shared/components/TextWithLabel.js';
 import ResetPasswordButton from './ResetPasswordButton.js';
-import { selectAppError, selectStatus } from '../../app/duck/selectors.js';
+import { selectAppError, selectAppStatus } from '../../app/duck/selectors.js';
 import ErrorMessages from '../shared/components/ErrorMessages.js';
 import { cleanError } from '../../app/duck/slice.js';
 import InfoCard from '../shared/wrappers/InfoCard.js';
@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
 export default function AccountDetails({ user }) {
     const classes = useStyles();
     const dispatch = useDispatch();
-    const status = useSelector(selectStatus);
+    const status = useSelector(selectAppStatus);
     const error = useSelector(selectAppError);
 
     useEffect(() => {

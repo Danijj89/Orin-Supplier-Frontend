@@ -1,16 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { SESSION_USER_ID } from '../../../app/sessionKeys.js';
-import AppService from '../../api/AppService.js';
-import { setUsers } from '../../users/duck/slice.js';
 import CompanyService from '../../api/CompanyService.js';
 
-export const fetchSessionInfo = createAsyncThunk('home/fetchAppData',
-    async (_, { rejectWithValue, dispatch }) => {
+export const fetchCompanyById = createAsyncThunk('home/fetchAppData',
+    async ({ companyId }, { rejectWithValue }) => {
         try {
-            const userId = JSON.parse(sessionStorage.getItem(SESSION_USER_ID));
-            const { users, company } = await AppService.fetchSessionInfo(userId);
-            dispatch(setUsers(users));
-            return company;
+            return await CompanyService.fetchCompanyById(companyId);
         } catch (err) {
             return rejectWithValue(err.response.data);
         }

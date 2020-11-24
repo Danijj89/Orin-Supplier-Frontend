@@ -1,12 +1,8 @@
-import React, { useEffect, lazy } from 'react';
+import React, { lazy } from 'react';
 import { useRouteMatch } from 'react-router-dom';
 import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import NavBar from './NavBar.js';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectCurrentUserId } from '../../app/duck/selectors.js';
-import { selectUserById } from '../users/duck/selectors.js';
-import { fetchSessionInfo } from './duck/thunks.js';
 import Route from '../shared/components/AppRoute.js';
 import { Switch, Redirect } from 'react-router-dom';
 import Suspense from '../shared/components/Suspense.js';
@@ -43,15 +39,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Home = React.memo(function Home() {
     const classes = useStyles();
-    const dispatch = useDispatch();
     const match = useRouteMatch();
-    const userId = useSelector(selectCurrentUserId);
-    const user = useSelector(state => selectUserById(state, userId));
-
-
-    useEffect(() => {
-        dispatch(fetchSessionInfo());
-    }, [dispatch]);
 
     return (
         <Grid
@@ -61,7 +49,7 @@ const Home = React.memo(function Home() {
             className={ classes.root }
         >
             <Grid item>
-                { user && <NavBar user={ user }/> }
+                <NavBar />
             </Grid>
             <Grid item className={ classes.content }>
                 <Switch>

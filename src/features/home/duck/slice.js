@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import {
     addNewAddress, createCompanyBankDetail,
     deleteAddress, deleteCompanyBankDetail,
-    fetchSessionInfo,
+    fetchCompanyById,
     updateAddress,
     updateCompany, updateCompanyBankDetail,
     updateDefaultAddress
@@ -24,14 +24,14 @@ const homeSlice = createSlice({
         }
     },
     extraReducers: {
-        [fetchSessionInfo.pending]: (state, action) => {
+        [fetchCompanyById.pending]: (state, action) => {
             state.status = 'PENDING';
         },
-        [fetchSessionInfo.fulfilled]: (state, action) => {
+        [fetchCompanyById.fulfilled]: (state, action) => {
             state.company = action.payload;
             state.status = 'FULFILLED';
         },
-        [fetchSessionInfo.rejected]: (state, action) => {
+        [fetchCompanyById.rejected]: (state, action) => {
             state.status = 'REJECTED';
             state.error = action.payload.message;
         },

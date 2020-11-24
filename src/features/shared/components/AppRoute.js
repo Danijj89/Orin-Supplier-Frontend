@@ -1,6 +1,6 @@
 import React from 'react';
 import { Redirect, Route } from 'react-router-dom';
-import { SESSION_COOKIE, SESSION_USER_ID } from '../../../app/sessionKeys.js';
+import { SESSION_COOKIE, SESSION_USER } from '../../../app/sessionKeys.js';
 import { useDispatch } from 'react-redux';
 import { cleanAppState } from '../../../app/duck/slice.js';
 
@@ -11,7 +11,7 @@ export default ({ children, isPrivate, ...rest }) => {
     if (isPrivate && expired) {
         dispatch(cleanAppState());
         sessionStorage.removeItem(SESSION_COOKIE);
-        sessionStorage.removeItem(SESSION_USER_ID);
+        sessionStorage.removeItem(SESSION_USER);
         return <Redirect to='/login' />
     }
     return (

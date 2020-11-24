@@ -6,10 +6,11 @@ import { MuiThemeProvider, } from '@material-ui/core';
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import appTheme from './themes/theme.js';
-import Home from '../features/home/Home.js';
 import NotFound from '../features/shared/components/NotFound.js';
+import HomeContainer from '../features/home/HomeContainer.js';
 
 export default function App() {
+
     return (
         <MuiThemeProvider theme={ appTheme }>
             <MuiPickersUtilsProvider utils={ DateFnsUtils }>
@@ -18,7 +19,7 @@ export default function App() {
                         <LoginPage/>
                     </Route>
                     <Route path='/home'>
-                        <Home/>
+                        <HomeContainer/>
                     </Route>
                     <Route>
                         <NotFound/>

@@ -21,21 +21,8 @@ const signIn = async (data) => {
     }
 };
 
-const fetchSessionInfo = async (userId) => {
-    const configs = {
-        method: 'get',
-        url: 'app/home',
-        params: {
-            user: userId
-        }
-    };
-    const { data } = await fetchWithAuth(configs);
-    return data;
-};
-
 const AppService = {
-    signIn,
-    fetchSessionInfo
+    signIn
 };
 
 export default AppService;
