@@ -1,5 +1,5 @@
 import React from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCompanyActiveAddresses, selectCompanyPorts } from '../home/duck/selectors.js';
 import { selectClientActiveAddresses } from '../clients/duck/selectors.js';
@@ -7,7 +7,6 @@ import { Grid } from '@material-ui/core';
 import { formatAddress } from '../shared/utils/format.js';
 import InfoCard from '../shared/wrappers/InfoCard.js';
 import { LANGUAGE } from '../../app/constants.js';
-import SideDateField from '../shared/inputs/SideDateField.js';
 import {
     billOfLandingTypesOptions,
     deliveryMethodOptions,
@@ -19,6 +18,7 @@ import { updateShipmentInfo } from './duck/thunks.js';
 import { addressToDocAddress } from '../shared/utils/entityConversion.js';
 import { makeStyles } from '@material-ui/core/styles';
 import RHFAutoComplete from '../shared/rhf/inputs/RHFAutoComplete.js';
+import RHFDateField from '../shared/rhf/inputs/RHFDateField.js';
 
 const {
     partiesTitleLabel,
@@ -125,15 +125,10 @@ const ShipmentInfo = React.memo(function ShipmentInfo({ shipment }) {
                 content={
                     <Grid container>
                         <Grid container item justify="flex-end" xs={ 6 }>
-                            <Controller
-                                render={ props =>
-                                    <SideDateField
-                                        { ...props }
-                                        label={ formLabels.crd }
-                                    />
-                                }
+                            <RHFDateField
+                                rhfControl={ control }
                                 name="crd"
-                                control={ control }
+                                label={ formLabels.crd }
                             />
                             <RHFAutoComplete
                                 rhfControl={ control }
@@ -193,25 +188,15 @@ const ShipmentInfo = React.memo(function ShipmentInfo({ shipment }) {
                                 name="carrier"
                                 inputRef={ register }
                             />
-                            <Controller
-                                render={ props =>
-                                    <SideDateField
-                                        { ...props }
-                                        label={ formLabels.etd }
-                                    />
-                                }
+                            <RHFDateField
+                                rhfControl={ control }
                                 name="etd"
-                                control={ control }
+                                label={ formLabels.etd }
                             />
-                            <Controller
-                                render={ props =>
-                                    <SideDateField
-                                        { ...props }
-                                        label={ formLabels.eta }
-                                    />
-                                }
+                            <RHFDateField
+                                rhfControl={ control }
                                 name="eta"
-                                control={ control }
+                                label={ formLabels.eta }
                             />
                         </Grid>
                     </Grid>

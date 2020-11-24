@@ -1,12 +1,11 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import FormDialog from '../shared/wrappers/FormDialog.js';
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { makeStyles } from '@material-ui/core/styles';
 import { Box, Divider, Typography } from '@material-ui/core';
 import FormContainer from '../shared/wrappers/FormContainer.js';
 import { orderStatusesOptions } from '../shared/constants.js';
 import { LANGUAGE } from '../../app/constants.js';
-import SideDateField from '../shared/inputs/SideDateField.js';
 import PropTypes from 'prop-types';
 import RHFAutoComplete from '../shared/rhf/inputs/RHFAutoComplete.js';
 import OrderStatusListItem from './OrderStatusListItem.js';
@@ -50,7 +49,7 @@ const OrderStatusDialog = React.memo(function OrderStatusDialog(
     }) {
     const classes = useStyles();
     const { procurement, production, qa } = status;
-    const { register, control, handleSubmit, errors, watch, setValue } = useForm({
+    const { control, handleSubmit, errors, watch, setValue } = useForm({
         mode: 'onSubmit',
         defaultValues: {
             procurementStatus: procurement.status,
