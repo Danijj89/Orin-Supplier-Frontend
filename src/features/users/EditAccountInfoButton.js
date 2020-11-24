@@ -3,8 +3,10 @@ import ThemedButton from '../shared/buttons/ThemedButton.js';
 import UserDialog from '../shared/forms/UserDialog.js';
 import { Box } from '@material-ui/core';
 import { LANGUAGE } from '../../app/constants.js';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { updateUser } from './duck/thunks.js';
+import { selectCurrentUserId } from '../../app/duck/selectors.js';
+import { selectUserById } from './duck/selectors.js';
 
 const {
     editButtonLabel,
@@ -12,21 +14,23 @@ const {
     dialogSubmitLabel
 } = LANGUAGE.home.accountDetails;
 
-export default function EditAccountInfoButton({ user, ...props }) {
+const EditAccountInfoButton = React.memo(function EditAccountInfoButton({ className }) {
     const dispatch = useDispatch();
+    const userId = useSelector(selectCurrentUserId);
+    const user = useSelector(state => selectUserById(state, userId));
     const [isEdit, setIsEdit] = useState(false);
 
     const onEdit = () => setIsEdit(true);
     const onCancelEditDialog = () => setIsEdit(false);
 
     const onSubmitEditDialog = (data) => {
-        data.id = user._id;
-        dispatch(updateUser(data));
+        const { _id: userId, ...update } = data;
+        dispatch(updateUser({ userId, update }));
         setIsEdit(false);
-    }
+    };
 
     return (
-        <Box { ...props }>
+        <Box className={ className }>
             <ThemedButton
                 onClick={ onEdit }
                 variant="outlined"
@@ -43,4 +47,6 @@ export default function EditAccountInfoButton({ user, ...props }) {
             />
         </Box>
     )
-}
+});
+
+export default EditAccountInfoButton;

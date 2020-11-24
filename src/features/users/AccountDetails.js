@@ -22,25 +22,27 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function AccountDetails() {
+const AccountDetails = React.memo(function AccountDetails() {
     const classes = useStyles();
     const userId = useSelector(selectCurrentUserId);
     const user = useSelector(state => selectUserById(state, userId));
 
     return (
         <InfoCard
-            title={titleLabel}
-            button={<EditAccountInfoButton user={user} />}
+            title={ titleLabel }
+            button={ <EditAccountInfoButton /> }
             content={
                 <Container>
-                    <TextWithLabel label={nameLabel} text={user.name} />
-                    <TextWithLabel label={emailLabel} text={user.email} />
+                    <TextWithLabel label={ nameLabel } text={ user.name }/>
+                    <TextWithLabel label={ emailLabel } text={ user.email }/>
                     <ResetPasswordButton
-                        className={classes.resetPwdButton}
-                        userId={user._id}
+                        className={ classes.resetPwdButton }
+                        userId={ user._id }
                     />
                 </Container>
             }
         />
     );
-}
+});
+
+export default AccountDetails;

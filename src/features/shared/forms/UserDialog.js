@@ -7,17 +7,16 @@ import SideTextField from '../inputs/SideTextField.js';
 
 const { nameLabel, emailLabel } = LANGUAGE.shared.forms.userDialog;
 
-export default function UserDialog(
+const UserDialog = React.memo(function UserDialog(
     { user, isOpen, titleLabel, submitLabel, onSubmit, onCancel, className }) {
 
     const { register, errors, handleSubmit, reset } = useForm({
         mode: 'onSubmit'
     });
 
-    const onFormSubmit = (data) => onSubmit(data);
-
     useEffect(() => {
         reset({
+            _id: user?._id,
             name: user?.name,
             email: user?.email
         });
@@ -30,7 +29,7 @@ export default function UserDialog(
             titleLabel={ titleLabel }
             submitLabel={ submitLabel }
             onCancel={ onCancel }
-            onSubmit={ handleSubmit(onFormSubmit) }
+            onSubmit={ handleSubmit(onSubmit) }
         >
             <SideTextField
                 label={ nameLabel }
@@ -49,9 +48,9 @@ export default function UserDialog(
             />
         </FormDialog>
     )
-}
+});
 
-FormDialog.propTypes = {
+UserDialog.propTypes = {
     onSubmit: PropTypes.func.isRequired,
     onCancel: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
@@ -60,3 +59,5 @@ FormDialog.propTypes = {
     className: PropTypes.string,
     user: PropTypes.object
 };
+
+export default UserDialog;
