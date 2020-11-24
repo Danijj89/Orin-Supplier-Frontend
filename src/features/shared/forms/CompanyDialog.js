@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import FormDialog from '../wrappers/FormDialog.js';
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { LANGUAGE } from '../../../app/constants.js';
 import SideTextField from '../inputs/SideTextField.js';
-import SideAutoComplete from '../inputs/SideAutoComplete.js';
 import { currenciesOptions, industriesOptions } from '../constants.js';
+import RHFAutoComplete from '../rhf/inputs/RHFAutoComplete.js';
 
 const { taxNumberLabel, defaultCurrencyLabel, industriesLabel } = LANGUAGE.shared.forms.companyDialog;
 
@@ -39,36 +39,22 @@ export default function CompanyDialog(
                 label={ taxNumberLabel }
                 name="taxNumber"
                 inputRef={ register({ required: true }) }
-                error={ !!errors.taxNumber }
                 autoFocus
-                fullWidth
             />
-            <Controller
-                render={ props =>
-                    <SideAutoComplete
-                        { ...props }
-                        label={ defaultCurrencyLabel }
-                        options={ currenciesOptions }
-                        error={ !!errors.defaultCurrency }
-                    />
-                }
+            <RHFAutoComplete
+                rhfControl={control}
                 name="defaultCurrency"
-                control={ control }
+                label={defaultCurrencyLabel}
+                options={currenciesOptions}
             />
-            <Controller
-                render={ props =>
-                    <SideAutoComplete
-                        { ...props }
-                        label={ industriesLabel }
-                        options={ industriesOptions }
-                        error={ !!errors.industries }
-                        multiple
-                        required
-                    />
-                }
+            <RHFAutoComplete
+                rhfControl={control}
                 name="industries"
-                control={ control }
-                rules={ { required: true } }
+                label={industriesLabel}
+                options={industriesOptions}
+                error={ !!errors.industries }
+                multiple
+                required
             />
         </FormDialog>
     )

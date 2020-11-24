@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import FormDialog from '../wrappers/FormDialog.js';
 import { incotermOptions } from '../constants.js';
 import SideTextField from '../inputs/SideTextField.js';
 import { LANGUAGE } from '../../../app/constants.js';
-import SideAutoComplete from '../inputs/SideAutoComplete.js';
+import RHFAutoComplete from '../rhf/inputs/RHFAutoComplete.js';
 
 const {
     nameLabel,
@@ -32,7 +32,7 @@ export default function ClientDialog(
         isEdit,
         onDelete
     }) {
-    const { register, errors, handleSubmit, control, reset, getValues } = useForm({
+    const { register, errors, handleSubmit, control, reset } = useForm({
         mode: 'onSubmit'
     });
 
@@ -69,19 +69,13 @@ export default function ClientDialog(
                 error={ !!errors.name }
                 required
             />
-            <Controller
-                render={ props =>
-                    <SideAutoComplete
-                        { ...props }
-                        label={ assignedToLabel }
-                        error={ !!errors.assignedTo }
-                        options={ users }
-                        getOptionLabel={ option => option.name }
-                        getOptionSelected={ option => option._id === getValues('assignedTo')._id }
-                    />
-                }
+            <RHFAutoComplete
+                rhfControl={ control }
                 name="assignedTo"
-                control={ control }
+                label={ assignedToLabel }
+                options={ users }
+                getOptionLabel={ option => option.name }
+                getOptionSelected={ (option, value) => option._id === value._id }
             />
             { !isEdit && <SideTextField
                 name="contactName"
@@ -107,18 +101,11 @@ export default function ClientDialog(
                 inputRef={ register }
                 error={ !!errors.source }
             />
-            <Controller
-                render={ props =>
-                    <SideAutoComplete
-                        { ...props }
-                        label={ incotermLabel }
-                        error={ !!errors.incoterm }
-
-                        options={ incotermOptions }
-                    />
-                }
+            <RHFAutoComplete
+                rhfControl={ control }
                 name="incoterm"
-                control={ control }
+                label={ incotermLabel }
+                options={ incotermOptions }
             />
             <SideTextField
                 name="payment"

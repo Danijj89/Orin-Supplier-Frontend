@@ -1,7 +1,6 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Controller, useWatch } from 'react-hook-form';
-import SideAutoComplete from '../../inputs/SideAutoComplete.js';
+import { useWatch } from 'react-hook-form';
 import { measurementUnitsOptions, packageUnitsOptions, weightUnitsOptions } from '../../constants.js';
 import { Grid, IconButton } from '@material-ui/core';
 import { LANGUAGE } from '../../../../app/constants.js';
@@ -13,6 +12,7 @@ import { roundToNDecimal } from '../../utils/format.js';
 import ErrorMessages from '../../components/ErrorMessages.js';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
+import RHFAutoComplete from '../inputs/RHFAutoComplete.js';
 
 const useStyles = makeStyles((theme) => ({
     marks: {
@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
         fontWeight: 'bold',
         marginRight: theme.spacing(2)
     }
-}))
+}));
 
 const {
     formLabels,
@@ -315,33 +315,21 @@ const RHFMeasureTable = React.memo(function RHFMeasureTable(
             </Grid>
             }
             <Grid container item justify="flex-end" xs={ 12 }>
-                <Controller
-                    render={ props =>
-                        <SideAutoComplete
-                            { ...props }
-                            options={ weightUnitsOptions }
-                            label={ formLabels.weightUnit }
-                            error={ !!errors.weightUnit }
-                            required
-                        />
-                    }
+                <RHFAutoComplete
+                    rhfControl={ control }
                     name={ fieldNames.weightUnit }
-                    control={ control }
-                    rules={ { required: errorMessages.missingWeightUnit } }
+                    label={ formLabels.weightUnit }
+                    options={ weightUnitsOptions }
+                    error={ !!errors.weightUnit }
+                    required={ errorMessages.missingWeightUnit }
                 />
-                <Controller
-                    render={ props =>
-                        <SideAutoComplete
-                            { ...props }
-                            options={ measurementUnitsOptions }
-                            label={ formLabels.measurementUnit }
-                            error={ !!errors.measurementUnit }
-                            required
-                        />
-                    }
+                <RHFAutoComplete
+                    rhfControl={ control }
                     name={ fieldNames.measurementUnit }
-                    control={ control }
-                    rules={ { required: errorMessages.missingMeasurementUnit } }
+                    label={ formLabels.measurementUnit }
+                    options={ measurementUnitsOptions }
+                    error={ !!errors.measurementUnit }
+                    required={ errorMessages.missingMeasurementUnit }
                 />
             </Grid>
             <Grid item xs={ 12 }>

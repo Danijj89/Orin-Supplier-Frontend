@@ -4,17 +4,21 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectCompanyActiveAddresses, selectCompanyPorts } from '../home/duck/selectors.js';
 import { selectClientActiveAddresses } from '../clients/duck/selectors.js';
 import { Grid } from '@material-ui/core';
-import SideAutoComplete from '../shared/inputs/SideAutoComplete.js';
 import { formatAddress } from '../shared/utils/format.js';
 import InfoCard from '../shared/wrappers/InfoCard.js';
 import { LANGUAGE } from '../../app/constants.js';
 import SideDateField from '../shared/inputs/SideDateField.js';
-import { billOfLandingTypesOptions, deliveryMethodOptions, incotermOptions } from '../shared/constants.js';
+import {
+    billOfLandingTypesOptions,
+    deliveryMethodOptions,
+    incotermOptions
+} from '../shared/constants.js';
 import SideTextField from '../shared/inputs/SideTextField.js';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { updateShipmentInfo } from './duck/thunks.js';
 import { addressToDocAddress } from '../shared/utils/entityConversion.js';
 import { makeStyles } from '@material-ui/core/styles';
+import RHFAutoComplete from '../shared/rhf/inputs/RHFAutoComplete.js';
 
 const {
     partiesTitleLabel,
@@ -33,12 +37,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ShipmentInfo = React.memo(function ShipmentInfo({ shipment }) {
+    const classes = useStyles();
     const dispatch = useDispatch();
     const sellerAddresses = useSelector(selectCompanyActiveAddresses);
     const consigneeAddresses = useSelector(state => selectClientActiveAddresses(state, shipment.consignee));
     const ports = useSelector(selectCompanyPorts);
 
-    const { register, control, errors, watch, handleSubmit } = useForm({
+    const { register, control, errors, handleSubmit } = useForm({
         mode: 'onSubmit',
         defaultValues: {
             sellerAdd: sellerAddresses.find(a => a._id === shipment.sellerAdd.addressId),
@@ -57,11 +62,6 @@ const ShipmentInfo = React.memo(function ShipmentInfo({ shipment }) {
         }
     });
 
-    const classes = useStyles();
-    const sellerAdd = watch('sellerAdd');
-    const consigneeAdd = watch('consigneeAdd');
-    const shipAdd = watch('shipAdd');
-
     const onSubmit = (data) => {
         data.sellerAdd = addressToDocAddress(data.sellerAdd);
         data.consigneeAdd = addressToDocAddress(data.consigneeAdd);
@@ -76,71 +76,51 @@ const ShipmentInfo = React.memo(function ShipmentInfo({ shipment }) {
         <form onSubmit={ handleSubmit(onSubmit) } autoComplete="off">
             <InfoCard
                 title={ partiesTitleLabel }
-                className={classes.shipmentCards}
+                className={ classes.shipmentCards }
                 content={
                     <Grid container>
                         <Grid item xs={ 4 }>
-                            <Controller
-                                render={ (props) =>
-                                    <SideAutoComplete
-                                        { ...props }
-                                        options={ sellerAddresses }
-                                        label={ formLabels.sellerAdd }
-                                        error={ !!errors.sellerAdd }
-                                        rows={ 8 }
-                                        getOptionLabel={ address => formatAddress(address) }
-                                        getOptionSelected={ address => address._id === sellerAdd._id
-                                            || address._id === sellerAdd.addressId }
-                                        required
-                                    />
-                                }
+                            <RHFAutoComplete
+                                rhfControl={ control }
                                 name="sellerAdd"
-                                control={ control }
-                                rules={ { required: errorMessages.missingSellerAdd } }
+                                label={ formLabels.sellerAdd }
+                                options={ sellerAddresses }
+                                getOptionLabel={ address => formatAddress(address) }
+                                getOptionSelected={ (option, value) => option._id === value._id }
+                                error={ !!errors.sellerAdd }
+                                required={ errorMessages.missingSellerAdd }
+                                rows={ 8 }
                             />
                         </Grid>
                         <Grid item xs={ 4 }>
-                            <Controller
-                                render={ (props) => (
-                                    <SideAutoComplete
-                                        { ...props }
-                                        options={ consigneeAddresses }
-                                        label={ formLabels.consigneeAdd }
-                                        error={ !!errors.consigneeAdd }
-                                        rows={ 8 }
-                                        getOptionLabel={ address => formatAddress(address) }
-                                        getOptionSelected={ address => address._id === consigneeAdd._id
-                                            || address._id === consigneeAdd.addressId }
-                                        required
-                                    />
-                                ) }
+                            <RHFAutoComplete
+                                rhfControl={ control }
                                 name="consigneeAdd"
-                                control={ control }
-                                rules={ { required: errorMessages.missingConsigneeAdd } }
+                                label={ formLabels.consigneeAdd }
+                                options={ consigneeAddresses }
+                                getOptionLabel={ address => formatAddress(address) }
+                                getOptionSelected={ (option, value) => option._id === value._id }
+                                error={ !!errors.consigneeAdd }
+                                required={ errorMessages.missingConsigneeAdd }
+                                rows={ 8 }
                             />
                         </Grid>
                         <Grid item xs={ 4 }>
-                            <Controller
-                                render={ (props) => (
-                                    <SideAutoComplete
-                                        { ...props }
-                                        options={ consigneeAddresses }
-                                        label={ formLabels.shipAdd }
-                                        rows={ 8 }
-                                        getOptionLabel={ address => formatAddress(address) }
-                                        getOptionSelected={ address => address._id === shipAdd._id
-                                            || address._id === shipAdd.addressId }
-                                    />
-                                ) }
+                            <RHFAutoComplete
+                                rhfControl={ control }
                                 name="shipAdd"
-                                control={ control }
+                                label={ formLabels.shipAdd }
+                                options={ consigneeAddresses }
+                                getOptionLabel={ address => formatAddress(address) }
+                                getOptionSelected={ (option, value) => option._id === value._id }
+                                rows={ 8 }
                             />
                         </Grid>
                     </Grid>
                 }
             />
             <InfoCard
-                className={classes.shipmentCards}
+                className={ classes.shipmentCards }
                 title={ orderInfoTitleLabel }
                 content={
                     <Grid container>
@@ -155,29 +135,19 @@ const ShipmentInfo = React.memo(function ShipmentInfo({ shipment }) {
                                 name="crd"
                                 control={ control }
                             />
-                            <Controller
-                                render={ (props) => (
-                                    <SideAutoComplete
-                                        { ...props }
-                                        options={ incotermOptions }
-                                        label={ formLabels.incoterm }
-                                    />
-                                ) }
+                            <RHFAutoComplete
+                                rhfControl={ control }
                                 name="incoterm"
-                                control={ control }
+                                label={ formLabels.incoterm }
+                                options={ incotermOptions }
                             />
                         </Grid>
                         <Grid container item justify="flex-end" xs={ 6 }>
-                            <Controller
-                                render={ (props) => (
-                                    <SideAutoComplete
-                                        { ...props }
-                                        options={ billOfLandingTypesOptions }
-                                        label={ formLabels.bolType }
-                                    />
-                                ) }
+                            <RHFAutoComplete
+                                rhfControl={ control }
                                 name="bolType"
-                                control={ control }
+                                label={ formLabels.bolType }
+                                options={ billOfLandingTypesOptions }
                             />
                             <SideTextField
                                 label={ formLabels.coo }
@@ -189,47 +159,32 @@ const ShipmentInfo = React.memo(function ShipmentInfo({ shipment }) {
                 }
             />
             <InfoCard
-                className={classes.shipmentCards}
+                className={ classes.shipmentCards }
                 title={ shippingTitleLabel }
                 content={
                     <Grid container>
                         <Grid container item justify="flex-end" xs={ 6 }>
-                            <Controller
-                                render={ (props) => (
-                                    <SideAutoComplete
-                                        { ...props }
-                                        options={ deliveryMethodOptions }
-                                        label={ formLabels.del }
-                                    />
-                                ) }
+                            <RHFAutoComplete
+                                rhfControl={ control }
                                 name="del"
-                                control={ control }
+                                label={ formLabels.del }
+                                options={ deliveryMethodOptions }
                             />
-                            <Controller
-                                render={ (props) => (
-                                    <SideAutoComplete
-                                        { ...props }
-                                        freeSolo
-                                        autoSelect
-                                        options={ ports }
-                                        label={ formLabels.pol }
-                                    />
-                                ) }
+                            <RHFAutoComplete
+                                rhfControl={ control }
+                                freeSolo
+                                autoSelect
                                 name="pol"
-                                control={ control }
+                                label={ formLabels.pol }
+                                options={ ports }
                             />
-                            <Controller
-                                render={ (props) => (
-                                    <SideAutoComplete
-                                        { ...props }
-                                        freeSolo
-                                        autoSelect
-                                        options={ ports }
-                                        label={ formLabels.pod }
-                                    />
-                                ) }
+                            <RHFAutoComplete
+                                rhfControl={ control }
+                                freeSolo
+                                autoSelect
                                 name="pod"
-                                control={ control }
+                                label={ formLabels.pod }
+                                options={ ports }
                             />
                         </Grid>
                         <Grid container item justify="flex-end" xs={ 6 }>

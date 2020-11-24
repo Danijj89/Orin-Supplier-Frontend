@@ -3,12 +3,11 @@ import { useHistory, useParams, useLocation } from 'react-router-dom';
 import { Box, Divider, Typography, Paper, Checkbox, Chip } from '@material-ui/core';
 import { LANGUAGE } from '../../app/constants.js';
 import FormContainer from '../shared/wrappers/FormContainer.js';
-import SideAutoComplete from '../shared/inputs/SideAutoComplete.js';
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { dateToLocaleDate, formatAddress, roundToNDecimal } from '../shared/utils/format.js';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectCurrentCompany } from '../home/duck/selectors.js';
-import { selectClientsMap } from '../clients/duck/selectors.js';
+import { selectCompanyActiveAddresses, selectCurrentCompany } from '../home/duck/selectors.js';
+import { selectActiveClients, selectActiveClientsMap } from '../clients/duck/selectors.js';
 import { selectOrdersMap } from '../orders/duck/selectors.js';
 import Table from '../shared/components/table/Table.js';
 import StatusDisplay from '../orders/StatusDisplay.js';
@@ -21,6 +20,7 @@ import ErrorMessages from '../shared/components/ErrorMessages.js';
 import { selectOrderShipmentItemMap, selectShipmentById, selectShipmentError } from './duck/selectors.js';
 import { cleanNewShipment, cleanShipmentError } from './duck/slice.js';
 import { addressToDocAddress } from '../shared/utils/entityConversion.js';
+import RHFAutoComplete from '../shared/rhf/inputs/RHFAutoComplete.js';
 
 const useStyles = makeStyles((theme) => ({
     chipContainer: {
@@ -35,8 +35,8 @@ const useStyles = makeStyles((theme) => ({
         paddingLeft: theme.spacing(1),
     },
     shipmentRoot: {
-         margin: theme.spacing(2),
-         marginTop: theme.spacing(0),
+        margin: theme.spacing(2),
+        marginTop: theme.spacing(0),
     },
     newShipmentLabel: {
         marginBottom: theme.spacing(1),
@@ -69,17 +69,19 @@ export default function CreateShipment() {
     const shipment = useSelector(state => selectShipmentById(state, id));
     const userId = useSelector(selectCurrentUserId);
     const company = useSelector(selectCurrentCompany);
-    const clientsMap = useSelector(selectClientsMap);
+    const clientsMap = useSelector(selectActiveClientsMap);
+    const clients = useSelector(selectActiveClients);
     const ordersMap = useSelector(selectOrdersMap);
     const orderShipmentItemMap = useSelector(selectOrderShipmentItemMap);
     const shipmentError = useSelector(selectShipmentError);
-    const { addresses, defaultAddress } = company;
+    const companyAddresses = useSelector(selectCompanyActiveAddresses);
+    const { defaultAddress } = company;
     const initialOrderIds = shipment?.items.reduce((acc, item) => {
         if (!acc.includes(item.order)) acc.push(item.order);
         return acc;
     }, []);
 
-    const { register, control, errors, getValues, watch, setValue, handleSubmit } = useForm({
+    const { register, control, errors, watch, setValue, handleSubmit } = useForm({
         mode: 'onSubmit',
         defaultValues: {
             _id: shipment?._id,
@@ -211,77 +213,56 @@ export default function CreateShipment() {
 
     return (
         <Box>
-        <Box className={classes.shipmentRoot}>
-            <Typography className={classes.newShipmentLabel} variant="h5">{ titleLabel }</Typography>
-            <Divider/>
-            <Paper>
-                { errs.length > 0 && <ErrorMessages errors={ errs }/> }
-                <FormContainer>
-                    <Controller
-                        render={ (props) =>
-                            <SideAutoComplete
-                                { ...props }
-                                options={ addresses.filter(a => a.active) }
-                                label={ companyAddressLabel }
-                                error={ !!errors.fromAdd }
-                                getOptionLabel={ address => formatAddress(address) }
-                                getOptionSelected={ address => address._id === getValues('sellerAdd')._id
-                                    || address._id === getValues('sellerAdd').addressId }
-                                required
-                            />
-                        }
-                        name="sellerAdd"
-                        control={ control }
-                        rules={ { required: errorMessages.missingSupplierAddress } }
-                    />
-                    <Controller
-                        render={ (props) =>
-                            <SideAutoComplete
-                                { ...props }
-                                options={ Object.values(clientsMap).filter(c => c.active) }
-                                label={ clientLabel }
-                                error={ !!errors.to }
-                                getOptionLabel={ client => client.name }
-                                getOptionSelected={ client => client._id === getValues('consignee')._id }
-                                disabled={ isEdit }
-                                required
-                            />
-                        }
-                        name="consignee"
-                        control={ control }
-                        rules={ { required: errorMessages.missingConsignee } }
-                    />
-                    <Controller
-                        render={ (props) => (
-                            <SideAutoComplete
-                                { ...props }
-                                options={ clientAddresses }
-                                label={ clientAddressLabel }
-                                error={ !!errors.toAdd }
-                                getOptionLabel={ address => formatAddress(address) }
-                                getOptionSelected={ address => address._id === getValues('consigneeAdd')._id
-                                    || address._id === getValues('consigneeAdd').addressId }
-                                required
-                            />
-                        ) }
-                        name="consigneeAdd"
-                        control={ control }
-                        rules={ { required: errorMessages.missingConsigneeAddress } }
-                    />
-                </FormContainer>
-                <Box component="ul" className={ classes.chipContainer }>
-                    { orderIds.map((id) =>
-                        <Chip
-                            key={ id }
-                            component="li"
-                            label={ ordersMap[id].ref }
-                            className = {classes.chip}
-                        />) }
-                </Box>
-                <Table columns={ columns } rows={ rows }/>
-            </Paper>
-            
-        </Box>
+            <Box className={ classes.shipmentRoot }>
+                <Typography className={ classes.newShipmentLabel } variant="h5">{ titleLabel }</Typography>
+                <Divider/>
+                <Paper>
+                    { errs.length > 0 && <ErrorMessages errors={ errs }/> }
+                    <FormContainer>
+                        <RHFAutoComplete
+                            rhfControl={ control }
+                            name="sellerAdd"
+                            label={ companyAddressLabel }
+                            options={ companyAddresses }
+                            getOptionLabel={ address => formatAddress(address) }
+                            getOptionSelected={ (option, value) => option._id === value._id }
+                            required={ errorMessages.missingSupplierAddress }
+                            error={ !!errors.sellerAdd }
+                        />
+                        <RHFAutoComplete
+                            rhfControl={ control }
+                            name="consignee"
+                            label={ clientLabel }
+                            options={ clients }
+                            getOptionLabel={ client => client.name }
+                            getOptionSelected={ (option, value) => option._id === value._id }
+                            required={ errorMessages.missingConsignee }
+                            error={ !!errors.consignee }
+                        />
+                        <RHFAutoComplete
+                            rhfControl={ control }
+                            name="consigneeAdd"
+                            label={ clientAddressLabel }
+                            options={ clientAddresses }
+                            getOptionLabel={ address => formatAddress(address) }
+                            getOptionSelected={ (option, value) => option._id === value._id }
+                            required={ errorMessages.missingConsigneeAddress }
+                            error={ !!errors.consigneeAdd }
+                        />
+                    </FormContainer>
+                    <Box component="ul" className={ classes.chipContainer }>
+                        { orderIds.map((id) =>
+                            <Chip
+                                key={ id }
+                                component="li"
+                                label={ ordersMap[id].ref }
+                                className={ classes.chip }
+                            />) }
+                    </Box>
+                    <Table columns={ columns } rows={ rows }/>
+                </Paper>
+
+            </Box>
             <Footer
                 prevLabel={ prevButtonLabel }
                 nextLabel={ nextButtonLabel }

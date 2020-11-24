@@ -14,3 +14,15 @@ export const selectClientActiveAddresses = createSelector(
     (state, id) => state.clients.entities[id].addresses,
     addresses => addresses.filter(a => a.active)
 );
+export const selectActiveClients = createSelector(
+    selectAllClients,
+    clients => clients.filter(c => c.active)
+);
+
+export const selectActiveClientsMap = createSelector(
+    selectActiveClients,
+    clients => clients.reduce((map, client) => {
+        map[client._id] = client;
+        return map;
+    }, {})
+);

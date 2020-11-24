@@ -4,11 +4,11 @@ import Box from '@material-ui/core/Box';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import FormDialog from '../shared/wrappers/FormDialog.js';
 import { LANGUAGE } from '../../app/constants.js';
-import { Controller, useForm } from 'react-hook-form';
-import SideAutoComplete from '../shared/inputs/SideAutoComplete.js';
+import { useForm } from 'react-hook-form';
 import { documentObjectTypesOptions } from '../shared/constants.js';
 import { useDispatch } from 'react-redux';
 import { cleanNewDocument } from '../documents/duck/slice.js';
+import RHFAutoComplete from '../shared/rhf/inputs/RHFAutoComplete.js';
 
 const {
     buttonLabel,
@@ -23,7 +23,7 @@ const DocumentButton = React.memo(function DocumentButton() {
     const { id } = useParams();
     const [isEdit, setIsEdit] = useState(false);
 
-    const { control, errors, getValues, handleSubmit } = useForm({
+    const { control, errors, handleSubmit } = useForm({
         mode: 'onSubmit',
         defaultValues: {
             document: documentObjectTypesOptions[0]
@@ -37,13 +37,13 @@ const DocumentButton = React.memo(function DocumentButton() {
         dispatch(cleanNewDocument());
         switch (data.document.type) {
             case 'CI':
-                history.push(`/home/documents/ci/new?shipment=${id}`);
+                history.push(`/home/documents/ci/new?shipment=${ id }`);
                 break;
             case 'PL':
-                history.push(`/home/documents/pl/new?shipment=${id}`);
+                history.push(`/home/documents/pl/new?shipment=${ id }`);
                 break;
             case 'SC':
-                history.push(`/home/documents/sc/new?step=details&shipment=${id}`);
+                history.push(`/home/documents/sc/new?step=details&shipment=${ id }`);
                 break;
             default:
                 history.push('/home/shipments');
@@ -60,21 +60,15 @@ const DocumentButton = React.memo(function DocumentButton() {
                 onCancel={ onCancel }
                 onSubmit={ handleSubmit(onSubmit) }
             >
-                <Controller
-                    render={ props =>
-                        <SideAutoComplete
-                            { ...props }
-                            options={ documentObjectTypesOptions }
-                            getOptionLabel={ option => option.name }
-                            getOptionSelected={ option => option.type === getValues('document').type }
-                            label={ formLabels.document }
-                            error={ !!errors.document }
-                            required
-                        />
-                    }
+                <RHFAutoComplete
+                    rhfControl={ control }
                     name="document"
-                    control={ control }
-                    rules={ { required: true } }
+                    label={ formLabels.document }
+                    options={ documentObjectTypesOptions }
+                    getOptionLabel={ option => option.name }
+                    getOptionSelected={ (option, value) => option.type === value.type }
+                    error={ !!errors.document }
+                    required
                 />
             </FormDialog>
         </Box>
