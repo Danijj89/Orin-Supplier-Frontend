@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { LANGUAGE } from '../../app/constants.js';
 import Table from '../shared/components/table/Table.js';
 import { Box } from '@material-ui/core';
@@ -35,7 +35,7 @@ export default function ClientContactsTable({ clientId, clientContacts, clientDe
         setIsEdit(false);
     };
 
-    const columns = [
+    const columns = useMemo(() => [
         { field: 'id', hide: true },
         { field: 'name', headerName: contactTableHeadersMap.name },
         { field: 'email', headerName: contactTableHeadersMap.email },
@@ -44,7 +44,7 @@ export default function ClientContactsTable({ clientId, clientContacts, clientDe
         { field: 'title', headerName: contactTableHeadersMap.title },
         { field: 'department', headerName: contactTableHeadersMap.department },
         { field: 'additional', headerName: contactTableHeadersMap.additional }
-    ];
+    ], []);
 
     const rows = clientContacts.filter(contact => contact.active).map(contact => ({
         id: contact._id,

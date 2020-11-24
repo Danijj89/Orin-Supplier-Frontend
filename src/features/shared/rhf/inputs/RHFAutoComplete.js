@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Controller } from 'react-hook-form';
 import { Autocomplete } from '@material-ui/lab';
-import SideTextArea from '../../inputs/SideTextArea.js';
+import SideTextField from '../../inputs/SideTextField.js';
 
 const RHFAutoComplete = React.memo(function RHFAutoComplete(
     {
@@ -37,7 +37,7 @@ const RHFAutoComplete = React.memo(function RHFAutoComplete(
                     getOptionLabel={ getOptionLabel }
                     getOptionSelected={ getOptionSelected }
                     renderInput={ (params) => (
-                        <SideTextArea
+                        <SideTextField
                             { ...params }
                             label={ label }
                             required={ isRequired }

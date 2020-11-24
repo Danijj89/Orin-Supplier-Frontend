@@ -7,7 +7,6 @@ import { deliveryMethodOptions, incotermOptions } from '../../constants.js';
 import FormContainer from '../../wrappers/FormContainer.js';
 import { Divider, Typography, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import SideTextArea from '../../inputs/SideTextArea.js';
 import PropTypes from 'prop-types';
 import NewClientAddressButton from '../../buttons/NewClientAddressButton.js';
 import RHFCheckBox from '../inputs/RHFCheckBox.js';
@@ -183,7 +182,7 @@ const RHFOrderDetails = React.memo(function RHFOrderDetails(
                         inputRef={ register }
                     />
                     { !isEdit &&
-                    <SideTextArea
+                    <SideTextField
                         label={ formLabels.notes }
                         name={ fieldNames.notes }
                         inputRef={ register }

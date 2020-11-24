@@ -2,7 +2,7 @@ import React from 'react';
 import FormDialog from '../shared/wrappers/FormDialog.js';
 import { useForm } from 'react-hook-form';
 import { LANGUAGE } from '../../app/constants.js';
-import SideTextArea from '../shared/inputs/SideTextArea.js';
+import SideTextField from '../shared/inputs/SideTextField.js';
 
 const {
     deleteMessage,
@@ -33,10 +33,10 @@ const BankDetailDialog = React.memo(function BankDetailDialog(
             onDelete={ onDelete }
             deleteMessage={ deleteMessage }
         >
-            <SideTextArea
+            <SideTextField
                 label={ detailLabel }
                 name="detail"
-                inputRef={ register({ required: true }) }
+                inputRef={ register }
                 error={ !!errors.detail }
                 required
                 rows={ 4 }

@@ -4,7 +4,6 @@ import { LANGUAGE } from '../../../app/constants.js';
 import { useForm } from 'react-hook-form';
 import FormDialog from '../wrappers/FormDialog.js';
 import SideTextField from '../inputs/SideTextField.js';
-import SideTextArea from '../inputs/SideTextArea.js';
 
 const {
     nameLabel,
@@ -17,7 +16,7 @@ const {
     deleteMessage,
 } = LANGUAGE.shared.forms.contactDialog;
 
-export default function ContactDialog(
+const ContactDialog = React.memo(function ContactDialog(
     {
         isOpen,
         onSubmit,
@@ -27,11 +26,9 @@ export default function ContactDialog(
         titleLabel,
         onDelete
     }) {
-    const { register, errors, handleSubmit, reset } = useForm({
+    const { register, handleSubmit, reset } = useForm({
         mode: 'onSubmit'
     });
-
-    const onFormSubmit = (data) => onSubmit(data);
 
     useEffect(() => {
         reset({
@@ -52,64 +49,50 @@ export default function ContactDialog(
             titleLabel={ titleLabel }
             submitLabel={ submitLabel }
             onCancel={ onCancel }
-            onSubmit={ handleSubmit(onFormSubmit) }
+            onSubmit={ handleSubmit(onSubmit) }
             onDelete={ onDelete }
             deleteMessage={ deleteMessage }
         >
             <SideTextField
                 label={ nameLabel }
                 name="name"
-                inputRef={ register}
-                error={ !!errors.name }
-                fullWidth
+                inputRef={ register }
             />
             <SideTextField
                 label={ emailLabel }
                 name="email"
                 inputRef={ register }
-                error={ !!errors.email }
-                fullWidth
             />
             <SideTextField
                 label={ phoneLabel }
                 name="phone"
                 inputRef={ register }
-                error={ !!errors.phone }
-                fullWidth
             />
             <SideTextField
                 label={ faxLabel }
                 name="fax"
                 inputRef={ register }
-                error={ !!errors.fax }
-                fullWidth
             />
             <SideTextField
                 label={ titleFieldLabel }
                 name="title"
                 inputRef={ register }
-                error={ !!errors.title }
-                fullWidth
             />
             <SideTextField
                 label={ departmentLabel }
                 name="department"
                 inputRef={ register }
-                error={ !!errors.department }
-                fullWidth
             />
-            <SideTextArea
+            <SideTextField
                 label={ additionalLabel }
                 name="additional"
                 inputRef={ register }
-                error={ !!errors.additional }
-                rows={4}
-                rowsMax={8}
-                fullWidth
+                rows={ 4 }
+                rowsMax={ 8 }
             />
         </FormDialog>
     )
-}
+});
 
 ContactDialog.propTypes = {
     isOpen: PropTypes.bool.isRequired,
@@ -120,3 +103,5 @@ ContactDialog.propTypes = {
     contact: PropTypes.object,
     onDelete: PropTypes.func
 };
+
+export default ContactDialog;

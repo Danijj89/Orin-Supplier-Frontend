@@ -6,7 +6,6 @@ import SideTextField from '../shared/inputs/SideTextField.js';
 import Grid from '@material-ui/core/Grid';
 import RHFAutoComplete from '../shared/rhf/inputs/RHFAutoComplete.js';
 import { formatAddress } from '../shared/utils/format.js';
-import SideTextArea from '../shared/inputs/SideTextArea.js';
 import { LANGUAGE } from '../../app/constants.js';
 import { useForm } from 'react-hook-form';
 import { findAddressFromAddresses } from '../shared/utils/addresses.js';
@@ -135,7 +134,7 @@ const PackingListDetails = React.memo(function PackingListDetails(
                     getOptionLabel={ option => option.ref }
                     getOptionSelected={ (option, value) => option._id === value._id }
                 />
-                <SideTextArea
+                <SideTextField
                     label={ formLabels.notes }
                     name={ fieldNames.notes }
                     inputRef={ register }

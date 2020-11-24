@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Autocomplete } from '@material-ui/lab';
 import { Chip } from '@material-ui/core';
-import SideTextArea from './SideTextArea.js';
+import SideTextField from './SideTextField.js';
 
 const SideAutoComplete = React.memo(function SideAutoComplete(
     {
@@ -44,7 +44,7 @@ const SideAutoComplete = React.memo(function SideAutoComplete(
             getOptionSelected={ getOptionSelected }
             disabled={ disabled }
             renderInput={ (params) => (
-                <SideTextArea
+                <SideTextField
                     { ...params }
                     label={ label }
                     required={ required }

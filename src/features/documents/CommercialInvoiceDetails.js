@@ -4,7 +4,6 @@ import FormContainer from '../shared/wrappers/FormContainer.js';
 import { useForm } from 'react-hook-form';
 import SideTextField from '../shared/inputs/SideTextField.js';
 import { formatAddress } from '../shared/utils/format.js';
-import SideTextArea from '../shared/inputs/SideTextArea.js';
 import RHFCheckBox from '../shared/rhf/inputs/RHFCheckBox.js';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
@@ -200,7 +199,7 @@ const CommercialInvoiceDetails = React.memo(function CommercialInvoiceDetails(
                             freeSolo
                             autoSelect
                         />
-                        <SideTextArea
+                        <SideTextField
                             label={ formLabels.notes }
                             name={ fieldNames.notes }
                             inputRef={ register }

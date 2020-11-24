@@ -19,7 +19,6 @@ import RHFDateField from '../shared/rhf/inputs/RHFDateField.js';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Divider from '@material-ui/core/Divider';
-import SideTextArea from '../shared/inputs/SideTextArea.js';
 import Footer from '../shared/components/Footer.js';
 import { useHistory, useLocation } from 'react-router-dom';
 import queryString from 'query-string';
@@ -159,25 +158,25 @@ const SalesContractDetails = React.memo(function SalesContractDetails(
                             rows={ 4 }
                             rowsMax={ 8 }
                         />
-                        <SideTextArea
+                        <SideTextField
                             name={ fieldNames.termsOfPayment }
                             label={ formLabels.termsOfPayment }
                             inputRef={ register }
                             rowsMax={ 8 }
                         />
-                        <SideTextArea
+                        <SideTextField
                             name={ fieldNames.timeOfShipment }
                             label={ formLabels.timeOfShipment }
                             inputRef={ register }
                             rowsMax={ 8 }
                         />
-                        <SideTextArea
+                        <SideTextField
                             name={ fieldNames.insurance }
                             label={ formLabels.insurance }
                             inputRef={ register }
                             rowsMax={ 8 }
                         />
-                        <SideTextArea
+                        <SideTextField
                             name={ fieldNames.customText }
                             label={ formLabels.customText }
                             inputRef={ register }
@@ -199,7 +198,7 @@ const SalesContractDetails = React.memo(function SalesContractDetails(
                             freeSolo
                             autoSelect
                         />
-                        <SideTextArea
+                        <SideTextField
                             label={ formLabels.notes }
                             name={ fieldNames.notes }
                             inputRef={ register }

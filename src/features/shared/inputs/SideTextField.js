@@ -12,14 +12,14 @@ const useStyles = makeStyles((theme) => ({
         marginBottom: theme.spacing(1),
         whiteSpace: 'nowrap',
         display: 'flex',
-        alignItems: 'center',
+        alignItems: props => props.isTextArea ? 'flex-start' : 'center',
     },
     label: {
         marginRight: theme.spacing(4),
     },
     input: {
         width: 320,
-        height: 36,
+        minHeight: 36,
         borderWidth: 1,
         borderStyle: 'solid',
         borderRadius: 8,
@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: 'white',
         paddingLeft: theme.spacing(1),
         paddingRight: theme.spacing(1),
-        paddingTop: '1px',
+        paddingTop: theme.spacing(0.2),
     },
     required: {
         color: 'red',
@@ -42,8 +42,24 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SideTextField = React.memo(function SideTextField(
-    { label, required, className, error, disabled, name, inputRef, value, ...props }) {
-    const classes = useStyles();
+    {
+        label,
+        required,
+        className,
+        error,
+        disabled,
+        name,
+        inputRef,
+        value,
+        rows = 1,
+        rowsMax = 1,
+        autoFocus,
+        ...props
+    }) {
+    const isTextArea = useMemo(
+        () => rows > 1 || rowsMax > 1,
+        [rows, rowsMax]);
+    const classes = useStyles({ isTextArea });
     const classNames = clsx(
         classes.input,
         className,
@@ -53,8 +69,8 @@ const SideTextField = React.memo(function SideTextField(
 
     const isRequired = useMemo(() => Boolean(required), [required]);
     const actualInputRef = useMemo(
-        () => inputRef ? inputRef({ required: required }) : null,
-        [inputRef, required]);
+        () => inputRef ? inputRef : null,
+        [inputRef]);
 
     return (
         <Box className={ classes.container }>
@@ -72,6 +88,10 @@ const SideTextField = React.memo(function SideTextField(
                 required={ required }
                 error={ error }
                 disabled={ disabled }
+                rows={ rows }
+                rowsMax={ rowsMax }
+                multiline={ isTextArea }
+                autoFocus={ autoFocus }
             />
         </Box>
     );
@@ -85,7 +105,10 @@ SideTextField.propTypes = {
     className: PropTypes.string,
     error: PropTypes.bool,
     disabled: PropTypes.bool,
-    value: PropTypes.any
+    value: PropTypes.any,
+    rows: PropTypes.number,
+    rowsMax: PropTypes.number,
+    autoFocus: PropTypes.bool
 };
 
 export default SideTextField;

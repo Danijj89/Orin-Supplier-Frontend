@@ -6,7 +6,6 @@ import { incotermOptions } from '../constants.js';
 import SideTextField from '../inputs/SideTextField.js';
 import { LANGUAGE } from '../../../app/constants.js';
 import SideAutoComplete from '../inputs/SideAutoComplete.js';
-import SideTextArea from '../inputs/SideTextArea.js';
 
 const {
     nameLabel,
@@ -127,7 +126,7 @@ export default function ClientDialog(
                 inputRef={ register }
                 error={ !!errors.payment }
             />
-            { !isEdit && <SideTextArea
+            { !isEdit && <SideTextField
                 name="notes"
                 multiline
                 rows={ 4 }
