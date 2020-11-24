@@ -16,9 +16,10 @@ const usersSlice = createSlice({
     name: 'users',
     initialState,
     reducers: {
-        setUsers: (state, action) => {
-            usersAdapter.upsertMany(state, action.payload);
-            state.dataStatus = 'FULFILLED';
+        cleanUserError: (state, action) => {
+            state.dataStatus = 'IDLE';
+            state.status = 'IDLE';
+            state.error = null;
         }
     },
     extraReducers: {
@@ -58,6 +59,6 @@ const usersSlice = createSlice({
     }
 });
 
-export const { setUsers } = usersSlice.actions;
+export const { cleanUserError } = usersSlice.actions;
 
 export default usersSlice.reducer;

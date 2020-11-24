@@ -1,15 +1,14 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Container } from '@material-ui/core';
 import { LANGUAGE } from '../../app/constants.js';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import TextWithLabel from '../shared/components/TextWithLabel.js';
 import ResetPasswordButton from './ResetPasswordButton.js';
-import { selectAppError, selectAppStatus } from '../../app/duck/selectors.js';
-import ErrorMessages from '../shared/components/ErrorMessages.js';
-import { cleanError } from '../../app/duck/slice.js';
 import InfoCard from '../shared/wrappers/InfoCard.js';
 import EditAccountInfoButton from './EditAccountInfoButton.js';
 import { makeStyles } from '@material-ui/core/styles';
+import { selectUserById } from './duck/selectors.js';
+import { selectCurrentUserId } from '../../app/duck/selectors.js';
 
 const { titleLabel, nameLabel, emailLabel } = LANGUAGE.home.accountDetails;
 
@@ -23,17 +22,10 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function AccountDetails({ user }) {
+export default function AccountDetails() {
     const classes = useStyles();
-    const dispatch = useDispatch();
-    const status = useSelector(selectAppStatus);
-    const error = useSelector(selectAppError);
-
-    useEffect(() => {
-        if (status === 'REJECTED') {
-            return () => dispatch(cleanError());
-        }
-    }, [dispatch, status]);
+    const userId = useSelector(selectCurrentUserId);
+    const user = useSelector(state => selectUserById(state, userId));
 
     return (
         <InfoCard
@@ -41,7 +33,6 @@ export default function AccountDetails({ user }) {
             button={<EditAccountInfoButton user={user} />}
             content={
                 <Container>
-                    {status === 'REJECTED' && <ErrorMessages errors={[error]} />}
                     <TextWithLabel label={nameLabel} text={user.name} />
                     <TextWithLabel label={emailLabel} text={user.email} />
                     <ResetPasswordButton

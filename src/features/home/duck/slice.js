@@ -19,7 +19,7 @@ const homeSlice = createSlice({
     initialState,
     reducers: {
         cleanHomeError: (state, action) => {
-            state.status = 'FULFILLED';
+            state.status = 'IDLE';
             state.error = null;
         }
     },

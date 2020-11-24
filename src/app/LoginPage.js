@@ -87,7 +87,7 @@ export default function LoginPage() {
     });
 
     const onSignInClick = async (credentials) => {
-        dispatch(signIn(credentials));
+        dispatch(signIn({ credentials }));
     };
 
     const isError = Object.keys(errors).length > 0 || appError;

@@ -5,7 +5,7 @@ import { Delete as IconDelete } from '@material-ui/icons';
 import { LANGUAGE } from '../../../app/constants.js';
 import { makeStyles } from '@material-ui/core/styles';
 import FormDialog from '../wrappers/FormDialog.js';
-import classNames from 'classnames';
+import clsx from 'clsx';
 
 const {
     confirmButton,
@@ -43,7 +43,7 @@ const DeleteButton = React.memo(function DeleteButton(
                 onClick={ (e) => onDialogOpen(e) }
                 size="small"
                 color="inherit"
-                className={ classNames(classes.button, className) }
+                className={ clsx(classes.button, className) }
             >
                 { deleteButtonLabel }
             </Button> }

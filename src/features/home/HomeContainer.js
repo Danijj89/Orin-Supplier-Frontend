@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectHomeError, selectHomeStatus } from './duck/selectors.js';
 import { determineStatus } from '../shared/utils/state.js';
@@ -18,9 +18,14 @@ const HomeContainer = React.memo(function HomeContainer() {
 
     const companyId = useSelector(selectCurrentUserCompanyId);
 
+    const fetched = useRef(false);
     useEffect(() => {
-        dispatch(fetchCompanyById({ companyId }));
-    }, [dispatch, companyId]);
+        if (!fetched.current || status === 'REJECTED' || status === 'IDLE') {
+            dispatch(fetchCompanyById({ companyId }));
+            fetched.current = true;
+        }
+
+    }, [dispatch, companyId, status]);
 
     return (
         <>

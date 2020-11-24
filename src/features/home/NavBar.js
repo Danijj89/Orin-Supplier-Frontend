@@ -1,5 +1,4 @@
 import React from 'react';
-import classNames from 'classnames';
 import { useHistory, useLocation } from 'react-router-dom';
 import logo from '../../images/orinlogo.png';
 import { LANGUAGE } from '../../app/constants.js';
@@ -36,6 +35,7 @@ import { selectCurrentUser } from '../../app/duck/selectors.js';
 const useStyles = makeStyles((theme) => ({
     root: {
         marginBottom: theme.spacing(2),
+        flexGrow: 1
     },
     grow: {
         flexGrow: 1,
@@ -181,8 +181,8 @@ const NavBar = React.memo(function NavBar() {
     );
 
     return (
-        <div className={ classNames(classes.grow, classes.root) }>
-            <AppBar position="static" color="secondary">
+        <>
+            <AppBar position="static" color="secondary" className={ classes.root }>
                 <Toolbar>
                     <CardMedia
                         component="img"
@@ -299,7 +299,7 @@ const NavBar = React.memo(function NavBar() {
                 </Toolbar>
             </AppBar>
             { renderMobileMenu }
-        </div>
+        </>
     );
 });
 

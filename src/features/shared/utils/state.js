@@ -9,3 +9,7 @@ export const determineStatus = (statuses) => {
     if (isIdle) return 'PENDING';
     return 'FULFILLED';
 };
+
+export const getErrors = (...errors) => {
+    return errors.filter(error => error);
+};

@@ -21,8 +21,7 @@ export default function Settings() {
     const { tab } = queryString.parse(location.search);
     const tabValue = tab || 'account';
     const company = useSelector(selectCurrentCompany);
-    const userId = useSelector(selectCurrentUserId);
-    const user = useSelector(state => selectUserById(state, userId));
+
     const users = useSelector(selectAllUsers);
 
     const onTabChange = (newValue) =>
@@ -35,7 +34,7 @@ export default function Settings() {
                 tabValue={ tabValue }
                 onChange={ onTabChange }
             />
-            { tabValue === 'account' && <AccountDetails user={ user }/> }
+            { tabValue === 'account' && <AccountDetails /> }
             { tabValue === 'colleagues' && <CompanyUsers users={ users }/> }
             { tabValue === 'company' && <CompanyDetails company={ company }/> }
         </Container>
