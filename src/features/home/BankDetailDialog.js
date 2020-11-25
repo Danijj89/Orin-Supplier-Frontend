@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import FormDialog from '../shared/wrappers/FormDialog.js';
 import { useForm } from 'react-hook-form';
 import { LANGUAGE } from '../../app/utils/constants.js';
@@ -13,15 +13,16 @@ const BankDetailDialog = React.memo(function BankDetailDialog(
     { isOpen, onSubmit, onCancel, titleLabel, submitLabel, onDelete, bankDetail }
 ) {
 
-    const { register, errors, handleSubmit } = useForm({
-        mode: 'onSubmit',
-        defaultValues: {
+    const { register, errors, handleSubmit, reset } = useForm({
+        mode: 'onSubmit'
+    });
+
+    useEffect(() => {
+        reset({
             _id: bankDetail?._id,
             detail: bankDetail?.detail
-        },
-        shouldUnregister: false
-    });
-    const onFormSubmit = (data) => onSubmit(data);
+        });
+    }, [reset, bankDetail]);
 
     return (
         <FormDialog
@@ -29,14 +30,14 @@ const BankDetailDialog = React.memo(function BankDetailDialog(
             titleLabel={ titleLabel }
             submitLabel={ submitLabel }
             onCancel={ onCancel }
-            onSubmit={ handleSubmit(onFormSubmit) }
+            onSubmit={ handleSubmit(onSubmit) }
             onDelete={ onDelete }
             deleteMessage={ deleteMessage }
         >
             <SideTextField
                 label={ detailLabel }
                 name="detail"
-                inputRef={ register }
+                inputRef={ register({ required: true }) }
                 error={ !!errors.detail }
                 required
                 rows={ 4 }

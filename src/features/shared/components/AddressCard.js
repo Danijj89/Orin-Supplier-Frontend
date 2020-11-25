@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Card, Divider, Typography, Box, Tooltip } from '@material-ui/core';
 import { currentLocale, LANGUAGE } from '../../../app/utils/constants.js';
@@ -53,7 +53,7 @@ const AddressCard = React.memo(function AddressCard(
     }) {
     const classes = useStyles();
 
-    const getThirdRow = () => {
+    const getThirdRow = useCallback(() => {
         let row = '';
         if (address.city) row += address.city;
         if (address.administrative) row += `, ${ address.administrative }`;
@@ -62,7 +62,7 @@ const AddressCard = React.memo(function AddressCard(
             else row += `, ${ address.zip }`;
         }
         return row ? <Typography>{ row }</Typography> : null;
-    };
+    }, [address.administrative, address.city, address.zip]);
 
     return (
         <Card className={ classes.container }>
