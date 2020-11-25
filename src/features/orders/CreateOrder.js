@@ -2,7 +2,7 @@ import React from 'react';
 import DocumentStepper from '../shared/DocumentStepper.js';
 import { Box, Paper, Divider, Typography } from '@material-ui/core';
 import { Redirect, useLocation } from 'react-router-dom';
-import { LANGUAGE } from '../../app/constants.js';
+import { LANGUAGE } from '../../app/utils/constants.js';
 import { makeStyles } from '@material-ui/core/styles';
 import queryString from 'query-string';
 import CreateOrderDetails from './CreateOrderDetails.js';

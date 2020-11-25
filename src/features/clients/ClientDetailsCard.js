@@ -4,7 +4,7 @@ import DividerDataDisplay from '../shared/wrappers/DividerDisplay.js';
 import { dateToLocaleDate } from '../shared/utils/format.js';
 import { useSelector } from 'react-redux';
 import { selectUsersMap } from '../users/duck/selectors.js';
-import { LANGUAGE } from '../../app/constants.js';
+import { LANGUAGE } from '../../app/utils/constants.js';
 import EditClientButton from './EditClientButton.js';
 import InfoCard from '../shared/wrappers/InfoCard.js';
 import { makeStyles } from '@material-ui/core/styles';

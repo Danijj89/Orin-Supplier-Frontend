@@ -56,7 +56,7 @@ export const ENGLISH = {
             newAddressDialogTitleLabel: 'New Address',
             newAddressDialogSubmitLabel: 'Create Address',
             taxNumberLabel: 'Tax Number',
-            defaultCurrencyLabel: 'Default Currency',
+            currencyLabel: 'Default Currency',
             industriesLabel: 'Industry',
             emailLabel: 'Company Email',
             phoneLabel: 'Company Phone',
@@ -552,7 +552,7 @@ export const ENGLISH = {
             },
             companyDialog: {
                 taxNumberLabel: 'Tax Number',
-                defaultCurrencyLabel: 'Default Currency',
+                currencyLabel: 'Default Currency',
                 industriesLabel: 'Industry',
             },
             addressDialog: {

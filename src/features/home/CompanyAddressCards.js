@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Box, Typography, Grid } from '@material-ui/core';
-import { LANGUAGE } from '../../app/constants.js';
+import { LANGUAGE } from '../../app/utils/constants.js';
 import { useDispatch, useSelector } from 'react-redux';
 import AddressDialog from '../shared/forms/AddressDialog.js';
 import NewCompanyAddressButton from './NewCompanyAddressButton.js';
@@ -10,9 +10,6 @@ import AddressCard from '../shared/components/AddressCard.js';
 import { selectCompanyActiveAddresses, selectCurrentCompany } from './duck/selectors.js';
 
 const useStyles = makeStyles((theme) => ({
-    cards: {
-        display: 'flex',
-    },
     addressTitle: {
         fontWeight: 'bold',
         padding: theme.spacing(2),
@@ -37,18 +34,22 @@ const CompanyAddressCards = React.memo(function CompanyAddressCards() {
     const [isEditAddressOpen, setIsEditAddressOpen] = useState(false);
     const [editAddress, setEditAddress] = useState(null);
 
-    const onDeleteAddress = (addressId) => {
-        dispatch(deleteAddress({ companyId: company._id, addressId }));
+    const createDeleteAddressHandler = useCallback(
+        (companyId, addressId) => () => {
+        dispatch(deleteAddress({ companyId, addressId }));
         setIsEditAddressOpen(false);
-    };
+    }, [dispatch]);
 
-    const onSetDefaultAddress = (addressId) =>
-        dispatch(updateDefaultAddress({ companyId: company._id, addressId }));
+    const createSetDefaultAddressHandler = useCallback(
+        (companyId, addressId) =>
+            () => dispatch(updateDefaultAddress({ companyId, addressId })),
+            [dispatch]);
 
-    const onEditAddress = (addressId) => {
-        setEditAddress(companyAddresses.find((a) => a._id === addressId));
+    const createOpenEditAddressHandler = useCallback(
+        (address) => () => {
+        setEditAddress(address);
         setIsEditAddressOpen(true);
-    };
+    }, []);
 
     const onEditAddressCancel = () => setIsEditAddressOpen(false);
 
@@ -58,31 +59,23 @@ const CompanyAddressCards = React.memo(function CompanyAddressCards() {
         setIsEditAddressOpen(false);
     };
 
-    const isDefaultAddress = (addressId) =>
-        addressId === company.legalAddress._id || addressId === company.defaultAddress._id;
-
     return (
         <Box>
             <Typography className={ classes.addressTitle } variant="h5">
                 { addressesTableTitleLabel }
             </Typography>
-            <Box className={ classes.cards }>
-                <Grid container>
-                    { companyAddresses.map((address) =>
-                        <Grid item xs={ 12 } sm={ 6 } lg={ 4 } key={ address._id }>
-                            <AddressCard
-                                address={ address }
-                                isDefault={ isDefaultAddress(address._id) }
-                                onEdit={ () => onEditAddress(address._id) }
-                                onDelete={ () => onDeleteAddress(address._id) }
-                                onSetDefault={ () =>
-                                    onSetDefaultAddress(address._id)
-                                }
-                            />
-                        </Grid>
-                    ) }
-                </Grid>
-            </Box>
+            <Grid container>
+                { companyAddresses.map((address) =>
+                    <Grid item xs={ 12 } sm={ 6 } lg={ 4 } key={ address._id }>
+                        <AddressCard
+                            address={ address }
+                            onEdit={ createOpenEditAddressHandler(address) }
+                            onDelete={ createDeleteAddressHandler(company._id, address._id) }
+                            onSetDefault={ createSetDefaultAddressHandler(company._id, address._id) }
+                        />
+                    </Grid>
+                ) }
+            </Grid>
             { editAddress && (
                 <AddressDialog
                     isOpen={ isEditAddressOpen }
@@ -93,10 +86,7 @@ const CompanyAddressCards = React.memo(function CompanyAddressCards() {
                     onSubmit={ onEditAddressSubmit }
                 />
             ) }
-            <NewCompanyAddressButton
-                className={ classes.newAddressButton }
-                company={ company }
-            />
+            <NewCompanyAddressButton className={ classes.newAddressButton }/>
         </Box>
     );
 });

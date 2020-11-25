@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Typography } from '@material-ui/core';
 import { Link } from 'react-router-dom';
-import { LANGUAGE } from '../../../app/constants.js';
+import { LANGUAGE } from '../../../app/utils/constants.js';
 
 const { message, homeButtonLabel } = LANGUAGE.shared.components.notFound;
 

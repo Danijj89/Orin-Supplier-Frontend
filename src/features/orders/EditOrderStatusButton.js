@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Box } from '@material-ui/core';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import OrderStatusDialog from './OrderStatusDialog.js';
-import { LANGUAGE } from '../../app/constants.js';
+import { LANGUAGE } from '../../app/utils/constants.js';
 import { useDispatch } from 'react-redux';
 import { updateOrder } from './duck/thunks.js';
 

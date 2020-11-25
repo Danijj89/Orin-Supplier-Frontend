@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { Box } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
-import { LANGUAGE } from '../../app/constants.js';
+import { LANGUAGE } from '../../app/utils/constants.js';
 import BankDetailDialog from './BankDetailDialog.js';
 import { createCompanyBankDetail } from './duck/thunks.js';
 import { selectCompanyId } from './duck/selectors.js';

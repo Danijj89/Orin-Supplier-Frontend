@@ -1,6 +1,6 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
-import { LANGUAGE } from '../../app/constants.js';
+import { LANGUAGE } from '../../app/utils/constants.js';
 import FormContainer from '../shared/wrappers/FormContainer.js';
 import RHFCheckBox from '../shared/rhf/inputs/RHFCheckBox.js';
 import SideTextField from '../shared/inputs/SideTextField.js';

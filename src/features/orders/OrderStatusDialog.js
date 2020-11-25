@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Box, Divider, Typography } from '@material-ui/core';
 import FormContainer from '../shared/wrappers/FormContainer.js';
 import { orderStatusesOptions } from '../shared/constants.js';
-import { LANGUAGE } from '../../app/constants.js';
+import { LANGUAGE } from '../../app/utils/constants.js';
 import PropTypes from 'prop-types';
 import RHFAutoComplete from '../shared/rhf/inputs/RHFAutoComplete.js';
 import OrderStatusListItem from './OrderStatusListItem.js';

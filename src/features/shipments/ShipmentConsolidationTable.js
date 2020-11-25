@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import RHFConsolidationTable from '../shared/rhf/forms/RHFConsolidationTable.js';
 import { useForm } from 'react-hook-form';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
-import { LANGUAGE } from '../../app/constants.js';
+import { LANGUAGE } from '../../app/utils/constants.js';
 import { useDispatch } from 'react-redux';
 import { updateShipment } from './duck/thunks.js';
 import { makeStyles } from '@material-ui/core/styles';

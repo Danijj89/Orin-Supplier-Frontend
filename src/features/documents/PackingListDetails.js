@@ -6,7 +6,7 @@ import SideTextField from '../shared/inputs/SideTextField.js';
 import Grid from '@material-ui/core/Grid';
 import RHFAutoComplete from '../shared/rhf/inputs/RHFAutoComplete.js';
 import { formatAddress } from '../shared/utils/format.js';
-import { LANGUAGE } from '../../app/constants.js';
+import { LANGUAGE } from '../../app/utils/constants.js';
 import { useForm } from 'react-hook-form';
 import { findAddressFromAddresses } from '../shared/utils/addresses.js';
 import { useSelector } from 'react-redux';

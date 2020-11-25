@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Typography } from '@material-ui/core';
 import RHFProductTable, { validateItems } from '../shared/rhf/forms/RHFProductTable.js';
 import Footer from '../shared/components/Footer.js';
-import { LANGUAGE } from '../../app/constants.js';
+import { LANGUAGE } from '../../app/utils/constants.js';
 import { useForm } from 'react-hook-form';
 import { useHistory, useLocation } from 'react-router-dom';
 import queryString from 'query-string';

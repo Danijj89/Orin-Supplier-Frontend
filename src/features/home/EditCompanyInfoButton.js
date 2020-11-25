@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { Box } from '@material-ui/core';
-import { LANGUAGE } from '../../app/constants.js';
+import { LANGUAGE } from '../../app/utils/constants.js';
 import CompanyDialog from '../shared/forms/CompanyDialog.js';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { updateCompany } from './duck/thunks.js';
+import { selectCurrentCompany } from './duck/selectors.js';
 
 const { editButtonLabel, dialogTitleLabel, dialogSubmitLabel } = LANGUAGE.home.companyDetails;
 
-const EditCompanyInfoButton = React.memo(function EditCompanyInfoButton({ company, className }) {
+const EditCompanyInfoButton = React.memo(function EditCompanyInfoButton({ className }) {
     const dispatch = useDispatch();
     const [isEdit, setIsEdit] = useState(false);
+    const company = useSelector(selectCurrentCompany);
 
     const onEdit = () => setIsEdit(true);
     const onCancelEditDialog = () => setIsEdit(false);

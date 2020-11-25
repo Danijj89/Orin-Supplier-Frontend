@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import RHFMeasureTable, { validateItemMeasures } from '../shared/rhf/forms/RHFMeasureTable.js';
 import { useForm } from 'react-hook-form';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
-import { LANGUAGE } from '../../app/constants.js';
+import { LANGUAGE } from '../../app/utils/constants.js';
 import { useDispatch } from 'react-redux';
 import { updateShipment } from './duck/thunks.js';
 import { measureTableItemsToItems } from '../shared/utils/entityConversion.js';

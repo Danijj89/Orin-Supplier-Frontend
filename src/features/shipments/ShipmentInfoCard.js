@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import InfoCard from '../shared/wrappers/InfoCard.js';
-import { LANGUAGE } from '../../app/constants.js';
+import { LANGUAGE } from '../../app/utils/constants.js';
 import ShipmentStatusPill from './ShipmentStatusPill.js';
 import { dateToLocaleDate } from '../shared/utils/format.js';
 import { Grid } from '@material-ui/core';

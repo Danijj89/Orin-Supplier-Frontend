@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectClientById } from './duck/selectors.js';
 import { Container } from '@material-ui/core';
 import { updateClientNotes } from './duck/thunks.js';
-import { LANGUAGE } from '../../app/constants.js';
+import { LANGUAGE } from '../../app/utils/constants.js';
 import ClientInfoTable from './ClientInfoTable.js';
 import { makeStyles } from '@material-ui/core/styles';
 import TextAreaCard from '../shared/components/TextAreaCard.js';

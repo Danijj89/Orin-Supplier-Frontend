@@ -3,7 +3,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import Box from '@material-ui/core/Box';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import FormDialog from '../shared/wrappers/FormDialog.js';
-import { LANGUAGE } from '../../app/constants.js';
+import { LANGUAGE } from '../../app/utils/constants.js';
 import { useForm } from 'react-hook-form';
 import { documentObjectTypesOptions } from '../shared/constants.js';
 import { useDispatch } from 'react-redux';

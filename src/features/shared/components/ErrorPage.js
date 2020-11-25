@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import ErrorMessages from './ErrorMessages.js';
 import ThemedButton from '../buttons/ThemedButton.js';
-import { LANGUAGE } from '../../../app/constants.js';
+import { LANGUAGE } from '../../../app/utils/constants.js';
 import Box from '@material-ui/core/Box';
 
 const { backButtonLabel } = LANGUAGE.shared.components.errorPage;

@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
-import { LANGUAGE } from '../../app/constants.js';
+import { LANGUAGE } from '../../app/utils/constants.js';
 import { useSelector } from 'react-redux';
 import { selectShipmentById } from '../shipments/duck/selectors.js';
 import Grid from '@material-ui/core/Grid';

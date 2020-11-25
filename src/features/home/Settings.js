@@ -2,7 +2,7 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import { Container } from '@material-ui/core';
-import { LANGUAGE } from '../../app/constants.js';
+import { LANGUAGE } from '../../app/utils/constants.js';
 import AccountDetails from '../users/AccountDetails.js';
 import CompanyDetails from './CompanyDetails.js';
 import CompanyUsers from '../users/CompanyUsers.js';

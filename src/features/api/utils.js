@@ -1,4 +1,4 @@
-import { AXIOS_REQUEST_CONFIG, BACKEND_ERRORS } from '../../app/constants.js';
+import { AXIOS_REQUEST_CONFIG, BACKEND_ERRORS } from '../../app/utils/constants.js';
 import axios from 'axios';
 
 export const fetchWithAuth = async configs => {

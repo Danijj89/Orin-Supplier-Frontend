@@ -1,5 +1,5 @@
 import React from 'react';
-import { LANGUAGE } from '../../app/constants.js';
+import { LANGUAGE } from '../../app/utils/constants.js';
 import InfoCard from '../shared/wrappers/InfoCard.js';
 import { dateToLocaleDate, formatAddress, formatCurrency } from '../shared/utils/format.js';
 import UnitCounter from '../shared/classes/UnitCounter.js';

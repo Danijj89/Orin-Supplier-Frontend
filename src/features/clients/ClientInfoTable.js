@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Paper } from '@material-ui/core';
-import { LANGUAGE } from '../../app/constants.js';
+import { LANGUAGE } from '../../app/utils/constants.js';
 import ClientContactsTable from './ClientContactsTable.js';
 import ClientOrdersTable from './ClientOrdersTable.js';
 import ClientAddressCards from './ClientAddressCards.js';

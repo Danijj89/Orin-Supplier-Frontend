@@ -52,8 +52,7 @@ const homeSlice = createSlice({
             state.status = 'PENDING';
         },
         [addNewAddress.fulfilled]: (state, action) => {
-            const { addresses } = action.payload;
-            state.company.addresses = addresses;
+            state.company = action.payload;
             state.status = 'IDLE';
         },
         [addNewAddress.rejected]: (state, action) => {
@@ -64,9 +63,7 @@ const homeSlice = createSlice({
             state.status = 'PENDING';
         },
         [deleteAddress.fulfilled]: (state, action) => {
-            const id = action.payload;
-            const addressIdx = state.company.addresses.findIndex(add => add._id === id);
-            state.company.addresses[addressIdx].active = false;
+            state.company = action.payload;
             state.status = 'IDLE';
         },
         [deleteAddress.rejected]: (state, action) => {
@@ -88,7 +85,7 @@ const homeSlice = createSlice({
             state.status = 'PENDING';
         },
         [updateDefaultAddress.fulfilled]: (state, action) => {
-            state.company.defaultAddress = state.company.addresses.find(address => address._id === action.payload);
+            state.company = action.payload;
             state.status = 'IDLE';
         },
         [updateDefaultAddress.rejected]: (state, action) => {

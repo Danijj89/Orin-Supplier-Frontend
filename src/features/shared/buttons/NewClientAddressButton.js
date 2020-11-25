@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Box } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
-import { LANGUAGE } from '../../../app/constants.js';
+import { LANGUAGE } from '../../../app/utils/constants.js';
 import { addNewClientAddress } from '../../clients/duck/thunks.js';
 import ThemedButton from './ThemedButton.js';
 import AddressDialog from '../forms/AddressDialog.js';

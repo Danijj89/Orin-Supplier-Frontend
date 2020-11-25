@@ -3,7 +3,7 @@ import { Grid } from '@material-ui/core';
 import DetailsInfoCard from './DetailsInfoCard.js';
 import StatusInfoCard from './StatusInfoCard.js';
 import TextAreaCard from '../shared/components/TextAreaCard.js';
-import { LANGUAGE } from '../../app/constants.js';
+import { LANGUAGE } from '../../app/utils/constants.js';
 import { useDispatch } from 'react-redux';
 import OrderProductTable from './OrderProductTable.js';
 import InfoCard from '../shared/wrappers/InfoCard.js';

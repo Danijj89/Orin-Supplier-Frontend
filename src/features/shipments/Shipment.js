@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { Grid } from '@material-ui/core';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
-import { LANGUAGE } from '../../app/constants.js';
+import { LANGUAGE } from '../../app/utils/constants.js';
 import { useSelector } from 'react-redux';
 import { selectShipmentById } from './duck/selectors.js';
 import NavTabs from '../shared/components/NavTabs.js';

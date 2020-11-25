@@ -2,7 +2,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import EditableTable from '../../components/editable_table/EditableTable.js';
 import DeleteIconButton from '../../buttons/DeleteIconButton.js';
-import { LANGUAGE } from '../../../../app/constants.js';
+import { LANGUAGE } from '../../../../app/utils/constants.js';
 import TableTextField from '../../inputs/TableTextField.js';
 import { Grid, IconButton } from '@material-ui/core';
 import { Add as IconAdd, Close as IconClose } from '@material-ui/icons';

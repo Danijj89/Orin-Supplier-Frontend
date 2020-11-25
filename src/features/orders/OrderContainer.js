@@ -15,7 +15,7 @@ import { selectProductDataStatus, selectProductError } from '../products/duck/se
 import { fetchProducts } from '../products/duck/thunks.js';
 import Order from './Order.js';
 import { useParams } from 'react-router-dom';
-import { LANGUAGE } from '../../app/constants.js';
+import { LANGUAGE } from '../../app/utils/constants.js';
 import { selectShipmentDataStatus, selectShipmentError } from '../shipments/duck/selectors.js';
 import { fetchShipments } from '../shipments/duck/thunks.js';
 

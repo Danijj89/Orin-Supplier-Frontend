@@ -5,7 +5,7 @@ import AddressDialog from '../shared/forms/AddressDialog.js';
 import { makeStyles } from '@material-ui/core/styles';
 import AddressCard from '../shared/components/AddressCard.js';
 import { deleteClientAddress, updateAddress, updateDefaultClientAddress } from './duck/thunks.js';
-import { LANGUAGE } from '../../app/constants.js';
+import { LANGUAGE } from '../../app/utils/constants.js';
 import NewClientAddressButton from '../shared/buttons/NewClientAddressButton.js';
 
 const useStyles = makeStyles((theme) => ({

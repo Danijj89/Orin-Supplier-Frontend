@@ -124,3 +124,5 @@ export const shipmentToSalesContract = (shipment) => ({
     custom1: shipment.ciCustom1,
     custom2: shipment.ciCustom2
 });
+
+export const countryToCountryCode = (country) => country.code;

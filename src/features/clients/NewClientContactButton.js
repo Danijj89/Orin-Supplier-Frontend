@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { Box } from '@material-ui/core';
-import { LANGUAGE } from '../../app/constants.js';
+import { LANGUAGE } from '../../app/utils/constants.js';
 import { useDispatch } from 'react-redux';
 import ContactDialog from '../shared/forms/ContactDialog.js';
 import { addNewClientContact } from './duck/thunks.js';

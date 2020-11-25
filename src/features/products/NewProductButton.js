@@ -3,7 +3,7 @@ import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { Box } from '@material-ui/core';
 import ProductDialog from '../shared/forms/ProductDialog.js';
 import { useDispatch } from 'react-redux';
-import { LANGUAGE } from '../../app/constants.js';
+import { LANGUAGE } from '../../app/utils/constants.js';
 import { createProduct } from './duck/thunks.js';
 import { makeStyles } from '@material-ui/core/styles';
 

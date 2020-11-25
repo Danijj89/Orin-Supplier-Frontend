@@ -8,6 +8,10 @@ export const selectCompanyActiveAddresses = createSelector(
     state => state.home.company.addresses,
     addresses => addresses.filter(a => a.active)
 );
+export const selectCompanyLegalAddress = createSelector(
+    state => state.home.company.addresses,
+    addresses => addresses.find(a => a.legal)
+);
 export const selectCompanyPorts = state => state.home.company.ports;
 export const selectCompanyId = state => state.home.company?._id;
 export const selectActiveCompanyBankDetails = createSelector(

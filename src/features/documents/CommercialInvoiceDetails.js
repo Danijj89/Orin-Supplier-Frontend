@@ -1,5 +1,5 @@
 import React from 'react';
-import { LANGUAGE } from '../../app/constants.js';
+import { LANGUAGE } from '../../app/utils/constants.js';
 import FormContainer from '../shared/wrappers/FormContainer.js';
 import { useForm } from 'react-hook-form';
 import SideTextField from '../shared/inputs/SideTextField.js';

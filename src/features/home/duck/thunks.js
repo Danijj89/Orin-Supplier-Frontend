@@ -20,8 +20,7 @@ export const updateCompany = createAsyncThunk('home/updateCompany',
     });
 
 export const addNewAddress = createAsyncThunk('home/addNewAddress',
-    async (data, { rejectWithValue }) => {
-        const { companyId, ...address } = data;
+    async ({ companyId, address }, { rejectWithValue }) => {
         try {
             return await CompanyService.addNewAddress(companyId, address);
         } catch (err) {
@@ -32,8 +31,7 @@ export const addNewAddress = createAsyncThunk('home/addNewAddress',
 export const deleteAddress = createAsyncThunk('home/deleteAddress',
     async ({ companyId, addressId }, { rejectWithValue }) => {
         try {
-            await CompanyService.deleteAddress(companyId, addressId);
-            return addressId;
+            return await CompanyService.deleteAddress(companyId, addressId);
         } catch (err) {
             return rejectWithValue(err.response.data);
         }
@@ -51,8 +49,7 @@ export const updateAddress = createAsyncThunk('home/updateAddress',
 export const updateDefaultAddress = createAsyncThunk('home/updateDefaultAddress',
     async ({ companyId, addressId }, { rejectWithValue }) => {
         try {
-            await CompanyService.updateDefaultAddress(companyId, addressId);
-            return addressId;
+            return await CompanyService.updateDefaultAddress(companyId, addressId);
         } catch (err) {
             return rejectWithValue(err.response.data);
         }

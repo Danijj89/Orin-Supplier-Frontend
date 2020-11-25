@@ -1,7 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import Table from '../shared/components/table/Table.js';
-import { LANGUAGE } from '../../app/constants.js';
+import { LANGUAGE } from '../../app/utils/constants.js';
 import UnitCounter from '../shared/classes/UnitCounter.js';
 import { dateToLocaleDate } from '../shared/utils/format.js';
 import PopoverNotes from '../shared/components/PopoverNotes.js';

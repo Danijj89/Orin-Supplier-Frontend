@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectCompanyActiveAddresses, selectCompanyPorts } from '../home/duck/selectors.js';
 import { selectClientsMap } from '../clients/duck/selectors.js';
 import Footer from '../shared/components/Footer.js';
-import { LANGUAGE } from '../../app/constants.js';
+import { LANGUAGE } from '../../app/utils/constants.js';
 import { cleanNewOrder } from './duck/slice.js';
 import { useHistory } from 'react-router-dom';
 

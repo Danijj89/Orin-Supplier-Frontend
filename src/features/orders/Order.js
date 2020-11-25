@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Paper, Box } from '@material-ui/core';
 import { useSelector } from 'react-redux';
-import { LANGUAGE } from '../../app/constants.js';
+import { LANGUAGE } from '../../app/utils/constants.js';
 import OrderDetails from './OrderDetails.js';
 import { selectOrderById } from './duck/selectors.js';
 import OrderDocuments from './OrderDocuments.js';

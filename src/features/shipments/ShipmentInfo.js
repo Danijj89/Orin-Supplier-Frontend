@@ -6,7 +6,7 @@ import { selectClientActiveAddresses } from '../clients/duck/selectors.js';
 import { Grid } from '@material-ui/core';
 import { formatAddress } from '../shared/utils/format.js';
 import InfoCard from '../shared/wrappers/InfoCard.js';
-import { LANGUAGE } from '../../app/constants.js';
+import { LANGUAGE } from '../../app/utils/constants.js';
 import {
     billOfLandingTypesOptions,
     deliveryMethodOptions,

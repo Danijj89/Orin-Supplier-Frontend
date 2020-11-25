@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import RHFProductTable, { validateItems } from '../shared/rhf/forms/RHFProductTable.js';
 import Footer from '../shared/components/Footer.js';
 import { useForm } from 'react-hook-form';
-import { LANGUAGE } from '../../app/constants.js';
+import { LANGUAGE } from '../../app/utils/constants.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectActiveProducts } from '../products/duck/selectors.js';
 import { useHistory } from 'react-router-dom';

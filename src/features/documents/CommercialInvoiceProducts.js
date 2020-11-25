@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectActiveProducts } from '../products/duck/selectors.js';
 import { selectActiveOrdersMap } from '../orders/duck/selectors.js';
 import Footer from '../shared/components/Footer.js';
-import { LANGUAGE } from '../../app/constants.js';
+import { LANGUAGE } from '../../app/utils/constants.js';
 import { Typography } from '@material-ui/core';
 import { addressToDocAddress } from '../shared/utils/entityConversion.js';
 import { createDocument } from '../shipments/duck/thunks.js';

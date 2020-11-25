@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import FormDialog from '../wrappers/FormDialog.js';
 import { useForm } from 'react-hook-form';
 import SideTextField from '../inputs/SideTextField.js';
-import { LANGUAGE } from '../../../app/constants.js';
+import { LANGUAGE } from '../../../app/utils/constants.js';
 import PropTypes from 'prop-types';
 import RHFCheckBox from '../rhf/inputs/RHFCheckBox.js';
 

@@ -1,9 +1,11 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { LANGUAGE } from '../../../app/constants.js';
+import { currentLocale, LANGUAGE } from '../../../app/utils/constants.js';
 import { useForm } from 'react-hook-form';
 import FormDialog from '../wrappers/FormDialog.js';
 import SideTextField from '../inputs/SideTextField.js';
+import RHFAutoComplete from '../rhf/inputs/RHFAutoComplete.js';
+import { countryOptions } from '../constants.js';
 
 const {
     typeLabel,
@@ -19,25 +21,10 @@ const {
     deleteMessage
 } = LANGUAGE.shared.forms.addressDialog;
 
-export default function AddressDialog({ isOpen, onSubmit, onCancel, submitLabel, address, titleLabel, onDelete }) {
-    const { register, errors, handleSubmit, reset } = useForm({
-        mode: 'onSubmit',
-        defaultValues: {
-            _id: address?._id,
-            type: address?.type,
-            name: address?.name,
-            address: address?.address,
-            address2: address?.address2,
-            city: address?.city,
-            administrative: address?.administrative,
-            country: address?.country,
-            zip: address?.zip,
-            phone: address?.phone,
-            email: address?.email
-        }
+const AddressDialog = React.memo(function AddressDialog({ isOpen, onSubmit, onCancel, submitLabel, address, titleLabel, onDelete }) {
+    const { register, control, errors, handleSubmit, reset } = useForm({
+        mode: 'onSubmit'
     });
-    const onFormSubmit = (data) => onSubmit(data);
-
 
     useEffect(() => {
         reset({
@@ -61,14 +48,14 @@ export default function AddressDialog({ isOpen, onSubmit, onCancel, submitLabel,
             titleLabel={ titleLabel }
             submitLabel={ submitLabel }
             onCancel={ onCancel }
-            onSubmit={ handleSubmit(onFormSubmit) }
+            onSubmit={ handleSubmit(onSubmit) }
             onDelete={ onDelete }
             deleteMessage={ deleteMessage }
         >
             <SideTextField
                 label={ typeLabel }
                 name="type"
-                inputRef={ register }
+                inputRef={ register({ required: true }) }
                 error={ !!errors.type }
                 autoFocus
                 required
@@ -76,14 +63,14 @@ export default function AddressDialog({ isOpen, onSubmit, onCancel, submitLabel,
             <SideTextField
                 label={ nameLabel }
                 name="name"
-                inputRef={ register }
+                inputRef={ register({ required: true }) }
                 error={ !!errors.name }
                 required
             />
             <SideTextField
                 label={ addressLabel }
                 name="address"
-                inputRef={ register }
+                inputRef={ register({ required: true }) }
                 error={ !!errors.address }
                 required
             />
@@ -96,7 +83,7 @@ export default function AddressDialog({ isOpen, onSubmit, onCancel, submitLabel,
             <SideTextField
                 label={ cityLabel }
                 name="city"
-                inputRef={ register }
+                inputRef={ register({ required: true }) }
                 error={ !!errors.city }
                 required
             />
@@ -106,10 +93,13 @@ export default function AddressDialog({ isOpen, onSubmit, onCancel, submitLabel,
                 inputRef={ register }
                 error={ !!errors.administrative }
             />
-            <SideTextField
+            <RHFAutoComplete
+                rhfControl={ control }
                 label={ countryLabel }
                 name="country"
-                inputRef={ register }
+                options={ countryOptions }
+                getOptionLabel={ option => option.label[currentLocale] }
+                getOptionSelected={ (option, value) => option.code === value.code }
                 error={ !!errors.country }
                 required
             />
@@ -133,7 +123,7 @@ export default function AddressDialog({ isOpen, onSubmit, onCancel, submitLabel,
             />
         </FormDialog>
     )
-}
+});
 
 AddressDialog.propTypes = {
     isOpen: PropTypes.bool.isRequired,
@@ -144,3 +134,5 @@ AddressDialog.propTypes = {
     address: PropTypes.object,
     onDelete: PropTypes.func
 };
+
+export default AddressDialog;

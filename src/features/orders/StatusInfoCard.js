@@ -1,5 +1,5 @@
 import React from 'react';
-import { LANGUAGE } from '../../app/constants.js';
+import { LANGUAGE } from '../../app/utils/constants.js';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import { dateToLocaleDate } from '../shared/utils/format.js';
 import InfoCard from '../shared/wrappers/InfoCard.js';

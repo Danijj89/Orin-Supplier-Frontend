@@ -2,12 +2,12 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import FormDialog from '../wrappers/FormDialog.js';
 import { useForm } from 'react-hook-form';
-import { LANGUAGE } from '../../../app/constants.js';
+import { LANGUAGE } from '../../../app/utils/constants.js';
 import SideTextField from '../inputs/SideTextField.js';
 import { currenciesOptions, industriesOptions } from '../constants.js';
 import RHFAutoComplete from '../rhf/inputs/RHFAutoComplete.js';
 
-const { taxNumberLabel, defaultCurrencyLabel, industriesLabel } = LANGUAGE.shared.forms.companyDialog;
+const { taxNumberLabel, currencyLabel, industriesLabel } = LANGUAGE.shared.forms.companyDialog;
 
 const CompanyDialog = React.memo(function CompanyDialog(
     { company, isOpen, titleLabel, submitLabel, onSubmit, onCancel, className }) {
@@ -19,7 +19,7 @@ const CompanyDialog = React.memo(function CompanyDialog(
     useEffect(() => {
         reset({
             taxNumber: company?.taxNumber,
-            defaultCurrency: company?.defaultCurrency,
+            currency: company?.currency || null,
             industries: company?.industries || []
         });
     }, [reset, company]);
@@ -41,8 +41,8 @@ const CompanyDialog = React.memo(function CompanyDialog(
             />
             <RHFAutoComplete
                 rhfControl={ control }
-                name="defaultCurrency"
-                label={ defaultCurrencyLabel }
+                name="currency"
+                label={ currencyLabel }
                 options={ currenciesOptions }
             />
             <RHFAutoComplete

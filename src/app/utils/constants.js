@@ -1,6 +1,6 @@
-import { ENGLISH } from '../languages/english/english.js';
-import { ENGLISH_ERRORS } from '../languages/english/errors.js';
-import { CHINESE } from '../languages/chinese/chinese.js';
+import { ENGLISH } from '../../languages/english/english.js';
+import { ENGLISH_ERRORS } from '../../languages/english/errors.js';
+import { CHINESE } from '../../languages/chinese/chinese.js';
 
 function getCurrentLocale() {
     const locales = navigator.languages === undefined ? [navigator.language] : navigator.languages;

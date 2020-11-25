@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import ThemedButton from '../../buttons/ThemedButton.js';
 import { TableRow } from '@material-ui/core';
 import { TableCell } from './EditableTable.js';
-import { LANGUAGE } from '../../../../app/constants.js';
+import { LANGUAGE } from '../../../../app/utils/constants.js';
 
 const { addRowButtonLabel } = LANGUAGE.shared.components.editableTable;
 

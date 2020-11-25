@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useWatch } from 'react-hook-form';
 import { measurementUnitsOptions, packageUnitsOptions, weightUnitsOptions } from '../../constants.js';
 import { Grid, IconButton } from '@material-ui/core';
-import { LANGUAGE } from '../../../../app/constants.js';
+import { LANGUAGE } from '../../../../app/utils/constants.js';
 import EditableTable from '../../components/editable_table/EditableTable.js';
 import TableTextField from '../../inputs/TableTextField.js';
 import { Add as IconAdd, Close as IconClose } from '@material-ui/icons';

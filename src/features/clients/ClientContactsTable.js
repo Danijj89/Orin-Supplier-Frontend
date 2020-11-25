@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { LANGUAGE } from '../../app/constants.js';
+import { LANGUAGE } from '../../app/utils/constants.js';
 import Table from '../shared/components/table/Table.js';
 import { Box } from '@material-ui/core';
 import ContactDialog from '../shared/forms/ContactDialog.js';

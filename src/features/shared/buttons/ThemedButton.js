@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ThemedButton = React.memo(function ThemedButton(
-    { children, variant = 'contained', className, onClick, type }) {
+    { children, variant = 'contained', className, onClick, type, disabled }) {
     const classes = useStyles();
     const classNames = clsx(
         variant === 'outlined' && classes.outlined,
@@ -50,6 +50,7 @@ const ThemedButton = React.memo(function ThemedButton(
             variant={ variant }
             onClick={ onClick }
             type={ type }
+            disabled={ disabled }
         >
             { children }
         </Button>
@@ -61,7 +62,8 @@ ThemedButton.propTypes = {
     children: PropTypes.node,
     variant: PropTypes.oneOf(['contained', 'outlined', 'text']),
     onClick: PropTypes.func,
-    type: PropTypes.string
+    type: PropTypes.string,
+    disabled: PropTypes.bool
 };
 
 export default ThemedButton;

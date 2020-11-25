@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Box, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { LANGUAGE } from '../../app/constants.js';
+import { LANGUAGE } from '../../app/utils/constants.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectActiveCompanyBankDetails, selectCompanyId } from '../home/duck/selectors.js';
 import BankDetailDialog from '../home/BankDetailDialog.js';
@@ -46,7 +46,8 @@ const CompanyBankDetails = React.memo(function CompanyBankDetails() {
     const onCancel = () => setIsEdit(false);
 
     const onRowClick = (params) => {
-        setEditBankDetail(params);
+        const { id, ...rest } = params;
+        setEditBankDetail({ _id: id, ...rest });
         setIsEdit(true);
     };
 

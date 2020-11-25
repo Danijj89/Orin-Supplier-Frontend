@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import RHFMeasureTable, { validateItemMeasures } from '../shared/rhf/forms/RHFMeasureTable.js';
 import { useForm } from 'react-hook-form';
 import Footer from '../shared/components/Footer.js';
-import { LANGUAGE } from '../../app/constants.js';
+import { LANGUAGE } from '../../app/utils/constants.js';
 import Typography from '@material-ui/core/Typography';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCompanyId } from '../home/duck/selectors.js';

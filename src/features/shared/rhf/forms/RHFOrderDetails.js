@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useWatch } from 'react-hook-form';
-import { LANGUAGE } from '../../../../app/constants.js';
+import { LANGUAGE } from '../../../../app/utils/constants.js';
 import SideTextField from '../../inputs/SideTextField.js';
 import { formatAddress } from '../../utils/format.js';
 import { deliveryMethodOptions, incotermOptions } from '../../constants.js';

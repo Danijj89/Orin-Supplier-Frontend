@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import TextArea from '../inputs/TextArea.js';
 import FormDialog from '../wrappers/FormDialog.js';
-import { LANGUAGE } from '../../../app/constants.js';
+import { LANGUAGE } from '../../../app/utils/constants.js';
 
 const useStyles = makeStyles((theme) => ({
     container: {

@@ -1,4 +1,4 @@
-import { LOCALE } from '../../../app/constants.js';
+import { LOCALE } from '../../../app/utils/constants.js';
 import { getCurrencySymbol } from './random.js';
 
 export function dateToLocaleDate(date) {
