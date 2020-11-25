@@ -6,12 +6,12 @@ import Loader from '../shared/components/Loader.js';
 import OrderOverview from './OrderOverview.js';
 import { fetchOrders } from './duck/thunks.js';
 import { cleanOrderError } from './duck/slice.js';
-import { selectCompanyId, selectHomeError, selectHomeStatus } from '../home/duck/selectors.js';
+import { selectCompanyId, selectHomeError, selectHomeDataStatus } from '../home/duck/selectors.js';
 import ErrorPage from '../shared/components/ErrorPage.js';
 
 const OrderOverviewContainer = React.memo(function OrderOverviewContainer() {
     const dispatch = useDispatch();
-    const homeStatus = useSelector(selectHomeStatus);
+    const homeStatus = useSelector(selectHomeDataStatus);
     const homeError = useSelector(selectHomeError);
     const orderDataStatus = useSelector(selectOrderDataStatus);
     const orderError = useSelector(selectOrderError);

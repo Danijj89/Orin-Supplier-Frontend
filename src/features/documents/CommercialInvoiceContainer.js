@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef } from 'react';
 import CommercialInvoice from './CommercialInvoice.js';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectCompanyId, selectHomeError, selectHomeStatus } from '../home/duck/selectors.js';
+import { selectCompanyId, selectHomeError, selectHomeDataStatus } from '../home/duck/selectors.js';
 import { determineStatus } from '../shared/utils/state.js';
 import Loader from '../shared/components/Loader.js';
 import ErrorPage from '../shared/components/ErrorPage.js';
@@ -19,7 +19,7 @@ import { fetchOrders } from '../orders/duck/thunks.js';
 const CommercialInvoiceContainer = React.memo(function CommercialInvoiceContainer() {
     const dispatch = useDispatch();
 
-    const homeStatus = useSelector(selectHomeStatus);
+    const homeStatus = useSelector(selectHomeDataStatus);
     const homeError = useSelector(selectHomeError);
     const shipmentDataStatus = useSelector(selectShipmentDataStatus);
     const shipmentError = useSelector(selectShipmentError);

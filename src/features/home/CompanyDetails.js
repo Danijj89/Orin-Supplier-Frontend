@@ -39,18 +39,18 @@ const CompanyDetails = React.memo(function CompanyDetails() {
     const company = useSelector(selectCurrentCompany);
 
     const data = [
-        { label: taxNumberLabel, value: company?.taxNumber },
-        { label: defaultCurrencyLabel, value: company?.defaultCurrency },
-        { label: industriesLabel, value: company?.industries },
-        { label: emailLabel, value: company?.legalAddress?.email },
-        { label: phoneLabel, value: company?.legalAddress?.phone }
+        { label: taxNumberLabel, value: company.taxNumber },
+        { label: defaultCurrencyLabel, value: company.defaultCurrency },
+        { label: industriesLabel, value: company.industries },
+        { label: emailLabel, value: company.legalAddress.email },
+        { label: phoneLabel, value: company.legalAddress.phone }
     ];
 
     return (
         <Container className={ classes.companyContainer }>
             <InfoCard
                 className={ classes.topCard }
-                title={ company?.defaultAddress?.name }
+                title={ company.defaultAddress.name }
                 button={ <EditCompanyInfoButton company={ company }/> }
                 content={
                     <Grid container>
@@ -67,7 +67,7 @@ const CompanyDetails = React.memo(function CompanyDetails() {
                     onChange={ setTabValue }
                 />
                 { tabValue === 'addresses' &&
-                <CompanyAddressCards company={ company }/>
+                <CompanyAddressCards />
                 }
                 { tabValue === 'bankDetails' &&
                 <CompanyBankDetails/>

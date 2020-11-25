@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import CreateShipment from './CreateShipment.js';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectCompanyId, selectHomeStatus } from '../home/duck/selectors.js';
+import { selectCompanyId, selectHomeDataStatus } from '../home/duck/selectors.js';
 import { determineStatus } from '../shared/utils/state.js';
 import Loader from '../shared/components/Loader.js';
 import { fetchClients } from '../clients/duck/thunks.js';
@@ -16,7 +16,7 @@ export default function CreateShipmentContainer() {
     const dispatch = useDispatch();
     const companyId = useSelector(selectCompanyId);
     const currentShipmentId = useSelector(selectCurrentShipmentId);
-    const homeStatus = useSelector(selectHomeStatus);
+    const homeStatus = useSelector(selectHomeDataStatus);
     const clientDataStatus = useSelector(selectClientDataStatus);
     const orderDataStatus = useSelector(selectOrderDataStatus);
     const status = determineStatus([homeStatus, clientDataStatus, orderDataStatus]);

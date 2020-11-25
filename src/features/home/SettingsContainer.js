@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectCompanyId, selectHomeError, selectHomeStatus } from './duck/selectors.js';
+import { selectCompanyId, selectHomeError, selectHomeDataStatus } from './duck/selectors.js';
 import { determineStatus, getErrors } from '../shared/utils/state.js';
 import ErrorPage from '../shared/components/ErrorPage.js';
 import Loader from '../shared/components/Loader.js';
@@ -12,7 +12,7 @@ import { cleanUserError } from '../users/duck/slice.js';
 
 const SettingsContainer = React.memo(function SettingsContainer() {
     const dispatch = useDispatch();
-    const homeStatus = useSelector(selectHomeStatus);
+    const homeStatus = useSelector(selectHomeDataStatus);
     const homeError = useSelector(selectHomeError);
     const userDataStatus = useSelector(selectUserDataStatus);
     const userError = useSelector(selectUserError);

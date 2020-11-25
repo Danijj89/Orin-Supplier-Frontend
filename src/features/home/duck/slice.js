@@ -10,6 +10,7 @@ import {
 
 const initialState = {
     company: null,
+    dataStatus: 'IDLE',
     status: 'IDLE',
     error: null,
 };
@@ -19,6 +20,7 @@ const homeSlice = createSlice({
     initialState,
     reducers: {
         cleanHomeError: (state, action) => {
+            state.dataStatus = 'IDLE';
             state.status = 'IDLE';
             state.error = null;
         }
@@ -29,7 +31,7 @@ const homeSlice = createSlice({
         },
         [fetchCompanyById.fulfilled]: (state, action) => {
             state.company = action.payload;
-            state.status = 'FULFILLED';
+            state.dataStatus = 'FULFILLED';
         },
         [fetchCompanyById.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -40,16 +42,19 @@ const homeSlice = createSlice({
         },
         [updateCompany.fulfilled]: (state, action) => {
             state.company = action.payload;
-            state.status = 'FULFILLED';
+            state.status = 'IDLE';
         },
         [updateCompany.rejected]: (state, action) => {
             state.status = 'REJECTED';
             state.error = action.payload.message;
         },
+        [addNewAddress.pending]: (state, action) => {
+            state.status = 'PENDING';
+        },
         [addNewAddress.fulfilled]: (state, action) => {
             const { addresses } = action.payload;
             state.company.addresses = addresses;
-            state.status = 'FULFILLED';
+            state.status = 'IDLE';
         },
         [addNewAddress.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -62,7 +67,7 @@ const homeSlice = createSlice({
             const id = action.payload;
             const addressIdx = state.company.addresses.findIndex(add => add._id === id);
             state.company.addresses[addressIdx].active = false;
-            state.status = 'FULFILLED';
+            state.status = 'IDLE';
         },
         [deleteAddress.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -73,7 +78,7 @@ const homeSlice = createSlice({
         },
         [updateAddress.fulfilled]: (state, action) => {
             state.company = action.payload;
-            state.status = 'FULFILLED';
+            state.status = 'IDLE';
         },
         [updateAddress.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -84,15 +89,18 @@ const homeSlice = createSlice({
         },
         [updateDefaultAddress.fulfilled]: (state, action) => {
             state.company.defaultAddress = state.company.addresses.find(address => address._id === action.payload);
-            state.status = 'FULFILLED';
+            state.status = 'IDLE';
         },
         [updateDefaultAddress.rejected]: (state, action) => {
             state.status = 'REJECTED';
             state.error = action.payload.message;
         },
+        [createCompanyBankDetail.pending]: (state, action) => {
+            state.status = 'PENDING';
+        },
         [createCompanyBankDetail.fulfilled]: (state, action) => {
             state.company = action.payload;
-            state.status = 'FULFILLED';
+            state.status = 'IDLE';
         },
         [createCompanyBankDetail.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -103,15 +111,18 @@ const homeSlice = createSlice({
         },
         [deleteCompanyBankDetail.fulfilled]: (state, action) => {
             state.company = action.payload;
-            state.status = 'FULFILLED';
+            state.status = 'IDLE';
         },
         [deleteCompanyBankDetail.rejected]: (state, action) => {
             state.status = 'REJECTED';
             state.error = action.payload.message;
         },
+        [updateCompanyBankDetail.pending]: (state, action) => {
+            state.status = 'PENDING';
+        },
         [updateCompanyBankDetail.fulfilled]: (state, action) => {
             state.company = action.payload;
-            state.status = 'FULFILLED';
+            state.status = 'IDLE';
         },
         [updateCompanyBankDetail.rejected]: (state, action) => {
             state.status = 'REJECTED';

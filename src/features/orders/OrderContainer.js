@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectOrderById, selectOrderDataStatus, selectOrderError } from './duck/selectors.js';
 import { determineStatus } from '../shared/utils/state.js';
-import { selectCompanyId, selectHomeError, selectHomeStatus } from '../home/duck/selectors.js';
+import { selectCompanyId, selectHomeError, selectHomeDataStatus } from '../home/duck/selectors.js';
 import ErrorPage from '../shared/components/ErrorPage.js';
 import Loader from '../shared/components/Loader.js';
 import { fetchOrders } from './duck/thunks.js';
@@ -28,7 +28,7 @@ const OrderContainer = React.memo(function OrderContainer() {
     const { id } = useParams();
     const orderDataStatus = useSelector(selectOrderDataStatus);
     const orderError = useSelector(selectOrderError);
-    const homeStatus = useSelector(selectHomeStatus);
+    const homeStatus = useSelector(selectHomeDataStatus);
     const homeError = useSelector(selectHomeError);
     const userDataStatus = useSelector(selectUserDataStatus);
     const userError = useSelector(selectUserError);

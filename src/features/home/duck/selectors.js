@@ -1,6 +1,7 @@
 import { createSelector } from '@reduxjs/toolkit';
 
 export const selectCurrentCompany = state => state.home.company;
+export const selectHomeDataStatus = state => state.home.dataStatus;
 export const selectHomeStatus = state => state.home.status;
 export const selectHomeError = state => state.home.error;
 export const selectCompanyActiveAddresses = createSelector(

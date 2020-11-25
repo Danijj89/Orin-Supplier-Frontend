@@ -4,7 +4,7 @@ import { selectShipmentDataStatus, selectShipmentError } from './duck/selectors.
 import { determineStatus } from '../shared/utils/state.js';
 import ErrorPage from '../shared/components/ErrorPage.js';
 import Loader from '../shared/components/Loader.js';
-import { selectCompanyId, selectHomeError, selectHomeStatus } from '../home/duck/selectors.js';
+import { selectCompanyId, selectHomeError, selectHomeDataStatus } from '../home/duck/selectors.js';
 import { fetchShipments } from './duck/thunks.js';
 import ShipmentOverview from './ShipmentOverview.js';
 
@@ -12,7 +12,7 @@ const ShipmentOverviewContainer = React.memo(function ShipmentOverviewContainer(
     const dispatch = useDispatch();
     const shipmentDataStatus = useSelector(selectShipmentDataStatus);
     const shipmentError = useSelector(selectShipmentError);
-    const homeStatus = useSelector(selectHomeStatus);
+    const homeStatus = useSelector(selectHomeDataStatus);
     const homeError = useSelector(selectHomeError);
 
     const status = determineStatus([shipmentDataStatus, homeStatus]);

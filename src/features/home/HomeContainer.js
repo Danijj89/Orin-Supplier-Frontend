@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectHomeError, selectHomeStatus } from './duck/selectors.js';
+import { selectHomeError, selectHomeDataStatus } from './duck/selectors.js';
 import { determineStatus } from '../shared/utils/state.js';
 import ErrorPage from '../shared/components/ErrorPage.js';
 import Loader from '../shared/components/Loader.js';
@@ -11,7 +11,7 @@ import { Redirect } from 'react-router-dom';
 
 const HomeContainer = React.memo(function HomeContainer() {
     const dispatch = useDispatch();
-    const homeStatus = useSelector(selectHomeStatus);
+    const homeStatus = useSelector(selectHomeDataStatus);
     const homeError = useSelector(selectHomeError);
 
     const status = determineStatus([homeStatus]);

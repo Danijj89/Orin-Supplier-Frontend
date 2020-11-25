@@ -4,7 +4,7 @@ import { selectClientDataStatus, selectClientError } from './duck/selectors.js';
 import { determineStatus } from '../shared/utils/state.js';
 import ErrorPage from '../shared/components/ErrorPage.js';
 import Loader from '../shared/components/Loader.js';
-import { selectCompanyId, selectHomeError, selectHomeStatus } from '../home/duck/selectors.js';
+import { selectCompanyId, selectHomeError, selectHomeDataStatus } from '../home/duck/selectors.js';
 import { fetchClients } from './duck/thunks.js';
 import { selectUserDataStatus, selectUserError } from '../users/duck/selectors.js';
 import { fetchUsers } from '../users/duck/thunks.js';
@@ -14,7 +14,7 @@ const ClientOverviewContainer = React.memo(function ClientOverviewContainer() {
     const dispatch = useDispatch();
     const clientDataStatus = useSelector(selectClientDataStatus);
     const clientError = useSelector(selectClientError);
-    const homeStatus = useSelector(selectHomeStatus);
+    const homeStatus = useSelector(selectHomeDataStatus);
     const homeError = useSelector(selectHomeError);
     const userDataStatus = useSelector(selectUserDataStatus);
     const userError = useSelector(selectUserError);

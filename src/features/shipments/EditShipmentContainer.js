@@ -8,7 +8,7 @@ import Loader from '../shared/components/Loader.js';
 import EditShipment from './EditShipment.js';
 import { selectClientById, selectClientError, selectClientStatus } from '../clients/duck/selectors.js';
 import { fetchClientById } from '../clients/duck/thunks.js';
-import { selectCompanyId, selectHomeError, selectHomeStatus } from '../home/duck/selectors.js';
+import { selectCompanyId, selectHomeError, selectHomeDataStatus } from '../home/duck/selectors.js';
 import { selectProductDataStatus } from '../products/duck/selectors.js';
 import { fetchProducts } from '../products/duck/thunks.js';
 import ErrorPage from '../shared/components/ErrorPage.js';
@@ -19,7 +19,7 @@ export default function EditShipmentContainer() {
     const dispatch = useDispatch();
     const { id } = useParams();
 
-    const homeStatus = useSelector(selectHomeStatus);
+    const homeStatus = useSelector(selectHomeDataStatus);
     const shipmentStatus = useSelector(selectShipmentStatus);
     const clientStatus = useSelector(selectClientStatus);
     const productDataStatus = useSelector(selectProductDataStatus);

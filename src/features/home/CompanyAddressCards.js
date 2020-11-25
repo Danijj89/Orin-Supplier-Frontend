@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { Box, Typography, Grid } from '@material-ui/core';
 import { LANGUAGE } from '../../app/constants.js';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import AddressDialog from '../shared/forms/AddressDialog.js';
 import NewCompanyAddressButton from './NewCompanyAddressButton.js';
 import { makeStyles } from '@material-ui/core/styles';
 import { deleteAddress, updateAddress, updateDefaultAddress } from './duck/thunks.js';
 import AddressCard from '../shared/components/AddressCard.js';
+import { selectCompanyActiveAddresses, selectCurrentCompany } from './duck/selectors.js';
 
 const useStyles = makeStyles((theme) => ({
     cards: {
@@ -28,23 +29,24 @@ const {
     editAddressDialogSubmitLabel,
 } = LANGUAGE.home.companyDetails;
 
-export default function CompanyAddressCards({ company, className }) {
+const CompanyAddressCards = React.memo(function CompanyAddressCards() {
     const classes = useStyles();
     const dispatch = useDispatch();
-    const { _id: companyId, addresses, defaultAddress, legalAddress } = company;
+    const company = useSelector(selectCurrentCompany);
+    const companyAddresses = useSelector(selectCompanyActiveAddresses);
     const [isEditAddressOpen, setIsEditAddressOpen] = useState(false);
     const [editAddress, setEditAddress] = useState(null);
 
     const onDeleteAddress = (addressId) => {
-        dispatch(deleteAddress({ companyId, addressId }));
+        dispatch(deleteAddress({ companyId: company._id, addressId }));
         setIsEditAddressOpen(false);
     };
 
     const onSetDefaultAddress = (addressId) =>
-        dispatch(updateDefaultAddress({ companyId, addressId }));
+        dispatch(updateDefaultAddress({ companyId: company._id, addressId }));
 
     const onEditAddress = (addressId) => {
-        setEditAddress(addresses.find((a) => a._id === addressId));
+        setEditAddress(companyAddresses.find((a) => a._id === addressId));
         setIsEditAddressOpen(true);
     };
 
@@ -52,50 +54,51 @@ export default function CompanyAddressCards({ company, className }) {
 
     const onEditAddressSubmit = (data) => {
         const { _id, ...update } = data;
-        data.companyId = companyId;
-        dispatch(updateAddress({ companyId, addressId: _id, update }));
+        dispatch(updateAddress({ companyId: company._id, addressId: _id, update }));
         setIsEditAddressOpen(false);
     };
 
     const isDefaultAddress = (addressId) =>
-        addressId === legalAddress._id || addressId === defaultAddress._id;
+        addressId === company.legalAddress._id || addressId === company.defaultAddress._id;
 
     return (
-        <Box className={className}>
-            <Typography className={classes.addressTitle} variant="h5">
-                {addressesTableTitleLabel}
+        <Box>
+            <Typography className={ classes.addressTitle } variant="h5">
+                { addressesTableTitleLabel }
             </Typography>
-            <Box className={classes.cards}>
+            <Box className={ classes.cards }>
                 <Grid container>
-                    {addresses.filter(address => address.active).map((address) =>
-                        <Grid item xs={12} sm={6} lg={4} key={address._id}>
+                    { companyAddresses.map((address) =>
+                        <Grid item xs={ 12 } sm={ 6 } lg={ 4 } key={ address._id }>
                             <AddressCard
-                                address={address}
-                                isDefault={isDefaultAddress(address._id)}
-                                onEdit={() => onEditAddress(address._id)}
-                                onDelete={() => onDeleteAddress(address._id)}
-                                onSetDefault={() =>
+                                address={ address }
+                                isDefault={ isDefaultAddress(address._id) }
+                                onEdit={ () => onEditAddress(address._id) }
+                                onDelete={ () => onDeleteAddress(address._id) }
+                                onSetDefault={ () =>
                                     onSetDefaultAddress(address._id)
                                 }
                             />
                         </Grid>
-                    )}
+                    ) }
                 </Grid>
             </Box>
-            {editAddress && (
+            { editAddress && (
                 <AddressDialog
-                    isOpen={isEditAddressOpen}
-                    address={editAddress}
-                    titleLabel={editAddressDialogTitleLabel}
-                    submitLabel={editAddressDialogSubmitLabel}
-                    onCancel={onEditAddressCancel}
-                    onSubmit={onEditAddressSubmit}
+                    isOpen={ isEditAddressOpen }
+                    address={ editAddress }
+                    titleLabel={ editAddressDialogTitleLabel }
+                    submitLabel={ editAddressDialogSubmitLabel }
+                    onCancel={ onEditAddressCancel }
+                    onSubmit={ onEditAddressSubmit }
                 />
-            )}
+            ) }
             <NewCompanyAddressButton
-                className={classes.newAddressButton}
-                company={company}
+                className={ classes.newAddressButton }
+                company={ company }
             />
         </Box>
     );
-}
+});
+
+export default CompanyAddressCards;

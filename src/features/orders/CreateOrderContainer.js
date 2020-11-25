@@ -5,7 +5,7 @@ import {
     selectCurrentOrderId
 } from './duck/selectors.js';
 import Loader from '../shared/components/Loader.js';
-import { selectCompanyId, selectHomeError, selectHomeStatus } from '../home/duck/selectors.js';
+import { selectCompanyId, selectHomeError, selectHomeDataStatus } from '../home/duck/selectors.js';
 import { determineStatus } from '../shared/utils/state.js';
 import { selectClientDataStatus, selectClientError } from '../clients/duck/selectors.js';
 import { fetchClients } from '../clients/duck/thunks.js';
@@ -22,7 +22,7 @@ export default function CreateOrderContainer() {
     const clientError = useSelector(selectClientError);
     const productDataStatus = useSelector(selectProductDataStatus);
     const productError = useSelector(selectProductError);
-    const homeStatus = useSelector(selectHomeStatus);
+    const homeStatus = useSelector(selectHomeDataStatus);
     const homeError = useSelector(selectHomeError);
 
     const status = determineStatus([clientDataStatus, productDataStatus, homeStatus]);

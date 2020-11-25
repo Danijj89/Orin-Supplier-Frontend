@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectCompanyId, selectHomeError, selectHomeStatus } from '../home/duck/selectors.js';
+import { selectCompanyId, selectHomeError, selectHomeDataStatus } from '../home/duck/selectors.js';
 import { selectShipmentDataStatus, selectShipmentError } from '../shipments/duck/selectors.js';
 import { determineStatus } from '../shared/utils/state.js';
 import ErrorPage from '../shared/components/ErrorPage.js';
@@ -14,7 +14,7 @@ import { cleanNewDocument } from './duck/slice.js';
 const PackingListContainer = React.memo(function PackingListContainer() {
     const dispatch = useDispatch();
 
-    const homeStatus = useSelector(selectHomeStatus);
+    const homeStatus = useSelector(selectHomeDataStatus);
     const homeError = useSelector(selectHomeError);
     const shipmentDataStatus = useSelector(selectShipmentDataStatus);
     const shipmentError = useSelector(selectShipmentError);
