@@ -1,26 +1,29 @@
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import Table from '../shared/components/table/Table.js';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectAllClients } from './duck/selectors.js';
+import { selectAllActiveClients } from './duck/selectors.js';
 import PopoverNotes from '../shared/components/PopoverNotes.js';
 import { updateClientNotes } from './duck/thunks.js';
 
 const { clientTableHeadersMap } = LANGUAGE.client.clientOverview;
 
-export default function ClientsTable() {
+const ClientsTable = React.memo(function ClientsTable() {
     const history = useHistory();
     const dispatch = useDispatch();
-    const clients = useSelector(selectAllClients);
+    const clients = useSelector(selectAllActiveClients);
 
-    const onRowClick = (row) =>
-        history.push(`/home/clients/${ row.id }`);
+    const onRowClick = useCallback(
+        (row) => history.push(`/home/clients/${ row.id }`),
+        [history]);
 
-    const onNotesSubmit = (clientId, data) =>
-        dispatch(updateClientNotes({ id: clientId, notes: data }));
+    const createNoteSubmitHandler = useCallback(
+        (clientId) =>
+            (data) => dispatch(updateClientNotes({ id: clientId, notes: data })),
+        [dispatch]);
 
-    const columns = [
+    const columns = useMemo(() => [
         { field: 'id', hide: true },
         { field: 'name', headerName: clientTableHeadersMap.name },
         { field: 'contactName', headerName: clientTableHeadersMap.contactName },
@@ -35,24 +38,30 @@ export default function ClientsTable() {
             renderCell: (params) =>
                 <PopoverNotes
                     notes={ params.notes }
-                    onSubmit={ (data) => onNotesSubmit(params.id, data)}
+                    onSubmit={ createNoteSubmitHandler(params.id) }
                 />
         }
-    ];
+    ], [createNoteSubmitHandler]);
 
-    const rows = clients.filter(client => client.active).map(client => ({
-        id: client._id,
-        name: client.name,
-        contactName: client.defaultContact?.name,
-        contactEmail: client.defaultContact?.email,
-        lastOrder: client.lastOrder,
-        salesYTD: client.salesYTD,
-        orderCountYTD: client.orderCountYTD,
-        assignedTo: client.assignedTo.name,
-        notes: client.notes
-    }));
+    const rows = useMemo(
+        () => clients.map(client => {
+            const defaultContact = client.contacts.find(c => c.default);
+            return {
+                id: client._id,
+                name: client.name,
+                contactName: defaultContact.name,
+                contactEmail: defaultContact.email,
+                lastOrder: client.lastOrder,
+                salesYTD: client.salesYTD,
+                orderCountYTD: client.orderCountYTD,
+                assignedTo: client.assignedTo.name,
+                notes: client.notes
+            }
+        }), [clients]);
 
     return (
         <Table rows={ rows } columns={ columns } onRowClick={ onRowClick }/>
-    )
-}
+    );
+});
+
+export default ClientsTable;

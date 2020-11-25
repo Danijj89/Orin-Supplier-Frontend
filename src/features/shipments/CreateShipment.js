@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form';
 import { dateToLocaleDate, formatAddress, roundToNDecimal } from '../shared/utils/format.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCompanyActiveAddresses, selectCurrentCompany } from '../home/duck/selectors.js';
-import { selectActiveClients, selectActiveClientsMap } from '../clients/duck/selectors.js';
+import { selectAllActiveClients, selectActiveClientsMap } from '../clients/duck/selectors.js';
 import { selectOrdersMap } from '../orders/duck/selectors.js';
 import Table from '../shared/components/table/Table.js';
 import StatusDisplay from '../orders/StatusDisplay.js';
@@ -70,7 +70,7 @@ export default function CreateShipment() {
     const userId = useSelector(selectCurrentUserId);
     const company = useSelector(selectCurrentCompany);
     const clientsMap = useSelector(selectActiveClientsMap);
-    const clients = useSelector(selectActiveClients);
+    const clients = useSelector(selectAllActiveClients);
     const ordersMap = useSelector(selectOrdersMap);
     const orderShipmentItemMap = useSelector(selectOrderShipmentItemMap);
     const shipmentError = useSelector(selectShipmentError);
