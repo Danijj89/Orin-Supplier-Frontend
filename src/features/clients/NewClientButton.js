@@ -32,7 +32,7 @@ const NewClientButton = React.memo(function NewClientButton({ className }) {
     const onCancel = () => setIsDialogOpen(false);
 
     const onSubmit = (data) => {
-        data.assignedTo = data.assignedTo._id;
+        if (data.assignedTo) data.assignedTo = data.assignedTo._id;
         data.createdBy = userId;
         data.company = companyId;
         dispatch(createClient({ client: data }));

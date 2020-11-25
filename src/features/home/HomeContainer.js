@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectHomeError, selectHomeDataStatus } from './duck/selectors.js';
-import { determineStatus } from '../shared/utils/state.js';
+import { determineStatus, getErrors } from '../shared/utils/state.js';
 import ErrorPage from '../shared/components/ErrorPage.js';
 import Loader from '../shared/components/Loader.js';
 import Home from './Home.js';
@@ -15,7 +15,7 @@ const HomeContainer = React.memo(function HomeContainer() {
     const homeError = useSelector(selectHomeError);
 
     const status = determineStatus(homeStatus);
-    const errors = [homeError];
+    const errors = getErrors(homeError);
 
     const companyId = useSelector(selectCurrentUserCompanyId);
 
@@ -29,7 +29,7 @@ const HomeContainer = React.memo(function HomeContainer() {
 
     return (
         <>
-            { !companyId && <Redirect to={'/login'}/>}
+            { !companyId && <Redirect to={ '/login' }/> }
             { status === 'REJECTED' && <ErrorPage errors={ errors }/> }
             { status === 'PENDING' && <Loader/> }
             { status === 'FULFILLED' && <Home/> }

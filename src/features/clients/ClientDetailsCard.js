@@ -3,11 +3,13 @@ import { Grid } from '@material-ui/core';
 import DividerDataDisplay from '../shared/wrappers/DividerDisplay.js';
 import { dateToLocaleDate } from '../shared/utils/format.js';
 import { useSelector } from 'react-redux';
-import { selectUsersMap } from '../users/duck/selectors.js';
+import { selectUserById } from '../users/duck/selectors.js';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import EditClientButton from './EditClientButton.js';
 import InfoCard from '../shared/wrappers/InfoCard.js';
 import { makeStyles } from '@material-ui/core/styles';
+import { useParams } from 'react-router-dom';
+import { selectClientById, selectClientDefaultContact } from './duck/selectors.js';
 
 const useStyles = makeStyles((theme) => ({
     clientInfoCard: {
@@ -19,23 +21,26 @@ const {
     formLabels
 } = LANGUAGE.client.clientDetails.clientDetailsDataDisplay;
 
-const ClientDetailsCard = React.memo(function ClientDetailsDataDisplay({ client }) {
+const ClientDetailsCard = React.memo(function ClientDetailsDataDisplay() {
     const classes = useStyles();
-    const usersMap = useSelector(selectUsersMap);
-    const defaultContactName = client.defaultContact?.name || null;
-    const defaultContactEmail = client.defaultContact?.email || null;
+    const { id } = useParams();
+    const client = useSelector((state) => selectClientById(state, id));
+    const clientDefaultContact = useSelector(state => selectClientDefaultContact(state, id));
+    const assignedTo = useSelector(state => selectUserById(state, client.assignedTo));
+    const assignedToName = assignedTo?.name || null;
+    const defaultContactName = clientDefaultContact?.name || null;
+    const defaultContactEmail = clientDefaultContact?.email || null;
 
     const leftData = useMemo(() => [
-        { label: formLabels.assignedTo, value: usersMap[client.assignedTo].name },
+        { label: formLabels.assignedTo, value: assignedToName },
         { label: formLabels.primaryContact, value: defaultContactName },
         { label: formLabels.contactEmail, value: defaultContactEmail },
         { label: formLabels.taxNumber, value: client.taxNumber }
     ], [
-        client.assignedTo,
-        defaultContactName,
-        defaultContactEmail,
         client.taxNumber,
-        usersMap
+        assignedToName,
+        defaultContactName,
+        defaultContactEmail
     ]);
 
     const rightData = useMemo(() => [
@@ -67,15 +72,6 @@ const ClientDetailsCard = React.memo(function ClientDetailsDataDisplay({ client 
             }
         />
     )
-}, (prev, next) => {
-    const prevClient = prev.client;
-    const nextClient = next.client;
-    return prevClient.assignedTo === nextClient.assignedTo
-        && prevClient.defaultContact === nextClient.defaultContact
-        && prevClient.taxNumber === nextClient.taxNumber
-        && prevClient.source === nextClient.source
-        && prevClient.incoterm === nextClient.incoterm
-        && prevClient.payment === nextClient.payment
 });
 
 export default ClientDetailsCard;

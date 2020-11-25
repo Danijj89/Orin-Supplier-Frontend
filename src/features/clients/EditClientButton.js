@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Box } from '@material-ui/core';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
@@ -21,13 +21,14 @@ const EditClientButton = React.memo(function EditClientButton({ client, classNam
     const onEdit = () => setIsEdit(true);
     const onCancelEditDialog = () => setIsEdit(false);
 
-    const onDelete = (id) => dispatch(deleteClient(id));
+    const createDeleteHandler = useCallback(
+        (clientId) => () => dispatch(deleteClient({ clientId })),
+    [dispatch]);
 
-    const onSubmitEditDialog = (data) => {
-        const { contactName, contactEmail, ...rest } = data;
-        rest.id = client._id;
-        rest.assignedTo = data.assignedTo._id;
-        dispatch(updateClient(rest));
+    const onSubmit = (data) => {
+        const { contactName, contactEmail, notes, ...update } = data;
+        if (update.assignedTo != null) update.assignedTo = update.assignedTo._id;
+        dispatch(updateClient({ clientId: client._id, update: update }));
         setIsEdit(false);
     };
 
@@ -45,9 +46,9 @@ const EditClientButton = React.memo(function EditClientButton({ client, classNam
                 isOpen={ isEdit }
                 titleLabel={ dialogTitleLabel }
                 submitLabel={ dialogSubmitLabel }
-                onSubmit={ onSubmitEditDialog }
+                onSubmit={ onSubmit }
                 onCancel={ onCancelEditDialog }
-                onDelete={ () => onDelete(client._id) }
+                onDelete={ createDeleteHandler(client._id) }
                 isEdit
             />
         </Box>

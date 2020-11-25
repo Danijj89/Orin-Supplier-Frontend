@@ -31,7 +31,7 @@ const Client = React.memo(function Client() {
 
     return (
         <Container>
-            <ClientDetailsCard client={ client }/>
+            <ClientDetailsCard />
             <TextAreaCard
                 titleLabel={ notesLabel }
                 className={ classes.notesCard }
