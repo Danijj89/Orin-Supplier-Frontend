@@ -14,7 +14,7 @@ export const weightUnitsOptions = ['KGS'];
 export const measurementUnitsOptions = ['CBM'];
 export const currenciesOptions = ['USD', 'CNY', 'EUR'];
 export const orderStatusesOptions = ['Not Started', 'In Progress', 'Completed', 'Exception'];
-export const incotermOptions = ['EXW', 'FCA', 'FAS', 'FOB', 'CFR', 'CIF', 'CPT', 'CIP', 'DPU', 'DAP', 'DDP'];
+export const incotermOptions = ['FOB', 'EXW', 'FCA', 'FAS', 'CFR', 'CIF', 'CPT', 'CIP', 'DPU', 'DAP', 'DDP'];
 export const salesStatusOptions = ['New', 'Working', 'Closed', 'Blocked'];
 export const leadTypesOptions = ['Cold', 'Warm', 'Hot'];
 export const leadPotentialsOptions = ['Low', 'Medium', 'High'];
@@ -27,7 +27,6 @@ export const orderStatusColors = {
     Exception: '#F7685B',
 };
 export const shipmentStatuses = ['Unbooked', 'Booked', 'Space Released', 'Shipped', 'Archived', 'Delayed'];
-
 
 export const countryOptions = [
     // { code: 'AD', label: 'Andorra', phone: '376' },

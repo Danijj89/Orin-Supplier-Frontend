@@ -20,7 +20,7 @@ const {
     deleteMessage
 } = LANGUAGE.shared.forms.clientDialog;
 
-export default function ClientDialog(
+const ClientDialog = React.memo(function ClientDialog(
     {
         isOpen,
         onSubmit,
@@ -32,21 +32,20 @@ export default function ClientDialog(
         isEdit,
         onDelete
     }) {
+
     const { register, errors, handleSubmit, control, reset } = useForm({
         mode: 'onSubmit'
     });
-
-    const onFormSubmit = (data) => onSubmit(data);
 
     useEffect(() => {
         reset({
             name: client?.name,
             assignedTo: client?.assignedTo,
-            contactName: !isEdit && client?.defaultContact?.name,
-            contactEmail: !isEdit && client?.defaultContact?.email,
+            contactName: null,
+            contactEmail: null,
             taxNumber: client?.taxNumber,
             source: client?.source,
-            incoterm: client?.incoterm || 'FOB',
+            incoterm: client?.incoterm || incotermOptions[0],
             payment: client?.payment,
             notes: !isEdit && client?.notes
         });
@@ -58,7 +57,7 @@ export default function ClientDialog(
             titleLabel={ titleLabel }
             submitLabel={ submitLabel }
             onCancel={ onCancel }
-            onSubmit={ handleSubmit(onFormSubmit) }
+            onSubmit={ handleSubmit(onSubmit) }
             onDelete={ onDelete }
             deleteMessage={ deleteMessage }
         >
@@ -81,25 +80,21 @@ export default function ClientDialog(
                 name="contactName"
                 label={ contactNameLabel }
                 inputRef={ register }
-                error={ !!errors.contactName }
             /> }
             { !isEdit && <SideTextField
                 name="contactEmail"
                 label={ contactEmailLabel }
                 inputRef={ register }
-                error={ !!errors.contactEmail }
             /> }
             <SideTextField
                 name="taxNumber"
                 label={ taxNumberLabel }
                 inputRef={ register }
-                error={ !!errors.taxNumber }
             />
             <SideTextField
                 name="source"
                 label={ sourceLabel }
                 inputRef={ register }
-                error={ !!errors.source }
             />
             <RHFAutoComplete
                 rhfControl={ control }
@@ -111,7 +106,6 @@ export default function ClientDialog(
                 name="payment"
                 label={ paymentTermLabel }
                 inputRef={ register }
-                error={ !!errors.payment }
             />
             { !isEdit && <SideTextField
                 name="notes"
@@ -120,11 +114,10 @@ export default function ClientDialog(
                 rowsMax={ 8 }
                 label={ notesLabel }
                 inputRef={ register }
-                error={ !!errors.notes }
             /> }
         </FormDialog>
     )
-}
+});
 
 ClientDialog.propTypes = {
     isOpen: PropTypes.bool.isRequired,
@@ -137,3 +130,5 @@ ClientDialog.propTypes = {
     isEdit: PropTypes.bool,
     onDelete: PropTypes.func
 };
+
+export default ClientDialog;

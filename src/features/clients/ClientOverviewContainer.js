@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectClientDataStatus, selectClientError } from './duck/selectors.js';
-import { determineStatus } from '../shared/utils/state.js';
+import { determineStatus, getErrors } from '../shared/utils/state.js';
 import ErrorPage from '../shared/components/ErrorPage.js';
 import Loader from '../shared/components/Loader.js';
 import { selectCompanyId, selectHomeError, selectHomeDataStatus } from '../home/duck/selectors.js';
@@ -9,6 +9,9 @@ import { fetchClients } from './duck/thunks.js';
 import { selectUserDataStatus, selectUserError } from '../users/duck/selectors.js';
 import { fetchUsers } from '../users/duck/thunks.js';
 import ClientOverview from './ClientOverview.js';
+import { cleanHomeError } from '../home/duck/slice.js';
+import { cleanUserError } from '../users/duck/slice.js';
+import { cleanClientError } from './duck/slice.js';
 
 const ClientOverviewContainer = React.memo(function ClientOverviewContainer() {
     const dispatch = useDispatch();
@@ -19,12 +22,12 @@ const ClientOverviewContainer = React.memo(function ClientOverviewContainer() {
     const userDataStatus = useSelector(selectUserDataStatus);
     const userError = useSelector(selectUserError);
 
-    const status = determineStatus([
+    const status = determineStatus(
         clientDataStatus,
         homeStatus,
         userDataStatus
-    ]);
-    const errors = [clientError, homeError, userError];
+    );
+    const errors = getErrors(clientError, homeError, userError);
 
     const companyId = useSelector(selectCompanyId);
 
@@ -36,6 +39,16 @@ const ClientOverviewContainer = React.memo(function ClientOverviewContainer() {
             fetched.current = true;
         }
     }, [dispatch, clientDataStatus, companyId]);
+
+    useEffect(() => {
+        return () => {
+            if (errors.length > 0) {
+                dispatch(cleanHomeError());
+                dispatch(cleanUserError());
+                dispatch(cleanClientError());
+            }
+        }
+    }, [dispatch, errors.length]);
 
     return (
         <>

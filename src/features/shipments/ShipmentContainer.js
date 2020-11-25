@@ -19,7 +19,7 @@ export default function ShipmentContainer() {
     const companyId = useSelector(selectCompanyId);
 
     const shouldCheckShipmentStatus = Boolean(!shipment);
-    const status = determineStatus([shouldCheckShipmentStatus && shipmentStatus, homeStatus]);
+    const status = determineStatus(shouldCheckShipmentStatus && shipmentStatus, homeStatus);
 
     useEffect(() => {
         if (!shipment) dispatch(fetchShipmentById({ id }));

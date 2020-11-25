@@ -36,13 +36,13 @@ export default function EditShipmentContainer() {
 
     const errors = [homeError, shipmentError, clientError, productError, orderError];
 
-    const status = determineStatus([
+    const status = determineStatus(
         homeStatus,
         productDataStatus,
         !shipment && shipmentStatus,
         !client && clientStatus,
         orderDataStatus
-    ]);
+    );
 
     useEffect(() => {
         if (!shipment) dispatch(fetchShipmentById({ id }));

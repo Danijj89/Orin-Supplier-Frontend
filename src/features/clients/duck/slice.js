@@ -23,7 +23,7 @@ const clientsSlice = createSlice({
     name: 'clients',
     initialState,
     reducers: {
-        cleanClientStore: (state, action) => {
+        cleanClientError: (state, action) => {
             state.dataStatus = 'IDLE';
             state.status = 'IDLE';
             state.error = null;
@@ -200,6 +200,6 @@ const clientsSlice = createSlice({
     }
 });
 
-export const { cleanClientStore } = clientsSlice.actions;
+export const { cleanClientError } = clientsSlice.actions;
 
 export default clientsSlice.reducer;

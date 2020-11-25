@@ -31,12 +31,12 @@ const CommercialInvoiceContainer = React.memo(function CommercialInvoiceContaine
     const errors = useMemo(() => [homeError, shipmentError, clientError, orderError],
         [homeError, shipmentError, clientError, orderError]);
 
-    const status = useMemo(() => determineStatus([
+    const status = useMemo(() => determineStatus(
         homeStatus,
         shipmentDataStatus,
         clientDataStatus,
         orderDataStatus
-    ]), [
+    ), [
         homeStatus,
         shipmentDataStatus,
         clientDataStatus,

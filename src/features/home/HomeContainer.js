@@ -14,7 +14,7 @@ const HomeContainer = React.memo(function HomeContainer() {
     const homeStatus = useSelector(selectHomeDataStatus);
     const homeError = useSelector(selectHomeError);
 
-    const status = determineStatus([homeStatus]);
+    const status = determineStatus(homeStatus);
     const errors = [homeError];
 
     const companyId = useSelector(selectCurrentUserCompanyId);

@@ -1,5 +1,5 @@
 
-export const determineStatus = (statuses) => {
+export const determineStatus = (...statuses) => {
     let isIdle = false;
     for (const status of statuses) {
         if (status === 'PENDING') return 'PENDING';

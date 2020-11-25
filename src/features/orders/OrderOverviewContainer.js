@@ -15,7 +15,7 @@ const OrderOverviewContainer = React.memo(function OrderOverviewContainer() {
     const homeError = useSelector(selectHomeError);
     const orderDataStatus = useSelector(selectOrderDataStatus);
     const orderError = useSelector(selectOrderError);
-    const status = determineStatus([orderDataStatus, homeStatus]);
+    const status = determineStatus(orderDataStatus, homeStatus);
     const errors = [orderError, homeError];
 
     const companyId = useSelector(selectCompanyId);

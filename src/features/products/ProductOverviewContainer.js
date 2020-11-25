@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectProductDataStatus, selectProductError } from './duck/selectors.js';
-import { determineStatus } from '../shared/utils/state.js';
+import { determineStatus, getErrors } from '../shared/utils/state.js';
 import ErrorPage from '../shared/components/ErrorPage.js';
 import Loader from '../shared/components/Loader.js';
 import { selectCompanyId, selectHomeError, selectHomeDataStatus } from '../home/duck/selectors.js';
@@ -17,8 +17,8 @@ const ProductOverviewContainer = React.memo(function ProductOverviewContainer() 
     const homeStatus = useSelector(selectHomeDataStatus);
     const homeError = useSelector(selectHomeError);
 
-    const status = determineStatus([productDataStatus, homeStatus]);
-    const errors = [productError, homeError];
+    const status = determineStatus(productDataStatus, homeStatus);
+    const errors = getErrors(productError, homeError);
 
     const companyId = useSelector(selectCompanyId);
 

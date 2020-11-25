@@ -11,7 +11,7 @@ export const fetchClients = createAsyncThunk('clients/fetchClients',
     });
 
 export const createClient = createAsyncThunk('clients/createClient',
-    async (client, { rejectWithValue }) => {
+    async ({ client }, { rejectWithValue }) => {
         try {
             return await ClientService.createClient(client);
         } catch (err) {

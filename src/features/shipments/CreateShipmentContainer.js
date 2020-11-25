@@ -19,7 +19,7 @@ export default function CreateShipmentContainer() {
     const homeStatus = useSelector(selectHomeDataStatus);
     const clientDataStatus = useSelector(selectClientDataStatus);
     const orderDataStatus = useSelector(selectOrderDataStatus);
-    const status = determineStatus([homeStatus, clientDataStatus, orderDataStatus]);
+    const status = determineStatus(homeStatus, clientDataStatus, orderDataStatus);
 
     const mounted = useRef(false);
     useEffect(() => {

@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
 
 const { cancelLabel } = LANGUAGE.shared.wrappers.formDialog;
 
-export default function FormDialog(
+const FormDialog = React.memo(function FormDialog(
     {
         children,
         onSubmit,
@@ -77,7 +77,6 @@ export default function FormDialog(
             </DialogContent>
             <DialogActions className={ classes.dialogAction }>
                 { onDelete &&
-
                         <DeleteButton
                             onDelete={ onDelete }
                             deleteMessage={ deleteMessage }
@@ -102,7 +101,7 @@ export default function FormDialog(
             </DialogActions>
         </Dialog>
     );
-}
+});
 
 FormDialog.propTypes = {
     onSubmit: PropTypes.func.isRequired,
@@ -116,3 +115,5 @@ FormDialog.propTypes = {
     onDelete: PropTypes.func,
     deleteMessage: PropTypes.string,
 };
+
+export default FormDialog;

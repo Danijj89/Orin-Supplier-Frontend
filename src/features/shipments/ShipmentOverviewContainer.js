@@ -15,7 +15,7 @@ const ShipmentOverviewContainer = React.memo(function ShipmentOverviewContainer(
     const homeStatus = useSelector(selectHomeDataStatus);
     const homeError = useSelector(selectHomeError);
 
-    const status = determineStatus([shipmentDataStatus, homeStatus]);
+    const status = determineStatus(shipmentDataStatus, homeStatus);
     const errors = [shipmentError, homeError];
 
     const companyId = useSelector(selectCompanyId);

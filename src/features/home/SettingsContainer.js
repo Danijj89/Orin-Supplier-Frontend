@@ -17,7 +17,7 @@ const SettingsContainer = React.memo(function SettingsContainer() {
     const userDataStatus = useSelector(selectUserDataStatus);
     const userError = useSelector(selectUserError);
 
-    const status = determineStatus([homeStatus, userDataStatus]);
+    const status = determineStatus(homeStatus, userDataStatus);
     const errors = getErrors(homeError, userError);
 
     const companyId = useSelector(selectCompanyId);

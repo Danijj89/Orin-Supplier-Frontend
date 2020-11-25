@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { createClient } from './duck/thunks.js';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import { Box } from '@material-ui/core';
 import ClientDialog from '../shared/forms/ClientDialog.js';
 import { makeStyles } from '@material-ui/core/styles';
+import { selectAllActiveUsers, selectUserById } from '../users/duck/selectors.js';
+import { selectCurrentUserId } from '../../app/duck/selectors.js';
+import { selectCompanyId } from '../home/duck/selectors.js';
 
 const { newClientButtonLabel, newClientDialogTitleLabel, newClientSubmitButtonLabel } = LANGUAGE.client.clientOverview;
 
@@ -15,23 +18,24 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function NewClientButton({ userId, companyId, users, className }) {
+const NewClientButton = React.memo(function NewClientButton({ className }) {
     const classes = useStyles();
     const dispatch = useDispatch();
+    const companyId = useSelector(selectCompanyId);
+    const users = useSelector(selectAllActiveUsers);
+    const userId = useSelector(selectCurrentUserId);
+    const currentUser = useSelector(state => selectUserById(state, userId));
     const [isDialogOpen, setIsDialogOpen] = useState(false);
-    const client = { assignedTo: users.find(user => user._id === userId) };
+    const client = { assignedTo: currentUser };
 
     const onClick = () => setIsDialogOpen(true);
     const onCancel = () => setIsDialogOpen(false);
 
     const onSubmit = (data) => {
-        const { contactName, contactEmail, ...client } = data;
-        client.assignedTo = client.assignedTo._id;
-        client.contacts = [{ name: contactName, email: contactEmail }];
-        client.createdBy = userId;
-        client.clientOf = companyId;
-        client.clientSince = new Date();
-        dispatch(createClient(client));
+        data.assignedTo = data.assignedTo._id;
+        data.createdBy = userId;
+        data.company = companyId;
+        dispatch(createClient({ client: data }));
         setIsDialogOpen(false);
     };
 
@@ -52,4 +56,6 @@ export default function NewClientButton({ userId, companyId, users, className })
             />
         </Box>
     )
-}
+});
+
+export default NewClientButton;

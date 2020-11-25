@@ -21,7 +21,7 @@ const PackingListContainer = React.memo(function PackingListContainer() {
     const clientDataStatus = useSelector(selectClientDataStatus);
     const clientError = useSelector(selectClientError);
 
-    const status = determineStatus([homeStatus, shipmentDataStatus, clientDataStatus]);
+    const status = determineStatus(homeStatus, shipmentDataStatus, clientDataStatus);
     const errors = [homeError, shipmentError, clientError];
 
     const companyId = useSelector(selectCompanyId);

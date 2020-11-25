@@ -19,7 +19,7 @@ const ClientContainer = React.memo(function ClientContainer() {
     const userDataStatus = useSelector(selectUserDataStatus);
     const userError = useSelector(selectUserError);
 
-    const status = determineStatus([clientDataStatus, userDataStatus]);
+    const status = determineStatus(clientDataStatus, userDataStatus);
     const errors = [clientError, userError];
 
     const companyId = useSelector(selectCompanyId);

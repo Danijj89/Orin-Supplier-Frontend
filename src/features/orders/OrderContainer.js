@@ -39,14 +39,14 @@ const OrderContainer = React.memo(function OrderContainer() {
     const shipmentDataStatus = useSelector(selectShipmentDataStatus);
     const shipmentError = useSelector(selectShipmentError);
 
-    const status = determineStatus([
+    const status = determineStatus(
         orderDataStatus,
         homeStatus,
         userDataStatus,
         clientDataStatus,
         productDataStatus,
         shipmentDataStatus
-    ]);
+    );
     const errors = [orderError, homeError, userError, clientError, productError, shipmentError];
 
     const companyId = useSelector(selectCompanyId);
