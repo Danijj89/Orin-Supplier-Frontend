@@ -8,7 +8,7 @@ import { updateCompany } from './duck/thunks.js';
 
 const { editButtonLabel, dialogTitleLabel, dialogSubmitLabel } = LANGUAGE.home.companyDetails;
 
-export default function EditCompanyInfoButton({ company, ...props }) {
+const EditCompanyInfoButton = React.memo(function EditCompanyInfoButton({ company, className }) {
     const dispatch = useDispatch();
     const [isEdit, setIsEdit] = useState(false);
 
@@ -16,13 +16,12 @@ export default function EditCompanyInfoButton({ company, ...props }) {
     const onCancelEditDialog = () => setIsEdit(false);
 
     const onSubmitEditDialog = (data) => {
-        data.id = company._id;
-        dispatch(updateCompany(data));
+        dispatch(updateCompany({ id: company._id, update: data }));
         setIsEdit(false);
     };
 
     return (
-        <Box { ...props }>
+        <Box className={ className }>
             <ThemedButton
                 onClick={ onEdit }
                 variant="outlined"
@@ -39,4 +38,6 @@ export default function EditCompanyInfoButton({ company, ...props }) {
             />
         </Box>
     )
-}
+});
+
+export default EditCompanyInfoButton;

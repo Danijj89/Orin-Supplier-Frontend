@@ -20,7 +20,8 @@ const RHFAutoComplete = React.memo(function RHFAutoComplete(
         className,
         freeSolo,
         autoSelect,
-        renderOption
+        renderOption,
+        multiple
     }
 ) {
     const isRequired = useMemo(() => Boolean(required), [required]);
@@ -50,6 +51,7 @@ const RHFAutoComplete = React.memo(function RHFAutoComplete(
                     ) }
                     onChange={ (_, data) => props.onChange(data) }
                     renderOption={ renderOption }
+                    multiple={ multiple }
                 />
             }
             name={ name }
@@ -77,7 +79,8 @@ RHFAutoComplete.propTypes = {
     className: PropTypes.string,
     freeSolo: PropTypes.bool,
     autoSelect: PropTypes.bool,
-    renderOption: PropTypes.func
+    renderOption: PropTypes.func,
+    multiple: PropTypes.bool
 };
 
 export default RHFAutoComplete;

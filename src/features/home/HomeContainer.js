@@ -7,6 +7,7 @@ import Loader from '../shared/components/Loader.js';
 import Home from './Home.js';
 import { fetchCompanyById } from './duck/thunks.js';
 import { selectCurrentUserCompanyId } from '../../app/duck/selectors.js';
+import { Redirect } from 'react-router-dom';
 
 const HomeContainer = React.memo(function HomeContainer() {
     const dispatch = useDispatch();
@@ -20,15 +21,15 @@ const HomeContainer = React.memo(function HomeContainer() {
 
     const fetched = useRef(false);
     useEffect(() => {
-        if (!fetched.current || status === 'REJECTED' || status === 'IDLE') {
+        if ((!fetched.current || status === 'REJECTED' || status === 'IDLE') && companyId) {
             dispatch(fetchCompanyById({ companyId }));
             fetched.current = true;
         }
-
     }, [dispatch, companyId, status]);
 
     return (
         <>
+            { !companyId && <Redirect to={'/login'}/>}
             { status === 'REJECTED' && <ErrorPage errors={ errors }/> }
             { status === 'PENDING' && <Loader/> }
             { status === 'FULFILLED' && <Home/> }

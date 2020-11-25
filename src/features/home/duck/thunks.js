@@ -11,7 +11,7 @@ export const fetchCompanyById = createAsyncThunk('home/fetchAppData',
     });
 
 export const updateCompany = createAsyncThunk('home/updateCompany',
-    async ({ id, ...update }, { rejectWithValue }) => {
+    async ({ id, update }, { rejectWithValue }) => {
         try {
             return await CompanyService.updateCompany(id, update);
         } catch (err) {

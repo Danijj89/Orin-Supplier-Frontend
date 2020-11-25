@@ -9,14 +9,12 @@ import RHFAutoComplete from '../rhf/inputs/RHFAutoComplete.js';
 
 const { taxNumberLabel, defaultCurrencyLabel, industriesLabel } = LANGUAGE.shared.forms.companyDialog;
 
-export default function CompanyDialog(
+const CompanyDialog = React.memo(function CompanyDialog(
     { company, isOpen, titleLabel, submitLabel, onSubmit, onCancel, className }) {
 
     const { register, errors, handleSubmit, control, reset } = useForm({
         mode: 'onSubmit'
     });
-
-    const onFormSubmit = (data) => onSubmit(data);
 
     useEffect(() => {
         reset({
@@ -33,7 +31,7 @@ export default function CompanyDialog(
             titleLabel={ titleLabel }
             submitLabel={ submitLabel }
             onCancel={ onCancel }
-            onSubmit={ handleSubmit(onFormSubmit) }
+            onSubmit={ handleSubmit(onSubmit) }
         >
             <SideTextField
                 label={ taxNumberLabel }
@@ -42,23 +40,23 @@ export default function CompanyDialog(
                 autoFocus
             />
             <RHFAutoComplete
-                rhfControl={control}
+                rhfControl={ control }
                 name="defaultCurrency"
-                label={defaultCurrencyLabel}
-                options={currenciesOptions}
+                label={ defaultCurrencyLabel }
+                options={ currenciesOptions }
             />
             <RHFAutoComplete
-                rhfControl={control}
+                rhfControl={ control }
                 name="industries"
-                label={industriesLabel}
-                options={industriesOptions}
+                label={ industriesLabel }
+                options={ industriesOptions }
                 error={ !!errors.industries }
                 multiple
                 required
             />
         </FormDialog>
     )
-}
+});
 
 CompanyDialog.propTypes = {
     onSubmit: PropTypes.func.isRequired,
@@ -69,3 +67,5 @@ CompanyDialog.propTypes = {
     className: PropTypes.string,
     company: PropTypes.object
 };
+
+export default CompanyDialog;

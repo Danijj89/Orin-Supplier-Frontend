@@ -9,6 +9,8 @@ import DividerDataDisplay from '../shared/wrappers/DividerDisplay.js';
 import NavTabs from '../shared/components/NavTabs.js';
 import Paper from '@material-ui/core/Paper';
 import CompanyBankDetails from '../documents/CompanyBankDetails.js';
+import { useSelector } from 'react-redux';
+import { selectCurrentCompany } from './duck/selectors.js';
 
 const useStyles = makeStyles((theme) => ({
     topCard: {
@@ -31,9 +33,10 @@ const {
     tabsLabelsMap
 } = LANGUAGE.home.companyDetails;
 
-export default function CompanyDetails({ company }) {
+const CompanyDetails = React.memo(function CompanyDetails() {
     const classes = useStyles();
     const [tabValue, setTabValue] = useState('addresses');
+    const company = useSelector(selectCurrentCompany);
 
     const data = [
         { label: taxNumberLabel, value: company?.taxNumber },
@@ -51,20 +54,20 @@ export default function CompanyDetails({ company }) {
                 button={ <EditCompanyInfoButton company={ company }/> }
                 content={
                     <Grid container>
-                        <Grid container item xs={ 12 }>
+                        <Grid container item xs={ 6 }>
                             <DividerDataDisplay data={ data }/>
                         </Grid>
                     </Grid>
                 }
             />
-            <Paper>
+            <Paper className={ classes.table }>
                 <NavTabs
                     tabsLabelsMap={ tabsLabelsMap }
                     tabValue={ tabValue }
                     onChange={ setTabValue }
                 />
                 { tabValue === 'addresses' &&
-                <CompanyAddressCards className={ classes.table } company={ company }/>
+                <CompanyAddressCards company={ company }/>
                 }
                 { tabValue === 'bankDetails' &&
                 <CompanyBankDetails/>
@@ -72,4 +75,8 @@ export default function CompanyDetails({ company }) {
             </Paper>
         </Container>
     );
-}
+});
+
+export default CompanyDetails;
+
+

@@ -5,10 +5,7 @@ import { Container } from '@material-ui/core';
 import { LANGUAGE } from '../../app/constants.js';
 import AccountDetails from '../users/AccountDetails.js';
 import CompanyDetails from './CompanyDetails.js';
-import { useSelector } from 'react-redux';
 import CompanyUsers from '../users/CompanyUsers.js';
-import { selectAllUsers } from '../users/duck/selectors.js';
-import { selectCurrentCompany } from './duck/selectors.js';
 import NavTabs from '../shared/components/NavTabs.js';
 import queryString from 'query-string';
 
@@ -19,12 +16,9 @@ const Settings = React.memo(function Settings() {
     const location = useLocation();
     const { tab } = queryString.parse(location.search);
     const tabValue = tab || 'account';
-    const company = useSelector(selectCurrentCompany);
-
-    const users = useSelector(selectAllUsers);
 
     const onTabChange = (newValue) =>
-        history.push(`/home/settings?tab=${newValue}`);
+        history.push(`${location.pathname}?tab=${newValue}`);
 
     return (
         <Container>
@@ -34,8 +28,8 @@ const Settings = React.memo(function Settings() {
                 onChange={ onTabChange }
             />
             { tabValue === 'account' && <AccountDetails /> }
-            { tabValue === 'colleagues' && <CompanyUsers users={ users }/> }
-            { tabValue === 'company' && <CompanyDetails company={ company }/> }
+            { tabValue === 'colleagues' && <CompanyUsers /> }
+            { tabValue === 'company' && <CompanyDetails /> }
         </Container>
     )
 });
