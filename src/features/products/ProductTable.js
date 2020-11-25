@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import Table from '../shared/components/table/Table.js';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import ProductDialog from '../shared/forms/ProductDialog.js';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { deleteProduct, updateProduct } from './duck/thunks.js';
+import { selectActiveProductsMap, selectAllActiveProducts } from './duck/selectors.js';
 
 const {
     tableHeadersMap,
@@ -11,28 +12,31 @@ const {
     editDialogTitleLabel,
 } = LANGUAGE.product.overview.productTable;
 
-export default function ProductTable({ products }) {
+export default function ProductTable() {
     const dispatch = useDispatch();
+    const products = useSelector(selectAllActiveProducts);
+    const productsMap = useSelector(selectActiveProductsMap);
     const [isEdit, setIsEdit] = useState(false);
     const [product, setProduct] = useState(null);
 
     const onRowClick = (params) => {
-        setProduct(products[params.id]);
+        setProduct(productsMap[params.id]);
         setIsEdit(true);
     };
     const onEditCancel = () => setIsEdit(false);
     const onEditSubmit = (data) => {
-        const { _id: id, autoGenerate, ...update } = data;
-        dispatch(updateProduct({ id, update }));
+        const { _id: productId, autoGenerateRef, ...update } = data;
+        dispatch(updateProduct({ productId, update }));
         setIsEdit(false);
     };
 
-    const onDelete = (productId) => {
-        dispatch(deleteProduct(productId));
+    const createDeleteHandler = useCallback(
+        (productId) => () => {
+        dispatch(deleteProduct({ productId }));
         setIsEdit(false);
-    };
+    }, [dispatch]);
 
-    const columns = [
+    const columns = useMemo(() => [
         { field: 'id', hide: true },
         { field: 'sku', headerName: tableHeadersMap.sku },
         { field: 'name', headerName: tableHeadersMap.name },
@@ -53,9 +57,9 @@ export default function ProductTable({ products }) {
             type: 'number',
         },
         { field: 'hsc', headerName: tableHeadersMap.hsc },
-    ];
+    ], []);
 
-    const rows = Object.values(products).filter(product => product.active).map((product) => ({
+    const rows = useMemo(() => products.map((product) => ({
         id: product._id,
         sku: product.sku,
         name: product.name,
@@ -64,27 +68,27 @@ export default function ProductTable({ products }) {
         salesYTD: product.salesYTD,
         orderCountYTD: product.orderCountYTD,
         hsc: product.hsc,
-    }));
+    })), [products]);
 
     return (
         <>
             <Table
-                columns={columns}
-                rows={rows}
-                onRowClick={onRowClick}
+                columns={ columns }
+                rows={ rows }
+                onRowClick={ onRowClick }
             />
-            {product && (
+            { product && (
                 <ProductDialog
-                    isOpen={isEdit}
-                    product={product}
-                    titleLabel={editDialogTitleLabel}
-                    submitLabel={editDialogSubmitLabel}
-                    onCancel={onEditCancel}
-                    onSubmit={onEditSubmit}
-                    onDelete={() => onDelete(product._id)}
+                    isOpen={ isEdit }
+                    product={ product }
+                    titleLabel={ editDialogTitleLabel }
+                    submitLabel={ editDialogSubmitLabel }
+                    onCancel={ onEditCancel }
+                    onSubmit={ onEditSubmit }
+                    onDelete={ createDeleteHandler(product._id) }
                     isEdit
                 />
-            )}
+            ) }
         </>
     );
 }

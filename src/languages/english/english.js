@@ -591,7 +591,7 @@ export const ENGLISH = {
                 deleteMessage: 'Are you sure you want to delete this contact?',
             },
             productDialog: {
-                autoGenerateLabel: 'auto generate',
+                autoGenerateRefLabel: 'auto generate',
                 skuLabel: 'SKU',
                 nameLabel: 'Product Name',
                 descriptionLabel: 'Product Description (EN)',

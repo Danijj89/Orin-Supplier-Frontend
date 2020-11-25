@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import RHFCheckBox from '../rhf/inputs/RHFCheckBox.js';
 
 const {
-    autoGenerateLabel,
+    autoGenerateRefLabel,
     skuLabel,
     nameLabel,
     descriptionLabel,
@@ -16,9 +16,8 @@ const {
     deleteMessage
 } = LANGUAGE.shared.forms.productDialog;
 
-export default function ProductDialog(
+const ProductDialog = React.memo(function ProductDialog(
     { isOpen, onSubmit, onCancel, submitLabel, product, titleLabel, onDelete, isEdit }) {
-
     const { register, control, errors, handleSubmit, reset, watch } = useForm({
         mode: 'onSubmit'
     });
@@ -26,7 +25,7 @@ export default function ProductDialog(
     useEffect(() => {
         reset({
             _id: product?._id,
-            autoGenerate: false,
+            autoGenerateRef: false,
             company: product?.company,
             sku: product?.sku,
             name: product?.name,
@@ -36,7 +35,7 @@ export default function ProductDialog(
         });
     }, [reset, product]);
 
-    const autoGenerate = watch('autoGenerate');
+    const autoGenerate = watch('autoGenerateRef');
 
     return (
         <FormDialog
@@ -50,8 +49,8 @@ export default function ProductDialog(
         >
             { !isEdit &&
             <RHFCheckBox
-                name="autoGenerate"
-                label={ autoGenerateLabel }
+                name="autoGenerateRef"
+                label={ autoGenerateRefLabel }
                 rhfControl={ control }
             /> }
             <SideTextField
@@ -60,7 +59,7 @@ export default function ProductDialog(
                 inputRef={ register({ required: !autoGenerate }) }
                 error={ !!errors.sku }
                 required={ !autoGenerate }
-                disabled={ autoGenerate }
+                disabled={ autoGenerate || isEdit }
                 autoFocus
             />
             <SideTextField
@@ -87,7 +86,7 @@ export default function ProductDialog(
             />
         </FormDialog>
     )
-}
+});
 
 ProductDialog.propTypes = {
     isOpen: PropTypes.bool.isRequired,
@@ -99,3 +98,5 @@ ProductDialog.propTypes = {
     onDelete: PropTypes.func,
     isEdit: PropTypes.bool
 };
+
+export default ProductDialog;

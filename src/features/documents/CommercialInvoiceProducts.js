@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import RHFProductTable, { validateItems } from '../shared/rhf/forms/RHFProductTable.js';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectActiveProducts } from '../products/duck/selectors.js';
+import { selectAllActiveProducts } from '../products/duck/selectors.js';
 import { selectActiveOrdersMap } from '../orders/duck/selectors.js';
 import Footer from '../shared/components/Footer.js';
 import { LANGUAGE } from '../../app/utils/constants.js';
@@ -43,7 +43,7 @@ const CommercialInvoiceProducts = React.memo(function CommercialInvoiceProducts(
     const { shipment: shipmentId } = queryString.parse(location.search);
     const dispatch = useDispatch();
     const history = useHistory();
-    const products = useSelector(selectActiveProducts);
+    const products = useSelector(selectAllActiveProducts);
     const ordersMap = useSelector(selectActiveOrdersMap);
     const companyId = useSelector(selectCompanyId);
     const userId = useSelector(selectCurrentUserId);

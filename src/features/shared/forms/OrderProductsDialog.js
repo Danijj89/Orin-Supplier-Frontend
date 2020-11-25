@@ -4,7 +4,7 @@ import FormDialog from '../wrappers/FormDialog.js';
 import { useForm } from 'react-hook-form';
 import RHFProductTable, { validateItems } from '../rhf/forms/RHFProductTable.js';
 import { useSelector } from 'react-redux';
-import { selectActiveProducts } from '../../products/duck/selectors.js';
+import { selectAllActiveProducts } from '../../products/duck/selectors.js';
 
 const productTableFieldNames = {
     custom1: 'custom1',
@@ -25,7 +25,7 @@ export default function OrderProductsDialog(
         order,
         titleLabel
     }) {
-    const products = useSelector(selectActiveProducts);
+    const products = useSelector(selectAllActiveProducts);
     const rhfMethods = useForm({
         mode: 'onSubmit',
         defaultValues: {

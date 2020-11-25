@@ -23,8 +23,9 @@ const SettingsContainer = React.memo(function SettingsContainer() {
     const companyId = useSelector(selectCompanyId);
 
     useEffect(() => {
-        if (companyId) dispatch(fetchUsers({ companyId }));
-    }, [dispatch, companyId]);
+        if (userDataStatus === 'IDLE' && companyId)
+            dispatch(fetchUsers({ companyId }));
+    }, [dispatch, companyId, userDataStatus]);
 
     useEffect(() => {
         return () => {

@@ -4,7 +4,7 @@ import Footer from '../shared/components/Footer.js';
 import { useForm } from 'react-hook-form';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectActiveProducts } from '../products/duck/selectors.js';
+import { selectAllActiveProducts } from '../products/duck/selectors.js';
 import { useHistory } from 'react-router-dom';
 import { addressToDocAddress, tableItemsToOrderItems } from '../shared/utils/entityConversion.js';
 import { createOrder } from './duck/thunks.js';
@@ -29,7 +29,7 @@ const productTableFieldNames = {
 const CreateOrderProducts = React.memo(function CreateOrderProducts({ order, setOrder }) {
     const dispatch = useDispatch();
     const history = useHistory();
-    const products = useSelector(selectActiveProducts);
+    const products = useSelector(selectAllActiveProducts);
 
     const { register, control, errors, setValue, getValues, handleSubmit } = useForm({
         mode: 'onSubmit',

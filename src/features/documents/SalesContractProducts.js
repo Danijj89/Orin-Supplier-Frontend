@@ -9,7 +9,7 @@ import queryString from 'query-string';
 import { useDispatch, useSelector } from 'react-redux';
 import { addressToDocAddress } from '../shared/utils/entityConversion.js';
 import { createDocument } from '../shipments/duck/thunks.js';
-import { selectActiveProducts } from '../products/duck/selectors.js';
+import { selectAllActiveProducts } from '../products/duck/selectors.js';
 import { selectActiveOrdersMap } from '../orders/duck/selectors.js';
 import { selectCompanyId } from '../home/duck/selectors.js';
 import { selectCurrentUserId } from '../../app/duck/selectors.js';
@@ -38,7 +38,7 @@ const SalesContractProducts = React.memo(function SalesContractProducts(
     const { shipment: shipmentId } = queryString.parse(location.search);
     const dispatch = useDispatch();
     const history = useHistory();
-    const products = useSelector(selectActiveProducts);
+    const products = useSelector(selectAllActiveProducts);
     const ordersMap = useSelector(selectActiveOrdersMap);
     const companyId = useSelector(selectCompanyId);
     const userId = useSelector(selectCurrentUserId);

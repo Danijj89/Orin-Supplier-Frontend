@@ -15,7 +15,13 @@ const initialState = productsAdapter.getInitialState({
 const productsSlice = createSlice({
     name: 'products',
     initialState,
-    reducers: {},
+    reducers: {
+        cleanProductError: (state, action) => {
+            state.dataStatus = 'IDLE';
+            state.status = 'IDLE';
+            state.error = null;
+        }
+    },
     extraReducers: {
         [fetchProducts.pending]: (state, action) => {
             state.status = 'PENDING';
@@ -54,7 +60,7 @@ const productsSlice = createSlice({
             state.status = 'PENDING';
         },
         [updateProduct.fulfilled]: (state, action) => {
-            const { id, update: changes } = action.payload;
+            const { _id: id, ...changes } = action.payload;
             productsAdapter.updateOne(state, { id, changes });
             state.status = 'IDLE';
         },
@@ -64,5 +70,7 @@ const productsSlice = createSlice({
         }
     }
 });
+
+export const { cleanProductError } = productsSlice.actions;
 
 export default productsSlice.reducer;
