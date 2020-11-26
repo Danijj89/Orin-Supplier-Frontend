@@ -161,13 +161,15 @@ export const ENGLISH = {
                     fax: 'Fax',
                     title: 'Title',
                     department: 'Department',
-                    additional: 'Additional',
+                    additional: 'Additional'
                 },
                 editDialogTitleLabel: 'Edit Contact',
                 editDialogSubmitLabel: 'Update',
                 newDialogTitleLabel: 'New Contact',
                 newDialogSubmitLabel: 'Add',
                 newButtonLabel: 'Add Contact',
+                defaultButtonLabel: 'Default',
+                setDefaultButtonLabel: 'Set Default'
             },
             clientOrdersTable: {
                 ordersTableHeadersMap: {

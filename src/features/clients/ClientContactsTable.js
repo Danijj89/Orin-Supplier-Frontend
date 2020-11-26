@@ -1,18 +1,21 @@
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import Table from '../shared/components/table/Table.js';
 import { Box } from '@material-ui/core';
 import ContactDialog from '../shared/forms/ContactDialog.js';
 import { useDispatch, useSelector } from 'react-redux';
 import NewClientContactButton from './NewClientContactButton.js';
-import { deleteContact, updateContact } from './duck/thunks.js';
+import { deleteContact, updateContact, updateDefaultClientContact } from './duck/thunks.js';
 import { useParams } from 'react-router-dom';
 import { selectClientActiveContacts, selectClientActiveContactsMap } from './duck/selectors.js';
+import ThemedButton from '../shared/buttons/ThemedButton.js';
 
 const {
     contactTableHeadersMap,
     editDialogSubmitLabel,
-    editDialogTitleLabel
+    editDialogTitleLabel,
+    defaultButtonLabel,
+    setDefaultButtonLabel
 } = LANGUAGE.client.clientDetails.clientContactsTable;
 
 const ClientContactsTable = React.memo(function ClientContactsTable() {
@@ -29,6 +32,13 @@ const ClientContactsTable = React.memo(function ClientContactsTable() {
         setIsEdit(true);
     };
 
+    const createSetClientDefaultContactHandler = useCallback(
+        (clientId, contactId) => (e) => {
+            e.stopPropagation();
+            dispatch(updateDefaultClientContact({ clientId, contactId }));
+        },
+        [dispatch]);
+
     const onEditCancel = () => setIsEdit(false);
     const onSubmit = (data) => {
         data.clientId = clientId;
@@ -36,10 +46,24 @@ const ClientContactsTable = React.memo(function ClientContactsTable() {
         setIsEdit(false);
     };
 
-    const onDeleteContact = (contactId) => {
-        dispatch(deleteContact({ clientId, contactId }));
-        setIsEdit(false);
-    };
+    const createDeleteContactHandler = useCallback(
+        (clientId, editContact) => {
+            if (editContact.default) return null;
+            return () => {
+                dispatch(deleteContact({ clientId, contactId: editContact._id }));
+                setIsEdit(false);
+            }
+        }, [dispatch]);
+
+    const renderDefaultButton = useCallback(
+        (params) => {
+            if (params.default) return <ThemedButton disabled>{ defaultButtonLabel }</ThemedButton>;
+            return (
+                <ThemedButton onClick={ createSetClientDefaultContactHandler(clientId, params.id) }>
+                    { setDefaultButtonLabel }
+                </ThemedButton>
+            )
+        }, [clientId, createSetClientDefaultContactHandler]);
 
     const columns = useMemo(() => [
         { field: 'id', hide: true },
@@ -49,19 +73,27 @@ const ClientContactsTable = React.memo(function ClientContactsTable() {
         { field: 'fax', headerName: contactTableHeadersMap.fax },
         { field: 'title', headerName: contactTableHeadersMap.title },
         { field: 'department', headerName: contactTableHeadersMap.department },
-        { field: 'additional', headerName: contactTableHeadersMap.additional }
-    ], []);
+        { field: 'additional', headerName: contactTableHeadersMap.additional },
+        {
+            field: 'default',
+            renderCell: renderDefaultButton,
+            align: 'center',
+            width: 120
+        }
+    ], [renderDefaultButton]);
 
-    const rows = clientContacts.map(contact => ({
-        id: contact._id,
-        name: contact.name,
-        email: contact.email,
-        phone: contact.phone,
-        fax: contact.fax,
-        title: contact.title,
-        department: contact.department,
-        additional: contact.additional
-    }));
+    const rows = useMemo(() =>
+        clientContacts.map(contact => ({
+            id: contact._id,
+            name: contact.name,
+            email: contact.email,
+            phone: contact.phone,
+            fax: contact.fax,
+            title: contact.title,
+            department: contact.department,
+            additional: contact.additional,
+            default: contact.default
+        })), [clientContacts]);
 
     return (
         <Box>
@@ -78,9 +110,7 @@ const ClientContactsTable = React.memo(function ClientContactsTable() {
                     submitLabel={ editDialogSubmitLabel }
                     onCancel={ onEditCancel }
                     onSubmit={ onSubmit }
-                    onDelete={ editContact.default ? null
-                        : () => onDeleteContact(editContact._id)
-                    }
+                    onDelete={ createDeleteContactHandler(clientId, editContact) }
                 />
             ) }
             <NewClientContactButton clientId={ clientId }/>

@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function NewClientContactButton({ clientId, className }) {
+const NewClientContactButton = React.memo(function NewClientContactButton({ clientId, className }) {
     const classes = useStyles();
     const dispatch = useDispatch();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -47,4 +47,6 @@ export default function NewClientContactButton({ clientId, className }) {
             />
         </Box>
     );
-}
+});
+
+export default NewClientContactButton;
