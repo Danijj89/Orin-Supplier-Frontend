@@ -1,25 +1,36 @@
-import React from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useCallback, useMemo } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 import Table from '../shared/components/table/Table.js';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import UnitCounter from '../shared/classes/UnitCounter.js';
 import { dateToLocaleDate } from '../shared/utils/format.js';
 import PopoverNotes from '../shared/components/PopoverNotes.js';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { updateOrder } from './duck/thunks.js';
+import { selectAllActiveOrders } from './duck/selectors.js';
 
 const { ordersTableHeadersMap } = LANGUAGE.order.ordersOverview;
 
-export default function OrdersTable({ orders }) {
+export default function OrdersTable() {
     const history = useHistory();
     const dispatch = useDispatch();
+    const location = useLocation();
+    const orders = useSelector(selectAllActiveOrders);
 
-    const onRowClick = (params) => history.push(`/home/orders/${ params.id }`);
+    const onRowClick = (params) => history.push(`${ location.pathname }/${ params.id }`);
 
-    const onNotesSubmit = (orderId, data) =>
-        dispatch(updateOrder({ id: orderId, update: data }));
+    const onNotesSubmit = useCallback(
+        (orderId, data) => dispatch(updateOrder({ id: orderId, update: data })),
+        [dispatch]);
 
-    const columns = [
+    const renderPopoverNotes = useCallback(
+        (params) => <PopoverNotes
+            notes={ params.notes }
+            onSubmit={ (data) => onNotesSubmit(params.id, data) }
+        />,
+        [onNotesSubmit]);
+
+    const columns = useMemo(() => [
         { field: 'id', hide: true },
         { field: 'ref', headerName: ordersTableHeadersMap.ref },
         { field: 'totalQ', headerName: ordersTableHeadersMap.totalQ },
@@ -31,15 +42,11 @@ export default function OrdersTable({ orders }) {
         {
             field: 'notes',
             headerName: ordersTableHeadersMap.notes,
-            renderCell: params =>
-                <PopoverNotes
-                    notes={ params.notes }
-                    onSubmit={ (data) => onNotesSubmit(params.id, data) }
-                />
+            renderCell: renderPopoverNotes
         }
-    ];
+    ], [renderPopoverNotes]);
 
-    const rows = orders.filter(order => order.active).map(order => ({
+    const rows = useMemo(() => orders.map(order => ({
         id: order._id,
         ref: order.ref,
         totalQ: UnitCounter.stringRep(order.totalQ),
@@ -49,7 +56,7 @@ export default function OrdersTable({ orders }) {
         production: order.production,
         qa: order.qa,
         notes: order.notes
-    }));
+    })), [orders]);
 
     return (
         <Table columns={ columns } rows={ rows } onRowClick={ onRowClick }/>

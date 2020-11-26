@@ -1,10 +1,9 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { LANGUAGE } from '../../app/utils/constants.js';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { cleanNewOrder } from './duck/slice.js';
 import { Paper } from '@material-ui/core';
-import { selectAllOrders } from './duck/selectors.js';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import OrdersTable from './OrdersTable.js';
 import { makeStyles } from '@material-ui/core/styles';
@@ -20,15 +19,15 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function OrderOverview() {
+const OrderOverview = React.memo(function OrderOverview() {
     const classes = useStyles();
     const dispatch = useDispatch();
+    const location = useLocation();
     const history = useHistory();
-    const orders = useSelector(selectAllOrders);
 
     const onNewOrderClick = () => {
         dispatch(cleanNewOrder());
-        history.push('/home/orders/new?step=details');
+        history.push(`${location.pathname}/new?step=details`);
     };
 
     return (
@@ -39,7 +38,9 @@ export default function OrderOverview() {
             >
                 { newOrderButtonLabel }
             </ThemedButton>
-            <OrdersTable orders={ orders }/>
+            <OrdersTable />
         </Paper>
     );
-}
+});
+
+export default OrderOverview;

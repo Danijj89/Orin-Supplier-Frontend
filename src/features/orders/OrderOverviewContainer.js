@@ -1,13 +1,14 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectOrderDataStatus, selectOrderError } from './duck/selectors.js';
-import { determineStatus } from '../shared/utils/state.js';
+import { determineStatus, getErrors } from '../shared/utils/state.js';
 import Loader from '../shared/components/Loader.js';
 import OrderOverview from './OrderOverview.js';
 import { fetchOrders } from './duck/thunks.js';
-import { cleanOrderError } from './duck/slice.js';
 import { selectCompanyId, selectHomeError, selectHomeDataStatus } from '../home/duck/selectors.js';
 import ErrorPage from '../shared/components/ErrorPage.js';
+import { cleanHomeError } from '../home/duck/slice.js';
+import { cleanOrderError } from './duck/slice.js';
 
 const OrderOverviewContainer = React.memo(function OrderOverviewContainer() {
     const dispatch = useDispatch();
@@ -16,7 +17,7 @@ const OrderOverviewContainer = React.memo(function OrderOverviewContainer() {
     const orderDataStatus = useSelector(selectOrderDataStatus);
     const orderError = useSelector(selectOrderError);
     const status = determineStatus(orderDataStatus, homeStatus);
-    const errors = [orderError, homeError];
+    const errors = getErrors(orderError, homeError);
 
     const companyId = useSelector(selectCompanyId);
 
@@ -26,8 +27,13 @@ const OrderOverviewContainer = React.memo(function OrderOverviewContainer() {
     }, [dispatch, orderDataStatus, companyId]);
 
     useEffect(() => {
-        return () => dispatch(cleanOrderError());
-    }, [dispatch]);
+        return () => {
+            if (errors.length > 0) {
+                dispatch(cleanHomeError());
+                dispatch(cleanOrderError());
+            }
+        }
+    }, [dispatch, errors.length]);
 
     return (
         <>

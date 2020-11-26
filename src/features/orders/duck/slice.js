@@ -32,6 +32,7 @@ const ordersSlice = createSlice({
         cleanOrderError: (state, action) => {
             state.error = null;
             state.status = 'IDLE';
+            state.dataStatus = 'IDLE';
         }
     },
     extraReducers: {

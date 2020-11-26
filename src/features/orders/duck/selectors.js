@@ -21,3 +21,8 @@ export const selectActiveOrdersMap = createSelector(
         return acc;
     }, {})
 );
+
+export const selectAllActiveOrders = createSelector(
+    selectAllOrders,
+    orders => orders.filter(order => order.active)
+);
