@@ -6,7 +6,7 @@ import {
 } from './duck/selectors.js';
 import Loader from '../shared/components/Loader.js';
 import { selectCompanyId, selectHomeError, selectHomeDataStatus } from '../home/duck/selectors.js';
-import { determineStatus } from '../shared/utils/state.js';
+import { determineStatus, getErrors } from '../shared/utils/state.js';
 import { selectClientDataStatus, selectClientError } from '../clients/duck/selectors.js';
 import { fetchClients } from '../clients/duck/thunks.js';
 import CreateOrder from './CreateOrder.js';
@@ -14,6 +14,9 @@ import { selectProductDataStatus, selectProductError } from '../products/duck/se
 import { fetchProducts } from '../products/duck/thunks.js';
 import { cleanNewOrder } from './duck/slice.js';
 import ErrorPage from '../shared/components/ErrorPage.js';
+import { cleanHomeError } from '../home/duck/slice.js';
+import { cleanClientError } from '../clients/duck/slice.js';
+import { cleanProductError } from '../products/duck/slice.js';
 
 export default function CreateOrderContainer() {
     const dispatch = useDispatch();
@@ -26,7 +29,7 @@ export default function CreateOrderContainer() {
     const homeError = useSelector(selectHomeError);
 
     const status = determineStatus(clientDataStatus, productDataStatus, homeStatus);
-    const errors = [clientError, productError, homeError];
+    const errors = getErrors(clientError, productError, homeError);
 
     const currentOrderId = useSelector(selectCurrentOrderId);
     const companyId = useSelector(selectCompanyId);
@@ -41,8 +44,15 @@ export default function CreateOrderContainer() {
     }, [dispatch, companyId]);
 
     useEffect(() => {
-        return () => dispatch(cleanNewOrder());
-    }, [dispatch]);
+        return () => {
+            if (errors.length > 0) {
+                dispatch(cleanHomeError());
+                dispatch(cleanClientError());
+                dispatch(cleanProductError());
+            }
+            dispatch(cleanNewOrder());
+        }
+    }, [dispatch, errors.length]);
 
     return (
         <>

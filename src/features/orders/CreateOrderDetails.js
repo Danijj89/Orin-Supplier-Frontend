@@ -2,8 +2,11 @@ import React from 'react';
 import RHFOrderDetails from '../shared/rhf/forms/RHFOrderDetails.js';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectCompanyActiveAddresses, selectCompanyPorts } from '../home/duck/selectors.js';
-import { selectClientsMap } from '../clients/duck/selectors.js';
+import {
+    selectCompanyActiveAddresses,
+    selectCompanyPorts
+} from '../home/duck/selectors.js';
+import { selectActiveClientsMap, selectAllActiveClients } from '../clients/duck/selectors.js';
 import Footer from '../shared/components/Footer.js';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import { cleanNewOrder } from './duck/slice.js';
@@ -38,9 +41,9 @@ const CreateOrderDetails = React.memo(function CreateOrderDetails({ order, setOr
     const history = useHistory();
     const companyAddresses = useSelector(selectCompanyActiveAddresses);
     const companyPorts = useSelector(selectCompanyPorts);
-    const clientsMap = useSelector(selectClientsMap);
+    const clients = useSelector(selectAllActiveClients);
 
-    const { register, control, errors, setValue, getValues, handleSubmit } = useForm({
+    const { register, control, errors, setValue, handleSubmit } = useForm({
         mode: 'onSubmit',
         defaultValues: {
             [orderDetailsFieldNames.ref]: !order.autoGenerateRef ? order.ref : null,
@@ -80,11 +83,10 @@ const CreateOrderDetails = React.memo(function CreateOrderDetails({ order, setOr
                 rhfRegister={ register }
                 rhfErrors={ errors }
                 rhfControl={ control }
-                rhfGetValues={ getValues }
                 rhfSetValue={ setValue }
                 companyAddresses={ companyAddresses }
                 companyPorts={ companyPorts }
-                clientsMap={ clientsMap }
+                clients={ clients }
                 fieldNames={ orderDetailsFieldNames }
             />
             <Footer

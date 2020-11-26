@@ -54,8 +54,8 @@ const NewClientAddressButton = React.memo(function NewClientAddressButton({ clie
 });
 
 NewClientAddressButton.propTypes = {
-    clientId: PropTypes.string,
-    clientName: PropTypes.string,
+    clientId: PropTypes.string.isRequired,
+    clientName: PropTypes.string.isRequired,
     className: PropTypes.string
 };
 
