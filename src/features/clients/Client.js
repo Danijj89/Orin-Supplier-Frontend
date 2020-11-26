@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectClientById } from './duck/selectors.js';
 import { Container } from '@material-ui/core';
-import { updateClientNotes } from './duck/thunks.js';
+import { updateClient } from './duck/thunks.js';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import ClientInfoTable from './ClientInfoTable.js';
 import { makeStyles } from '@material-ui/core/styles';
@@ -27,7 +27,7 @@ const Client = React.memo(function Client() {
     const client = useSelector((state) => selectClientById(state, id));
 
     const onNotesSubmit = (notes) =>
-        dispatch(updateClientNotes({ id: client._id, notes: { notes } }));
+        dispatch(updateClient({ clientId: client._id, update: { notes } }));
 
     return (
         <Container>

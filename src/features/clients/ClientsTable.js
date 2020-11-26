@@ -5,7 +5,7 @@ import Table from '../shared/components/table/Table.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectAllActiveClients } from './duck/selectors.js';
 import PopoverNotes from '../shared/components/PopoverNotes.js';
-import { updateClientNotes } from './duck/thunks.js';
+import { updateClient, updateClientNotes } from './duck/thunks.js';
 
 const { clientTableHeadersMap } = LANGUAGE.client.clientOverview;
 
@@ -20,7 +20,7 @@ const ClientsTable = React.memo(function ClientsTable() {
 
     const createNoteSubmitHandler = useCallback(
         (clientId) =>
-            (data) => dispatch(updateClientNotes({ id: clientId, notes: data })),
+            (data) => dispatch(updateClient({ clientId, update: data })),
         [dispatch]);
 
     const columns = useMemo(() => [
