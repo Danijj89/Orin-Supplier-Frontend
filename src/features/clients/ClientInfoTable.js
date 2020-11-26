@@ -7,6 +7,7 @@ import NavTabs from '../shared/components/NavTabs.js';
 import { useLocation } from 'react-router-dom';
 import queryString from 'query-string';
 import ClientContactsTable from './ClientContactsTable.js';
+import ClientOrdersTable from './ClientOrdersTable.js';
 
 const { tabsLabelsMap } = LANGUAGE.client.clientDetails;
 
@@ -17,7 +18,7 @@ const ClientInfoTable = React.memo(function ClientInfoTable() {
     const tabValue = tab || 'addresses';
 
     const setTabValue = (newValue) =>
-        history.push(`${location.pathname}?tab=${newValue}`);
+        history.push(`${ location.pathname }?tab=${ newValue }`);
 
     return (
         <Paper>
@@ -27,9 +28,11 @@ const ClientInfoTable = React.memo(function ClientInfoTable() {
                 onChange={ setTabValue }
             />
             { tabValue === 'addresses' &&
-            <ClientAddressCards /> }
+            <ClientAddressCards/> }
             { tabValue === 'contacts' &&
-            <ClientContactsTable /> }
+            <ClientContactsTable/> }
+            { tabValue === 'orders' &&
+            <ClientOrdersTable /> }
         </Paper>
     )
 });
@@ -37,7 +40,3 @@ const ClientInfoTable = React.memo(function ClientInfoTable() {
 export default ClientInfoTable;
 
 
-// { tabValue === 'orders' &&
-// <ClientOrdersTable
-//     clientOrders={ clientOrders }
-// /> }

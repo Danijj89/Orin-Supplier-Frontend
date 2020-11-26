@@ -1,19 +1,23 @@
-import React from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useMemo } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import Table from '../shared/components/table/Table.js';
 import UnitCounter from '../shared/classes/UnitCounter.js';
+import { useSelector } from 'react-redux';
+import { selectClientOrders } from './duck/selectors.js';
 
 const {
     ordersTableHeadersMap
 } = LANGUAGE.client.clientDetails.clientOrdersTable;
 
-export default function ClientOrdersTable({ clientOrders }) {
+const ClientOrdersTable = React.memo(function ClientOrdersTable() {
     const history = useHistory();
+    const { id: clientId } = useParams();
+    const clientOrders = useSelector(state => selectClientOrders(state, clientId));
 
     const onRowClick = (params) => history.push(`/home/orders/${ params.id }`);
 
-    const columns = [
+    const columns = useMemo(() => [
         { field: 'id', hide: true },
         { field: 'ref', headerName: ordersTableHeadersMap.ref },
         { field: 'clientRef', headerName: ordersTableHeadersMap.clientRef },
@@ -22,9 +26,9 @@ export default function ClientOrdersTable({ clientOrders }) {
         { field: 'totalQ', headerName: ordersTableHeadersMap.totalQ },
         { field: 'totalA', headerName: ordersTableHeadersMap.totalA },
         { field: 'del', headerName: ordersTableHeadersMap.del }
-    ];
+    ], []);
 
-    const rows = clientOrders.filter(order => order.active).map(order => ({
+    const rows = useMemo(() => clientOrders.map(order => ({
         id: order._id,
         ref: order.ref,
         clientRef: order.clientRef,
@@ -33,9 +37,11 @@ export default function ClientOrdersTable({ clientOrders }) {
         del: order.del,
         totalQ: UnitCounter.stringRep(order.totalQ),
         totalA: order.totalA
-    }));
+    })), [clientOrders]);
 
     return (
         <Table rows={ rows } columns={ columns } onRowClick={ onRowClick }/>
     )
-}
+});
+
+export default ClientOrdersTable;

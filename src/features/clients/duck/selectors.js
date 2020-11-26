@@ -33,7 +33,6 @@ export const selectClientActiveContacts = createSelector(
     selectClientById,
     client => client.contacts.filter(contact => contact.active)
 );
-
 export const selectClientActiveContactsMap = createSelector(
     selectClientActiveContacts,
     contacts => contacts.reduce((map, contact) => {
@@ -41,10 +40,14 @@ export const selectClientActiveContactsMap = createSelector(
         return map;
     }, {})
 );
-
 export const selectClientDefaultContact = createSelector(
     selectClientActiveContacts,
     contacts => contacts.find(contact => contact.default)
+);
+
+export const selectClientOrders = createSelector(
+    selectClientById,
+    client => client.orders
 );
 
 export const selectClientNotes = createSelector(
