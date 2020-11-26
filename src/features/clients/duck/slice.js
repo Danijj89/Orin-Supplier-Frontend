@@ -1,11 +1,11 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import {
-    createClientAddress, addNewClientContact,
+    createClientAddress, createClientContact,
     createClient, deleteClient,
     deleteClientAddress, deleteContact,
     fetchClientById,
     fetchClients, updateAddress,
-    updateClient, updateClientNotes, updateContact, updateDefaultClientAddress
+    updateClient, updateContact, updateDefaultClientAddress
 } from './thunks.js';
 
 export const clientsAdapter = createEntityAdapter({
@@ -109,8 +109,12 @@ const clientsSlice = createSlice({
         },
         [updateDefaultClientAddress.fulfilled]: (state, action) => {
             const { clientId, addressId } = action.payload;
-            const newDefaultAddress = state.entities[clientId].addresses.find(add => add._id === addressId);
-            clientsAdapter.updateOne(state, { id: clientId, changes: { defaultAddress: newDefaultAddress } });
+            const newAddresses = state.entities[clientId].addresses.map(address => {
+                if (address.default) address.default = false;
+                else if (address._id === addressId) address.default = true;
+                return address;
+            })
+            clientsAdapter.updateOne(state, { id: clientId, changes: { addresses: newAddresses } });
             state.status = 'IDLE';
         },
         [updateDefaultClientAddress.rejected]: (state, action) => {
@@ -121,9 +125,9 @@ const clientsSlice = createSlice({
             state.status = 'PENDING';
         },
         [updateAddress.fulfilled]: (state, action) => {
-            const { clientId, ...updatedAddress } = action.payload;
+            const { clientId, addressId, update } = action.payload;
             const updatedAddresses = state.entities[clientId].addresses.map(
-                add => add._id === updatedAddress._id ? updatedAddress : add);
+                add => add._id === addressId ? { ...add, ...update } : add);
             clientsAdapter.updateOne(state, { id: clientId, changes: { addresses: updatedAddresses } });
             state.status = 'IDLE';
         },
@@ -131,15 +135,15 @@ const clientsSlice = createSlice({
             state.status = 'REJECTED';
             state.error = action.payload.message;
         },
-        [addNewClientContact.pending]: (state, action) => {
+        [createClientContact.pending]: (state, action) => {
             state.status = 'PENDING';
         },
-        [addNewClientContact.fulfilled]: (state, action) => {
+        [createClientContact.fulfilled]: (state, action) => {
             const { _id: id, ...changes } = action.payload;
             clientsAdapter.updateOne(state, { id, changes });
             state.status = 'IDLE';
         },
-        [addNewClientContact.rejected]: (state, action) => {
+        [createClientContact.rejected]: (state, action) => {
             state.status = 'REJECTED';
             state.error = action.payload.message;
         },
@@ -182,18 +186,6 @@ const clientsSlice = createSlice({
             state.status = 'IDLE';
         },
         [deleteClient.rejected]: (state, action) => {
-            state.status = 'REJECTED';
-            state.error = action.payload.message;
-        },
-        [updateClientNotes.pending]: (state, action) => {
-            state.status = 'PENDING';
-        },
-        [updateClientNotes.fulfilled]: (state, action) => {
-            const { id, notes: changes } = action.payload;
-            clientsAdapter.updateOne(state, { id, changes });
-            state.status = 'IDLE';
-        },
-        [updateClientNotes.rejected]: (state, action) => {
             state.status = 'REJECTED';
             state.error = action.payload.message;
         }

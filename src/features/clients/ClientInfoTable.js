@@ -1,15 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useHistory } from 'react-router-dom';
 import { Paper } from '@material-ui/core';
 import { LANGUAGE } from '../../app/utils/constants.js';
-import ClientContactsTable from './ClientContactsTable.js';
-import ClientOrdersTable from './ClientOrdersTable.js';
 import ClientAddressCards from './ClientAddressCards.js';
 import NavTabs from '../shared/components/NavTabs.js';
-import { useLocation, useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { selectClientById } from './duck/selectors.js';
+import { useLocation } from 'react-router-dom';
 import queryString from 'query-string';
-import { useHistory } from 'react-router';
+import ClientContactsTable from './ClientContactsTable.js';
 
 const { tabsLabelsMap } = LANGUAGE.client.clientDetails;
 
@@ -31,18 +28,15 @@ const ClientInfoTable = React.memo(function ClientInfoTable() {
             />
             { tabValue === 'addresses' &&
             <ClientAddressCards /> }
+            { tabValue === 'contacts' &&
+            <ClientContactsTable /> }
         </Paper>
     )
 });
 
 export default ClientInfoTable;
 
-// { tabValue === 'contacts' &&
-// <ClientContactsTable
-//     clientId={ clientId }
-//     clientContacts={ clientContacts }
-//     clientDefaultContact={ clientDefaultContact }
-// /> }
+
 // { tabValue === 'orders' &&
 // <ClientOrdersTable
 //     clientOrders={ clientOrders }

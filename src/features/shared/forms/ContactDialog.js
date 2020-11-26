@@ -56,7 +56,7 @@ const ContactDialog = React.memo(function ContactDialog(
             <SideTextField
                 label={ nameLabel }
                 name="name"
-                inputRef={ register }
+                inputRef={ register({ required: true }) }
             />
             <SideTextField
                 label={ emailLabel }

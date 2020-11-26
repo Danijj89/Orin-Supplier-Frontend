@@ -10,14 +10,7 @@ export const {
 export const selectClientDataStatus = state => state.clients.dataStatus;
 export const selectClientStatus = state => state.clients.status;
 export const selectClientError = state => state.clients.error;
-export const selectClientActiveContacts = createSelector(
-    selectClientById,
-    client => client.contacts.filter(contact => contact.active)
-);
-export const selectClientActiveAddresses = createSelector(
-    (state, id) => state.clients.entities[id].addresses,
-    addresses => addresses.filter(a => a.active)
-);
+
 export const selectAllActiveClients = createSelector(
     selectAllClients,
     clients => clients.filter(c => c.active)
@@ -29,6 +22,26 @@ export const selectActiveClientsMap = createSelector(
         return map;
     }, {})
 );
+
+export const selectClientActiveAddresses = createSelector(
+    (state, id) => state.clients.entities[id].addresses,
+    addresses => addresses.filter(a => a.active)
+);
+
+
+export const selectClientActiveContacts = createSelector(
+    selectClientById,
+    client => client.contacts.filter(contact => contact.active)
+);
+
+export const selectClientActiveContactsMap = createSelector(
+    selectClientActiveContacts,
+    contacts => contacts.reduce((map, contact) => {
+        map[contact._id] = contact;
+        return map;
+    }, {})
+);
+
 export const selectClientDefaultContact = createSelector(
     selectClientActiveContacts,
     contacts => contacts.find(contact => contact.default)

@@ -5,7 +5,7 @@ import Table from '../shared/components/table/Table.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectAllActiveClients } from './duck/selectors.js';
 import PopoverNotes from '../shared/components/PopoverNotes.js';
-import { updateClient, updateClientNotes } from './duck/thunks.js';
+import { updateClient } from './duck/thunks.js';
 
 const { clientTableHeadersMap } = LANGUAGE.client.clientOverview;
 

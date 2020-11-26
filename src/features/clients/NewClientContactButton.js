@@ -4,7 +4,7 @@ import { Box } from '@material-ui/core';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import { useDispatch } from 'react-redux';
 import ContactDialog from '../shared/forms/ContactDialog.js';
-import { addNewClientContact } from './duck/thunks.js';
+import { createClientContact } from './duck/thunks.js';
 import { makeStyles } from '@material-ui/core/styles';
 
 const {
@@ -28,9 +28,8 @@ export default function NewClientContactButton({ clientId, className }) {
     const onCancel = () => setIsDialogOpen(false);
 
     const onSubmit = (data) => {
-        const { id, ...rest } = data;
-        rest.clientId = clientId;
-        dispatch(addNewClientContact(rest));
+        const { _id, ...contact } = data;
+        dispatch(createClientContact({ clientId, contact }));
         setIsDialogOpen(false);
     };
 

@@ -3,9 +3,11 @@ import { LANGUAGE } from '../../app/utils/constants.js';
 import Table from '../shared/components/table/Table.js';
 import { Box } from '@material-ui/core';
 import ContactDialog from '../shared/forms/ContactDialog.js';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import NewClientContactButton from './NewClientContactButton.js';
 import { deleteContact, updateContact } from './duck/thunks.js';
+import { useParams } from 'react-router-dom';
+import { selectClientActiveContacts, selectClientActiveContactsMap } from './duck/selectors.js';
 
 const {
     contactTableHeadersMap,
@@ -13,18 +15,22 @@ const {
     editDialogTitleLabel
 } = LANGUAGE.client.clientDetails.clientContactsTable;
 
-export default function ClientContactsTable({ clientId, clientContacts, clientDefaultContact }) {
+const ClientContactsTable = React.memo(function ClientContactsTable() {
     const dispatch = useDispatch();
+    const { id: clientId } = useParams();
+    const clientContacts = useSelector(state => selectClientActiveContacts(state, clientId));
+    const clientContactsMap = useSelector(state => selectClientActiveContactsMap(state, clientId));
+
     const [isEdit, setIsEdit] = useState(false);
     const [editContact, setEditContact] = useState(null);
 
     const onRowClick = (params) => {
-        setEditContact(clientContacts.find(c => c._id === params.id));
+        setEditContact(clientContactsMap[params.id]);
         setIsEdit(true);
     };
 
     const onEditCancel = () => setIsEdit(false);
-    const onEditSubmit = (data) => {
+    const onSubmit = (data) => {
         data.clientId = clientId;
         dispatch(updateContact(data));
         setIsEdit(false);
@@ -46,7 +52,7 @@ export default function ClientContactsTable({ clientId, clientContacts, clientDe
         { field: 'additional', headerName: contactTableHeadersMap.additional }
     ], []);
 
-    const rows = clientContacts.filter(contact => contact.active).map(contact => ({
+    const rows = clientContacts.map(contact => ({
         id: contact._id,
         name: contact.name,
         email: contact.email,
@@ -71,15 +77,15 @@ export default function ClientContactsTable({ clientId, clientContacts, clientDe
                     titleLabel={ editDialogTitleLabel }
                     submitLabel={ editDialogSubmitLabel }
                     onCancel={ onEditCancel }
-                    onSubmit={ onEditSubmit }
-                    onDelete={
-                        editContact._id !== clientDefaultContact._id
-                            ? () => onDeleteContact(editContact._id)
-                            : null
+                    onSubmit={ onSubmit }
+                    onDelete={ editContact.default ? null
+                        : () => onDeleteContact(editContact._id)
                     }
                 />
             ) }
             <NewClientContactButton clientId={ clientId }/>
         </Box>
     )
-}
+});
+
+export default ClientContactsTable;

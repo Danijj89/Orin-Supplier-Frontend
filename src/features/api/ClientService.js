@@ -79,7 +79,7 @@ const updateAddress = async (clientId, addressId, update) => {
     return data;
 };
 
-const addNewClientContact = async (clientId, contact) => {
+const createClientContact = async (clientId, contact) => {
     const configs = {
         method: 'post',
         url: `clients/${clientId}/contacts`,
@@ -117,16 +117,6 @@ const deleteClient = async (clientId) => {
     return data;
 };
 
-const updateClientNotes = async (id, notes) => {
-    const configs = {
-        method: 'put',
-        url: `clients/${id}/notes`,
-        data: notes
-    };
-    const { data } = await fetchWithAuth(configs);
-    return data;
-};
-
 const ClientService = {
     fetchClients,
     createClient,
@@ -136,11 +126,10 @@ const ClientService = {
     deleteClientAddress,
     updateDefaultClientAddress,
     updateAddress,
-    addNewClientContact,
+    createClientContact,
     deleteContact,
     updateContact,
-    deleteClient,
-    updateClientNotes
+    deleteClient
 };
 
 export default ClientService;

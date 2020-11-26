@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Paper, Box, Typography, Grid } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import AddressDialog from '../shared/forms/AddressDialog.js';
@@ -9,6 +9,7 @@ import { LANGUAGE } from '../../app/utils/constants.js';
 import NewClientAddressButton from '../shared/buttons/NewClientAddressButton.js';
 import { useParams } from 'react-router-dom';
 import { selectClientActiveAddresses, selectClientById } from './duck/selectors.js';
+import { countryToCountryCode } from '../shared/utils/entityConversion.js';
 
 const useStyles = makeStyles((theme) => ({
     cards: {
@@ -40,24 +41,29 @@ const ClientAddressCards = React.memo(function ClientAddressCards() {
     const [isEditAddressOpen, setIsEditAddressOpen] = useState(false);
     const [editAddress, setEditAddress] = useState(null);
 
-    const onDeleteAddress = (addressId) => {
+    const createDeleteAddressHandler = useCallback(
+        (clientId, addressId) => () => {
         dispatch(deleteClientAddress({ clientId, addressId }));
         setIsEditAddressOpen(false);
-    };
+    }, [dispatch]);
 
-    const onSetDefaultAddress = (addressId) =>
-        dispatch(updateDefaultClientAddress({ clientId, addressId }));
+    const createSetDefaultAddressHandler = useCallback(
+        (clientId, addressId) =>
+            () => dispatch(updateDefaultClientAddress({ clientId, addressId })),
+        [dispatch]);
 
-    const onEditAddress = (addressId) => {
-        setEditAddress(clientAddresses.find((a) => a._id === addressId));
+    const createEditAddressHandler = useCallback(
+        (address) => () => {
+        setEditAddress(address);
         setIsEditAddressOpen(true);
-    };
+    }, []);
 
     const onEditAddressCancel = () => setIsEditAddressOpen(false);
 
-    const onEditAddressSubmit = (data) => {
-        data.clientId = clientId;
-        dispatch(updateAddress(data));
+    const onSubmit = (data) => {
+        const { _id: addressId, ...update } = data;
+        update.country = countryToCountryCode(update.country);
+        dispatch(updateAddress({ clientId, addressId, update }));
         setIsEditAddressOpen(false);
     };
 
@@ -72,9 +78,9 @@ const ClientAddressCards = React.memo(function ClientAddressCards() {
                         <Grid item xs={ 12 } sm={ 6 } lg={ 4 } key={ address._id }>
                             <AddressCard
                                 address={ address }
-                                onEdit={ () => onEditAddress(address._id) }
-                                onDelete={ () => onDeleteAddress(address._id) }
-                                onSetDefault={ () => onSetDefaultAddress(address._id) }
+                                onEdit={ createEditAddressHandler(address) }
+                                onDelete={ createDeleteAddressHandler(clientId, address._id) }
+                                onSetDefault={ createSetDefaultAddressHandler(clientId, address._id) }
                             />
                         </Grid>
                     )) }
@@ -87,7 +93,7 @@ const ClientAddressCards = React.memo(function ClientAddressCards() {
                     titleLabel={ editAddressDialogTitleLabel }
                     submitLabel={ editAddressDialogSubmitLabel }
                     onCancel={ onEditAddressCancel }
-                    onSubmit={ onEditAddressSubmit }
+                    onSubmit={ onSubmit }
                 />
             ) }
             <NewClientAddressButton
