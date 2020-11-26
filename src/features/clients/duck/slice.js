@@ -1,6 +1,6 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import {
-    addNewClientAddress, addNewClientContact,
+    createClientAddress, addNewClientContact,
     createClient, deleteClient,
     deleteClientAddress, deleteContact,
     fetchClientById,
@@ -75,15 +75,15 @@ const clientsSlice = createSlice({
             state.status = 'REJECTED';
             state.error = action.payload.message;
         },
-        [addNewClientAddress.pending]: (state, action) => {
+        [createClientAddress.pending]: (state, action) => {
             state.status = 'PENDING';
         },
-        [addNewClientAddress.fulfilled]: (state, action) => {
+        [createClientAddress.fulfilled]: (state, action) => {
             const { _id: id, ...changes } = action.payload;
             clientsAdapter.updateOne(state, { id, changes });
             state.status = 'IDLE';
         },
-        [addNewClientAddress.rejected]: (state, action) => {
+        [createClientAddress.rejected]: (state, action) => {
             state.status = 'REJECTED';
             state.error = action.payload.message;
         },

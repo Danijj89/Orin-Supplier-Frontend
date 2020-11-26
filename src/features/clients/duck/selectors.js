@@ -33,3 +33,8 @@ export const selectClientDefaultContact = createSelector(
     selectClientActiveContacts,
     contacts => contacts.find(contact => contact.default)
 );
+
+export const selectClientNotes = createSelector(
+    selectClientById,
+    client => client.notes
+);

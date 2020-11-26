@@ -5,20 +5,22 @@ import ClientContactsTable from './ClientContactsTable.js';
 import ClientOrdersTable from './ClientOrdersTable.js';
 import ClientAddressCards from './ClientAddressCards.js';
 import NavTabs from '../shared/components/NavTabs.js';
+import { useLocation, useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { selectClientById } from './duck/selectors.js';
+import queryString from 'query-string';
+import { useHistory } from 'react-router';
 
 const { tabsLabelsMap } = LANGUAGE.client.clientDetails;
 
-const ClientInfoTable = React.memo(function ClientInfoTable(
-    {
-        clientId,
-        clientName,
-        clientAddresses,
-        clientDefaultAddress,
-        clientContacts,
-        clientDefaultContact,
-        clientOrders
-    }) {
-    const [tabValue, setTabValue] = useState('addresses');
+const ClientInfoTable = React.memo(function ClientInfoTable() {
+    const history = useHistory();
+    const location = useLocation();
+    const { tab } = queryString.parse(location.search);
+    const tabValue = tab || 'addresses';
+
+    const setTabValue = (newValue) =>
+        history.push(`${location.pathname}?tab=${newValue}`);
 
     return (
         <Paper>
@@ -28,24 +30,20 @@ const ClientInfoTable = React.memo(function ClientInfoTable(
                 onChange={ setTabValue }
             />
             { tabValue === 'addresses' &&
-            <ClientAddressCards
-                clientId={ clientId }
-                clientName={ clientName }
-                clientAddresses={ clientAddresses }
-                clientDefaultAddress={ clientDefaultAddress }
-            /> }
-            { tabValue === 'contacts' &&
-            <ClientContactsTable
-                clientId={ clientId }
-                clientContacts={ clientContacts }
-                clientDefaultContact={ clientDefaultContact }
-            /> }
-            { tabValue === 'orders' &&
-            <ClientOrdersTable
-                clientOrders={ clientOrders }
-            /> }
+            <ClientAddressCards /> }
         </Paper>
     )
 });
 
 export default ClientInfoTable;
+
+// { tabValue === 'contacts' &&
+// <ClientContactsTable
+//     clientId={ clientId }
+//     clientContacts={ clientContacts }
+//     clientDefaultContact={ clientDefaultContact }
+// /> }
+// { tabValue === 'orders' &&
+// <ClientOrdersTable
+//     clientOrders={ clientOrders }
+// /> }

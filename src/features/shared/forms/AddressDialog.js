@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import FormDialog from '../wrappers/FormDialog.js';
 import SideTextField from '../inputs/SideTextField.js';
 import RHFAutoComplete from '../rhf/inputs/RHFAutoComplete.js';
-import { countryOptions } from '../constants.js';
+import { countryOptions, countryOptionsMap } from '../constants.js';
 
 const {
     typeLabel,
@@ -35,7 +35,7 @@ const AddressDialog = React.memo(function AddressDialog({ isOpen, onSubmit, onCa
             address2: address?.address2,
             city: address?.city,
             administrative: address?.administrative,
-            country: address?.country,
+            country: countryOptionsMap[address?.country] || null,
             zip: address?.zip,
             phone: address?.phone,
             email: address?.email

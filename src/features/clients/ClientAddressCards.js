@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { Paper, Box, Typography, Grid } from '@material-ui/core';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import AddressDialog from '../shared/forms/AddressDialog.js';
 import { makeStyles } from '@material-ui/core/styles';
 import AddressCard from '../shared/components/AddressCard.js';
 import { deleteClientAddress, updateAddress, updateDefaultClientAddress } from './duck/thunks.js';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import NewClientAddressButton from '../shared/buttons/NewClientAddressButton.js';
+import { useParams } from 'react-router-dom';
+import { selectClientActiveAddresses, selectClientById } from './duck/selectors.js';
 
 const useStyles = makeStyles((theme) => ({
     cards: {
@@ -29,9 +31,12 @@ const {
     editAddressDialogSubmitLabel,
 } = LANGUAGE.client.clientDetails.clientAddressCards;
 
-export default function ClientAddressCards({ clientId, clientName, clientAddresses, clientDefaultAddress, className }) {
+const ClientAddressCards = React.memo(function ClientAddressCards() {
     const classes = useStyles();
     const dispatch = useDispatch();
+    const { id: clientId } = useParams();
+    const client = useSelector((state) => selectClientById(state, clientId));
+    const clientAddresses = useSelector(state => selectClientActiveAddresses(state, clientId));
     const [isEditAddressOpen, setIsEditAddressOpen] = useState(false);
     const [editAddress, setEditAddress] = useState(null);
 
@@ -57,17 +62,16 @@ export default function ClientAddressCards({ clientId, clientName, clientAddress
     };
 
     return (
-        <Paper className={ className }>
+        <Paper>
             <Typography className={ classes.addressTitle } variant="h5">
                 { addressesTableTitleLabel }
             </Typography>
             <Box className={ classes.cards }>
                 <Grid container>
-                    { clientAddresses.filter(address => address.active).map((address) => (
+                    { clientAddresses.map((address) => (
                         <Grid item xs={ 12 } sm={ 6 } lg={ 4 } key={ address._id }>
                             <AddressCard
                                 address={ address }
-                                isDefault={ clientDefaultAddress._id === address._id }
                                 onEdit={ () => onEditAddress(address._id) }
                                 onDelete={ () => onDeleteAddress(address._id) }
                                 onSetDefault={ () => onSetDefaultAddress(address._id) }
@@ -89,8 +93,10 @@ export default function ClientAddressCards({ clientId, clientName, clientAddress
             <NewClientAddressButton
                 className={ classes.newAddressButton }
                 clientId={ clientId }
-                clientName={ clientName }
+                clientName={ client.name }
             />
         </Paper>
     );
-}
+});
+
+export default ClientAddressCards;

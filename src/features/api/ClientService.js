@@ -41,7 +41,7 @@ const updateClient = async (id, update) => {
     return data;
 };
 
-const addNewClientAddress = async (clientId, address) => {
+const createClientAddress = async (clientId, address) => {
     const configs = {
         method: 'post',
         url: `clients/${clientId}/addresses`,
@@ -132,7 +132,7 @@ const ClientService = {
     createClient,
     fetchClientById,
     updateClient,
-    addNewClientAddress,
+    createClientAddress,
     deleteClientAddress,
     updateDefaultClientAddress,
     updateAddress,
