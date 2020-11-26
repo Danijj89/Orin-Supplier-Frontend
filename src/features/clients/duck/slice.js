@@ -168,9 +168,9 @@ const clientsSlice = createSlice({
             state.status = 'PENDING';
         },
         [updateContact.fulfilled]: (state, action) => {
-            const { clientId, ...updatedContact } = action.payload;
+            const { clientId, contactId, update } = action.payload;
             const updatedContacts = state.entities[clientId].contacts.map(
-                c => c._id === updatedContact._id ? updatedContact : c);
+                contact => contact._id === contactId ? { ...contact, ...update } : contact);
             clientsAdapter.updateOne(state, { id: clientId, changes: { contacts: updatedContacts } });
             state.status = 'IDLE';
         },

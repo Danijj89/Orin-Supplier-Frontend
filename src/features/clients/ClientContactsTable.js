@@ -41,8 +41,8 @@ const ClientContactsTable = React.memo(function ClientContactsTable() {
 
     const onEditCancel = () => setIsEdit(false);
     const onSubmit = (data) => {
-        data.clientId = clientId;
-        dispatch(updateContact(data));
+        const { _id: contactId, ...update } = data;
+        dispatch(updateContact({ clientId, contactId, update }));
         setIsEdit(false);
     };
 
