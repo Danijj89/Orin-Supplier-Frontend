@@ -38,10 +38,10 @@ export const updateOrder = createAsyncThunk('orders/updateOrderDetails',
     });
 
 export const deleteOrder = createAsyncThunk('orders/deleteOrder',
-    async (id, {rejectWithValue}) => {
+    async ({ orderId }, {rejectWithValue}) => {
         try {
-            await OrderService.deleteOrder(id);
-            return id;
+            await OrderService.deleteOrder(orderId);
+            return orderId;
         } catch (err) {
             return rejectWithValue(err.response.data);
         }

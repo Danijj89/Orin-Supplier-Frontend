@@ -13,14 +13,14 @@ const {
     dialogSubmitLabel
 } = LANGUAGE.order.order.orderDetails.detailsInfoCard.editOrderDetailsButton;
 
-export default function EditOrderDetailsButton({ order, className }) {
+const EditOrderDetailsButton = React.memo(function EditOrderDetailsButton({ order, className }) {
     const dispatch = useDispatch();
     const [isEdit, setIsEdit] = useState(false);
 
     const onEdit = () => setIsEdit(true);
     const onCancel = () => setIsEdit(false);
 
-    const onDelete = () => dispatch(deleteOrder(order._id));
+    const onDelete = () => dispatch(deleteOrder({ orderId: order._id }));
 
     const onSubmit = (data) => {
         data.to = data.to._id;
@@ -49,4 +49,6 @@ export default function EditOrderDetailsButton({ order, className }) {
             />
         </Box>
     )
-}
+});
+
+export default EditOrderDetailsButton;

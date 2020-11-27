@@ -38,7 +38,7 @@ const OrderDetails = React.memo(function OrderDetails() {
     const order = useSelector(state => selectOrderById(state, orderId));
 
     const onNotesSubmit = (notes) =>
-        dispatch(updateOrder({ id: orderId, update: { notes } }));
+        dispatch(updateOrder({ orderId, update: { notes } }));
 
     return (
         <Grid container className={ classes.root }>
