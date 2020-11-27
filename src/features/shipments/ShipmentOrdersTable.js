@@ -30,7 +30,7 @@ const ShipmentOrdersTable = React.memo(function ShipmentOrdersTable({ shipment }
         return acc;
     }, []);
     const orders = useSelector(state => selectOrdersByIds(state, orderIds));
-    const onEditOrders = () => history.push(`/home/shipments/edit/${ shipment._id }`);
+    const onEditOrders = () => history.push(`/home/shipments/shell?id=${ shipment._id }`);
     const onRowClick = useCallback((params) => history.push(`/home/orders/${ params.id }`), [history]);
 
     const columns = [

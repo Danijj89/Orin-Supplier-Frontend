@@ -2,9 +2,9 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import ShipmentService from '../../api/ShipmentService.js';
 
 export const createShipment = createAsyncThunk('shipments/createShipment',
-    async ({ data }, { rejectWithValue }) => {
+    async ({ shipment }, { rejectWithValue }) => {
         try {
-            return await ShipmentService.createShipment(data);
+            return await ShipmentService.createShipment(shipment);
         } catch (err) {
             return rejectWithValue(err.response.data);
         }
@@ -29,9 +29,9 @@ export const fetchShipmentById = createAsyncThunk('shipments/fetchShipmentById',
     });
 
 export const updateShipmentShell = createAsyncThunk('shipments/updateShipmentShell',
-    async ({ _id, ...update }, { rejectWithValue }) => {
+    async ({ shipmentId, update }, { rejectWithValue }) => {
         try {
-            return await ShipmentService.updateShipmentShell(_id, update);
+            return await ShipmentService.updateShipmentShell(shipmentId, update);
         } catch (err) {
             return rejectWithValue(err.response.data);
         }

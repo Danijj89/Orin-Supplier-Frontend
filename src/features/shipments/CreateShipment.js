@@ -1,14 +1,26 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { useHistory, useParams, useLocation } from 'react-router-dom';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 import { Box, Divider, Typography, Paper, Checkbox, Chip } from '@material-ui/core';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import FormContainer from '../shared/wrappers/FormContainer.js';
 import { useForm } from 'react-hook-form';
 import { dateToLocaleDate, formatAddress, roundToNDecimal } from '../shared/utils/format.js';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectCompanyActiveAddresses, selectCurrentCompany } from '../home/duck/selectors.js';
-import { selectAllActiveClients, selectActiveClientsMap } from '../clients/duck/selectors.js';
-import { selectOrdersMap } from '../orders/duck/selectors.js';
+import {
+    selectCompanyActiveAddresses, selectCompanyAddress,
+    selectCompanyDefaultAddress,
+    selectCompanyId,
+} from '../home/duck/selectors.js';
+import {
+    selectAllActiveClients,
+    selectClientById,
+    selectClientAddress
+} from '../clients/duck/selectors.js';
+import {
+    selectShipmentShellClientIdToOrdersMap,
+    selectOrdersMap,
+    selectShipmentShellClientIdToActiveOrdersMap
+} from '../orders/duck/selectors.js';
 import Table from '../shared/components/table/Table.js';
 import StatusDisplay from '../orders/StatusDisplay.js';
 import UnitCounter from '../shared/classes/UnitCounter.js';
@@ -17,10 +29,14 @@ import Footer from '../shared/components/Footer.js';
 import { selectCurrentUserId } from '../../app/duck/selectors.js';
 import { createShipment, updateShipmentShell } from './duck/thunks.js';
 import ErrorMessages from '../shared/components/ErrorMessages.js';
-import { selectOrderShipmentItemMap, selectShipmentById, selectShipmentError } from './duck/selectors.js';
-import { cleanNewShipment, cleanShipmentState } from './duck/slice.js';
+import {
+    selectOrderToShipmentItemsQuantityMap,
+    selectShipmentById,
+    selectShipmentOrderIds
+} from './duck/selectors.js';
 import { addressToDocAddress } from '../shared/utils/entityConversion.js';
 import RHFAutoComplete from '../shared/rhf/inputs/RHFAutoComplete.js';
+import queryString from 'query-string';
 
 const useStyles = makeStyles((theme) => ({
     chipContainer: {
@@ -62,33 +78,40 @@ export default function CreateShipment() {
     const classes = useStyles();
     const dispatch = useDispatch();
     const history = useHistory();
-    const { id } = useParams();
     const location = useLocation();
-    const isEdit = location.pathname.split('/')[3] === 'edit';
-    const titleLabel = isEdit ? editTitleLabel : newTitleLabel;
+    const { id } = queryString.parse(location.search);
+
     const shipment = useSelector(state => selectShipmentById(state, id));
     const userId = useSelector(selectCurrentUserId);
-    const company = useSelector(selectCurrentCompany);
-    const clientsMap = useSelector(selectActiveClientsMap);
-    const clients = useSelector(selectAllActiveClients);
-    const ordersMap = useSelector(selectOrdersMap);
-    const orderShipmentItemMap = useSelector(selectOrderShipmentItemMap);
-    const shipmentError = useSelector(selectShipmentError);
+    const companyId = useSelector(selectCompanyId);
+
     const companyAddresses = useSelector(selectCompanyActiveAddresses);
-    const { defaultAddress } = company;
-    const initialOrderIds = shipment?.items.reduce((acc, item) => {
-        if (!acc.includes(item.order)) acc.push(item.order);
-        return acc;
-    }, []);
+    const clients = useSelector(selectAllActiveClients);
+
+    const ordersMap = useSelector(selectOrdersMap);
+    const clientIdToOrdersMap = useSelector(selectShipmentShellClientIdToOrdersMap);
+    const clientIdToActiveOrdersMap = useSelector(selectShipmentShellClientIdToActiveOrdersMap);
+    const orderShipmentItemMap = useSelector(selectOrderToShipmentItemsQuantityMap);
+
+    const companyDefaultAddress = useSelector(selectCompanyDefaultAddress);
+    const initialSellerAddress = useSelector(
+        state => selectCompanyAddress(state, shipment?.sellerAdd.addressId));
+    const initialConsignee = useSelector(state => selectClientById(state, shipment?.consignee));
+    const initialConsigneeAddress = useSelector(
+        state => selectClientAddress(state, {
+            clientId: shipment?.consignee,
+            addressId: shipment?.consigneeAdd.addressId
+        }));
+    const initialOrderIds = useSelector(state => selectShipmentOrderIds(state, shipment?._id));
+
+    const isEdit = Boolean(id);
 
     const { register, control, errors, watch, setValue, handleSubmit } = useForm({
         mode: 'onSubmit',
         defaultValues: {
-            _id: shipment?._id,
-            createdBy: isEdit ? null : userId,
-            sellerAdd: shipment?.sellerAdd || defaultAddress,
-            consignee: clientsMap[shipment?.consignee] || null,
-            consigneeAdd: shipment?.consigneeAdd || null,
+            sellerAdd: initialSellerAddress || companyDefaultAddress,
+            consignee: initialConsignee || null,
+            consigneeAdd: initialConsigneeAddress || null,
             orderIds: initialOrderIds || []
         }
     });
@@ -98,69 +121,88 @@ export default function CreateShipment() {
     const [clientAddresses, setClientAddresses] = useState([]);
     const [clientOrders, setClientOrders] = useState([]);
 
+    /* Register orderIds on mount and set client orders if this is an edit */
     const mounted = useRef(false);
-    const prevClient = useRef(clientsMap[shipment?.consignee] || null);
-
     useEffect(() => {
-        if (mounted.current && chosenClient && prevClient.current !== chosenClient && clientsMap.hasOwnProperty(chosenClient._id)) {
-            setClientAddresses(chosenClient.addresses.filter(a => a.active));
-            setValue('consigneeAdd', null);
-            setClientOrders(Object.values(ordersMap).filter(order => order.to === chosenClient._id)
-                .map(order => ({ ...order, selected: false })));
-            prevClient.current = chosenClient;
-        } else if (!mounted.current) {
+        if (!mounted.current) {
             register({ name: 'orderIds' },
                 { validate: val => val.length > 0 || errorMessages.atLeastOneOrder });
             if (chosenClient) {
-                setClientOrders(Object.values(ordersMap)
-                    .filter(order => order.to === chosenClient._id)
-                    .map(order => {
-                        if (initialOrderIds.includes(order._id)) return { ...order, selected: true };
-                        return { ...order, selected: false };
-                    }));
+                // Add the initial orders if this is edit including orders that might be inactive
+                setClientOrders(
+                    clientIdToOrdersMap[chosenClient._id].reduce((acc, order) => {
+                        if (initialOrderIds.includes(order._id)) {
+                            order.selected = true;
+                            acc.push(order);
+                        } else if (order.active) acc.push(order);
+                        return acc;
+                    }, []));
             }
             mounted.current = true;
         }
-    }, [chosenClient, register, clientsMap, ordersMap, initialOrderIds, setValue]);
+    }, [register, chosenClient, initialOrderIds, clientIdToOrdersMap]);
 
+    const isDataReady = useRef(false);
+    const prevClient = useRef(null);
     useEffect(() => {
-        dispatch(cleanShipmentState());
-    }, [dispatch])
-
-    const onCheckboxSelection = (value, orderId) => {
-        if (value) {
-            setClientOrders(prev => prev.map(order => {
-                if (order._id === orderId) order.selected = true;
-                return order;
-            }));
-            setValue('orderIds', [...orderIds, orderId]);
-        } else {
-            setClientOrders(prev => prev.map(order => {
-                if (order._id === orderId) order.selected = false;
-                return order;
-            }));
-            setValue('orderIds', orderIds.filter(id => id !== orderId));
+        if (Object.keys(clientIdToActiveOrdersMap).length > 0) {
+            isDataReady.current = true;
+        } else if (isDataReady.current && chosenClient && prevClient.current !== chosenClient) {
+            setClientAddresses(chosenClient.addresses);
+            setValue('consigneeAdd', null);
+            setClientOrders(clientIdToActiveOrdersMap[chosenClient._id]);
+            prevClient.current = chosenClient;
+        } else if (!chosenClient) {
+            setClientAddresses([]);
+            setValue('consigneeAdd', null);
+            setClientOrders([]);
+            prevClient.current = chosenClient;
         }
-    };
+    }, [setValue, chosenClient, clientIdToActiveOrdersMap]);
 
-    const onPrevClick = () => history.goBack();
+    const createCheckboxSelectionHandler = useCallback(
+        (orderId) => (e) => {
+            if (e.target.checked) {
+                setClientOrders(prev => prev.map(order => {
+                    if (order._id === orderId) order.selected = true;
+                    return order;
+                }));
+                setValue('orderIds', [...orderIds, orderId]);
+            } else {
+                setClientOrders(prev => prev.map(order => {
+                    if (order._id === orderId) order.selected = false;
+                    return order;
+                }));
+                setValue('orderIds', orderIds.filter(id => id !== orderId));
+            }
+        }, [setValue, orderIds]);
+
+    const onPrevClick = useCallback(
+        () => {
+            if (isEdit) history.push(`/home/shipments/${ id }`);
+            else history.push('/home/shipments');
+        }, [history, id, isEdit]);
+
     const onSubmit = (data) => {
-        data.seller = company._id;
+        data.seller = companyId;
         data.sellerAdd = addressToDocAddress(data.sellerAdd);
         data.consignee = data.consignee._id;
         data.consigneeAdd = addressToDocAddress(data.consigneeAdd);
-        if (isEdit) dispatch(updateShipmentShell(data));
-        else dispatch(createShipment({ data }));
-        dispatch(cleanNewShipment());
+        if (isEdit) dispatch(updateShipmentShell({ shipmentId: shipment._id, update: data }));
+        else {
+            data.createdBy = userId;
+            dispatch(createShipment({ shipment: data }));
+        }
     };
 
-    const getFulfilledPercentage = (totalQ, orderId) => {
-        const totalCount = UnitCounter.totalCount(totalQ);
-        const totalFulfilled = orderShipmentItemMap[orderId].reduce((acc, instance) => acc + instance.quantity, 0);
-        return `${ roundToNDecimal(totalFulfilled / totalCount * 100, 2) }%`;
-    };
+    const getFulfilledPercentage = useCallback(
+        (totalQ, orderId) => {
+            const totalCount = UnitCounter.totalCount(totalQ);
+            const totalFulfilled = orderShipmentItemMap[orderId].reduce((acc, instance) => acc + instance.quantity, 0);
+            return `${ roundToNDecimal(totalFulfilled / totalCount * 100, 2) }%`;
+        }, [orderShipmentItemMap]);
 
-    const columns = [
+    const columns = useMemo(() => [
         { field: 'id', hide: true },
         {
             field: 'selected',
@@ -168,7 +210,7 @@ export default function CreateShipment() {
             renderCell: (params) =>
                 <Checkbox
                     color="primary"
-                    onChange={ (e) => onCheckboxSelection(e.target.checked, params.id) }
+                    onChange={ createCheckboxSelectionHandler(params.id) }
                     checked={ params.selected }
                 />
         },
@@ -182,39 +224,43 @@ export default function CreateShipment() {
             headerName: tableHeaderLabelsMap.production,
             renderCell: (params) =>
                 <StatusDisplay status={ params.production }/>,
-            align: 'center'
+            align: 'center',
+            width: 120
         },
         {
             field: 'qa',
             headerName: tableHeaderLabelsMap.qa,
             renderCell: (params) =>
                 <StatusDisplay status={ params.qa }/>,
-            align: 'center'
+            align: 'center',
+            width: 120
         },
         { field: 'notes', headerName: tableHeaderLabelsMap.notes },
         { field: 'fulfilled', headerName: tableHeaderLabelsMap.fulfilled, align: 'center' }
-    ];
+    ], [createCheckboxSelectionHandler]);
 
-    const rows = clientOrders.filter(order => order.active && !order.archived).map(order => ({
-        id: order._id,
-        selected: order.selected,
-        ref: order.ref,
-        clientRef: order.clientRef,
-        totalQ: UnitCounter.stringRep(order.totalQ),
-        crd: dateToLocaleDate(order.crd),
-        del: order.del,
-        production: order.status.production.status,
-        qa: order.status.qa.status,
-        notes: order.notes,
-        fulfilled: getFulfilledPercentage(order.totalQ, order._id)
-    }));
+    const rows = useMemo(() =>
+        clientOrders.map(order => ({
+            id: order._id,
+            selected: order.selected,
+            ref: order.ref,
+            clientRef: order.clientRef,
+            totalQ: UnitCounter.stringRep(order.totalQ),
+            crd: dateToLocaleDate(order.crd),
+            del: order.del,
+            production: order.status.production.status,
+            qa: order.status.qa.status,
+            notes: order.notes,
+            fulfilled: getFulfilledPercentage(order.totalQ, order._id)
+        })), [clientOrders, getFulfilledPercentage]);
 
-    const errs = Object.values(errors).map(err => err.message).concat(shipmentError);
+    const errs = useMemo(() => Object.values(errors).map(err => err.message), [errors]);
 
     return (
         <Box>
             <Box className={ classes.shipmentRoot }>
-                <Typography className={ classes.newShipmentLabel } variant="h5">{ titleLabel }</Typography>
+                <Typography className={ classes.newShipmentLabel }
+                            variant="h5">{ isEdit ? editTitleLabel : newTitleLabel }</Typography>
                 <Divider/>
                 <Paper>
                     { errs.length > 0 && <ErrorMessages errors={ errs }/> }
@@ -225,7 +271,7 @@ export default function CreateShipment() {
                             label={ companyAddressLabel }
                             options={ companyAddresses }
                             getOptionLabel={ address => formatAddress(address) }
-                            getOptionSelected={ (option, value) => option._id === value._id }
+                            getOptionSelected={ (option, value) => option._id === value._id || !value.active }
                             required={ errorMessages.missingSupplierAddress }
                             error={ !!errors.sellerAdd }
                             rows={ 4 }
@@ -237,7 +283,7 @@ export default function CreateShipment() {
                             label={ clientLabel }
                             options={ clients }
                             getOptionLabel={ client => client.name }
-                            getOptionSelected={ (option, value) => option._id === value._id }
+                            getOptionSelected={ (option, value) => option._id === value._id || !value.active }
                             required={ errorMessages.missingConsignee }
                             error={ !!errors.consignee }
                         />
@@ -247,7 +293,7 @@ export default function CreateShipment() {
                             label={ clientAddressLabel }
                             options={ clientAddresses }
                             getOptionLabel={ address => formatAddress(address) }
-                            getOptionSelected={ (option, value) => option._id === value._id }
+                            getOptionSelected={ (option, value) => option._id === value._id || !value.active }
                             required={ errorMessages.missingConsigneeAddress }
                             error={ !!errors.consigneeAdd }
                             rows={ 4 }
@@ -265,7 +311,6 @@ export default function CreateShipment() {
                     </Box>
                     <Table columns={ columns } rows={ rows }/>
                 </Paper>
-
             </Box>
             <Footer
                 prevLabel={ prevButtonLabel }

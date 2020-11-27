@@ -14,7 +14,6 @@ import { fetchShipments } from './duck/thunks.js';
 import { cleanHomeState } from '../home/duck/slice.js';
 import { cleanClientState } from '../clients/duck/slice.js';
 import { cleanOrderState } from '../orders/duck/slice.js';
-import { cleanNewShipment } from './duck/slice.js';
 import ErrorPage from '../shared/components/ErrorPage.js';
 
 export default function CreateShipmentContainer() {
@@ -50,7 +49,6 @@ export default function CreateShipmentContainer() {
                 dispatch(cleanClientState());
                 dispatch(cleanOrderState());
             }
-            dispatch(cleanNewShipment());
         }
     }, [dispatch, errors.length]);
 

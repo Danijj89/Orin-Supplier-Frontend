@@ -136,7 +136,7 @@ const Home = React.memo(function Home() {
                     </Route>
                     <Route
                         exact
-                        path={ [`${ match.url }/shipments/new`, `${ match.url }/shipments/edit/:id`] }
+                        path={ [`${ match.url }/shipments/shell`] }
                         isPrivate
                     >
                         <Suspense>

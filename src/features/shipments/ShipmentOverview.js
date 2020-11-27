@@ -3,8 +3,6 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { Paper } from '@material-ui/core';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { LANGUAGE } from '../../app/utils/constants.js';
-import { useDispatch } from 'react-redux';
-import { cleanNewShipment } from './duck/slice.js';
 import ShipmentsTable from './ShipmentsTable.js';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -23,12 +21,10 @@ const ShipmentOverview = React.memo(function ShipmentOverview() {
     const classes = useStyles();
     const history = useHistory();
     const location = useLocation();
-    const dispatch = useDispatch();
 
-    const onNewOrderClick = () => {
-        dispatch(cleanNewShipment());
-        history.push(`${location.pathname}/new`);
-    };
+    const onNewOrderClick = () =>
+        history.push(`${location.pathname}/shell`);
+
 
     return (
         <Paper className={ classes.shipmentOverviewRoot }>

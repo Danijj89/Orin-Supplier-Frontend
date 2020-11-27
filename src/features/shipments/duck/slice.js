@@ -24,9 +24,6 @@ const shipmentsSlice = createSlice({
     name: 'shipments',
     initialState,
     reducers: {
-        cleanNewShipment: (state, action) => {
-            state.currentShipmentId = null;
-        },
         cleanCurrentShipmentId: (state, action) => {
             state.currentShipmentId = null;
         },
@@ -139,6 +136,6 @@ const shipmentsSlice = createSlice({
     }
 });
 
-export const { cleanNewShipment, cleanCurrentShipmentId, cleanShipmentState, cleanShipmentStatus } = shipmentsSlice.actions;
+export const { cleanCurrentShipmentId, cleanShipmentState, cleanShipmentStatus } = shipmentsSlice.actions;
 
 export default shipmentsSlice.reducer;
