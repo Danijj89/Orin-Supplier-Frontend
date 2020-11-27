@@ -59,7 +59,7 @@ const OrderDetails = React.memo(function OrderDetails() {
                 <InfoCard
                     title={ productTableTitleLabel }
                     button={ <EditOrderProductsButton order={ order }/> }
-                    content={ <OrderProductTable order={ order }/> }
+                    content={ <OrderProductTable /> }
                 />
             </Grid>
         </Grid>

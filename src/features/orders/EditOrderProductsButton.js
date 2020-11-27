@@ -13,7 +13,7 @@ const {
     dialogSubmitLabel
 } = LANGUAGE.order.order.orderDetails.orderProductTable.editOrderProductsButton;
 
-export default function EditOrderProductsButton({ order, className }) {
+const EditOrderProductsButton = React.memo(function EditOrderProductsButton({ order, className }) {
     const dispatch = useDispatch();
     const [isEdit, setIsEdit] = useState(false);
 
@@ -21,9 +21,8 @@ export default function EditOrderProductsButton({ order, className }) {
     const onCancel = () => setIsEdit(false);
 
     const onSubmit = (data) => {
-        data.id = order._id;
         data.items = tableItemsToOrderItems(data.items);
-        dispatch(updateOrder({ id: order._id, update: data }));
+        dispatch(updateOrder({ orderId: order._id, update: data }));
         setIsEdit(false);
     };
 
@@ -44,4 +43,6 @@ export default function EditOrderProductsButton({ order, className }) {
             />
         </Box>
     )
-}
+});
+
+export default EditOrderProductsButton;

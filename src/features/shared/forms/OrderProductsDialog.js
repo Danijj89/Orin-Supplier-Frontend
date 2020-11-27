@@ -16,7 +16,7 @@ const productTableFieldNames = {
     marks: 'marks'
 };
 
-export default function OrderProductsDialog(
+const OrderProductsDialog = React.memo(function OrderProductsDialog(
     {
         isOpen,
         onSubmit,
@@ -27,20 +27,10 @@ export default function OrderProductsDialog(
     }) {
     const products = useSelector(selectAllActiveProducts);
     const rhfMethods = useForm({
-        mode: 'onSubmit',
-        defaultValues: {
-            [productTableFieldNames.custom1]: order.custom1,
-            [productTableFieldNames.custom2]: order.custom2,
-            [productTableFieldNames.items]: order.items,
-            [productTableFieldNames.quantity]: order.totalQ,
-            [productTableFieldNames.total]: order.totalA,
-            [productTableFieldNames.currency]: order.currency,
-            [productTableFieldNames.marks]: order.marks,
-        }
+        mode: 'onSubmit'
     });
     const { register, errors, control, setValue, getValues, handleSubmit, reset } = rhfMethods;
 
-    const onFormSubmit = data => onSubmit(data);
     const mounted = useRef(false);
     useEffect(() => {
         if (mounted.current) {
@@ -70,7 +60,7 @@ export default function OrderProductsDialog(
             titleLabel={ titleLabel }
             submitLabel={ submitLabel }
             onCancel={ onCancel }
-            onSubmit={ handleSubmit(onFormSubmit) }
+            onSubmit={ handleSubmit(onSubmit) }
         >
             <RHFProductTable
                 rhfRegister={ register }
@@ -84,7 +74,7 @@ export default function OrderProductsDialog(
             />
         </FormDialog>
     )
-}
+});
 
 OrderProductsDialog.propTypes = {
     isOpen: PropTypes.bool.isRequired,
@@ -94,4 +84,6 @@ OrderProductsDialog.propTypes = {
     titleLabel: PropTypes.string.isRequired,
     order: PropTypes.object
 };
+
+export default OrderProductsDialog;
 
