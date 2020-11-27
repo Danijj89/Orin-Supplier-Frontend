@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Box } from '@material-ui/core';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import OrderStatusDialog from './OrderStatusDialog.js';
@@ -12,17 +12,17 @@ const {
     submitLabel
 } = LANGUAGE.order.order.orderDetails.statusInfoCard.editOrderStatusButton;
 
-export default function EditOrderStatusButton({ orderId, status, className }) {
+const EditOrderStatusButton = React.memo(function EditOrderStatusButton({ orderId, status, className }) {
     const dispatch = useDispatch();
     const [isEdit, setIsEdit] = useState(false);
 
     const onEdit = () => setIsEdit(true);
     const onCancel = () => setIsEdit(false);
 
-    const onSubmit = (data) => {
-        dispatch(updateOrder({ id: orderId, update: { status: data } }));
+    const onSubmit = useCallback((data) => {
+        dispatch(updateOrder({ orderId: orderId, update: { status: data } }));
         setIsEdit(false);
-    };
+    }, [dispatch, orderId]);
 
     return (
         <Box className={ className }>
@@ -39,4 +39,6 @@ export default function EditOrderStatusButton({ orderId, status, className }) {
             />
         </Box>
     )
-}
+});
+
+export default EditOrderStatusButton;

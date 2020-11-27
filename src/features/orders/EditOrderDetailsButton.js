@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Box } from '@material-ui/core';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { LANGUAGE } from '../../app/utils/constants.js';
@@ -17,19 +17,21 @@ const EditOrderDetailsButton = React.memo(function EditOrderDetailsButton({ orde
     const dispatch = useDispatch();
     const [isEdit, setIsEdit] = useState(false);
 
-    const onEdit = () => setIsEdit(true);
-    const onCancel = () => setIsEdit(false);
+    const onEdit = useCallback(() => setIsEdit(true), []);
+    const onCancel = useCallback(() => setIsEdit(false), []);
 
-    const onDelete = () => dispatch(deleteOrder({ orderId: order._id }));
+    const onDelete = useCallback(
+        () => dispatch(deleteOrder({ orderId: order._id })),
+        [dispatch, order._id]);
 
-    const onSubmit = (data) => {
+    const onSubmit = useCallback((data) => {
         data.to = data.to._id;
         data.fromAdd = addressToDocAddress(data.fromAdd);
         data.toAdd = addressToDocAddress(data.toAdd);
         if (data.shipAdd) data.shipAdd = addressToDocAddress(data.shipAdd);
         dispatch(updateOrder({ orderId: order._id, update: data }));
         setIsEdit(false);
-    };
+    }, [dispatch, order._id]);
 
     return (
         <Box className={ className }>

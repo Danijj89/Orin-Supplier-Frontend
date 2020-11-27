@@ -6,6 +6,9 @@ import InfoCard from '../shared/wrappers/InfoCard.js';
 import { Table, TableContainer, TableHead, TableRow, TableCell as MuiTableCell, TableBody } from '@material-ui/core';
 import StatusDisplay from './StatusDisplay.js';
 import EditOrderStatusButton from './EditOrderStatusButton.js';
+import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { selectOrderStatusField } from './duck/selectors.js';
 
 const useStyles = makeStyles((theme) => ({
     tableContainer: {
@@ -35,8 +38,10 @@ const TableCell = withStyles((theme) => ({
 }))(MuiTableCell);
 
 
-export default function StatusInfoCard({ orderId, status }) {
+const StatusInfoCard = React.memo(function StatusInfoCard() {
     const classes = useStyles();
+    const { id: orderId } = useParams();
+    const status = useSelector(state => selectOrderStatusField(state, orderId));
     const { procurement, production, qa } = status;
 
     const HeaderCell = ({ header }) =>
@@ -93,4 +98,6 @@ export default function StatusInfoCard({ orderId, status }) {
             }
         />
     );
-}
+});
+
+export default StatusInfoCard;

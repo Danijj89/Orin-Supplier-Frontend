@@ -7,6 +7,7 @@ export const selectOrderError = state => state.orders.error;
 export const selectCurrentOrderId = state => state.orders.currentOrderId;
 export const selectOrdersByIds = (state, ids) =>
     Object.values(state.orders.entities).filter(order => ids.includes(order._id));
+export const selectOrderStatusField = (state, id) => state.orders.entities[id].status;
 
 export const {
     selectAll: selectAllOrders,

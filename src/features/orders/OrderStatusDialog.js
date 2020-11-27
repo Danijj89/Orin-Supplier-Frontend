@@ -75,7 +75,7 @@ const OrderStatusDialog = React.memo(function OrderStatusDialog(
         else if (qaStatus === 'Completed') setValue('qaActual', new Date());
     }, [setValue, procurementStatus, productionStatus, qaStatus]);
 
-    const onFormSubmit = data => {
+    const onFormSubmit = useCallback(data => {
         const newStatus = {
             procurement: {
                 status: data.procurementStatus,
@@ -94,7 +94,7 @@ const OrderStatusDialog = React.memo(function OrderStatusDialog(
             }
         };
         onSubmit(newStatus);
-    };
+    }, [onSubmit]);
 
     const renderOption = useCallback(
         option => <OrderStatusListItem option={ option }/>,

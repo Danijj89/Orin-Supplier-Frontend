@@ -46,7 +46,7 @@ const OrderDetails = React.memo(function OrderDetails() {
                 <DetailsInfoCard />
             </Grid>
             <Grid item xs={ 12 } md={ 6 }>
-                <StatusInfoCard orderId={ orderId } status={ order.status }/>
+                <StatusInfoCard />
             </Grid>
             <Grid container item xs={ 12 } md={ 6 } className={ classes.notes }>
                 <TextAreaCard
