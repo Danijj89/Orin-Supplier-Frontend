@@ -43,9 +43,7 @@ const Order = React.memo(function Order() {
                     className={ classes.orderTabs }
                 />
             </Paper>
-            { tabValue === 'details' &&
-            <OrderDetails />
-            }
+            { tabValue === 'details' && <OrderDetails /> }
             { tabValue === 'documents' && <OrderDocuments/> }
         </Box>
     )

@@ -305,6 +305,13 @@ export const ENGLISH = {
                 }
             },
             orderDocuments: {
+                buttonLabels: {
+                    generateExcel: 'Generate Excel',
+                    generatePdf: 'Generate PDF'
+                },
+                textLabels: {
+                    noOrder: 'No Orders'
+                },
                 shipmentDocumentsCard: {
                     titleLabel: 'Shipment No:',
                 }

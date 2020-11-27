@@ -8,6 +8,8 @@ export const selectCurrentOrderId = state => state.orders.currentOrderId;
 export const selectOrdersByIds = (state, ids) =>
     Object.values(state.orders.entities).filter(order => ids.includes(order._id));
 export const selectOrderStatusField = (state, id) => state.orders.entities[id].status;
+export const selectOrderShipmentIdsField = (state, id) => state.orders.entities[id].shipmentIds;
+export const selectOrderFileNameField = (state, id) => state.orders.entities[id].fileName;
 
 export const {
     selectAll: selectAllOrders,
