@@ -7,8 +7,8 @@ import Loader from '../shared/components/Loader.js';
 import { selectCompanyId, selectHomeError, selectHomeDataStatus } from '../home/duck/selectors.js';
 import { fetchShipments } from './duck/thunks.js';
 import ShipmentOverview from './ShipmentOverview.js';
-import { cleanHomeError } from '../home/duck/slice.js';
-import { cleanShipmentError } from './duck/slice.js';
+import { cleanHomeState } from '../home/duck/slice.js';
+import { cleanShipmentState } from './duck/slice.js';
 
 const ShipmentOverviewContainer = React.memo(function ShipmentOverviewContainer() {
     const dispatch = useDispatch();
@@ -30,8 +30,8 @@ const ShipmentOverviewContainer = React.memo(function ShipmentOverviewContainer(
     useEffect(() => {
         return () => {
             if (errors.length > 0) {
-                dispatch(cleanHomeError());
-                dispatch(cleanShipmentError());
+                dispatch(cleanHomeState());
+                dispatch(cleanShipmentState());
             }
         }
     }, [dispatch, errors.length]);

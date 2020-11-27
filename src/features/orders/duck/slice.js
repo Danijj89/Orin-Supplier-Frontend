@@ -29,7 +29,7 @@ const ordersSlice = createSlice({
         cleanCurrentOrderId: (state, action) => {
             state.currentOrderId = null;
         },
-        cleanOrderError: (state, action) => {
+        cleanOrderState: (state, action) => {
             state.error = null;
             state.status = 'IDLE';
             state.dataStatus = 'IDLE';
@@ -98,7 +98,7 @@ const ordersSlice = createSlice({
 });
 
 export const {
-    cleanNewOrder, cleanOrderError, cleanCurrentOrderId
+    cleanNewOrder, cleanOrderState, cleanCurrentOrderId
 } = ordersSlice.actions;
 
 export default ordersSlice.reducer;

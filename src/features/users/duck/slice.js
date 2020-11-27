@@ -16,7 +16,7 @@ const usersSlice = createSlice({
     name: 'users',
     initialState,
     reducers: {
-        cleanUserError: (state, action) => {
+        cleanUserState: (state, action) => {
             state.dataStatus = 'IDLE';
             state.status = 'IDLE';
             state.error = null;
@@ -49,6 +49,6 @@ const usersSlice = createSlice({
     }
 });
 
-export const { cleanUserError } = usersSlice.actions;
+export const { cleanUserState } = usersSlice.actions;
 
 export default usersSlice.reducer;

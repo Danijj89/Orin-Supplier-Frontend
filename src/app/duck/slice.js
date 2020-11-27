@@ -12,10 +12,6 @@ const appSlice = createSlice({
     name: 'app',
     initialState,
     reducers: {
-        cleanError: (state, action) => {
-            state.status = 'IDLE';
-            state.error = null;
-        },
         cleanAppState: (state, action) => {
             state.status = 'IDLE';
             state.error = null;
@@ -40,6 +36,6 @@ const appSlice = createSlice({
     }
 });
 
-export const { cleanError, cleanAppState } = appSlice.actions;
+export const { cleanAppState } = appSlice.actions;
 
 export default appSlice.reducer;

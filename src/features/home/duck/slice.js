@@ -19,7 +19,8 @@ const homeSlice = createSlice({
     name: 'home',
     initialState,
     reducers: {
-        cleanHomeError: (state, action) => {
+        cleanHomeState: (state, action) => {
+            state.company = null;
             state.dataStatus = 'IDLE';
             state.status = 'IDLE';
             state.error = null;
@@ -128,6 +129,6 @@ const homeSlice = createSlice({
     }
 });
 
-export const { cleanHomeError } = homeSlice.actions;
+export const { cleanHomeState } = homeSlice.actions;
 
 export default homeSlice.reducer;

@@ -14,9 +14,9 @@ import { selectProductDataStatus, selectProductError } from '../products/duck/se
 import { fetchProducts } from '../products/duck/thunks.js';
 import { cleanNewOrder } from './duck/slice.js';
 import ErrorPage from '../shared/components/ErrorPage.js';
-import { cleanHomeError } from '../home/duck/slice.js';
-import { cleanClientError } from '../clients/duck/slice.js';
-import { cleanProductError } from '../products/duck/slice.js';
+import { cleanHomeState } from '../home/duck/slice.js';
+import { cleanClientState } from '../clients/duck/slice.js';
+import { cleanProductState } from '../products/duck/slice.js';
 
 export default function CreateOrderContainer() {
     const dispatch = useDispatch();
@@ -46,9 +46,9 @@ export default function CreateOrderContainer() {
     useEffect(() => {
         return () => {
             if (errors.length > 0) {
-                dispatch(cleanHomeError());
-                dispatch(cleanClientError());
-                dispatch(cleanProductError());
+                dispatch(cleanHomeState());
+                dispatch(cleanClientState());
+                dispatch(cleanProductState());
             }
             dispatch(cleanNewOrder());
         }

@@ -10,9 +10,9 @@ import { fetchClients } from './duck/thunks.js';
 import { fetchUsers } from '../users/duck/thunks.js';
 import Client from './Client.js';
 import { Redirect, useParams } from 'react-router-dom';
-import { cleanHomeError } from '../home/duck/slice.js';
-import { cleanUserError } from '../users/duck/slice.js';
-import { cleanClientError } from './duck/slice.js';
+import { cleanHomeState } from '../home/duck/slice.js';
+import { cleanUserState } from '../users/duck/slice.js';
+import { cleanClientState } from './duck/slice.js';
 
 const ClientContainer = React.memo(function ClientContainer() {
     const dispatch = useDispatch();
@@ -41,9 +41,9 @@ const ClientContainer = React.memo(function ClientContainer() {
     useEffect(() => {
         return () => {
             if (errors.length > 0) {
-                dispatch(cleanHomeError());
-                dispatch(cleanUserError());
-                dispatch(cleanClientError());
+                dispatch(cleanHomeState());
+                dispatch(cleanUserState());
+                dispatch(cleanClientState());
             }
         }
     }, [dispatch, errors.length]);

@@ -18,7 +18,7 @@ import { selectCurrentUserId } from '../../app/duck/selectors.js';
 import { createShipment, updateShipmentShell } from './duck/thunks.js';
 import ErrorMessages from '../shared/components/ErrorMessages.js';
 import { selectOrderShipmentItemMap, selectShipmentById, selectShipmentError } from './duck/selectors.js';
-import { cleanNewShipment, cleanShipmentError } from './duck/slice.js';
+import { cleanNewShipment, cleanShipmentState } from './duck/slice.js';
 import { addressToDocAddress } from '../shared/utils/entityConversion.js';
 import RHFAutoComplete from '../shared/rhf/inputs/RHFAutoComplete.js';
 
@@ -124,7 +124,7 @@ export default function CreateShipment() {
     }, [chosenClient, register, clientsMap, ordersMap, initialOrderIds, setValue]);
 
     useEffect(() => {
-        dispatch(cleanShipmentError());
+        dispatch(cleanShipmentState());
     }, [dispatch])
 
     const onCheckboxSelection = (value, orderId) => {

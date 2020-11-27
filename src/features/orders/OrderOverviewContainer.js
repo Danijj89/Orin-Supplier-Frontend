@@ -7,8 +7,8 @@ import OrderOverview from './OrderOverview.js';
 import { fetchOrders } from './duck/thunks.js';
 import { selectCompanyId, selectHomeError, selectHomeDataStatus } from '../home/duck/selectors.js';
 import ErrorPage from '../shared/components/ErrorPage.js';
-import { cleanHomeError } from '../home/duck/slice.js';
-import { cleanOrderError } from './duck/slice.js';
+import { cleanHomeState } from '../home/duck/slice.js';
+import { cleanOrderState } from './duck/slice.js';
 
 const OrderOverviewContainer = React.memo(function OrderOverviewContainer() {
     const dispatch = useDispatch();
@@ -29,8 +29,8 @@ const OrderOverviewContainer = React.memo(function OrderOverviewContainer() {
     useEffect(() => {
         return () => {
             if (errors.length > 0) {
-                dispatch(cleanHomeError());
-                dispatch(cleanOrderError());
+                dispatch(cleanHomeState());
+                dispatch(cleanOrderState());
             }
         }
     }, [dispatch, errors.length]);

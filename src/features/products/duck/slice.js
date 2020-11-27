@@ -16,7 +16,7 @@ const productsSlice = createSlice({
     name: 'products',
     initialState,
     reducers: {
-        cleanProductError: (state, action) => {
+        cleanProductState: (state, action) => {
             state.dataStatus = 'IDLE';
             state.status = 'IDLE';
             state.error = null;
@@ -71,6 +71,6 @@ const productsSlice = createSlice({
     }
 });
 
-export const { cleanProductError } = productsSlice.actions;
+export const { cleanProductState } = productsSlice.actions;
 
 export default productsSlice.reducer;

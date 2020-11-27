@@ -30,7 +30,7 @@ const shipmentsSlice = createSlice({
         cleanCurrentShipmentId: (state, action) => {
             state.currentShipmentId = null;
         },
-        cleanShipmentError: (state, action) => {
+        cleanShipmentState: (state, action) => {
             state.dataStatus = 'IDLE';
             state.status = 'IDLE';
             state.error = null;
@@ -139,6 +139,6 @@ const shipmentsSlice = createSlice({
     }
 });
 
-export const { cleanNewShipment, cleanCurrentShipmentId, cleanShipmentError, cleanShipmentStatus } = shipmentsSlice.actions;
+export const { cleanNewShipment, cleanCurrentShipmentId, cleanShipmentState, cleanShipmentStatus } = shipmentsSlice.actions;
 
 export default shipmentsSlice.reducer;

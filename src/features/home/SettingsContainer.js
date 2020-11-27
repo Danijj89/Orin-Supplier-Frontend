@@ -7,8 +7,8 @@ import Loader from '../shared/components/Loader.js';
 import { selectUserDataStatus, selectUserError } from '../users/duck/selectors.js';
 import { fetchUsers } from '../users/duck/thunks.js';
 import Settings from './Settings.js';
-import { cleanHomeError } from './duck/slice.js';
-import { cleanUserError } from '../users/duck/slice.js';
+import { cleanHomeState } from './duck/slice.js';
+import { cleanUserState } from '../users/duck/slice.js';
 
 const SettingsContainer = React.memo(function SettingsContainer() {
     const dispatch = useDispatch();
@@ -30,8 +30,8 @@ const SettingsContainer = React.memo(function SettingsContainer() {
     useEffect(() => {
         return () => {
             if (errors.length > 0) {
-                dispatch(cleanHomeError());
-                dispatch(cleanUserError());
+                dispatch(cleanHomeState());
+                dispatch(cleanUserState());
             }
         }
     }, [dispatch, errors.length]);

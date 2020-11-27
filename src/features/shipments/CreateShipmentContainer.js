@@ -11,9 +11,9 @@ import { fetchOrders } from '../orders/duck/thunks.js';
 import { selectCurrentShipmentId } from './duck/selectors.js';
 import { Redirect } from 'react-router-dom';
 import { fetchShipments } from './duck/thunks.js';
-import { cleanHomeError } from '../home/duck/slice.js';
-import { cleanClientError } from '../clients/duck/slice.js';
-import { cleanOrderError } from '../orders/duck/slice.js';
+import { cleanHomeState } from '../home/duck/slice.js';
+import { cleanClientState } from '../clients/duck/slice.js';
+import { cleanOrderState } from '../orders/duck/slice.js';
 import { cleanNewShipment } from './duck/slice.js';
 import ErrorPage from '../shared/components/ErrorPage.js';
 
@@ -46,9 +46,9 @@ export default function CreateShipmentContainer() {
     useEffect(() => {
         return () => {
             if (errors.length > 0) {
-                dispatch(cleanHomeError());
-                dispatch(cleanClientError());
-                dispatch(cleanOrderError());
+                dispatch(cleanHomeState());
+                dispatch(cleanClientState());
+                dispatch(cleanOrderState());
             }
             dispatch(cleanNewShipment());
         }

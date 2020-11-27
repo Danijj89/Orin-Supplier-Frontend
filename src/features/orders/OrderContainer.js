@@ -18,11 +18,11 @@ import { useParams } from 'react-router-dom';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import { selectShipmentDataStatus, selectShipmentError } from '../shipments/duck/selectors.js';
 import { fetchShipments } from '../shipments/duck/thunks.js';
-import { cleanHomeError } from '../home/duck/slice.js';
-import { cleanClientError } from '../clients/duck/slice.js';
-import { cleanProductError } from '../products/duck/slice.js';
-import { cleanUserError } from '../users/duck/slice.js';
-import { cleanShipmentError } from '../shipments/duck/slice.js';
+import { cleanHomeState } from '../home/duck/slice.js';
+import { cleanClientState } from '../clients/duck/slice.js';
+import { cleanProductState } from '../products/duck/slice.js';
+import { cleanUserState } from '../users/duck/slice.js';
+import { cleanShipmentState } from '../shipments/duck/slice.js';
 
 const {
     errorMessages
@@ -73,11 +73,11 @@ const OrderContainer = React.memo(function OrderContainer() {
     useEffect(() => {
         return () => {
             if (errors.length > 0) {
-                dispatch(cleanHomeError());
-                dispatch(cleanUserError());
-                dispatch(cleanClientError());
-                dispatch(cleanProductError());
-                dispatch(cleanShipmentError());
+                dispatch(cleanHomeState());
+                dispatch(cleanUserState());
+                dispatch(cleanClientState());
+                dispatch(cleanProductState());
+                dispatch(cleanShipmentState());
             }
             dispatch(cleanCurrentOrderId());
         }
