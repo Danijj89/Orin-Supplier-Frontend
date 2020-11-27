@@ -74,7 +74,7 @@ const {
     errorMessages
 } = LANGUAGE.shipment.createShipment;
 
-export default function CreateShipment() {
+const CreateShipment = React.memo(function CreateShipment() {
     const classes = useStyles();
     const dispatch = useDispatch();
     const history = useHistory();
@@ -142,6 +142,8 @@ export default function CreateShipment() {
         }
     }, [register, chosenClient, initialOrderIds, clientIdToOrdersMap]);
 
+    // Note: initialize prev client to initial consignee in case it is an edit or else
+    // the first render will cause the useEffect to run
     const prevClient = useRef(initialConsignee || null);
     useEffect(() => {
         if (chosenClient && prevClient.current !== chosenClient) {
@@ -317,4 +319,6 @@ export default function CreateShipment() {
             />
         </Box>
     )
-}
+});
+
+export default CreateShipment;
