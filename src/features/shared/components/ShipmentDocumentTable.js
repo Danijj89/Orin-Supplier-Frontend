@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import Table from './table/Table.js';
 import { useSelector } from 'react-redux';
-import { selectShipmentDocuments } from '../../shipments/duck/selectors.js';
+import { selectShipmentDocumentsField } from '../../shipments/duck/selectors.js';
 import { LANGUAGE } from '../../../app/utils/constants.js';
 import { GetApp as IconDownload } from '@material-ui/icons';
 import { IconButton } from '@material-ui/core';
@@ -18,7 +18,7 @@ const {
 
 const ShipmentDocumentTable = React.memo(function ShipmentDocumentTable(
     { shipmentId, maxEmptyRows, className }) {
-    const documents = useSelector(state => selectShipmentDocuments(state, shipmentId));
+    const documents = useSelector(state => selectShipmentDocumentsField(state, shipmentId));
     const usersMap = useSelector(selectUsersMap);
 
     const onDownload = useCallback(

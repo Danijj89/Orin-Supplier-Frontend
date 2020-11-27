@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { Paper } from '@material-ui/core';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { LANGUAGE } from '../../app/utils/constants.js';
@@ -19,15 +19,16 @@ const useStyles = makeStyles((theme) => ({
 
 const { newShipmentButtonLabel } = LANGUAGE.shipment.overview;
 
-export default function ShipmentOverview() {
+const ShipmentOverview = React.memo(function ShipmentOverview() {
     const classes = useStyles();
     const history = useHistory();
+    const location = useLocation();
     const dispatch = useDispatch();
 
     const onNewOrderClick = () => {
         dispatch(cleanNewShipment());
-        history.push('/home/shipments/new');
-    }
+        history.push(`${location.pathname}/new`);
+    };
 
     return (
         <Paper className={ classes.shipmentOverviewRoot }>
@@ -40,5 +41,7 @@ export default function ShipmentOverview() {
             <ShipmentsTable/>
         </Paper>
     )
-}
+});
+
+export default ShipmentOverview;
 

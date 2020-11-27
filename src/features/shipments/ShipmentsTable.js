@@ -1,5 +1,5 @@
-import React from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useCallback, useMemo } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectAllShipments } from './duck/selectors.js';
 import Table from '../shared/components/table/Table.js';
@@ -7,21 +7,24 @@ import { LANGUAGE } from '../../app/utils/constants.js';
 
 const { tableHeadersMap } = LANGUAGE.shipment.overview.shipmentsTable;
 
-export default function ShipmentsTable() {
+const ShipmentsTable = React.memo(function ShipmentsTable() {
     const history = useHistory();
+    const location = useLocation();
     const shipments = useSelector(selectAllShipments);
 
-    const onRowClick = (params) => history.push(`/home/shipments/${ params.id }`)
+    const onRowClick = useCallback(
+        (params) => history.push(`${location.pathname}/${ params.id }`),
+    [history, location.pathname]);
 
-    const columns = [
+    const columns = useMemo(() => [
         { field: 'id', hide: true },
         { field: 'consigneeName', headerName: tableHeadersMap.consigneeName }
-    ];
+    ], []);
 
-    const rows = shipments.filter(s => s.active).map(shipment => ({
+    const rows = useMemo(() => shipments.map(shipment => ({
         id: shipment._id,
         consigneeName: shipment.consigneeAdd.name
-    }));
+    })), [shipments]);
 
     return (
         <Table
@@ -30,4 +33,6 @@ export default function ShipmentsTable() {
             onRowClick={ onRowClick }
         />
     )
-}
+});
+
+export default ShipmentsTable;
