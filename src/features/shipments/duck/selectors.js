@@ -12,7 +12,6 @@ export const selectShipmentDataStatus = state => state.shipments.dataStatus;
 export const selectShipmentError = state => state.shipments.error;
 export const selectCurrentShipmentId = state => state.shipments.currentShipmentId;
 export const selectShipmentDocumentsField = (state, id) => state.shipments.entities[id].documents;
-export const selectShipmentItemsField = (state, id) => state.shipments.entities[id]?.items;
 
 export const selectOrderToShipmentItemsQuantityMap = createSelector(
     selectAllActiveOrders,
@@ -33,8 +32,8 @@ export const selectOrderToShipmentItemsQuantityMap = createSelector(
 );
 
 export const selectShipmentOrderIds = createSelector(
-    selectShipmentItemsField,
-    items => items.reduce((acc, item) => {
+    selectShipmentById,
+    shipment => shipment?.items.reduce((acc, item) => {
         if (!acc.includes(item.order)) acc.push(item.order);
         return acc;
     }, [])

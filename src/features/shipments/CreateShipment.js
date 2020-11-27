@@ -142,12 +142,9 @@ export default function CreateShipment() {
         }
     }, [register, chosenClient, initialOrderIds, clientIdToOrdersMap]);
 
-    const isDataReady = useRef(false);
-    const prevClient = useRef(null);
+    const prevClient = useRef(initialConsignee || null);
     useEffect(() => {
-        if (Object.keys(clientIdToActiveOrdersMap).length > 0) {
-            isDataReady.current = true;
-        } else if (isDataReady.current && chosenClient && prevClient.current !== chosenClient) {
+        if (chosenClient && prevClient.current !== chosenClient) {
             setClientAddresses(chosenClient.addresses);
             setValue('consigneeAdd', null);
             setClientOrders(clientIdToActiveOrdersMap[chosenClient._id]);
