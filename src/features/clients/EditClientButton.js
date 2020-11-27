@@ -1,11 +1,10 @@
 import React, { useCallback, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Box } from '@material-ui/core';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import ClientDialog from '../shared/forms/ClientDialog.js';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import { deleteClient, updateClient } from './duck/thunks.js';
-import { selectAllActiveUsers } from '../users/duck/selectors.js';
 
 const {
     buttonLabel,
@@ -15,7 +14,6 @@ const {
 
 const EditClientButton = React.memo(function EditClientButton({ client, className }) {
     const dispatch = useDispatch();
-    const users = useSelector(selectAllActiveUsers);
     const [isEdit, setIsEdit] = useState(false);
 
     const onEdit = () => setIsEdit(true);
@@ -42,7 +40,6 @@ const EditClientButton = React.memo(function EditClientButton({ client, classNam
             </ThemedButton>
             <ClientDialog
                 client={ client }
-                users={ users }
                 isOpen={ isEdit }
                 titleLabel={ dialogTitleLabel }
                 submitLabel={ dialogSubmitLabel }

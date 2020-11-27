@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectOrderById, selectOrderDataStatus, selectOrderError } from './duck/selectors.js';
-import { determineStatus } from '../shared/utils/state.js';
+import { determineStatus, getErrors } from '../shared/utils/state.js';
 import { selectCompanyId, selectHomeError, selectHomeDataStatus } from '../home/duck/selectors.js';
 import ErrorPage from '../shared/components/ErrorPage.js';
 import Loader from '../shared/components/Loader.js';
@@ -18,6 +18,11 @@ import { useParams } from 'react-router-dom';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import { selectShipmentDataStatus, selectShipmentError } from '../shipments/duck/selectors.js';
 import { fetchShipments } from '../shipments/duck/thunks.js';
+import { cleanHomeError } from '../home/duck/slice.js';
+import { cleanClientError } from '../clients/duck/slice.js';
+import { cleanProductError } from '../products/duck/slice.js';
+import { cleanUserError } from '../users/duck/slice.js';
+import { cleanShipmentError } from '../shipments/duck/slice.js';
 
 const {
     errorMessages
@@ -47,7 +52,7 @@ const OrderContainer = React.memo(function OrderContainer() {
         productDataStatus,
         shipmentDataStatus
     );
-    const errors = [orderError, homeError, userError, clientError, productError, shipmentError];
+    const errors = getErrors(orderError, homeError, userError, clientError, productError, shipmentError);
 
     const companyId = useSelector(selectCompanyId);
     const order = useSelector(state => selectOrderById(state, id));
@@ -66,8 +71,17 @@ const OrderContainer = React.memo(function OrderContainer() {
     }, [dispatch, orderDataStatus, companyId]);
 
     useEffect(() => {
-        return () => dispatch(cleanCurrentOrderId());
-    }, [dispatch]);
+        return () => {
+            if (errors.length > 0) {
+                dispatch(cleanHomeError());
+                dispatch(cleanUserError());
+                dispatch(cleanClientError());
+                dispatch(cleanProductError());
+                dispatch(cleanShipmentError());
+            }
+            dispatch(cleanCurrentOrderId());
+        }
+    }, [dispatch, errors.length]);
 
     return (
         <>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import InfoCard from '../shared/wrappers/InfoCard.js';
 import { dateToLocaleDate, formatAddress, formatCurrency } from '../shared/utils/format.js';
@@ -8,6 +8,8 @@ import { selectUserById } from '../users/duck/selectors.js';
 import EditOrderDetailsButton from './EditOrderDetailsButton.js';
 import { Grid } from '@material-ui/core';
 import DividerDataDisplay from '../shared/wrappers/DividerDisplay.js';
+import { selectOrderById } from './duck/selectors.js';
+import { useParams } from 'react-router-dom';
 
 const {
     titleLabel,
@@ -25,25 +27,28 @@ const {
     totalLabel
 } = LANGUAGE.order.order.orderDetails.detailsInfoCard;
 
-export default function DetailsInfoCard({ order }) {
+export default function DetailsInfoCard() {
+    const { id: orderId } = useParams();
+    const order = useSelector(state => selectOrderById(state, orderId));
     const createdBy = useSelector(state => selectUserById(state, order.createdBy));
 
-    const leftData = [
+    const leftData = useMemo(() => [
         { label: orderReferenceLabel, value: order.ref },
         { label: companyLabel, value: formatAddress(order.fromAdd) },
         { label: dateLabel, value: dateToLocaleDate(order.date) },
         { label: crdLabel, value: dateToLocaleDate(order.crd) },
         { label: incotermLabel, value: order.incoterm },
         { label: quantityLabel, value: UnitCounter.stringRep(order.totalQ) }
-    ];
-    const rightData = [
+    ], [order.ref, order.fromAdd, order.date, order.crd, order.incoterm, order.totalQ]);
+
+    const rightData = useMemo(() => [
         { label: clientReferenceLabel, value: order.clientRef },
         { label: clientLabel, value: formatAddress(order.toAdd) },
-        { label: authorLabel, value: createdBy?.name },
+        { label: authorLabel, value: createdBy.name },
         { label: realCrdLabel, value: dateToLocaleDate(order.realCrd) },
         { label: paymentMethodLabel, value: order.pay },
         { label: totalLabel, value: formatCurrency(order.currency, order.totalA) }
-    ];
+    ], [order.clientRef, order.toAdd, order.realCrd, order.pay, order.currency, order.totalA, createdBy.name]);
 
     return (
         <InfoCard

@@ -17,7 +17,7 @@ export default function OrdersTable() {
     const location = useLocation();
     const orders = useSelector(selectAllActiveOrders);
 
-    const onRowClick = (params) => history.push(`${ location.pathname }/${ params.id }`);
+    const onRowClick = (params) => history.push(`${ location.pathname }/${ params.id }?tab=details`);
 
     const onNotesSubmit = useCallback(
         (orderId, data) => dispatch(updateOrder({ id: orderId, update: data })),

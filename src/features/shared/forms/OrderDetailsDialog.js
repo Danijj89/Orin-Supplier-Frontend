@@ -1,9 +1,12 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import FormDialog from '../wrappers/FormDialog.js';
 import { useForm } from 'react-hook-form';
 import { LANGUAGE } from '../../../app/utils/constants.js';
 import RHFOrderDetails from '../rhf/forms/RHFOrderDetails.js';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
+import { selectCompanyActiveAddresses, selectCompanyAddress, selectCompanyPorts } from '../../home/duck/selectors.js';
+import { selectClientAddress, selectClientById, selectClientOptions } from '../../clients/duck/selectors.js';
 
 const {
     deleteMessage
@@ -34,55 +37,51 @@ const OrderDetailsDialog = React.memo(function OrderDetailsDialog(
         onCancel,
         submitLabel,
         order,
-        companyAddresses,
-        companyPorts,
-        clientsMap,
         titleLabel,
         onDelete
     }) {
+    const companyAddresses = useSelector(selectCompanyActiveAddresses);
+    const companyAddress = useSelector(state => selectCompanyAddress(state, order.fromAdd.addressId));
+    const companyPorts = useSelector(selectCompanyPorts);
+    const clients = useSelector(
+        state => selectClientOptions(state,
+            { clientId: order.to, addressIds: [order.toAdd, order.shipAdd] }
+        )
+    );
+    const client = useSelector(state => selectClientById(state, order.to));
+    const clientAddress = useSelector(
+        state => selectClientAddress(state,
+            { clientId: order.to, addressId: order.toAdd.addressId }
+        )
+    );
+    const clientShipAddress = useSelector(
+        state => selectClientAddress(state,
+            { clientId: order.to, addressId: order.shipAdd.addressId }
+        )
+    );
 
     const rhfMethods = useForm({
-        mode: 'onSubmit'
-    });
-    const { register, control, setValue, getValues, errors, handleSubmit, reset } = rhfMethods;
-
-    const initialCompanyAddress = companyAddresses.find(a => a._id === order.fromAdd?.addressId);
-    const client = order.to ? clientsMap[order.to] : null;
-    const initialClientAddress = client
-        ? client.addresses.find(a => a._id === order.toAdd?.addressId)
-        : null;
-    const initialClientShipAddress = client
-        ? client.addresses.find(a => a._id === order.shipAdd?.addressId)
-        : null;
-
-    useEffect(() => {
-        reset({
+        mode: 'onSubmit',
+        defaultValues: {
             [orderDetailsFieldNames.ref]: order.ref,
             [orderDetailsFieldNames.archived]: order.archived,
-            [orderDetailsFieldNames.fromAdd]: initialCompanyAddress,
+            [orderDetailsFieldNames.fromAdd]: companyAddress,
             [orderDetailsFieldNames.to]: client,
-            [orderDetailsFieldNames.toAdd]: initialClientAddress,
+            [orderDetailsFieldNames.toAdd]: clientAddress,
             [orderDetailsFieldNames.incoterm]: order.incoterm,
             [orderDetailsFieldNames.crd]: order.crd || null,
             [orderDetailsFieldNames.realCrd]: order.realCrd || null,
             [orderDetailsFieldNames.clientRef]: order.clientRef,
-            [orderDetailsFieldNames.shipAdd]: initialClientShipAddress,
+            [orderDetailsFieldNames.shipAdd]: clientShipAddress,
             [orderDetailsFieldNames.pol]: order.pol || null,
             [orderDetailsFieldNames.pod]: order.pod || null,
             [orderDetailsFieldNames.pay]: order.pay,
             [orderDetailsFieldNames.del]: order.del,
             [orderDetailsFieldNames.carrier]: order.carrier
-        });
-    }, [
-        reset,
-        order, 
-        initialClientAddress,
-        initialCompanyAddress,
-        initialClientShipAddress,
-        client
-    ]);
-
-    const onFormSubmit = data => onSubmit(data);
+        },
+        shouldUnregister: false
+    });
+    const { register, control, setValue, errors, handleSubmit } = rhfMethods;
 
     return (
         <FormDialog
@@ -90,7 +89,7 @@ const OrderDetailsDialog = React.memo(function OrderDetailsDialog(
             titleLabel={ titleLabel }
             submitLabel={ submitLabel }
             onCancel={ onCancel }
-            onSubmit={ handleSubmit(onFormSubmit) }
+            onSubmit={ handleSubmit(onSubmit) }
             onDelete={ onDelete }
             deleteMessage={ deleteMessage }
         >
@@ -98,11 +97,10 @@ const OrderDetailsDialog = React.memo(function OrderDetailsDialog(
                 rhfRegister={ register }
                 rhfErrors={ errors }
                 rhfControl={ control }
-                rhfGetValues={ getValues }
                 rhfSetValue={ setValue }
                 companyAddresses={ companyAddresses }
                 companyPorts={ companyPorts }
-                clientsMap={ clientsMap }
+                clients={ clients }
                 fieldNames={ orderDetailsFieldNames }
                 isEdit
             />
@@ -117,9 +115,6 @@ OrderDetailsDialog.propTypes = {
     submitLabel: PropTypes.string.isRequired,
     titleLabel: PropTypes.string.isRequired,
     order: PropTypes.object,
-    companyAddresses: PropTypes.array.isRequired,
-    companyPorts: PropTypes.array.isRequired,
-    clientsMap: PropTypes.object.isRequired,
     onDelete: PropTypes.func
 };
 

@@ -3,9 +3,7 @@ import { Box } from '@material-ui/core';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import OrderDetailsDialog from '../shared/forms/OrderDetailsDialog.js';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectCompanyActiveAddresses, selectCompanyPorts } from '../home/duck/selectors.js';
-import { selectClientsMap } from '../clients/duck/selectors.js';
+import { useDispatch } from 'react-redux';
 import { deleteOrder, updateOrder } from './duck/thunks.js';
 import { addressToDocAddress } from '../shared/utils/entityConversion.js';
 
@@ -17,9 +15,6 @@ const {
 
 export default function EditOrderDetailsButton({ order, className }) {
     const dispatch = useDispatch();
-    const companyAddresses = useSelector(selectCompanyActiveAddresses);
-    const companyPorts = useSelector(selectCompanyPorts);
-    const clientsMap = useSelector(selectClientsMap);
     const [isEdit, setIsEdit] = useState(false);
 
     const onEdit = () => setIsEdit(true);
@@ -32,7 +27,7 @@ export default function EditOrderDetailsButton({ order, className }) {
         data.fromAdd = addressToDocAddress(data.fromAdd);
         data.toAdd = addressToDocAddress(data.toAdd);
         if (data.shipAdd) data.shipAdd = addressToDocAddress(data.shipAdd);
-        dispatch(updateOrder({ id: order._id, update: data }));
+        dispatch(updateOrder({ orderId: order._id, update: data }));
         setIsEdit(false);
     };
 
@@ -45,9 +40,6 @@ export default function EditOrderDetailsButton({ order, className }) {
             </ThemedButton>
             <OrderDetailsDialog
                 order={ order }
-                companyAddresses={ companyAddresses }
-                companyPorts={ companyPorts }
-                clientsMap={ clientsMap }
                 isOpen={ isEdit }
                 titleLabel={ dialogTitleLabel }
                 submitLabel={ dialogSubmitLabel }

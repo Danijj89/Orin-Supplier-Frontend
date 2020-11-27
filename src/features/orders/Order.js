@@ -1,13 +1,12 @@
-import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React from 'react';
+import { useLocation, useHistory } from 'react-router-dom';
 import { Paper, Box } from '@material-ui/core';
-import { useSelector } from 'react-redux';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import OrderDetails from './OrderDetails.js';
-import { selectOrderById } from './duck/selectors.js';
 import OrderDocuments from './OrderDocuments.js';
 import { makeStyles } from '@material-ui/core/styles';
 import NavTabs from '../shared/components/NavTabs.js';
+import queryString from 'query-string';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -24,12 +23,15 @@ const useStyles = makeStyles((theme) => ({
 
 const { tabsLabelsMap } = LANGUAGE.order.order;
 
-export default function Order() {
+const Order = React.memo(function Order() {
     const classes = useStyles();
-    const { id } = useParams();
-    const order = useSelector(state => selectOrderById(state, id));
+    const history = useHistory();
+    const location = useLocation();
+    const { tab } = queryString.parse(location.search);
+    const tabValue = tab || 'details';
 
-    const [tabValue, setTabValue] = useState('details');
+    const setTabValue = (newValue) =>
+        history.push(`${location.pathname}?tab=${newValue}`);
 
     return (
         <Box className={ classes.root }>
@@ -42,10 +44,12 @@ export default function Order() {
                 />
             </Paper>
             { tabValue === 'details' &&
-            <OrderDetails order={ order }/>
+            <OrderDetails />
             }
-            { tabValue === 'documents' && <OrderDocuments order={ order }/> }
+            { tabValue === 'documents' && <OrderDocuments/> }
         </Box>
     )
-}
+});
+
+export default Order;
 

@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const PopoverNotes = React.memo(function NotesCommentBox({ notes, onSubmit }) {
+const PopoverNotes = React.memo(function PopoverNotes({ notes, onSubmit }) {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = useState(null);
 
@@ -76,7 +76,7 @@ const PopoverNotes = React.memo(function NotesCommentBox({ notes, onSubmit }) {
 });
 
 PopoverNotes.propTypes = {
-    notes: PropTypes.string.isRequired,
+    notes: PropTypes.string,
     onSubmit: PropTypes.func.isRequired
 };
 

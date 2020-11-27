@@ -228,6 +228,8 @@ export default function CreateShipment() {
                             getOptionSelected={ (option, value) => option._id === value._id }
                             required={ errorMessages.missingSupplierAddress }
                             error={ !!errors.sellerAdd }
+                            rows={ 4 }
+                            rowsMax={ 8 }
                         />
                         <RHFAutoComplete
                             rhfControl={ control }
@@ -248,6 +250,8 @@ export default function CreateShipment() {
                             getOptionSelected={ (option, value) => option._id === value._id }
                             required={ errorMessages.missingConsigneeAddress }
                             error={ !!errors.consigneeAdd }
+                            rows={ 4 }
+                            rowsMax={ 8 }
                         />
                     </FormContainer>
                     <Box component="ul" className={ classes.chipContainer }>

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import { determineStatus, getErrors } from '../shared/utils/state.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectClientById, selectClientDataStatus, selectClientError } from './duck/selectors.js';
@@ -27,6 +27,7 @@ const ClientContainer = React.memo(function ClientContainer() {
 
     const companyId = useSelector(selectCompanyId);
     const client = useSelector(state => selectClientById(state, id));
+    const isClientActive = useMemo(() => client?.active === true, [client]);
 
     const fetched = useRef(false);
     useEffect(() => {
@@ -49,10 +50,10 @@ const ClientContainer = React.memo(function ClientContainer() {
 
     return (
         <>
-            { client?.active === false && <Redirect to={ '/home/clients' }/> }
+            { !isClientActive && <Redirect to={ '/home/clients' }/> }
             { status === 'REJECTED' && <ErrorPage errors={ errors }/> }
             { status === 'PENDING' && <Loader/> }
-            { status === 'FULFILLED' && <Client />}
+            { isClientActive && status === 'FULFILLED' && <Client />}
         </>
     )
 });

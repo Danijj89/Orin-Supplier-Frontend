@@ -28,6 +28,8 @@ const shipmentsSlice = createSlice({
             state.currentShipmentId = null;
         },
         cleanShipmentError: (state, action) => {
+            state.dataStatus = 'IDLE';
+            state.status = 'IDLE';
             state.error = null;
         },
         cleanShipmentStatus: (state, action) => {

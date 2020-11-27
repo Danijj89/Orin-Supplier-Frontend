@@ -13,7 +13,18 @@ export const selectClientError = state => state.clients.error;
 
 export const selectAllActiveClients = createSelector(
     selectAllClients,
-    clients => clients.filter(c => c.active)
+    clients => {
+        const activeClients = [];
+        for (const client of clients) {
+            if (client.active) {
+                const newClient = { ...client };
+                newClient.addresses = newClient.addresses.filter(a => a.active);
+                newClient.contacts = newClient.contacts.filter(a => a.active);
+                activeClients.push(newClient);
+            }
+        }
+        return activeClients;
+    }
 );
 export const selectActiveClientsMap = createSelector(
     selectAllActiveClients,
@@ -23,9 +34,30 @@ export const selectActiveClientsMap = createSelector(
     }, {})
 );
 
+export const selectClientOptions = createSelector(
+    (state, props) => state.clients.entities[props.clientId],
+    (state, props) => props.addressIds,
+    selectAllActiveClients,
+    (client, addressIds, activeClients) => {
+        if (client && !activeClients.find(c => c._id === client._id)) {
+            const newClient = { ...client };
+            newClient.addresses = newClient.addresses.filter(a => a.active || addressIds.includes(a._id));
+            newClient.contacts = newClient.contacts.filter(a => a.active);
+            activeClients.push(newClient);
+        }
+        return activeClients;
+    }
+);
+
 export const selectClientActiveAddresses = createSelector(
     (state, id) => state.clients.entities[id].addresses,
     addresses => addresses.filter(a => a.active)
+);
+
+export const selectClientAddress = createSelector(
+    (state, props) => state.clients.entities[props.clientId],
+    (_, props) => props.addressId,
+    (client, addressId) => client.addresses.find(a => a._id === addressId)
 );
 
 

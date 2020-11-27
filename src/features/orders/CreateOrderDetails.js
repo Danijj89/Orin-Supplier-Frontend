@@ -6,7 +6,7 @@ import {
     selectCompanyActiveAddresses,
     selectCompanyPorts
 } from '../home/duck/selectors.js';
-import { selectActiveClientsMap, selectAllActiveClients } from '../clients/duck/selectors.js';
+import { selectAllActiveClients } from '../clients/duck/selectors.js';
 import Footer from '../shared/components/Footer.js';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import { cleanNewOrder } from './duck/slice.js';

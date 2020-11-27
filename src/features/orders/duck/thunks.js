@@ -29,9 +29,9 @@ export const fetchOrderById = createAsyncThunk('orders/fetchOrderById',
     });
 
 export const updateOrder = createAsyncThunk('orders/updateOrderDetails',
-    async ({ id, update }, { rejectWithValue }) => {
+    async ({ orderId, update }, { rejectWithValue }) => {
         try {
-            return await OrderService.updateOrder(id, update);
+            return await OrderService.updateOrder(orderId, update);
         } catch (err) {
             return rejectWithValue(err.response.data);
         }

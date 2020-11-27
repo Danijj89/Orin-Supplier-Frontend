@@ -4,27 +4,33 @@ export const selectCurrentCompany = state => state.home.company;
 export const selectHomeDataStatus = state => state.home.dataStatus;
 export const selectHomeStatus = state => state.home.status;
 export const selectHomeError = state => state.home.error;
+export const selectCompanyAddresses = state => state.home.company.addresses;
 
 export const selectCompanyActiveAddresses = createSelector(
-    state => state.home.company.addresses,
+    selectCompanyAddresses,
     addresses => addresses.filter(a => a.active)
 );
 export const selectCompanyLegalAddress = createSelector(
-    state => state.home.company.addresses,
+    selectCompanyAddresses,
     addresses => addresses.find(a => a.legal)
 );
 export const selectCompanyDefaultAddress = createSelector(
-    state => state.home.company.addresses,
+    selectCompanyAddresses,
     addresses => addresses.find(a => a.default)
 );
+
+export const selectCompanyAddress = createSelector(
+    selectCompanyAddresses,
+    (_, addressId) => addressId,
+    (addresses, addressId) => addresses.find(a => a._id === addressId)
+);
+
 export const selectCompanyAddressOptions = createSelector(
-    (state, addressId) =>
-        state.home.company.addresses.find(a => a._id === addressId),
     selectCompanyActiveAddresses,
-    (address, activeAddresses) => {
-        if (address && !activeAddresses.find(a => a._id === address._id))
-            activeAddresses.push(address);
-        return activeAddresses;
+    selectCompanyAddress,
+    (addresses, address) => {
+        if (address && !address.active) addresses.push(address);
+        return addresses;
     }
 );
 

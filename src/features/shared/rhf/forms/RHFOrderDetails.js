@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useWatch } from 'react-hook-form';
 import { LANGUAGE } from '../../../../app/utils/constants.js';
 import SideTextField from '../../inputs/SideTextField.js';
@@ -11,7 +11,6 @@ import PropTypes from 'prop-types';
 import NewClientAddressButton from '../../buttons/NewClientAddressButton.js';
 import RHFCheckBox from '../inputs/RHFCheckBox.js';
 import RHFAutoComplete from '../inputs/RHFAutoComplete.js';
-import { isAddressEqualToDocAddress } from '../../utils/addresses.js';
 import RHFDateField from '../inputs/RHFDateField.js';
 import Box from '@material-ui/core/Box';
 

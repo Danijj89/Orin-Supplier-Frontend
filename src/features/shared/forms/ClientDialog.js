@@ -7,7 +7,7 @@ import SideTextField from '../inputs/SideTextField.js';
 import { LANGUAGE } from '../../../app/utils/constants.js';
 import RHFAutoComplete from '../rhf/inputs/RHFAutoComplete.js';
 import { useSelector } from 'react-redux';
-import { selectUserById } from '../../users/duck/selectors.js';
+import { selectUserById, selectUserOptions } from '../../users/duck/selectors.js';
 
 const {
     nameLabel,
@@ -29,12 +29,13 @@ const ClientDialog = React.memo(function ClientDialog(
         onCancel,
         submitLabel,
         client,
-        users,
         titleLabel,
         isEdit,
         onDelete
     }) {
+    const users = useSelector(state => selectUserOptions(state, client?.assignedTo));
     const assignedTo = useSelector(state => selectUserById(state, client?.assignedTo));
+
     const { register, errors, handleSubmit, control, reset } = useForm({
         mode: 'onSubmit'
     });
@@ -127,7 +128,6 @@ ClientDialog.propTypes = {
     onCancel: PropTypes.func.isRequired,
     submitLabel: PropTypes.string.isRequired,
     titleLabel: PropTypes.string.isRequired,
-    users: PropTypes.array.isRequired,
     client: PropTypes.object,
     isEdit: PropTypes.bool,
     onDelete: PropTypes.func
