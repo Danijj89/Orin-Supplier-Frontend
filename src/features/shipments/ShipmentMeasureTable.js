@@ -3,11 +3,13 @@ import RHFMeasureTable, { validateItemMeasures } from '../shared/rhf/forms/RHFMe
 import { useForm } from 'react-hook-form';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { LANGUAGE } from '../../app/utils/constants.js';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { updateShipment } from './duck/thunks.js';
 import { measureTableItemsToItems } from '../shared/utils/entityConversion.js';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
+import { useParams } from 'react-router-dom';
+import { selectShipmentById } from './duck/selectors.js';
 
 const measureTableFieldNames = {
     custom1: 'plCustom1',
@@ -25,17 +27,19 @@ const measureTableFieldNames = {
 const useStyles = makeStyles((theme) => ({
     submitButton: {
          marginTop: theme.spacing(2),
-    },
-
+    }
 }));
 
 const {
     submitButtonLabel
 } = LANGUAGE.shipment.editShipment.measureTable;
 
-const ShipmentMeasureTable = React.memo(function ShipmentMeasureTable({ shipment }) {
+const ShipmentMeasureTable = React.memo(function ShipmentMeasureTable() {
     const classes = useStyles();
     const dispatch = useDispatch();
+    const { id: shipmentId } = useParams();
+    const shipment = useSelector(state => selectShipmentById(state, shipmentId));
+
     const { register, control, errors, setValue, getValues, handleSubmit } = useForm({
         mode: 'onSubmit',
         defaultValues: {
@@ -63,8 +67,8 @@ const ShipmentMeasureTable = React.memo(function ShipmentMeasureTable({ shipment
     }, [register]);
 
     const onSubmit = (data) => {
-        data.items = measureTableItemsToItems(data.items, shipment._id);
-        dispatch(updateShipment({ id: shipment._id, update: data }));
+        data.items = measureTableItemsToItems(data.items, shipmentId);
+        dispatch(updateShipment({ shipmentId, update: data }));
     };
 
     return (

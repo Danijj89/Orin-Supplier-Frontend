@@ -10,6 +10,8 @@ import { productTableItemsToItems } from '../shared/utils/entityConversion.js';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import { selectOrdersMap } from '../orders/duck/selectors.js';
+import { useParams } from 'react-router-dom';
+import { selectShipmentById } from './duck/selectors.js';
 
 const productTableFieldNames = {
     custom1: 'ciCustom1',
@@ -31,10 +33,11 @@ const {
     submitButtonLabel
 } = LANGUAGE.shipment.editShipment.productTable;
 
-const ShipmentProductTable = React.memo(function ShipmentProductTable(
-    { shipment }) {
+const ShipmentProductTable = React.memo(function ShipmentProductTable() {
     const classes = useStyles();
     const dispatch = useDispatch();
+    const { id: shipmentId } = useParams();
+    const shipment = useSelector(state => selectShipmentById(state, shipmentId));
     const products = useSelector(selectAllActiveProducts);
     const ordersMap = useSelector(selectOrdersMap);
     const { register, control, errors, setValue, getValues, handleSubmit } = useForm({
@@ -59,8 +62,8 @@ const ShipmentProductTable = React.memo(function ShipmentProductTable(
     }, [register]);
 
     const onSubmit = (data) => {
-        data.items = productTableItemsToItems(data.items, shipment._id);
-        dispatch(updateShipment({ id: shipment._id, update: data }));
+        data.items = productTableItemsToItems(data.items, shipmentId);
+        dispatch(updateShipment({ shipmentId, update: data }));
     };
 
     return (
