@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import Table from '../shared/components/table/Table.js';
 import StatusDisplay from '../orders/StatusDisplay.js';
 import UnitCounter from '../shared/classes/UnitCounter.js';
@@ -6,10 +6,10 @@ import { dateToLocaleDate } from '../shared/utils/format.js';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import { Box } from '@material-ui/core';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { selectOrdersByIds } from '../orders/duck/selectors.js';
 import { makeStyles } from '@material-ui/core/styles';
+import { selectShipmentOrders } from './duck/selectors.js';
 
 const useStyles = makeStyles((theme) => ({
     button: {
@@ -22,18 +22,20 @@ const {
     editOrdersButtonLabel
 } = LANGUAGE.shipment.shipment.shipmentOrdersTable;
 
-const ShipmentOrdersTable = React.memo(function ShipmentOrdersTable({ shipment }) {
+const ShipmentOrdersTable = React.memo(function ShipmentOrdersTable() {
     const classes = useStyles();
     const history = useHistory();
-    const orderIds = shipment.items.reduce((acc, item) => {
-        if (!acc.includes(item.order)) acc.push(item.order);
-        return acc;
-    }, []);
-    const orders = useSelector(state => selectOrdersByIds(state, orderIds));
-    const onEditOrders = () => history.push(`/home/shipments/shell?id=${ shipment._id }`);
-    const onRowClick = useCallback((params) => history.push(`/home/orders/${ params.id }`), [history]);
+    const { id: shipmentId } = useParams();
+    const orders = useSelector(state => selectShipmentOrders(state, shipmentId));
 
-    const columns = [
+    const onEditOrders = useCallback(
+        () => history.push(`/home/shipments/shell?id=${ shipmentId }`),
+        [history, shipmentId]);
+    const onRowClick = useCallback(
+        (params) => history.push(`/home/orders/${ params.id }`),
+        [history]);
+
+    const columns = useMemo(() => [
         { field: 'id', hide: true },
         { field: 'ref', headerName: tableHeaderLabelsMap.ref },
         { field: 'clientRef', headerName: tableHeaderLabelsMap.clientRef },
@@ -55,9 +57,9 @@ const ShipmentOrdersTable = React.memo(function ShipmentOrdersTable({ shipment }
             align: 'center'
         },
         { field: 'notes', headerName: tableHeaderLabelsMap.notes },
-    ];
+    ], []);
 
-    const rows = orders.map(order => ({
+    const rows = useMemo(() => orders.map(order => ({
         id: order._id,
         ref: order.ref,
         clientRef: order.clientRef,
@@ -67,7 +69,7 @@ const ShipmentOrdersTable = React.memo(function ShipmentOrdersTable({ shipment }
         production: order.status.production.status,
         qa: order.status.qa.status,
         notes: order.notes
-    }));
+    })), [orders]);
 
     return (
         <Box>

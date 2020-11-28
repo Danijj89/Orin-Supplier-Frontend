@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import InfoCard from '../shared/wrappers/InfoCard.js';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import ShipmentStatusPill from './ShipmentStatusPill.js';
@@ -6,6 +6,9 @@ import { dateToLocaleDate } from '../shared/utils/format.js';
 import { Grid } from '@material-ui/core';
 import DividerDataDisplay from '../shared/wrappers/DividerDisplay.js';
 import { makeStyles } from '@material-ui/core/styles';
+import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { selectShipmentById } from './duck/selectors.js';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -23,8 +26,10 @@ const {
     labels
 } = LANGUAGE.shipment.shipment.shipmentInfoCard;
 
-const ShipmentInfoCard = React.memo(function ShipmentInfoCard({ shipment }) {
+const ShipmentInfoCard = React.memo(function ShipmentInfoCard() {
     const classes = useStyles();
+    const { id } = useParams();
+    const shipment = useSelector(state => selectShipmentById(state, id));
 
     const leftData = useMemo(() => [
         { label: labels.status, value: <ShipmentStatusPill status={ shipment.status }/> },
@@ -50,20 +55,23 @@ const ShipmentInfoCard = React.memo(function ShipmentInfoCard({ shipment }) {
         shipment.eta
     ]);
 
+    const content = useCallback(
+        () =>
+            <Grid container>
+                <Grid container item sm={ 6 }>
+                    <DividerDataDisplay data={ leftData }/>
+                </Grid>
+                <Grid container item sm={ 6 }>
+                    <DividerDataDisplay data={ rightData }/>
+                </Grid>
+            </Grid>
+    , [leftData, rightData]);
+
     return (
         <InfoCard
             title={ titleLabel }
             className={ classes.root }
-            content={
-                <Grid container>
-                    <Grid container item sm={ 6 }>
-                        <DividerDataDisplay data={ leftData }/>
-                    </Grid>
-                    <Grid container item sm={ 6 }>
-                        <DividerDataDisplay data={ rightData }/>
-                    </Grid>
-                </Grid>
-            }
+            content={ content() }
         />
     )
 });

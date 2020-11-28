@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import Table from './table/Table.js';
 import { useSelector } from 'react-redux';
@@ -11,13 +11,15 @@ import { selectUsersMap } from '../../users/duck/selectors.js';
 import { dateToLocaleDate } from '../utils/format.js';
 import DocumentService from '../../api/DocumentService.js';
 import { downloadFile } from '../utils/file.js';
+import { useParams } from 'react-router-dom';
 
 const {
     tableHeaderLabelsMap
 } = LANGUAGE.shipment.shipment.shipmentDocumentTable;
 
 const ShipmentDocumentTable = React.memo(function ShipmentDocumentTable(
-    { shipmentId, maxEmptyRows, className }) {
+    { maxEmptyRows, className }) {
+    const { id: shipmentId } = useParams();
     const documents = useSelector(state => selectShipmentDocumentsField(state, shipmentId));
     const usersMap = useSelector(selectUsersMap);
 
@@ -28,7 +30,7 @@ const ShipmentDocumentTable = React.memo(function ShipmentDocumentTable(
         },
         [shipmentId]);
 
-    const columns = [
+    const columns = useMemo(() => [
         { field: 'id', hide: true },
         { field: 'ref', headerName: tableHeaderLabelsMap.ref },
         { field: 'type', headerName: tableHeaderLabelsMap.type },
@@ -60,16 +62,16 @@ const ShipmentDocumentTable = React.memo(function ShipmentDocumentTable(
             align: 'center',
             width: 50
         }
-    ];
+    ], [onDownload]);
 
-    const rows = documents.map(doc => ({
+    const rows = useMemo(() => documents.map(doc => ({
         id: doc._id,
         ref: doc.ref,
         type: documentTypesOptions[doc.type],
         createdAt: dateToLocaleDate(doc.createdAt),
         createdBy: usersMap[doc.createdBy]?.name,
         fileName: doc.fileName
-    }));
+    })), [documents, usersMap]);
 
     return (
         <Table
@@ -83,7 +85,6 @@ const ShipmentDocumentTable = React.memo(function ShipmentDocumentTable(
 });
 
 ShipmentDocumentTable.propTypes = {
-    shipmentId: PropTypes.string.isRequired,
     maxEmptyRows: PropTypes.number,
     className: PropTypes.string
 };

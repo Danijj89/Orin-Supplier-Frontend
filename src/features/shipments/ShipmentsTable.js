@@ -13,7 +13,7 @@ const ShipmentsTable = React.memo(function ShipmentsTable() {
     const shipments = useSelector(selectAllShipments);
 
     const onRowClick = useCallback(
-        (params) => history.push(`${location.pathname}/${ params.id }`),
+        (params) => history.push(`${location.pathname}/${ params.id }?tab=orders`),
     [history, location.pathname]);
 
     const columns = useMemo(() => [

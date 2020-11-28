@@ -1,9 +1,12 @@
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import InfoCard from '../shared/wrappers/InfoCard.js';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import { Grid } from '@material-ui/core';
 import DividerDataDisplay from '../shared/wrappers/DividerDisplay.js';
 import { makeStyles } from '@material-ui/core/styles';
+import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { selectShipmentById } from './duck/selectors.js';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -21,8 +24,10 @@ const {
     labels
 } = LANGUAGE.shipment.shipment.documentStatusCard;
 
-const DocumentStatusCard = React.memo(function DocumentStatusCard({ shipment }) {
+const DocumentStatusCard = React.memo(function DocumentStatusCard() {
     const classes = useStyles();
+    const { id } = useParams();
+    const shipment = useSelector(state => selectShipmentById(state, id));
 
     const data = useMemo(() => [
         { label: labels.docCutOff, value: shipment.docCutOff },
@@ -36,17 +41,20 @@ const DocumentStatusCard = React.memo(function DocumentStatusCard({ shipment }) 
         shipment.released
     ]);
 
+    const content = useCallback(
+        () =>
+            <Grid container>
+                <Grid container item md={7}>
+                    <DividerDataDisplay data={ data }/>
+                </Grid>
+            </Grid>
+    , [data]);
+
     return (
         <InfoCard
             title={ titleLabel }
             className={ classes.root }
-            content={
-                <Grid container>
-                    <Grid container item md={7}>
-                        <DividerDataDisplay data={ data }/>
-                    </Grid>
-                </Grid>
-            }
+            content={ content() }
         />
     )
 });

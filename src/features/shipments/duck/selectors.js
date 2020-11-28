@@ -1,6 +1,6 @@
 import { shipmentsAdapter } from './slice.js';
 import { createSelector } from '@reduxjs/toolkit';
-import { selectAllActiveOrders } from '../../orders/duck/selectors.js';
+import { selectAllActiveOrders, selectOrdersMap } from '../../orders/duck/selectors.js';
 
 export const {
     selectAll: selectAllShipments,
@@ -37,6 +37,19 @@ export const selectShipmentOrderIds = createSelector(
         if (!acc.includes(item.order)) acc.push(item.order);
         return acc;
     }, [])
+);
+
+export const selectShipmentOrders = createSelector(
+    selectShipmentById,
+    selectOrdersMap,
+    (shipment, ordersMap) => {
+        if (!shipment) return null;
+        const shipmentOrdersMap = shipment.items.reduce((map, item) => {
+            if (!map.hasOwnProperty(item.order)) map[item.order] = ordersMap[item.order];
+            return map;
+        }, {});
+        return Object.values(shipmentOrdersMap);
+    }
 );
 
 export const selectShipmentCommercialInvoices = createSelector(

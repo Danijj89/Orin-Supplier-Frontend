@@ -1,10 +1,8 @@
-import React, { useState } from 'react';
+import React, { useCallback } from 'react';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { Grid } from '@material-ui/core';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { LANGUAGE } from '../../app/utils/constants.js';
-import { useSelector } from 'react-redux';
-import { selectShipmentById } from './duck/selectors.js';
 import NavTabs from '../shared/components/NavTabs.js';
 import ShipmentOrdersTable from './ShipmentOrdersTable.js';
 import { makeStyles } from '@material-ui/core/styles';
@@ -42,28 +40,32 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function Shipment() {
+const Shipment = React.memo(function Shipment() {
     const classes = useStyles();
     const history = useHistory();
-    const { id } = useParams();
+    const { id: shipmentId } = useParams();
     const location = useLocation();
     const { tab } = queryString.parse(location.search);
-    const shipment = useSelector(state => selectShipmentById(state, id));
-    const [tabValue, setTabValue] = useState(tab || 'orders');
+    const tabValue = tab || 'orders';
 
-    const onEditShipmentInfo = () =>
-        history.push(`/home/shipments/edit/${ id }/details`);
+    const onTabChange = useCallback(
+        (newValue) => history.push(`${ location.pathname }?tab=${ newValue }`),
+        [history, location.pathname]);
+
+    const onEditShipmentInfo = useCallback(
+        () => history.push(`/home/shipments/${ shipmentId }/edit?tab=shipment`),
+        [history, shipmentId]);
 
     return (
         <Grid container className={ classes.root }>
-            <Grid item lg={ 6 } sm= {12}>
-                <ShipmentInfoCard shipment={ shipment }/>
+            <Grid item lg={ 6 } sm={ 12 }>
+                <ShipmentInfoCard/>
             </Grid>
-            <Grid item lg={ 6 } sm= {12}>
-                <DocumentStatusCard shipment={ shipment }/>
+            <Grid item lg={ 6 } sm={ 12 }>
+                <DocumentStatusCard/>
             </Grid>
             <Grid container item xs={ 12 } className={ classes.shipmentActions }>
-                <ThemedButton className={classes.editShipmentButton} onClick={ onEditShipmentInfo }>
+                <ThemedButton className={ classes.editShipmentButton } onClick={ onEditShipmentInfo }>
                     { editShipmentButtonLabel }
                 </ThemedButton>
                 <DocumentButton/>
@@ -73,13 +75,15 @@ export default function Shipment() {
                     <NavTabs
                         tabsLabelsMap={ tabsLabelsMap }
                         tabValue={ tabValue }
-                        onChange={ setTabValue }
+                        onChange={ onTabChange }
                         className={ classes.navTabs }
                     />
-                    { tabValue === 'orders' && <ShipmentOrdersTable shipment={ shipment }/> }
-                    { tabValue === 'documents' && <ShipmentDocumentTable shipmentId={ id }/> }
+                    { tabValue === 'orders' && <ShipmentOrdersTable /> }
+                    { tabValue === 'documents' && <ShipmentDocumentTable /> }
                 </Card>
             </Grid>
         </Grid>
     )
-}
+});
+
+export default Shipment;
