@@ -1,5 +1,5 @@
-import React from 'react';
-import { Redirect } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import logo from '../images/orinlogo.png';
 import { LANGUAGE } from './utils/constants.js';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,6 +12,7 @@ import loginImg from '../images/login.png';
 import { signIn } from './duck/thunks.js';
 import { selectAppError } from './duck/selectors.js';
 import { SESSION_USER } from './sessionKeys.js';
+import { cleanAppState } from './duck/slice.js';
 
 const {
     title, emailLabel, errorMessages,
@@ -75,9 +76,15 @@ const useStyles = makeStyles((theme) => ({
 
 export default function LoginPage() {
     const classes = useStyles();
+    const history = useHistory();
     const dispatch = useDispatch();
     const appError = useSelector(selectAppError);
-    const user = sessionStorage.getItem(SESSION_USER);
+    const sessionUser = sessionStorage.getItem(SESSION_USER);
+
+    useEffect(() => {
+        if (sessionUser) history.push('/home/settings?tab=account');
+        else dispatch(cleanAppState());
+    }, [history, dispatch, sessionUser]);
 
     const { register, errors, handleSubmit } = useForm({
         mode: 'onSubmit',
@@ -96,7 +103,6 @@ export default function LoginPage() {
 
     return (
         <Grid container className={ classes.container }>
-            { user && <Redirect to={ '/home/settings?tab=account' }/> }
             <Grid item xs={ 5 } className={ classes.leftPanel }>
                 <CardMedia className={ classes.logo } component="img" src={ logo } alt="Logo"/>
                 <Typography variant="h3">{ title }</Typography>

@@ -15,7 +15,7 @@ const appSlice = createSlice({
         cleanAppState: (state, action) => {
             state.status = 'IDLE';
             state.error = null;
-            state.userId = null;
+            state.user = null;
         }
     },
     extraReducers: {
