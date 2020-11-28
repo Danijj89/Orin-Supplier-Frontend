@@ -23,7 +23,7 @@ export const selectOrderToShipmentItemsQuantityMap = createSelector(
         }, {});
         shipments.forEach(shipment =>
             shipment.items.forEach(item => {
-                if (resultMap.hasOwnProperty(item.order))
+                if (item.order && resultMap.hasOwnProperty(item.order))
                     resultMap[item.order].push({ shipment: shipment._id, quantity: item.quantity});
             })
         );
@@ -37,7 +37,7 @@ export const selectShipmentOrders = createSelector(
     (ordersMap, shipment) => {
         if (!shipment || Object.keys(ordersMap).length === 0) return null;
         const shipmentOrdersMap = shipment.items.reduce((map, item) => {
-            if (!map.hasOwnProperty(item.order)) map[item.order] = ordersMap[item.order];
+            if (item.order && !map.hasOwnProperty(item.order)) map[item.order] = ordersMap[item.order];
             return map;
         }, {});
         return Object.values(shipmentOrdersMap);
