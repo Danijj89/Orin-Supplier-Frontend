@@ -31,19 +31,11 @@ export const selectOrderToShipmentItemsQuantityMap = createSelector(
     }
 );
 
-export const selectShipmentOrderIds = createSelector(
-    selectShipmentById,
-    shipment => shipment?.items.reduce((acc, item) => {
-        if (!acc.includes(item.order)) acc.push(item.order);
-        return acc;
-    }, [])
-);
-
 export const selectShipmentOrders = createSelector(
-    selectShipmentById,
     selectOrdersMap,
-    (shipment, ordersMap) => {
-        if (!shipment) return null;
+    selectShipmentById,
+    (ordersMap, shipment) => {
+        if (!shipment || Object.keys(ordersMap).length === 0) return null;
         const shipmentOrdersMap = shipment.items.reduce((map, item) => {
             if (!map.hasOwnProperty(item.order)) map[item.order] = ordersMap[item.order];
             return map;

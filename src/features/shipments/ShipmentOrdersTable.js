@@ -59,17 +59,20 @@ const ShipmentOrdersTable = React.memo(function ShipmentOrdersTable() {
         { field: 'notes', headerName: tableHeaderLabelsMap.notes },
     ], []);
 
-    const rows = useMemo(() => orders.map(order => ({
-        id: order._id,
-        ref: order.ref,
-        clientRef: order.clientRef,
-        totalQ: UnitCounter.stringRep(order.totalQ),
-        crd: dateToLocaleDate(order.crd),
-        del: order.del,
-        production: order.status.production.status,
-        qa: order.status.qa.status,
-        notes: order.notes
-    })), [orders]);
+    const rows = useMemo(() => {
+        if (!orders) return [];
+        return orders.map(order => ({
+            id: order._id,
+            ref: order.ref,
+            clientRef: order.clientRef,
+            totalQ: UnitCounter.stringRep(order.totalQ),
+            crd: dateToLocaleDate(order.crd),
+            del: order.del,
+            production: order.status.production.status,
+            qa: order.status.qa.status,
+            notes: order.notes
+        }));
+    }, [orders]);
 
     return (
         <Box>

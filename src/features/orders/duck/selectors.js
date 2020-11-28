@@ -33,22 +33,6 @@ export const selectActiveOrdersMap = createSelector(
     }, {})
 );
 
-export const selectOrdersByIds = createSelector(
-    selectAllOrders,
-    (_, ids) => ids,
-    (orders, ids) => orders.filter(order => ids.includes(order._id))
-);
-
-export const selectShipmentShellClientIdToOrdersMap = createSelector(
-    selectAllOrders,
-    orders => orders.reduce((map, order) => {
-        const enhancedOrder = { ...order, selected: false };
-        if (map.hasOwnProperty(enhancedOrder.to)) map[enhancedOrder.to].push(enhancedOrder);
-        else map[enhancedOrder.to] = [enhancedOrder];
-        return map;
-    }, {})
-);
-
 export const selectShipmentShellClientIdToActiveOrdersMap = createSelector(
     selectAllActiveAndUnarchivedOrders,
     orders => orders.reduce((map, order) => {

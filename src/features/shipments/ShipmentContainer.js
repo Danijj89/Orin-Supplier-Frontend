@@ -14,8 +14,7 @@ import { cleanHomeState } from '../home/duck/slice.js';
 import { cleanUserState } from '../users/duck/slice.js';
 import { cleanClientState } from '../clients/duck/slice.js';
 import { cleanProductState } from '../products/duck/slice.js';
-import { cleanShipmentState } from './duck/slice.js';
-import { cleanCurrentOrderId } from '../orders/duck/slice.js';
+import { cleanCurrentShipmentId, cleanShipmentState } from './duck/slice.js';
 import ErrorPage from '../shared/components/ErrorPage.js';
 
 const ShipmentContainer = React.memo(function ShipmentContainer() {
@@ -39,6 +38,7 @@ const ShipmentContainer = React.memo(function ShipmentContainer() {
         }
     }, [dispatch, companyId, shipmentDataStatus]);
 
+    const mounted = useRef(false);
     useEffect(() => {
         return () => {
             if (errors.length > 0) {
@@ -48,7 +48,8 @@ const ShipmentContainer = React.memo(function ShipmentContainer() {
                 dispatch(cleanProductState());
                 dispatch(cleanShipmentState());
             }
-            dispatch(cleanCurrentOrderId());
+            if (mounted.current) dispatch(cleanCurrentShipmentId());
+            mounted.current = false;
         }
     }, [dispatch, errors.length]);
 

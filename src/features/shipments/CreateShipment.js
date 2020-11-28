@@ -17,7 +17,6 @@ import {
     selectClientAddress
 } from '../clients/duck/selectors.js';
 import {
-    selectShipmentShellClientIdToOrdersMap,
     selectOrdersMap,
     selectShipmentShellClientIdToActiveOrdersMap
 } from '../orders/duck/selectors.js';
@@ -32,7 +31,7 @@ import ErrorMessages from '../shared/components/ErrorMessages.js';
 import {
     selectOrderToShipmentItemsQuantityMap,
     selectShipmentById,
-    selectShipmentOrderIds
+    selectShipmentOrders
 } from './duck/selectors.js';
 import { addressToDocAddress } from '../shared/utils/entityConversion.js';
 import RHFAutoComplete from '../shared/rhf/inputs/RHFAutoComplete.js';
@@ -79,9 +78,9 @@ const CreateShipment = React.memo(function CreateShipment() {
     const dispatch = useDispatch();
     const history = useHistory();
     const location = useLocation();
-    const { id } = queryString.parse(location.search);
+    const { id: shipmentId } = queryString.parse(location.search);
 
-    const shipment = useSelector(state => selectShipmentById(state, id));
+    const shipment = useSelector(state => selectShipmentById(state, shipmentId));
     const userId = useSelector(selectCurrentUserId);
     const companyId = useSelector(selectCompanyId);
 
@@ -89,7 +88,6 @@ const CreateShipment = React.memo(function CreateShipment() {
     const clients = useSelector(selectAllActiveClients);
 
     const ordersMap = useSelector(selectOrdersMap);
-    const clientIdToOrdersMap = useSelector(selectShipmentShellClientIdToOrdersMap);
     const clientIdToActiveOrdersMap = useSelector(selectShipmentShellClientIdToActiveOrdersMap);
     const orderShipmentItemMap = useSelector(selectOrderToShipmentItemsQuantityMap);
 
@@ -102,9 +100,9 @@ const CreateShipment = React.memo(function CreateShipment() {
             clientId: shipment?.consignee,
             addressId: shipment?.consigneeAdd.addressId
         }));
-    const initialOrderIds = useSelector(state => selectShipmentOrderIds(state, shipment?._id));
-
-    const isEdit = Boolean(id);
+    const initialShipmentOrders = useSelector(state => selectShipmentOrders(state, shipmentId));
+    const initialOrderIds = initialShipmentOrders?.map(order => order._id);
+    const isEdit = Boolean(shipmentId);
 
     const { register, control, errors, watch, setValue, handleSubmit } = useForm({
         mode: 'onSubmit',
@@ -129,18 +127,25 @@ const CreateShipment = React.memo(function CreateShipment() {
                 { validate: val => val.length > 0 || errorMessages.atLeastOneOrder });
             if (chosenClient) {
                 // Add the initial orders if this is edit including orders that might be inactive
-                setClientOrders(
-                    clientIdToOrdersMap[chosenClient._id].reduce((acc, order) => {
-                        if (initialOrderIds.includes(order._id)) {
-                            order.selected = true;
-                            acc.push(order);
-                        } else if (order.active) acc.push(order);
-                        return acc;
-                    }, []));
+                // setClientOrders(
+                //     clientIdToOrdersMap[chosenClient._id].reduce((acc, order) => {
+                //         if (initialOrderIds.includes(order._id)) {
+                //             order.selected = true;
+                //             acc.push(order);
+                //         } else if (order.active) acc.push(order);
+                //         return acc;
+                //     }, []));
+                const initialOrders = [...clientIdToActiveOrdersMap[chosenClient._id]];
+                for (const order of initialShipmentOrders) {
+                    const foundOrder = initialOrders.find(o => o._id === order._id);
+                    if (foundOrder) foundOrder.selected = true;
+                    else initialOrders.push({...order, selected: true});
+                }
+                setClientOrders(initialOrders);
             }
             mounted.current = true;
         }
-    }, [register, chosenClient, initialOrderIds, clientIdToOrdersMap]);
+    }, [register, chosenClient, clientIdToActiveOrdersMap, initialShipmentOrders]);
 
     // Note: initialize prev client to initial consignee in case it is an edit or else
     // the first render will cause the useEffect to run
@@ -178,9 +183,9 @@ const CreateShipment = React.memo(function CreateShipment() {
 
     const onPrevClick = useCallback(
         () => {
-            if (isEdit) history.push(`/home/shipments/${ id }`);
+            if (isEdit) history.push(`/home/shipments/${ shipmentId }`);
             else history.push('/home/shipments');
-        }, [history, id, isEdit]);
+        }, [history, shipmentId, isEdit]);
 
     const onSubmit = (data) => {
         data.seller = companyId;
