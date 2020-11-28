@@ -12,11 +12,11 @@ import { cleanOrderState } from './duck/slice.js';
 
 const OrderOverviewContainer = React.memo(function OrderOverviewContainer() {
     const dispatch = useDispatch();
-    const homeStatus = useSelector(selectHomeDataStatus);
+    const homeDataStatus = useSelector(selectHomeDataStatus);
     const homeError = useSelector(selectHomeError);
     const orderDataStatus = useSelector(selectOrderDataStatus);
     const orderError = useSelector(selectOrderError);
-    const status = determineStatus(orderDataStatus, homeStatus);
+    const status = determineStatus(orderDataStatus, homeDataStatus);
     const errors = getErrors(orderError, homeError);
 
     const companyId = useSelector(selectCompanyId);

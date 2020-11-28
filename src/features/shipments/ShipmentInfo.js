@@ -1,8 +1,8 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectCompanyActiveAddresses, selectCompanyPorts } from '../home/duck/selectors.js';
-import { selectClientActiveAddresses } from '../clients/duck/selectors.js';
+import { selectCompanyActiveAddresses, selectCompanyAddress, selectCompanyPorts } from '../home/duck/selectors.js';
+import { selectClientActiveAddresses, selectClientAddress } from '../clients/duck/selectors.js';
 import { Grid } from '@material-ui/core';
 import { formatAddress } from '../shared/utils/format.js';
 import InfoCard from '../shared/wrappers/InfoCard.js';
@@ -19,6 +19,8 @@ import { addressToDocAddress } from '../shared/utils/entityConversion.js';
 import { makeStyles } from '@material-ui/core/styles';
 import RHFAutoComplete from '../shared/rhf/inputs/RHFAutoComplete.js';
 import RHFDateField from '../shared/rhf/inputs/RHFDateField.js';
+import { useParams } from 'react-router-dom';
+import { selectShipmentById } from './duck/selectors.js';
 
 const {
     partiesTitleLabel,
@@ -36,23 +38,38 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const ShipmentInfo = React.memo(function ShipmentInfo({ shipment }) {
+const ShipmentInfo = React.memo(function ShipmentInfo() {
     const classes = useStyles();
     const dispatch = useDispatch();
+    const { id: shipmentId } = useParams();
+    const shipment = useSelector(state => selectShipmentById(state, shipmentId));
     const sellerAddresses = useSelector(selectCompanyActiveAddresses);
     const consigneeAddresses = useSelector(state => selectClientActiveAddresses(state, shipment.consignee));
     const ports = useSelector(selectCompanyPorts);
 
+    const initialSellerAddress = useSelector(state => selectCompanyAddress(state, shipment.sellerAdd.addressId));
+    const initialConsigneeAddress = useSelector(
+        state => selectClientAddress(state, {
+            clientId: shipment.consignee,
+            addressId: shipment.consigneeAdd.addressId
+        }));
+    const initialShipAddress = useSelector(
+        state => selectClientAddress(state, {
+            clientId: shipment.consignee,
+            addressId: shipment?.shipAdd?.addressId
+        }));
+
     const { register, control, errors, handleSubmit } = useForm({
         mode: 'onSubmit',
         defaultValues: {
-            sellerAdd: sellerAddresses.find(a => a._id === shipment.sellerAdd.addressId),
-            consigneeAdd: consigneeAddresses.find(a => a._id === shipment.consigneeAdd.addressId),
-            shipAdd: consigneeAddresses.find(a => a._id === shipment.shipAdd?.addressId) || null,
+            sellerAdd: initialSellerAddress,
+            consigneeAdd: initialConsigneeAddress,
+            shipAdd: initialShipAddress || null,
             crd: shipment.crd || null,
             incoterm: shipment.incoterm || null,
             bolType: shipment.bolType || null,
             coo: shipment.coo,
+            clientRefs: shipment.clientRefs,
             del: shipment.del || null,
             pol: shipment.pol || null,
             pod: shipment.pod || null,
@@ -66,10 +83,7 @@ const ShipmentInfo = React.memo(function ShipmentInfo({ shipment }) {
         data.sellerAdd = addressToDocAddress(data.sellerAdd);
         data.consigneeAdd = addressToDocAddress(data.consigneeAdd);
         data.shipAdd = addressToDocAddress(data.shipAdd);
-        data.crd = data.crd?.toString();
-        data.eta = data.eta?.toString();
-        data.etd = data.etd?.toString();
-        dispatch(updateShipmentInfo({ id: shipment._id, ...data }));
+        dispatch(updateShipmentInfo({ shipmentId, update: data }));
     };
 
     return (
@@ -86,10 +100,11 @@ const ShipmentInfo = React.memo(function ShipmentInfo({ shipment }) {
                                 label={ formLabels.sellerAdd }
                                 options={ sellerAddresses }
                                 getOptionLabel={ address => formatAddress(address) }
-                                getOptionSelected={ (option, value) => option._id === value._id }
+                                getOptionSelected={ (option, value) => option._id === value._id || !value.active }
                                 error={ !!errors.sellerAdd }
                                 required={ errorMessages.missingSellerAdd }
-                                rows={ 8 }
+                                rows={ 6 }
+                                rowsMax={ 8 }
                             />
                         </Grid>
                         <Grid item xs={ 4 }>
@@ -99,10 +114,11 @@ const ShipmentInfo = React.memo(function ShipmentInfo({ shipment }) {
                                 label={ formLabels.consigneeAdd }
                                 options={ consigneeAddresses }
                                 getOptionLabel={ address => formatAddress(address) }
-                                getOptionSelected={ (option, value) => option._id === value._id }
+                                getOptionSelected={ (option, value) => option._id === value._id || !value.active }
                                 error={ !!errors.consigneeAdd }
                                 required={ errorMessages.missingConsigneeAdd }
-                                rows={ 8 }
+                                rows={ 6 }
+                                rowsMax={ 8 }
                             />
                         </Grid>
                         <Grid item xs={ 4 }>
@@ -112,8 +128,9 @@ const ShipmentInfo = React.memo(function ShipmentInfo({ shipment }) {
                                 label={ formLabels.shipAdd }
                                 options={ consigneeAddresses }
                                 getOptionLabel={ address => formatAddress(address) }
-                                getOptionSelected={ (option, value) => option._id === value._id }
-                                rows={ 8 }
+                                getOptionSelected={ (option, value) => option._id === value._id || !value.active }
+                                rows={ 6 }
+                                rowsMax={ 8 }
                             />
                         </Grid>
                     </Grid>
@@ -135,6 +152,11 @@ const ShipmentInfo = React.memo(function ShipmentInfo({ shipment }) {
                                 name="incoterm"
                                 label={ formLabels.incoterm }
                                 options={ incotermOptions }
+                            />
+                            <SideTextField
+                                label={ formLabels.clientRefs }
+                                name="clientRefs"
+                                inputRef={ register }
                             />
                         </Grid>
                         <Grid container item justify="flex-end" xs={ 6 }>

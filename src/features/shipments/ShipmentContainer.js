@@ -21,10 +21,10 @@ const ShipmentContainer = React.memo(function ShipmentContainer() {
     const dispatch = useDispatch();
     const shipmentDataStatus = useSelector(selectShipmentDataStatus);
     const shipmentError = useSelector(selectShipmentError);
-    const homeStatus = useSelector(selectHomeDataStatus);
+    const homeDataStatus = useSelector(selectHomeDataStatus);
     const homeError = useSelector(selectHomeError);
 
-    const status = determineStatus(shipmentDataStatus, homeStatus);
+    const status = determineStatus(shipmentDataStatus, homeDataStatus);
     const errors = getErrors(shipmentError, homeError);
 
     const companyId = useSelector(selectCompanyId);
@@ -38,7 +38,6 @@ const ShipmentContainer = React.memo(function ShipmentContainer() {
         }
     }, [dispatch, companyId, shipmentDataStatus]);
 
-    const mounted = useRef(false);
     useEffect(() => {
         return () => {
             if (errors.length > 0) {
@@ -48,8 +47,7 @@ const ShipmentContainer = React.memo(function ShipmentContainer() {
                 dispatch(cleanProductState());
                 dispatch(cleanShipmentState());
             }
-            if (mounted.current) dispatch(cleanCurrentShipmentId());
-            mounted.current = false;
+            dispatch(cleanCurrentShipmentId());
         }
     }, [dispatch, errors.length]);
 

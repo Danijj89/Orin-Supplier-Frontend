@@ -440,6 +440,7 @@ export const ENGLISH = {
                     clientRef: 'Client Order Ref.',
                     bolType: 'Bill of Landing Type',
                     coo: 'Country of Manufacture',
+                    clientRefs: 'Client References',
                     del: 'Delivery Method',
                     pol: 'Port of Loading',
                     pod: 'Port of Discharge',

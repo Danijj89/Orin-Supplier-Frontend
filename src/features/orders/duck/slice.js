@@ -37,14 +37,14 @@ const ordersSlice = createSlice({
     },
     extraReducers: {
         [fetchOrders.pending]: (state, action) => {
-            state.status = 'PENDING';
+            state.dataStatus = 'PENDING';
         },
         [fetchOrders.fulfilled]: (state, action) => {
             state.dataStatus = 'FULFILLED';
             ordersAdapter.upsertMany(state, action.payload);
         },
         [fetchOrders.rejected]: (state, action) => {
-            state.status = 'REJECTED';
+            state.dataStatus = 'REJECTED';
             state.error = action.payload.message;
         },
         [createOrder.pending]: (state, action) => {

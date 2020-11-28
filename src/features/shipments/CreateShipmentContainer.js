@@ -19,14 +19,14 @@ import ErrorPage from '../shared/components/ErrorPage.js';
 export default function CreateShipmentContainer() {
     const dispatch = useDispatch();
 
-    const homeStatus = useSelector(selectHomeDataStatus);
+    const homeDataStatus = useSelector(selectHomeDataStatus);
     const homeError = useSelector(selectHomeError);
     const clientDataStatus = useSelector(selectClientDataStatus);
     const clientError = useSelector(selectClientError);
     const orderDataStatus = useSelector(selectOrderDataStatus);
     const orderError = useSelector(selectOrderError);
 
-    const status = determineStatus(homeStatus, clientDataStatus, orderDataStatus);
+    const status = determineStatus(homeDataStatus, clientDataStatus, orderDataStatus);
     const errors = getErrors(homeError, clientError, orderError);
 
     const companyId = useSelector(selectCompanyId);

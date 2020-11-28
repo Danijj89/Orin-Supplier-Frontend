@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useCallback } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 import { Box, Typography } from '@material-ui/core';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import NavTabs from '../shared/components/NavTabs.js';
@@ -20,6 +20,7 @@ import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
 import DeleteButton from '../shared/buttons/DeleteButton.js';
 import { deleteShipment } from './duck/thunks.js';
+import queryString from 'query-string';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -49,34 +50,31 @@ const EditShipment = React.memo(function EditShipment() {
     const classes = useStyles();
     const dispatch = useDispatch();
     const history = useHistory();
-    const { id } = useParams();
+    const { id: shipmentId } = useParams();
+    const location = useLocation();
+    const { tab } = queryString.parse(location.search);
+    const tabValue = tab || 'shipment';
     const shipmentStatus = useSelector(selectShipmentStatus);
     const shipmentError = useSelector(selectShipmentError);
-    const shipment = useSelector(state => selectShipmentById(state, id));
-
-    const [tabValue, setTabValue] = useState('shipment');
-
-    useEffect(() => {
-        dispatch(cleanShipmentStatus());
-    }, [dispatch]);
+    const shipment = useSelector(state => selectShipmentById(state, shipmentId));
 
     const onTabChange = useCallback(
-        (newTab) => {
-            setTabValue(newTab);
+        (newValue) => {
             dispatch(cleanShipmentStatus());
+            history.push(`${ location.pathname }?tab=${ newValue }`);
         },
-        [dispatch]);
+        [dispatch, history, location.pathname]);
 
     const onCancel = useCallback(
-        () => history.goBack(),
-        [history]);
+        () => history.push(`/home/shipments/${ shipmentId }`),
+        [history, shipmentId]);
 
     const onDelete = useCallback(
         () => {
-            dispatch(deleteShipment({ shipmentId: id }));
+            dispatch(deleteShipment({ shipmentId }));
             history.push('/home/shipments');
         },
-        [history, dispatch, id]);
+        [history, dispatch, shipmentId]);
 
     return (
         <Box className={ classes.container }>
@@ -103,18 +101,10 @@ const EditShipment = React.memo(function EditShipment() {
                 { shipmentStatus === 'PENDING' && <Loader/> }
             </Card>
             <Box>
-                <Box hidden={ tabValue !== 'shipment' }>
-                    <ShipmentInfo shipment={ shipment }/>
-                </Box>
-                { tabValue === 'products' &&
-                <ShipmentProductTable shipment={ shipment }/>
-                }
-                { tabValue === 'measures' &&
-                <ShipmentMeasureTable shipment={ shipment }/>
-                }
-                <Box hidden={ tabValue !== 'consolidation' }>
-                    <ShipmentConsolidationTable shipment={ shipment }/>
-                </Box>
+                { tabValue === 'shipment' && <ShipmentInfo shipment={ shipment }/> }
+                { tabValue === 'products' && <ShipmentProductTable shipment={ shipment }/> }
+                { tabValue === 'measures' && <ShipmentMeasureTable shipment={ shipment }/> }
+                { tabValue === 'consolidation' && <ShipmentConsolidationTable shipment={ shipment }/> }
             </Box>
         </Box>
     )

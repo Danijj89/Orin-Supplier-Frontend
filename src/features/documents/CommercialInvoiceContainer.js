@@ -19,7 +19,7 @@ import { fetchOrders } from '../orders/duck/thunks.js';
 const CommercialInvoiceContainer = React.memo(function CommercialInvoiceContainer() {
     const dispatch = useDispatch();
 
-    const homeStatus = useSelector(selectHomeDataStatus);
+    const homeDataStatus = useSelector(selectHomeDataStatus);
     const homeError = useSelector(selectHomeError);
     const shipmentDataStatus = useSelector(selectShipmentDataStatus);
     const shipmentError = useSelector(selectShipmentError);
@@ -32,12 +32,12 @@ const CommercialInvoiceContainer = React.memo(function CommercialInvoiceContaine
         [homeError, shipmentError, clientError, orderError]);
 
     const status = useMemo(() => determineStatus(
-        homeStatus,
+        homeDataStatus,
         shipmentDataStatus,
         clientDataStatus,
         orderDataStatus
     ), [
-        homeStatus,
+        homeDataStatus,
         shipmentDataStatus,
         clientDataStatus,
         orderDataStatus

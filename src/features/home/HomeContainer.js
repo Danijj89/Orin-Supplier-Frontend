@@ -11,10 +11,10 @@ import { Redirect } from 'react-router-dom';
 
 const HomeContainer = React.memo(function HomeContainer() {
     const dispatch = useDispatch();
-    const homeStatus = useSelector(selectHomeDataStatus);
+    const homeDataStatus = useSelector(selectHomeDataStatus);
     const homeError = useSelector(selectHomeError);
 
-    const status = determineStatus(homeStatus);
+    const status = determineStatus(homeDataStatus);
     const errors = getErrors(homeError);
 
     const companyId = useSelector(selectCurrentUserCompanyId);

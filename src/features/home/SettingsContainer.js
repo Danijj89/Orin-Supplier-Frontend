@@ -12,12 +12,12 @@ import { cleanUserState } from '../users/duck/slice.js';
 
 const SettingsContainer = React.memo(function SettingsContainer() {
     const dispatch = useDispatch();
-    const homeStatus = useSelector(selectHomeDataStatus);
+    const homeDataStatus = useSelector(selectHomeDataStatus);
     const homeError = useSelector(selectHomeError);
     const userDataStatus = useSelector(selectUserDataStatus);
     const userError = useSelector(selectUserError);
 
-    const status = determineStatus(homeStatus, userDataStatus);
+    const status = determineStatus(homeDataStatus, userDataStatus);
     const errors = getErrors(homeError, userError);
 
     const companyId = useSelector(selectCompanyId);

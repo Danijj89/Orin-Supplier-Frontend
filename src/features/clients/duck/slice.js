@@ -31,14 +31,14 @@ const clientsSlice = createSlice({
     },
     extraReducers: {
         [fetchClients.pending]: (state, action) => {
-            state.status = 'PENDING';
+            state.dataStatus = 'PENDING';
         },
         [fetchClients.fulfilled]: (state, action) => {
             clientsAdapter.upsertMany(state, action.payload);
             state.dataStatus = 'FULFILLED';
         },
         [fetchClients.rejected]: (state, action) => {
-            state.status = 'REJECTED';
+            state.dataStatus = 'REJECTED';
             state.error = action.payload.message;
         },
         [createClient.pending]: (state, action) => {

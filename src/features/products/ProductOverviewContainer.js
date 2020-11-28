@@ -14,10 +14,10 @@ const ProductOverviewContainer = React.memo(function ProductOverviewContainer() 
     const dispatch = useDispatch();
     const productDataStatus = useSelector(selectProductDataStatus);
     const productError = useSelector(selectProductError);
-    const homeStatus = useSelector(selectHomeDataStatus);
+    const homeDataStatus = useSelector(selectHomeDataStatus);
     const homeError = useSelector(selectHomeError);
 
-    const status = determineStatus(productDataStatus, homeStatus);
+    const status = determineStatus(productDataStatus, homeDataStatus);
     const errors = getErrors(productError, homeError);
 
     const companyId = useSelector(selectCompanyId);

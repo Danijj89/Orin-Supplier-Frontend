@@ -33,7 +33,7 @@ const OrderContainer = React.memo(function OrderContainer() {
     const { id } = useParams();
     const orderDataStatus = useSelector(selectOrderDataStatus);
     const orderError = useSelector(selectOrderError);
-    const homeStatus = useSelector(selectHomeDataStatus);
+    const homeDataStatus = useSelector(selectHomeDataStatus);
     const homeError = useSelector(selectHomeError);
     const userDataStatus = useSelector(selectUserDataStatus);
     const userError = useSelector(selectUserError);
@@ -46,7 +46,7 @@ const OrderContainer = React.memo(function OrderContainer() {
 
     const status = determineStatus(
         orderDataStatus,
-        homeStatus,
+        homeDataStatus,
         userDataStatus,
         clientDataStatus,
         productDataStatus,

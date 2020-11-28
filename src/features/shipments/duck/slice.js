@@ -52,14 +52,14 @@ const shipmentsSlice = createSlice({
             state.error = action.payload.message;
         },
         [fetchShipments.pending]: (state, action) => {
-            state.status = 'PENDING';
+            state.dataStatus = 'PENDING';
         },
         [fetchShipments.fulfilled]: (state, action) => {
             shipmentsAdapter.upsertMany(state, action.payload);
             state.dataStatus = 'FULFILLED';
         },
         [fetchShipments.rejected]: (state, action) => {
-            state.status = 'REJECTED';
+            state.dataStatus = 'REJECTED';
             state.error = action.payload.message;
         },
         [fetchShipmentById.pending]: (state, action) => {
@@ -90,9 +90,9 @@ const shipmentsSlice = createSlice({
             state.status = 'PENDING';
         },
         [updateShipmentInfo.fulfilled]: (state, action) => {
-            const { id, update: changes } = action.payload;
+            const { _id: id, ...changes } = action.payload;
             shipmentsAdapter.updateOne(state, { id, changes });
-            state.status = 'IDLE';
+            state.status = 'FULFILLED';
         },
         [updateShipmentInfo.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -104,7 +104,7 @@ const shipmentsSlice = createSlice({
         [updateShipment.fulfilled]: (state, action) => {
             const { _id, ...changes } = action.payload;
             shipmentsAdapter.updateOne(state, { id: _id, changes });
-            state.status = 'IDLE';
+            state.status = 'FULFILLED';
         },
         [updateShipment.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -126,7 +126,7 @@ const shipmentsSlice = createSlice({
             state.status = 'PENDING';
         },
         [deleteShipment.fulfilled]: (state, action) => {
-            shipmentsAdapter.updateOne(state, { id: action.payload, changes: { active: false } });
+            shipmentsAdapter.removeOne(state, action.payload);
             state.status = 'IDLE';
         },
         [deleteShipment.rejected]: (state, action) => {

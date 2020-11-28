@@ -142,6 +142,7 @@ const CreateShipment = React.memo(function CreateShipment() {
                     else initialOrders.push({...order, selected: true});
                 }
                 setClientOrders(initialOrders);
+                setClientAddresses(chosenClient.addresses.filter(a => a.active));
             }
             mounted.current = true;
         }

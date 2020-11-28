@@ -28,14 +28,14 @@ const homeSlice = createSlice({
     },
     extraReducers: {
         [fetchCompanyById.pending]: (state, action) => {
-            state.status = 'PENDING';
+            state.dataStatus = 'PENDING';
         },
         [fetchCompanyById.fulfilled]: (state, action) => {
             state.company = action.payload;
             state.dataStatus = 'FULFILLED';
         },
         [fetchCompanyById.rejected]: (state, action) => {
-            state.status = 'REJECTED';
+            state.dataStatus = 'REJECTED';
             state.error = action.payload.message;
         },
         [updateCompany.pending]: (state, action) => {

@@ -14,10 +14,10 @@ const ShipmentOverviewContainer = React.memo(function ShipmentOverviewContainer(
     const dispatch = useDispatch();
     const shipmentDataStatus = useSelector(selectShipmentDataStatus);
     const shipmentError = useSelector(selectShipmentError);
-    const homeStatus = useSelector(selectHomeDataStatus);
+    const homeDataStatus = useSelector(selectHomeDataStatus);
     const homeError = useSelector(selectHomeError);
 
-    const status = determineStatus(shipmentDataStatus, homeStatus);
+    const status = determineStatus(shipmentDataStatus, homeDataStatus);
     const errors = getErrors(shipmentError, homeError);
 
     const companyId = useSelector(selectCompanyId);

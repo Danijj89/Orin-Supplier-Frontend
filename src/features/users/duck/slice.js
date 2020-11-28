@@ -36,14 +36,14 @@ const usersSlice = createSlice({
             state.error = action.payload.message;
         },
         [fetchUsers.pending]: (state, action) => {
-            state.status = 'PENDING';
+            state.dataStatus = 'PENDING';
         },
         [fetchUsers.fulfilled]: (state, action) => {
             usersAdapter.upsertMany(state, action.payload);
             state.dataStatus = 'FULFILLED';
         },
         [fetchUsers.rejected]: (state, action) => {
-            state.status = 'REJECTED';
+            state.dataStatus = 'REJECTED';
             state.error = action.payload.message;
         }
     }

@@ -25,10 +25,10 @@ export default function CreateOrderContainer() {
     const clientError = useSelector(selectClientError);
     const productDataStatus = useSelector(selectProductDataStatus);
     const productError = useSelector(selectProductError);
-    const homeStatus = useSelector(selectHomeDataStatus);
+    const homeDataStatus = useSelector(selectHomeDataStatus);
     const homeError = useSelector(selectHomeError);
 
-    const status = determineStatus(clientDataStatus, productDataStatus, homeStatus);
+    const status = determineStatus(clientDataStatus, productDataStatus, homeDataStatus);
     const errors = getErrors(clientError, productError, homeError);
 
     const currentOrderId = useSelector(selectCurrentOrderId);

@@ -24,14 +24,14 @@ const productsSlice = createSlice({
     },
     extraReducers: {
         [fetchProducts.pending]: (state, action) => {
-            state.status = 'PENDING';
+            state.dataStatus = 'PENDING';
         },
         [fetchProducts.fulfilled]: (state, action) => {
             productsAdapter.upsertMany(state, action.payload);
             state.dataStatus = 'FULFILLED';
         },
         [fetchProducts.rejected]: (state, action) => {
-            state.status = 'REJECTED';
+            state.dataStatus = 'REJECTED';
             state.error = action.payload.message;
         },
         [createProduct.pending]: (state, action) => {

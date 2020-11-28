@@ -14,14 +14,14 @@ import SalesContract from './SalesContract.js';
 const SalesContractContainer = React.memo(function SalesContractContainer() {
     const dispatch = useDispatch();
 
-    const homeStatus = useSelector(selectHomeDataStatus);
+    const homeDataStatus = useSelector(selectHomeDataStatus);
     const homeError = useSelector(selectHomeError);
     const shipmentDataStatus = useSelector(selectShipmentDataStatus);
     const shipmentError = useSelector(selectShipmentError);
     const clientDataStatus = useSelector(selectClientDataStatus);
     const clientError = useSelector(selectClientError);
 
-    const status = determineStatus(homeStatus, shipmentDataStatus, clientDataStatus);
+    const status = determineStatus(homeDataStatus, shipmentDataStatus, clientDataStatus);
     const errors = [homeError, shipmentError, clientError];
 
     const companyId = useSelector(selectCompanyId);

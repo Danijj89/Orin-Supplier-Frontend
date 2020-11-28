@@ -17,14 +17,14 @@ const ClientOverviewContainer = React.memo(function ClientOverviewContainer() {
     const dispatch = useDispatch();
     const clientDataStatus = useSelector(selectClientDataStatus);
     const clientError = useSelector(selectClientError);
-    const homeStatus = useSelector(selectHomeDataStatus);
+    const homeDataStatus = useSelector(selectHomeDataStatus);
     const homeError = useSelector(selectHomeError);
     const userDataStatus = useSelector(selectUserDataStatus);
     const userError = useSelector(selectUserError);
 
     const status = determineStatus(
         clientDataStatus,
-        homeStatus,
+        homeDataStatus,
         userDataStatus
     );
     const errors = getErrors(clientError, homeError, userError);
