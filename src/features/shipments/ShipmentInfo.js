@@ -14,7 +14,7 @@ import {
 } from '../shared/constants.js';
 import SideTextField from '../shared/inputs/SideTextField.js';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
-import { updateShipmentInfo } from './duck/thunks.js';
+import { updateShipment, updateShipmentInfo } from './duck/thunks.js';
 import { addressToDocAddress } from '../shared/utils/entityConversion.js';
 import { makeStyles } from '@material-ui/core/styles';
 import RHFAutoComplete from '../shared/rhf/inputs/RHFAutoComplete.js';
@@ -70,6 +70,7 @@ const ShipmentInfo = React.memo(function ShipmentInfo() {
             bolType: shipment.bolType || null,
             coo: shipment.coo,
             clientRefs: shipment.clientRefs,
+            payRefs: shipment.payRefs,
             del: shipment.del || null,
             pol: shipment.pol || null,
             pod: shipment.pod || null,
@@ -83,7 +84,7 @@ const ShipmentInfo = React.memo(function ShipmentInfo() {
         data.sellerAdd = addressToDocAddress(data.sellerAdd);
         data.consigneeAdd = addressToDocAddress(data.consigneeAdd);
         data.shipAdd = addressToDocAddress(data.shipAdd);
-        dispatch(updateShipmentInfo({ shipmentId, update: data }));
+        dispatch(updateShipment({ shipmentId, update: data }));
     };
 
     return (
@@ -165,6 +166,11 @@ const ShipmentInfo = React.memo(function ShipmentInfo() {
                                 name="bolType"
                                 label={ formLabels.bolType }
                                 options={ billOfLandingTypesOptions }
+                            />
+                            <SideTextField
+                                label={ formLabels.payRefs }
+                                name="payRefs"
+                                inputRef={ register }
                             />
                             <SideTextField
                                 label={ formLabels.coo }

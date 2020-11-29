@@ -437,6 +437,7 @@ export const ENGLISH = {
                     crd: 'Cargo Ready Date',
                     incoterm: 'Incoterm',
                     clientRef: 'Client Order Ref.',
+                    payRefs: 'Payment References',
                     bolType: 'Bill of Landing Type',
                     coo: 'Country of Manufacture',
                     clientRefs: 'Client References',

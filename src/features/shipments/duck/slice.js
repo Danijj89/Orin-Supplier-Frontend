@@ -4,7 +4,6 @@ import {
     createShipment, deleteShipment,
     fetchShipmentById,
     fetchShipments, updateShipment,
-    updateShipmentInfo,
     updateShipmentShell
 } from './thunks.js';
 
@@ -24,21 +23,21 @@ const shipmentsSlice = createSlice({
     name: 'shipments',
     initialState,
     reducers: {
-        cleanCurrentShipmentId: (state, action) => {
+        cleanCurrentShipmentId: (state) => {
             state.currentShipmentId = null;
         },
-        cleanShipmentState: (state, action) => {
+        cleanShipmentState: (state) => {
             state.dataStatus = 'IDLE';
             state.status = 'IDLE';
             state.error = null;
         },
-        cleanShipmentStatus: (state, action) => {
+        cleanShipmentStatus: (state) => {
             state.status = 'IDLE';
             state.error = null;
         }
     },
     extraReducers: {
-        [createShipment.pending]: (state, action) => {
+        [createShipment.pending]: (state) => {
             state.status = 'PENDING';
         },
         [createShipment.fulfilled]: (state, action) => {
@@ -51,7 +50,7 @@ const shipmentsSlice = createSlice({
             state.status = 'REJECTED';
             state.error = action.payload.message;
         },
-        [fetchShipments.pending]: (state, action) => {
+        [fetchShipments.pending]: (state) => {
             state.dataStatus = 'PENDING';
         },
         [fetchShipments.fulfilled]: (state, action) => {
@@ -62,7 +61,7 @@ const shipmentsSlice = createSlice({
             state.dataStatus = 'REJECTED';
             state.error = action.payload.message;
         },
-        [fetchShipmentById.pending]: (state, action) => {
+        [fetchShipmentById.pending]: (state) => {
             state.status = 'PENDING';
         },
         [fetchShipmentById.fulfilled]: (state, action) => {
@@ -73,7 +72,7 @@ const shipmentsSlice = createSlice({
             state.status = 'REJECTED';
             state.error = action.payload.message;
         },
-        [updateShipmentShell.pending]: (state, action) => {
+        [updateShipmentShell.pending]: (state) => {
             state.status = 'PENDING';
         },
         [updateShipmentShell.fulfilled]: (state, action) => {
@@ -86,19 +85,7 @@ const shipmentsSlice = createSlice({
             state.status = 'REJECTED';
             state.error = action.payload.message;
         },
-        [updateShipmentInfo.pending]: (state, action) => {
-            state.status = 'PENDING';
-        },
-        [updateShipmentInfo.fulfilled]: (state, action) => {
-            const { _id: id, ...changes } = action.payload;
-            shipmentsAdapter.updateOne(state, { id, changes });
-            state.status = 'FULFILLED';
-        },
-        [updateShipmentInfo.rejected]: (state, action) => {
-            state.status = 'REJECTED';
-            state.error = action.payload.message;
-        },
-        [updateShipment.pending]: (state, action) => {
+        [updateShipment.pending]: (state) => {
             state.status = 'PENDING';
         },
         [updateShipment.fulfilled]: (state, action) => {
@@ -110,7 +97,7 @@ const shipmentsSlice = createSlice({
             state.status = 'REJECTED';
             state.error = action.payload.message;
         },
-        [createDocument.pending]: (state, action) => {
+        [createDocument.pending]: (state) => {
             state.status = 'PENDING';
         },
         [createDocument.fulfilled]: (state, action) => {
@@ -122,7 +109,7 @@ const shipmentsSlice = createSlice({
             state.status = 'REJECTED';
             state.error = action.payload.message;
         },
-        [deleteShipment.pending]: (state, action) => {
+        [deleteShipment.pending]: (state) => {
             state.status = 'PENDING';
         },
         [deleteShipment.fulfilled]: (state, action) => {
