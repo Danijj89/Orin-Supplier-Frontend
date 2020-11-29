@@ -14,12 +14,3 @@ export const selectAllActiveUsers = createSelector(
     selectAllUsers,
     users => users.filter(user => user.active)
 );
-
-export const selectUserOptions = createSelector(
-    selectAllActiveUsers,
-    selectUserById,
-    (users, user) => {
-        if (user && !user.active) users.push(user);
-        return users;
-    }
-);

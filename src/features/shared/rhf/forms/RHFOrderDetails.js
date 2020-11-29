@@ -115,7 +115,7 @@ const RHFOrderDetails = React.memo(function RHFOrderDetails(
                         label={ formLabels.fromAdd }
                         options={ companyAddresses }
                         getOptionLabel={ formatAddress }
-                        getOptionSelected={ (option, value) => option._id === value._id }
+                        getOptionSelected={ (option, value) => option._id === value._id || !value.active }
                         error={ !!errors[fieldNames.fromAdd] }
                         rowsMax={ 8 }
                         required
@@ -126,7 +126,7 @@ const RHFOrderDetails = React.memo(function RHFOrderDetails(
                         label={ formLabels.to }
                         options={ clients }
                         getOptionLabel={ client => client.name }
-                        getOptionSelected={ (option, value) => option._id === value._id }
+                        getOptionSelected={ (option, value) => option._id === value._id || !value.active }
                         error={ !!errors[fieldNames.to] }
                         required
                     />
@@ -136,7 +136,7 @@ const RHFOrderDetails = React.memo(function RHFOrderDetails(
                         label={ formLabels.toAdd }
                         options={ clientAddresses }
                         getOptionLabel={ formatAddress }
-                        getOptionSelected={ (option, value) => option._id === value._id }
+                        getOptionSelected={ (option, value) => option._id === value._id || !value.active }
                         error={ !!errors[fieldNames.toAdd] }
                         rowsMax={ 8 }
                         required
@@ -195,7 +195,7 @@ const RHFOrderDetails = React.memo(function RHFOrderDetails(
                         label={ formLabels.shipAdd }
                         options={ clientAddresses }
                         getOptionLabel={ formatAddress }
-                        getOptionSelected={ (option, value) => option._id === value._id }
+                        getOptionSelected={ (option, value) => option._id === value._id || !value.active }
                         rowsMax={ 8 }
                     />
                     <RHFAutoComplete

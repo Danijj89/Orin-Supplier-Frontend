@@ -10,8 +10,8 @@ export const selectProductDataStatus = state => state.products.dataStatus;
 export const selectProductStatus = state => state.products.status;
 export const selectProductError = state => state.products.error;
 export const selectAllActiveProducts = createSelector(
-    state => state.products.entities,
-    entities => Object.values(entities).filter(p => p.active)
+    selectAllProducts,
+    products => products.filter(p => p.active)
 );
 
 export const selectActiveProductsMap = createSelector(

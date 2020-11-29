@@ -7,7 +7,7 @@ import SideTextField from '../inputs/SideTextField.js';
 import { LANGUAGE } from '../../../app/utils/constants.js';
 import RHFAutoComplete from '../rhf/inputs/RHFAutoComplete.js';
 import { useSelector } from 'react-redux';
-import { selectUserById, selectUserOptions } from '../../users/duck/selectors.js';
+import { selectAllActiveUsers, selectUserById } from '../../users/duck/selectors.js';
 
 const {
     nameLabel,
@@ -33,7 +33,7 @@ const ClientDialog = React.memo(function ClientDialog(
         isEdit,
         onDelete
     }) {
-    const users = useSelector(state => selectUserOptions(state, client?.assignedTo));
+    const users = useSelector(selectAllActiveUsers);
     const assignedTo = useSelector(state => selectUserById(state, client?.assignedTo));
 
     const { register, errors, handleSubmit, control, reset } = useForm({
@@ -77,7 +77,7 @@ const ClientDialog = React.memo(function ClientDialog(
                 label={ assignedToLabel }
                 options={ users }
                 getOptionLabel={ option => option.name }
-                getOptionSelected={ (option, value) => option._id === value._id }
+                getOptionSelected={ (option, value) => option._id === value._id || !value.active }
             />
             { !isEdit && <SideTextField
                 name="contactName"

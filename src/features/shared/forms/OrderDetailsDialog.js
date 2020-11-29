@@ -6,7 +6,11 @@ import RHFOrderDetails from '../rhf/forms/RHFOrderDetails.js';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { selectCompanyActiveAddresses, selectCompanyAddress, selectCompanyPorts } from '../../home/duck/selectors.js';
-import { selectClientAddress, selectClientById, selectClientOptions } from '../../clients/duck/selectors.js';
+import {
+    selectAllActiveClients,
+    selectClientAddress,
+    selectClientById
+} from '../../clients/duck/selectors.js';
 
 const {
     deleteMessage
@@ -43,11 +47,7 @@ const OrderDetailsDialog = React.memo(function OrderDetailsDialog(
     const companyAddresses = useSelector(selectCompanyActiveAddresses);
     const companyAddress = useSelector(state => selectCompanyAddress(state, order.fromAdd.addressId));
     const companyPorts = useSelector(selectCompanyPorts);
-    const clients = useSelector(
-        state => selectClientOptions(state,
-            { clientId: order.to, addressIds: [order.toAdd, order.shipAdd] }
-        )
-    );
+    const clients = useSelector(selectAllActiveClients);
     const client = useSelector(state => selectClientById(state, order.to));
     const clientAddress = useSelector(
         state => selectClientAddress(state,

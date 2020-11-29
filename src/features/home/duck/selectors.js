@@ -25,15 +25,6 @@ export const selectCompanyAddress = createSelector(
     (addresses, addressId) => addresses.find(a => a._id === addressId)
 );
 
-export const selectCompanyAddressOptions = createSelector(
-    selectCompanyActiveAddresses,
-    selectCompanyAddress,
-    (addresses, address) => {
-        if (address && !address.active) addresses.push(address);
-        return addresses;
-    }
-);
-
 export const selectCompanyPorts = state => state.home.company.ports;
 export const selectCompanyId = state => state.home.company?._id;
 export const selectActiveCompanyBankDetails = createSelector(
