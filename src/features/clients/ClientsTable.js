@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectAllActiveClients } from './duck/selectors.js';
 import PopoverNotes from '../shared/components/PopoverNotes.js';
 import { updateClient } from './duck/thunks.js';
+import { dateToLocaleDate } from '../shared/utils/format.js';
 
 const { clientTableHeadersMap } = LANGUAGE.client.clientOverview;
 
@@ -51,7 +52,7 @@ const ClientsTable = React.memo(function ClientsTable() {
                 name: client.name,
                 contactName: defaultContact.name,
                 contactEmail: defaultContact.email,
-                lastOrder: client.lastOrder,
+                lastOrder: dateToLocaleDate(client.lastOrder),
                 salesYTD: client.salesYTD,
                 orderCountYTD: client.orderCountYTD,
                 assignedTo: client.assignedTo.name,
