@@ -43,7 +43,7 @@ const CreateOrderDetails = React.memo(function CreateOrderDetails({ order, setOr
     const companyPorts = useSelector(selectCompanyPorts);
     const clients = useSelector(selectAllActiveClients);
 
-    const { register, control, errors, setValue, handleSubmit } = useForm({
+    const { register, control, errors, getValues, setValue, handleSubmit } = useForm({
         mode: 'onSubmit',
         defaultValues: {
             [orderDetailsFieldNames.ref]: !order.autoGenerateRef ? order.ref : null,
@@ -73,16 +73,17 @@ const CreateOrderDetails = React.memo(function CreateOrderDetails({ order, setOr
     };
 
     const onNextClick = (data) => {
-        setOrder(prev => ({...prev, ...data }));
+        setOrder(prev => ({ ...prev, ...data }));
         history.push('/home/orders/new?step=products');
     };
 
     return (
-        <form onSubmit={handleSubmit(onNextClick)} autoComplete="off" noValidate>
+        <form onSubmit={ handleSubmit(onNextClick) } autoComplete="off" noValidate>
             <RHFOrderDetails
                 rhfRegister={ register }
                 rhfErrors={ errors }
                 rhfControl={ control }
+                rhfGetValues={ getValues }
                 rhfSetValue={ setValue }
                 companyAddresses={ companyAddresses }
                 companyPorts={ companyPorts }

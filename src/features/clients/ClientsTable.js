@@ -7,6 +7,7 @@ import { selectAllActiveClients } from './duck/selectors.js';
 import PopoverNotes from '../shared/components/PopoverNotes.js';
 import { updateClient } from './duck/thunks.js';
 import { dateToLocaleDate } from '../shared/utils/format.js';
+import { selectUsersMap } from '../users/duck/selectors.js';
 
 const { clientTableHeadersMap } = LANGUAGE.client.clientOverview;
 
@@ -14,6 +15,7 @@ const ClientsTable = React.memo(function ClientsTable() {
     const history = useHistory();
     const dispatch = useDispatch();
     const clients = useSelector(selectAllActiveClients);
+    const usersMap = useSelector(selectUsersMap);
 
     const onRowClick = useCallback(
         (row) => history.push(`/home/clients/${ row.id }`),
@@ -50,15 +52,15 @@ const ClientsTable = React.memo(function ClientsTable() {
             return {
                 id: client._id,
                 name: client.name,
-                contactName: defaultContact.name,
-                contactEmail: defaultContact.email,
+                contactName: defaultContact?.name,
+                contactEmail: defaultContact?.email,
                 lastOrder: dateToLocaleDate(client.lastOrder),
                 salesYTD: client.salesYTD,
                 orderCountYTD: client.orderCountYTD,
-                assignedTo: client.assignedTo.name,
+                assignedTo: usersMap[client.assignedTo].name,
                 notes: client.notes
             }
-        }), [clients]);
+        }), [clients, usersMap]);
 
     return (
         <Table rows={ rows } columns={ columns } onRowClick={ onRowClick }/>

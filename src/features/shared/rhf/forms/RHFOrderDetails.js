@@ -34,6 +34,7 @@ const RHFOrderDetails = React.memo(function RHFOrderDetails(
         rhfRegister: register,
         rhfErrors: errors,
         rhfControl: control,
+        rhfGetValues: getValues,
         rhfSetValue: setValue,
         isEdit,
         companyAddresses,
@@ -57,10 +58,15 @@ const RHFOrderDetails = React.memo(function RHFOrderDetails(
     const [clientAddresses, setClientAddresses] = useState([]);
 
     useEffect(() => {
+        const currentClient = getValues(fieldNames.to);
+        if (currentClient) setClientAddresses(clients.find(c => c._id === currentClient._id).addresses);
+    }, [getValues, clients, fieldNames.to]);
+
+    useEffect(() => {
         if (client) {
             if (client.incoterm) setValue(fieldNames.incoterm, client.incoterm);
             if (client.payment) setValue(fieldNames.pay, client.payment);
-            if (client.addresses) setClientAddresses(client.addresses.filter(a => a.active));
+            if (client.addresses) setClientAddresses(client.addresses);
         }
     }, [client, setValue, fieldNames]);
 
@@ -229,6 +235,7 @@ RHFOrderDetails.propTypes = {
     rhfRegister: PropTypes.func.isRequired,
     rhfErrors: PropTypes.object.isRequired,
     rhfControl: PropTypes.object.isRequired,
+    rhfGetValues: PropTypes.func.isRequired,
     rhfSetValue: PropTypes.func.isRequired,
     companyAddresses: PropTypes.array.isRequired,
     companyPorts: PropTypes.array.isRequired,

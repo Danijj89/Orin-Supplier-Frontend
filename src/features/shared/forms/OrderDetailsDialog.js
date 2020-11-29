@@ -81,7 +81,7 @@ const OrderDetailsDialog = React.memo(function OrderDetailsDialog(
         },
         shouldUnregister: false
     });
-    const { register, control, setValue, errors, handleSubmit } = rhfMethods;
+    const { register, control, getValues, setValue, errors, handleSubmit } = rhfMethods;
 
     return (
         <FormDialog
@@ -97,6 +97,7 @@ const OrderDetailsDialog = React.memo(function OrderDetailsDialog(
                 rhfRegister={ register }
                 rhfErrors={ errors }
                 rhfControl={ control }
+                rhfGetValues={ getValues }
                 rhfSetValue={ setValue }
                 companyAddresses={ companyAddresses }
                 companyPorts={ companyPorts }
