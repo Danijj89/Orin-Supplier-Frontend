@@ -13,12 +13,13 @@ const documentsSlice = createSlice({
         cleanNewDocument: (state, action) => {
             sessionStorage.removeItem(SESSION_NEW_DOCUMENT);
         },
-        cleanDocumentError: (state, action) => {
+        cleanDocumentState: (state, action) => {
+            state.status = 'IDLE';
             state.error = null;
         }
     }
 });
 
-export const { cleanNewDocument, cleanDocumentError } = documentsSlice.actions;
+export const { cleanNewDocument, cleanDocumentState } = documentsSlice.actions;
 
 export default documentsSlice.reducer;

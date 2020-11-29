@@ -25,11 +25,13 @@ const CommercialInvoice = React.memo(function CommercialInvoice() {
             <CommercialInvoiceDetails
                 commercialInvoice={ commercialInvoice }
                 setCommercialInvoice={ setCommercialInvoice }
+                shipmentId={ shipmentId }
             /> }
             { step === 'products' &&
             <CommercialInvoiceProducts
                 commercialInvoice={ commercialInvoice }
                 setCommercialInvoice={ setCommercialInvoice }
+                shipmentId={ shipmentId }
             /> }
         </Paper>
     )

@@ -11,7 +11,6 @@ import SalesContractDetails from './SalesContractDetails.js';
 import SalesContractProducts from './SalesContractProducts.js';
 
 const SalesContract = React.memo(function SalesContract() {
-
     const location = useLocation();
     const { shipment: shipmentId, step } = queryString.parse(location.search);
     const shipment = useSelector(state => selectShipmentById(state, shipmentId));
@@ -24,12 +23,14 @@ const SalesContract = React.memo(function SalesContract() {
             <SalesContractDetails
                 salesContract={ salesContract }
                 setSalesContract={ setSalesContract }
+                shipmentId={ shipmentId }
             />
             }
             { step === 'products' &&
             <SalesContractProducts
                 salesContract={ salesContract }
                 setSalesContract={ setSalesContract }
+                shipmentId={ shipmentId }
             />
             }
         </Paper>

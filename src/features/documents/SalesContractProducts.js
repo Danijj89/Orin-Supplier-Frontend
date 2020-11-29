@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form';
 import { useHistory, useLocation } from 'react-router-dom';
 import queryString from 'query-string';
 import { useDispatch, useSelector } from 'react-redux';
-import { addressToDocAddress } from '../shared/utils/entityConversion.js';
+import { addressToDocAddress, tableItemsToItems } from '../shared/utils/entityConversion.js';
 import { createDocument } from '../shipments/duck/thunks.js';
 import { selectAllActiveProducts } from '../products/duck/selectors.js';
 import { selectActiveOrdersMap } from '../orders/duck/selectors.js';
@@ -66,18 +66,19 @@ const SalesContractProducts = React.memo(function SalesContractProducts(
 
     const onPrevClick = () => {
         setSalesContract(prev => ({ ...prev, ...getValues() }));
-        history.push(`/home/documents/sc/new?step=details&shipment=${shipmentId}`);
+        history.push(`/home/documents/sc/new?step=details&shipment=${ shipmentId }`);
     };
 
     const onSubmit = (productData) => {
-        const data = { ...salesContract, ...productData };
-        data.type = DOCUMENT_TYPE;
-        data.seller = companyId;
-        data.sellerAdd = addressToDocAddress(data.sellerAdd);
-        data.consigneeAdd = addressToDocAddress(data.consigneeAdd);
-        if (data.bankDetails) data.bankDetails = data.bankDetails.detail;
-        data.createdBy = userId;
-        dispatch(createDocument({ id: shipmentId, doc: data }))
+        const document = { ...salesContract, ...productData };
+        document.type = DOCUMENT_TYPE;
+        document.seller = companyId;
+        document.sellerAdd = addressToDocAddress(document.sellerAdd);
+        document.consigneeAdd = addressToDocAddress(document.consigneeAdd);
+        if (document.bankDetails) document.bankDetails = document.bankDetails.detail;
+        document.items = tableItemsToItems(document.items, shipmentId);
+        document.createdBy = userId;
+        dispatch(createDocument({ shipmentId, document }))
         history.push(`/home/shipments/${ shipmentId }?tab=documents`);
     };
 

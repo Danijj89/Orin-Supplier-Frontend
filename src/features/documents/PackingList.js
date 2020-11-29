@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Paper from '@material-ui/core/Paper';
 import { useLocation } from 'react-router-dom';
 import queryString from 'query-string';

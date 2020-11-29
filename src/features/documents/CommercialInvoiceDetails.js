@@ -58,22 +58,24 @@ const useStyles = makeStyles((theme) => ({
 const CommercialInvoiceDetails = React.memo(function CommercialInvoiceDetails(
     {
         commercialInvoice,
-        setCommercialInvoice
+        setCommercialInvoice,
+        shipmentId
     }) {
     const classes = useStyles();
-    const location = useLocation();
-    const { shipment: shipmentId } = queryString.parse(location.search);
     const history = useHistory();
     const companyAddresses = useSelector(selectCompanyActiveAddresses);
     const consigneeAddresses = useSelector(state => selectClientActiveAddresses(state, commercialInvoice.consignee));
     const companyPorts = useSelector(selectCompanyPorts);
 
     const consignee = useSelector(state => selectClientById(state, commercialInvoice.consignee));
-    const initialSellerAddress = useSelector(state => selectCompanyAddress(state, commercialInvoice.sellerAdd.addressId));
+    const initialSellerAddress = useSelector(
+        state => selectCompanyAddress(
+            state,
+            commercialInvoice.sellerAdd.addressId || commercialInvoice.sellerAdd._id));
     const initialConsigneeAddress = useSelector(state =>
         selectClientAddress(state, {
             clientId: commercialInvoice.consignee,
-            addressId: commercialInvoice.consigneeAdd.addressId
+            addressId: commercialInvoice.consigneeAdd.addressId || commercialInvoice.consigneeAdd._id
         })
     );
 

@@ -35,11 +35,10 @@ const DOCUMENT_TYPE = 'CI';
 const CommercialInvoiceProducts = React.memo(function CommercialInvoiceProducts(
     {
         commercialInvoice,
-        setCommercialInvoice
+        setCommercialInvoice,
+        shipmentId
     }
 ) {
-    const location = useLocation();
-    const { shipment: shipmentId } = queryString.parse(location.search);
     const dispatch = useDispatch();
     const history = useHistory();
     const products = useSelector(selectAllActiveProducts);

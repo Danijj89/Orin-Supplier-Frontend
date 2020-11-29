@@ -11,10 +11,10 @@ import { findAddressFromAddresses } from '../shared/utils/addresses.js';
 import { useSelector } from 'react-redux';
 import {
     selectActiveCompanyBankDetails,
-    selectCompanyActiveAddresses,
+    selectCompanyActiveAddresses, selectCompanyAddress,
     selectCompanyPorts
 } from '../home/duck/selectors.js';
-import { selectClientActiveAddresses, selectClientById } from '../clients/duck/selectors.js';
+import { selectClientActiveAddresses, selectClientAddress, selectClientById } from '../clients/duck/selectors.js';
 import RHFDateField from '../shared/rhf/inputs/RHFDateField.js';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
@@ -47,23 +47,32 @@ const fieldNames = {
 };
 
 const SalesContractDetails = React.memo(function SalesContractDetails(
-    { salesContract, setSalesContract }) {
-    const location = useLocation();
-    const { shipment: shipmentId } = queryString.parse(location.search);
+    { salesContract, setSalesContract, shipmentId }) {
     const history = useHistory();
     const companyAddresses = useSelector(selectCompanyActiveAddresses);
-    const consignee = useSelector(state => selectClientById(state, salesContract.consignee));
     const consigneeAddresses = useSelector(state => selectClientActiveAddresses(state, salesContract.consignee));
     const companyBankDetails = useSelector(selectActiveCompanyBankDetails);
     const companyPorts = useSelector(selectCompanyPorts);
+
+    const consignee = useSelector(state => selectClientById(state, salesContract.consignee));
+    const initialSellerAddress = useSelector(
+        state => selectCompanyAddress(
+            state,
+            salesContract.sellerAdd.addressId || salesContract.sellerAdd._id));
+    const initialConsigneeAddress = useSelector(state =>
+        selectClientAddress(state, {
+            clientId: salesContract.consignee,
+            addressId: salesContract.consigneeAdd.addressId || salesContract.consigneeAdd._id
+        })
+    );
 
     const { register, control, errors, watch, handleSubmit } = useForm({
         mode: 'onSubmit',
         defaultValues: {
             [fieldNames.autoGenerateRef]: salesContract.autoGenerateRef,
             [fieldNames.ref]: salesContract.ref,
-            [fieldNames.sellerAdd]: findAddressFromAddresses(salesContract.sellerAdd, companyAddresses),
-            [fieldNames.consigneeAdd]: findAddressFromAddresses(salesContract.consigneeAdd, consigneeAddresses),
+            [fieldNames.sellerAdd]: initialSellerAddress,
+            [fieldNames.consigneeAdd]: initialConsigneeAddress,
             [fieldNames.date]: salesContract.date,
             [fieldNames.bankDetails]: salesContract.bankDetails,
             [fieldNames.termsOfPayment]: salesContract.termsOfPayment,
@@ -114,7 +123,7 @@ const SalesContractDetails = React.memo(function SalesContractDetails(
                             options={ companyAddresses }
                             error={ !!errors[fieldNames.sellerAdd] }
                             getOptionLabel={ formatAddress }
-                            getOptionSelected={ (option, value) => option._id === value._id }
+                            getOptionSelected={ (option, value) => option._id === value._id || !value.active }
                             rowsMax={ 8 }
                             required
                         />
@@ -130,7 +139,7 @@ const SalesContractDetails = React.memo(function SalesContractDetails(
                             options={ consigneeAddresses }
                             error={ !!errors[fieldNames.consigneeAdd] }
                             getOptionLabel={ formatAddress }
-                            getOptionSelected={ (option, value) => option._id === value._id }
+                            getOptionSelected={ (option, value) => option._id === value._id || !value.active }
                             rowsMax={ 8 }
                             required
                         />
@@ -154,7 +163,7 @@ const SalesContractDetails = React.memo(function SalesContractDetails(
                             label={ formLabels.bankDetails }
                             options={ companyBankDetails }
                             getOptionLabel={ option => option.detail }
-                            getOptionSelected={ (option, value) => option._id === value._id }
+                            getOptionSelected={ (option, value) => option._id === value._id || !value.active }
                             rows={ 4 }
                             rowsMax={ 8 }
                         />
