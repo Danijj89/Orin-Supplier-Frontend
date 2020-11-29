@@ -4,8 +4,7 @@ import RHFProductTable, { validateItems } from '../shared/rhf/forms/RHFProductTa
 import Footer from '../shared/components/Footer.js';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import { useForm } from 'react-hook-form';
-import { useHistory, useLocation } from 'react-router-dom';
-import queryString from 'query-string';
+import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { addressToDocAddress, tableItemsToItems } from '../shared/utils/entityConversion.js';
 import { createDocument } from '../shipments/duck/thunks.js';
@@ -33,9 +32,7 @@ const fieldNames = {
 const DOCUMENT_TYPE = 'SC';
 
 const SalesContractProducts = React.memo(function SalesContractProducts(
-    { salesContract, setSalesContract }) {
-    const location = useLocation();
-    const { shipment: shipmentId } = queryString.parse(location.search);
+    { salesContract, setSalesContract, shipmentId }) {
     const dispatch = useDispatch();
     const history = useHistory();
     const products = useSelector(selectAllActiveProducts);

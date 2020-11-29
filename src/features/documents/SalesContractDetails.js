@@ -7,7 +7,6 @@ import SideTextField from '../shared/inputs/SideTextField.js';
 import RHFAutoComplete from '../shared/rhf/inputs/RHFAutoComplete.js';
 import { formatAddress } from '../shared/utils/format.js';
 import { useForm } from 'react-hook-form';
-import { findAddressFromAddresses } from '../shared/utils/addresses.js';
 import { useSelector } from 'react-redux';
 import {
     selectActiveCompanyBankDetails,
@@ -20,8 +19,7 @@ import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Divider from '@material-ui/core/Divider';
 import Footer from '../shared/components/Footer.js';
-import { useHistory, useLocation } from 'react-router-dom';
-import queryString from 'query-string';
+import { useHistory } from 'react-router-dom';
 
 const {
     titleLabel,

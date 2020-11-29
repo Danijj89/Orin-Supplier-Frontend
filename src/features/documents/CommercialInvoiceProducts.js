@@ -11,8 +11,7 @@ import { addressToDocAddress, tableItemsToItems } from '../shared/utils/entityCo
 import { createDocument } from '../shipments/duck/thunks.js';
 import { selectCompanyId } from '../home/duck/selectors.js';
 import { selectCurrentUserId } from '../../app/duck/selectors.js';
-import { useHistory, useLocation } from 'react-router-dom';
-import queryString from 'query-string';
+import { useHistory } from 'react-router-dom';
 
 const {
     titleLabel,

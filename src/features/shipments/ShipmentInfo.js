@@ -14,7 +14,7 @@ import {
 } from '../shared/constants.js';
 import SideTextField from '../shared/inputs/SideTextField.js';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
-import { updateShipment, updateShipmentInfo } from './duck/thunks.js';
+import { updateShipment } from './duck/thunks.js';
 import { addressToDocAddress } from '../shared/utils/entityConversion.js';
 import { makeStyles } from '@material-ui/core/styles';
 import RHFAutoComplete from '../shared/rhf/inputs/RHFAutoComplete.js';

@@ -13,7 +13,6 @@ import { cleanShipmentStatus } from './duck/slice.js';
 import ErrorMessages from '../shared/components/ErrorMessages.js';
 import ShipmentProductTable from './ShipmentProductTable.js';
 import ShipmentMeasureTable from './ShipmentMeasureTable.js';
-import ShipmentConsolidationTable from './ShipmentConsolidationTable.js';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';

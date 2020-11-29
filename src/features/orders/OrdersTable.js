@@ -20,7 +20,7 @@ export default function OrdersTable() {
     const onRowClick = (params) => history.push(`${ location.pathname }/${ params.id }?tab=details`);
 
     const onNotesSubmit = useCallback(
-        (orderId, data) => dispatch(updateOrder({ id: orderId, update: data })),
+        (orderId, data) => dispatch(updateOrder({ orderId, update: data })),
         [dispatch]);
 
     const renderPopoverNotes = useCallback(
