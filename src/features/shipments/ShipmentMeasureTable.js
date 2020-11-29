@@ -5,7 +5,7 @@ import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateShipment } from './duck/thunks.js';
-import { measureTableItemsToItems } from '../shared/utils/entityConversion.js';
+import { tableItemsToItems } from '../shared/utils/entityConversion.js';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import { useParams } from 'react-router-dom';
@@ -67,7 +67,7 @@ const ShipmentMeasureTable = React.memo(function ShipmentMeasureTable() {
     }, [register]);
 
     const onSubmit = (data) => {
-        data.items = measureTableItemsToItems(data.items, shipmentId);
+        data.items = tableItemsToItems(data.items, shipmentId);
         dispatch(updateShipment({ shipmentId, update: data }));
     };
 

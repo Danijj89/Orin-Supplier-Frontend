@@ -6,7 +6,7 @@ import { selectAllActiveProducts } from '../products/duck/selectors.js';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import { updateShipment } from './duck/thunks.js';
-import { productTableItemsToItems } from '../shared/utils/entityConversion.js';
+import { tableItemsToItems } from '../shared/utils/entityConversion.js';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import { selectOrdersMap } from '../orders/duck/selectors.js';
@@ -62,7 +62,7 @@ const ShipmentProductTable = React.memo(function ShipmentProductTable() {
     }, [register]);
 
     const onSubmit = (data) => {
-        data.items = productTableItemsToItems(data.items, shipmentId);
+        data.items = tableItemsToItems(data.items, shipmentId);
         dispatch(updateShipment({ shipmentId, update: data }));
     };
 

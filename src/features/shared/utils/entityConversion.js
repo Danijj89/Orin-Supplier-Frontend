@@ -31,11 +31,10 @@ export const productTableItemsToOrderItems = (tableItems) =>
         return temp;
     });
 
-export const productTableItemsToItems = (tableItems, shipmentId) =>
+export const tableItemsToItems = (tableItems, shipmentId) =>
     tableItems.map(item => {
         const temp = {
             order: item.order || null,
-            shipment: shipmentId,
             ref: item.ref,
             description: item.description,
             localD: item.localD,
@@ -44,26 +43,20 @@ export const productTableItemsToItems = (tableItems, shipmentId) =>
             unit: item.unit,
             price: item.price,
             total: item.total,
+            package: item.package,
+            pUnit: item.pUnit,
+            netW: item.netW,
+            grossW: item.grossW,
+            dim: item.dim,
             ciCustom1: item.ciCustom1,
-            ciCustom2: item.ciCustom2
+            ciCustom2: item.ciCustom2,
+            plCustom1: item.plCustom1,
+            plCustom2: item.plCustom2
         };
         if (item._id) temp._id = item._id;
         if (item.product) temp.product = item.product;
         return temp;
     });
-
-export const measureTableItemsToItems = (tableItems, shipmentId) =>
-    tableItems.map(item => ({
-        _id: item._id,
-        package: item.package,
-        shipment: shipmentId,
-        pUnit: item.pUnit,
-        netW: item.netW,
-        grossW: item.grossW,
-        dim: item.dim,
-        plCustom1: item.plCustom1,
-        plCustom2: item.plCustom2,
-    }));
 
 export const shipmentToCommercialInvoice = (shipment) => ({
     autoGenerateRef: true,
