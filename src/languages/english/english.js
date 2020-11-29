@@ -423,8 +423,7 @@ export const ENGLISH = {
             tabsLabelsMap: {
                 shipment: 'Shipment',
                 products: 'Products',
-                measures: 'Measures',
-                consolidation: 'Consolidation'
+                measures: 'Measures'
             },
             successMessage: 'Update Successful!',
             shipmentInfo: {

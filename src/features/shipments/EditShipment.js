@@ -104,7 +104,6 @@ const EditShipment = React.memo(function EditShipment() {
                 { tabValue === 'shipment' && <ShipmentInfo /> }
                 { tabValue === 'products' && <ShipmentProductTable /> }
                 { tabValue === 'measures' && <ShipmentMeasureTable shipment={ shipment }/> }
-                { tabValue === 'consolidation' && <ShipmentConsolidationTable shipment={ shipment }/> }
             </Box>
         </Box>
     )
