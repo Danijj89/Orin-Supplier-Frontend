@@ -211,7 +211,6 @@ const SalesContractDetails = React.memo(function SalesContractDetails(
                             label={ formLabels.notes }
                             name={ fieldNames.notes }
                             inputRef={ register }
-                            rows={ 4 }
                             rowsMax={ 8 }
                         />
                     </FormContainer>
