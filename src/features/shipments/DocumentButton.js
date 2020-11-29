@@ -37,7 +37,7 @@ const DocumentButton = React.memo(function DocumentButton() {
         dispatch(cleanNewDocument());
         switch (data.document.type) {
             case 'CI':
-                history.push(`/home/documents/ci/new?shipment=${ id }`);
+                history.push(`/home/documents/ci/new?step=details&shipment=${ id }`);
                 break;
             case 'PL':
                 history.push(`/home/documents/pl/new?shipment=${ id }`);

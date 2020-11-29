@@ -12,8 +12,8 @@ import Divider from '@material-ui/core/Divider';
 import RHFAutoComplete from '../shared/rhf/inputs/RHFAutoComplete.js';
 import { findAddressFromAddresses } from '../shared/utils/addresses.js';
 import { useSelector } from 'react-redux';
-import { selectCompanyActiveAddresses, selectCompanyPorts } from '../home/duck/selectors.js';
-import { selectClientActiveAddresses, selectClientById } from '../clients/duck/selectors.js';
+import { selectCompanyActiveAddresses, selectCompanyAddress, selectCompanyPorts } from '../home/duck/selectors.js';
+import { selectClientActiveAddresses, selectClientAddress, selectClientById } from '../clients/duck/selectors.js';
 import Footer from '../shared/components/Footer.js';
 import { useHistory, useLocation } from 'react-router-dom';
 import queryString from 'query-string';
@@ -58,25 +58,32 @@ const useStyles = makeStyles((theme) => ({
 const CommercialInvoiceDetails = React.memo(function CommercialInvoiceDetails(
     {
         commercialInvoice,
-        setCommercialInvoice,
-        setStep
+        setCommercialInvoice
     }) {
     const classes = useStyles();
     const location = useLocation();
     const { shipment: shipmentId } = queryString.parse(location.search);
     const history = useHistory();
     const companyAddresses = useSelector(selectCompanyActiveAddresses);
-    const consignee = useSelector(state => selectClientById(state, commercialInvoice.consignee));
     const consigneeAddresses = useSelector(state => selectClientActiveAddresses(state, commercialInvoice.consignee));
     const companyPorts = useSelector(selectCompanyPorts);
+
+    const consignee = useSelector(state => selectClientById(state, commercialInvoice.consignee));
+    const initialSellerAddress = useSelector(state => selectCompanyAddress(state, commercialInvoice.sellerAdd.addressId));
+    const initialConsigneeAddress = useSelector(state =>
+        selectClientAddress(state, {
+            clientId: commercialInvoice.consignee,
+            addressId: commercialInvoice.consigneeAdd.addressId
+        })
+    );
 
     const { register, control, errors, watch, handleSubmit } = useForm({
         mode: 'onSubmit',
         defaultValues: {
             [fieldNames.autoGenerateRef]: commercialInvoice.autoGenerateRef,
             [fieldNames.ref]: commercialInvoice.ref,
-            [fieldNames.sellerAdd]: findAddressFromAddresses(commercialInvoice.sellerAdd, companyAddresses),
-            [fieldNames.consigneeAdd]: findAddressFromAddresses(commercialInvoice.consigneeAdd, consigneeAddresses),
+            [fieldNames.sellerAdd]: initialSellerAddress,
+            [fieldNames.consigneeAdd]: initialConsigneeAddress,
             [fieldNames.crd]: commercialInvoice.crd,
             [fieldNames.coo]: commercialInvoice.coo,
             [fieldNames.incoterm]: commercialInvoice.incoterm,
@@ -94,15 +101,15 @@ const CommercialInvoiceDetails = React.memo(function CommercialInvoiceDetails(
         history.push(`/home/shipments/${ shipmentId }`);
 
     const onNextClick = (data) => {
-        setCommercialInvoice(prev => ({...prev, ...data}));
-        setStep('products');
+        setCommercialInvoice(prev => ({ ...prev, ...data }));
+        history.push(`/home/documents/ci/new?step=products&shipment=${ shipmentId }`);
     };
 
     return (
         <form onSubmit={ handleSubmit(onNextClick) } autoComplete="off">
-            <Grid container className={classes.root} justify="center">
+            <Grid container className={ classes.root } justify="center">
                 <Grid item xs={ 12 }>
-                    <Typography className={classes.title} variant="h5">{ titleLabel }</Typography>
+                    <Typography className={ classes.title } variant="h5">{ titleLabel }</Typography>
                 </Grid>
                 <Grid item>
                     <FormContainer>
@@ -126,7 +133,7 @@ const CommercialInvoiceDetails = React.memo(function CommercialInvoiceDetails(
                             options={ companyAddresses }
                             error={ !!errors[fieldNames.sellerAdd] }
                             getOptionLabel={ formatAddress }
-                            getOptionSelected={ (option, value) => option._id === value._id }
+                            getOptionSelected={ (option, value) => option._id === value._id || !value.active }
                             rowsMax={ 8 }
                             required
                         />
@@ -142,7 +149,7 @@ const CommercialInvoiceDetails = React.memo(function CommercialInvoiceDetails(
                             options={ consigneeAddresses }
                             error={ !!errors[fieldNames.consigneeAdd] }
                             getOptionLabel={ formatAddress }
-                            getOptionSelected={ (option, value) => option._id === value._id }
+                            getOptionSelected={ (option, value) => option._id === value._id || !value.active }
                             rowsMax={ 8 }
                             required
                         />

@@ -14,9 +14,8 @@ import CommercialInvoiceProducts from './CommercialInvoiceProducts.js';
 
 const CommercialInvoice = React.memo(function CommercialInvoice() {
     const location = useLocation();
-    const { shipment: shipmentId } = queryString.parse(location.search);
+    const { shipment: shipmentId, step } = queryString.parse(location.search);
     const shipment = useSelector(state => selectShipmentById(state, shipmentId));
-    const [step, setStep] = useState('details');
     const initialCI = shipmentToCommercialInvoice(shipment);
     const [commercialInvoice, setCommercialInvoice] = useSessionStorage(SESSION_NEW_DOCUMENT, initialCI);
 
@@ -26,13 +25,11 @@ const CommercialInvoice = React.memo(function CommercialInvoice() {
             <CommercialInvoiceDetails
                 commercialInvoice={ commercialInvoice }
                 setCommercialInvoice={ setCommercialInvoice }
-                setStep={ setStep }
             /> }
             { step === 'products' &&
             <CommercialInvoiceProducts
                 commercialInvoice={ commercialInvoice }
                 setCommercialInvoice={ setCommercialInvoice }
-                setStep={ setStep }
             /> }
         </Paper>
     )
