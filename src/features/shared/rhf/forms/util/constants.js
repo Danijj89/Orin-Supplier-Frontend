@@ -6,6 +6,8 @@ export const defaultProductRowValues = {
     order: null,
     ref: '',
     description: '',
+    localD: '',
+    hsc: '',
     quantity: 0,
     unit: 'PCS',
     price: 0,

@@ -56,7 +56,8 @@ const OrderContainer = React.memo(function OrderContainer() {
 
     const companyId = useSelector(selectCompanyId);
     const order = useSelector(state => selectOrderById(state, id));
-    const isOrderInactive = useMemo(() => order?.active === false, [order]);
+    const isOrderInactive = useMemo(() => order?.active === false
+        || (!order && orderDataStatus === 'FULFILLED') , [order, orderDataStatus]);
 
     const fetched = useRef(false);
     useEffect(() => {

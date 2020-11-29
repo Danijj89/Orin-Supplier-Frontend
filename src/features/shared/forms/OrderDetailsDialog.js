@@ -56,7 +56,7 @@ const OrderDetailsDialog = React.memo(function OrderDetailsDialog(
     );
     const clientShipAddress = useSelector(
         state => selectClientAddress(state,
-            { clientId: order.to, addressId: order.shipAdd.addressId }
+            { clientId: order.to, addressId: order.shipAdd?.addressId }
         )
     );
 

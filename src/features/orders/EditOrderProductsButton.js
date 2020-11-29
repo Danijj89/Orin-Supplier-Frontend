@@ -5,7 +5,7 @@ import OrderProductsDialog from '../shared/forms/OrderProductsDialog.js';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import { useDispatch } from 'react-redux';
 import { updateOrder } from './duck/thunks.js';
-import { tableItemsToOrderItems } from '../shared/utils/entityConversion.js';
+import { productTableItemsToOrderItems } from '../shared/utils/entityConversion.js';
 
 const {
     buttonLabel,
@@ -21,7 +21,7 @@ const EditOrderProductsButton = React.memo(function EditOrderProductsButton({ or
     const onCancel = () => setIsEdit(false);
 
     const onSubmit = (data) => {
-        data.items = tableItemsToOrderItems(data.items);
+        data.items = productTableItemsToOrderItems(data.items);
         dispatch(updateOrder({ orderId: order._id, update: data }));
         setIsEdit(false);
     };

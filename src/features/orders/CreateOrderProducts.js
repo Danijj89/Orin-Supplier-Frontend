@@ -6,7 +6,7 @@ import { LANGUAGE } from '../../app/utils/constants.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectAllActiveProducts } from '../products/duck/selectors.js';
 import { useHistory } from 'react-router-dom';
-import { addressToDocAddress, tableItemsToOrderItems } from '../shared/utils/entityConversion.js';
+import { addressToDocAddress, productTableItemsToOrderItems } from '../shared/utils/entityConversion.js';
 import { createOrder } from './duck/thunks.js';
 
 const {
@@ -65,7 +65,7 @@ const CreateOrderProducts = React.memo(function CreateOrderProducts({ order, set
         actualData.toAdd = addressToDocAddress(actualData.toAdd);
         if (actualData.shipAdd) actualData.shipAdd = addressToDocAddress(actualData.shipAdd);
         actualData.to = actualData.to._id;
-        actualData.items = tableItemsToOrderItems(actualData.items);
+        actualData.items = productTableItemsToOrderItems(actualData.items);
         dispatch(createOrder({ data: actualData }));
     };
 

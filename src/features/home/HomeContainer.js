@@ -32,7 +32,7 @@ const HomeContainer = React.memo(function HomeContainer() {
             { !companyId && <Redirect to={ '/login' }/> }
             { status === 'REJECTED' && <ErrorPage errors={ errors }/> }
             { status === 'PENDING' && <Loader/> }
-            { status === 'FULFILLED' && <Home/> }
+            { companyId && status === 'FULFILLED' && <Home/> }
         </>
     )
 });

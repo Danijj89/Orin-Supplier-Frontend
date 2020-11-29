@@ -137,10 +137,14 @@ const RHFProductTable = React.memo(function RHFProductTable(
                     newItem.product = newValue._id;
                     newItem.ref = newValue.sku;
                     newItem.description = newValue.description;
+                    newItem.localD = newValue.localD;
+                    newItem.hsc = newValue.hsc;
                     newItem.order = 0;
                 } else {
                     newItem.ref = newValue;
                     newItem.description = '';
+                    newItem.localD = '';
+                    newItem.hsc = '';
                     newItem.product = null;
                     newItem.order = 0;
                 }

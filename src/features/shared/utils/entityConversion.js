@@ -12,12 +12,14 @@ export const addressToDocAddress = (address) => (
 );
 
 
-export const tableItemsToOrderItems = (tableItems) =>
+export const productTableItemsToOrderItems = (tableItems) =>
     tableItems.map(item => {
         const temp = {
             product: item.product,
             ref: item.ref,
             description: item.description,
+            localD: item.localD,
+            hsc: item.hsc,
             quantity: item.quantity,
             unit: item.unit,
             price: item.price,
@@ -36,6 +38,8 @@ export const productTableItemsToItems = (tableItems, shipmentId) =>
             shipment: shipmentId,
             ref: item.ref,
             description: item.description,
+            localD: item.localD,
+            hsc: item.hsc,
             quantity: item.quantity,
             unit: item.unit,
             price: item.price,

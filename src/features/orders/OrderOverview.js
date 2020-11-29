@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import { useDispatch } from 'react-redux';
 import { cleanNewOrder } from './duck/slice.js';
@@ -22,12 +22,11 @@ const useStyles = makeStyles((theme) => ({
 const OrderOverview = React.memo(function OrderOverview() {
     const classes = useStyles();
     const dispatch = useDispatch();
-    const location = useLocation();
     const history = useHistory();
 
     const onNewOrderClick = () => {
         dispatch(cleanNewOrder());
-        history.push(`${location.pathname}/new?step=details`);
+        history.push('/home/orders/new?step=details');
     };
 
     return (
