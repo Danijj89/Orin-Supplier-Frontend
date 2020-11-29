@@ -78,8 +78,8 @@ const Shipment = React.memo(function Shipment() {
                         onChange={ onTabChange }
                         className={ classes.navTabs }
                     />
-                    { tabValue === 'orders' && <ShipmentOrdersTable /> }
-                    { tabValue === 'documents' && <ShipmentDocumentTable /> }
+                    { tabValue === 'orders' && <ShipmentOrdersTable/> }
+                    { tabValue === 'documents' && <ShipmentDocumentTable shipmentId={ shipmentId }/> }
                 </Card>
             </Grid>
         </Grid>

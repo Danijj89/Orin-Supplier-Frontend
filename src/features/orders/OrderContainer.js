@@ -8,7 +8,7 @@ import Loader from '../shared/components/Loader.js';
 import { fetchOrders } from './duck/thunks.js';
 import { selectUserDataStatus, selectUserError } from '../users/duck/selectors.js';
 import { selectClientDataStatus, selectClientError } from '../clients/duck/selectors.js';
-import { cleanCurrentOrderId } from './duck/slice.js';
+import { cleanCurrentOrderId, cleanOrderState } from './duck/slice.js';
 import { fetchUsers } from '../users/duck/thunks.js';
 import { fetchClients } from '../clients/duck/thunks.js';
 import { selectProductDataStatus, selectProductError } from '../products/duck/selectors.js';
@@ -74,6 +74,7 @@ const OrderContainer = React.memo(function OrderContainer() {
     useEffect(() => {
         return () => {
             if (errors.length > 0) {
+                dispatch(cleanOrderState());
                 dispatch(cleanHomeState());
                 dispatch(cleanUserState());
                 dispatch(cleanClientState());

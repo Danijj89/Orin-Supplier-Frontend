@@ -11,15 +11,13 @@ import { selectUsersMap } from '../../users/duck/selectors.js';
 import { dateToLocaleDate } from '../utils/format.js';
 import DocumentService from '../../api/DocumentService.js';
 import { downloadFile } from '../utils/file.js';
-import { useParams } from 'react-router-dom';
 
 const {
     tableHeaderLabelsMap
 } = LANGUAGE.shipment.shipment.shipmentDocumentTable;
 
 const ShipmentDocumentTable = React.memo(function ShipmentDocumentTable(
-    { maxEmptyRows, className }) {
-    const { id: shipmentId } = useParams();
+    { shipmentId, maxEmptyRows, className }) {
     const documents = useSelector(state => selectShipmentDocumentsField(state, shipmentId));
     const usersMap = useSelector(selectUsersMap);
 
@@ -85,6 +83,7 @@ const ShipmentDocumentTable = React.memo(function ShipmentDocumentTable(
 });
 
 ShipmentDocumentTable.propTypes = {
+    shipmentId: PropTypes.string.isRequired,
     maxEmptyRows: PropTypes.number,
     className: PropTypes.string
 };
