@@ -8,10 +8,9 @@ import RHFAutoComplete from '../shared/rhf/inputs/RHFAutoComplete.js';
 import { formatAddress } from '../shared/utils/format.js';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import { useForm } from 'react-hook-form';
-import { findAddressFromAddresses } from '../shared/utils/addresses.js';
 import { useSelector } from 'react-redux';
-import { selectCompanyActiveAddresses } from '../home/duck/selectors.js';
-import { selectClientActiveAddresses, selectClientById } from '../clients/duck/selectors.js';
+import { selectCompanyActiveAddresses, selectCompanyAddress } from '../home/duck/selectors.js';
+import { selectClientActiveAddresses, selectClientAddress, selectClientById } from '../clients/duck/selectors.js';
 import { selectShipmentCommercialInvoices } from '../shipments/duck/selectors.js';
 import { useHistory } from 'react-router-dom';
 import Footer from '../shared/components/Footer.js';
@@ -41,22 +40,39 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const PackingListDetails = React.memo(function PackingListDetails(
-    { packingList, setPackingList, shipmentId, setStep }) {
+    { packingList, setPackingList, shipmentId }) {
     const classes = useStyles();
     const history = useHistory();
     const companyAddresses = useSelector(selectCompanyActiveAddresses);
-    const consignee = useSelector(state => selectClientById(state, packingList.consignee));
     const consigneeAddresses = useSelector(state => selectClientActiveAddresses(state, packingList.consignee));
     const commercialInvoices = useSelector(state => selectShipmentCommercialInvoices(state, shipmentId));
+
+    const consignee = useSelector(state => selectClientById(state, packingList.consignee));
+    const initialSellerAddress = useSelector(
+        state => selectCompanyAddress(
+            state,
+            packingList.sellerAdd.addressId || packingList.sellerAdd._id));
+    const initialConsigneeAddress = useSelector(state =>
+        selectClientAddress(state, {
+            clientId: packingList.consignee,
+            addressId: packingList.consigneeAdd.addressId || packingList.consigneeAdd._id
+        })
+    );
+    const initialShipAddress = useSelector(state =>
+        selectClientAddress(state, {
+            clientId: packingList.consignee,
+            addressId: packingList.shipAdd?.addressId || packingList.shipAdd?._id
+        })
+    );
 
     const { register, control, errors, watch, handleSubmit } = useForm({
         mode: 'onSubmit',
         defaultValues: {
             [fieldNames.autoGenerateRef]: packingList.autoGenerateRef,
             [fieldNames.ref]: packingList.ref,
-            [fieldNames.sellerAdd]: findAddressFromAddresses(packingList.sellerAdd, companyAddresses),
-            [fieldNames.consigneeAdd]: findAddressFromAddresses(packingList.consigneeAdd, consigneeAddresses),
-            [fieldNames.shipAdd]: findAddressFromAddresses(packingList.shipAdd, consigneeAddresses),
+            [fieldNames.sellerAdd]: initialSellerAddress,
+            [fieldNames.consigneeAdd]: initialConsigneeAddress,
+            [fieldNames.shipAdd]: initialShipAddress || null,
             [fieldNames.ciRef]: commercialInvoices.length ? commercialInvoices[0] : null,
             [fieldNames.notes]: packingList.notes
         }
@@ -69,79 +85,79 @@ const PackingListDetails = React.memo(function PackingListDetails(
 
     const onNextClick = (data) => {
         setPackingList(prev => ({ ...prev, ...data }));
-        setStep('products');
+        history.push(`/home/documents/pl/new?step=products&shipment=${ shipmentId }`);
     };
 
     return (
         <form onSubmit={ handleSubmit(onNextClick) } autoComplete="off">
-            <Typography className={classes.title} variant="h5">{ titleLabel }</Typography>
+            <Typography className={ classes.title } variant="h5">{ titleLabel }</Typography>
             <Grid container justify="center">
-            <FormContainer>
-                <RHFCheckBox
-                    name={ fieldNames.autoGenerateRef }
-                    label={ formLabels.autoGenerateRef }
-                    rhfControl={ control }
-                />
-                <SideTextField
-                    name={ fieldNames.ref }
-                    label={ formLabels.ref }
-                    inputRef={ register }
-                    error={ !!errors[fieldNames.ref] }
-                    required={ !autoGenerateRef }
-                    disabled={ autoGenerateRef }
-                />
-                <RHFAutoComplete
-                    rhfControl={ control }
-                    name={ fieldNames.sellerAdd }
-                    label={ formLabels.sellerAdd }
-                    options={ companyAddresses }
-                    error={ !!errors[fieldNames.sellerAdd] }
-                    getOptionLabel={ formatAddress }
-                    getOptionSelected={ (option, value) => option._id === value._id }
-                    rowsMax={ 8 }
-                    required
-                />
-                <SideTextField
-                    label={ formLabels.consignee }
-                    value={ consignee.name }
-                    disabled
-                />
-                <RHFAutoComplete
-                    rhfControl={ control }
-                    name={ fieldNames.consigneeAdd }
-                    label={ formLabels.consigneeAdd }
-                    options={ consigneeAddresses }
-                    error={ !!errors[fieldNames.consigneeAdd] }
-                    getOptionLabel={ formatAddress }
-                    getOptionSelected={ (option, value) => option._id === value._id }
-                    rowsMax={ 8 }
-                    required
-                />
-                <RHFAutoComplete
-                    rhfControl={ control }
-                    name={ fieldNames.shipAdd }
-                    label={ formLabels.shipAdd }
-                    options={ consigneeAddresses }
-                    getOptionLabel={ formatAddress }
-                    getOptionSelected={ (option, value) => option._id === value._id }
-                    rowsMax={ 8 }
-                />
-                <RHFAutoComplete
-                    rhfControl={ control }
-                    name={ fieldNames.ciRef }
-                    label={ formLabels.ciRef }
-                    options={ commercialInvoices }
-                    getOptionLabel={ option => option.ref }
-                    getOptionSelected={ (option, value) => option._id === value._id }
-                />
-                <SideTextField
-                    label={ formLabels.notes }
-                    name={ fieldNames.notes }
-                    inputRef={ register }
-                    rows={ 4 }
-                    rowsMax={ 8 }
-                />
-            </FormContainer>
+                <FormContainer>
+                    <RHFCheckBox
+                        name={ fieldNames.autoGenerateRef }
+                        label={ formLabels.autoGenerateRef }
+                        rhfControl={ control }
+                    />
+                    <SideTextField
+                        name={ fieldNames.ref }
+                        label={ formLabels.ref }
+                        inputRef={ register }
+                        error={ !!errors[fieldNames.ref] }
+                        required={ !autoGenerateRef }
+                        disabled={ autoGenerateRef }
+                    />
+                    <RHFAutoComplete
+                        rhfControl={ control }
+                        name={ fieldNames.sellerAdd }
+                        label={ formLabels.sellerAdd }
+                        options={ companyAddresses }
+                        error={ !!errors[fieldNames.sellerAdd] }
+                        getOptionLabel={ formatAddress }
+                        getOptionSelected={ (option, value) => option._id === value._id || !value.active }
+                        rowsMax={ 8 }
+                        required
+                    />
+                    <SideTextField
+                        label={ formLabels.consignee }
+                        value={ consignee.name }
+                        disabled
+                    />
+                    <RHFAutoComplete
+                        rhfControl={ control }
+                        name={ fieldNames.consigneeAdd }
+                        label={ formLabels.consigneeAdd }
+                        options={ consigneeAddresses }
+                        error={ !!errors[fieldNames.consigneeAdd] }
+                        getOptionLabel={ formatAddress }
+                        getOptionSelected={ (option, value) => option._id === value._id || !value.active }
+                        rowsMax={ 8 }
+                        required
+                    />
+                    <RHFAutoComplete
+                        rhfControl={ control }
+                        name={ fieldNames.shipAdd }
+                        label={ formLabels.shipAdd }
+                        options={ consigneeAddresses }
+                        getOptionLabel={ formatAddress }
+                        getOptionSelected={ (option, value) => option._id === value._id || !value.active }
+                        rowsMax={ 8 }
+                    />
+                    <RHFAutoComplete
+                        rhfControl={ control }
+                        name={ fieldNames.ciRef }
+                        label={ formLabels.ciRef }
+                        options={ commercialInvoices }
+                        getOptionLabel={ option => option.ref }
+                        getOptionSelected={ (option, value) => option._id === value._id }
+                    />
+                    <SideTextField
+                        label={ formLabels.notes }
+                        name={ fieldNames.notes }
+                        inputRef={ register }
+                        rows={ 4 }
+                        rowsMax={ 8 }
+                    />
+                </FormContainer>
             </Grid>
             <Footer
                 prevLabel={ prevButtonLabel }

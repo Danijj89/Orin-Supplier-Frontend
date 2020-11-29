@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCompanyId } from '../home/duck/selectors.js';
 import {
-    addressToDocAddress
+    addressToDocAddress, tableItemsToItems
 } from '../shared/utils/entityConversion.js';
 import { selectCurrentUserId } from '../../app/duck/selectors.js';
 import { createDocument } from '../shipments/duck/thunks.js';
@@ -35,7 +35,7 @@ const fieldNames = {
 const DOCUMENT_TYPE = 'PL';
 
 const PackingListProducts = React.memo(function PackingListProducts(
-    { packingList, setPackingList, shipmentId, setStep }) {
+    { packingList, setPackingList, shipmentId }) {
     const dispatch = useDispatch();
     const history = useHistory();
     const companyId = useSelector(selectCompanyId);
@@ -69,24 +69,25 @@ const PackingListProducts = React.memo(function PackingListProducts(
 
     const onPrevClick = () => {
         setPackingList(prev => ({ ...prev, ...getValues() }));
-        setStep('details');
+        history.push(`/home/documents/pl/new?step=details&shipment=${ shipmentId }`);
     };
 
     const onSubmit = (data) => {
-        const actualData = { ...packingList, ...data };
-        actualData.type = DOCUMENT_TYPE;
-        actualData.seller = companyId;
-        actualData.sellerAdd = addressToDocAddress(actualData.sellerAdd);
-        actualData.consigneeAdd = addressToDocAddress(actualData.consigneeAdd);
-        if (actualData.shipAdd) actualData.shipAdd = addressToDocAddress(actualData.shipAdd);
-        actualData.ciRef = actualData.ciRef.ref;
-        actualData.createdBy = userId;
-        dispatch(createDocument({ id: shipmentId, doc: actualData }));
+        const document = { ...packingList, ...data };
+        document.type = DOCUMENT_TYPE;
+        document.seller = companyId;
+        document.sellerAdd = addressToDocAddress(document.sellerAdd);
+        document.consigneeAdd = addressToDocAddress(document.consigneeAdd);
+        if (document.shipAdd) document.shipAdd = addressToDocAddress(document.shipAdd);
+        if (document.ciRef) document.ciRef = document.ciRef.ref;
+        document.createdBy = userId;
+        document.items = tableItemsToItems(document.items, shipmentId);
+        dispatch(createDocument({ shipmentId, document }));
         history.push(`/home/shipments/${ shipmentId }?tab=documents`);
     };
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
+        <form onSubmit={ handleSubmit(onSubmit) } autoComplete="off">
             <Typography variant="h5">{ titleLabel }</Typography>
             <RHFMeasureTable
                 rhfRegister={ register }

@@ -40,7 +40,7 @@ const DocumentButton = React.memo(function DocumentButton() {
                 history.push(`/home/documents/ci/new?step=details&shipment=${ id }`);
                 break;
             case 'PL':
-                history.push(`/home/documents/pl/new?shipment=${ id }`);
+                history.push(`/home/documents/pl/new?step=details&shipment=${ id }`);
                 break;
             case 'SC':
                 history.push(`/home/documents/sc/new?step=details&shipment=${ id }`);

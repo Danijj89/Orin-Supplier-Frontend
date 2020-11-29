@@ -13,9 +13,8 @@ import PackingListProducts from './PackingListProducts.js';
 const PackingList = React.memo(function PackingList() {
 
     const location = useLocation();
-    const { shipment: shipmentId } = queryString.parse(location.search);
+    const { shipment: shipmentId, step } = queryString.parse(location.search);
     const shipment = useSelector(state => selectShipmentById(state, shipmentId));
-    const [step, setStep] = useState('details');
     const initialPL = shipmentToPackingList(shipment);
     const [packingList, setPackingList] = useSessionStorage(SESSION_NEW_DOCUMENT, initialPL);
 
@@ -26,14 +25,12 @@ const PackingList = React.memo(function PackingList() {
                 packingList={ packingList }
                 setPackingList={ setPackingList }
                 shipmentId={ shipmentId }
-                setStep={ setStep }
             /> }
             { step === 'products' &&
             <PackingListProducts
                 packingList={ packingList }
                 setPackingList={ setPackingList }
                 shipmentId={ shipmentId }
-                setStep={ setStep }
             /> }
         </Paper>
     )

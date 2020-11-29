@@ -46,6 +46,6 @@ export const selectShipmentOrders = createSelector(
 
 export const selectShipmentCommercialInvoices = createSelector(
     (state, id) => state.shipments.entities[id].documents,
-    documents => documents.filter(doc => doc.type === 'CI' && doc.active)
+    documents => documents.filter(doc => doc.type === 'CI')
 );
 
