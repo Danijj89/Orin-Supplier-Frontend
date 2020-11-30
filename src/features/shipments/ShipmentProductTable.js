@@ -12,6 +12,7 @@ import Paper from '@material-ui/core/Paper';
 import { selectOrdersMap } from '../orders/duck/selectors.js';
 import { useParams } from 'react-router-dom';
 import { selectShipmentById } from './duck/selectors.js';
+import { getOptionId } from '../../app/utils/options/getters.js';
 
 const productTableFieldNames = {
     custom1: 'ciCustom1',
@@ -63,6 +64,7 @@ const ShipmentProductTable = React.memo(function ShipmentProductTable() {
 
     const onSubmit = (data) => {
         data.items = tableItemsToItems(data.items, shipmentId);
+        data.currency = getOptionId(data.currency);
         dispatch(updateShipment({ shipmentId, update: data }));
     };
 

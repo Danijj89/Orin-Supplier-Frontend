@@ -1,5 +1,5 @@
 
-export const getDeliveryMethodId = (method) => method.id;
-export function getDeliveryMethodLabel(method, lang = 'en') {
+export const getOptionId = (method) => method.id;
+export function getOptionLabel(method, lang = 'en') {
     return method.label[lang];
 }

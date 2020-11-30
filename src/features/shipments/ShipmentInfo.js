@@ -21,7 +21,7 @@ import RHFDateField from '../shared/rhf/inputs/RHFDateField.js';
 import { useParams } from 'react-router-dom';
 import { selectShipmentById } from './duck/selectors.js';
 import { selectDeliveryMethods } from '../../app/duck/selectors.js';
-import { getDeliveryMethodLabel } from '../../app/utils/options/getters.js';
+import { getOptionId, getOptionLabel } from '../../app/utils/options/getters.js';
 
 const {
     partiesTitleLabel,
@@ -86,6 +86,7 @@ const ShipmentInfo = React.memo(function ShipmentInfo() {
         data.sellerAdd = addressToDocAddress(data.sellerAdd);
         data.consigneeAdd = addressToDocAddress(data.consigneeAdd);
         data.shipAdd = addressToDocAddress(data.shipAdd);
+        if (data.del) data.del = getOptionId(data.del);
         dispatch(updateShipment({ shipmentId, update: data }));
     };
 
@@ -194,7 +195,7 @@ const ShipmentInfo = React.memo(function ShipmentInfo() {
                                 name="del"
                                 label={ formLabels.del }
                                 options={ deliveryMethodOptions }
-                                getOptionLabel={ method => getDeliveryMethodLabel(method) }
+                                getOptionLabel={ method => getOptionLabel(method) }
                                 getOptionSelected={ (option, value) => option.id === value.id }
                             />
                             <RHFAutoComplete

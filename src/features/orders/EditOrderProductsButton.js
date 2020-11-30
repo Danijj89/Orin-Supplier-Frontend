@@ -6,6 +6,7 @@ import { LANGUAGE } from '../../app/utils/constants.js';
 import { useDispatch } from 'react-redux';
 import { updateOrder } from './duck/thunks.js';
 import { productTableItemsToOrderItems } from '../shared/utils/entityConversion.js';
+import { getOptionId } from '../../app/utils/options/getters.js';
 
 const {
     buttonLabel,
@@ -22,6 +23,7 @@ const EditOrderProductsButton = React.memo(function EditOrderProductsButton({ or
 
     const onSubmit = (data) => {
         data.items = productTableItemsToOrderItems(data.items);
+        data.currency = getOptionId(data.currency);
         dispatch(updateOrder({ orderId: order._id, update: data }));
         setIsEdit(false);
     };

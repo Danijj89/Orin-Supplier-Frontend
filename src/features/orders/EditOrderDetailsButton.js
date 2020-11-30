@@ -6,6 +6,7 @@ import OrderDetailsDialog from '../shared/forms/OrderDetailsDialog.js';
 import { useDispatch } from 'react-redux';
 import { deleteOrder, updateOrder } from './duck/thunks.js';
 import { addressToDocAddress } from '../shared/utils/entityConversion.js';
+import { getOptionId } from '../../app/utils/options/getters.js';
 
 const {
     buttonLabel,
@@ -29,6 +30,7 @@ const EditOrderDetailsButton = React.memo(function EditOrderDetailsButton({ orde
         data.fromAdd = addressToDocAddress(data.fromAdd);
         data.toAdd = addressToDocAddress(data.toAdd);
         if (data.shipAdd) data.shipAdd = addressToDocAddress(data.shipAdd);
+        if (data.del) data.del = getOptionId(data.del);
         dispatch(updateOrder({ orderId: order._id, update: data }));
         setIsEdit(false);
     }, [dispatch, order._id]);

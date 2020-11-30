@@ -2,7 +2,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Grid, IconButton } from '@material-ui/core';
 import { useWatch } from 'react-hook-form';
-import { currenciesOptions, itemUnitsOptions } from '../../../../app/utils/options/options.js';
+import { itemUnitsOptions } from '../../../../app/utils/options/options.js';
 import { LANGUAGE } from '../../../../app/utils/constants.js';
 import EditableTable from '../../components/editable_table/EditableTable.js';
 import DeleteIconButton from '../../buttons/DeleteIconButton.js';
@@ -16,6 +16,9 @@ import { defaultProductRowValues } from './util/constants.js';
 import TextArea from '../../inputs/TextArea.js';
 import RHFCheckBox from '../inputs/RHFCheckBox.js';
 import RHFAutoComplete from '../inputs/RHFAutoComplete.js';
+import { useSelector } from 'react-redux';
+import { selectCurrencies } from '../../../../app/duck/selectors.js';
+import { getOptionLabel } from '../../../../app/utils/options/getters.js';
 
 const {
     formLabels,
@@ -49,6 +52,8 @@ const RHFProductTable = React.memo(function RHFProductTable(
         ordersMap,
         className
     }) {
+
+    const currencyOptions = useSelector(selectCurrencies);
 
     const custom1 = useWatch({
         control,
@@ -336,7 +341,9 @@ const RHFProductTable = React.memo(function RHFProductTable(
                     rhfControl={ control }
                     name={ fieldNames.currency }
                     label={ formLabels.currency }
-                    options={ currenciesOptions }
+                    options={ currencyOptions }
+                    getOptionLabel={ option => getOptionLabel(option) }
+                    getOptionSelected={ (option, value) => option.id === value.id }
                     error={ !!errors[fieldNames.currency] }
                     required={ errorMessages.missingCurrency }
                 />

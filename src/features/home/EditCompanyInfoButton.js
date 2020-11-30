@@ -6,6 +6,7 @@ import CompanyDialog from '../shared/forms/CompanyDialog.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateCompany } from './duck/thunks.js';
 import { selectCurrentCompany } from './duck/selectors.js';
+import { getOptionId } from '../../app/utils/options/getters.js';
 
 const { editButtonLabel, dialogTitleLabel, dialogSubmitLabel } = LANGUAGE.home.companyDetails;
 
@@ -18,6 +19,7 @@ const EditCompanyInfoButton = React.memo(function EditCompanyInfoButton({ classN
     const onCancelEditDialog = () => setIsEdit(false);
 
     const onSubmitEditDialog = (data) => {
+        if (data.currency) data.currency = getOptionId(data.currency);
         dispatch(updateCompany({ id: company._id, update: data }));
         setIsEdit(false);
     };

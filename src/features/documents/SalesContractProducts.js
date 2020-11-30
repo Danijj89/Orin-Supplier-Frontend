@@ -12,6 +12,7 @@ import { selectAllActiveProducts } from '../products/duck/selectors.js';
 import { selectActiveOrdersMap } from '../orders/duck/selectors.js';
 import { selectCompanyId } from '../home/duck/selectors.js';
 import { selectCurrentUserId } from '../../app/duck/selectors.js';
+import { getOptionId } from '../../app/utils/options/getters.js';
 
 const {
     titleLabel,
@@ -73,6 +74,7 @@ const SalesContractProducts = React.memo(function SalesContractProducts(
         document.sellerAdd = addressToDocAddress(document.sellerAdd);
         document.consigneeAdd = addressToDocAddress(document.consigneeAdd);
         if (document.bankDetails) document.bankDetails = document.bankDetails.detail;
+        document.currency = getOptionId(document.currency);
         document.items = tableItemsToItems(document.items, shipmentId);
         document.createdBy = userId;
         dispatch(createDocument({ shipmentId, document }))

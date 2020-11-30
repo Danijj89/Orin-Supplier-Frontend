@@ -8,6 +8,7 @@ import { selectAllActiveProducts } from '../products/duck/selectors.js';
 import { useHistory } from 'react-router-dom';
 import { addressToDocAddress, productTableItemsToOrderItems } from '../shared/utils/entityConversion.js';
 import { createOrder } from './duck/thunks.js';
+import { getOptionId } from '../../app/utils/options/getters.js';
 
 const {
     prevButtonLabel,
@@ -64,6 +65,8 @@ const CreateOrderProducts = React.memo(function CreateOrderProducts({ order, set
         actualData.fromAdd = addressToDocAddress(actualData.fromAdd);
         actualData.toAdd = addressToDocAddress(actualData.toAdd);
         if (actualData.shipAdd) actualData.shipAdd = addressToDocAddress(actualData.shipAdd);
+        if (actualData.del) actualData.del = getOptionId(actualData.del);
+        actualData.currency = getOptionId(actualData.currency);
         actualData.to = actualData.to._id;
         actualData.items = productTableItemsToOrderItems(actualData.items);
         dispatch(createOrder({ data: actualData }));

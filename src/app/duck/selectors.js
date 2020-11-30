@@ -5,3 +5,4 @@ export const selectCurrentUserCompanyId = state => state.app.user?.company;
 export const selectCurrentUser = state => state.app.user;
 
 export const selectDeliveryMethods = state => state.app.appData.deliveryMethods;
+export const selectCurrencies = state => state.app.appData.currencies;

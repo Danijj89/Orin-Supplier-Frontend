@@ -15,7 +15,7 @@ import RHFDateField from '../inputs/RHFDateField.js';
 import Box from '@material-ui/core/Box';
 import { useSelector } from 'react-redux';
 import { selectDeliveryMethods } from '../../../../app/duck/selectors.js';
-import { getDeliveryMethodLabel } from '../../../../app/utils/options/getters.js';
+import { getOptionLabel } from '../../../../app/utils/options/getters.js';
 
 const useStyles = makeStyles((theme) => ({
     details: {
@@ -207,7 +207,7 @@ const RHFOrderDetails = React.memo(function RHFOrderDetails(
                         name={ fieldNames.del }
                         label={ formLabels.del }
                         options={ deliveryMethodOptions }
-                        getOptionLabel={ method => getDeliveryMethodLabel(method) }
+                        getOptionLabel={ method => getOptionLabel(method) }
                         getOptionSelected={ (option, value) => option.id === value.id }
                     />
                     <RHFAutoComplete

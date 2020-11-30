@@ -4,13 +4,16 @@ import FormDialog from '../wrappers/FormDialog.js';
 import { useForm } from 'react-hook-form';
 import { LANGUAGE } from '../../../app/utils/constants.js';
 import SideTextField from '../inputs/SideTextField.js';
-import { currenciesOptions, industriesOptions } from '../../../app/utils/options/options.js';
+import { industriesOptions } from '../../../app/utils/options/options.js';
 import RHFAutoComplete from '../rhf/inputs/RHFAutoComplete.js';
+import { useSelector } from 'react-redux';
+import { selectCurrencies } from '../../../app/duck/selectors.js';
 
 const { taxNumberLabel, currencyLabel, industriesLabel } = LANGUAGE.shared.forms.companyDialog;
 
 const CompanyDialog = React.memo(function CompanyDialog(
     { company, isOpen, titleLabel, submitLabel, onSubmit, onCancel, className }) {
+    const currencyOptions = useSelector(selectCurrencies);
 
     const { register, errors, handleSubmit, control, reset } = useForm({
         mode: 'onSubmit'
@@ -43,7 +46,9 @@ const CompanyDialog = React.memo(function CompanyDialog(
                 rhfControl={ control }
                 name="currency"
                 label={ currencyLabel }
-                options={ currenciesOptions }
+                options={ currencyOptions }
+                getOptionLabel={ option => currencyOptions(option) }
+                getOptionSelected={ (option, value) => option.id === value.id }
             />
             <RHFAutoComplete
                 rhfControl={ control }

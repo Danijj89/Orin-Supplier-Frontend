@@ -12,6 +12,7 @@ import { createDocument } from '../shipments/duck/thunks.js';
 import { selectCompanyId } from '../home/duck/selectors.js';
 import { selectCurrentUserId } from '../../app/duck/selectors.js';
 import { useHistory } from 'react-router-dom';
+import { getOptionId } from '../../app/utils/options/getters.js';
 
 const {
     titleLabel,
@@ -77,6 +78,7 @@ const CommercialInvoiceProducts = React.memo(function CommercialInvoiceProducts(
         document.seller = companyId;
         document.sellerAdd = addressToDocAddress(document.sellerAdd);
         document.consigneeAdd = addressToDocAddress(document.consigneeAdd);
+        document.currency = getOptionId(document.currency);
         document.createdBy = userId;
         document.items = tableItemsToItems(document.items, shipmentId);
         dispatch(createDocument({ shipmentId, document }));
