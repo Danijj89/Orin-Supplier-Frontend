@@ -14,6 +14,7 @@ import { selectCompanyDefaultAddress, selectCurrentCompany } from '../home/duck/
 import { itemUnitsOptions } from '../../app/utils/options/options.js';
 import { selectCurrencies, selectCurrentUserId, selectDeliveryMethods } from '../../app/duck/selectors.js';
 import { defaultProductRowValues } from '../shared/rhf/forms/util/constants.js';
+import { selectNewOrder } from './duck/selectors.js';
 
 const useStyles = makeStyles((theme) => ({
     orderRoot: {
@@ -46,28 +47,8 @@ const CreateOrder = React.memo(function CreateOrder() {
     const classes = useStyles();
     const location = useLocation();
     const { step } = queryString.parse(location.search);
-    const company = useSelector(selectCurrentCompany);
-    const companyDefaultAddress = useSelector(selectCompanyDefaultAddress);
-    const deliveryMethodOptions = useSelector(selectDeliveryMethods);
-    const currencyOptions = useSelector(selectCurrencies);
-    const userId = useSelector(selectCurrentUserId);
 
-    const initialCurrency = company.currency ? currencyOptions.find(c => c.id === company.currency) : null;
-
-    const newOrder = useMemo(() => ({
-        from: company._id,
-        fromAdd: companyDefaultAddress,
-        date: Date.now(),
-        del: deliveryMethodOptions[0],
-        currency: initialCurrency,
-        totalQ: { [itemUnitsOptions[0]]: 0 },
-        totalA: 0,
-        createdBy: userId,
-        saveItems: false,
-        autoGenerateRef: false,
-        items: [defaultProductRowValues]
-    }), [company._id, companyDefaultAddress, userId, deliveryMethodOptions, initialCurrency]);
-
+    const newOrder = useSelector(selectNewOrder);
     const [order, setOrder] = useSessionStorage(SESSION_NEW_ORDER, newOrder);
 
     return (

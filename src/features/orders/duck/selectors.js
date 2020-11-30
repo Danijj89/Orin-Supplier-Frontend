@@ -1,5 +1,13 @@
 import { ordersAdapter } from './slice.js';
 import { createSelector } from '@reduxjs/toolkit';
+import { selectCompanyDefaultAddress, selectCurrentCompany } from '../../home/duck/selectors.js';
+import {
+    selectCurrenciesMap,
+    selectCurrentUserId,
+    selectDeliveryMethods
+} from '../../../app/duck/selectors.js';
+import { itemUnitsOptions } from '../../../app/utils/options/options.js';
+import { defaultProductRowValues } from '../../shared/rhf/forms/util/constants.js';
 
 export const {
     selectAll: selectAllOrders,
@@ -41,5 +49,26 @@ export const selectShipmentShellClientIdToActiveOrdersMap = createSelector(
         else map[enhancedOrder.to] = [enhancedOrder];
         return map;
     }, {})
+);
+
+export const selectNewOrder = createSelector(
+    selectCurrentCompany,
+    selectCompanyDefaultAddress,
+    selectDeliveryMethods,
+    selectCurrenciesMap,
+    selectCurrentUserId,
+    (company, companyDefaultAddress, deliveryMethods, currenciesMap, userId) => ({
+        from: company._id,
+        fromAdd: companyDefaultAddress,
+        date: Date.now(),
+        del: deliveryMethods[0],
+        currency: company.currency ? currenciesMap[company.currency] : null,
+        totalQ: { [itemUnitsOptions[0]]: 0 },
+        totalA: 0,
+        createdBy: userId,
+        saveItems: false,
+        autoGenerateRef: false,
+        items: [defaultProductRowValues]
+    })
 );
 
