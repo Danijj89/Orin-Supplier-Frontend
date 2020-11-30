@@ -1,7 +1,7 @@
 import React from 'react';
 import { ListItemIcon, ListItemText } from '@material-ui/core';
 import { FiberManualRecord as IconCircle } from '@material-ui/icons';
-import { orderStatusColors } from '../shared/constants.js';
+import { orderStatusColors } from '../../app/utils/options/options.js';
 import { makeStyles } from '@material-ui/core/styles';
 import ListItem from '@material-ui/core/ListItem';
 

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { shipmentStatuses } from '../shared/constants.js';
+import { shipmentStatuses } from '../../app/utils/options/options.js';
 
 function getStatusBackGroundColor(theme, status) {
     switch (status) {

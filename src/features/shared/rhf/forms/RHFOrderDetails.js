@@ -3,7 +3,7 @@ import { useWatch } from 'react-hook-form';
 import { LANGUAGE } from '../../../../app/utils/constants.js';
 import SideTextField from '../../inputs/SideTextField.js';
 import { formatAddress } from '../../utils/format.js';
-import { deliveryMethodOptions, incotermOptions } from '../../constants.js';
+import { deliveryMethodOptions, incotermOptions } from '../../../../app/utils/options/options.js';
 import FormContainer from '../../wrappers/FormContainer.js';
 import { Divider, Typography, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';

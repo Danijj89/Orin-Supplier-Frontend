@@ -2,7 +2,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Grid, IconButton } from '@material-ui/core';
 import { useWatch } from 'react-hook-form';
-import { currenciesOptions, itemUnitsOptions } from '../../constants.js';
+import { currenciesOptions, itemUnitsOptions } from '../../../../app/utils/options/options.js';
 import { LANGUAGE } from '../../../../app/utils/constants.js';
 import EditableTable from '../../components/editable_table/EditableTable.js';
 import DeleteIconButton from '../../buttons/DeleteIconButton.js';

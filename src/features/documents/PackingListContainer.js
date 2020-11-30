@@ -43,6 +43,7 @@ const PackingListContainer = React.memo(function PackingListContainer() {
         return () => {
             if (errors.length > 0) {
                 dispatch(cleanHomeState());
+                dispatch(cleanShipmentState());
                 dispatch(cleanClientState());
                 dispatch(cleanShipmentState());
             }

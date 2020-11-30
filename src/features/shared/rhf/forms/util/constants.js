@@ -1,4 +1,4 @@
-import { packageUnitsOptions } from '../../../constants.js';
+import { packageUnitsOptions } from '../../../../../app/utils/options/options.js';
 
 export const defaultProductRowValues = {
     _id: null,

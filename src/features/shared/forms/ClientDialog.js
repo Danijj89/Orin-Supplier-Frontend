@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 import FormDialog from '../wrappers/FormDialog.js';
-import { incotermOptions } from '../constants.js';
+import { incotermOptions } from '../../../app/utils/options/options.js';
 import SideTextField from '../inputs/SideTextField.js';
 import { LANGUAGE } from '../../../app/utils/constants.js';
 import RHFAutoComplete from '../rhf/inputs/RHFAutoComplete.js';

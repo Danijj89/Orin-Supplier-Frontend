@@ -4,7 +4,7 @@ import FormDialog from '../wrappers/FormDialog.js';
 import { useForm } from 'react-hook-form';
 import { LANGUAGE } from '../../../app/utils/constants.js';
 import SideTextField from '../inputs/SideTextField.js';
-import { currenciesOptions, industriesOptions } from '../constants.js';
+import { currenciesOptions, industriesOptions } from '../../../app/utils/options/options.js';
 import RHFAutoComplete from '../rhf/inputs/RHFAutoComplete.js';
 
 const { taxNumberLabel, currencyLabel, industriesLabel } = LANGUAGE.shared.forms.companyDialog;

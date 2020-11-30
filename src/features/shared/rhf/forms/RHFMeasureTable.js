@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useWatch } from 'react-hook-form';
-import { measurementUnitsOptions, packageUnitsOptions, weightUnitsOptions } from '../../constants.js';
+import { measurementUnitsOptions, packageUnitsOptions, weightUnitsOptions } from '../../../../app/utils/options/options.js';
 import { Grid, IconButton } from '@material-ui/core';
 import { LANGUAGE } from '../../../../app/utils/constants.js';
 import EditableTable from '../../components/editable_table/EditableTable.js';

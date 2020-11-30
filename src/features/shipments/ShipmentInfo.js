@@ -11,7 +11,7 @@ import {
     billOfLandingTypesOptions,
     deliveryMethodOptions,
     incotermOptions
-} from '../shared/constants.js';
+} from '../../app/utils/options/options.js';
 import SideTextField from '../shared/inputs/SideTextField.js';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { updateShipment } from './duck/thunks.js';

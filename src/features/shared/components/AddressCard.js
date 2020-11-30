@@ -4,7 +4,7 @@ import { Card, Divider, Typography, Box, Tooltip } from '@material-ui/core';
 import { currentLocale, LANGUAGE } from '../../../app/utils/constants.js';
 import { makeStyles } from '@material-ui/core/styles';
 import ThemedButton from '../buttons/ThemedButton.js';
-import { countryOptionsMap } from '../constants.js';
+import { countryOptionsMap } from '../../../app/utils/options/options.js';
 
 const useStyles = makeStyles((theme) => ({
     container: {

@@ -11,7 +11,7 @@ import useSessionStorage from '../shared/hooks/useSessionStorage.js';
 import { SESSION_NEW_ORDER } from '../../app/sessionKeys.js';
 import { useSelector } from 'react-redux';
 import { selectCompanyDefaultAddress, selectCurrentCompany } from '../home/duck/selectors.js';
-import { deliveryMethodOptions, itemUnitsOptions } from '../shared/constants.js';
+import { deliveryMethodOptions, itemUnitsOptions } from '../../app/utils/options/options.js';
 import { selectCurrentUserId } from '../../app/duck/selectors.js';
 import { defaultProductRowValues } from '../shared/rhf/forms/util/constants.js';
 

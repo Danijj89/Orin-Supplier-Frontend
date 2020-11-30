@@ -2,7 +2,7 @@ import React from 'react';
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
-import { orderStatusColors } from '../shared/constants.js';
+import { orderStatusColors } from '../../app/utils/options/options.js';
 
 const useStyles = makeStyles((theme) => ({
     root: {

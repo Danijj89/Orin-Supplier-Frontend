@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import FormDialog from '../wrappers/FormDialog.js';
 import SideTextField from '../inputs/SideTextField.js';
 import RHFAutoComplete from '../rhf/inputs/RHFAutoComplete.js';
-import { countryOptions, countryOptionsMap } from '../constants.js';
+import { countryOptions, countryOptionsMap } from '../../../app/utils/options/options.js';
 
 const {
     typeLabel,

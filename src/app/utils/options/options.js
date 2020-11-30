@@ -1,3 +1,18 @@
+export const deliveryMethodOptions = [
+    {
+        id: 'Ocean', label: {
+            'en': 'Ocean',
+            'zh': '海运'
+        }
+    },
+    {
+        id: 'Air', label: {
+            'en': 'Air',
+            'zh': '空运'
+        }
+    }
+];
+
 export const documentObjectTypesOptions = [
     { type: 'CI', name: 'Commercial Invoice' },
     { type: 'PL', name: 'Packing List' },
@@ -6,8 +21,8 @@ export const documentObjectTypesOptions = [
 export const documentTypesOptions = documentObjectTypesOptions.reduce((acc, doc) => {
     acc[doc.type] = doc.name;
     return acc;
-}, {})
-export const deliveryMethodOptions = ['Ocean', 'Air'];
+}, {});
+
 export const itemUnitsOptions = ['PCS', 'CTN'];
 export const packageUnitsOptions = ['CTN', 'PLT'];
 export const weightUnitsOptions = ['KGS'];

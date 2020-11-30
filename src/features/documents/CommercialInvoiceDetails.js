@@ -16,7 +16,7 @@ import { selectClientActiveAddresses, selectClientAddress, selectClientById } fr
 import Footer from '../shared/components/Footer.js';
 import { useHistory } from 'react-router-dom';
 import RHFDateField from '../shared/rhf/inputs/RHFDateField.js';
-import { incotermOptions } from '../shared/constants.js';
+import { incotermOptions } from '../../app/utils/options/options.js';
 import { makeStyles } from '@material-ui/core/styles';
 
 

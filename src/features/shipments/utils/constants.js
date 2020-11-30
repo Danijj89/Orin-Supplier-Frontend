@@ -1,4 +1,4 @@
-import { itemUnitsOptions, packageUnitsOptions } from '../../shared/constants.js';
+import { itemUnitsOptions, packageUnitsOptions } from '../../../app/utils/options/options.js';
 
 export const defaultShipmentRowValues = {
     _id: null,

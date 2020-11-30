@@ -7,7 +7,7 @@ import TableTextField from '../../inputs/TableTextField.js';
 import { Grid, IconButton } from '@material-ui/core';
 import { Add as IconAdd, Close as IconClose } from '@material-ui/icons';
 import { useWatch } from 'react-hook-form';
-import { measurementUnitsOptions, packageUnitsOptions, weightUnitsOptions } from '../../constants.js';
+import { measurementUnitsOptions, packageUnitsOptions, weightUnitsOptions } from '../../../../app/utils/options/options.js';
 import UnitCounter from '../../classes/UnitCounter.js';
 import { roundToNDecimal } from '../../utils/format.js';
 import ErrorMessages from '../../components/ErrorMessages.js';

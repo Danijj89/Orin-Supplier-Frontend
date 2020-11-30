@@ -43,6 +43,7 @@ const SalesContractContainer = React.memo(function SalesContractContainer() {
         return () => {
             if (errors.length > 0) {
                 dispatch(cleanHomeState());
+                dispatch(cleanShipmentState());
                 dispatch(cleanClientState());
                 dispatch(cleanShipmentState());
             }

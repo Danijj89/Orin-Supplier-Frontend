@@ -6,7 +6,7 @@ import { selectShipmentDocumentsField } from '../../shipments/duck/selectors.js'
 import { LANGUAGE } from '../../../app/utils/constants.js';
 import { GetApp as IconDownload } from '@material-ui/icons';
 import { IconButton } from '@material-ui/core';
-import { documentTypesOptions } from '../constants.js';
+import { documentTypesOptions } from '../../../app/utils/options/options.js';
 import { selectUsersMap } from '../../users/duck/selectors.js';
 import { dateToLocaleDate } from '../utils/format.js';
 import DocumentService from '../../api/DocumentService.js';

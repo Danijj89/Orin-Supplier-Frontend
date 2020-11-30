@@ -5,7 +5,7 @@ import ThemedButton from '../shared/buttons/ThemedButton.js';
 import FormDialog from '../shared/wrappers/FormDialog.js';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import { useForm } from 'react-hook-form';
-import { documentObjectTypesOptions } from '../shared/constants.js';
+import { documentObjectTypesOptions } from '../../app/utils/options/options.js';
 import { useDispatch } from 'react-redux';
 import { cleanNewDocument } from '../documents/duck/slice.js';
 import RHFAutoComplete from '../shared/rhf/inputs/RHFAutoComplete.js';

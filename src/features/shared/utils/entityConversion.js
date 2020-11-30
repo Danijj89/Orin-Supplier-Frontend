@@ -122,4 +122,14 @@ export const shipmentToSalesContract = (shipment) => ({
     custom2: shipment.ciCustom2
 });
 
+export const shipmentToChinaExport = (shipment) => ({
+    autoGenerateRef: true,
+    ref: null,
+    sName: null,
+    sTaxCode: null,
+    cName: shipment.consigneeAdd.name,
+    exPort: null,
+    del:
+});
+
 export const countryToCountryCode = (country) => country.code;
