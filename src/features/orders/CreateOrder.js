@@ -12,7 +12,7 @@ import { SESSION_NEW_ORDER } from '../../app/sessionKeys.js';
 import { useSelector } from 'react-redux';
 import { selectCompanyDefaultAddress, selectCurrentCompany } from '../home/duck/selectors.js';
 import { itemUnitsOptions } from '../../app/utils/options/options.js';
-import { selectCurrentUserId, selectDeliveryMethods } from '../../app/duck/selectors.js';
+import { selectCurrencies, selectCurrentUserId, selectDeliveryMethods } from '../../app/duck/selectors.js';
 import { defaultProductRowValues } from '../shared/rhf/forms/util/constants.js';
 
 const useStyles = makeStyles((theme) => ({
@@ -49,21 +49,24 @@ const CreateOrder = React.memo(function CreateOrder() {
     const company = useSelector(selectCurrentCompany);
     const companyDefaultAddress = useSelector(selectCompanyDefaultAddress);
     const deliveryMethodOptions = useSelector(selectDeliveryMethods);
+    const currencyOptions = useSelector(selectCurrencies);
     const userId = useSelector(selectCurrentUserId);
+
+    const initialCurrency = company.currency ? currencyOptions.find(c => c.id === company.currency) : null;
 
     const newOrder = useMemo(() => ({
         from: company._id,
         fromAdd: companyDefaultAddress,
         date: Date.now(),
         del: deliveryMethodOptions[0],
-        currency: company.currency || null,
+        currency: initialCurrency,
         totalQ: { [itemUnitsOptions[0]]: 0 },
         totalA: 0,
         createdBy: userId,
         saveItems: false,
         autoGenerateRef: false,
         items: [defaultProductRowValues]
-    }), [company._id, company.currency, companyDefaultAddress, userId, deliveryMethodOptions]);
+    }), [company._id, companyDefaultAddress, userId, deliveryMethodOptions, initialCurrency]);
 
     const [order, setOrder] = useSessionStorage(SESSION_NEW_ORDER, newOrder);
 

@@ -11,6 +11,7 @@ import {
     selectClientAddress,
     selectClientById
 } from '../../clients/duck/selectors.js';
+import { selectDeliveryMethod } from '../../../app/duck/selectors.js';
 
 const {
     deleteMessage
@@ -48,17 +49,19 @@ const OrderDetailsDialog = React.memo(function OrderDetailsDialog(
     const companyAddress = useSelector(state => selectCompanyAddress(state, order.fromAdd.addressId));
     const companyPorts = useSelector(selectCompanyPorts);
     const clients = useSelector(selectAllActiveClients);
-    const client = useSelector(state => selectClientById(state, order.to));
-    const clientAddress = useSelector(
+
+    const initialClient = useSelector(state => selectClientById(state, order.to));
+    const initialClientAddress = useSelector(
         state => selectClientAddress(state,
             { clientId: order.to, addressId: order.toAdd.addressId }
         )
     );
-    const clientShipAddress = useSelector(
+    const initialClientShipAddress = useSelector(
         state => selectClientAddress(state,
             { clientId: order.to, addressId: order.shipAdd?.addressId }
         )
     );
+    const initialDel = useSelector(state => selectDeliveryMethod(state, order?.del));
 
     const rhfMethods = useForm({
         mode: 'onSubmit',
@@ -66,17 +69,17 @@ const OrderDetailsDialog = React.memo(function OrderDetailsDialog(
             [orderDetailsFieldNames.ref]: order.ref,
             [orderDetailsFieldNames.archived]: order.archived,
             [orderDetailsFieldNames.fromAdd]: companyAddress,
-            [orderDetailsFieldNames.to]: client,
-            [orderDetailsFieldNames.toAdd]: clientAddress,
+            [orderDetailsFieldNames.to]: initialClient,
+            [orderDetailsFieldNames.toAdd]: initialClientAddress,
             [orderDetailsFieldNames.incoterm]: order.incoterm,
             [orderDetailsFieldNames.crd]: order.crd || null,
             [orderDetailsFieldNames.realCrd]: order.realCrd || null,
             [orderDetailsFieldNames.clientRef]: order.clientRef,
-            [orderDetailsFieldNames.shipAdd]: clientShipAddress,
+            [orderDetailsFieldNames.shipAdd]: initialClientShipAddress,
             [orderDetailsFieldNames.pol]: order.pol || null,
             [orderDetailsFieldNames.pod]: order.pod || null,
             [orderDetailsFieldNames.pay]: order.pay,
-            [orderDetailsFieldNames.del]: order.del,
+            [orderDetailsFieldNames.del]: initialDel,
             [orderDetailsFieldNames.carrier]: order.carrier
         },
         shouldUnregister: false

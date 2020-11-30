@@ -43,6 +43,8 @@ const CreateOrderDetails = React.memo(function CreateOrderDetails({ order, setOr
     const companyPorts = useSelector(selectCompanyPorts);
     const clients = useSelector(selectAllActiveClients);
 
+
+
     const { register, control, errors, getValues, setValue, handleSubmit } = useForm({
         mode: 'onSubmit',
         defaultValues: {
