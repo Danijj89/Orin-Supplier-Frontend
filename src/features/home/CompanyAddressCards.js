@@ -7,7 +7,7 @@ import NewCompanyAddressButton from './NewCompanyAddressButton.js';
 import { makeStyles } from '@material-ui/core/styles';
 import { deleteAddress, updateAddress, updateDefaultAddress } from './duck/thunks.js';
 import AddressCard from '../shared/components/AddressCard.js';
-import { selectCompanyActiveAddresses, selectCurrentCompany } from './duck/selectors.js';
+import { selectCompanyActiveAddresses, selectCompanyId } from './duck/selectors.js';
 import { getOptionId } from '../../app/utils/options/getters.js';
 
 const useStyles = makeStyles((theme) => ({
@@ -30,7 +30,7 @@ const {
 const CompanyAddressCards = React.memo(function CompanyAddressCards() {
     const classes = useStyles();
     const dispatch = useDispatch();
-    const company = useSelector(selectCurrentCompany);
+    const companyId = useSelector(selectCompanyId);
     const companyAddresses = useSelector(selectCompanyActiveAddresses);
     const [isEditAddressOpen, setIsEditAddressOpen] = useState(false);
     const [editAddress, setEditAddress] = useState(null);
@@ -57,7 +57,7 @@ const CompanyAddressCards = React.memo(function CompanyAddressCards() {
     const onEditAddressSubmit = (data) => {
         const { _id: addressId, ...update } = data;
         update.country = getOptionId(update.country);
-        dispatch(updateAddress({ companyId: company._id, addressId, update }));
+        dispatch(updateAddress({ companyId, addressId, update }));
         setIsEditAddressOpen(false);
     };
 
@@ -72,8 +72,8 @@ const CompanyAddressCards = React.memo(function CompanyAddressCards() {
                         <AddressCard
                             address={ address }
                             onEdit={ createOpenEditAddressHandler(address) }
-                            onDelete={ createDeleteAddressHandler(company._id, address._id) }
-                            onSetDefault={ createSetDefaultAddressHandler(company._id, address._id) }
+                            onDelete={ createDeleteAddressHandler(companyId, address._id) }
+                            onSetDefault={ createSetDefaultAddressHandler(companyId, address._id) }
                         />
                     </Grid>
                 ) }

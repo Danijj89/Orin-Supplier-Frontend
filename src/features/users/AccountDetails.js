@@ -7,8 +7,7 @@ import ResetPasswordButton from './ResetPasswordButton.js';
 import InfoCard from '../shared/wrappers/InfoCard.js';
 import EditAccountInfoButton from './EditAccountInfoButton.js';
 import { makeStyles } from '@material-ui/core/styles';
-import { selectUserById } from './duck/selectors.js';
-import { selectCurrentUserId } from '../../app/duck/selectors.js';
+import { selectCurrentUser } from '../../app/duck/selectors.js';
 
 const { titleLabel, nameLabel, emailLabel } = LANGUAGE.home.accountDetails;
 
@@ -24,8 +23,7 @@ const useStyles = makeStyles((theme) => ({
 
 const AccountDetails = React.memo(function AccountDetails() {
     const classes = useStyles();
-    const userId = useSelector(selectCurrentUserId);
-    const user = useSelector(state => selectUserById(state, userId));
+    const user = useSelector(selectCurrentUser);
 
     return (
         <InfoCard

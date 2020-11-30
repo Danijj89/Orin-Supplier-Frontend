@@ -22,7 +22,7 @@ const backendErrors = {
 
 // The language package used for the application
 export const LANGUAGE = languages[currentLocale];
-export const LOCALE = currentLocale;
+export const LOCALE = 'zh';
 export const BACKEND_ERRORS = backendErrors[currentLocale];
 
 const SERVER_URI =

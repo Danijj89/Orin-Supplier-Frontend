@@ -20,6 +20,7 @@ const EditCompanyInfoButton = React.memo(function EditCompanyInfoButton({ classN
 
     const onSubmitEditDialog = (data) => {
         if (data.currency) data.currency = getOptionId(data.currency);
+        data.industries = data.industries.map(industry => getOptionId(industry));
         dispatch(updateCompany({ id: company._id, update: data }));
         setIsEdit(false);
     };

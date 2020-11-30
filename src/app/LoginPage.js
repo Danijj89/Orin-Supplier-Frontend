@@ -10,7 +10,7 @@ import { useForm } from 'react-hook-form';
 import { makeStyles } from '@material-ui/core/styles';
 import loginImg from '../images/login.png';
 import { signIn } from './duck/thunks.js';
-import { selectAppError, selectCurrentUser } from './duck/selectors.js';
+import { selectAppError, selectSessionUser } from './duck/selectors.js';
 import { SESSION_USER } from './sessionKeys.js';
 import { cleanAppState } from './duck/slice.js';
 
@@ -79,7 +79,7 @@ export default function LoginPage() {
     const history = useHistory();
     const dispatch = useDispatch();
     const appError = useSelector(selectAppError);
-    const user = useSelector(selectCurrentUser);
+    const user = useSelector(selectSessionUser);
 
     useEffect(() => {
         const sessionUser = sessionStorage.getItem(SESSION_USER);

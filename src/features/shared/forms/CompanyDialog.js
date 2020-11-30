@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import FormDialog from '../wrappers/FormDialog.js';
 import { useForm } from 'react-hook-form';
-import { LANGUAGE } from '../../../app/utils/constants.js';
+import { LANGUAGE, LOCALE } from '../../../app/utils/constants.js';
 import SideTextField from '../inputs/SideTextField.js';
 import RHFAutoComplete from '../rhf/inputs/RHFAutoComplete.js';
 import { useSelector } from 'react-redux';
@@ -48,7 +48,7 @@ const CompanyDialog = React.memo(function CompanyDialog(
                 name="currency"
                 label={ currencyLabel }
                 options={ currencyOptions }
-                getOptionLabel={ option => currencyOptions(option) }
+                getOptionLabel={ option => getOptionLabel(option, LOCALE) }
                 getOptionSelected={ (option, value) => option.id === value.id }
             />
             <RHFAutoComplete
@@ -56,7 +56,7 @@ const CompanyDialog = React.memo(function CompanyDialog(
                 name="industries"
                 label={ industriesLabel }
                 options={ industryOptions }
-                getOptionLabel={ option => getOptionLabel(option) }
+                getOptionLabel={ option => getOptionLabel(option, LOCALE) }
                 getOptionSelected={ (option, value) => option.id === value.id }
                 error={ !!errors.industries }
                 multiple

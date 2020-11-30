@@ -1,11 +1,9 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Card, Divider, Typography, Box, Tooltip } from '@material-ui/core';
-import { currentLocale, LANGUAGE } from '../../../app/utils/constants.js';
+import { LANGUAGE } from '../../../app/utils/constants.js';
 import { makeStyles } from '@material-ui/core/styles';
 import ThemedButton from '../buttons/ThemedButton.js';
-import { useSelector } from 'react-redux';
-import { selectCountriesMap } from '../../../app/duck/selectors.js';
 import { getOptionLabel } from '../../../app/utils/options/getters.js';
 
 const useStyles = makeStyles((theme) => ({
@@ -54,7 +52,6 @@ const AddressCard = React.memo(function AddressCard(
         onSetDefault,
     }) {
     const classes = useStyles();
-    const countryOptionsMap = useSelector(selectCountriesMap);
 
     const getThirdRow = useCallback(() => {
         let row = '';
@@ -87,7 +84,7 @@ const AddressCard = React.memo(function AddressCard(
                 ) }
                 { getThirdRow() }
                 { address.country &&
-                <Typography>{ getOptionLabel(countryOptionsMap[address.country]) }</Typography> }
+                <Typography>{ getOptionLabel(address.country) }</Typography> }
                 { address.phone && (
                     <Typography
                         className={ classes.phoneLabel }

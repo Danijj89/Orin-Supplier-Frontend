@@ -30,7 +30,7 @@ import { fetchOrders } from '../orders/duck/thunks.js';
 import { fetchClients } from '../clients/duck/thunks.js';
 import { fetchShipments } from '../shipments/duck/thunks.js';
 import { fetchProducts } from '../products/duck/thunks.js';
-import { selectCurrentUser } from '../../app/duck/selectors.js';
+import { selectSessionUserName } from '../../app/duck/selectors.js';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -93,7 +93,7 @@ const NavBar = React.memo(function NavBar() {
     const location = useLocation();
     const currentTab = location.pathname.split('/')[2];
     const companyId = useSelector(selectCompanyId);
-    const user = useSelector(selectCurrentUser);
+    const userName = useSelector(selectSessionUserName);
 
     const onTabClick = (tabName, href) => {
         if (tabName === currentTab) {
@@ -197,7 +197,7 @@ const NavBar = React.memo(function NavBar() {
                             onClick={ () => onTabClick('orders', '/home/orders') }
                             selected={ currentTab === 'orders' }
                             classes={ {
-                                root: classes.tabs,
+                                root: classes.menuButtons,
                                 selected: classes.selected,
                             } }
                         >
@@ -214,7 +214,7 @@ const NavBar = React.memo(function NavBar() {
                                 onTabClick('clients', '/home/clients')
                             }
                             classes={ {
-                                root: classes.tabs,
+                                root: classes.menuButtons,
                                 selected: classes.selected,
                             } }
                             selected={ currentTab === 'clients' }
@@ -230,7 +230,7 @@ const NavBar = React.memo(function NavBar() {
                             component="a"
                             onClick={ () => onTabClick('leads', '#') }
                             classes={ {
-                                root: classes.tabs,
+                                root: classes.menuButtons,
                                 selected: classes.selected,
                             } }
                             selected={ currentTab === 'leads' }
@@ -244,7 +244,7 @@ const NavBar = React.memo(function NavBar() {
                             component="a"
                             onClick={ () => onTabClick('shipments', '/home/shipments') }
                             classes={ {
-                                root: classes.tabs,
+                                root: classes.menuButtons,
                                 selected: classes.selected,
                             } }
                             selected={ currentTab === 'shipments' }
@@ -260,7 +260,7 @@ const NavBar = React.memo(function NavBar() {
                             component="a"
                             onClick={ () => onTabClick('products', '/home/products') }
                             classes={ {
-                                root: classes.tabs,
+                                root: classes.menuButtons,
                                 selected: classes.selected,
                             } }
                             selected={ currentTab === 'products' }
@@ -274,7 +274,7 @@ const NavBar = React.memo(function NavBar() {
                     </List>
                     <div className={ classes.grow }/>
                     <Typography variant="subtitle1">
-                        { `${ helloMessageLabel }, ${ user.name }` }
+                        { `${ helloMessageLabel }, ${ userName }` }
                     </Typography>
 
                     <div className={ classes.sectionDesktop }>
