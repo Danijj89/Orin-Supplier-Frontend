@@ -4,16 +4,17 @@ import FormDialog from '../wrappers/FormDialog.js';
 import { useForm } from 'react-hook-form';
 import { LANGUAGE } from '../../../app/utils/constants.js';
 import SideTextField from '../inputs/SideTextField.js';
-import { industriesOptions } from '../../../app/utils/options/options.js';
 import RHFAutoComplete from '../rhf/inputs/RHFAutoComplete.js';
 import { useSelector } from 'react-redux';
-import { selectCurrencies } from '../../../app/duck/selectors.js';
+import { selectCurrencies, selectIndustries } from '../../../app/duck/selectors.js';
+import { getOptionLabel } from '../../../app/utils/options/getters.js';
 
 const { taxNumberLabel, currencyLabel, industriesLabel } = LANGUAGE.shared.forms.companyDialog;
 
 const CompanyDialog = React.memo(function CompanyDialog(
     { company, isOpen, titleLabel, submitLabel, onSubmit, onCancel, className }) {
     const currencyOptions = useSelector(selectCurrencies);
+    const industryOptions = useSelector(selectIndustries);
 
     const { register, errors, handleSubmit, control, reset } = useForm({
         mode: 'onSubmit'
@@ -54,7 +55,9 @@ const CompanyDialog = React.memo(function CompanyDialog(
                 rhfControl={ control }
                 name="industries"
                 label={ industriesLabel }
-                options={ industriesOptions }
+                options={ industryOptions }
+                getOptionLabel={ option => getOptionLabel(option) }
+                getOptionSelected={ (option, value) => option.id === value.id }
                 error={ !!errors.industries }
                 multiple
                 required

@@ -10,6 +10,7 @@ import NewClientAddressButton from '../shared/buttons/NewClientAddressButton.js'
 import { useParams } from 'react-router-dom';
 import { selectClientActiveAddresses, selectClientById } from './duck/selectors.js';
 import { countryToCountryCode } from '../shared/utils/entityConversion.js';
+import { getOptionId } from '../../app/utils/options/getters.js';
 
 const useStyles = makeStyles((theme) => ({
     cards: {
@@ -62,7 +63,7 @@ const ClientAddressCards = React.memo(function ClientAddressCards() {
 
     const onSubmit = (data) => {
         const { _id: addressId, ...update } = data;
-        update.country = countryToCountryCode(update.country);
+        update.country = getOptionId(update.country);
         dispatch(updateAddress({ clientId, addressId, update }));
         setIsEditAddressOpen(false);
     };

@@ -6,11 +6,12 @@ import { selectShipmentDocumentsField } from '../../shipments/duck/selectors.js'
 import { LANGUAGE } from '../../../app/utils/constants.js';
 import { GetApp as IconDownload } from '@material-ui/icons';
 import { IconButton } from '@material-ui/core';
-import { documentTypesOptions } from '../../../app/utils/options/options.js';
 import { selectUsersMap } from '../../users/duck/selectors.js';
 import { dateToLocaleDate } from '../utils/format.js';
 import DocumentService from '../../api/DocumentService.js';
 import { downloadFile } from '../utils/file.js';
+import { selectDocumentTypesMap } from '../../../app/duck/selectors.js';
+import { getOptionLabel } from '../../../app/utils/options/getters.js';
 
 const {
     tableHeaderLabelsMap
@@ -18,6 +19,7 @@ const {
 
 const ShipmentDocumentTable = React.memo(function ShipmentDocumentTable(
     { shipmentId, maxEmptyRows, className }) {
+    const documentTypesMap = useSelector(selectDocumentTypesMap);
     const documents = useSelector(state => selectShipmentDocumentsField(state, shipmentId));
     const usersMap = useSelector(selectUsersMap);
 
@@ -65,11 +67,11 @@ const ShipmentDocumentTable = React.memo(function ShipmentDocumentTable(
     const rows = useMemo(() => documents.map(doc => ({
         id: doc._id,
         ref: doc.ref,
-        type: documentTypesOptions[doc.type],
+        type: getOptionLabel(documentTypesMap[doc.type]),
         createdAt: dateToLocaleDate(doc.createdAt),
         createdBy: usersMap[doc.createdBy]?.name,
         fileName: doc.fileName
-    })), [documents, usersMap]);
+    })), [documents, usersMap, documentTypesMap]);
 
     return (
         <Table

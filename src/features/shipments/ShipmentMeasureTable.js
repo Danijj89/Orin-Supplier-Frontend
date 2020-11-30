@@ -10,6 +10,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import { useParams } from 'react-router-dom';
 import { selectShipmentById } from './duck/selectors.js';
+import { getOptionId } from '../../app/utils/options/getters.js';
 
 const measureTableFieldNames = {
     custom1: 'plCustom1',
@@ -68,6 +69,8 @@ const ShipmentMeasureTable = React.memo(function ShipmentMeasureTable() {
 
     const onSubmit = (data) => {
         data.items = tableItemsToItems(data.items, shipmentId);
+        data.weightUnit = getOptionId(data.weightUnit);
+        data.measurementUnit = getOptionId(data.measurementUnit);
         dispatch(updateShipment({ shipmentId, update: data }));
     };
 

@@ -35,3 +35,24 @@ export const selectIncoterms = state => state.app.appData.incoterms;
 export const selectExemptionTypes = state => state.app.appData.exemptionTypes;
 export const selectSupervisionMethods = state => state.app.appData.supervisionMethods;
 export const selectPackageUnits = state => state.app.appData.packageUnits;
+export const selectItemUnits = state => state.app.appData.itemUnits;
+export const selectWeightUnits = state => state.app.appData.weightUnits;
+export const selectMeasurementUnits = state => state.app.appData.measurementUnits;
+
+export const selectCountries = state => state.app.appData.countries;
+export const selectCountriesMap = createSelector(
+    selectCountries,
+    getOptionsMap
+);
+
+export const selectIndustries = state => state.app.appData.industries;
+
+export const selectDocumentTypes = state => state.app.appData.documentTypes;
+export const selectDocumentTypesMap = createSelector(
+    selectDocumentTypes,
+    getOptionsMap
+);
+
+export const selectOrderStatuses = state => state.app.appData.orderStatuses;
+export const selectBillOfLandingTypes = state => state.app.appData.billOfLandingTypes;
+export const selectShipmentStatuses = state => state.app.appData.shipmentStatuses;

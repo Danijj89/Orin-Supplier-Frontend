@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { currentLocale, LANGUAGE } from '../../../app/utils/constants.js';
+import { LANGUAGE } from '../../../app/utils/constants.js';
 import { useForm } from 'react-hook-form';
 import FormDialog from '../wrappers/FormDialog.js';
 import SideTextField from '../inputs/SideTextField.js';
 import RHFAutoComplete from '../rhf/inputs/RHFAutoComplete.js';
-import { countryOptions, countryOptionsMap } from '../../../app/utils/options/options.js';
+import { useSelector } from 'react-redux';
+import { selectCountries, selectCountriesMap } from '../../../app/duck/selectors.js';
+import { getOptionLabel } from '../../../app/utils/options/getters.js';
 
 const {
     typeLabel,
@@ -26,6 +28,9 @@ const AddressDialog = React.memo(function AddressDialog({ isOpen, onSubmit, onCa
         mode: 'onSubmit'
     });
 
+    const countryOptions = useSelector(selectCountries);
+    const countryOptionsMap = useSelector(selectCountriesMap);
+
     useEffect(() => {
         reset({
             _id: address?._id,
@@ -40,7 +45,7 @@ const AddressDialog = React.memo(function AddressDialog({ isOpen, onSubmit, onCa
             phone: address?.phone,
             email: address?.email
         });
-    }, [reset, address]);
+    }, [reset, address, countryOptionsMap]);
 
     return (
         <FormDialog
@@ -98,8 +103,8 @@ const AddressDialog = React.memo(function AddressDialog({ isOpen, onSubmit, onCa
                 label={ countryLabel }
                 name="country"
                 options={ countryOptions }
-                getOptionLabel={ option => option.label[currentLocale] }
-                getOptionSelected={ (option, value) => option.code === value.code }
+                getOptionLabel={ option => getOptionLabel(option) }
+                getOptionSelected={ (option, value) => option.id === value.id }
                 error={ !!errors.country }
                 required
             />

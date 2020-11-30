@@ -5,10 +5,12 @@ import ThemedButton from '../shared/buttons/ThemedButton.js';
 import FormDialog from '../shared/wrappers/FormDialog.js';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import { useForm } from 'react-hook-form';
-import { documentObjectTypesOptions } from '../../app/utils/options/options.js';
-import { useDispatch } from 'react-redux';
+
+import { useDispatch, useSelector } from 'react-redux';
 import { cleanNewDocument } from '../documents/duck/slice.js';
 import RHFAutoComplete from '../shared/rhf/inputs/RHFAutoComplete.js';
+import { selectDocumentTypes } from '../../app/duck/selectors.js';
+import { getOptionLabel } from '../../app/utils/options/getters.js';
 
 const {
     buttonLabel,
@@ -21,12 +23,13 @@ const DocumentButton = React.memo(function DocumentButton() {
     const history = useHistory();
     const dispatch = useDispatch();
     const { id } = useParams();
+    const documentTypeOptions = useSelector(selectDocumentTypes);
     const [isEdit, setIsEdit] = useState(false);
 
     const { control, errors, handleSubmit } = useForm({
         mode: 'onSubmit',
         defaultValues: {
-            document: documentObjectTypesOptions[0]
+            document: documentTypeOptions[0]
         }
     });
 
@@ -35,7 +38,7 @@ const DocumentButton = React.memo(function DocumentButton() {
 
     const onSubmit = useCallback((data) => {
         dispatch(cleanNewDocument());
-        switch (data.document.type) {
+        switch (data.document.id) {
             case 'CI':
                 history.push(`/home/documents/ci/new?step=details&shipment=${ id }`);
                 break;
@@ -64,9 +67,9 @@ const DocumentButton = React.memo(function DocumentButton() {
                     rhfControl={ control }
                     name="document"
                     label={ formLabels.document }
-                    options={ documentObjectTypesOptions }
-                    getOptionLabel={ option => option.name }
-                    getOptionSelected={ (option, value) => option.type === value.type }
+                    options={ documentTypeOptions }
+                    getOptionLabel={ option => getOptionLabel(option) }
+                    getOptionSelected={ (option, value) => option.id === value.id }
                     error={ !!errors.document }
                     required
                 />

@@ -7,6 +7,7 @@ import { createClientAddress } from '../../clients/duck/thunks.js';
 import ThemedButton from './ThemedButton.js';
 import AddressDialog from '../forms/AddressDialog.js';
 import PropTypes from 'prop-types';
+import { getOptionId } from '../../../app/utils/options/getters.js';
 
 const {
     newAddressButtonLabel,
@@ -31,7 +32,7 @@ const NewClientAddressButton = React.memo(function NewClientAddressButton({ clie
 
     const onSubmit = (data) => {
         const { _id, ...address } = data;
-        address.country = data.country.code;
+        address.country = getOptionId(address.country);
         dispatch(createClientAddress({ clientId, address }));
         setIsDialogOpen(false)
     };

@@ -12,6 +12,7 @@ import {
 import { selectCurrentUserId } from '../../app/duck/selectors.js';
 import { createDocument } from '../shipments/duck/thunks.js';
 import { useHistory } from 'react-router-dom';
+import { getOptionId } from '../../app/utils/options/getters.js';
 
 const {
     titleLabel,
@@ -80,6 +81,8 @@ const PackingListProducts = React.memo(function PackingListProducts(
         document.consigneeAdd = addressToDocAddress(document.consigneeAdd);
         if (document.shipAdd) document.shipAdd = addressToDocAddress(document.shipAdd);
         if (document.ciRef) document.ciRef = document.ciRef.ref;
+        document.weightUnit = getOptionId(document.weightUnit);
+        document.measurementUnit = getOptionId(document.measurementUnit);
         document.createdBy = userId;
         document.items = tableItemsToItems(document.items, shipmentId);
         dispatch(createDocument({ shipmentId, document }));

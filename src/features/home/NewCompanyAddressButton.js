@@ -8,6 +8,7 @@ import { addNewAddress } from './duck/thunks.js';
 import { makeStyles } from '@material-ui/core/styles';
 import { selectCompanyId, selectCompanyLegalAddress } from './duck/selectors.js';
 import { countryToCountryCode } from '../shared/utils/entityConversion.js';
+import { getOptionId } from '../../app/utils/options/getters.js';
 
 const {
     newAddressButtonLabel,
@@ -33,8 +34,8 @@ export default function NewCompanyAddressButton({ className }) {
     const onCancel = () => setIsDialogOpen(false);
 
     const onSubmit = (data) => {
-        data.country = countryToCountryCode(data.country);
         const { id, ...address } = data;
+        address.country = getOptionId(address.country);
         dispatch(addNewAddress({ companyId, address }));
         setIsDialogOpen(false);
     };

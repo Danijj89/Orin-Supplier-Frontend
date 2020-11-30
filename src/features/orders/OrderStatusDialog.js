@@ -4,12 +4,14 @@ import { useForm } from 'react-hook-form';
 import { makeStyles } from '@material-ui/core/styles';
 import { Box, Divider, Typography } from '@material-ui/core';
 import FormContainer from '../shared/wrappers/FormContainer.js';
-import { orderStatusesOptions } from '../../app/utils/options/options.js';
-import { LANGUAGE } from '../../app/utils/constants.js';
+import { LANGUAGE, LOCALE } from '../../app/utils/constants.js';
 import PropTypes from 'prop-types';
 import RHFAutoComplete from '../shared/rhf/inputs/RHFAutoComplete.js';
 import OrderStatusListItem from './OrderStatusListItem.js';
 import RHFDateField from '../shared/rhf/inputs/RHFDateField.js';
+import { useSelector } from 'react-redux';
+import { selectOrderStatuses } from '../../app/duck/selectors.js';
+import { getOptionId, getOptionLabel } from '../../app/utils/options/getters.js';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -48,6 +50,8 @@ const OrderStatusDialog = React.memo(function OrderStatusDialog(
         titleLabel
     }) {
     const classes = useStyles();
+    const orderStatusOptions = useSelector(selectOrderStatuses);
+
     const { procurement, production, qa } = status;
     const { control, handleSubmit, errors, watch, setValue } = useForm({
         mode: 'onSubmit',
@@ -78,17 +82,17 @@ const OrderStatusDialog = React.memo(function OrderStatusDialog(
     const onFormSubmit = useCallback(data => {
         const newStatus = {
             procurement: {
-                status: data.procurementStatus,
+                status: getOptionId(data.procurementStatus),
                 estimated: data.procurementEstimated?.toString(),
                 actual: data.procurementActual?.toString()
             },
             production: {
-                status: data.productionStatus,
+                status: getOptionId(data.procurementStatus),
                 estimated: data.productionEstimated?.toString(),
                 actual: data.productionActual?.toString()
             },
             qa: {
-                status: data.qaStatus,
+                status: getOptionId(data.procurementStatus),
                 estimated: data.qaEstimated?.toString(),
                 actual: data.qaActual?.toString()
             }
@@ -97,7 +101,7 @@ const OrderStatusDialog = React.memo(function OrderStatusDialog(
     }, [onSubmit]);
 
     const renderOption = useCallback(
-        option => <OrderStatusListItem option={ option }/>,
+        option => <OrderStatusListItem option={ option.label[LOCALE] }/>,
         []);
 
     return (
@@ -117,7 +121,9 @@ const OrderStatusDialog = React.memo(function OrderStatusDialog(
                         rhfControl={ control }
                         name="procurementStatus"
                         label={ statusLabel }
-                        options={ orderStatusesOptions }
+                        options={ orderStatusOptions }
+                        getOptionLabel={ option => getOptionLabel(option) }
+                        getOptionSelected={ (option, value) => option.id === value.id }
                         required
                         error={ !!errors.procurementStatus }
                         className={ classes.input }
@@ -145,7 +151,9 @@ const OrderStatusDialog = React.memo(function OrderStatusDialog(
                         rhfControl={ control }
                         name="productionStatus"
                         label={ statusLabel }
-                        options={ orderStatusesOptions }
+                        options={ orderStatusOptions }
+                        getOptionLabel={ option => getOptionLabel(option) }
+                        getOptionSelected={ (option, value) => option.id === value.id }
                         required
                         error={ !!errors.productionStatus }
                         className={ classes.input }
@@ -173,7 +181,9 @@ const OrderStatusDialog = React.memo(function OrderStatusDialog(
                         rhfControl={ control }
                         name="qaStatus"
                         label={ statusLabel }
-                        options={ orderStatusesOptions }
+                        options={ orderStatusOptions }
+                        getOptionLabel={ option => getOptionLabel(option) }
+                        getOptionSelected={ (option, value) => option.id === value.id }
                         required
                         error={ !!errors.qaStatus }
                         className={ classes.input }

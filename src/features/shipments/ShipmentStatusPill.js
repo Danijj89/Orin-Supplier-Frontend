@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { shipmentStatuses } from '../../app/utils/options/options.js';
 
 function getStatusBackGroundColor(theme, status) {
     switch (status) {
@@ -44,7 +43,7 @@ const ShipmentStatusPill = React.memo(function ShipmentStatusPill({ status }) {
 });
 
 ShipmentStatusPill.propTypes = {
-    status: PropTypes.oneOf(shipmentStatuses)
+    status: PropTypes.string.isRequired
 };
 
 export default ShipmentStatusPill;

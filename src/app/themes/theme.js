@@ -61,3 +61,9 @@ let appTheme = createMuiTheme({
 appTheme = responsiveFontSizes(appTheme);
 
 export default appTheme;
+export const orderStatusColors = {
+    'Not Started': '#818E9B',
+    'In Progress': '#109CF1',
+    Completed: '#2ED47A',
+    Exception: '#F7685B',
+};

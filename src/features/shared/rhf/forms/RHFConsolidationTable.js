@@ -7,13 +7,12 @@ import TableTextField from '../../inputs/TableTextField.js';
 import { Grid, IconButton } from '@material-ui/core';
 import { Add as IconAdd, Close as IconClose } from '@material-ui/icons';
 import { useWatch } from 'react-hook-form';
-import { measurementUnitsOptions, weightUnitsOptions } from '../../../../app/utils/options/options.js';
 import UnitCounter from '../../classes/UnitCounter.js';
 import { roundToNDecimal } from '../../utils/format.js';
 import ErrorMessages from '../../components/ErrorMessages.js';
 import RHFAutoComplete from '../inputs/RHFAutoComplete.js';
 import { useSelector } from 'react-redux';
-import { selectPackageUnits } from '../../../../app/duck/selectors.js';
+import { selectMeasurementUnits, selectPackageUnits, selectWeightUnits } from '../../../../app/duck/selectors.js';
 import { getOptionLabel } from '../../../../app/utils/options/getters.js';
 
 export const defaultConsolidationItemValues = {
@@ -51,6 +50,8 @@ const RHFConsolidationTable = React.memo(function RHFConsolidationTable(
     }) {
 
     const packageUnitOptions = useSelector(selectPackageUnits);
+    const weightUnitOptions = useSelector(selectWeightUnits);
+    const measurementUnitOptions = useSelector(selectMeasurementUnits);
 
     const custom1 = useWatch({
         control,
@@ -339,7 +340,9 @@ const RHFConsolidationTable = React.memo(function RHFConsolidationTable(
                     rhfControl={ control }
                     name={ fieldNames.weightUnit }
                     label={ formLabels.weightUnit }
-                    options={ weightUnitsOptions }
+                    options={ weightUnitOptions }
+                    getOptionLabel={ option => getOptionLabel(option) }
+                    getOptionSelected={ (option, value) => option.id === value.id }
                     error={ !!errors.weightUnit }
                     required={ errorMessages.missingWeightUnit }
                 />
@@ -347,7 +350,9 @@ const RHFConsolidationTable = React.memo(function RHFConsolidationTable(
                     rhfControl={ control }
                     name={ fieldNames.measurementUnit }
                     label={ formLabels.measurementUnit }
-                    options={ measurementUnitsOptions }
+                    options={ measurementUnitOptions }
+                    getOptionLabel={ option => getOptionLabel(option) }
+                    getOptionSelected={ (option, value) => option.id === value.id }
                     error={ !!errors.measurementUnit }
                     required={ errorMessages.missingMeasurementUnit }
                 />

@@ -10,10 +10,6 @@ import CreateOrderProducts from './CreateOrderProducts.js';
 import useSessionStorage from '../shared/hooks/useSessionStorage.js';
 import { SESSION_NEW_ORDER } from '../../app/sessionKeys.js';
 import { useSelector } from 'react-redux';
-import { selectCompanyDefaultAddress, selectCurrentCompany } from '../home/duck/selectors.js';
-import { itemUnitsOptions } from '../../app/utils/options/options.js';
-import { selectCurrencies, selectCurrentUserId, selectDeliveryMethods } from '../../app/duck/selectors.js';
-import { defaultProductRowValues } from '../shared/rhf/forms/util/constants.js';
 import { selectNewOrder } from './duck/selectors.js';
 
 const useStyles = makeStyles((theme) => ({

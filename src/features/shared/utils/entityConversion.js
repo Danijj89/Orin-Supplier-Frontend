@@ -23,7 +23,7 @@ export const productTableItemsToOrderItems = (tableItems) =>
             localD: item.localD,
             hsc: item.hsc,
             quantity: item.quantity,
-            unit: item.unit,
+            unit: getOptionId(item.unit),
             price: item.price,
             total: item.total,
             custom1: item.custom1,
@@ -42,10 +42,9 @@ export const tableItemsToItems = (tableItems, shipmentId) =>
             localD: item.localD,
             hsc: item.hsc,
             quantity: item.quantity,
-            unit: item.unit,
             price: item.price,
             total: item.total,
-            pUnit: item.pUnit,
+            package: item.package,
             netW: item.netW,
             grossW: item.grossW,
             dim: item.dim,
@@ -56,7 +55,8 @@ export const tableItemsToItems = (tableItems, shipmentId) =>
         };
         if (item._id) temp._id = item._id;
         if (item.product) temp.product = item.product;
-        if (item.package) temp.package = getOptionId(temp.package);
+        if (item.pUnit) temp.pUnit = getOptionId(item.pUnit);
+        if (item.unit) temp.unit = getOptionId(item.unit)
         return temp;
     });
 

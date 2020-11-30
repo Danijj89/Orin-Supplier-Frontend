@@ -8,6 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { deleteAddress, updateAddress, updateDefaultAddress } from './duck/thunks.js';
 import AddressCard from '../shared/components/AddressCard.js';
 import { selectCompanyActiveAddresses, selectCurrentCompany } from './duck/selectors.js';
+import { getOptionId } from '../../app/utils/options/getters.js';
 
 const useStyles = makeStyles((theme) => ({
     addressTitle: {
@@ -54,8 +55,9 @@ const CompanyAddressCards = React.memo(function CompanyAddressCards() {
     const onEditAddressCancel = () => setIsEditAddressOpen(false);
 
     const onEditAddressSubmit = (data) => {
-        const { _id, ...update } = data;
-        dispatch(updateAddress({ companyId: company._id, addressId: _id, update }));
+        const { _id: addressId, ...update } = data;
+        update.country = getOptionId(update.country);
+        dispatch(updateAddress({ companyId: company._id, addressId, update }));
         setIsEditAddressOpen(false);
     };
 

@@ -6,7 +6,6 @@ import {
     selectCurrentUserId,
     selectDeliveryMethods
 } from '../../../app/duck/selectors.js';
-import { itemUnitsOptions } from '../../../app/utils/options/options.js';
 import { defaultProductRowValues } from '../../shared/rhf/forms/util/constants.js';
 
 export const {
@@ -63,7 +62,7 @@ export const selectNewOrder = createSelector(
         date: Date.now(),
         del: deliveryMethods[0],
         currency: company.currency ? currenciesMap[company.currency] : null,
-        totalQ: { [itemUnitsOptions[0]]: 0 },
+        totalQ: { PCS: 0 },
         totalA: 0,
         createdBy: userId,
         saveItems: false,

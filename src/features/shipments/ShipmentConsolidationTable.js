@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 import { updateShipment } from './duck/thunks.js';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
+import { getOptionId } from '../../app/utils/options/getters.js';
 
 const consolidationTableFieldNames = {
     custom1: 'coCustom1',
@@ -63,6 +64,8 @@ const ShipmentConsolidationTable = React.memo(function ShipmentConsolidationTabl
             item.shipment = shipment._id;
             return item;
         });
+        data.weightUnit = getOptionId(data.weightUnit);
+        data.measurementUnit = getOptionId(data.measurementUnit);
         dispatch(updateShipment({ id: shipment._id, update: data}));
     };
 

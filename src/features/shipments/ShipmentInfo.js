@@ -7,9 +7,6 @@ import { Grid } from '@material-ui/core';
 import { formatAddress } from '../shared/utils/format.js';
 import InfoCard from '../shared/wrappers/InfoCard.js';
 import { LANGUAGE } from '../../app/utils/constants.js';
-import {
-    billOfLandingTypesOptions
-} from '../../app/utils/options/options.js';
 import SideTextField from '../shared/inputs/SideTextField.js';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { updateShipment } from './duck/thunks.js';
@@ -19,7 +16,7 @@ import RHFAutoComplete from '../shared/rhf/inputs/RHFAutoComplete.js';
 import RHFDateField from '../shared/rhf/inputs/RHFDateField.js';
 import { useParams } from 'react-router-dom';
 import { selectShipmentById } from './duck/selectors.js';
-import { selectDeliveryMethods, selectIncoterms } from '../../app/duck/selectors.js';
+import { selectBillOfLandingTypes, selectDeliveryMethods, selectIncoterms } from '../../app/duck/selectors.js';
 import { getOptionId, getOptionLabel } from '../../app/utils/options/getters.js';
 
 const {
@@ -44,6 +41,7 @@ const ShipmentInfo = React.memo(function ShipmentInfo() {
     const { id: shipmentId } = useParams();
     const shipment = useSelector(state => selectShipmentById(state, shipmentId));
     const deliveryMethodOptions = useSelector(selectDeliveryMethods);
+    const billOfLandingTypeOptions = useSelector(selectBillOfLandingTypes);
     const sellerAddresses = useSelector(selectCompanyActiveAddresses);
     const consigneeAddresses = useSelector(state => selectClientActiveAddresses(state, shipment.consignee));
     const ports = useSelector(selectCompanyPorts);
@@ -87,6 +85,7 @@ const ShipmentInfo = React.memo(function ShipmentInfo() {
         data.consigneeAdd = addressToDocAddress(data.consigneeAdd);
         data.shipAdd = addressToDocAddress(data.shipAdd);
         if (data.del) data.del = getOptionId(data.del);
+        if (data.bolType) data.bolType = getOptionId(data.bolType);
         dispatch(updateShipment({ shipmentId, update: data }));
     };
 
@@ -168,7 +167,9 @@ const ShipmentInfo = React.memo(function ShipmentInfo() {
                                 rhfControl={ control }
                                 name="bolType"
                                 label={ formLabels.bolType }
-                                options={ billOfLandingTypesOptions }
+                                options={ billOfLandingTypeOptions }
+                                getOptionLabel={ option => getOptionLabel(option) }
+                                getOptionSelected={ (option, value) => option.id === value.id }
                             />
                             <SideTextField
                                 label={ formLabels.payRefs }

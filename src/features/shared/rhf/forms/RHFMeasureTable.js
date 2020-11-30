@@ -1,7 +1,6 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useWatch } from 'react-hook-form';
-import { measurementUnitsOptions, weightUnitsOptions } from '../../../../app/utils/options/options.js';
 import { Grid, IconButton } from '@material-ui/core';
 import { LANGUAGE } from '../../../../app/utils/constants.js';
 import EditableTable from '../../components/editable_table/EditableTable.js';
@@ -14,7 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import RHFAutoComplete from '../inputs/RHFAutoComplete.js';
 import { useSelector } from 'react-redux';
-import { selectPackageUnits } from '../../../../app/duck/selectors.js';
+import { selectMeasurementUnits, selectPackageUnits, selectWeightUnits } from '../../../../app/duck/selectors.js';
 import { getOptionLabel } from '../../../../app/utils/options/getters.js';
 
 const useStyles = makeStyles((theme) => ({
@@ -57,6 +56,8 @@ const RHFMeasureTable = React.memo(function RHFMeasureTable(
     }) {
     const classes = useStyles();
     const packageUnitOptions = useSelector(selectPackageUnits);
+    const weightUnitOptions = useSelector(selectWeightUnits);
+    const measurementUnitOptions = useSelector(selectMeasurementUnits);
 
     const custom1 = useWatch({
         control,
@@ -325,7 +326,9 @@ const RHFMeasureTable = React.memo(function RHFMeasureTable(
                     rhfControl={ control }
                     name={ fieldNames.weightUnit }
                     label={ formLabels.weightUnit }
-                    options={ weightUnitsOptions }
+                    options={ weightUnitOptions }
+                    getOptionLabel={ option => getOptionLabel(option) }
+                    getOptionSelected={ (option, value) => option.id === value.id }
                     error={ !!errors.weightUnit }
                     required={ errorMessages.missingWeightUnit }
                 />
@@ -333,7 +336,9 @@ const RHFMeasureTable = React.memo(function RHFMeasureTable(
                     rhfControl={ control }
                     name={ fieldNames.measurementUnit }
                     label={ formLabels.measurementUnit }
-                    options={ measurementUnitsOptions }
+                    options={ measurementUnitOptions }
+                    getOptionLabel={ option => getOptionLabel(option) }
+                    getOptionSelected={ (option, value) => option.id === value.id }
                     error={ !!errors.measurementUnit }
                     required={ errorMessages.missingMeasurementUnit }
                 />

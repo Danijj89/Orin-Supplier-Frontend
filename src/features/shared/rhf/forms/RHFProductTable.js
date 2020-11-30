@@ -2,7 +2,6 @@ import React, { useCallback, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Grid, IconButton } from '@material-ui/core';
 import { useWatch } from 'react-hook-form';
-import { itemUnitsOptions } from '../../../../app/utils/options/options.js';
 import { LANGUAGE } from '../../../../app/utils/constants.js';
 import EditableTable from '../../components/editable_table/EditableTable.js';
 import DeleteIconButton from '../../buttons/DeleteIconButton.js';
@@ -54,6 +53,7 @@ const RHFProductTable = React.memo(function RHFProductTable(
     }) {
 
     const currencyOptions = useSelector(selectCurrencies);
+    const itemUnitOptions = useSelector()
 
     const custom1 = useWatch({
         control,
@@ -276,8 +276,9 @@ const RHFProductTable = React.memo(function RHFProductTable(
             field: 'unit',
             headerName: tableHeaderLabels.unit,
             type: 'dropdown',
-            options: itemUnitsOptions,
-            getOptionLabel: (option) => option,
+            options: itemUnitOptions,
+            getOptionLabel: option => getOptionLabel(option),
+            getOptionSelected: (option, value) => option.id === value.id,
             width: 50
         },
         {
@@ -302,7 +303,8 @@ const RHFProductTable = React.memo(function RHFProductTable(
         onDeleteRow,
         fieldNames,
         isShipment,
-        ordersMapWithDefault
+        ordersMapWithDefault,
+        itemUnitOptions
     ]);
 
     const currencySymbol = useMemo(() => getCurrencySymbol(currency), [currency]);
