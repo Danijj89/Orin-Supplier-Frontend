@@ -7,11 +7,14 @@ import TableTextField from '../../inputs/TableTextField.js';
 import { Grid, IconButton } from '@material-ui/core';
 import { Add as IconAdd, Close as IconClose } from '@material-ui/icons';
 import { useWatch } from 'react-hook-form';
-import { measurementUnitsOptions, packageUnitsOptions, weightUnitsOptions } from '../../../../app/utils/options/options.js';
+import { measurementUnitsOptions, weightUnitsOptions } from '../../../../app/utils/options/options.js';
 import UnitCounter from '../../classes/UnitCounter.js';
 import { roundToNDecimal } from '../../utils/format.js';
 import ErrorMessages from '../../components/ErrorMessages.js';
 import RHFAutoComplete from '../inputs/RHFAutoComplete.js';
+import { useSelector } from 'react-redux';
+import { selectPackageUnits } from '../../../../app/duck/selectors.js';
+import { getOptionLabel } from '../../../../app/utils/options/getters.js';
 
 export const defaultConsolidationItemValues = {
     _id: null,
@@ -21,7 +24,7 @@ export const defaultConsolidationItemValues = {
     hsc: '',
     dg: false,
     package: 0,
-    pUnit: packageUnitsOptions[0],
+    pUnit: 'CTN',
     netW: 0,
     grossW: 0,
     dim: 0,
@@ -46,6 +49,8 @@ const RHFConsolidationTable = React.memo(function RHFConsolidationTable(
         fieldNames,
         className
     }) {
+
+    const packageUnitOptions = useSelector(selectPackageUnits);
 
     const custom1 = useWatch({
         control,
@@ -143,14 +148,14 @@ const RHFConsolidationTable = React.memo(function RHFConsolidationTable(
             case 'package':
                 newValue = newValue === '' ? newValue : parseInt(newValue);
                 diff = newValue - newItem.package;
-                newPackage = new UnitCounter(packageUnitsOptions, getValues(fieldNames.package));
+                newPackage = new UnitCounter(getValues(fieldNames.package));
                 newPackage.addUnit(newItem.pUnit, diff);
                 setValue(fieldNames.package, newPackage.data);
                 newItem.package = newValue;
                 break;
             case 'pUnit':
                 const prevUnit = newItem.pUnit;
-                newPackage = new UnitCounter(packageUnitsOptions, getValues(fieldNames.package));
+                newPackage = new UnitCounter(getValues(fieldNames.package));
                 newPackage.subtractUnit(prevUnit, newItem.package);
                 newPackage.addUnit(newValue, newItem.package);
                 setValue(fieldNames.package, newPackage.data);
@@ -265,8 +270,9 @@ const RHFConsolidationTable = React.memo(function RHFConsolidationTable(
             field: 'pUnit',
             headerName: tableHeaderLabels.pUnit,
             type: 'dropdown',
-            options: packageUnitsOptions,
-            getOptionLabel: (option) => option,
+            options: packageUnitOptions,
+            getOptionLabel: option => getOptionLabel(option),
+            getOptionSelected: (option, value) => option.id === value.id,
             width: 50
         },
         {

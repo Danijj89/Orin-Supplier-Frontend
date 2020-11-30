@@ -3,7 +3,6 @@ import { useWatch } from 'react-hook-form';
 import { LANGUAGE } from '../../../../app/utils/constants.js';
 import SideTextField from '../../inputs/SideTextField.js';
 import { formatAddress } from '../../utils/format.js';
-import { incotermOptions } from '../../../../app/utils/options/options.js';
 import FormContainer from '../../wrappers/FormContainer.js';
 import { Divider, Typography, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -14,7 +13,7 @@ import RHFAutoComplete from '../inputs/RHFAutoComplete.js';
 import RHFDateField from '../inputs/RHFDateField.js';
 import Box from '@material-ui/core/Box';
 import { useSelector } from 'react-redux';
-import { selectDeliveryMethods } from '../../../../app/duck/selectors.js';
+import { selectDeliveryMethods, selectIncoterms } from '../../../../app/duck/selectors.js';
 import { getOptionLabel } from '../../../../app/utils/options/getters.js';
 
 const useStyles = makeStyles((theme) => ({
@@ -47,6 +46,7 @@ const RHFOrderDetails = React.memo(function RHFOrderDetails(
         className
     }) {
     const classes = useStyles();
+    const incotermOptions = useSelector(selectIncoterms);
     const deliveryMethodOptions = useSelector(selectDeliveryMethods);
 
     const client = useWatch({

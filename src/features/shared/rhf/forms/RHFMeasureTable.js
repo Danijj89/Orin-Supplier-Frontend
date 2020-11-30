@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useWatch } from 'react-hook-form';
-import { measurementUnitsOptions, packageUnitsOptions, weightUnitsOptions } from '../../../../app/utils/options/options.js';
+import { measurementUnitsOptions, weightUnitsOptions } from '../../../../app/utils/options/options.js';
 import { Grid, IconButton } from '@material-ui/core';
 import { LANGUAGE } from '../../../../app/utils/constants.js';
 import EditableTable from '../../components/editable_table/EditableTable.js';
@@ -13,6 +13,9 @@ import ErrorMessages from '../../components/ErrorMessages.js';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import RHFAutoComplete from '../inputs/RHFAutoComplete.js';
+import { useSelector } from 'react-redux';
+import { selectPackageUnits } from '../../../../app/duck/selectors.js';
+import { getOptionLabel } from '../../../../app/utils/options/getters.js';
 
 const useStyles = makeStyles((theme) => ({
     marks: {
@@ -53,6 +56,7 @@ const RHFMeasureTable = React.memo(function RHFMeasureTable(
         className
     }) {
     const classes = useStyles();
+    const packageUnitOptions = useSelector(selectPackageUnits);
 
     const custom1 = useWatch({
         control,
@@ -140,14 +144,14 @@ const RHFMeasureTable = React.memo(function RHFMeasureTable(
             case 'package':
                 newValue = newValue === '' ? newValue : parseInt(newValue);
                 diff = newValue - newItem.package;
-                newPackage = new UnitCounter(packageUnitsOptions, getValues(fieldNames.package));
+                newPackage = new UnitCounter(getValues(fieldNames.package));
                 newPackage.addUnit(newItem.pUnit, diff);
                 setValue(fieldNames.package, newPackage.data);
                 newItem.package = newValue;
                 break;
             case 'pUnit':
                 const prevUnit = newItem.pUnit;
-                newPackage = new UnitCounter(packageUnitsOptions, getValues(fieldNames.package));
+                newPackage = new UnitCounter(getValues(fieldNames.package));
                 newPackage.subtractUnit(prevUnit, newItem.package);
                 newPackage.addUnit(newValue, newItem.package);
                 setValue(fieldNames.package, newPackage.data);
@@ -246,8 +250,9 @@ const RHFMeasureTable = React.memo(function RHFMeasureTable(
             field: 'pUnit',
             headerName: tableHeaderLabels.pUnit,
             type: 'dropdown',
-            options: packageUnitsOptions,
-            getOptionLabel: (option) => option,
+            options: packageUnitOptions,
+            getOptionLabel: option => getOptionLabel(option),
+            getOptionSelected: (option, value) => option.id === value.id,
             width: 50
         },
         {
@@ -274,7 +279,8 @@ const RHFMeasureTable = React.memo(function RHFMeasureTable(
         custom2,
         fieldNames,
         onAddColumn,
-        onDeleteColumn
+        onDeleteColumn,
+        packageUnitOptions
     ]);
 
     const rows = items.map((row, index) => ({

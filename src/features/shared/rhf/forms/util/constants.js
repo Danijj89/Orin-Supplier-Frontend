@@ -1,4 +1,3 @@
-import { packageUnitsOptions } from '../../../../../app/utils/options/options.js';
 
 export const defaultProductRowValues = {
     _id: null,
@@ -13,7 +12,7 @@ export const defaultProductRowValues = {
     price: 0,
     total: 0,
     package: 0,
-    pUnit: packageUnitsOptions[0],
+    pUnit: 'CTN',
     netW: 0,
     grossW: 0,
     dim: 0,

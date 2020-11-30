@@ -1,4 +1,4 @@
-import { itemUnitsOptions, packageUnitsOptions } from '../../../app/utils/options/options.js';
+import { itemUnitsOptions } from '../../../app/utils/options/options.js';
 
 export const defaultShipmentRowValues = {
     _id: null,
@@ -11,7 +11,7 @@ export const defaultShipmentRowValues = {
     price: 0,
     total: 0,
     package: 0,
-    pUnit: packageUnitsOptions[0],
+    pUnit: 'CTN',
     netW: 0,
     grossW: 0,
     dim: 0,

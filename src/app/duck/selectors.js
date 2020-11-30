@@ -6,3 +6,7 @@ export const selectCurrentUser = state => state.app.user;
 
 export const selectDeliveryMethods = state => state.app.appData.deliveryMethods;
 export const selectCurrencies = state => state.app.appData.currencies;
+export const selectIncoterms = state => state.app.appData.incoterms;
+export const selectExemptionTypes = state => state.app.appData.exemptionTypes;
+export const selectSupervisionMethods = state => state.app.appData.supervisionMethods;
+export const selectPackageUnits = state => state.app.appData.packageUnits;

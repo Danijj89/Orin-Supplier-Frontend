@@ -2,12 +2,12 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 import FormDialog from '../wrappers/FormDialog.js';
-import { incotermOptions } from '../../../app/utils/options/options.js';
 import SideTextField from '../inputs/SideTextField.js';
 import { LANGUAGE } from '../../../app/utils/constants.js';
 import RHFAutoComplete from '../rhf/inputs/RHFAutoComplete.js';
 import { useSelector } from 'react-redux';
 import { selectAllActiveUsers, selectUserById } from '../../users/duck/selectors.js';
+import { selectIncoterms } from '../../../app/duck/selectors.js';
 
 const {
     nameLabel,
@@ -33,6 +33,7 @@ const ClientDialog = React.memo(function ClientDialog(
         isEdit,
         onDelete
     }) {
+    const incotermOptions = useSelector(selectIncoterms);
     const users = useSelector(selectAllActiveUsers);
     const assignedTo = useSelector(state => selectUserById(state, client?.assignedTo));
 

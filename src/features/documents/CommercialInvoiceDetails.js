@@ -16,8 +16,8 @@ import { selectClientActiveAddresses, selectClientAddress, selectClientById } fr
 import Footer from '../shared/components/Footer.js';
 import { useHistory } from 'react-router-dom';
 import RHFDateField from '../shared/rhf/inputs/RHFDateField.js';
-import { incotermOptions } from '../../app/utils/options/options.js';
 import { makeStyles } from '@material-ui/core/styles';
+import { selectIncoterms } from '../../app/duck/selectors.js';
 
 
 const {
@@ -61,6 +61,7 @@ const CommercialInvoiceDetails = React.memo(function CommercialInvoiceDetails(
     }) {
     const classes = useStyles();
     const history = useHistory();
+    const incotermOptions = useSelector(selectIncoterms);
     const companyAddresses = useSelector(selectCompanyActiveAddresses);
     const consigneeAddresses = useSelector(state => selectClientActiveAddresses(state, commercialInvoice.consignee));
     const companyPorts = useSelector(selectCompanyPorts);

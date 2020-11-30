@@ -1,3 +1,5 @@
+import { getOptionId } from '../../../app/utils/options/getters.js';
+
 export const addressToDocAddress = (address) => (
     {
         addressId: address._id,
@@ -43,7 +45,6 @@ export const tableItemsToItems = (tableItems, shipmentId) =>
             unit: item.unit,
             price: item.price,
             total: item.total,
-            package: item.package,
             pUnit: item.pUnit,
             netW: item.netW,
             grossW: item.grossW,
@@ -55,6 +56,7 @@ export const tableItemsToItems = (tableItems, shipmentId) =>
         };
         if (item._id) temp._id = item._id;
         if (item.product) temp.product = item.product;
+        if (item.package) temp.package = getOptionId(temp.package);
         return temp;
     });
 

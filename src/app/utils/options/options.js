@@ -11,11 +11,9 @@ export const documentTypesOptions = documentObjectTypesOptions.reduce((acc, doc)
 }, {});
 
 export const itemUnitsOptions = ['PCS', 'CTN'];
-export const packageUnitsOptions = ['CTN', 'PLT'];
 export const weightUnitsOptions = ['KGS'];
 export const measurementUnitsOptions = ['CBM'];
 export const orderStatusesOptions = ['Not Started', 'In Progress', 'Completed', 'Exception'];
-export const incotermOptions = ['FOB', 'EXW', 'FCA', 'FAS', 'CFR', 'CIF', 'CPT', 'CIP', 'DPU', 'DAP', 'DDP'];
 export const salesStatusOptions = ['New', 'Working', 'Closed', 'Blocked'];
 export const leadTypesOptions = ['Cold', 'Warm', 'Hot'];
 export const leadPotentialsOptions = ['Low', 'Medium', 'High'];

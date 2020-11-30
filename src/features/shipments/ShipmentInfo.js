@@ -8,8 +8,7 @@ import { formatAddress } from '../shared/utils/format.js';
 import InfoCard from '../shared/wrappers/InfoCard.js';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import {
-    billOfLandingTypesOptions,
-    incotermOptions
+    billOfLandingTypesOptions
 } from '../../app/utils/options/options.js';
 import SideTextField from '../shared/inputs/SideTextField.js';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
@@ -20,7 +19,7 @@ import RHFAutoComplete from '../shared/rhf/inputs/RHFAutoComplete.js';
 import RHFDateField from '../shared/rhf/inputs/RHFDateField.js';
 import { useParams } from 'react-router-dom';
 import { selectShipmentById } from './duck/selectors.js';
-import { selectDeliveryMethods } from '../../app/duck/selectors.js';
+import { selectDeliveryMethods, selectIncoterms } from '../../app/duck/selectors.js';
 import { getOptionId, getOptionLabel } from '../../app/utils/options/getters.js';
 
 const {
@@ -48,6 +47,7 @@ const ShipmentInfo = React.memo(function ShipmentInfo() {
     const sellerAddresses = useSelector(selectCompanyActiveAddresses);
     const consigneeAddresses = useSelector(state => selectClientActiveAddresses(state, shipment.consignee));
     const ports = useSelector(selectCompanyPorts);
+    const incotermOptions = useSelector(selectIncoterms);
 
     const initialSellerAddress = useSelector(state => selectCompanyAddress(state, shipment.sellerAdd.addressId));
     const initialConsigneeAddress = useSelector(
