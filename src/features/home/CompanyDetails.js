@@ -10,7 +10,7 @@ import NavTabs from '../shared/components/NavTabs.js';
 import Paper from '@material-ui/core/Paper';
 import CompanyBankDetails from '../documents/CompanyBankDetails.js';
 import { useSelector } from 'react-redux';
-import { selectCompanyLegalAddress, selectCurrentCompany } from './duck/selectors.js';
+import { selectCompanyDetails } from './duck/dataSelectors.js';
 
 const useStyles = makeStyles((theme) => ({
     topCard: {
@@ -36,22 +36,22 @@ const {
 const CompanyDetails = React.memo(function CompanyDetails() {
     const classes = useStyles();
     const [tabValue, setTabValue] = useState('addresses');
-    const company = useSelector(selectCurrentCompany);
-    const legalAddress = useSelector(selectCompanyLegalAddress);
+
+    const companyDetails = useSelector(selectCompanyDetails);
 
     const data = useMemo(() => [
-        { label: taxNumberLabel, value: company.taxNumber },
-        { label: currencyLabel, value: company.currency },
-        { label: industriesLabel, value: company.industries },
-        { label: emailLabel, value: legalAddress.email },
-        { label: phoneLabel, value: legalAddress.phone }
-    ], [company.taxNumber, company.currency, company.industries, legalAddress]);
+        { label: taxNumberLabel, value: companyDetails.taxNumber },
+        { label: currencyLabel, value: companyDetails.currency },
+        { label: industriesLabel, value: companyDetails.industries.join(', ') },
+        { label: emailLabel, value: companyDetails.email },
+        { label: phoneLabel, value: companyDetails.phone }
+    ], [companyDetails]);
 
     return (
         <Container className={ classes.companyContainer }>
             <InfoCard
                 className={ classes.topCard }
-                title={ legalAddress.name }
+                title={ companyDetails.name }
                 button={ <EditCompanyInfoButton /> }
                 content={
                     <Grid container>
