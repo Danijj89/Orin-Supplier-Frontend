@@ -3,7 +3,7 @@ import { useWatch } from 'react-hook-form';
 import { LANGUAGE } from '../../../../app/utils/constants.js';
 import SideTextField from '../../inputs/SideTextField.js';
 import { formatAddress } from '../../utils/format.js';
-import { deliveryMethodOptions, incotermOptions } from '../../../../app/utils/options/options.js';
+import { incotermOptions } from '../../../../app/utils/options/options.js';
 import FormContainer from '../../wrappers/FormContainer.js';
 import { Divider, Typography, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -13,6 +13,9 @@ import RHFCheckBox from '../inputs/RHFCheckBox.js';
 import RHFAutoComplete from '../inputs/RHFAutoComplete.js';
 import RHFDateField from '../inputs/RHFDateField.js';
 import Box from '@material-ui/core/Box';
+import { useSelector } from 'react-redux';
+import { selectDeliveryMethods } from '../../../../app/duck/selectors.js';
+import { getDeliveryMethodLabel } from '../../../../app/utils/options/getters.js';
 
 const useStyles = makeStyles((theme) => ({
     details: {
@@ -44,6 +47,7 @@ const RHFOrderDetails = React.memo(function RHFOrderDetails(
         className
     }) {
     const classes = useStyles();
+    const deliveryMethodOptions = useSelector(selectDeliveryMethods);
 
     const client = useWatch({
         control,
@@ -144,7 +148,7 @@ const RHFOrderDetails = React.memo(function RHFOrderDetails(
                     { shouldShowAddAddressButton &&
                     <NewClientAddressButton
                         clientId={ client._id }
-                        clientName={client.name}
+                        clientName={ client.name }
                     /> }
                     <RHFDateField
                         rhfControl={ control }
@@ -203,6 +207,8 @@ const RHFOrderDetails = React.memo(function RHFOrderDetails(
                         name={ fieldNames.del }
                         label={ formLabels.del }
                         options={ deliveryMethodOptions }
+                        getOptionLabel={ method => getDeliveryMethodLabel(method) }
+                        getOptionSelected={ (option, value) => option.id === value.id }
                     />
                     <RHFAutoComplete
                         rhfControl={ control }

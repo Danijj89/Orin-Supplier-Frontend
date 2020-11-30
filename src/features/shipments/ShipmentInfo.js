@@ -9,7 +9,6 @@ import InfoCard from '../shared/wrappers/InfoCard.js';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import {
     billOfLandingTypesOptions,
-    deliveryMethodOptions,
     incotermOptions
 } from '../../app/utils/options/options.js';
 import SideTextField from '../shared/inputs/SideTextField.js';
@@ -21,6 +20,8 @@ import RHFAutoComplete from '../shared/rhf/inputs/RHFAutoComplete.js';
 import RHFDateField from '../shared/rhf/inputs/RHFDateField.js';
 import { useParams } from 'react-router-dom';
 import { selectShipmentById } from './duck/selectors.js';
+import { selectDeliveryMethods } from '../../app/duck/selectors.js';
+import { getDeliveryMethodLabel } from '../../app/utils/options/getters.js';
 
 const {
     partiesTitleLabel,
@@ -43,6 +44,7 @@ const ShipmentInfo = React.memo(function ShipmentInfo() {
     const dispatch = useDispatch();
     const { id: shipmentId } = useParams();
     const shipment = useSelector(state => selectShipmentById(state, shipmentId));
+    const deliveryMethodOptions = useSelector(selectDeliveryMethods);
     const sellerAddresses = useSelector(selectCompanyActiveAddresses);
     const consigneeAddresses = useSelector(state => selectClientActiveAddresses(state, shipment.consignee));
     const ports = useSelector(selectCompanyPorts);
@@ -192,6 +194,8 @@ const ShipmentInfo = React.memo(function ShipmentInfo() {
                                 name="del"
                                 label={ formLabels.del }
                                 options={ deliveryMethodOptions }
+                                getOptionLabel={ method => getDeliveryMethodLabel(method) }
+                                getOptionSelected={ (option, value) => option.id === value.id }
                             />
                             <RHFAutoComplete
                                 rhfControl={ control }

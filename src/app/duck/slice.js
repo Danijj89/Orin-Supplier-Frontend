@@ -1,9 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { SESSION_COOKIE, SESSION_USER } from '../sessionKeys.js';
+import { SESSION_APP_DATA, SESSION_COOKIE, SESSION_USER } from '../sessionKeys.js';
 import { signIn } from './thunks.js';
 
 const initialState = {
     user: JSON.parse(sessionStorage.getItem(SESSION_USER)),
+    appData: JSON.parse(sessionStorage.getItem(SESSION_APP_DATA)),
     status: 'IDLE',
     error: null,
 };
@@ -16,6 +17,7 @@ const appSlice = createSlice({
             state.status = 'IDLE';
             state.error = null;
             state.user = null;
+            state.appData = null;
         }
     },
     extraReducers: {
@@ -23,10 +25,12 @@ const appSlice = createSlice({
             state.status = 'PENDING';
         },
         [signIn.fulfilled]: (state, action) => {
-            const { user, expires } = action.payload;
+            const { user, expires, appData } = action.payload;
             state.user = user;
+            state.appData = appData;
             sessionStorage.setItem(SESSION_COOKIE, JSON.stringify(new Date(Date.now() + expires)));
             sessionStorage.setItem(SESSION_USER, JSON.stringify(user));
+            sessionStorage.setItem(SESSION_APP_DATA, JSON.stringify(appData));
             state.status = 'FULFILLED';
         },
         [signIn.rejected]: (state, action) => {

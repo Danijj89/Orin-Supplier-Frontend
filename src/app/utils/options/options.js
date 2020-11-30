@@ -1,17 +1,4 @@
-export const deliveryMethodOptions = [
-    {
-        id: 'Ocean', label: {
-            'en': 'Ocean',
-            'zh': '海运'
-        }
-    },
-    {
-        id: 'Air', label: {
-            'en': 'Air',
-            'zh': '空运'
-        }
-    }
-];
+
 
 export const documentObjectTypesOptions = [
     { type: 'CI', name: 'Commercial Invoice' },

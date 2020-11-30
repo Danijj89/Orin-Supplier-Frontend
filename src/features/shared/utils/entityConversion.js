@@ -128,8 +128,7 @@ export const shipmentToChinaExport = (shipment) => ({
     sName: null,
     sTaxCode: null,
     cName: shipment.consigneeAdd.name,
-    exPort: null,
-    del:
+    exPort: null
 });
 
 export const countryToCountryCode = (country) => country.code;
