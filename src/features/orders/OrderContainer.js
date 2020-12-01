@@ -30,7 +30,7 @@ const {
 
 const OrderContainer = React.memo(function OrderContainer() {
     const dispatch = useDispatch();
-    const { id } = useParams();
+    const { id: orderId } = useParams();
     const orderDataStatus = useSelector(selectOrderDataStatus);
     const orderError = useSelector(selectOrderError);
     const homeDataStatus = useSelector(selectHomeDataStatus);
@@ -55,7 +55,7 @@ const OrderContainer = React.memo(function OrderContainer() {
     const errors = getErrors(orderError, homeError, userError, clientError, productError, shipmentError);
 
     const companyId = useSelector(selectCompanyId);
-    const order = useSelector(state => selectOrderById(state, id));
+    const order = useSelector(state => selectOrderById(state, { orderId }));
     const isOrderInactive = useMemo(() => order?.active === false
         || (!order && orderDataStatus === 'FULFILLED') , [order, orderDataStatus]);
 

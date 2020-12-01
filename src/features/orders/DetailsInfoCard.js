@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { LANGUAGE } from '../../app/utils/constants.js';
+import { LANGUAGE, LOCALE } from '../../app/utils/constants.js';
 import InfoCard from '../shared/wrappers/InfoCard.js';
 import { dateToLocaleDate, formatAddress, formatCurrency } from '../shared/utils/format.js';
 import UnitCounter from '../shared/classes/UnitCounter.js';
@@ -10,6 +10,7 @@ import { Grid } from '@material-ui/core';
 import DividerDataDisplay from '../shared/wrappers/DividerDisplay.js';
 import { selectOrderById } from './duck/selectors.js';
 import { useParams } from 'react-router-dom';
+import { selectItemUnitsMap } from '../../app/duck/selectors.js';
 
 const {
     titleLabel,
@@ -29,8 +30,9 @@ const {
 
 export default function DetailsInfoCard() {
     const { id: orderId } = useParams();
-    const order = useSelector(state => selectOrderById(state, orderId));
+    const order = useSelector(state => selectOrderById(state, { orderId }));
     const createdBy = useSelector(state => selectUserById(state, order.createdBy));
+    const itemUnitsMap = useSelector(selectItemUnitsMap);
 
     const leftData = useMemo(() => [
         { label: orderReferenceLabel, value: order.ref },
@@ -38,8 +40,8 @@ export default function DetailsInfoCard() {
         { label: dateLabel, value: dateToLocaleDate(order.date) },
         { label: crdLabel, value: dateToLocaleDate(order.crd) },
         { label: incotermLabel, value: order.incoterm },
-        { label: quantityLabel, value: UnitCounter.stringRep(order.totalQ) }
-    ], [order.ref, order.fromAdd, order.date, order.crd, order.incoterm, order.totalQ]);
+        { label: quantityLabel, value: UnitCounter.stringRep(order.totalQ, itemUnitsMap, LOCALE) }
+    ], [order.ref, order.fromAdd, order.date, order.crd, order.incoterm, order.totalQ, itemUnitsMap]);
 
     const rightData = useMemo(() => [
         { label: clientReferenceLabel, value: order.clientRef },

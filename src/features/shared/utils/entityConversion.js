@@ -8,11 +8,10 @@ export const addressToDocAddress = (address) => (
         address2: address.address2,
         city: address.city,
         administrative: address.administrative,
-        country: address.country,
+        country: getOptionId(address.country),
         zip: address.zip
     }
 );
-
 
 export const productTableItemsToOrderItems = (tableItems) =>
     tableItems.map(item => {

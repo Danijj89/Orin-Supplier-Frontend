@@ -15,6 +15,8 @@ import Box from '@material-ui/core/Box';
 import { useSelector } from 'react-redux';
 import { selectDeliveryMethods, selectIncoterms } from '../../../../app/duck/selectors.js';
 import { getOptionLabel } from '../../../../app/utils/options/getters.js';
+import { selectAllActiveClients } from '../../../clients/duck/selectors.js';
+import { selectCompanyActiveAddresses, selectCompanyPorts } from '../../../home/duck/selectors.js';
 
 const useStyles = makeStyles((theme) => ({
     details: {
@@ -39,15 +41,15 @@ const RHFOrderDetails = React.memo(function RHFOrderDetails(
         rhfGetValues: getValues,
         rhfSetValue: setValue,
         isEdit,
-        companyAddresses,
-        companyPorts,
-        clients,
         fieldNames,
         className
     }) {
     const classes = useStyles();
     const incotermOptions = useSelector(selectIncoterms);
     const deliveryMethodOptions = useSelector(selectDeliveryMethods);
+    const clients = useSelector(selectAllActiveClients);
+    const companyAddresses = useSelector(selectCompanyActiveAddresses);
+    const companyPorts = useSelector(selectCompanyPorts);
 
     const client = useWatch({
         control,
@@ -118,7 +120,7 @@ const RHFOrderDetails = React.memo(function RHFOrderDetails(
                         name={ fieldNames.fromAdd }
                         label={ formLabels.fromAdd }
                         options={ companyAddresses }
-                        getOptionLabel={ formatAddress }
+                        getOptionLabel={ option => formatAddress(option) }
                         getOptionSelected={ (option, value) => option._id === value._id || !value.active }
                         error={ !!errors[fieldNames.fromAdd] }
                         rowsMax={ 8 }
@@ -139,7 +141,7 @@ const RHFOrderDetails = React.memo(function RHFOrderDetails(
                         name={ fieldNames.toAdd }
                         label={ formLabels.toAdd }
                         options={ clientAddresses }
-                        getOptionLabel={ formatAddress }
+                        getOptionLabel={ option => formatAddress(option) }
                         getOptionSelected={ (option, value) => option._id === value._id || !value.active }
                         error={ !!errors[fieldNames.toAdd] }
                         rowsMax={ 8 }
@@ -198,7 +200,7 @@ const RHFOrderDetails = React.memo(function RHFOrderDetails(
                         name={ fieldNames.shipAdd }
                         label={ formLabels.shipAdd }
                         options={ clientAddresses }
-                        getOptionLabel={ formatAddress }
+                        getOptionLabel={ option => formatAddress(option) }
                         getOptionSelected={ (option, value) => option._id === value._id || !value.active }
                         rowsMax={ 8 }
                     />
@@ -243,9 +245,6 @@ RHFOrderDetails.propTypes = {
     rhfControl: PropTypes.object.isRequired,
     rhfGetValues: PropTypes.func.isRequired,
     rhfSetValue: PropTypes.func.isRequired,
-    companyAddresses: PropTypes.array.isRequired,
-    companyPorts: PropTypes.array.isRequired,
-    clients: PropTypes.array.isRequired,
     fieldNames: PropTypes.exact({
         ref: PropTypes.string.isRequired,
         fromAdd: PropTypes.string.isRequired,

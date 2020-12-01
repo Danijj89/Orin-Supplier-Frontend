@@ -11,13 +11,18 @@ import { getCurrencySymbol } from '../../utils/random.js';
 import UnitCounter from '../../classes/UnitCounter.js';
 import { roundToNDecimal } from '../../utils/format.js';
 import ErrorMessages from '../../components/ErrorMessages.js';
-import { defaultProductRowValues } from './util/constants.js';
 import TextArea from '../../inputs/TextArea.js';
 import RHFCheckBox from '../inputs/RHFCheckBox.js';
 import RHFAutoComplete from '../inputs/RHFAutoComplete.js';
 import { useSelector } from 'react-redux';
-import { selectCurrencies } from '../../../../app/duck/selectors.js';
-import { getOptionLabel } from '../../../../app/utils/options/getters.js';
+import {
+    selectCurrencies,
+    selectDefaultRowItem,
+    selectItemUnits,
+    selectItemUnitsMap
+} from '../../../../app/duck/selectors.js';
+import { getOptionId, getOptionLabel } from '../../../../app/utils/options/getters.js';
+import { selectAllActiveProducts } from '../../../products/duck/selectors.js';
 
 const {
     formLabels,
@@ -45,15 +50,17 @@ const RHFProductTable = React.memo(function RHFProductTable(
         rhfSetValue: setValue,
         rhfGetValues: getValues,
         fieldNames,
-        products,
         isEdit,
         isShipment,
         ordersMap,
         className
     }) {
 
+    const defaultRowItem = useSelector(selectDefaultRowItem);
     const currencyOptions = useSelector(selectCurrencies);
-    const itemUnitOptions = useSelector()
+    const itemUnitOptions = useSelector(selectItemUnits);
+    const itemUnitsMap = useSelector(selectItemUnitsMap);
+    const products = useSelector(selectAllActiveProducts);
 
     const custom1 = useWatch({
         control,
@@ -121,8 +128,8 @@ const RHFProductTable = React.memo(function RHFProductTable(
     }, [setValue, getValues, fieldNames]);
 
     const onAddRow = useCallback(
-        () => setValue(fieldNames.items, [...getValues(fieldNames.items), defaultProductRowValues]),
-        [setValue, getValues, fieldNames]);
+        () => setValue(fieldNames.items, [...getValues(fieldNames.items), defaultRowItem]),
+        [setValue, getValues, fieldNames, defaultRowItem]);
 
     const onDeleteRow = useCallback(
         idx => () => setValue(fieldNames.items, getValues(fieldNames.items).filter((_, i) => i !== idx)),
@@ -158,17 +165,17 @@ const RHFProductTable = React.memo(function RHFProductTable(
                 newValue = newValue === '' ? newValue : parseInt(newValue);
                 diff = newValue - newItem.quantity;
                 newTotalQ = new UnitCounter(getValues(fieldNames.quantity));
-                newTotalQ.addUnit(newItem.unit, diff);
+                newTotalQ.addUnit(getOptionId(newItem.unit), diff);
                 setValue(fieldNames.quantity, newTotalQ.data);
                 setValue(fieldNames.total, roundToNDecimal(getValues(fieldNames.total) + (newItem.price * diff), 2));
                 newItem.total = roundToNDecimal(newValue * newItem.price, 2);
                 newItem.quantity = newValue;
                 break;
             case 'unit':
-                const prevUnit = newItem.unit;
+                const prevUnit = getOptionId(newItem.unit);
                 newTotalQ = new UnitCounter(getValues(fieldNames.quantity));
                 newTotalQ.subtractUnit(prevUnit, newItem.quantity);
-                newTotalQ.addUnit(newValue, newItem.quantity);
+                newTotalQ.addUnit(getOptionId(newValue), newItem.quantity);
                 setValue(fieldNames.quantity, newTotalQ.data);
                 newItem.unit = newValue;
                 break;
@@ -215,8 +222,7 @@ const RHFProductTable = React.memo(function RHFProductTable(
             headerName: tableHeaderLabels.ref,
             type: 'autocomplete',
             options: products,
-            getOptionLabel: product => product.sku || product,
-            getOptionSelected: (product, params) => product._id === params.id
+            getOptionLabel: product => product.sku || product
         },
         {
             field: 'description',
@@ -327,9 +333,9 @@ const RHFProductTable = React.memo(function RHFProductTable(
 
     const footer = useMemo(() => [[
         { field: 'label', value: totalLabel, colSpan: numColumns - 4, align: 'right' },
-        { field: 'quantity', value: UnitCounter.stringRep(quantity), colSpan: 3, align: 'center' },
+        { field: 'quantity', value: UnitCounter.stringRep(quantity, itemUnitsMap), colSpan: 3, align: 'center' },
         { field: 'total', value: `${ currencySymbol } ${ total }`, colSpan: 1, align: 'right' }
-    ]], [numColumns, total, quantity, currencySymbol]);
+    ]], [numColumns, total, quantity, currencySymbol, itemUnitsMap]);
 
     return (
         <Grid container className={ className }>
@@ -394,7 +400,6 @@ RHFProductTable.propTypes = {
         marks: PropTypes.string.isRequired,
         saveItems: PropTypes.string
     }).isRequired,
-    products: PropTypes.array.isRequired,
     isEdit: PropTypes.bool,
     isShipment: PropTypes.bool,
     ordersMap: PropTypes.object,

@@ -8,7 +8,6 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { addressToDocAddress, tableItemsToItems } from '../shared/utils/entityConversion.js';
 import { createDocument } from '../shipments/duck/thunks.js';
-import { selectAllActiveProducts } from '../products/duck/selectors.js';
 import { selectActiveOrdersMap } from '../orders/duck/selectors.js';
 import { selectCompanyId } from '../home/duck/selectors.js';
 import { selectCurrentUserId } from '../../app/duck/selectors.js';
@@ -36,7 +35,6 @@ const SalesContractProducts = React.memo(function SalesContractProducts(
     { salesContract, setSalesContract, shipmentId }) {
     const dispatch = useDispatch();
     const history = useHistory();
-    const products = useSelector(selectAllActiveProducts);
     const ordersMap = useSelector(selectActiveOrdersMap);
     const companyId = useSelector(selectCompanyId);
     const userId = useSelector(selectCurrentUserId);
@@ -91,7 +89,6 @@ const SalesContractProducts = React.memo(function SalesContractProducts(
                 rhfSetValue={ setValue }
                 rhfGetValues={ getValues }
                 fieldNames={ fieldNames }
-                products={ products }
                 ordersMap={ ordersMap }
                 isEdit
                 isShipment

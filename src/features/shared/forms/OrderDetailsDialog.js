@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import FormDialog from '../wrappers/FormDialog.js';
 import { useForm } from 'react-hook-form';
 import { LANGUAGE } from '../../../app/utils/constants.js';
@@ -11,7 +11,6 @@ import {
     selectClientAddress,
     selectClientById
 } from '../../clients/duck/selectors.js';
-import { selectDeliveryMethod } from '../../../app/duck/selectors.js';
 
 const {
     deleteMessage
@@ -61,11 +60,13 @@ const OrderDetailsDialog = React.memo(function OrderDetailsDialog(
             { clientId: order.to, addressId: order.shipAdd?.addressId }
         )
     );
-    const initialDel = useSelector(state => selectDeliveryMethod(state, order?.del));
 
-    const rhfMethods = useForm({
-        mode: 'onSubmit',
-        defaultValues: {
+    const { register, control, getValues, setValue, errors, handleSubmit, reset } = useForm({
+        mode: 'onSubmit'
+    });
+
+    useEffect(() => {
+        reset({
             [orderDetailsFieldNames.ref]: order.ref,
             [orderDetailsFieldNames.archived]: order.archived,
             [orderDetailsFieldNames.fromAdd]: companyAddress,
@@ -79,12 +80,17 @@ const OrderDetailsDialog = React.memo(function OrderDetailsDialog(
             [orderDetailsFieldNames.pol]: order.pol || null,
             [orderDetailsFieldNames.pod]: order.pod || null,
             [orderDetailsFieldNames.pay]: order.pay,
-            [orderDetailsFieldNames.del]: initialDel,
+            [orderDetailsFieldNames.del]: order.del,
             [orderDetailsFieldNames.carrier]: order.carrier
-        },
-        shouldUnregister: false
-    });
-    const { register, control, getValues, setValue, errors, handleSubmit } = rhfMethods;
+        });
+    }, [
+        reset,
+        order,
+        companyAddress,
+        initialClient,
+        initialClientAddress,
+        initialClientShipAddress
+    ]);
 
     return (
         <FormDialog

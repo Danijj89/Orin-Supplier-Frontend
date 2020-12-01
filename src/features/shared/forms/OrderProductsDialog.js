@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import FormDialog from '../wrappers/FormDialog.js';
 import { useForm } from 'react-hook-form';
 import RHFProductTable, { validateItems } from '../rhf/forms/RHFProductTable.js';
-import { useSelector } from 'react-redux';
-import { selectAllActiveProducts } from '../../products/duck/selectors.js';
 
 const productTableFieldNames = {
     custom1: 'custom1',
@@ -25,7 +23,6 @@ const OrderProductsDialog = React.memo(function OrderProductsDialog(
         order,
         titleLabel
     }) {
-    const products = useSelector(selectAllActiveProducts);
     const rhfMethods = useForm({
         mode: 'onSubmit'
     });
@@ -69,7 +66,6 @@ const OrderProductsDialog = React.memo(function OrderProductsDialog(
                 rhfSetValue={ setValue }
                 rhfGetValues={ getValues }
                 fieldNames={ productTableFieldNames }
-                products={ products }
                 isEdit
             />
         </FormDialog>

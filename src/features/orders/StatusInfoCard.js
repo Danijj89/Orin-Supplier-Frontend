@@ -41,11 +41,11 @@ const TableCell = withStyles((theme) => ({
 const StatusInfoCard = React.memo(function StatusInfoCard() {
     const classes = useStyles();
     const { id: orderId } = useParams();
-    const status = useSelector(state => selectOrderStatusField(state, orderId));
+    const status = useSelector(state => selectOrderStatusField(state, { orderId }));
     const { procurement, production, qa } = status;
 
     const HeaderCell = ({ header }) =>
-        <TableCell align="center" width={140}>{ header }</TableCell>
+        <TableCell align="center" width={ 140 }>{ header }</TableCell>
 
     const LabelCell = ({ label }) =>
         <TableCell className={ classes.label }>{ label }</TableCell>

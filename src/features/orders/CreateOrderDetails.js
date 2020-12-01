@@ -1,12 +1,7 @@
 import React from 'react';
 import RHFOrderDetails from '../shared/rhf/forms/RHFOrderDetails.js';
 import { useForm } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-    selectCompanyActiveAddresses,
-    selectCompanyPorts
-} from '../home/duck/selectors.js';
-import { selectAllActiveClients } from '../clients/duck/selectors.js';
+import { useDispatch } from 'react-redux';
 import Footer from '../shared/components/Footer.js';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import { cleanNewOrder } from './duck/slice.js';
@@ -39,11 +34,6 @@ const orderDetailsFieldNames = {
 const CreateOrderDetails = React.memo(function CreateOrderDetails({ order, setOrder }) {
     const dispatch = useDispatch();
     const history = useHistory();
-    const companyAddresses = useSelector(selectCompanyActiveAddresses);
-    const companyPorts = useSelector(selectCompanyPorts);
-    const clients = useSelector(selectAllActiveClients);
-
-
 
     const { register, control, errors, getValues, setValue, handleSubmit } = useForm({
         mode: 'onSubmit',
@@ -87,9 +77,6 @@ const CreateOrderDetails = React.memo(function CreateOrderDetails({ order, setOr
                 rhfControl={ control }
                 rhfGetValues={ getValues }
                 rhfSetValue={ setValue }
-                companyAddresses={ companyAddresses }
-                companyPorts={ companyPorts }
-                clients={ clients }
                 fieldNames={ orderDetailsFieldNames }
             />
             <Footer

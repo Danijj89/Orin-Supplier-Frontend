@@ -44,7 +44,13 @@ export const selectIncoterms = state => state.app.appData.incoterms;
 export const selectExemptionTypes = state => state.app.appData.exemptionTypes;
 export const selectSupervisionMethods = state => state.app.appData.supervisionMethods;
 export const selectPackageUnits = state => state.app.appData.packageUnits;
+
 export const selectItemUnits = state => state.app.appData.itemUnits;
+export const selectItemUnitsMap = createSelector(
+    selectItemUnits,
+    getOptionsMap
+);
+
 export const selectWeightUnits = state => state.app.appData.weightUnits;
 export const selectMeasurementUnits = state => state.app.appData.measurementUnits;
 
@@ -67,5 +73,39 @@ export const selectDocumentTypesMap = createSelector(
 );
 
 export const selectOrderStatuses = state => state.app.appData.orderStatuses;
+export const selectOrderStatusesMap = createSelector(
+    selectOrderStatuses,
+    getOptionsMap
+);
+
 export const selectBillOfLandingTypes = state => state.app.appData.billOfLandingTypes;
 export const selectShipmentStatuses = state => state.app.appData.shipmentStatuses;
+
+export const selectDefaultRowItem = createSelector(
+    selectItemUnits,
+    selectPackageUnits,
+    (itemUnits, packageUnits) => ({
+        _id: null,
+        product: null,
+        order: null,
+        ref: '',
+        description: '',
+        localD: '',
+        hsc: '',
+        quantity: 0,
+        unit: itemUnits[0],
+        price: 0,
+        total: 0,
+        package: 0,
+        pUnit: packageUnits[0],
+        netW: 0,
+        grossW: 0,
+        dim: 0,
+        custom1: '',
+        custom2: '',
+        ciCustom1: '',
+        ciCustom2: '',
+        plCustom1: '',
+        plCustom2: ''
+    })
+);

@@ -35,7 +35,7 @@ const OrderDetails = React.memo(function OrderDetails() {
     const classes = useStyles();
     const dispatch = useDispatch();
     const { id: orderId } = useParams();
-    const order = useSelector(state => selectOrderById(state, orderId));
+    const order = useSelector(state => selectOrderById(state, { orderId }));
 
     const onNotesSubmit = (notes) =>
         dispatch(updateOrder({ orderId, update: { notes } }));

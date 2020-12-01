@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import RHFProductTable, { validateItems } from '../shared/rhf/forms/RHFProductTable.js';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectAllActiveProducts } from '../products/duck/selectors.js';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import { updateShipment } from './duck/thunks.js';
@@ -39,7 +38,6 @@ const ShipmentProductTable = React.memo(function ShipmentProductTable() {
     const dispatch = useDispatch();
     const { id: shipmentId } = useParams();
     const shipment = useSelector(state => selectShipmentById(state, shipmentId));
-    const products = useSelector(selectAllActiveProducts);
     const ordersMap = useSelector(selectOrdersMap);
     const { register, control, errors, setValue, getValues, handleSubmit } = useForm({
         mode: 'onSubmit',
@@ -77,7 +75,6 @@ const ShipmentProductTable = React.memo(function ShipmentProductTable() {
                     rhfControl={ control }
                     rhfSetValue={ setValue }
                     rhfGetValues={ getValues }
-                    products={ products }
                     ordersMap={ ordersMap }
                     fieldNames={ productTableFieldNames }
                     isEdit

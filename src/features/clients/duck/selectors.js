@@ -1,7 +1,6 @@
 import { clientsAdapter } from './slice.js';
 import { createSelector } from '@reduxjs/toolkit';
 import { selectCountriesMap } from '../../../app/duck/selectors.js';
-import { selectUsersMap } from '../../users/duck/selectors.js';
 import { selectAllActiveOrders } from '../../orders/duck/selectors.js';
 
 export const {
@@ -17,7 +16,7 @@ export const selectClientError = state => state.clients.error;
 export const selectClientsMap = createSelector(
     selectEntities,
     selectCountriesMap,
-    (clientsMap, usersMap, countriesMap) =>
+    (clientsMap, countriesMap) =>
         Object.entries(clientsMap).reduce(
             (map, [id, client]) => {
                 map[id] = {

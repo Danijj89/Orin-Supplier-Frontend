@@ -3,8 +3,7 @@ import RHFProductTable, { validateItems } from '../shared/rhf/forms/RHFProductTa
 import Footer from '../shared/components/Footer.js';
 import { useForm } from 'react-hook-form';
 import { LANGUAGE } from '../../app/utils/constants.js';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectAllActiveProducts } from '../products/duck/selectors.js';
+import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { addressToDocAddress, productTableItemsToOrderItems } from '../shared/utils/entityConversion.js';
 import { createOrder } from './duck/thunks.js';
@@ -30,7 +29,6 @@ const productTableFieldNames = {
 const CreateOrderProducts = React.memo(function CreateOrderProducts({ order, setOrder }) {
     const dispatch = useDispatch();
     const history = useHistory();
-    const products = useSelector(selectAllActiveProducts);
 
     const { register, control, errors, setValue, getValues, handleSubmit } = useForm({
         mode: 'onSubmit',
@@ -81,7 +79,6 @@ const CreateOrderProducts = React.memo(function CreateOrderProducts({ order, set
                 rhfSetValue={ setValue }
                 rhfGetValues={ getValues }
                 fieldNames={ productTableFieldNames }
-                products={ products }
             />
             <Footer
                 prevLabel={ prevButtonLabel }

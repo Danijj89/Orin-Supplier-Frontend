@@ -1,7 +1,9 @@
+import { getOptionLabel } from '../../../app/utils/options/getters.js';
+
 export default class UnitCounter {
     data;
 
-    constructor(units, initialData) {
+    constructor(initialData) {
         this.data = initialData;
     }
 
@@ -19,12 +21,12 @@ export default class UnitCounter {
         return { ...this._data };
     }
 
-    static stringRep(unitObj) {
+    static stringRep(unitObj, unitsMap, locale = 'en') {
         const entries = Object.entries(unitObj);
-        if (entries.length === 1) return entries.map(([unit, amount]) => `${ amount } ${ unit }`)
+        if (entries.length === 1) return `${ entries[0][1] } ${ getOptionLabel(unitsMap[entries[0][0]], locale) }`;
         return Object.entries(unitObj)
             .filter(([_, amount]) => amount !== 0)
-            .map(([unit, amount]) => `${ amount } ${ unit }`)
+            .map(([unit, amount]) => `${ amount } ${ getOptionLabel(unitsMap[unit], locale) }`)
             .join(' + ');
     };
 

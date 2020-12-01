@@ -53,9 +53,16 @@ const OrderStatusDialog = React.memo(function OrderStatusDialog(
     const orderStatusOptions = useSelector(selectOrderStatuses);
 
     const { procurement, production, qa } = status;
-    const { control, handleSubmit, errors, watch, setValue } = useForm({
-        mode: 'onSubmit',
-        defaultValues: {
+    const { control, handleSubmit, errors, watch, setValue, reset } = useForm({
+        mode: 'onSubmit'
+    });
+
+    const procurementStatus = watch('procurementStatus');
+    const productionStatus = watch('productionStatus');
+    const qaStatus = watch('qaStatus');
+
+    useEffect(() => {
+        reset({
             procurementStatus: procurement.status,
             productionStatus: production.status,
             qaStatus: qa.status,
@@ -65,13 +72,8 @@ const OrderStatusDialog = React.memo(function OrderStatusDialog(
             procurementActual: procurement.actual,
             productionActual: production.actual,
             qaActual: qa.actual
-        },
-        shouldUnregister: false
-    });
-
-    const procurementStatus = watch('procurementStatus');
-    const productionStatus = watch('productionStatus');
-    const qaStatus = watch('qaStatus');
+        });
+    }, [reset, procurement, production, qa]);
 
     useEffect(() => {
         if (procurementStatus === 'Completed') setValue('procurementActual', new Date());
@@ -101,7 +103,7 @@ const OrderStatusDialog = React.memo(function OrderStatusDialog(
     }, [onSubmit]);
 
     const renderOption = useCallback(
-        option => <OrderStatusListItem option={ option.label[LOCALE] }/>,
+        option => <OrderStatusListItem option={ option }/>,
         []);
 
     return (
@@ -122,7 +124,7 @@ const OrderStatusDialog = React.memo(function OrderStatusDialog(
                         name="procurementStatus"
                         label={ statusLabel }
                         options={ orderStatusOptions }
-                        getOptionLabel={ option => getOptionLabel(option) }
+                        getOptionLabel={ option => getOptionLabel(option, LOCALE) }
                         getOptionSelected={ (option, value) => option.id === value.id }
                         required
                         error={ !!errors.procurementStatus }
@@ -152,7 +154,7 @@ const OrderStatusDialog = React.memo(function OrderStatusDialog(
                         name="productionStatus"
                         label={ statusLabel }
                         options={ orderStatusOptions }
-                        getOptionLabel={ option => getOptionLabel(option) }
+                        getOptionLabel={ option => getOptionLabel(option, LOCALE) }
                         getOptionSelected={ (option, value) => option.id === value.id }
                         required
                         error={ !!errors.productionStatus }
@@ -182,7 +184,7 @@ const OrderStatusDialog = React.memo(function OrderStatusDialog(
                         name="qaStatus"
                         label={ statusLabel }
                         options={ orderStatusOptions }
-                        getOptionLabel={ option => getOptionLabel(option) }
+                        getOptionLabel={ option => getOptionLabel(option, LOCALE) }
                         getOptionSelected={ (option, value) => option.id === value.id }
                         required
                         error={ !!errors.qaStatus }

@@ -3,6 +3,8 @@ import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import { orderStatusColors } from '../../app/themes/theme.js';
+import { getOptionId, getOptionLabel } from '../../app/utils/options/getters.js';
+import { LOCALE } from '../../app/utils/constants.js';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -18,14 +20,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function StatusDisplay({ status, className }) {
-    const classes = useStyles({ status });
+    const classes = useStyles({ status: getOptionId(status) });
 
     return (
         <Typography
             variant="subtitle2"
             className={ clsx(classes.root, className) }
         >
-            { status }
+            { getOptionLabel(status, LOCALE) }
         </Typography>
     );
 }

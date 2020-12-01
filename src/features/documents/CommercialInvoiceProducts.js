@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import RHFProductTable, { validateItems } from '../shared/rhf/forms/RHFProductTable.js';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectAllActiveProducts } from '../products/duck/selectors.js';
 import { selectActiveOrdersMap } from '../orders/duck/selectors.js';
 import Footer from '../shared/components/Footer.js';
 import { LANGUAGE } from '../../app/utils/constants.js';
@@ -41,7 +40,6 @@ const CommercialInvoiceProducts = React.memo(function CommercialInvoiceProducts(
 ) {
     const dispatch = useDispatch();
     const history = useHistory();
-    const products = useSelector(selectAllActiveProducts);
     const ordersMap = useSelector(selectActiveOrdersMap);
     const companyId = useSelector(selectCompanyId);
     const userId = useSelector(selectCurrentUserId);
@@ -95,7 +93,6 @@ const CommercialInvoiceProducts = React.memo(function CommercialInvoiceProducts(
                 rhfSetValue={ setValue }
                 rhfGetValues={ getValues }
                 fieldNames={ productsFieldNames }
-                products={ products }
                 ordersMap={ ordersMap }
                 isEdit
                 isShipment

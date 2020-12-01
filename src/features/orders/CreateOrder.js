@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import DocumentStepper from '../shared/DocumentStepper.js';
 import { Box, Paper, Divider, Typography } from '@material-ui/core';
 import { Redirect, useLocation } from 'react-router-dom';
