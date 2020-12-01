@@ -6,6 +6,7 @@ import UnitCounter from '../shared/classes/UnitCounter.js';
 import { useSelector } from 'react-redux';
 import { selectClientOrders } from './duck/selectors.js';
 import { getOptionLabel } from '../../app/utils/options/getters.js';
+import { selectItemUnitsMap } from '../../app/duck/selectors.js';
 
 const {
     ordersTableHeadersMap
@@ -15,6 +16,7 @@ const ClientOrdersTable = React.memo(function ClientOrdersTable() {
     const history = useHistory();
     const { id: clientId } = useParams();
     const clientOrders = useSelector(state => selectClientOrders(state, { clientId }));
+    const itemUnitsMap = useSelector(selectItemUnitsMap);
 
     const onRowClick = (params) => history.push(`/home/orders/${ params.id }`);
 
@@ -36,9 +38,9 @@ const ClientOrdersTable = React.memo(function ClientOrdersTable() {
         crd: order.crd,
         realCrd: order.realCrd,
         del: getOptionLabel(order.del, LOCALE),
-        totalQ: UnitCounter.stringRep(order.totalQ),
+        totalQ: UnitCounter.stringRep(order.totalQ, itemUnitsMap, LOCALE),
         totalA: order.totalA
-    })), [clientOrders]);
+    })), [clientOrders, itemUnitsMap]);
 
     return (
         <Table rows={ rows } columns={ columns } onRowClick={ onRowClick }/>
