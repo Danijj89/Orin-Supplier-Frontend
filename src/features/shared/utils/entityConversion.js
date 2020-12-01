@@ -132,5 +132,3 @@ export const shipmentToChinaExport = (shipment) => ({
     cName: shipment.consigneeAdd.name,
     exPort: null
 });
-
-export const countryToCountryCode = (country) => country.code;

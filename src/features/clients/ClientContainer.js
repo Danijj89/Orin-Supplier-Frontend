@@ -13,20 +13,25 @@ import { Redirect, useParams } from 'react-router-dom';
 import { cleanHomeState } from '../home/duck/slice.js';
 import { cleanUserState } from '../users/duck/slice.js';
 import { cleanClientState } from './duck/slice.js';
+import { selectOrderDataStatus, selectOrderError } from '../orders/duck/selectors.js';
+import { fetchOrders } from '../orders/duck/thunks.js';
+import { cleanOrderState } from '../orders/duck/slice.js';
 
 const ClientContainer = React.memo(function ClientContainer() {
     const dispatch = useDispatch();
-    const { id } = useParams();
+    const { id: clientId } = useParams();
     const clientDataStatus = useSelector(selectClientDataStatus);
     const clientError = useSelector(selectClientError);
     const userDataStatus = useSelector(selectUserDataStatus);
     const userError = useSelector(selectUserError);
+    const orderDataStatus = useSelector(selectOrderDataStatus);
+    const orderError = useSelector(selectOrderError);
 
-    const status = determineStatus(clientDataStatus, userDataStatus);
-    const errors = getErrors(clientError, userError);
+    const status = determineStatus(clientDataStatus, userDataStatus, orderDataStatus);
+    const errors = getErrors(clientError, userError, orderError);
 
     const companyId = useSelector(selectCompanyId);
-    const client = useSelector(state => selectClientById(state, id));
+    const client = useSelector(state => selectClientById(state, { clientId }));
     const isClientActive = useMemo(() => client?.active === true, [client]);
 
     const fetched = useRef(false);
@@ -34,6 +39,7 @@ const ClientContainer = React.memo(function ClientContainer() {
         if (!fetched.current && companyId) {
             if (clientDataStatus === 'IDLE') dispatch(fetchClients({ companyId }));
             dispatch(fetchUsers({ companyId }));
+            dispatch(fetchOrders({ companyId }));
             fetched.current = true;
         }
     }, [dispatch, clientDataStatus, companyId]);
@@ -44,6 +50,7 @@ const ClientContainer = React.memo(function ClientContainer() {
                 dispatch(cleanHomeState());
                 dispatch(cleanUserState());
                 dispatch(cleanClientState());
+                dispatch(cleanOrderState());
             }
         }
     }, [dispatch, errors.length]);
@@ -53,7 +60,7 @@ const ClientContainer = React.memo(function ClientContainer() {
             { !isClientActive && <Redirect to={ '/home/clients' }/> }
             { status === 'REJECTED' && <ErrorPage errors={ errors }/> }
             { status === 'PENDING' && <Loader/> }
-            { isClientActive && status === 'FULFILLED' && <Client />}
+            { isClientActive && status === 'FULFILLED' && <Client/> }
         </>
     )
 });

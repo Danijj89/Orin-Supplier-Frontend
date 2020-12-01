@@ -3,13 +3,12 @@ import { Grid } from '@material-ui/core';
 import DividerDataDisplay from '../shared/wrappers/DividerDisplay.js';
 import { dateToLocaleDate } from '../shared/utils/format.js';
 import { useSelector } from 'react-redux';
-import { selectUserById } from '../users/duck/selectors.js';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import EditClientButton from './EditClientButton.js';
 import InfoCard from '../shared/wrappers/InfoCard.js';
 import { makeStyles } from '@material-ui/core/styles';
 import { useParams } from 'react-router-dom';
-import { selectClientById, selectClientDefaultContact } from './duck/selectors.js';
+import { selectClientById } from './duck/selectors.js';
 
 const useStyles = makeStyles((theme) => ({
     clientInfoCard: {
@@ -23,11 +22,13 @@ const {
 
 const ClientDetailsCard = React.memo(function ClientDetailsDataDisplay() {
     const classes = useStyles();
-    const { id } = useParams();
-    const client = useSelector((state) => selectClientById(state, id));
-    const clientDefaultContact = useSelector(state => selectClientDefaultContact(state, id));
-    const assignedTo = useSelector(state => selectUserById(state, client.assignedTo));
-    const assignedToName = assignedTo?.name || null;
+    const { id: clientId } = useParams();
+    const client = useSelector((state) => selectClientById(state, { clientId }));
+    const clientDefaultContact = useMemo(
+        () => client.contacts.find(c => c.default),
+        [client.contacts]);
+
+    const assignedToName = client.assignedTo?.name || null;
     const defaultContactName = clientDefaultContact?.name || null;
     const defaultContactEmail = clientDefaultContact?.email || null;
 

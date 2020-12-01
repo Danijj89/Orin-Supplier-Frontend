@@ -9,7 +9,7 @@ import {
 import { defaultProductRowValues } from '../../shared/rhf/forms/util/constants.js';
 
 export const {
-    selectAll: selectAllOrders,
+    selectAll,
     selectById: selectOrderById,
     selectEntities: selectOrdersMap
 } = ordersAdapter.getSelectors(state => state.orders);
@@ -18,9 +18,18 @@ export const selectOrderDataStatus = state => state.orders.dataStatus;
 export const selectOrderStatus = state => state.orders.status;
 export const selectOrderError = state => state.orders.error;
 export const selectCurrentOrderId = state => state.orders.currentOrderId;
+
+
+export const selectAllOrders = createSelector(
+    selectAll,
+    (orders) => orders
+);
+
+
 export const selectOrderStatusField = (state, id) => state.orders.entities[id]?.status;
 export const selectOrderShipmentIdsField = (state, id) => state.orders.entities[id]?.shipmentIds;
 export const selectOrderFileNameField = (state, id) => state.orders.entities[id]?.fileName;
+
 
 export const selectAllActiveOrders = createSelector(
     selectAllOrders,

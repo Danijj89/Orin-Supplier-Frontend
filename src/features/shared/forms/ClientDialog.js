@@ -6,7 +6,7 @@ import SideTextField from '../inputs/SideTextField.js';
 import { LANGUAGE } from '../../../app/utils/constants.js';
 import RHFAutoComplete from '../rhf/inputs/RHFAutoComplete.js';
 import { useSelector } from 'react-redux';
-import { selectAllActiveUsers, selectUserById } from '../../users/duck/selectors.js';
+import { selectAllActiveUsers } from '../../users/duck/selectors.js';
 import { selectIncoterms } from '../../../app/duck/selectors.js';
 
 const {
@@ -35,7 +35,6 @@ const ClientDialog = React.memo(function ClientDialog(
     }) {
     const incotermOptions = useSelector(selectIncoterms);
     const users = useSelector(selectAllActiveUsers);
-    const assignedTo = useSelector(state => selectUserById(state, client?.assignedTo));
 
     const { register, errors, handleSubmit, control, reset } = useForm({
         mode: 'onSubmit'
@@ -44,7 +43,7 @@ const ClientDialog = React.memo(function ClientDialog(
     useEffect(() => {
         reset({
             name: client?.name,
-            assignedTo: assignedTo || null,
+            assignedTo: client?.assignedTo || null,
             contactName: null,
             contactEmail: null,
             taxNumber: client?.taxNumber,
@@ -53,7 +52,7 @@ const ClientDialog = React.memo(function ClientDialog(
             payment: client?.payment,
             notes: !isEdit ? client?.notes : null
         });
-    }, [reset, client, assignedTo, isEdit]);
+    }, [reset, client, isEdit, incotermOptions]);
 
     return (
         <FormDialog

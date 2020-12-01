@@ -8,8 +8,7 @@ import { deleteClientAddress, updateAddress, updateDefaultClientAddress } from '
 import { LANGUAGE } from '../../app/utils/constants.js';
 import NewClientAddressButton from '../shared/buttons/NewClientAddressButton.js';
 import { useParams } from 'react-router-dom';
-import { selectClientActiveAddresses, selectClientById } from './duck/selectors.js';
-import { countryToCountryCode } from '../shared/utils/entityConversion.js';
+import { selectActiveClientById } from './duck/selectors.js';
 import { getOptionId } from '../../app/utils/options/getters.js';
 
 const useStyles = makeStyles((theme) => ({
@@ -37,8 +36,7 @@ const ClientAddressCards = React.memo(function ClientAddressCards() {
     const classes = useStyles();
     const dispatch = useDispatch();
     const { id: clientId } = useParams();
-    const client = useSelector((state) => selectClientById(state, clientId));
-    const clientAddresses = useSelector(state => selectClientActiveAddresses(state, clientId));
+    const client = useSelector((state) => selectActiveClientById(state, { clientId }));
     const [isEditAddressOpen, setIsEditAddressOpen] = useState(false);
     const [editAddress, setEditAddress] = useState(null);
 
@@ -75,7 +73,7 @@ const ClientAddressCards = React.memo(function ClientAddressCards() {
             </Typography>
             <Box className={ classes.cards }>
                 <Grid container>
-                    { clientAddresses.map((address) => (
+                    { client.addresses.map((address) => (
                         <Grid item xs={ 12 } sm={ 6 } lg={ 4 } key={ address._id }>
                             <AddressCard
                                 address={ address }

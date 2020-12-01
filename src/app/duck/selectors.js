@@ -40,6 +40,7 @@ export const selectCurrenciesMap = createSelector(
 
 
 export const selectIncoterms = state => state.app.appData.incoterms;
+
 export const selectExemptionTypes = state => state.app.appData.exemptionTypes;
 export const selectSupervisionMethods = state => state.app.appData.supervisionMethods;
 export const selectPackageUnits = state => state.app.appData.packageUnits;

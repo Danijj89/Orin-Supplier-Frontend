@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import NewClientContactButton from './NewClientContactButton.js';
 import { deleteContact, updateContact, updateDefaultClientContact } from './duck/thunks.js';
 import { useParams } from 'react-router-dom';
-import { selectClientActiveContacts, selectClientActiveContactsMap } from './duck/selectors.js';
+import { selectClientActiveContacts } from './duck/selectors.js';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 
 const {
@@ -21,16 +21,16 @@ const {
 const ClientContactsTable = React.memo(function ClientContactsTable() {
     const dispatch = useDispatch();
     const { id: clientId } = useParams();
-    const clientContacts = useSelector(state => selectClientActiveContacts(state, clientId));
-    const clientContactsMap = useSelector(state => selectClientActiveContactsMap(state, clientId));
+    const clientContacts = useSelector(state => selectClientActiveContacts(state, { clientId }));
 
     const [isEdit, setIsEdit] = useState(false);
     const [editContact, setEditContact] = useState(null);
 
-    const onRowClick = (params) => {
-        setEditContact(clientContactsMap[params.id]);
+    const onRowClick = useCallback(
+        (params) => {
+        setEditContact(clientContacts.find(contact => contact._id === params.id));
         setIsEdit(true);
-    };
+    }, [clientContacts]);
 
     const createSetClientDefaultContactHandler = useCallback(
         (clientId, contactId) => (e) => {

@@ -9,6 +9,7 @@ export const {
 export const selectProductDataStatus = state => state.products.dataStatus;
 export const selectProductStatus = state => state.products.status;
 export const selectProductError = state => state.products.error;
+
 export const selectAllActiveProducts = createSelector(
     selectAllProducts,
     products => products.filter(p => p.active)

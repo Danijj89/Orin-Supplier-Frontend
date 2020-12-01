@@ -6,8 +6,8 @@ import { LANGUAGE } from '../../app/utils/constants.js';
 import { Box } from '@material-ui/core';
 import ClientDialog from '../shared/forms/ClientDialog.js';
 import { makeStyles } from '@material-ui/core/styles';
-import { selectAllActiveUsers, selectUserById } from '../users/duck/selectors.js';
-import { selectCurrentUserId } from '../../app/duck/selectors.js';
+import { selectAllActiveUsers } from '../users/duck/selectors.js';
+import { selectCurrentUser } from '../../app/duck/selectors.js';
 import { selectCompanyId } from '../home/duck/selectors.js';
 
 const { newClientButtonLabel, newClientDialogTitleLabel, newClientSubmitButtonLabel } = LANGUAGE.client.clientOverview;
@@ -23,8 +23,7 @@ const NewClientButton = React.memo(function NewClientButton({ className }) {
     const dispatch = useDispatch();
     const companyId = useSelector(selectCompanyId);
     const users = useSelector(selectAllActiveUsers);
-    const userId = useSelector(selectCurrentUserId);
-    const currentUser = useSelector(state => selectUserById(state, userId));
+    const currentUser = useSelector(selectCurrentUser);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const client = { assignedTo: currentUser };
 
@@ -33,7 +32,7 @@ const NewClientButton = React.memo(function NewClientButton({ className }) {
 
     const onSubmit = (data) => {
         if (data.assignedTo) data.assignedTo = data.assignedTo._id;
-        data.createdBy = userId;
+        data.createdBy = currentUser._id;
         data.company = companyId;
         dispatch(createClient({ client: data }));
         setIsDialogOpen(false);

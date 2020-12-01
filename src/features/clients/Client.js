@@ -23,11 +23,11 @@ const useStyles = makeStyles((theme) => ({
 const Client = React.memo(function Client() {
     const classes = useStyles();
     const dispatch = useDispatch();
-    const { id } = useParams();
-    const clientNotes = useSelector((state) => selectClientNotes(state, id));
+    const { id: clientId } = useParams();
+    const clientNotes = useSelector((state) => selectClientNotes(state, { clientId }));
 
     const onNotesSubmit = (notes) =>
-        dispatch(updateClient({ clientId: id, update: { notes } }));
+        dispatch(updateClient({ clientId, update: { notes } }));
 
     return (
         <Container>

@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addNewAddress } from './duck/thunks.js';
 import { makeStyles } from '@material-ui/core/styles';
 import { selectCompanyId, selectCompanyLegalAddress } from './duck/selectors.js';
-import { countryToCountryCode } from '../shared/utils/entityConversion.js';
 import { getOptionId } from '../../app/utils/options/getters.js';
 
 const {

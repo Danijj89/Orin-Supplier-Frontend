@@ -2,7 +2,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCompanyActiveAddresses, selectCompanyAddress, selectCompanyPorts } from '../home/duck/selectors.js';
-import { selectClientActiveAddresses, selectClientAddress } from '../clients/duck/selectors.js';
+import { selectActiveClientById, selectClientAddress } from '../clients/duck/selectors.js';
 import { Grid } from '@material-ui/core';
 import { formatAddress } from '../shared/utils/format.js';
 import InfoCard from '../shared/wrappers/InfoCard.js';
@@ -43,7 +43,9 @@ const ShipmentInfo = React.memo(function ShipmentInfo() {
     const deliveryMethodOptions = useSelector(selectDeliveryMethods);
     const billOfLandingTypeOptions = useSelector(selectBillOfLandingTypes);
     const sellerAddresses = useSelector(selectCompanyActiveAddresses);
-    const consigneeAddresses = useSelector(state => selectClientActiveAddresses(state, shipment.consignee));
+    const consignee = useSelector(state => selectActiveClientById(state, { clientId: shipment.consignee }));
+    const consigneeAddresses = consignee.addresses;
+
     const ports = useSelector(selectCompanyPorts);
     const incotermOptions = useSelector(selectIncoterms);
 

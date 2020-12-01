@@ -6,7 +6,7 @@ import FormDialog from '../wrappers/FormDialog.js';
 import SideTextField from '../inputs/SideTextField.js';
 import RHFAutoComplete from '../rhf/inputs/RHFAutoComplete.js';
 import { useSelector } from 'react-redux';
-import { selectCountries, selectCountriesMap } from '../../../app/duck/selectors.js';
+import { selectCountries } from '../../../app/duck/selectors.js';
 import { getOptionLabel } from '../../../app/utils/options/getters.js';
 
 const {
@@ -29,7 +29,6 @@ const AddressDialog = React.memo(function AddressDialog({ isOpen, onSubmit, onCa
     });
 
     const countryOptions = useSelector(selectCountries);
-    const countryOptionsMap = useSelector(selectCountriesMap);
 
     useEffect(() => {
         reset({
@@ -40,12 +39,12 @@ const AddressDialog = React.memo(function AddressDialog({ isOpen, onSubmit, onCa
             address2: address?.address2,
             city: address?.city,
             administrative: address?.administrative,
-            country: countryOptionsMap[address?.country] || null,
+            country: address?.country || null,
             zip: address?.zip,
             phone: address?.phone,
             email: address?.email
         });
-    }, [reset, address, countryOptionsMap]);
+    }, [reset, address]);
 
     return (
         <FormDialog
