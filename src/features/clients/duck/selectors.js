@@ -16,15 +16,12 @@ export const selectClientError = state => state.clients.error;
 
 export const selectClientsMap = createSelector(
     selectEntities,
-    selectUsersMap,
     selectCountriesMap,
     (clientsMap, usersMap, countriesMap) =>
         Object.entries(clientsMap).reduce(
             (map, [id, client]) => {
                 map[id] = {
                     ...client,
-                    assignedTo: usersMap[client.assignedTo],
-                    createdBy: usersMap[client.assignedTo],
                     addresses: client.addresses.map(address => ({
                         ...address,
                         country: countriesMap[address.country]

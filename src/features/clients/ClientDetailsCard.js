@@ -9,6 +9,7 @@ import InfoCard from '../shared/wrappers/InfoCard.js';
 import { makeStyles } from '@material-ui/core/styles';
 import { useParams } from 'react-router-dom';
 import { selectClientById } from './duck/selectors.js';
+import { selectUserById } from '../users/duck/selectors.js';
 
 const useStyles = makeStyles((theme) => ({
     clientInfoCard: {
@@ -27,8 +28,8 @@ const ClientDetailsCard = React.memo(function ClientDetailsDataDisplay() {
     const clientDefaultContact = useMemo(
         () => client.contacts.find(c => c.default),
         [client.contacts]);
-
-    const assignedToName = client.assignedTo?.name || null;
+    const assignedTo = useSelector(state => selectUserById(state, client.assignedTo));
+    const assignedToName = assignedTo?.name || null;
     const defaultContactName = clientDefaultContact?.name || null;
     const defaultContactEmail = clientDefaultContact?.email || null;
 
