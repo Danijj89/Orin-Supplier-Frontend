@@ -32,7 +32,7 @@ export const productTableItemsToOrderItems = (tableItems) =>
         return temp;
     });
 
-export const tableItemsToItems = (tableItems, shipmentId) =>
+export const tableItemsToItems = (tableItems) =>
     tableItems.map(item => {
         const temp = {
             order: item.order || null,
@@ -47,6 +47,9 @@ export const tableItemsToItems = (tableItems, shipmentId) =>
             netW: item.netW,
             grossW: item.grossW,
             dim: item.dim,
+            coo: item.coo,
+            fdc: item.fdc,
+            dop: item.dop,
             ciCustom1: item.ciCustom1,
             ciCustom2: item.ciCustom2,
             plCustom1: item.plCustom1,

@@ -68,7 +68,7 @@ const ShipmentMeasureTable = React.memo(function ShipmentMeasureTable() {
     }, [register]);
 
     const onSubmit = (data) => {
-        data.items = tableItemsToItems(data.items, shipmentId);
+        data.items = tableItemsToItems(data.items);
         data.weightUnit = getOptionId(data.weightUnit);
         data.measurementUnit = getOptionId(data.measurementUnit);
         dispatch(updateShipment({ shipmentId, update: data }));

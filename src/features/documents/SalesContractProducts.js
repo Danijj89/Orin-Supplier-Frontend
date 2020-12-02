@@ -71,7 +71,7 @@ const SalesContractProducts = React.memo(function SalesContractProducts(
         document.consigneeAdd = addressToDocAddress(document.consigneeAdd);
         if (document.bankDetails) document.bankDetails = document.bankDetails.detail;
         document.currency = getOptionId(document.currency);
-        document.items = tableItemsToItems(document.items, shipmentId);
+        document.items = tableItemsToItems(document.items);
         document.createdBy = userId;
         dispatch(createDocument({ shipmentId, document }))
         history.push(`/home/shipments/${ shipmentId }?tab=documents`);

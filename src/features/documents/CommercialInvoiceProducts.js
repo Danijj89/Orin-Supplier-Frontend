@@ -77,7 +77,7 @@ const CommercialInvoiceProducts = React.memo(function CommercialInvoiceProducts(
         document.consigneeAdd = addressToDocAddress(document.consigneeAdd);
         document.currency = getOptionId(document.currency);
         document.createdBy = userId;
-        document.items = tableItemsToItems(document.items, shipmentId);
+        document.items = tableItemsToItems(document.items);
         document.coo = getOptionId(document.coo);
         dispatch(createDocument({ shipmentId, document }));
         history.push(`/home/shipments/${ shipmentId }?tab=documents`);

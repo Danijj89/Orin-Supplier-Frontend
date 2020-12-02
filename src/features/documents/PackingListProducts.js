@@ -84,7 +84,7 @@ const PackingListProducts = React.memo(function PackingListProducts(
         document.weightUnit = getOptionId(document.weightUnit);
         document.measurementUnit = getOptionId(document.measurementUnit);
         document.createdBy = userId;
-        document.items = tableItemsToItems(document.items, shipmentId);
+        document.items = tableItemsToItems(document.items);
         dispatch(createDocument({ shipmentId, document }));
         history.push(`/home/shipments/${ shipmentId }?tab=documents`);
     };

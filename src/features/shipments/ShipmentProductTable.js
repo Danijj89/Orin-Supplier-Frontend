@@ -8,7 +8,6 @@ import { updateShipment } from './duck/thunks.js';
 import { tableItemsToItems } from '../shared/utils/entityConversion.js';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
-import { selectOrdersMap } from '../orders/duck/selectors.js';
 import { useParams } from 'react-router-dom';
 import { selectShipmentById } from './duck/selectors.js';
 import { getOptionId } from '../../app/utils/options/getters.js';
@@ -37,7 +36,6 @@ const ShipmentProductTable = React.memo(function ShipmentProductTable() {
     const classes = useStyles();
     const dispatch = useDispatch();
     const { id: shipmentId } = useParams();
-    const ordersMap = useSelector(selectOrdersMap);
 
     const shipment = useSelector(state => selectShipmentById(state, { shipmentId }));
 
@@ -63,7 +61,7 @@ const ShipmentProductTable = React.memo(function ShipmentProductTable() {
     }, [register]);
 
     const onSubmit = (data) => {
-        data.items = tableItemsToItems(data.items, shipmentId);
+        data.items = tableItemsToItems(data.items);
         data.currency = getOptionId(data.currency);
         dispatch(updateShipment({ shipmentId, update: data }));
     };
