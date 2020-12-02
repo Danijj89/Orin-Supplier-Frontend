@@ -3,7 +3,7 @@ import Paper from '@material-ui/core/Paper';
 import { useLocation } from 'react-router-dom';
 import queryString from 'query-string';
 import { useSelector } from 'react-redux';
-import { selectShipmentById } from '../shipments/duck/selectors.js';
+import { selectPopulatedShipmentById } from '../shipments/duck/selectors.js';
 import useSessionStorage from '../shared/hooks/useSessionStorage.js';
 import { SESSION_NEW_DOCUMENT } from '../../app/sessionKeys.js';
 import PackingListDetails from './PackingListDetails.js';
@@ -14,7 +14,7 @@ const PackingList = React.memo(function PackingList() {
 
     const location = useLocation();
     const { shipment: shipmentId, step } = queryString.parse(location.search);
-    const shipment = useSelector(state => selectShipmentById(state, shipmentId));
+    const shipment = useSelector(state => selectPopulatedShipmentById(state, { shipmentId }));
     const initialPL = shipmentToPackingList(shipment);
     const [packingList, setPackingList] = useSessionStorage(SESSION_NEW_DOCUMENT, initialPL);
 

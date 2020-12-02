@@ -93,6 +93,11 @@ export const selectShipmentDocuments = createSelector(
     shipment => shipment.documents
 );
 
+export const selectShipmentCommercialInvoices = createSelector(
+    selectShipmentDocuments,
+    documents => documents.filter(doc => doc.type === 'CI')
+);
+
 export const selectOrderToShipmentItemsQuantityMap = createSelector(
     selectAllActiveOrders,
     selectAllShipments,
@@ -110,7 +115,6 @@ export const selectOrderToShipmentItemsQuantityMap = createSelector(
         return resultMap;
     }
 );
-
 
 export const selectEditShipmentShellById = createSelector(
     selectShipmentById,
@@ -146,8 +150,3 @@ export const selectPopulatedShipmentById = createSelector(
 
 
 
-
-export const selectShipmentCommercialInvoices = createSelector(
-    (state, id) => state.shipments.entities[id].documents,
-    documents => documents.filter(doc => doc.type === 'CI')
-);

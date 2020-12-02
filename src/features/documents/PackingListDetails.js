@@ -9,8 +9,8 @@ import { formatAddress } from '../shared/utils/format.js';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
-import { selectCompanyActiveAddresses, selectCompanyAddress } from '../home/duck/selectors.js';
-import { selectClientActiveAddresses, selectClientAddress, selectClientById } from '../clients/duck/selectors.js';
+import { selectCompanyActiveAddresses } from '../home/duck/selectors.js';
+import { selectClientActiveAddresses } from '../clients/duck/selectors.js';
 import { selectShipmentCommercialInvoices } from '../shipments/duck/selectors.js';
 import { useHistory } from 'react-router-dom';
 import Footer from '../shared/components/Footer.js';
@@ -44,35 +44,18 @@ const PackingListDetails = React.memo(function PackingListDetails(
     const classes = useStyles();
     const history = useHistory();
     const companyAddresses = useSelector(selectCompanyActiveAddresses);
-    const consigneeAddresses = useSelector(state => selectClientActiveAddresses(state, packingList.consignee));
-    const commercialInvoices = useSelector(state => selectShipmentCommercialInvoices(state, shipmentId));
-
-    const consignee = useSelector(state => selectClientById(state, packingList.consignee));
-    const initialSellerAddress = useSelector(
-        state => selectCompanyAddress(
-            state,
-            packingList.sellerAdd.addressId || packingList.sellerAdd._id));
-    const initialConsigneeAddress = useSelector(state =>
-        selectClientAddress(state, {
-            clientId: packingList.consignee,
-            addressId: packingList.consigneeAdd.addressId || packingList.consigneeAdd._id
-        })
-    );
-    const initialShipAddress = useSelector(state =>
-        selectClientAddress(state, {
-            clientId: packingList.consignee,
-            addressId: packingList.shipAdd?.addressId || packingList.shipAdd?._id
-        })
-    );
+    const consigneeAddresses = useSelector(
+        state => selectClientActiveAddresses(state, { clientId: packingList.consignee._id }));
+    const commercialInvoices = useSelector(state => selectShipmentCommercialInvoices(state, { shipmentId }));
 
     const { register, control, errors, watch, handleSubmit } = useForm({
         mode: 'onSubmit',
         defaultValues: {
             [fieldNames.autoGenerateRef]: packingList.autoGenerateRef,
             [fieldNames.ref]: packingList.ref,
-            [fieldNames.sellerAdd]: initialSellerAddress,
-            [fieldNames.consigneeAdd]: initialConsigneeAddress,
-            [fieldNames.shipAdd]: initialShipAddress || null,
+            [fieldNames.sellerAdd]: packingList.sellerAdd,
+            [fieldNames.consigneeAdd]: packingList.consigneeAdd,
+            [fieldNames.shipAdd]: packingList.shipAdd || null,
             [fieldNames.ciRef]: commercialInvoices.length ? commercialInvoices[0] : null,
             [fieldNames.notes]: packingList.notes
         }
@@ -119,7 +102,7 @@ const PackingListDetails = React.memo(function PackingListDetails(
                     />
                     <SideTextField
                         label={ formLabels.consignee }
-                        value={ consignee.name }
+                        value={ packingList.consignee.name }
                         disabled
                     />
                     <RHFAutoComplete

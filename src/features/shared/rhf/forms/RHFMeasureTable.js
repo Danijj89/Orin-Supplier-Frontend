@@ -7,7 +7,7 @@ import EditableTable from '../../components/editable_table/EditableTable.js';
 import TableTextField from '../../inputs/TableTextField.js';
 import { Add as IconAdd, Close as IconClose } from '@material-ui/icons';
 import UnitCounter from '../../classes/UnitCounter.js';
-import { roundToNDecimal } from '../../utils/format.js';
+import { formatQuantityWithUnit, roundToNDecimal } from '../../utils/format.js';
 import ErrorMessages from '../../components/ErrorMessages.js';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
@@ -19,7 +19,7 @@ import {
     selectPackageUnitsMap,
     selectWeightUnits
 } from '../../../../app/duck/selectors.js';
-import { getOptionLabel } from '../../../../app/utils/options/getters.js';
+import { getOptionId, getOptionLabel } from '../../../../app/utils/options/getters.js';
 
 const useStyles = makeStyles((theme) => ({
     marks: {
@@ -152,12 +152,12 @@ const RHFMeasureTable = React.memo(function RHFMeasureTable(
                 newValue = newValue === '' ? newValue : parseInt(newValue);
                 diff = newValue - newItem.package;
                 newPackage = new UnitCounter(getValues(fieldNames.package));
-                newPackage.addUnit(newItem.pUnit, diff);
+                newPackage.addUnit(getOptionId(newItem.pUnit), diff);
                 setValue(fieldNames.package, newPackage.data);
                 newItem.package = newValue;
                 break;
             case 'pUnit':
-                const prevUnit = newItem.pUnit;
+                const prevUnit = getOptionId(newItem.pUnit);
                 newPackage = new UnitCounter(getValues(fieldNames.package));
                 newPackage.subtractUnit(prevUnit, newItem.package);
                 newPackage.addUnit(newValue, newItem.package);
@@ -307,9 +307,9 @@ const RHFMeasureTable = React.memo(function RHFMeasureTable(
     const footer = useMemo(() => [[
         { field: 'label', value: totalLabel, colSpan: numColumns - 5, align: 'right' },
         { field: 'package', value: UnitCounter.stringRep(pkg, packageUnitsMap), colSpan: 2, align: 'center' },
-        { field: 'netWeight', value: `${ weightUnit } ${ netWeight }`, colSpan: 1, align: 'center' },
-        { field: 'grossWeight', value: `${ weightUnit } ${ grossWeight }`, colSpan: 1, align: 'center' },
-        { field: 'dimension', value: `${ measurementUnit } ${ dimension }`, colSpan: 1, align: 'center' }
+        { field: 'netWeight', value: formatQuantityWithUnit(netWeight, getOptionLabel(weightUnit)), colSpan: 1, align: 'center' },
+        { field: 'grossWeight', value: formatQuantityWithUnit(grossWeight, getOptionLabel(weightUnit)), colSpan: 1, align: 'center' },
+        { field: 'dimension', value: formatQuantityWithUnit(dimension, getOptionLabel(measurementUnit)), colSpan: 1, align: 'center' }
     ]], [
         numColumns,
         pkg,
