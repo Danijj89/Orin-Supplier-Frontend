@@ -10,10 +10,10 @@ import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import {
     selectActiveCompanyBankDetails,
-    selectCompanyActiveAddresses, selectCompanyAddress,
+    selectCompanyActiveAddresses,
     selectCompanyPorts
 } from '../home/duck/selectors.js';
-import { selectClientActiveAddresses, selectClientAddress, selectClientById } from '../clients/duck/selectors.js';
+import { selectClientActiveAddresses } from '../clients/duck/selectors.js';
 import RHFDateField from '../shared/rhf/inputs/RHFDateField.js';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
@@ -48,29 +48,18 @@ const SalesContractDetails = React.memo(function SalesContractDetails(
     { salesContract, setSalesContract, shipmentId }) {
     const history = useHistory();
     const companyAddresses = useSelector(selectCompanyActiveAddresses);
-    const consigneeAddresses = useSelector(state => selectClientActiveAddresses(state, salesContract.consignee));
+    const consigneeAddresses = useSelector(
+        state => selectClientActiveAddresses(state, { clientId: salesContract.consignee._id }));
     const companyBankDetails = useSelector(selectActiveCompanyBankDetails);
     const companyPorts = useSelector(selectCompanyPorts);
-
-    const consignee = useSelector(state => selectClientById(state, salesContract.consignee));
-    const initialSellerAddress = useSelector(
-        state => selectCompanyAddress(
-            state,
-            salesContract.sellerAdd.addressId || salesContract.sellerAdd._id));
-    const initialConsigneeAddress = useSelector(state =>
-        selectClientAddress(state, {
-            clientId: salesContract.consignee,
-            addressId: salesContract.consigneeAdd.addressId || salesContract.consigneeAdd._id
-        })
-    );
 
     const { register, control, errors, watch, handleSubmit } = useForm({
         mode: 'onSubmit',
         defaultValues: {
             [fieldNames.autoGenerateRef]: salesContract.autoGenerateRef,
             [fieldNames.ref]: salesContract.ref,
-            [fieldNames.sellerAdd]: initialSellerAddress,
-            [fieldNames.consigneeAdd]: initialConsigneeAddress,
+            [fieldNames.sellerAdd]: salesContract.sellerAdd,
+            [fieldNames.consigneeAdd]: salesContract.consigneeAdd,
             [fieldNames.date]: salesContract.date,
             [fieldNames.bankDetails]: salesContract.bankDetails,
             [fieldNames.termsOfPayment]: salesContract.termsOfPayment,
@@ -127,7 +116,7 @@ const SalesContractDetails = React.memo(function SalesContractDetails(
                         />
                         <SideTextField
                             label={ formLabels.consignee }
-                            value={ consignee.name }
+                            value={ salesContract.consignee.name }
                             disabled
                         />
                         <RHFAutoComplete
