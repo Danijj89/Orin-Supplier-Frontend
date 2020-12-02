@@ -480,6 +480,7 @@ export const ENGLISH = {
                     incoterm: 'Incoterm',
                     clientRefs: 'PO References',
                     payRefs: 'Payment References',
+                    scRef: 'Sales Contract',
                     pol: 'Port of Loading',
                     pod: 'Port of Destination',
                     notes: 'Notes'
@@ -504,6 +505,7 @@ export const ENGLISH = {
                     consigneeAdd: 'Client Address',
                     shipAdd: 'Shipping Address',
                     ciRef: 'Invoice Number',
+                    scRef: 'Sales Contract',
                     pol: 'Port of Loading',
                     pod: 'Port of Destination',
                     notes: 'Notes'

@@ -19,6 +19,7 @@ import RHFDateField from '../shared/rhf/inputs/RHFDateField.js';
 import { makeStyles } from '@material-ui/core/styles';
 import { selectCountries, selectIncoterms } from '../../app/duck/selectors.js';
 import { getOptionLabel } from '../../app/utils/options/getters.js';
+import { selectShipmentSalesContracts } from '../shipments/duck/selectors.js';
 
 
 const {
@@ -38,6 +39,7 @@ const fieldNames = {
     incoterm: 'incoterm',
     clientRefs: 'clientRefs',
     payRefs: 'payRefs',
+    scRef: 'scRef',
     pol: 'pol',
     pod: 'pod',
     notes: 'notes'
@@ -68,6 +70,9 @@ const CommercialInvoiceDetails = React.memo(function CommercialInvoiceDetails(
         state => selectClientActiveAddresses(state, { clientId: commercialInvoice.consignee._id }));
     const companyPorts = useSelector(selectCompanyPorts);
     const countryOptions = useSelector(selectCountries);
+    const salesContracts = useSelector(
+        state => selectShipmentSalesContracts(state, {shipmentId}));
+    const initialSalesContract = salesContracts.length ? salesContracts[0] : null;
 
 
     const { register, control, errors, watch, handleSubmit } = useForm({
@@ -82,6 +87,7 @@ const CommercialInvoiceDetails = React.memo(function CommercialInvoiceDetails(
             [fieldNames.incoterm]: commercialInvoice.incoterm,
             [fieldNames.clientRefs]: commercialInvoice.clientRefs,
             [fieldNames.payRefs]: commercialInvoice.payRefs,
+            [fieldNames.scRef]: commercialInvoice.scRef || initialSalesContract,
             [fieldNames.pol]: commercialInvoice.pol,
             [fieldNames.pod]: commercialInvoice.pod,
             [fieldNames.notes]: commercialInvoice.notes,
@@ -185,6 +191,14 @@ const CommercialInvoiceDetails = React.memo(function CommercialInvoiceDetails(
                             name={ fieldNames.payRefs }
                             label={ formLabels.payRefs }
                             inputRef={ register }
+                        />
+                        <RHFAutoComplete
+                            rhfControl={ control }
+                            name={ fieldNames.scRef }
+                            label={ formLabels.scRef }
+                            options={ salesContracts }
+                            getOptionLabel={ option => option.ref }
+                            getOptionSelected={ (option, value) => option._id === value._id }
                         />
                         <RHFAutoComplete
                             rhfControl={ control }

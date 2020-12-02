@@ -11,10 +11,12 @@ import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { selectCompanyActiveAddresses, selectCompanyPorts } from '../home/duck/selectors.js';
 import { selectClientActiveAddresses } from '../clients/duck/selectors.js';
-import { selectShipmentCommercialInvoices } from '../shipments/duck/selectors.js';
+import { selectShipmentCommercialInvoices, selectShipmentSalesContracts } from '../shipments/duck/selectors.js';
 import { useHistory } from 'react-router-dom';
 import Footer from '../shared/components/Footer.js';
 import { makeStyles } from '@material-ui/core/styles';
+import Box from '@material-ui/core/Box';
+import Divider from '@material-ui/core/Divider';
 
 const {
     titleLabel,
@@ -30,6 +32,7 @@ const fieldNames = {
     consigneeAdd: 'consigneeAdd',
     shipAdd: 'shipAdd',
     ciRef: 'ciRef',
+    scRef: 'scRef',
     pol: 'pol',
     pod: 'pod',
     notes: 'notes'
@@ -50,6 +53,9 @@ const PackingListDetails = React.memo(function PackingListDetails(
         state => selectClientActiveAddresses(state, { clientId: packingList.consignee._id }));
     const commercialInvoices = useSelector(
         state => selectShipmentCommercialInvoices(state, { shipmentId }));
+    const salesContracts = useSelector(
+        state => selectShipmentSalesContracts(state, { shipmentId }));
+    const initialSalesContract = salesContracts.length ? salesContracts[0] : null;
     const companyPorts = useSelector(selectCompanyPorts);
 
     const { register, control, errors, watch, handleSubmit } = useForm({
@@ -61,6 +67,7 @@ const PackingListDetails = React.memo(function PackingListDetails(
             [fieldNames.consigneeAdd]: packingList.consigneeAdd,
             [fieldNames.shipAdd]: packingList.shipAdd || null,
             [fieldNames.ciRef]: commercialInvoices.length ? commercialInvoices[0] : null,
+            [fieldNames.scRef]: packingList.scRef || initialSalesContract,
             [fieldNames.pol]: packingList.pol || null,
             [fieldNames.pod]: packingList.pod || null,
             [fieldNames.notes]: packingList.notes
@@ -125,6 +132,13 @@ const PackingListDetails = React.memo(function PackingListDetails(
                             rowsMax={ 8 }
                             required
                         />
+                    </FormContainer>
+                </Grid>
+                <Grid item>
+                    <Box component={ Divider } display={ { xs: 'none', lg: 'block' } } orientation="vertical"/>
+                </Grid>
+                <Grid item>
+                    <FormContainer>
                         <RHFAutoComplete
                             rhfControl={ control }
                             name={ fieldNames.shipAdd }
@@ -142,17 +156,14 @@ const PackingListDetails = React.memo(function PackingListDetails(
                             getOptionLabel={ option => option.ref }
                             getOptionSelected={ (option, value) => option._id === value._id }
                         />
-                        <SideTextField
-                            label={ formLabels.notes }
-                            name={ fieldNames.notes }
-                            inputRef={ register }
-                            rows={ 4 }
-                            rowsMax={ 8 }
+                        <RHFAutoComplete
+                            rhfControl={ control }
+                            name={ fieldNames.scRef }
+                            label={ formLabels.scRef }
+                            options={ salesContracts }
+                            getOptionLabel={ option => option.ref }
+                            getOptionSelected={ (option, value) => option._id === value._id }
                         />
-                    </FormContainer>
-                </Grid>
-                <Grid item>
-                    <FormContainer>
                         <RHFAutoComplete
                             rhfControl={ control }
                             name={ fieldNames.pol }
@@ -168,6 +179,13 @@ const PackingListDetails = React.memo(function PackingListDetails(
                             options={ companyPorts }
                             freeSolo
                             autoSelect
+                        />
+                        <SideTextField
+                            label={ formLabels.notes }
+                            name={ fieldNames.notes }
+                            inputRef={ register }
+                            rows={ 4 }
+                            rowsMax={ 8 }
                         />
                     </FormContainer>
                 </Grid>

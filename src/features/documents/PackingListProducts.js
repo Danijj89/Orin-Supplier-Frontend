@@ -81,6 +81,7 @@ const PackingListProducts = React.memo(function PackingListProducts(
         document.consigneeAdd = addressToDocAddress(document.consigneeAdd);
         if (document.shipAdd) document.shipAdd = addressToDocAddress(document.shipAdd);
         if (document.ciRef) document.ciRef = document.ciRef.ref;
+        if (document.scRef) document.scRef = document.scRef.ref;
         document.weightUnit = getOptionId(document.weightUnit);
         document.measurementUnit = getOptionId(document.measurementUnit);
         document.createdBy = userId;

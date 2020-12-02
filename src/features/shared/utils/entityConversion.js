@@ -73,6 +73,7 @@ export const shipmentToCommercialInvoice = (shipment) => ({
     incoterm: shipment.incoterm,
     clientRefs: shipment.clientRefs,
     payRefs: shipment.payRefs,
+    scRef: shipment.scRef,
     pol: shipment.pol || null,
     pod: shipment.pod || null,
     notes: null,
