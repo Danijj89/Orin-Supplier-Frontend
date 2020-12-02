@@ -2,15 +2,14 @@ import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import Table from './table/Table.js';
 import { useSelector } from 'react-redux';
-import { selectShipmentDocumentsField } from '../../shipments/duck/selectors.js';
-import { LANGUAGE } from '../../../app/utils/constants.js';
+import { selectShipmentDocuments } from '../../shipments/duck/selectors.js';
+import { LANGUAGE, LOCALE } from '../../../app/utils/constants.js';
 import { GetApp as IconDownload } from '@material-ui/icons';
 import { IconButton } from '@material-ui/core';
 import { selectUsersMap } from '../../users/duck/selectors.js';
 import { dateToLocaleDate } from '../utils/format.js';
 import DocumentService from '../../api/DocumentService.js';
 import { downloadFile } from '../utils/file.js';
-import { selectDocumentTypesMap } from '../../../app/duck/selectors.js';
 import { getOptionLabel } from '../../../app/utils/options/getters.js';
 
 const {
@@ -19,8 +18,7 @@ const {
 
 const ShipmentDocumentTable = React.memo(function ShipmentDocumentTable(
     { shipmentId, maxEmptyRows, className }) {
-    const documentTypesMap = useSelector(selectDocumentTypesMap);
-    const documents = useSelector(state => selectShipmentDocumentsField(state, shipmentId));
+    const documents = useSelector(state => selectShipmentDocuments(state, { shipmentId }));
     const usersMap = useSelector(selectUsersMap);
 
     const onDownload = useCallback(
@@ -67,11 +65,11 @@ const ShipmentDocumentTable = React.memo(function ShipmentDocumentTable(
     const rows = useMemo(() => documents.map(doc => ({
         id: doc._id,
         ref: doc.ref,
-        type: getOptionLabel(documentTypesMap[doc.type]),
+        type: getOptionLabel(doc.type, LOCALE),
         createdAt: dateToLocaleDate(doc.createdAt),
         createdBy: usersMap[doc.createdBy]?.name,
         fileName: doc.fileName
-    })), [documents, usersMap, documentTypesMap]);
+    })), [documents, usersMap]);
 
     return (
         <Table

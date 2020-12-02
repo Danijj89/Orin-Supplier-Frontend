@@ -1,21 +1,17 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { Box, Divider, Typography, Paper, Checkbox, Chip } from '@material-ui/core';
-import { LANGUAGE } from '../../app/utils/constants.js';
+import { LANGUAGE, LOCALE } from '../../app/utils/constants.js';
 import FormContainer from '../shared/wrappers/FormContainer.js';
 import { useForm } from 'react-hook-form';
 import { dateToLocaleDate, formatAddress, roundToNDecimal } from '../shared/utils/format.js';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-    selectCompanyActiveAddresses, selectCompanyAddress,
+    selectCompanyActiveAddresses,
     selectCompanyDefaultAddress,
     selectCompanyId,
 } from '../home/duck/selectors.js';
-import {
-    selectAllActiveClients,
-    selectClientById,
-    selectClientAddress
-} from '../clients/duck/selectors.js';
+import { selectAllActiveClients } from '../clients/duck/selectors.js';
 import {
     selectOrdersMap,
     selectShipmentShellClientIdToActiveOrdersMap
@@ -25,17 +21,18 @@ import StatusDisplay from '../orders/StatusDisplay.js';
 import UnitCounter from '../shared/classes/UnitCounter.js';
 import { makeStyles } from '@material-ui/core/styles';
 import Footer from '../shared/components/Footer.js';
-import { selectCurrentUserId } from '../../app/duck/selectors.js';
+import { selectCurrentUserId, selectItemUnitsMap } from '../../app/duck/selectors.js';
 import { createShipment, updateShipmentShell } from './duck/thunks.js';
 import ErrorMessages from '../shared/components/ErrorMessages.js';
 import {
+    selectEditShipmentShellById,
     selectOrderToShipmentItemsQuantityMap,
-    selectShipmentById,
     selectShipmentOrders
 } from './duck/selectors.js';
 import { addressToDocAddress } from '../shared/utils/entityConversion.js';
 import RHFAutoComplete from '../shared/rhf/inputs/RHFAutoComplete.js';
 import queryString from 'query-string';
+import { getOptionLabel } from '../../app/utils/options/getters.js';
 
 const useStyles = makeStyles((theme) => ({
     chipContainer: {
@@ -80,36 +77,29 @@ const CreateShipment = React.memo(function CreateShipment() {
     const location = useLocation();
     const { id: shipmentId } = queryString.parse(location.search);
 
-    const shipment = useSelector(state => selectShipmentById(state, shipmentId));
     const userId = useSelector(selectCurrentUserId);
     const companyId = useSelector(selectCompanyId);
-
     const companyAddresses = useSelector(selectCompanyActiveAddresses);
     const clients = useSelector(selectAllActiveClients);
-
     const ordersMap = useSelector(selectOrdersMap);
     const clientIdToActiveOrdersMap = useSelector(selectShipmentShellClientIdToActiveOrdersMap);
     const orderShipmentItemMap = useSelector(selectOrderToShipmentItemsQuantityMap);
+    const itemUnitsMap = useSelector(selectItemUnitsMap);
 
+    const shipment = useSelector(state => selectEditShipmentShellById(state, { shipmentId }));
     const companyDefaultAddress = useSelector(selectCompanyDefaultAddress);
-    const initialSellerAddress = useSelector(
-        state => selectCompanyAddress(state, shipment?.sellerAdd.addressId));
-    const initialConsignee = useSelector(state => selectClientById(state, shipment?.consignee));
-    const initialConsigneeAddress = useSelector(
-        state => selectClientAddress(state, {
-            clientId: shipment?.consignee,
-            addressId: shipment?.consigneeAdd.addressId
-        }));
-    const initialShipmentOrders = useSelector(state => selectShipmentOrders(state, shipmentId));
+
+
+    const initialShipmentOrders = useSelector(state => selectShipmentOrders(state, { shipmentId }));
     const initialOrderIds = initialShipmentOrders?.map(order => order._id);
     const isEdit = Boolean(shipmentId);
 
     const { register, control, errors, watch, setValue, handleSubmit } = useForm({
         mode: 'onSubmit',
         defaultValues: {
-            sellerAdd: initialSellerAddress || companyDefaultAddress,
-            consignee: initialConsignee || null,
-            consigneeAdd: initialConsigneeAddress || null,
+            sellerAdd: shipment?.sellerAdd || companyDefaultAddress,
+            consignee: shipment?.consignee || null,
+            consigneeAdd: shipment?.consigneeAdd || null,
             orderIds: initialOrderIds || []
         }
     });
@@ -126,15 +116,6 @@ const CreateShipment = React.memo(function CreateShipment() {
             register({ name: 'orderIds' },
                 { validate: val => val.length > 0 || errorMessages.atLeastOneOrder });
             if (chosenClient) {
-                // Add the initial orders if this is edit including orders that might be inactive
-                // setClientOrders(
-                //     clientIdToOrdersMap[chosenClient._id].reduce((acc, order) => {
-                //         if (initialOrderIds.includes(order._id)) {
-                //             order.selected = true;
-                //             acc.push(order);
-                //         } else if (order.active) acc.push(order);
-                //         return acc;
-                //     }, []));
                 const initialOrders = [...clientIdToActiveOrdersMap[chosenClient._id]];
                 for (const order of initialShipmentOrders) {
                     const foundOrder = initialOrders.find(o => o._id === order._id);
@@ -150,7 +131,7 @@ const CreateShipment = React.memo(function CreateShipment() {
 
     // Note: initialize prev client to initial consignee in case it is an edit or else
     // the first render will cause the useEffect to run
-    const prevClient = useRef(initialConsignee || null);
+    const prevClient = useRef(shipment?.consignee || null);
     useEffect(() => {
         if (chosenClient && prevClient.current !== chosenClient) {
             setClientAddresses(chosenClient.addresses);
@@ -160,7 +141,12 @@ const CreateShipment = React.memo(function CreateShipment() {
         } else if (!chosenClient) {
             setClientAddresses([]);
             setValue('consigneeAdd', null);
+            setValue('orderIds', []);
             setClientOrders([]);
+            clientIdToActiveOrdersMap[prevClient.current._id].map(order => {
+                order.selected = false;
+                return order;
+            });
             prevClient.current = chosenClient;
         }
     }, [setValue, chosenClient, clientIdToActiveOrdersMap]);
@@ -202,10 +188,10 @@ const CreateShipment = React.memo(function CreateShipment() {
 
     const getFulfilledPercentage = useCallback(
         (totalQ, orderId) => {
-            const totalCount = UnitCounter.totalCount(totalQ);
+            const totalCount = UnitCounter.totalCount(totalQ, itemUnitsMap, LOCALE);
             const totalFulfilled = orderShipmentItemMap[orderId].reduce((acc, instance) => acc + instance.quantity, 0);
             return `${ roundToNDecimal(totalFulfilled / totalCount * 100, 2) }%`;
-        }, [orderShipmentItemMap]);
+        }, [orderShipmentItemMap, itemUnitsMap]);
 
     const columns = useMemo(() => [
         { field: 'id', hide: true },
@@ -250,14 +236,14 @@ const CreateShipment = React.memo(function CreateShipment() {
             selected: order.selected,
             ref: order.ref,
             clientRef: order.clientRef,
-            totalQ: UnitCounter.stringRep(order.totalQ),
+            totalQ: UnitCounter.stringRep(order.totalQ, itemUnitsMap, LOCALE),
             crd: dateToLocaleDate(order.crd),
-            del: order.del,
+            del: getOptionLabel(order.del, LOCALE),
             production: order.status.production.status,
             qa: order.status.qa.status,
             notes: order.notes,
             fulfilled: getFulfilledPercentage(order.totalQ, order._id)
-        })), [clientOrders, getFulfilledPercentage]);
+        })), [clientOrders, getFulfilledPercentage, itemUnitsMap]);
 
     const errs = useMemo(() => Object.values(errors).map(err => err.message), [errors]);
 

@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo } from 'react';
 import InfoCard from '../shared/wrappers/InfoCard.js';
-import { LANGUAGE } from '../../app/utils/constants.js';
+import { LANGUAGE, LOCALE } from '../../app/utils/constants.js';
 import ShipmentStatusPill from './ShipmentStatusPill.js';
 import { dateToLocaleDate } from '../shared/utils/format.js';
 import { Grid } from '@material-ui/core';
@@ -9,6 +9,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectShipmentById } from './duck/selectors.js';
+import { getOptionLabel } from '../../app/utils/options/getters.js';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -28,13 +29,13 @@ const {
 
 const ShipmentInfoCard = React.memo(function ShipmentInfoCard() {
     const classes = useStyles();
-    const { id } = useParams();
-    const shipment = useSelector(state => selectShipmentById(state, id));
+    const { id: shipmentId } = useParams();
+    const shipment = useSelector(state => selectShipmentById(state, { shipmentId }));
 
     const leftData = useMemo(() => [
         { label: labels.status, value: <ShipmentStatusPill status={ shipment.status }/> },
         { label: labels.crd, value: dateToLocaleDate(shipment.crd) },
-        { label: labels.del, value: shipment.del },
+        { label: labels.del, value: getOptionLabel(shipment.del, LOCALE) },
         { label: labels.carrier, value: shipment.carrier }
     ], [
         shipment.status,

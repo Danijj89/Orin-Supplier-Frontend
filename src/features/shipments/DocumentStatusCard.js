@@ -26,8 +26,8 @@ const {
 
 const DocumentStatusCard = React.memo(function DocumentStatusCard() {
     const classes = useStyles();
-    const { id } = useParams();
-    const shipment = useSelector(state => selectShipmentById(state, id));
+    const { id: shipmentId } = useParams();
+    const shipment = useSelector(state => selectShipmentById(state, { shipmentId }));
 
     const data = useMemo(() => [
         { label: labels.docCutOff, value: shipment.docCutOff },

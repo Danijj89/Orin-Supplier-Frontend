@@ -3,13 +3,15 @@ import Table from '../shared/components/table/Table.js';
 import StatusDisplay from '../orders/StatusDisplay.js';
 import UnitCounter from '../shared/classes/UnitCounter.js';
 import { dateToLocaleDate } from '../shared/utils/format.js';
-import { LANGUAGE } from '../../app/utils/constants.js';
+import { LANGUAGE, LOCALE } from '../../app/utils/constants.js';
 import { Box } from '@material-ui/core';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { useHistory, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import { selectShipmentOrders } from './duck/selectors.js';
+import { selectItemUnitsMap } from '../../app/duck/selectors.js';
+import { getOptionLabel } from '../../app/utils/options/getters.js';
 
 const useStyles = makeStyles((theme) => ({
     button: {
@@ -26,7 +28,8 @@ const ShipmentOrdersTable = React.memo(function ShipmentOrdersTable() {
     const classes = useStyles();
     const history = useHistory();
     const { id: shipmentId } = useParams();
-    const orders = useSelector(state => selectShipmentOrders(state, shipmentId));
+    const orders = useSelector(state => selectShipmentOrders(state, { shipmentId }));
+    const itemUnitsMap = useSelector(selectItemUnitsMap);
 
     const onEditOrders = useCallback(
         () => history.push(`/home/shipments/shell?id=${ shipmentId }`),
@@ -66,15 +69,15 @@ const ShipmentOrdersTable = React.memo(function ShipmentOrdersTable() {
                 id: order._id,
                 ref: order.ref,
                 clientRef: order.clientRef,
-                totalQ: UnitCounter.stringRep(order.totalQ),
+                totalQ: UnitCounter.stringRep(order.totalQ, itemUnitsMap, LOCALE),
                 crd: dateToLocaleDate(order.crd),
-                del: order.del,
+                del: getOptionLabel(order.del, LOCALE),
                 production: order.status.production.status,
                 qa: order.status.qa.status,
                 notes: order.notes
             })
         });
-    }, [orders]);
+    }, [orders, itemUnitsMap]);
 
     return (
         <Box>

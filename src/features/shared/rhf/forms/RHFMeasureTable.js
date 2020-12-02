@@ -13,7 +13,12 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import RHFAutoComplete from '../inputs/RHFAutoComplete.js';
 import { useSelector } from 'react-redux';
-import { selectMeasurementUnits, selectPackageUnits, selectWeightUnits } from '../../../../app/duck/selectors.js';
+import {
+    selectMeasurementUnits,
+    selectPackageUnits,
+    selectPackageUnitsMap,
+    selectWeightUnits
+} from '../../../../app/duck/selectors.js';
 import { getOptionLabel } from '../../../../app/utils/options/getters.js';
 
 const useStyles = makeStyles((theme) => ({
@@ -56,6 +61,7 @@ const RHFMeasureTable = React.memo(function RHFMeasureTable(
     }) {
     const classes = useStyles();
     const packageUnitOptions = useSelector(selectPackageUnits);
+    const packageUnitsMap = useSelector(selectPackageUnitsMap);
     const weightUnitOptions = useSelector(selectWeightUnits);
     const measurementUnitOptions = useSelector(selectMeasurementUnits);
 
@@ -300,7 +306,7 @@ const RHFMeasureTable = React.memo(function RHFMeasureTable(
 
     const footer = useMemo(() => [[
         { field: 'label', value: totalLabel, colSpan: numColumns - 5, align: 'right' },
-        { field: 'package', value: UnitCounter.stringRep(pkg), colSpan: 2, align: 'center' },
+        { field: 'package', value: UnitCounter.stringRep(pkg, packageUnitsMap), colSpan: 2, align: 'center' },
         { field: 'netWeight', value: `${ weightUnit } ${ netWeight }`, colSpan: 1, align: 'center' },
         { field: 'grossWeight', value: `${ weightUnit } ${ grossWeight }`, colSpan: 1, align: 'center' },
         { field: 'dimension', value: `${ measurementUnit } ${ dimension }`, colSpan: 1, align: 'center' }
@@ -311,7 +317,8 @@ const RHFMeasureTable = React.memo(function RHFMeasureTable(
         grossWeight,
         dimension,
         weightUnit,
-        measurementUnit
+        measurementUnit,
+        packageUnitsMap
     ]);
 
     return (

@@ -37,8 +37,10 @@ const ShipmentProductTable = React.memo(function ShipmentProductTable() {
     const classes = useStyles();
     const dispatch = useDispatch();
     const { id: shipmentId } = useParams();
-    const shipment = useSelector(state => selectShipmentById(state, shipmentId));
     const ordersMap = useSelector(selectOrdersMap);
+
+    const shipment = useSelector(state => selectShipmentById(state, { shipmentId }));
+
     const { register, control, errors, setValue, getValues, handleSubmit } = useForm({
         mode: 'onSubmit',
         defaultValues: {

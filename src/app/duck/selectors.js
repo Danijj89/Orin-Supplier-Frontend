@@ -44,6 +44,10 @@ export const selectIncoterms = state => state.app.appData.incoterms;
 export const selectExemptionTypes = state => state.app.appData.exemptionTypes;
 export const selectSupervisionMethods = state => state.app.appData.supervisionMethods;
 export const selectPackageUnits = state => state.app.appData.packageUnits;
+export const selectPackageUnitsMap = createSelector(
+    selectPackageUnits,
+    getOptionsMap
+);
 
 export const selectItemUnits = state => state.app.appData.itemUnits;
 export const selectItemUnitsMap = createSelector(
@@ -52,7 +56,16 @@ export const selectItemUnitsMap = createSelector(
 );
 
 export const selectWeightUnits = state => state.app.appData.weightUnits;
+export const selectWeightUnitsMap = createSelector(
+    selectWeightUnits,
+    getOptionsMap
+);
+
 export const selectMeasurementUnits = state => state.app.appData.measurementUnits;
+export const selectMeasurementUnitsMap = createSelector(
+    selectMeasurementUnits,
+    getOptionsMap
+);
 
 export const selectCountries = state => state.app.appData.countries;
 export const selectCountriesMap = createSelector(
@@ -79,7 +92,12 @@ export const selectOrderStatusesMap = createSelector(
 );
 
 export const selectBillOfLandingTypes = state => state.app.appData.billOfLandingTypes;
+
 export const selectShipmentStatuses = state => state.app.appData.shipmentStatuses;
+export const selectShipmentStatusesMap = createSelector(
+    selectShipmentStatuses,
+    getOptionsMap
+);
 
 export const selectDefaultRowItem = createSelector(
     selectItemUnits,
@@ -101,8 +119,9 @@ export const selectDefaultRowItem = createSelector(
         netW: 0,
         grossW: 0,
         dim: 0,
-        custom1: '',
-        custom2: '',
+        coo: null,
+        fdc: null,
+        dop: null,
         ciCustom1: '',
         ciCustom2: '',
         plCustom1: '',

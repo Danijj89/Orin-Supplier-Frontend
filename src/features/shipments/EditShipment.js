@@ -5,7 +5,7 @@ import { LANGUAGE } from '../../app/utils/constants.js';
 import NavTabs from '../shared/components/NavTabs.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { selectShipmentById, selectShipmentError, selectShipmentStatus } from './duck/selectors.js';
+import { selectShipmentError, selectShipmentStatus } from './duck/selectors.js';
 import ShipmentInfo from './ShipmentInfo.js';
 import Loader from '../shared/components/Loader.js';
 import SuccessMessage from '../shared/components/SuccessMessage.js';
@@ -55,7 +55,6 @@ const EditShipment = React.memo(function EditShipment() {
     const tabValue = tab || 'shipment';
     const shipmentStatus = useSelector(selectShipmentStatus);
     const shipmentError = useSelector(selectShipmentError);
-    const shipment = useSelector(state => selectShipmentById(state, shipmentId));
 
     const onTabChange = useCallback(
         (newValue) => {
@@ -102,7 +101,7 @@ const EditShipment = React.memo(function EditShipment() {
             <Box>
                 { tabValue === 'shipment' && <ShipmentInfo /> }
                 { tabValue === 'products' && <ShipmentProductTable /> }
-                { tabValue === 'measures' && <ShipmentMeasureTable shipment={ shipment }/> }
+                { tabValue === 'measures' && <ShipmentMeasureTable /> }
             </Box>
         </Box>
     )

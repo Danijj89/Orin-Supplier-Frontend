@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { getOptionId, getOptionLabel } from '../../app/utils/options/getters.js';
+import { LOCALE } from '../../app/utils/constants.js';
 
 function getStatusBackGroundColor(theme, status) {
     switch (status) {
@@ -36,14 +38,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ShipmentStatusPill = React.memo(function ShipmentStatusPill({ status }) {
-    const classes = useStyles({ status });
+    const classes = useStyles({ status: getOptionId(status) });
     return (
-        <Typography className={ classes.root }>{ status }</Typography>
+        <Typography className={ classes.root }>{ getOptionLabel(status, LOCALE) }</Typography>
     )
 });
 
 ShipmentStatusPill.propTypes = {
-    status: PropTypes.string.isRequired
+    status: PropTypes.object.isRequired
 };
 
 export default ShipmentStatusPill;

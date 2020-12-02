@@ -1,12 +1,11 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectCompanyActiveAddresses, selectCompanyAddress, selectCompanyPorts } from '../home/duck/selectors.js';
-import { selectActiveClientById, selectClientAddress } from '../clients/duck/selectors.js';
+import { selectCompanyActiveAddresses, selectCompanyPorts } from '../home/duck/selectors.js';
 import { Grid } from '@material-ui/core';
 import { formatAddress } from '../shared/utils/format.js';
 import InfoCard from '../shared/wrappers/InfoCard.js';
-import { LANGUAGE } from '../../app/utils/constants.js';
+import { LANGUAGE, LOCALE } from '../../app/utils/constants.js';
 import SideTextField from '../shared/inputs/SideTextField.js';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { updateShipment } from './duck/thunks.js';
@@ -15,8 +14,13 @@ import { makeStyles } from '@material-ui/core/styles';
 import RHFAutoComplete from '../shared/rhf/inputs/RHFAutoComplete.js';
 import RHFDateField from '../shared/rhf/inputs/RHFDateField.js';
 import { useParams } from 'react-router-dom';
-import { selectShipmentById } from './duck/selectors.js';
-import { selectBillOfLandingTypes, selectDeliveryMethods, selectIncoterms } from '../../app/duck/selectors.js';
+import { selectEditShipmentById } from './duck/selectors.js';
+import {
+    selectBillOfLandingTypes,
+    selectCountries,
+    selectDeliveryMethods,
+    selectIncoterms
+} from '../../app/duck/selectors.js';
 import { getOptionId, getOptionLabel } from '../../app/utils/options/getters.js';
 
 const {
@@ -39,34 +43,22 @@ const ShipmentInfo = React.memo(function ShipmentInfo() {
     const classes = useStyles();
     const dispatch = useDispatch();
     const { id: shipmentId } = useParams();
-    const shipment = useSelector(state => selectShipmentById(state, shipmentId));
+
     const deliveryMethodOptions = useSelector(selectDeliveryMethods);
     const billOfLandingTypeOptions = useSelector(selectBillOfLandingTypes);
     const sellerAddresses = useSelector(selectCompanyActiveAddresses);
-    const consignee = useSelector(state => selectActiveClientById(state, { clientId: shipment.consignee }));
-    const consigneeAddresses = consignee.addresses;
-
     const ports = useSelector(selectCompanyPorts);
     const incotermOptions = useSelector(selectIncoterms);
+    const countryOptions = useSelector(selectCountries);
 
-    const initialSellerAddress = useSelector(state => selectCompanyAddress(state, shipment.sellerAdd.addressId));
-    const initialConsigneeAddress = useSelector(
-        state => selectClientAddress(state, {
-            clientId: shipment.consignee,
-            addressId: shipment.consigneeAdd.addressId
-        }));
-    const initialShipAddress = useSelector(
-        state => selectClientAddress(state, {
-            clientId: shipment.consignee,
-            addressId: shipment?.shipAdd?.addressId
-        }));
+    const shipment = useSelector(state => selectEditShipmentById(state, { shipmentId }));
 
     const { register, control, errors, handleSubmit } = useForm({
         mode: 'onSubmit',
         defaultValues: {
-            sellerAdd: initialSellerAddress,
-            consigneeAdd: initialConsigneeAddress,
-            shipAdd: initialShipAddress || null,
+            sellerAdd: shipment.sellerAdd,
+            consigneeAdd: shipment.consigneeAdd,
+            shipAdd: shipment.shipAdd || null,
             crd: shipment.crd || null,
             incoterm: shipment.incoterm || null,
             bolType: shipment.bolType || null,
@@ -85,9 +77,10 @@ const ShipmentInfo = React.memo(function ShipmentInfo() {
     const onSubmit = (data) => {
         data.sellerAdd = addressToDocAddress(data.sellerAdd);
         data.consigneeAdd = addressToDocAddress(data.consigneeAdd);
-        data.shipAdd = addressToDocAddress(data.shipAdd);
+        if (data.shipAdd) data.shipAdd = addressToDocAddress(data.shipAdd);
         if (data.del) data.del = getOptionId(data.del);
         if (data.bolType) data.bolType = getOptionId(data.bolType);
+        if (data.coo) data.coo = getOptionId(data.coo);
         dispatch(updateShipment({ shipmentId, update: data }));
     };
 
@@ -117,7 +110,7 @@ const ShipmentInfo = React.memo(function ShipmentInfo() {
                                 rhfControl={ control }
                                 name="consigneeAdd"
                                 label={ formLabels.consigneeAdd }
-                                options={ consigneeAddresses }
+                                options={ shipment.consignee.addresses }
                                 getOptionLabel={ address => formatAddress(address) }
                                 getOptionSelected={ (option, value) => option._id === value._id || !value.active }
                                 error={ !!errors.consigneeAdd }
@@ -131,7 +124,7 @@ const ShipmentInfo = React.memo(function ShipmentInfo() {
                                 rhfControl={ control }
                                 name="shipAdd"
                                 label={ formLabels.shipAdd }
-                                options={ consigneeAddresses }
+                                options={ shipment.consignee.addresses }
                                 getOptionLabel={ address => formatAddress(address) }
                                 getOptionSelected={ (option, value) => option._id === value._id || !value.active }
                                 rows={ 6 }
@@ -178,10 +171,13 @@ const ShipmentInfo = React.memo(function ShipmentInfo() {
                                 name="payRefs"
                                 inputRef={ register }
                             />
-                            <SideTextField
-                                label={ formLabels.coo }
+                            <RHFAutoComplete
+                                rhfControl={ control }
                                 name="coo"
-                                inputRef={ register }
+                                label={ formLabels.coo }
+                                options={ countryOptions }
+                                getOptionLabel={ option => getOptionLabel(option, LOCALE) }
+                                getOptionSelected={ (option, value) => option.id === value.id }
                             />
                         </Grid>
                     </Grid>
@@ -198,7 +194,7 @@ const ShipmentInfo = React.memo(function ShipmentInfo() {
                                 name="del"
                                 label={ formLabels.del }
                                 options={ deliveryMethodOptions }
-                                getOptionLabel={ method => getOptionLabel(method) }
+                                getOptionLabel={ option => getOptionLabel(option, LOCALE) }
                                 getOptionSelected={ (option, value) => option.id === value.id }
                             />
                             <RHFAutoComplete
