@@ -9,6 +9,7 @@ import {
 } from '../../../app/duck/selectors.js';
 import { selectCompanyAddresses } from '../../home/duck/selectors.js';
 import { selectClientsMap } from '../../clients/duck/selectors.js';
+import { getOptionId } from '../../../app/utils/options/getters.js';
 
 export const {
     selectAll,
@@ -95,7 +96,7 @@ export const selectShipmentDocuments = createSelector(
 
 export const selectShipmentCommercialInvoices = createSelector(
     selectShipmentDocuments,
-    documents => documents.filter(doc => doc.type === 'CI')
+    documents => documents.filter(doc => getOptionId(doc.type) === 'CI')
 );
 
 export const selectOrderToShipmentItemsQuantityMap = createSelector(

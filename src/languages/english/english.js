@@ -504,6 +504,8 @@ export const ENGLISH = {
                     consigneeAdd: 'Client Address',
                     shipAdd: 'Shipping Address',
                     ciRef: 'Invoice Number',
+                    pol: 'Port of Loading',
+                    pod: 'Port of Destination',
                     notes: 'Notes'
                 },
                 prevButtonLabel: 'Cancel',

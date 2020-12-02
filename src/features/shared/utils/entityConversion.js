@@ -91,6 +91,8 @@ export const shipmentToPackingList = (shipment) => ({
     consignee: shipment.consignee,
     consigneeAdd: shipment.consigneeAdd,
     shipAdd: shipment.shipAdd,
+    pol: shipment.pol,
+    pod: shipment.pod,
     notes: null,
     items: shipment.items,
     measurementUnit: shipment.measurementUnit,
