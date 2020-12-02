@@ -9,7 +9,7 @@ import { formatAddress } from '../shared/utils/format.js';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
-import { selectCompanyActiveAddresses, selectCompanyPorts } from '../home/duck/selectors.js';
+import { selectActiveCompanyAddresses, selectCompanyPorts } from '../home/duck/selectors.js';
 import { selectClientActiveAddresses } from '../clients/duck/selectors.js';
 import { selectShipmentCommercialInvoices, selectShipmentSalesContracts } from '../shipments/duck/selectors.js';
 import { useHistory } from 'react-router-dom';
@@ -48,7 +48,7 @@ const PackingListDetails = React.memo(function PackingListDetails(
     { packingList, setPackingList, shipmentId }) {
     const classes = useStyles();
     const history = useHistory();
-    const companyAddresses = useSelector(selectCompanyActiveAddresses);
+    const companyAddresses = useSelector(selectActiveCompanyAddresses);
     const consigneeAddresses = useSelector(
         state => selectClientActiveAddresses(state, { clientId: packingList.consignee._id }));
     const commercialInvoices = useSelector(

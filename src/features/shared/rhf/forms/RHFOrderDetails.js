@@ -16,7 +16,7 @@ import { useSelector } from 'react-redux';
 import { selectDeliveryMethods, selectIncoterms } from '../../../../app/duck/selectors.js';
 import { getOptionLabel } from '../../../../app/utils/options/getters.js';
 import { selectAllActiveClients } from '../../../clients/duck/selectors.js';
-import { selectCompanyActiveAddresses, selectCompanyPorts } from '../../../home/duck/selectors.js';
+import { selectActiveCompanyAddresses, selectCompanyPorts } from '../../../home/duck/selectors.js';
 
 const useStyles = makeStyles((theme) => ({
     details: {
@@ -48,7 +48,7 @@ const RHFOrderDetails = React.memo(function RHFOrderDetails(
     const incotermOptions = useSelector(selectIncoterms);
     const deliveryMethodOptions = useSelector(selectDeliveryMethods);
     const clients = useSelector(selectAllActiveClients);
-    const companyAddresses = useSelector(selectCompanyActiveAddresses);
+    const companyAddresses = useSelector(selectActiveCompanyAddresses);
     const companyPorts = useSelector(selectCompanyPorts);
 
     const client = useWatch({

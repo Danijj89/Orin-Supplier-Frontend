@@ -102,7 +102,8 @@ export const selectShipmentStatusesMap = createSelector(
 export const selectDefaultRowItem = createSelector(
     selectItemUnits,
     selectPackageUnits,
-    (itemUnits, packageUnits) => ({
+    selectCurrencies,
+    (itemUnits, packageUnits, currencies) => ({
         _id: null,
         product: null,
         order: null,
@@ -122,6 +123,7 @@ export const selectDefaultRowItem = createSelector(
         coo: null,
         fdc: null,
         dop: null,
+        currency: currencies[0],
         ciCustom1: '',
         ciCustom2: '',
         plCustom1: '',

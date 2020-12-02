@@ -3,7 +3,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import Box from '@material-ui/core/Box';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import FormDialog from '../shared/wrappers/FormDialog.js';
-import { LANGUAGE } from '../../app/utils/constants.js';
+import { LANGUAGE, LOCALE } from '../../app/utils/constants.js';
 import { useForm } from 'react-hook-form';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -48,6 +48,9 @@ const DocumentButton = React.memo(function DocumentButton() {
             case 'SC':
                 history.push(`/home/documents/sc/new?step=details&shipment=${ id }`);
                 break;
+            case 'CE':
+                history.push(`/home/documents/ce/new?step=details&shipment=${ id }`);
+                break;
             default:
                 history.push('/home/shipments');
         }
@@ -68,7 +71,7 @@ const DocumentButton = React.memo(function DocumentButton() {
                     name="document"
                     label={ formLabels.document }
                     options={ documentTypeOptions }
-                    getOptionLabel={ option => getOptionLabel(option) }
+                    getOptionLabel={ option => getOptionLabel(option, LOCALE) }
                     getOptionSelected={ (option, value) => option.id === value.id }
                     error={ !!errors.document }
                     required

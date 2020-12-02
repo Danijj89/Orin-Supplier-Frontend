@@ -11,7 +11,7 @@ import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import RHFAutoComplete from '../shared/rhf/inputs/RHFAutoComplete.js';
 import { useSelector } from 'react-redux';
-import { selectCompanyActiveAddresses, selectCompanyPorts } from '../home/duck/selectors.js';
+import { selectActiveCompanyAddresses, selectCompanyPorts } from '../home/duck/selectors.js';
 import { selectClientActiveAddresses } from '../clients/duck/selectors.js';
 import Footer from '../shared/components/Footer.js';
 import { useHistory } from 'react-router-dom';
@@ -65,7 +65,7 @@ const CommercialInvoiceDetails = React.memo(function CommercialInvoiceDetails(
     const classes = useStyles();
     const history = useHistory();
     const incotermOptions = useSelector(selectIncoterms);
-    const companyAddresses = useSelector(selectCompanyActiveAddresses);
+    const companyAddresses = useSelector(selectActiveCompanyAddresses);
     const consigneeAddresses = useSelector(
         state => selectClientActiveAddresses(state, { clientId: commercialInvoice.consignee._id }));
     const companyPorts = useSelector(selectCompanyPorts);

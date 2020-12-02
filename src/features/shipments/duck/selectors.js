@@ -7,7 +7,7 @@ import {
     selectDeliveryMethodsMap, selectDocumentTypesMap, selectItemUnitsMap,
     selectMeasurementUnitsMap, selectPackageUnitsMap, selectShipmentStatusesMap, selectWeightUnitsMap
 } from '../../../app/duck/selectors.js';
-import { selectCompanyAddresses } from '../../home/duck/selectors.js';
+import { selectCompanyAddresses, selectCurrentCompany } from '../../home/duck/selectors.js';
 import { selectClientsMap } from '../../clients/duck/selectors.js';
 import { getOptionId } from '../../../app/utils/options/getters.js';
 
@@ -142,10 +142,12 @@ export const selectPopulatedShipmentById = createSelector(
     selectShipmentById,
     selectCompanyAddresses,
     selectClientsMap,
-    (shipment, companyAddresses, clientsMap) => {
+    selectCurrentCompany,
+    (shipment, companyAddresses, clientsMap, company) => {
         const consignee = clientsMap[shipment.consignee];
         return {
             ...shipment,
+            seller: company,
             sellerAdd: companyAddresses.find(a => a._id === shipment.sellerAdd.addressId),
             consignee: consignee,
             consigneeAdd: consignee.addresses.find(a => a._id === shipment.consigneeAdd.addressId),

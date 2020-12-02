@@ -1,7 +1,7 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectCompanyActiveAddresses, selectCompanyPorts } from '../home/duck/selectors.js';
+import { selectActiveCompanyAddresses, selectCompanyPorts } from '../home/duck/selectors.js';
 import { Grid } from '@material-ui/core';
 import { formatAddress } from '../shared/utils/format.js';
 import InfoCard from '../shared/wrappers/InfoCard.js';
@@ -47,7 +47,7 @@ const ShipmentInfo = React.memo(function ShipmentInfo() {
 
     const deliveryMethodOptions = useSelector(selectDeliveryMethods);
     const billOfLandingTypeOptions = useSelector(selectBillOfLandingTypes);
-    const sellerAddresses = useSelector(selectCompanyActiveAddresses);
+    const sellerAddresses = useSelector(selectActiveCompanyAddresses);
     const ports = useSelector(selectCompanyPorts);
     const incotermOptions = useSelector(selectIncoterms);
     const countryOptions = useSelector(selectCountries);

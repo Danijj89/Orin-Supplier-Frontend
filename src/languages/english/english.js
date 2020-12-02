@@ -524,7 +524,7 @@ export const ENGLISH = {
                 titleLabel: 'Sales Contract Details',
                 formLabels: {
                     autoGenerateRef: 'Auto-generate Contract Number',
-                    ref: 'Invoice Number',
+                    ref: 'Contract Number',
                     sellerAdd: 'Seller Address',
                     consignee: 'Client',
                     consigneeAdd: 'Client Address',
@@ -545,6 +545,39 @@ export const ENGLISH = {
                 titleLabel: 'Contract Products',
                 prevButtonLabel: 'Details',
                 nextButtonLabel: 'Generate',
+            }
+        },
+        ce: {
+            details: {
+                titleLabel: 'China Export Details',
+                formLabels: {
+                    autoGenerateRef: 'Auto-generate Reference',
+                    ref: 'China Export Ref.',
+                    sName: 'Seller Name',
+                    sTaxCode: 'Seller Tax Code',
+                    cName: 'Importer Name',
+                    exPort: 'Export Port',
+                    del: 'Delivery Method',
+                    bol: 'Bill of Landing',
+                    mName: 'Manufacture Name',
+                    mTaxCode: 'Manufacture Tax Code',
+                    supervision: 'Supervision',
+                    exception: 'Exception Type',
+                    scRef: 'Sales Contract',
+                    tradingCountry: 'Trading Country',
+                    destCountry: 'Destination Country',
+                    packageTypes: 'Package Types',
+                    packageUnits: 'Number of Units',
+                    containerNum: 'Container Number and Products',
+                    pol: 'Port of Loading',
+                    pod: 'Port of Destination',
+                    netWeight: 'Net Weight',
+                    grossWeight: 'Gross Weight',
+                    incoterm: 'Incoterm',
+                    notes: 'Notes'
+                },
+                prevButtonLabel: 'Cancel',
+                nextButtonLabel: 'Next',
             }
         }
     },

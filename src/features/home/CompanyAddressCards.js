@@ -7,7 +7,7 @@ import NewCompanyAddressButton from './NewCompanyAddressButton.js';
 import { makeStyles } from '@material-ui/core/styles';
 import { deleteAddress, updateAddress, updateDefaultAddress } from './duck/thunks.js';
 import AddressCard from '../shared/components/AddressCard.js';
-import { selectCompanyActiveAddresses, selectCompanyId } from './duck/selectors.js';
+import { selectActiveCompanyAddresses, selectCompanyId } from './duck/selectors.js';
 import { getOptionId } from '../../app/utils/options/getters.js';
 
 const useStyles = makeStyles((theme) => ({
@@ -31,7 +31,7 @@ const CompanyAddressCards = React.memo(function CompanyAddressCards() {
     const classes = useStyles();
     const dispatch = useDispatch();
     const companyId = useSelector(selectCompanyId);
-    const companyAddresses = useSelector(selectCompanyActiveAddresses);
+    const companyAddresses = useSelector(selectActiveCompanyAddresses);
     const [isEditAddressOpen, setIsEditAddressOpen] = useState(false);
     const [editAddress, setEditAddress] = useState(null);
 

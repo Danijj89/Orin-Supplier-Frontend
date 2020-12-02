@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form';
 import { dateToLocaleDate, formatAddress, roundToNDecimal } from '../shared/utils/format.js';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-    selectCompanyActiveAddresses,
+    selectActiveCompanyAddresses,
     selectCompanyDefaultAddress,
     selectCompanyId,
 } from '../home/duck/selectors.js';
@@ -79,7 +79,7 @@ const CreateShipment = React.memo(function CreateShipment() {
 
     const userId = useSelector(selectCurrentUserId);
     const companyId = useSelector(selectCompanyId);
-    const companyAddresses = useSelector(selectCompanyActiveAddresses);
+    const companyAddresses = useSelector(selectActiveCompanyAddresses);
     const clients = useSelector(selectAllActiveClients);
     const ordersMap = useSelector(selectOrdersMap);
     const clientIdToActiveOrdersMap = useSelector(selectShipmentShellClientIdToActiveOrdersMap);

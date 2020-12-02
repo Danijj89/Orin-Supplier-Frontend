@@ -129,11 +129,38 @@ export const shipmentToSalesContract = (shipment) => ({
     custom2: shipment.ciCustom2
 });
 
-export const shipmentToChinaExport = (shipment) => ({
-    autoGenerateRef: true,
-    ref: null,
-    sName: null,
-    sTaxCode: null,
-    cName: shipment.consigneeAdd.name,
-    exPort: null
-});
+export const shipmentToChinaExport = (shipment) => {
+    const packageTypes = new Set();
+    let packageUnits = 0;
+    for (const [unit, quantity] of Object.entries(shipment.package)) {
+        packageTypes.add(unit);
+        packageUnits += quantity;
+    }
+    return {
+        autoGenerateRef: true,
+        ref: null,
+        sName: null,
+        sTaxCode: shipment.seller.taxNumber,
+        cName: shipment.consigneeAdd,
+        exPort: null,
+        del: shipment.del,
+        bol: shipment.bol,
+        mName: null,
+        mTaxCode: null,
+        supervision: null,
+        exception: null,
+        scRef: shipment.scRef,
+        tradingCountry: null,
+        destCountry: null,
+        packageTypes: Array.from(packageTypes).join(','),
+        packageUnits: packageUnits,
+        containerNum: null,
+        pol: shipment.pol,
+        pod: shipment.pod,
+        netWeight: shipment.netWeight,
+        grossWeight: shipment.grossWeight,
+        incoterm: shipment.incoterm,
+        notes: null,
+        items: shipment.items
+    };
+}

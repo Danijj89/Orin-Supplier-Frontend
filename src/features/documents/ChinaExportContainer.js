@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCompanyId, selectHomeError, selectHomeDataStatus } from '../home/duck/selectors.js';
 import { determineStatus, getErrors } from '../shared/utils/state.js';
@@ -27,18 +27,18 @@ const ChinaExportContainer = React.memo(function ChinaExportContainer() {
     const homeError = useSelector(selectHomeError);
     const shipmentDataStatus = useSelector(selectShipmentDataStatus);
     const shipmentError = useSelector(selectShipmentError);
-    // const clientDataStatus = useSelector(selectClientDataStatus);
-    // const clientError = useSelector(selectClientError);
+    const clientDataStatus = useSelector(selectClientDataStatus);
+    const clientError = useSelector(selectClientError);
     // const orderDataStatus = useSelector(selectOrderDataStatus);
     // const orderError = useSelector(selectOrderError);
 
     const status = determineStatus(
         homeDataStatus,
         shipmentDataStatus,
-        // clientDataStatus,
+        clientDataStatus,
         // orderDataStatus
     )
-    const errors = getErrors(homeError, shipmentError);
+    const errors = getErrors(homeError, shipmentError, clientError);
 
 
     const companyId = useSelector(selectCompanyId);
@@ -47,7 +47,7 @@ const ChinaExportContainer = React.memo(function ChinaExportContainer() {
     useEffect(() => {
         if (!fetched.current && companyId) {
             if (shipmentDataStatus === 'IDLE') dispatch(fetchShipments({ companyId }));
-            // dispatch(fetchClients({ companyId }));
+            dispatch(fetchClients({ companyId }));
             // dispatch(fetchOrders({ companyId }));
             dispatch(cleanNewDocument());
             fetched.current = true;
@@ -59,7 +59,7 @@ const ChinaExportContainer = React.memo(function ChinaExportContainer() {
             if (errors.length > 0) {
                 dispatch(cleanHomeState());
                 dispatch(cleanShipmentState());
-                // dispatch(cleanClientState());
+                dispatch(cleanClientState());
                 // dispatch(cleanProductState());
             }
             dispatch(cleanNewDocument());

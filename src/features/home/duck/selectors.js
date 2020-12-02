@@ -31,25 +31,25 @@ export const selectCompanyAddresses = createSelector(
     )
 );
 
-export const selectCompanyActiveAddresses = createSelector(
+export const selectCompanyAddress = createSelector(
+    selectCompanyAddresses,
+    (_, addressId) => addressId,
+    (addresses, addressId) => addresses.find(a => a._id === addressId)
+);
+
+export const selectActiveCompanyAddresses = createSelector(
     selectCompanyAddresses,
     addresses => addresses.filter(a => a.active)
 );
 
 export const selectCompanyLegalAddress = createSelector(
-    selectCompanyActiveAddresses,
+    selectActiveCompanyAddresses,
     addresses => addresses.find(a => a.legal)
 );
 
 export const selectCompanyDefaultAddress = createSelector(
     selectCompanyAddresses,
     addresses => addresses.find(a => a.default)
-);
-
-export const selectCompanyAddress = createSelector(
-    selectCompanyAddresses,
-    (_, addressId) => addressId,
-    (addresses, addressId) => addresses.find(a => a._id === addressId)
 );
 
 export const selectActiveCompanyBankDetails = createSelector(

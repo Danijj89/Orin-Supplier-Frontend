@@ -5,7 +5,7 @@ import { LANGUAGE } from '../../../app/utils/constants.js';
 import RHFOrderDetails from '../rhf/forms/RHFOrderDetails.js';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { selectCompanyActiveAddresses, selectCompanyAddress, selectCompanyPorts } from '../../home/duck/selectors.js';
+import { selectActiveCompanyAddresses, selectCompanyAddress, selectCompanyPorts } from '../../home/duck/selectors.js';
 import {
     selectAllActiveClients,
     selectClientAddress,
@@ -44,7 +44,7 @@ const OrderDetailsDialog = React.memo(function OrderDetailsDialog(
         titleLabel,
         onDelete
     }) {
-    const companyAddresses = useSelector(selectCompanyActiveAddresses);
+    const companyAddresses = useSelector(selectActiveCompanyAddresses);
     const companyAddress = useSelector(state => selectCompanyAddress(state, order.fromAdd.addressId));
     const companyPorts = useSelector(selectCompanyPorts);
     const clients = useSelector(selectAllActiveClients);

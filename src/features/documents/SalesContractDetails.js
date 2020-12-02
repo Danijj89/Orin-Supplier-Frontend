@@ -10,7 +10,7 @@ import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import {
     selectActiveCompanyBankDetails,
-    selectCompanyActiveAddresses,
+    selectActiveCompanyAddresses,
     selectCompanyPorts
 } from '../home/duck/selectors.js';
 import { selectClientActiveAddresses } from '../clients/duck/selectors.js';
@@ -47,7 +47,7 @@ const fieldNames = {
 const SalesContractDetails = React.memo(function SalesContractDetails(
     { salesContract, setSalesContract, shipmentId }) {
     const history = useHistory();
-    const companyAddresses = useSelector(selectCompanyActiveAddresses);
+    const companyAddresses = useSelector(selectActiveCompanyAddresses);
     const consigneeAddresses = useSelector(
         state => selectClientActiveAddresses(state, { clientId: salesContract.consignee._id }));
     const companyBankDetails = useSelector(selectActiveCompanyBankDetails);
@@ -98,7 +98,7 @@ const SalesContractDetails = React.memo(function SalesContractDetails(
                         <SideTextField
                             name={ fieldNames.ref }
                             label={ formLabels.ref }
-                            inputRef={ register }
+                            inputRef={ register({ required: !autoGenerateRef }) }
                             error={ !!errors[fieldNames.ref] }
                             required={ !autoGenerateRef }
                             disabled={ autoGenerateRef }
