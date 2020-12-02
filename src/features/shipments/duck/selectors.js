@@ -128,7 +128,7 @@ export const selectEditShipmentShellById = createSelector(
     }
 );
 
-export const selectEditShipmentById = createSelector(
+export const selectPopulatedShipmentById = createSelector(
     selectShipmentById,
     selectCompanyAddresses,
     selectClientsMap,

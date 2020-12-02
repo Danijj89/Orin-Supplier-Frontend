@@ -11,13 +11,14 @@ import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import RHFAutoComplete from '../shared/rhf/inputs/RHFAutoComplete.js';
 import { useSelector } from 'react-redux';
-import { selectCompanyActiveAddresses, selectCompanyAddress, selectCompanyPorts } from '../home/duck/selectors.js';
-import { selectClientActiveAddresses, selectClientAddress, selectClientById } from '../clients/duck/selectors.js';
+import { selectCompanyActiveAddresses, selectCompanyPorts } from '../home/duck/selectors.js';
+import { selectClientActiveAddresses } from '../clients/duck/selectors.js';
 import Footer from '../shared/components/Footer.js';
 import { useHistory } from 'react-router-dom';
 import RHFDateField from '../shared/rhf/inputs/RHFDateField.js';
 import { makeStyles } from '@material-ui/core/styles';
-import { selectIncoterms } from '../../app/duck/selectors.js';
+import { selectCountries, selectIncoterms } from '../../app/duck/selectors.js';
+import { getOptionLabel } from '../../app/utils/options/getters.js';
 
 
 const {
@@ -63,28 +64,19 @@ const CommercialInvoiceDetails = React.memo(function CommercialInvoiceDetails(
     const history = useHistory();
     const incotermOptions = useSelector(selectIncoterms);
     const companyAddresses = useSelector(selectCompanyActiveAddresses);
-    const consigneeAddresses = useSelector(state => selectClientActiveAddresses(state, commercialInvoice.consignee));
+    const consigneeAddresses = useSelector(
+        state => selectClientActiveAddresses(state, { clientId: commercialInvoice.consignee._id }));
     const companyPorts = useSelector(selectCompanyPorts);
+    const countryOptions = useSelector(selectCountries);
 
-    const consignee = useSelector(state => selectClientById(state, commercialInvoice.consignee));
-    const initialSellerAddress = useSelector(
-        state => selectCompanyAddress(
-            state,
-            commercialInvoice.sellerAdd.addressId || commercialInvoice.sellerAdd._id));
-    const initialConsigneeAddress = useSelector(state =>
-        selectClientAddress(state, {
-            clientId: commercialInvoice.consignee,
-            addressId: commercialInvoice.consigneeAdd.addressId || commercialInvoice.consigneeAdd._id
-        })
-    );
 
     const { register, control, errors, watch, handleSubmit } = useForm({
         mode: 'onSubmit',
         defaultValues: {
             [fieldNames.autoGenerateRef]: commercialInvoice.autoGenerateRef,
             [fieldNames.ref]: commercialInvoice.ref,
-            [fieldNames.sellerAdd]: initialSellerAddress,
-            [fieldNames.consigneeAdd]: initialConsigneeAddress,
+            [fieldNames.sellerAdd]: commercialInvoice.sellerAdd,
+            [fieldNames.consigneeAdd]: commercialInvoice.consigneeAdd,
             [fieldNames.crd]: commercialInvoice.crd,
             [fieldNames.coo]: commercialInvoice.coo,
             [fieldNames.incoterm]: commercialInvoice.incoterm,
@@ -140,7 +132,7 @@ const CommercialInvoiceDetails = React.memo(function CommercialInvoiceDetails(
                         />
                         <SideTextField
                             label={ formLabels.consignee }
-                            value={ consignee.name }
+                            value={ commercialInvoice.consignee.name }
                             disabled
                         />
                         <RHFAutoComplete
@@ -162,10 +154,13 @@ const CommercialInvoiceDetails = React.memo(function CommercialInvoiceDetails(
                             error={ !!errors.incoterm }
                             required
                         />
-                        <SideTextField
+                        <RHFAutoComplete
+                            rhfControl={ control }
                             name={ fieldNames.coo }
                             label={ formLabels.coo }
-                            inputRef={ register }
+                            options={ countryOptions }
+                            getOptionLabel={ option => getOptionLabel(option) }
+                            getOptionSelected={ (option, value) => option.id === value.id }
                             error={ !!errors[fieldNames.coo] }
                             required
                         />

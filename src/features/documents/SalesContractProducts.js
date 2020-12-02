@@ -89,7 +89,6 @@ const SalesContractProducts = React.memo(function SalesContractProducts(
                 rhfSetValue={ setValue }
                 rhfGetValues={ getValues }
                 fieldNames={ fieldNames }
-                ordersMap={ ordersMap }
                 isEdit
                 isShipment
             />

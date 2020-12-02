@@ -14,7 +14,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import RHFAutoComplete from '../shared/rhf/inputs/RHFAutoComplete.js';
 import RHFDateField from '../shared/rhf/inputs/RHFDateField.js';
 import { useParams } from 'react-router-dom';
-import { selectEditShipmentById } from './duck/selectors.js';
+import { selectPopulatedShipmentById } from './duck/selectors.js';
 import {
     selectBillOfLandingTypes,
     selectCountries,
@@ -22,6 +22,7 @@ import {
     selectIncoterms
 } from '../../app/duck/selectors.js';
 import { getOptionId, getOptionLabel } from '../../app/utils/options/getters.js';
+import { selectClientActiveAddresses } from '../clients/duck/selectors.js';
 
 const {
     partiesTitleLabel,
@@ -51,7 +52,9 @@ const ShipmentInfo = React.memo(function ShipmentInfo() {
     const incotermOptions = useSelector(selectIncoterms);
     const countryOptions = useSelector(selectCountries);
 
-    const shipment = useSelector(state => selectEditShipmentById(state, { shipmentId }));
+    const shipment = useSelector(state => selectPopulatedShipmentById(state, { shipmentId }));
+    const consigneeAddresses = useSelector(
+        state => selectClientActiveAddresses(state, { clientId: shipment.consignee._id }));
 
     const { register, control, errors, handleSubmit } = useForm({
         mode: 'onSubmit',
@@ -110,7 +113,7 @@ const ShipmentInfo = React.memo(function ShipmentInfo() {
                                 rhfControl={ control }
                                 name="consigneeAdd"
                                 label={ formLabels.consigneeAdd }
-                                options={ shipment.consignee.addresses }
+                                options={ consigneeAddresses }
                                 getOptionLabel={ address => formatAddress(address) }
                                 getOptionSelected={ (option, value) => option._id === value._id || !value.active }
                                 error={ !!errors.consigneeAdd }
@@ -124,7 +127,7 @@ const ShipmentInfo = React.memo(function ShipmentInfo() {
                                 rhfControl={ control }
                                 name="shipAdd"
                                 label={ formLabels.shipAdd }
-                                options={ shipment.consignee.addresses }
+                                options={ consigneeAddresses }
                                 getOptionLabel={ address => formatAddress(address) }
                                 getOptionSelected={ (option, value) => option._id === value._id || !value.active }
                                 rows={ 6 }

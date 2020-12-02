@@ -23,6 +23,7 @@ import {
 } from '../../../../app/duck/selectors.js';
 import { getOptionId, getOptionLabel } from '../../../../app/utils/options/getters.js';
 import { selectAllActiveProducts } from '../../../products/duck/selectors.js';
+import { selectActiveOrdersMap } from '../../../orders/duck/selectors.js';
 
 const {
     formLabels,
@@ -52,7 +53,6 @@ const RHFProductTable = React.memo(function RHFProductTable(
         fieldNames,
         isEdit,
         isShipment,
-        ordersMap,
         className
     }) {
 
@@ -61,6 +61,7 @@ const RHFProductTable = React.memo(function RHFProductTable(
     const itemUnitOptions = useSelector(selectItemUnits);
     const itemUnitsMap = useSelector(selectItemUnitsMap);
     const products = useSelector(selectAllActiveProducts);
+    const ordersMap = useSelector(selectActiveOrdersMap);
 
     const custom1 = useWatch({
         control,
@@ -402,7 +403,6 @@ RHFProductTable.propTypes = {
     }).isRequired,
     isEdit: PropTypes.bool,
     isShipment: PropTypes.bool,
-    ordersMap: PropTypes.object,
     className: PropTypes.string
 };
 

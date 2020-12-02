@@ -9,13 +9,13 @@ import {
     shipmentToCommercialInvoice
 } from '../shared/utils/entityConversion.js';
 import queryString from 'query-string';
-import { selectShipmentById } from '../shipments/duck/selectors.js';
+import { selectPopulatedShipmentById } from '../shipments/duck/selectors.js';
 import CommercialInvoiceProducts from './CommercialInvoiceProducts.js';
 
 const CommercialInvoice = React.memo(function CommercialInvoice() {
     const location = useLocation();
     const { shipment: shipmentId, step } = queryString.parse(location.search);
-    const shipment = useSelector(state => selectShipmentById(state, shipmentId));
+    const shipment = useSelector(state => selectPopulatedShipmentById(state, { shipmentId }));
     const initialCI = shipmentToCommercialInvoice(shipment);
     const [commercialInvoice, setCommercialInvoice] = useSessionStorage(SESSION_NEW_DOCUMENT, initialCI);
 

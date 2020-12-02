@@ -77,7 +77,6 @@ const ShipmentProductTable = React.memo(function ShipmentProductTable() {
                     rhfControl={ control }
                     rhfSetValue={ setValue }
                     rhfGetValues={ getValues }
-                    ordersMap={ ordersMap }
                     fieldNames={ productTableFieldNames }
                     isEdit
                     isShipment

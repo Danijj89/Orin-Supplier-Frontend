@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import RHFProductTable, { validateItems } from '../shared/rhf/forms/RHFProductTable.js';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectActiveOrdersMap } from '../orders/duck/selectors.js';
 import Footer from '../shared/components/Footer.js';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import { Typography } from '@material-ui/core';
@@ -40,7 +39,7 @@ const CommercialInvoiceProducts = React.memo(function CommercialInvoiceProducts(
 ) {
     const dispatch = useDispatch();
     const history = useHistory();
-    const ordersMap = useSelector(selectActiveOrdersMap);
+
     const companyId = useSelector(selectCompanyId);
     const userId = useSelector(selectCurrentUserId);
 
@@ -79,6 +78,7 @@ const CommercialInvoiceProducts = React.memo(function CommercialInvoiceProducts(
         document.currency = getOptionId(document.currency);
         document.createdBy = userId;
         document.items = tableItemsToItems(document.items, shipmentId);
+        document.coo = getOptionId(document.coo);
         dispatch(createDocument({ shipmentId, document }));
         history.push(`/home/shipments/${ shipmentId }?tab=documents`);
     };
@@ -93,7 +93,6 @@ const CommercialInvoiceProducts = React.memo(function CommercialInvoiceProducts(
                 rhfSetValue={ setValue }
                 rhfGetValues={ getValues }
                 fieldNames={ productsFieldNames }
-                ordersMap={ ordersMap }
                 isEdit
                 isShipment
             />
