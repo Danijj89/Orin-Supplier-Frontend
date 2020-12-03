@@ -4,11 +4,11 @@ import RHFAutoComplete from '../shared/rhf/inputs/RHFAutoComplete.js';
 import { getOptionLabel } from '../../app/utils/options/getters.js';
 import { LANGUAGE, LOCALE } from '../../app/utils/constants.js';
 import SideTextField from '../shared/inputs/SideTextField.js';
-import { get, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { selectCompanyPorts } from '../home/duck/selectors.js';
 import { selectDeliveryMethods } from '../../app/duck/selectors.js';
-import { selectShipmentSalesContracts } from '../shipments/duck/selectors.js';
+import { selectShipmentSalesContractRefs } from '../shipments/duck/selectors.js';
 import Typography from '@material-ui/core/Typography';
 import Footer from '../shared/components/Footer.js';
 import { useHistory } from 'react-router-dom';
@@ -35,7 +35,7 @@ const ChinaExportDetailsOptional = React.memo(function ChinaExportDetailsOptiona
     const companyPorts = useSelector(selectCompanyPorts);
     const deliveryMethods = useSelector(selectDeliveryMethods);
     const salesContracts = useSelector(
-        state => selectShipmentSalesContracts(state, { shipmentId }));
+        state => selectShipmentSalesContractRefs(state, { shipmentId }));
 
     const { register, control, getValues, handleSubmit } = useForm({
         mode: 'onSubmit',
@@ -90,8 +90,6 @@ const ChinaExportDetailsOptional = React.memo(function ChinaExportDetailsOptiona
                         name={ fieldNames.scRef }
                         label={ formLabels.scRef }
                         options={ salesContracts }
-                        getOptionLabel={ option => option.ref }
-                        getOptionSelected={ (option, value) => option._id === value._id }
                     />
                     <SideTextField
                         name={ fieldNames.containerNum }

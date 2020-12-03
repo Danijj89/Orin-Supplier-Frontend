@@ -81,6 +81,20 @@ export const itemsToConsolidationItems =
             dg: false
         }));
 
+export const consolidationTableItemsToConsolidationItems = (items) =>
+    items.map(item => ({
+        hsc: item.hsc,
+        localD: item.localD,
+        quantity: item.quantity,
+        unit: item.unit,
+        price: item.price,
+        total: item.total,
+        currency: item.currency,
+        coo: item.coo,
+        fdc: item.fdc,
+        dop: item.dop
+    }));
+
 export const shipmentToCommercialInvoice = (shipment) => ({
     autoGenerateRef: true,
     ref: null,
@@ -160,25 +174,25 @@ export const shipmentToChinaExport = (shipment) => {
         ref: null,
         sName: null,
         sTaxCode: shipment.seller.taxNumber,
-        cName: shipment.consigneeAdd,
-        exPort: null,
-        del: shipment.del,
-        bol: shipment.bol,
         mName: null,
         mTaxCode: null,
+        cName: shipment.consigneeAdd,
         supervision: null,
         exemption: null,
-        scRef: shipment.scRef,
         tradingCountry: shipment.sellerAdd.country,
         destCountry: shipment.consigneeAdd.country,
-        packageTypes: Array.from(packageTypes).join(','),
-        packageUnits: packageUnits,
-        containerNum: null,
         pol: shipment.pol,
         pod: shipment.pod,
+        packageTypes: Array.from(packageTypes).join(','),
+        packageUnits: packageUnits,
         netWeight: shipment.netWeight,
         grossWeight: shipment.grossWeight,
         incoterm: shipment.incoterm,
+        containerNum: null,
+        scRef: shipment.scRef,
+        exPort: null,
+        del: shipment.del,
+        bol: shipment.bol,
         coItems: itemsToConsolidationItems(
             shipment.items,
             shipment.currency,

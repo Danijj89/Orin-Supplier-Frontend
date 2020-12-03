@@ -1,4 +1,5 @@
 import React, { useCallback, useMemo } from 'react';
+import PropTypes from 'prop-types';
 import DeleteIconButton from '../../buttons/DeleteIconButton.js';
 import EditableTable from '../../components/editable_table/EditableTable.js';
 import { useWatch } from 'react-hook-form';
@@ -271,5 +272,19 @@ const RHFChinaExportTable = React.memo(function RHFChinaExportTable(
         </Grid>
     );
 });
+
+RHFChinaExportTable.propTypes = {
+    rhfRegister: PropTypes.func.isRequired,
+    rhfControl: PropTypes.object.isRequired,
+    rhfSetValue: PropTypes.func.isRequired,
+    rhfGetValues: PropTypes.func.isRequired,
+    rhfErrors: PropTypes.object.isRequired,
+    fieldNames: PropTypes.exact({
+        coItems: PropTypes.string.isRequired,
+        quantity: PropTypes.string.isRequired,
+        totalAmount: PropTypes.string.isRequired,
+        marks: PropTypes.string.isRequired
+    }).isRequired
+};
 
 export default RHFChinaExportTable;

@@ -19,7 +19,7 @@ import RHFDateField from '../shared/rhf/inputs/RHFDateField.js';
 import { makeStyles } from '@material-ui/core/styles';
 import { selectCountries, selectIncoterms } from '../../app/duck/selectors.js';
 import { getOptionLabel } from '../../app/utils/options/getters.js';
-import { selectShipmentSalesContracts } from '../shipments/duck/selectors.js';
+import { selectShipmentSalesContractRefs } from '../shipments/duck/selectors.js';
 
 
 const {
@@ -71,7 +71,7 @@ const CommercialInvoiceDetails = React.memo(function CommercialInvoiceDetails(
     const companyPorts = useSelector(selectCompanyPorts);
     const countryOptions = useSelector(selectCountries);
     const salesContracts = useSelector(
-        state => selectShipmentSalesContracts(state, {shipmentId}));
+        state => selectShipmentSalesContractRefs(state, {shipmentId}));
     const initialSalesContract = salesContracts.length ? salesContracts[0] : null;
 
 

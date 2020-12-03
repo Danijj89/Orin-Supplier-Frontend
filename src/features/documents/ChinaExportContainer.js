@@ -12,13 +12,13 @@ import { fetchShipments } from '../shipments/duck/thunks.js';
 import { selectClientDataStatus, selectClientError } from '../clients/duck/selectors.js';
 import { fetchClients } from '../clients/duck/thunks.js';
 import { cleanNewDocument } from './duck/slice.js';
-import { selectOrderDataStatus, selectOrderError } from '../orders/duck/selectors.js';
-import { fetchOrders } from '../orders/duck/thunks.js';
 import { cleanHomeState } from '../home/duck/slice.js';
 import { cleanClientState } from '../clients/duck/slice.js';
 import { cleanProductState } from '../products/duck/slice.js';
 import ChinaExport from './ChinaExport.js';
 import { cleanShipmentState } from '../shipments/duck/slice.js';
+import { selectProductDataStatus, selectProductError } from '../products/duck/selectors.js';
+import { fetchProducts } from '../products/duck/thunks.js';
 
 const ChinaExportContainer = React.memo(function ChinaExportContainer() {
     const dispatch = useDispatch();
@@ -29,16 +29,16 @@ const ChinaExportContainer = React.memo(function ChinaExportContainer() {
     const shipmentError = useSelector(selectShipmentError);
     const clientDataStatus = useSelector(selectClientDataStatus);
     const clientError = useSelector(selectClientError);
-    // const orderDataStatus = useSelector(selectOrderDataStatus);
-    // const orderError = useSelector(selectOrderError);
+    const productDataStatus = useSelector(selectProductDataStatus);
+    const productError = useSelector(selectProductError);
 
     const status = determineStatus(
         homeDataStatus,
         shipmentDataStatus,
         clientDataStatus,
-        // orderDataStatus
-    )
-    const errors = getErrors(homeError, shipmentError, clientError);
+        productDataStatus
+    );
+    const errors = getErrors(homeError, shipmentError, clientError, productError);
 
 
     const companyId = useSelector(selectCompanyId);
@@ -48,7 +48,7 @@ const ChinaExportContainer = React.memo(function ChinaExportContainer() {
         if (!fetched.current && companyId) {
             if (shipmentDataStatus === 'IDLE') dispatch(fetchShipments({ companyId }));
             dispatch(fetchClients({ companyId }));
-            // dispatch(fetchOrders({ companyId }));
+            dispatch(fetchProducts({ companyId }));
             dispatch(cleanNewDocument());
             fetched.current = true;
         }
@@ -60,7 +60,7 @@ const ChinaExportContainer = React.memo(function ChinaExportContainer() {
                 dispatch(cleanHomeState());
                 dispatch(cleanShipmentState());
                 dispatch(cleanClientState());
-                // dispatch(cleanProductState());
+                dispatch(cleanProductState());
             }
             dispatch(cleanNewDocument());
         }

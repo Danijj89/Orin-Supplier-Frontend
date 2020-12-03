@@ -19,6 +19,9 @@ import { cleanHomeState } from '../home/duck/slice.js';
 import { cleanClientState } from '../clients/duck/slice.js';
 import { cleanProductState } from '../products/duck/slice.js';
 import { cleanShipmentState } from '../shipments/duck/slice.js';
+import { selectProductDataStatus, selectProductError } from '../products/duck/selectors.js';
+import { fetchProducts } from '../products/duck/thunks.js';
+import { cleanOrderState } from '../orders/duck/slice.js';
 
 const CommercialInvoiceContainer = React.memo(function CommercialInvoiceContainer() {
     const dispatch = useDispatch();
@@ -31,21 +34,25 @@ const CommercialInvoiceContainer = React.memo(function CommercialInvoiceContaine
     const clientError = useSelector(selectClientError);
     const orderDataStatus = useSelector(selectOrderDataStatus);
     const orderError = useSelector(selectOrderError);
+    const productDataStatus = useSelector(selectProductDataStatus);
+    const productError = useSelector(selectProductError);
 
     const status = useMemo(() => determineStatus(
         homeDataStatus,
         shipmentDataStatus,
         clientDataStatus,
-        orderDataStatus
+        orderDataStatus,
+        productDataStatus
     ), [
         homeDataStatus,
         shipmentDataStatus,
         clientDataStatus,
-        orderDataStatus
+        orderDataStatus,
+        productDataStatus
     ]);
     const errors = useMemo(
-        () => getErrors(homeError, shipmentError, clientError, orderError),
-        [homeError, shipmentError, clientError, orderError]);
+        () => getErrors(homeError, shipmentError, clientError, orderError, productError),
+        [homeError, shipmentError, clientError, orderError, productError]);
 
     const companyId = useSelector(selectCompanyId);
 
@@ -55,6 +62,7 @@ const CommercialInvoiceContainer = React.memo(function CommercialInvoiceContaine
             if (shipmentDataStatus === 'IDLE') dispatch(fetchShipments({ companyId }));
             dispatch(fetchClients({ companyId }));
             dispatch(fetchOrders({ companyId }));
+            dispatch(fetchProducts({ companyId }));
             dispatch(cleanNewDocument());
             fetched.current = true;
         }
@@ -66,6 +74,7 @@ const CommercialInvoiceContainer = React.memo(function CommercialInvoiceContaine
                 dispatch(cleanHomeState());
                 dispatch(cleanShipmentState());
                 dispatch(cleanClientState());
+                dispatch(cleanOrderState());
                 dispatch(cleanProductState());
             }
             dispatch(cleanNewDocument());

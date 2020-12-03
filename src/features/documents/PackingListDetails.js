@@ -11,7 +11,7 @@ import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { selectActiveCompanyAddresses, selectCompanyPorts } from '../home/duck/selectors.js';
 import { selectClientActiveAddresses } from '../clients/duck/selectors.js';
-import { selectShipmentCommercialInvoices, selectShipmentSalesContracts } from '../shipments/duck/selectors.js';
+import { selectShipmentCommercialInvoices, selectShipmentSalesContractRefs } from '../shipments/duck/selectors.js';
 import { useHistory } from 'react-router-dom';
 import Footer from '../shared/components/Footer.js';
 import { makeStyles } from '@material-ui/core/styles';
@@ -54,7 +54,7 @@ const PackingListDetails = React.memo(function PackingListDetails(
     const commercialInvoices = useSelector(
         state => selectShipmentCommercialInvoices(state, { shipmentId }));
     const salesContracts = useSelector(
-        state => selectShipmentSalesContracts(state, { shipmentId }));
+        state => selectShipmentSalesContractRefs(state, { shipmentId }));
     const initialSalesContract = salesContracts.length ? salesContracts[0] : null;
     const companyPorts = useSelector(selectCompanyPorts);
 
