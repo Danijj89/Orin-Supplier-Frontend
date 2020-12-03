@@ -25,7 +25,6 @@ export const selectOrderStatus = state => state.orders.status;
 export const selectOrderError = state => state.orders.error;
 export const selectCurrentOrderId = state => state.orders.currentOrderId;
 export const selectOrderShipmentIdsField = (state, id) => state.orders.entities[id]?.shipmentIds;
-export const selectOrderFileNameField = (state, id) => state.orders.entities[id]?.fileName;
 
 export const selectOrdersMap = createSelector(
     selectEntities,

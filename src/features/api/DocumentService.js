@@ -11,8 +11,7 @@ const downloadShipmentDocument = async (shipmentId, documentId, ext) => {
         },
         responseType: 'blob'
     };
-    const { data } = await fetchWithAuth(configs);
-    return data;
+    return await fetchWithAuth(configs);
 };
 
 const downloadOrder = async (orderId, ext) => {

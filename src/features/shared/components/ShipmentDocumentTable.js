@@ -1,16 +1,15 @@
 import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import Table from './table/Table.js';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectShipmentDocuments } from '../../shipments/duck/selectors.js';
 import { LANGUAGE, LOCALE } from '../../../app/utils/constants.js';
 import { GetApp as IconDownload } from '@material-ui/icons';
 import { IconButton } from '@material-ui/core';
 import { selectUsersMap } from '../../users/duck/selectors.js';
 import { dateToLocaleDate } from '../utils/format.js';
-import DocumentService from '../../api/DocumentService.js';
-import { downloadFile } from '../utils/file.js';
 import { getOptionLabel } from '../../../app/utils/options/getters.js';
+import { downloadShipmentDocument } from '../../documents/duck/thunks.js';
 
 const {
     tableHeaderLabelsMap
@@ -18,15 +17,13 @@ const {
 
 const ShipmentDocumentTable = React.memo(function ShipmentDocumentTable(
     { shipmentId, maxEmptyRows, className }) {
+    const dispatch = useDispatch();
     const documents = useSelector(state => selectShipmentDocuments(state, { shipmentId }));
     const usersMap = useSelector(selectUsersMap);
 
     const onDownload = useCallback(
-        async (documentId, fileName, ext) => {
-            const file = await DocumentService.downloadShipmentDocument(shipmentId, documentId, ext);
-            downloadFile(file, fileName);
-        },
-        [shipmentId]);
+        (documentId, ext) => dispatch(downloadShipmentDocument({ shipmentId, documentId, ext })),
+        [dispatch, shipmentId]);
 
     const columns = useMemo(() => [
         { field: 'id', hide: true },
@@ -39,7 +36,7 @@ const ShipmentDocumentTable = React.memo(function ShipmentDocumentTable(
             headerName: tableHeaderLabelsMap.excel,
             renderCell: (params) =>
                 <IconButton
-                    onClick={ () => onDownload(params.id, params.fileName, 'xlsx') }
+                    onClick={ () => onDownload(params.id, 'xlsx') }
                     size="small"
                 >
                     <IconDownload/>
@@ -52,7 +49,7 @@ const ShipmentDocumentTable = React.memo(function ShipmentDocumentTable(
             headerName: tableHeaderLabelsMap.pdf,
             renderCell: (params) =>
                 <IconButton
-                    onClick={ () => onDownload(params.id, params.fileName, 'pdf') }
+                    onClick={ () => onDownload(params.id, 'pdf') }
                     size="small"
                 >
                     <IconDownload/>
