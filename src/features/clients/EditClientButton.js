@@ -25,7 +25,7 @@ const EditClientButton = React.memo(function EditClientButton({ client, classNam
 
     const onSubmit = (data) => {
         const { contactName, contactEmail, notes, ...update } = data;
-        if (update.assignedTo != null) update.assignedTo = update.assignedTo._id;
+        if (update.assignedTo) update.assignedTo = update.assignedTo._id;
         dispatch(updateClient({ clientId: client._id, update: update }));
         setIsEdit(false);
     };
