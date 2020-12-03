@@ -24,8 +24,7 @@ export default class UnitCounter {
     static stringRep(unitObj, unitsMap, locale = 'en') {
         const entries = Object.entries(unitObj);
         if (entries.length === 1) return `${ entries[0][1] } ${ getOptionLabel(unitsMap[entries[0][0]], locale) }`;
-        return Object.entries(unitObj)
-            .filter(([_, amount]) => amount !== 0)
+        return entries.filter(([_, amount]) => amount !== 0)
             .map(([unit, amount]) => `${ amount } ${ getOptionLabel(unitsMap[unit], locale) }`)
             .join(' + ');
     };

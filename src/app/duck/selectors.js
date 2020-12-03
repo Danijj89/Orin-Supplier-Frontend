@@ -120,13 +120,38 @@ export const selectDefaultRowItem = createSelector(
         netW: 0,
         grossW: 0,
         dim: 0,
-        coo: null,
-        fdc: null,
-        dop: null,
         currency: currencies[0],
         ciCustom1: '',
         ciCustom2: '',
         plCustom1: '',
         plCustom2: ''
+    })
+);
+
+export const selectDefaultConsolidationRowItem = createSelector(
+    (_, props) => props,
+    selectItemUnits,
+    selectCurrencies,
+    selectPackageUnits,
+    (props, itemUnits, currencies, packageUnits) => ({
+        _id: null,
+        hsc: '',
+        localD: '',
+        quantity: 0,
+        unit: itemUnits[0],
+        price: 0,
+        total: 0,
+        currency: props?.currency || currencies[0],
+        coo: props?.countryOfOrigin, // country of origin
+        fdc: null, // final destination country
+        dop: '', // domestic origin of product (city/region)
+
+        package: 0,
+        pUnit: packageUnits[0],
+        netW: 0, // net weight
+        grossW: 0, // gross weight
+        dim: 0,
+        description: '',
+        dg: false
     })
 );

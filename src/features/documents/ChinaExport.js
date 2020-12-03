@@ -8,6 +8,8 @@ import { shipmentToChinaExport } from '../shared/utils/entityConversion.js';
 import ChinaExportDetails from './ChinaExportDetails.js';
 import useSessionStorage from '../shared/hooks/useSessionStorage.js';
 import { SESSION_NEW_DOCUMENT } from '../../app/sessionKeys.js';
+import ChinaExportDetailsOptional from './ChinaExportDetailsOptional.js';
+import ChinaExportProducts from './ChinaExportProducts.js';
 
 const ChinaExport = React.memo(function ChinaExport() {
     const location = useLocation();
@@ -24,6 +26,20 @@ const ChinaExport = React.memo(function ChinaExport() {
                 setChinaExport={ setChinaExport }
                 shipmentId={ shipmentId }
                 consigneeId={ shipment.consignee._id }
+            />
+            }
+            { step === 'optional' &&
+            <ChinaExportDetailsOptional
+                chinaExport={ chinaExport }
+                setChinaExport={ setChinaExport }
+                shipmentId={ shipmentId }
+            />
+            }
+            { step === 'products' &&
+            <ChinaExportProducts
+                chinaExport={ chinaExport }
+                setChinaExport={ setChinaExport }
+                shipmentId={ shipmentId }
             />
             }
         </Paper>

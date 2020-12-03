@@ -47,9 +47,6 @@ export const tableItemsToItems = (tableItems) =>
             netW: item.netW,
             grossW: item.grossW,
             dim: item.dim,
-            coo: item.coo,
-            fdc: item.fdc,
-            dop: item.dop,
             ciCustom1: item.ciCustom1,
             ciCustom2: item.ciCustom2,
             plCustom1: item.plCustom1,
@@ -61,6 +58,28 @@ export const tableItemsToItems = (tableItems) =>
         if (item.unit) temp.unit = getOptionId(item.unit)
         return temp;
     });
+
+export const itemsToConsolidationItems =
+    (items, currency, countryOfOrigin, destinationCountry) =>
+        items.map(item => ({
+            hsc: item.hsc,
+            localD: item.localD,
+            quantity: item.quantity,
+            unit: item.unit,
+            price: item.price,
+            total: item.total,
+            currency: currency,
+            coo: countryOfOrigin,
+            fdc: destinationCountry,
+            dop: '',
+            package: item.package,
+            pUnit: item.pUnit,
+            netW: item.netW,
+            grossW: item.grossW,
+            dim: item.dim,
+            description: item.description,
+            dg: false
+        }));
 
 export const shipmentToCommercialInvoice = (shipment) => ({
     autoGenerateRef: true,
@@ -148,10 +167,10 @@ export const shipmentToChinaExport = (shipment) => {
         mName: null,
         mTaxCode: null,
         supervision: null,
-        exception: null,
+        exemption: null,
         scRef: shipment.scRef,
-        tradingCountry: null,
-        destCountry: null,
+        tradingCountry: shipment.sellerAdd.country,
+        destCountry: shipment.consigneeAdd.country,
         packageTypes: Array.from(packageTypes).join(','),
         packageUnits: packageUnits,
         containerNum: null,
@@ -160,7 +179,14 @@ export const shipmentToChinaExport = (shipment) => {
         netWeight: shipment.netWeight,
         grossWeight: shipment.grossWeight,
         incoterm: shipment.incoterm,
-        notes: null,
-        items: shipment.items
+        coItems: itemsToConsolidationItems(
+            shipment.items,
+            shipment.currency,
+            shipment.sellerAdd.country,
+            shipment.consigneeAdd.country
+        ),
+        quantity: shipment.quantity,
+        totalAmount: { [getOptionId(shipment.currency)]: shipment.total },
+        marks: shipment.marks
     };
 }

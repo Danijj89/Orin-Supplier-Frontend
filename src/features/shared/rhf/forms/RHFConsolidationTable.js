@@ -2,7 +2,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import EditableTable from '../../components/editable_table/EditableTable.js';
 import DeleteIconButton from '../../buttons/DeleteIconButton.js';
-import { LANGUAGE } from '../../../../app/utils/constants.js';
+import { LANGUAGE, LOCALE } from '../../../../app/utils/constants.js';
 import TableTextField from '../../inputs/TableTextField.js';
 import { Grid, IconButton } from '@material-ui/core';
 import { Add as IconAdd, Close as IconClose } from '@material-ui/icons';
@@ -12,24 +12,13 @@ import { roundToNDecimal } from '../../utils/format.js';
 import ErrorMessages from '../../components/ErrorMessages.js';
 import RHFAutoComplete from '../inputs/RHFAutoComplete.js';
 import { useSelector } from 'react-redux';
-import { selectMeasurementUnits, selectPackageUnits, selectWeightUnits } from '../../../../app/duck/selectors.js';
+import {
+    selectDefaultConsolidationRowItem,
+    selectMeasurementUnits,
+    selectPackageUnits, selectPackageUnitsMap,
+    selectWeightUnits
+} from '../../../../app/duck/selectors.js';
 import { getOptionLabel } from '../../../../app/utils/options/getters.js';
-
-export const defaultConsolidationItemValues = {
-    _id: null,
-    shipment: null,
-    description: '',
-    localD: '',
-    hsc: '',
-    dg: false,
-    package: 0,
-    pUnit: 'CTN',
-    netW: 0,
-    grossW: 0,
-    dim: 0,
-    custom1: '',
-    custom2: ''
-};
 
 const {
     formLabels,
@@ -49,9 +38,12 @@ const RHFConsolidationTable = React.memo(function RHFConsolidationTable(
         className
     }) {
 
+    const defaultConsolidationRowItem = useSelector(selectDefaultConsolidationRowItem);
+
     const packageUnitOptions = useSelector(selectPackageUnits);
     const weightUnitOptions = useSelector(selectWeightUnits);
     const measurementUnitOptions = useSelector(selectMeasurementUnits);
+    const packageUnitsMap = useSelector(selectPackageUnitsMap);
 
     const custom1 = useWatch({
         control,
@@ -132,9 +124,9 @@ const RHFConsolidationTable = React.memo(function RHFConsolidationTable(
 
     const onAddRow = useCallback(
         () => {
-            setValue(fieldNames.items, [...getValues(fieldNames.items), defaultConsolidationItemValues])
+            setValue(fieldNames.items, [...getValues(fieldNames.items), defaultConsolidationRowItem])
         },
-        [setValue, getValues, fieldNames]);
+        [setValue, getValues, fieldNames, defaultConsolidationRowItem]);
 
     const onDeleteRow = useCallback(
         idx => () => setValue(fieldNames.items, getValues(fieldNames.items).filter((_, i) => i !== idx)),
@@ -314,7 +306,7 @@ const RHFConsolidationTable = React.memo(function RHFConsolidationTable(
 
     const footer = useMemo(() => [[
         { field: 'label', value: totalLabel, colSpan: numColumns - 5, align: 'right' },
-        { field: 'package', value: UnitCounter.stringRep(pkg), colSpan: 2, align: 'center' },
+        { field: 'package', value: UnitCounter.stringRep(pkg, packageUnitsMap, LOCALE), colSpan: 2, align: 'center' },
         { field: 'netWeight', value: `${ weightUnit } ${ netWeight }`, colSpan: 1, align: 'center' },
         { field: 'grossWeight', value: `${ weightUnit } ${ grossWeight }`, colSpan: 1, align: 'center' },
         { field: 'dimension', value: `${ measurementUnit } ${ dimension }`, colSpan: 1, align: 'center' }

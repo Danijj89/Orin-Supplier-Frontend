@@ -79,7 +79,7 @@ const EditableTable = React.memo(function EditableTable(
 
     const tableFooter = useMemo(() =>
             <TableFooter>
-                { footer.map((row, i) =>
+                { footer && footer.map((row, i) =>
                     <TableRow key={ i } className={ classes.footerRow }>
                         { row.map(cell =>
                             <TableCell
