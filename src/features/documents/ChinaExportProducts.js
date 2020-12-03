@@ -9,8 +9,10 @@ import { validateItems } from '../shared/rhf/forms/RHFProductTable.js';
 import { getAddressName } from '../../app/utils/models/getters.js';
 import { getOptionId } from '../../app/utils/options/getters.js';
 import { consolidationTableItemsToConsolidationItems } from '../shared/utils/entityConversion.js';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { createDocument } from '../shipments/duck/thunks.js';
+import { selectCompanyId } from '../home/duck/selectors.js';
+import { selectCurrentUserId } from '../../app/duck/selectors.js';
 
 const {
     titleLabel,
@@ -31,6 +33,8 @@ const ChinaExportProducts = React.memo(function ChinaExportProducts(
     { chinaExport, setChinaExport, shipmentId }) {
     const history = useHistory();
     const dispatch = useDispatch();
+    const companyId = useSelector(selectCompanyId);
+    const userId = useSelector(selectCurrentUserId);
 
     const { register, control, getValues, setValue, errors, handleSubmit } = useForm({
         mode: 'onSubmit',
@@ -56,6 +60,8 @@ const ChinaExportProducts = React.memo(function ChinaExportProducts(
     const onSubmit = (productData) => {
         const document = { ...chinaExport, ...productData };
         document.type = DOCUMENT_TYPE;
+        document.companyId = companyId;
+        document.createdBy = userId;
         document.sName = getAddressName(document.sName);
         document.mName = getAddressName(document.mName);
         document.cName = getAddressName(document.cName);
