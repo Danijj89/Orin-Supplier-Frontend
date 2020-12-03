@@ -160,7 +160,7 @@ const RHFMeasureTable = React.memo(function RHFMeasureTable(
                 const prevUnit = getOptionId(newItem.pUnit);
                 newPackage = new UnitCounter(getValues(fieldNames.package));
                 newPackage.subtractUnit(prevUnit, newItem.package);
-                newPackage.addUnit(newValue, newItem.package);
+                newPackage.addUnit(getOptionId(newValue), newItem.package);
                 setValue(fieldNames.package, newPackage.data);
                 newItem.pUnit = newValue;
                 break;
