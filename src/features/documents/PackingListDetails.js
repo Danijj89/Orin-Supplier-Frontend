@@ -153,16 +153,12 @@ const PackingListDetails = React.memo(function PackingListDetails(
                             name={ fieldNames.ciRef }
                             label={ formLabels.ciRef }
                             options={ commercialInvoices }
-                            getOptionLabel={ option => option.ref }
-                            getOptionSelected={ (option, value) => option._id === value._id }
                         />
                         <RHFAutoComplete
                             rhfControl={ control }
                             name={ fieldNames.scRef }
                             label={ formLabels.scRef }
                             options={ salesContracts }
-                            getOptionLabel={ option => option.ref }
-                            getOptionSelected={ (option, value) => option._id === value._id }
                         />
                         <RHFAutoComplete
                             rhfControl={ control }

@@ -96,7 +96,9 @@ export const selectShipmentDocuments = createSelector(
 
 export const selectShipmentCommercialInvoices = createSelector(
     selectShipmentDocuments,
-    documents => documents.filter(doc => getOptionId(doc.type) === 'CI')
+    documents => documents
+        .filter(doc => getOptionId(doc.type) === 'CI')
+        .map(doc => doc.ref)
 );
 
 export const selectShipmentSalesContractRefs = createSelector(

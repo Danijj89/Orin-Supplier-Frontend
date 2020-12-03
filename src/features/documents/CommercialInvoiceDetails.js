@@ -197,8 +197,6 @@ const CommercialInvoiceDetails = React.memo(function CommercialInvoiceDetails(
                             name={ fieldNames.scRef }
                             label={ formLabels.scRef }
                             options={ salesContracts }
-                            getOptionLabel={ option => option.ref }
-                            getOptionSelected={ (option, value) => option._id === value._id }
                         />
                         <RHFAutoComplete
                             rhfControl={ control }

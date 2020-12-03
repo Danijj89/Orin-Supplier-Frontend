@@ -214,7 +214,8 @@ const RHFChinaExportTable = React.memo(function RHFChinaExportTable(
             type: 'dropdown',
             options: currencyOptions,
             getOptionLabel: option => getOptionLabel(option, LOCALE),
-            getOptionSelected: (option, value) => option.id === value.id
+            getOptionSelected: (option, value) => option.id === value.id,
+            width: 100
         },
         {
             field: 'total',
