@@ -33,7 +33,6 @@ const PackingListContainer = React.memo(function PackingListContainer() {
     useEffect(() => {
         if (!fetched.current && companyId) {
             if (shipmentDataStatus === 'IDLE') dispatch(fetchShipments({ companyId }));
-            dispatch(cleanNewDocument());
             dispatch(fetchClients({ companyId }));
             fetched.current = true;
         }

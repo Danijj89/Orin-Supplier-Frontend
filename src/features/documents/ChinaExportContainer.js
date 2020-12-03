@@ -49,7 +49,6 @@ const ChinaExportContainer = React.memo(function ChinaExportContainer() {
             if (shipmentDataStatus === 'IDLE') dispatch(fetchShipments({ companyId }));
             dispatch(fetchClients({ companyId }));
             dispatch(fetchProducts({ companyId }));
-            dispatch(cleanNewDocument());
             fetched.current = true;
         }
     }, [dispatch, companyId, shipmentDataStatus]);

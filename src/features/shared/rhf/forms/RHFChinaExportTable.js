@@ -21,6 +21,23 @@ import { selectAllActiveProducts } from '../../../products/duck/selectors.js';
 import TextArea from '../../inputs/TextArea.js';
 import { formatQuantityWithUnit, roundToNDecimal } from '../../utils/format.js';
 
+const {
+    tableHeaderLabels,
+    totalLabel,
+    marksPlaceholderLabel,
+    errorMessages
+} = LANGUAGE.shared.rhf.forms.chinaExportTable;
+
+export function validateChinaExportItems(items) {
+    if (!items.length) return errorMessages.missingItems;
+    for (const item of items) {
+        if (!(item.hsc && item.localD && item.coo && item.fdc && item.dop
+            && item.quantity && item.unit && item.price && item.currency))
+            return errorMessages.missingItemInfo;
+    }
+    return true;
+}
+
 function formatTotalAmount(totalAmount) {
     const entries = Object.entries(totalAmount);
     if (entries.length === 1) return `${ roundToNDecimal(entries[0][1], 2) } ${ getCurrencySymbol(entries[0][0]) }`;
@@ -28,12 +45,6 @@ function formatTotalAmount(totalAmount) {
         .map(([unit, amount]) => `${ roundToNDecimal(amount, 2) } ${ getCurrencySymbol(unit) }`)
         .join(' + ');
 }
-
-const {
-    tableHeaderLabels,
-    totalLabel,
-    marksPlaceholderLabel
-} = LANGUAGE.shared.rhf.forms.chinaExportTable;
 
 const RHFChinaExportTable = React.memo(function RHFChinaExportTable(
     {

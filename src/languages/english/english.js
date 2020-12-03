@@ -771,6 +771,10 @@ export const ENGLISH = {
                     },
                     totalLabel: 'Total:',
                     marksPlaceholderLabel: 'Marks...',
+                    errorMessages: {
+                        missingItemInfo: 'Some item is missing information.',
+                        missingItems: 'You need to add at least one item'
+                    }
                 }
             }
         },

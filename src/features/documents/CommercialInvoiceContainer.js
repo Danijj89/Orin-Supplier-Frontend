@@ -63,7 +63,6 @@ const CommercialInvoiceContainer = React.memo(function CommercialInvoiceContaine
             dispatch(fetchClients({ companyId }));
             dispatch(fetchOrders({ companyId }));
             dispatch(fetchProducts({ companyId }));
-            dispatch(cleanNewDocument());
             fetched.current = true;
         }
     }, [dispatch, companyId, shipmentDataStatus]);

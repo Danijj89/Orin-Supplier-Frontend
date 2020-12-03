@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react';
-import RHFChinaExportTable from '../shared/rhf/forms/RHFChinaExportTable.js';
+import RHFChinaExportTable, { validateChinaExportItems } from '../shared/rhf/forms/RHFChinaExportTable.js';
 import Footer from '../shared/components/Footer.js';
 import { useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import { Typography } from '@material-ui/core';
-import { validateItems } from '../shared/rhf/forms/RHFProductTable.js';
 import { getAddressName } from '../../app/utils/models/getters.js';
 import { getOptionId } from '../../app/utils/options/getters.js';
 import { consolidationTableItemsToConsolidationItems } from '../shared/utils/entityConversion.js';
@@ -47,7 +46,7 @@ const ChinaExportProducts = React.memo(function ChinaExportProducts(
     });
 
     useEffect(() => {
-        register({ name: fieldNames.coItems }, { validate: validateItems });
+        register({ name: fieldNames.coItems }, { validate: validateChinaExportItems });
         register({ name: fieldNames.quantity });
         register({ name: fieldNames.totalAmount });
     }, [register]);
@@ -68,7 +67,7 @@ const ChinaExportProducts = React.memo(function ChinaExportProducts(
         document.tradingCountry = getOptionId(document.tradingCountry);
         document.destCountry = getOptionId(document.destCountry);
         if (document.del) document.del = getOptionId(document.del);
-        document.items = consolidationTableItemsToConsolidationItems(document.items);
+        document.coItems = consolidationTableItemsToConsolidationItems(document.coItems);
         dispatch(createDocument({ shipmentId, document }));
         history.push(`/home/shipments/${ shipmentId }?tab=documents`);
     };

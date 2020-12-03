@@ -41,9 +41,9 @@ const ChinaExportDetailsOptional = React.memo(function ChinaExportDetailsOptiona
         mode: 'onSubmit',
         defaultValues: {
             [fieldNames.exPort]: chinaExport.exPort,
-            [fieldNames.del]: chinaExport.del,
+            [fieldNames.del]: chinaExport.del || null,
             [fieldNames.bol]: chinaExport.bol,
-            [fieldNames.scRef]: chinaExport.scRef,
+            [fieldNames.scRef]: chinaExport.scRef || null,
             [fieldNames.containerNum]: chinaExport.containerNum,
         }
     });
