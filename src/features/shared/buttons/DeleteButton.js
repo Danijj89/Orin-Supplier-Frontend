@@ -40,7 +40,7 @@ const DeleteButton = React.memo(function DeleteButton(
         <Box>
             { variant === 'text' &&
             <Button
-                onClick={ (e) => onDialogOpen(e) }
+                onClick={ onDialogOpen }
                 size="small"
                 color="inherit"
                 className={ clsx(classes.button, className) }
@@ -48,7 +48,7 @@ const DeleteButton = React.memo(function DeleteButton(
                 { deleteButtonLabel }
             </Button> }
             { variant === 'icon' &&
-            <IconButton>
+            <IconButton onClick={ onDialogOpen }>
                 <IconDelete/>
             </IconButton> }
             <FormDialog

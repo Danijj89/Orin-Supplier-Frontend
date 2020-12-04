@@ -1,7 +1,7 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import {
     createDocument,
-    createShipment, deleteShipment,
+    createShipment, deleteDocument, deleteShipment,
     fetchShipmentById,
     fetchShipments, updateShipment,
     updateShipmentShell
@@ -117,6 +117,19 @@ const shipmentsSlice = createSlice({
             state.status = 'IDLE';
         },
         [deleteShipment.rejected]: (state, action) => {
+            state.status = 'REJECTED';
+            state.error = action.payload.message;
+        },
+        [deleteDocument.pending]: (state) => {
+            state.status = 'PENDING';
+        },
+        [deleteDocument.fulfilled]: (state, action) => {
+            const { shipmentId, documentId } = action.payload;
+            const newDocuments = state.entities[shipmentId].documents.filter(doc => doc._id !== documentId);
+            shipmentsAdapter.updateOne(state, { id: shipmentId, changes: { documents: newDocuments } });
+            state.status = 'IDLE';
+        },
+        [deleteDocument.rejected]: (state, action) => {
             state.status = 'REJECTED';
             state.error = action.payload.message;
         }

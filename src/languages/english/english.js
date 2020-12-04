@@ -397,7 +397,8 @@ export const ENGLISH = {
                     createdBy: 'Created By',
                     excel: 'Download Excel',
                     pdf: 'Download PDF'
-                }
+                },
+                deleteMessage: 'Are you sure you want to delete this document?'
             },
             shipmentInfoCard: {
                 titleLabel: 'Shipment Information',

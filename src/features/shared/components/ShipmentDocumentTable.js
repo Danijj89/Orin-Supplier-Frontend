@@ -10,9 +10,12 @@ import { selectUsersMap } from '../../users/duck/selectors.js';
 import { dateToLocaleDate } from '../utils/format.js';
 import { getOptionLabel } from '../../../app/utils/options/getters.js';
 import { downloadShipmentDocument } from '../../documents/duck/thunks.js';
+import DeleteButton from '../buttons/DeleteButton.js';
+import { deleteDocument } from '../../shipments/duck/thunks.js';
 
 const {
-    tableHeaderLabelsMap
+    tableHeaderLabelsMap,
+    deleteMessage
 } = LANGUAGE.shipment.shipment.shipmentDocumentTable;
 
 const ShipmentDocumentTable = React.memo(function ShipmentDocumentTable(
@@ -25,8 +28,21 @@ const ShipmentDocumentTable = React.memo(function ShipmentDocumentTable(
         (documentId, ext) => dispatch(downloadShipmentDocument({ shipmentId, documentId, ext })),
         [dispatch, shipmentId]);
 
+    const createDeleteHandler = useCallback(
+        (documentId) => () => dispatch(deleteDocument({ shipmentId, documentId })),
+        [dispatch, shipmentId]);
+
     const columns = useMemo(() => [
         { field: 'id', hide: true },
+        {
+            field: 'delete',
+            renderCell: params =>
+                <DeleteButton
+                    onDelete={ createDeleteHandler(params.id) }
+                    deleteMessage={ deleteMessage }
+                    variant="icon"
+                />
+        },
         { field: 'ref', headerName: tableHeaderLabelsMap.ref },
         { field: 'type', headerName: tableHeaderLabelsMap.type },
         { field: 'createdAt', headerName: tableHeaderLabelsMap.createdAt },
@@ -57,7 +73,7 @@ const ShipmentDocumentTable = React.memo(function ShipmentDocumentTable(
             align: 'center',
             width: 50
         }
-    ], [onDownload]);
+    ], [onDownload, createDeleteHandler]);
 
     const rows = useMemo(() => documents.map(doc => ({
         id: doc._id,

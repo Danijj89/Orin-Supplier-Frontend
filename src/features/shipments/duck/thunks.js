@@ -64,3 +64,13 @@ export const deleteShipment = createAsyncThunk('shipments/deleteShipment',
             return rejectWithValue(err.response.data);
         }
     });
+
+export const deleteDocument = createAsyncThunk('shipments/deleteDocument',
+    async ({ shipmentId, documentId }, {rejectWithValue}) => {
+        try {
+            await ShipmentService.deleteDocument(shipmentId, documentId);
+            return { shipmentId, documentId };
+        } catch (err) {
+            return rejectWithValue(err.response.data);
+        }
+    });
