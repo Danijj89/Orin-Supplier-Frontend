@@ -1,9 +1,12 @@
+import { getOptionId } from '../../../../../app/utils/options/getters.js';
+
 export function descendingComparator(a, b, orderBy) {
-    if (b[orderBy] < a[orderBy]) {
-        return -1;
-    }
-    if (b[orderBy] > a[orderBy]) {
-        return 1;
+    if (typeof a[orderBy] === 'string' || typeof b[orderBy] === 'string') {
+        if (b[orderBy] < a[orderBy]) return -1;
+        if (b[orderBy] > a[orderBy]) return 1;
+    } else {
+        if (getOptionId(b[orderBy]) < getOptionId(a[orderBy])) return -1;
+        if (getOptionId(b[orderBy]) > getOptionId(a[orderBy])) return 1;
     }
     return 0;
 }

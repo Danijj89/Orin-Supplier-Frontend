@@ -38,7 +38,7 @@ const ShipmentInfoCard = React.memo(function ShipmentInfoCard() {
 
     const onStatusChange = useCallback(
         (newStatus) => dispatch(updateShipment(
-            { shipmentId, update: getOptionId(newStatus) }
+            { shipmentId, update: { status: getOptionId(newStatus) } }
         )),
         [dispatch, shipmentId]);
 

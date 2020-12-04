@@ -1,4 +1,5 @@
 import React, { useCallback, useState } from 'react';
+import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 import { getOptionId, getOptionLabel } from '../../../app/utils/options/getters.js';
 import { LOCALE } from '../../../app/utils/constants.js';
@@ -53,7 +54,8 @@ const useStyles = makeStyles((theme) => ({
     button: {
         backgroundColor: ({ colorMap, status }) => getStatusBackgroundColor(status, colorMap),
         color: ({ colorMap, status }) => getStatusColor(status, colorMap),
-        flex: 1
+        flex: 1,
+        whiteSpace: 'nowrap'
     }
 }));
 
@@ -78,6 +80,7 @@ const StatusDropdown = React.memo(function StatusDropdown(
         (e, status) => {
             e.stopPropagation();
             onStatusChange(status);
+            setAnchorEl(null);
         },
         [onStatusChange]);
 
@@ -123,5 +126,13 @@ const StatusDropdown = React.memo(function StatusDropdown(
         </Box>
     )
 });
+
+StatusDropdown.propTypes = {
+    status: PropTypes.object.isRequired,
+    statuses: PropTypes.array.isRequired,
+    colorMap: PropTypes.oneOf(['shipment', 'order']),
+    onStatusChange: PropTypes.func.isRequired,
+    className: PropTypes.string
+};
 
 export default StatusDropdown;

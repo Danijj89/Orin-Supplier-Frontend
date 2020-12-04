@@ -9,7 +9,7 @@ import {
 
 export const shipmentsAdapter = createEntityAdapter({
     selectId: shipment => shipment._id,
-    sortComparer: (a, b) => a.createdAt.localeCompare(b.createdAt)
+    sortComparer: (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
 });
 
 const initialState = shipmentsAdapter.getInitialState({
