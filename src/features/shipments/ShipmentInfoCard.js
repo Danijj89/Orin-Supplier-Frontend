@@ -1,15 +1,17 @@
 import React, { useCallback, useMemo } from 'react';
 import InfoCard from '../shared/wrappers/InfoCard.js';
 import { LANGUAGE, LOCALE } from '../../app/utils/constants.js';
-import ShipmentStatusPill from './ShipmentStatusPill.js';
 import { dateToLocaleDate } from '../shared/utils/format.js';
 import { Grid } from '@material-ui/core';
 import DividerDataDisplay from '../shared/wrappers/DividerDisplay.js';
 import { makeStyles } from '@material-ui/core/styles';
 import { useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectShipmentById } from './duck/selectors.js';
-import { getOptionLabel } from '../../app/utils/options/getters.js';
+import { getOptionId, getOptionLabel } from '../../app/utils/options/getters.js';
+import StatusDropdown from '../shared/components/StatusDropdown.js';
+import { selectShipmentStatuses } from '../../app/duck/selectors.js';
+import { updateShipment } from './duck/thunks.js';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -29,11 +31,27 @@ const {
 
 const ShipmentInfoCard = React.memo(function ShipmentInfoCard() {
     const classes = useStyles();
+    const dispatch = useDispatch();
     const { id: shipmentId } = useParams();
     const shipment = useSelector(state => selectShipmentById(state, { shipmentId }));
+    const shipmentStatusOptions = useSelector(selectShipmentStatuses);
+
+    const onStatusChange = useCallback(
+        (newStatus) => dispatch(updateShipment(
+            { shipmentId, update: getOptionId(newStatus) }
+        )),
+        [dispatch, shipmentId]);
 
     const leftData = useMemo(() => [
-        { label: labels.status, value: <ShipmentStatusPill status={ shipment.status }/> },
+        {
+            label: labels.status,
+            value: <StatusDropdown
+                status={ shipment.status }
+                statuses={ shipmentStatusOptions }
+                colorMap="shipment"
+                onStatusChange={ onStatusChange }
+            />
+        },
         { label: labels.crd, value: dateToLocaleDate(shipment.crd) },
         { label: labels.del, value: getOptionLabel(shipment.del, LOCALE) },
         { label: labels.carrier, value: shipment.carrier }
@@ -41,7 +59,9 @@ const ShipmentInfoCard = React.memo(function ShipmentInfoCard() {
         shipment.status,
         shipment.crd,
         shipment.del,
-        shipment.carrier
+        shipment.carrier,
+        shipmentStatusOptions,
+        onStatusChange
     ]);
 
     const rightData = useMemo(() => [
@@ -66,7 +86,7 @@ const ShipmentInfoCard = React.memo(function ShipmentInfoCard() {
                     <DividerDataDisplay data={ rightData }/>
                 </Grid>
             </Grid>
-    , [leftData, rightData]);
+        , [leftData, rightData]);
 
     return (
         <InfoCard
