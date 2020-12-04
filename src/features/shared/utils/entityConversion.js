@@ -92,7 +92,14 @@ export const consolidationTableItemsToConsolidationItems = (items) =>
         currency: item.currency,
         coo: item.coo,
         fdc: item.fdc,
-        dop: item.dop
+        dop: item.dop,
+        description: item.description,
+        package: item.package,
+        pUnit: item.pUnit,
+        netW: item.netW,
+        grossW: item.grossW,
+        dim: item.dim,
+        dg: false
     }));
 
 export const shipmentToCommercialInvoice = (shipment) => ({

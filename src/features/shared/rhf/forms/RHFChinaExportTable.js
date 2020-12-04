@@ -109,9 +109,11 @@ const RHFChinaExportTable = React.memo(function RHFChinaExportTable(
                     if (newValue._id) {
                         newItem.hsc = newValue.hsc;
                         newItem.localD = newValue.localD;
+                        newItem.description = newValue.description;
                     } else {
                         newItem.hsc = newValue;
                         newItem.localD = '';
+                        newItem.description = '';
                     }
                     break;
                 case 'quantity':
