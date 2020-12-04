@@ -452,6 +452,17 @@ export const ENGLISH = {
                 errorMessages: {
                     missingSellerAdd: 'You must select a seller address.',
                     missingConsigneeAdd: 'You must select a consignee address.'
+                },
+                containerSelectorButton: {
+                    titleLabel: 'Select Containers',
+                    submitLabel: 'Update',
+                    buttonLabel: 'Choose Containers',
+                    containerSelectorTable: {
+                        tableHeaders: {
+                            type: 'Container Type',
+                            quantity: 'Quantity'
+                        }
+                    }
                 }
             },
             productTable: {

@@ -1,5 +1,6 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { selectUsersMap } from '../../features/users/duck/selectors.js';
+import { getOptionId } from '../utils/options/getters.js';
 
 function getOptionsMap(options) {
     return options.reduce((map, option) => {
@@ -21,15 +22,15 @@ export const selectCurrentUser = createSelector(
     (userId, usersMap) => usersMap[userId]
 );
 
+export const selectIncoterms = state => state.app.appData.incoterms;
+export const selectExemptionTypes = state => state.app.appData.exemptionTypes;
+export const selectSupervisionMethods = state => state.app.appData.supervisionMethods;
+export const selectBillOfLandingTypes = state => state.app.appData.billOfLandingTypes;
+
 export const selectDeliveryMethods = state => state.app.appData.deliveryMethods;
 export const selectDeliveryMethodsMap = createSelector(
     selectDeliveryMethods,
     getOptionsMap
-);
-export const selectDeliveryMethod = createSelector(
-    selectDeliveryMethodsMap,
-    (_, methodId) => methodId,
-    (map, methodId) => map[methodId]
 );
 
 export const selectCurrencies = state => state.app.appData.currencies;
@@ -38,11 +39,6 @@ export const selectCurrenciesMap = createSelector(
     getOptionsMap
 );
 
-
-export const selectIncoterms = state => state.app.appData.incoterms;
-
-export const selectExemptionTypes = state => state.app.appData.exemptionTypes;
-export const selectSupervisionMethods = state => state.app.appData.supervisionMethods;
 export const selectPackageUnits = state => state.app.appData.packageUnits;
 export const selectPackageUnitsMap = createSelector(
     selectPackageUnits,
@@ -91,13 +87,13 @@ export const selectOrderStatusesMap = createSelector(
     getOptionsMap
 );
 
-export const selectBillOfLandingTypes = state => state.app.appData.billOfLandingTypes;
-
 export const selectShipmentStatuses = state => state.app.appData.shipmentStatuses;
 export const selectShipmentStatusesMap = createSelector(
     selectShipmentStatuses,
     getOptionsMap
 );
+
+export const selectContainerTypes = state => state.app.appData.containerTypes;
 
 export const selectDefaultRowItem = createSelector(
     selectItemUnits,
@@ -153,5 +149,13 @@ export const selectDefaultConsolidationRowItem = createSelector(
         dim: 0,
         description: '',
         dg: false
+    })
+);
+
+export const selectDefaultContainerRowItem = createSelector(
+    selectContainerTypes,
+    containerTypes => ({
+        type: getOptionId(containerTypes[0]),
+        quantity: 0
     })
 );

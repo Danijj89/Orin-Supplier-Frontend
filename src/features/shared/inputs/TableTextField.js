@@ -26,16 +26,6 @@ export default function TableTextField({ type, className, ...props }) {
     const classes = useStyles({ type });
     const classNames = clsx(classes.input, className);
 
-    // on focus use this?
-    // const moveCursorToEnd = (e) => {
-    //     const target = e.currentTarget;
-    //     if (target.type === 'number') {
-    //         target.type = 'text';
-    //         target.setSelectionRange(0, target.value.length);
-    //         target.type = 'number';
-    //     }
-    // }
-
     return (
         <TextField
             { ...props }

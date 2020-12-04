@@ -23,6 +23,7 @@ import {
 } from '../../app/duck/selectors.js';
 import { getOptionId, getOptionLabel } from '../../app/utils/options/getters.js';
 import { selectClientActiveAddresses } from '../clients/duck/selectors.js';
+import ContainerSelectorButton from './ContainersInfoDialog.js';
 
 const {
     partiesTitleLabel,
@@ -218,6 +219,10 @@ const ShipmentInfo = React.memo(function ShipmentInfo() {
                             />
                         </Grid>
                         <Grid container item justify="flex-end" xs={ 6 }>
+                            <ContainerSelectorButton
+                                shipmentId={ shipmentId }
+                                containerQ={ shipment.containerQ }
+                            />
                             <SideTextField
                                 label={ formLabels.carrier }
                                 name="carrier"
