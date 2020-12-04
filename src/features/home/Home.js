@@ -22,6 +22,7 @@ const CommercialInvoiceContainer = lazy(() => import('../documents/CommercialInv
 const PackingListContainer = lazy(() => import('../documents/PackingListContainer.js'));
 const SalesContractContainer = lazy(() => import('../documents/SalesContractContainer.js'));
 const ChinaExportContainer = lazy(() => import('../documents/ChinaExportContainer.js'));
+const LeadOverviewContainer = lazy(() => import('../leads/LeadOverviewContainer.js'));
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -115,6 +116,15 @@ const Home = React.memo(function Home() {
                     >
                         <Suspense>
                             <ProductOverviewContainer/>
+                        </Suspense>
+                    </Route>
+                    <Route
+                        exact
+                        path={ `${ match.url }/leads` }
+                        isPrivate
+                    >
+                        <Suspense>
+                            <LeadOverviewContainer/>
                         </Suspense>
                     </Route>
                     <Route

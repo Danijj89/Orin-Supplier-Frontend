@@ -151,7 +151,7 @@ const NavBar = React.memo(function NavBar() {
                 </IconButton>
                 { tabsLabelsMap.clients }
             </MenuItem>
-            <MenuItem onClick={ () => onTabClick('leads', '#') }>
+            <MenuItem onClick={ () => onTabClick('leads', '/home/leads') }>
                 <IconButton color="inherit">
                     <IconPlus/>
                 </IconButton>
@@ -228,7 +228,7 @@ const NavBar = React.memo(function NavBar() {
                         <ListItem
                             button
                             component="a"
-                            onClick={ () => onTabClick('leads', '#') }
+                            onClick={ () => onTabClick('leads', '/home/leads') }
                             classes={ {
                                 root: classes.menuButtons,
                                 selected: classes.selected,
