@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
         paddingTop: theme.spacing(0.5),
         paddingBottom: theme.spacing(0.5),
         textAlign: 'center',
-        borderRadius: 6,
+        borderRadius: 4,
         whiteSpace: 'nowrap',
         color: '#FFFFFF',
         fontSize: 12,

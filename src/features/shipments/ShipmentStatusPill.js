@@ -28,8 +28,7 @@ const useStyles = makeStyles((theme) => ({
     root: {
         backgroundColor: props => getStatusBackGroundColor(theme, props.status),
         color: theme.palette.backgroundPrimary.main,
-        paddingLeft: theme.spacing(1),
-        paddingRight: theme.spacing(1),
+        textAlign: 'center',
         paddingTop: theme.spacing(0.5),
         paddingBottom: theme.spacing(0.5),
         borderRadius: 4,
@@ -40,7 +39,11 @@ const useStyles = makeStyles((theme) => ({
 const ShipmentStatusPill = React.memo(function ShipmentStatusPill({ status }) {
     const classes = useStyles({ status: getOptionId(status) });
     return (
-        <Typography className={ classes.root }>{ getOptionLabel(status, LOCALE) }</Typography>
+        <Typography
+            variant="subtitle2"
+            className={ classes.root }
+        >{ getOptionLabel(status, LOCALE) }
+        </Typography>
     )
 });
 

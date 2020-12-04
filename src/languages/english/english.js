@@ -326,7 +326,13 @@ export const ENGLISH = {
             newShipmentButtonLabel: 'New Shipment',
             shipmentsTable: {
                 tableHeadersMap: {
-                    consigneeName: 'Consignee'
+                    ref: 'Shipment ID',
+                    consignee: 'Consignee',
+                    crd: 'Cargo Ready',
+                    status: 'Status',
+                    pod: 'Destination Port',
+                    del: 'Mode',
+                    containerQ: 'Containers'
                 }
             }
         },
