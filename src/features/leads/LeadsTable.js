@@ -25,7 +25,9 @@ const LeadsTable = React.memo(function LeadsTable() {
     const leads = useSelector(selectAllLeads);
 
     const onRowClick = useCallback(
-        (params) => history.push(`/home/leads/${ params.id }?tab=details`),
+        (params) => {
+            history.push(`/home/leads/${ params.id }?tab=details`);
+        },
         [history]);
 
     const createSalesStatusChangeHandler = useCallback(

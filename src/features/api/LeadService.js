@@ -79,6 +79,16 @@ const deleteLead = async (leadId) => {
     return data;
 };
 
+const convertLeadToClient = async (leadId, userId) => {
+    const configs = {
+        method: 'put',
+        url: `leads/${leadId}/convert`,
+        data: { userId }
+    };
+    const { data } = await fetchWithAuth(configs);
+    return data;
+};
+
 const LeadService = {
     fetchLeads,
     createLead,
@@ -87,7 +97,8 @@ const LeadService = {
     deleteLeadAddress,
     updateLeadDefaultAddress,
     updateLeadAddress,
-    deleteLead
+    deleteLead,
+    convertLeadToClient
 };
 
 export default LeadService;

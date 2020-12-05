@@ -14,11 +14,17 @@ import { Divider } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import { dateToLocaleDate } from '../shared/utils/format.js';
 import StatusDropdown from '../shared/components/StatusDropdown.js';
-import { selectLeadPotentials, selectLeadTypes, selectSalesStatuses } from '../../app/duck/selectors.js';
+import {
+    selectCurrentUserId,
+    selectLeadPotentials,
+    selectLeadTypes,
+    selectSalesStatuses
+} from '../../app/duck/selectors.js';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { getOptionId } from '../../app/utils/options/getters.js';
-import { deleteLead, updateLead } from './duck/thunks.js';
+import { convertLeadToClient, deleteLead, updateLead } from './duck/thunks.js';
 import DeleteButton from '../shared/buttons/DeleteButton.js';
+import { useHistory } from 'react-router-dom';
 
 const {
     formLabels,
@@ -26,17 +32,20 @@ const {
     leadInfoTitleLabel,
     salesInfoTitleLabel,
     saveButtonLabel,
-    deleteMessage
+    deleteMessage,
+    convertButtonLabel
 } = LANGUAGE.lead.lead.leadDetails;
 
 const LeadDetails = React.memo(function LeadDetails({ leadId }) {
     const dispatch = useDispatch();
+    const history = useHistory();
     const users = useSelector(selectAllActiveUsers);
     const usersMap = useSelector(selectUsersMap);
     const salesStatusOptions = useSelector(selectSalesStatuses);
     const leadTypeOptions = useSelector(selectLeadTypes);
     const leadPotentialOptions = useSelector(selectLeadPotentials);
     const lead = useSelector(state => selectLeadById(state, { leadId }));
+    const userId = useSelector(selectCurrentUserId);
 
     const { register, control, errors, watch, setValue, handleSubmit } = useForm({
         mode: 'onSubmit',
@@ -72,9 +81,17 @@ const LeadDetails = React.memo(function LeadDetails({ leadId }) {
         (statusType) => (newStatus) => setValue(statusType, newStatus),
         [setValue]);
 
+    const onConvert = useCallback(() => {
+        dispatch(convertLeadToClient({ leadId, userId }));
+        history.push('/home/leads');
+    }, [dispatch, history, leadId, userId]);
+
     const onDelete = useCallback(
-        () => dispatch(deleteLead({ leadId })),
-        [dispatch]);
+        () => {
+            dispatch(deleteLead({ leadId }));
+            history.push('/home/leads');
+        },
+        [dispatch, history, leadId]);
 
     const onSubmit = useCallback(
         (data) => {
@@ -96,6 +113,11 @@ const LeadDetails = React.memo(function LeadDetails({ leadId }) {
     return (
         <form onSubmit={ handleSubmit(onSubmit) } autoComplete="off" noValidate>
             <Grid container>
+                <Grid container item justify="flex-end" xs={ 12 }>
+                    <ThemedButton onClick={ onConvert }>
+                        { convertButtonLabel }
+                    </ThemedButton>
+                </Grid>
                 <Grid container item alignItems="flex-start" xs={ 12 }>
                     <Grid container item justify="center" md>
                         <Typography variant="h5">{ leadInfoTitleLabel }</Typography>

@@ -1,6 +1,6 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectLeadDataStatus, selectLeadError } from './duck/selectors.js';
+import { selectLeadById, selectLeadDataStatus, selectLeadError } from './duck/selectors.js';
 import { selectCompanyId, selectHomeDataStatus, selectHomeError } from '../home/duck/selectors.js';
 import { determineStatus, getErrors } from '../shared/utils/state.js';
 import ErrorPage from '../shared/components/ErrorPage.js';
@@ -12,9 +12,11 @@ import { cleanLeadState } from './duck/slice.js';
 import { selectUserDataStatus, selectUserError } from '../users/duck/selectors.js';
 import { fetchUsers } from '../users/duck/thunks.js';
 import { cleanUserState } from '../users/duck/slice.js';
+import { useParams, Redirect } from 'react-router-dom';
 
 const LeadContainer = React.memo(function LeadContainer() {
     const dispatch = useDispatch();
+    const { id: leadId } = useParams();
 
     const homeDataStatus = useSelector(selectHomeDataStatus);
     const homeError = useSelector(selectHomeError);
@@ -27,6 +29,8 @@ const LeadContainer = React.memo(function LeadContainer() {
     const errors = getErrors(leadError, homeError, userError);
 
     const companyId = useSelector(selectCompanyId);
+    const lead = useSelector(state => selectLeadById(state, { leadId }));
+    const leadExists = useMemo(() => Boolean(lead) && leadDataStatus === 'FULFILLED', [leadDataStatus, lead]);
 
     const fetched = useRef(false);
     useEffect(() => {
@@ -49,9 +53,10 @@ const LeadContainer = React.memo(function LeadContainer() {
 
     return (
         <>
+            { !leadExists && <Redirect to={ '/home/leads' }/> }
             { status === 'REJECTED' && <ErrorPage errors={ errors }/> }
             { status === 'PENDING' && <Loader/> }
-            { status === 'FULFILLED' && <Lead/> }
+            { leadExists && status === 'FULFILLED' && <Lead/> }
         </>
     );
 });

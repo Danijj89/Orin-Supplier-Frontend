@@ -27,6 +27,9 @@ const clientsSlice = createSlice({
             state.dataStatus = 'IDLE';
             state.status = 'IDLE';
             state.error = null;
+        },
+        addClient: (state, action) => {
+            clientsAdapter.upsertOne(state, action.payload);
         }
     },
     extraReducers: {
@@ -209,6 +212,6 @@ const clientsSlice = createSlice({
     }
 });
 
-export const { cleanClientState } = clientsSlice.actions;
+export const { cleanClientState, addClient } = clientsSlice.actions;
 
 export default clientsSlice.reducer;

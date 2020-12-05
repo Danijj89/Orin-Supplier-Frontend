@@ -1,5 +1,6 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import {
+    convertLeadToClient,
     createLead,
     createLeadAddress, deleteLead,
     deleteLeadAddress,
@@ -17,7 +18,8 @@ export const leadsAdapter = createEntityAdapter({
 const initialState = leadsAdapter.getInitialState({
     dataStatus: 'IDLE',
     status: 'IDLE',
-    error: null
+    error: null,
+    currentLeadId: null,
 });
 
 const leadsSlice = createSlice({
@@ -28,6 +30,7 @@ const leadsSlice = createSlice({
             state.dataStatus = 'IDLE';
             state.status = 'IDLE';
             state.error = null;
+            state.currencLeadId = null;
         }
     },
     extraReducers: {
@@ -138,6 +141,18 @@ const leadsSlice = createSlice({
             state.status = 'IDLE';
         },
         [deleteLead.rejected]: (state, action) => {
+            state.status = 'REJECTED';
+            state.error = action.payload.message;
+        },
+        [convertLeadToClient.pending]: (state) => {
+            state.status = 'PENDING';
+        },
+        [convertLeadToClient.fulfilled]: (state, action) => {
+            const { leadId } = action.payload;
+            leadsAdapter.removeOne(state, leadId);
+            state.status = 'IDLE';
+        },
+        [convertLeadToClient.rejected]: (state, action) => {
             state.status = 'REJECTED';
             state.error = action.payload.message;
         }

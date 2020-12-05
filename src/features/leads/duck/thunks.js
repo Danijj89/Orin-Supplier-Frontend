@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import LeadService from '../../api/LeadService.js';
+import { addClient } from '../../clients/duck/slice.js';
 
 export const fetchLeads = createAsyncThunk('leads/fetchLeads',
     async ({ companyId }, { rejectWithValue }) => {
@@ -72,6 +73,17 @@ export const deleteLead = createAsyncThunk('leads/deleteLead',
     async ({ leadId }, { rejectWithValue }) => {
         try {
             await LeadService.deleteLead(leadId);
+            return { leadId };
+        } catch (err) {
+            return rejectWithValue(err.response.data);
+        }
+    });
+
+export const convertLeadToClient = createAsyncThunk('leads/convertLeadToClient',
+    async ({ leadId, userId }, { rejectWithValue, dispatch }) => {
+        try {
+            const newClient = await LeadService.convertLeadToClient(leadId, userId);
+            dispatch(addClient(newClient));
             return { leadId };
         } catch (err) {
             return rejectWithValue(err.response.data);
