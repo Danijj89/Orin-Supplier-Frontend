@@ -1,7 +1,7 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import {
     createLead,
-    createLeadAddress,
+    createLeadAddress, deleteLead,
     deleteLeadAddress,
     fetchLeads,
     updateLead, updateLeadAddress,
@@ -126,6 +126,18 @@ const leadsSlice = createSlice({
             state.status = 'IDLE';
         },
         [updateLeadAddress.rejected]: (state, action) => {
+            state.status = 'REJECTED';
+            state.error = action.payload.message;
+        },
+        [deleteLead.pending]: (state) => {
+            state.status = 'PENDING';
+        },
+        [deleteLead.fulfilled]: (state, action) => {
+            const { leadId } = action.payload;
+            leadsAdapter.removeOne(state, leadId);
+            state.status = 'IDLE';
+        },
+        [deleteLead.rejected]: (state, action) => {
             state.status = 'REJECTED';
             state.error = action.payload.message;
         }

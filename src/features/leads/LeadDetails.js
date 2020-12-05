@@ -17,14 +17,16 @@ import StatusDropdown from '../shared/components/StatusDropdown.js';
 import { selectLeadPotentials, selectLeadTypes, selectSalesStatuses } from '../../app/duck/selectors.js';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { getOptionId } from '../../app/utils/options/getters.js';
-import { updateLead } from './duck/thunks.js';
+import { deleteLead, updateLead } from './duck/thunks.js';
+import DeleteButton from '../shared/buttons/DeleteButton.js';
 
 const {
     formLabels,
     createdAtLabel,
     leadInfoTitleLabel,
     salesInfoTitleLabel,
-    saveButtonLabel
+    saveButtonLabel,
+    deleteMessage
 } = LANGUAGE.lead.lead.leadDetails;
 
 const LeadDetails = React.memo(function LeadDetails({ leadId }) {
@@ -69,6 +71,10 @@ const LeadDetails = React.memo(function LeadDetails({ leadId }) {
     const createStatusChangeHandler = useCallback(
         (statusType) => (newStatus) => setValue(statusType, newStatus),
         [setValue]);
+
+    const onDelete = useCallback(
+        () => dispatch(deleteLead({ leadId })),
+        [dispatch]);
 
     const onSubmit = useCallback(
         (data) => {
@@ -122,7 +128,7 @@ const LeadDetails = React.memo(function LeadDetails({ leadId }) {
                                 name="additional"
                                 inputRef={ register }
                             />
-                            <Grid container item xs={12}>
+                            <Grid container item xs={ 12 }>
                                 <Typography variant="subtitle1">
                                     { formLabels.salesStatus }
                                 </Typography>
@@ -133,7 +139,7 @@ const LeadDetails = React.memo(function LeadDetails({ leadId }) {
                                     onStatusChange={ createStatusChangeHandler('salesStatus') }
                                 />
                             </Grid>
-                            <Grid container item xs={12}>
+                            <Grid container item xs={ 12 }>
                                 <Typography variant="subtitle1">
                                     { formLabels.leadType }
                                 </Typography>
@@ -144,7 +150,7 @@ const LeadDetails = React.memo(function LeadDetails({ leadId }) {
                                     onStatusChange={ createStatusChangeHandler('leadType') }
                                 />
                             </Grid>
-                            <Grid container item xs={12}>
+                            <Grid container item xs={ 12 }>
                                 <Typography variant="subtitle1">
                                     { formLabels.leadPotential }
                                 </Typography>
@@ -204,11 +210,14 @@ const LeadDetails = React.memo(function LeadDetails({ leadId }) {
                                 label={ formLabels.notes }
                                 inputRef={ register }
                             />
-                            <ThemedButton type="submit">
-                                {saveButtonLabel}
-                            </ThemedButton>
                         </FormContainer>
                     </Grid>
+                </Grid>
+                <Grid container item justify="space-around" xs={ 12 }>
+                    <DeleteButton onDelete={ onDelete } deleteMessage={ deleteMessage }/>
+                    <ThemedButton type="submit">
+                        { saveButtonLabel }
+                    </ThemedButton>
                 </Grid>
             </Grid>
         </form>

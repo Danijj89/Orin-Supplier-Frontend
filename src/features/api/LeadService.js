@@ -70,6 +70,15 @@ const updateLeadAddress = async (leadId, addressId, update) => {
     return data;
 };
 
+const deleteLead = async (leadId) => {
+    const configs = {
+        method: 'delete',
+        url: `leads/${leadId}`
+    };
+    const { data } = await fetchWithAuth(configs);
+    return data;
+};
+
 const LeadService = {
     fetchLeads,
     createLead,
@@ -77,7 +86,8 @@ const LeadService = {
     createLeadAddress,
     deleteLeadAddress,
     updateLeadDefaultAddress,
-    updateLeadAddress
+    updateLeadAddress,
+    deleteLead
 };
 
 export default LeadService;

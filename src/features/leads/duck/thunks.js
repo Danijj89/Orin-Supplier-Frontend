@@ -67,3 +67,13 @@ export const updateLeadAddress = createAsyncThunk('leads/updateLeadAddress',
             return rejectWithValue(err.response.data);
         }
     });
+
+export const deleteLead = createAsyncThunk('leads/deleteLead',
+    async ({ leadId }, { rejectWithValue }) => {
+        try {
+            await LeadService.deleteLead(leadId);
+            return { leadId };
+        } catch (err) {
+            return rejectWithValue(err.response.data);
+        }
+    });

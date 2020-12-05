@@ -264,7 +264,8 @@ export const ENGLISH = {
                 createdAtLabel: 'Created At',
                 leadInfoTitleLabel: 'Lead Information',
                 salesInfoTitleLabel: 'Sales Information',
-                saveButtonLabel: 'Save'
+                saveButtonLabel: 'Save',
+                deleteMessage: 'Are you sure you want to delete this lead?'
             },
             leadAddresses: {
                 newLeadAddressButton: {
