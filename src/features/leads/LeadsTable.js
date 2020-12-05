@@ -62,7 +62,7 @@ const LeadsTable = React.memo(function LeadsTable() {
                     status={ params.salesStatus }
                     statuses={ salesStatusOptions }
                     colorMap="salesStatus"
-                    onStatusChange={ createSalesStatusChangeHandler }
+                    onStatusChange={ createSalesStatusChangeHandler(params.id) }
                 />
         },
         {
@@ -73,7 +73,7 @@ const LeadsTable = React.memo(function LeadsTable() {
                     status={ params.leadType }
                     statuses={ leadTypeOptions }
                     colorMap="leadType"
-                    onStatusChange={ createLeadTypeChangeHandler }
+                    onStatusChange={ createLeadTypeChangeHandler(params.id) }
                 />
         },
         { field: 'source', headerName: tableHeaders.source },

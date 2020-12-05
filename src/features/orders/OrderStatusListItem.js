@@ -3,9 +3,9 @@ import { ListItemIcon, ListItemText } from '@material-ui/core';
 import { FiberManualRecord as IconCircle } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 import ListItem from '@material-ui/core/ListItem';
-import { orderStatusColors } from '../../app/themes/theme.js';
 import { getOptionId, getOptionLabel } from '../../app/utils/options/getters.js';
 import { LOCALE } from '../../app/utils/constants.js';
+import { orderStatusColors } from './OrderStatusDisplay.js';
 
 const useStyles = makeStyles((theme) => ({
     root: {

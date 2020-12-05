@@ -39,12 +39,88 @@ const SHIPMENT_COLOR_MAP = {
     }
 };
 
+const ORDER_COLOR_MAP = {
+    'Not Started': {
+        background: '#F1F1F1',
+        color: 'black'
+    },
+    'In Progress': {
+        background: '#109CF1',
+        color: 'white'
+    },
+    Completed: {
+        background: '#2ED47A',
+        color: 'white'
+    },
+    Exception: {
+        background: '#F7685B',
+        color: 'white'
+    }
+};
+
+const SALES_STATUS_COLOR_MAP = {
+    1: {
+        background: '#F1F1F1',
+        color: 'black'
+    },
+    2: {
+        background: '#109CF1',
+        color: 'white'
+    },
+    3: {
+        background: '#2ED47A',
+        color: 'white'
+    },
+    4: {
+        background: '#F7685B',
+        color: 'white'
+    }
+};
+
+const LEAD_TYPE_COLOR_MAP = {
+    1: {
+        background: '#109CF1',
+        color: 'white'
+    },
+    2: {
+        background: '#FFBA08',
+        color: 'white'
+    },
+    3: {
+        background: '#F7685B',
+        color: 'white'
+    },
+}
+
+const LEAD_POTENTIAL_COLOR_MAP = {
+    1: {
+        background: '#109CF1',
+        color: 'white'
+    },
+    2: {
+        background: '#FFBA08',
+        color: 'white'
+    },
+    3: {
+        background: '#F7685B',
+        color: 'white'
+    },
+}
+
 function getStatusBackgroundColor(status, colorMap) {
     if (colorMap === 'shipment') return SHIPMENT_COLOR_MAP[status].background;
+    if (colorMap === 'order') return ORDER_COLOR_MAP[status].background;
+    if (colorMap === 'salesStatus') return SALES_STATUS_COLOR_MAP[status].background;
+    if (colorMap === 'leadType') return LEAD_TYPE_COLOR_MAP[status].background;
+    if (colorMap === 'leadPotential') return LEAD_POTENTIAL_COLOR_MAP[status].background;
 }
 
 function getStatusColor(status, colorMap) {
     if (colorMap === 'shipment') return SHIPMENT_COLOR_MAP[status].color;
+    if (colorMap === 'order') return ORDER_COLOR_MAP[status].color;
+    if (colorMap === 'salesStatus') return SALES_STATUS_COLOR_MAP[status].color;
+    if (colorMap === 'leadType') return LEAD_TYPE_COLOR_MAP[status].color;
+    if (colorMap === 'leadPotential') return LEAD_POTENTIAL_COLOR_MAP[status].color;
 }
 
 const useStyles = makeStyles((theme) => ({

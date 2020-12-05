@@ -4,7 +4,7 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 import { dateToLocaleDate } from '../shared/utils/format.js';
 import InfoCard from '../shared/wrappers/InfoCard.js';
 import { Table, TableContainer, TableHead, TableRow, TableCell as MuiTableCell, TableBody } from '@material-ui/core';
-import StatusDisplay from './StatusDisplay.js';
+import OrderStatusDisplay from './OrderStatusDisplay.js';
 import EditOrderStatusButton from './EditOrderStatusButton.js';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -52,7 +52,7 @@ const StatusInfoCard = React.memo(function StatusInfoCard() {
 
     const StatusCell = ({ status }) =>
         <TableCell align="center">
-            <StatusDisplay status={ status }/>
+            <OrderStatusDisplay status={ status }/>
         </TableCell>
 
     const DateCell = ({ date }) =>

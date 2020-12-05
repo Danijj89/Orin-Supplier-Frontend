@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo } from 'react';
 import Table from '../shared/components/table/Table.js';
-import StatusDisplay from '../orders/StatusDisplay.js';
+import OrderStatusDisplay from '../orders/OrderStatusDisplay.js';
 import UnitCounter from '../shared/classes/UnitCounter.js';
 import { dateToLocaleDate } from '../shared/utils/format.js';
 import { LANGUAGE, LOCALE } from '../../app/utils/constants.js';
@@ -49,14 +49,14 @@ const ShipmentOrdersTable = React.memo(function ShipmentOrdersTable() {
             field: 'production',
             headerName: tableHeaderLabelsMap.production,
             renderCell: (params) =>
-                <StatusDisplay status={ params.production }/>,
+                <OrderStatusDisplay status={ params.production }/>,
             align: 'center'
         },
         {
             field: 'qa',
             headerName: tableHeaderLabelsMap.qa,
             renderCell: (params) =>
-                <StatusDisplay status={ params.qa }/>,
+                <OrderStatusDisplay status={ params.qa }/>,
             align: 'center'
         },
         { field: 'notes', headerName: tableHeaderLabelsMap.notes },

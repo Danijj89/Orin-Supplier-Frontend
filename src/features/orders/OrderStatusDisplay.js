@@ -2,9 +2,15 @@ import React from 'react';
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
-import { orderStatusColors } from '../../app/themes/theme.js';
 import { getOptionId, getOptionLabel } from '../../app/utils/options/getters.js';
 import { LOCALE } from '../../app/utils/constants.js';
+
+export const orderStatusColors = {
+    'Not Started': '#818E9B',
+    'In Progress': '#109CF1',
+    Completed: '#2ED47A',
+    Exception: '#F7685B',
+};
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -19,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function StatusDisplay({ status, className }) {
+export default function OrderStatusDisplay({ status, className }) {
     const classes = useStyles({ status: getOptionId(status) });
 
     return (

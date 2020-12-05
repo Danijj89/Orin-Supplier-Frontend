@@ -99,13 +99,11 @@ const ordersSlice = createSlice({
         },
         [updateOrderStatus.fulfilled]: (state, action) => {
             const { orderId, update } = action.payload;
-            console.log(update.procurement)
             const { procurement, production, qa } = state.entities[orderId];
             const changes = {};
             if (update.procurement) changes.procurement = { ...procurement, ...update.procurement };
             if (update.production) changes.production = { ...production, ...update.production };
             if (update.qa) changes.qa = { ...qa, ...update.qa };
-            console.log(changes)
             ordersAdapter.updateOne(state, { id: orderId, changes });
             state.status = 'IDLE';
         },
