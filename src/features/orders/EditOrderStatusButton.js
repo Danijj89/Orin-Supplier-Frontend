@@ -4,7 +4,7 @@ import ThemedButton from '../shared/buttons/ThemedButton.js';
 import OrderStatusDialog from './OrderStatusDialog.js';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import { useDispatch } from 'react-redux';
-import { updateOrder } from './duck/thunks.js';
+import { updateOrderStatus } from './duck/thunks.js';
 
 const {
     buttonLabel,
@@ -12,7 +12,8 @@ const {
     submitLabel
 } = LANGUAGE.order.order.orderDetails.statusInfoCard.editOrderStatusButton;
 
-const EditOrderStatusButton = React.memo(function EditOrderStatusButton({ orderId, status, className }) {
+const EditOrderStatusButton = React.memo(function EditOrderStatusButton(
+    { orderId, procurement, production, qa, className }) {
     const dispatch = useDispatch();
     const [isEdit, setIsEdit] = useState(false);
 
@@ -20,7 +21,7 @@ const EditOrderStatusButton = React.memo(function EditOrderStatusButton({ orderI
     const onCancel = () => setIsEdit(false);
 
     const onSubmit = useCallback((data) => {
-        dispatch(updateOrder({ orderId: orderId, update: { status: data } }));
+        dispatch(updateOrderStatus({ orderId: orderId, update: data }));
         setIsEdit(false);
     }, [dispatch, orderId]);
 
@@ -31,7 +32,9 @@ const EditOrderStatusButton = React.memo(function EditOrderStatusButton({ orderI
             </ThemedButton>
             <OrderStatusDialog
                 isOpen={ isEdit }
-                status={ status }
+                procurement={ procurement }
+                production={ production }
+                qa={ qa }
                 titleLabel={ titleLabel }
                 submitLabel={ submitLabel }
                 onCancel={ onCancel }

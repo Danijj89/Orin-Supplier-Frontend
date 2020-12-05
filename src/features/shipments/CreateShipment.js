@@ -239,8 +239,8 @@ const CreateShipment = React.memo(function CreateShipment() {
             totalQ: UnitCounter.stringRep(order.totalQ, itemUnitsMap, LOCALE),
             crd: dateToLocaleDate(order.crd),
             del: getOptionLabel(order.del, LOCALE),
-            production: order.status.production.status,
-            qa: order.status.qa.status,
+            production: order.production.status,
+            qa: order.qa.status,
             notes: order.notes,
             fulfilled: getFulfilledPercentage(order.totalQ, order._id)
         })), [clientOrders, getFulfilledPercentage, itemUnitsMap]);

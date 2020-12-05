@@ -46,13 +46,14 @@ const OrderStatusDialog = React.memo(function OrderStatusDialog(
         onSubmit,
         onCancel,
         submitLabel,
-        status,
+        procurement,
+        production,
+        qa,
         titleLabel
     }) {
     const classes = useStyles();
     const orderStatusOptions = useSelector(selectOrderStatuses);
 
-    const { procurement, production, qa } = status;
     const { control, handleSubmit, errors, watch, setValue, reset } = useForm({
         mode: 'onSubmit'
     });
@@ -82,7 +83,7 @@ const OrderStatusDialog = React.memo(function OrderStatusDialog(
     }, [setValue, procurementStatus, productionStatus, qaStatus]);
 
     const onFormSubmit = useCallback(data => {
-        const newStatus = {
+        const update = {
             procurement: {
                 status: getOptionId(data.procurementStatus),
                 estimated: data.procurementEstimated?.toString(),
@@ -99,7 +100,7 @@ const OrderStatusDialog = React.memo(function OrderStatusDialog(
                 actual: data.qaActual?.toString()
             }
         };
-        onSubmit(newStatus);
+        onSubmit(update);
     }, [onSubmit]);
 
     const renderOption = useCallback(
@@ -215,7 +216,9 @@ OrderStatusDialog.propTypes = {
     onCancel: PropTypes.func.isRequired,
     submitLabel: PropTypes.string.isRequired,
     titleLabel: PropTypes.string.isRequired,
-    status: PropTypes.object
+    procurement: PropTypes.object,
+    production: PropTypes.object,
+    qa: PropTypes.object
 };
 
 export default OrderStatusDialog;

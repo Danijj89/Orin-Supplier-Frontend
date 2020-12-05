@@ -43,10 +43,9 @@ export const selectOrdersMap = createSelector(
                 shipAdd: { ...order.shipAdd, country: countriesMap[order.shipAdd?.country]},
                 del: deliveryMethodsMap[order.del],
                 currency: currenciesMap[order.currency],
-                status: Object.entries(order.status).reduce((obj, [key, status]) => {
-                    obj[key] = { ...status, status: orderStatusesMap[status.status] };
-                    return obj;
-                }, {}),
+                procurement: { ...order.procurement, status: orderStatusesMap[order.procurement.status] },
+                production: { ...order.production, status: orderStatusesMap[order.production.status] },
+                qa: { ...order.qa, status: orderStatusesMap[order.qa.status] },
                 items: order.items.map(item => ({
                     ...item,
                     unit: itemUnitsMap[item.unit]
@@ -67,11 +66,23 @@ export const selectOrderById = createSelector(
     (ordersMap, orderId) => ordersMap[orderId]
 );
 
+export const selectAllActiveAndUnarchivedOrders = createSelector(
+    selectAllOrders,
+    orders => orders.filter(order => order.active && !order.archived)
+);
+
 export const selectAllActiveOrders = createSelector(
     selectAllOrders,
     orders => orders.filter(order => order.active)
 );
 
+export const selectActiveOrdersMap = createSelector(
+    selectAllActiveOrders,
+    orders => orders.reduce((map, order) => {
+        map[order._id] = order;
+        return map;
+    }, {})
+);
 
 export const selectNewOrder = createSelector(
     selectCurrentCompany,
@@ -96,35 +107,6 @@ export const selectNewOrder = createSelector(
     })
 );
 
-export const selectOrderStatusField = createSelector(
-    selectOrderById,
-    order => order.status
-);
-
-
-
-
-
-
-
-
-
-
-
-
-export const selectAllActiveAndUnarchivedOrders = createSelector(
-    selectAllOrders,
-    orders => orders.filter(order => order.active && !order.archived)
-);
-
-export const selectActiveOrdersMap = createSelector(
-    selectAllActiveOrders,
-    orders => orders.reduce((map, order) => {
-        map[order._id] = order;
-        return map;
-    }, {})
-);
-
 export const selectShipmentShellClientIdToActiveOrdersMap = createSelector(
     selectAllActiveAndUnarchivedOrders,
     orders => orders.reduce((map, order) => {
@@ -134,6 +116,19 @@ export const selectShipmentShellClientIdToActiveOrdersMap = createSelector(
         return map;
     }, {})
 );
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

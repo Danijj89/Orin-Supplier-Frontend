@@ -8,7 +8,7 @@ import StatusDisplay from './StatusDisplay.js';
 import EditOrderStatusButton from './EditOrderStatusButton.js';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { selectOrderStatusField } from './duck/selectors.js';
+import { selectOrderById } from './duck/selectors.js';
 
 const useStyles = makeStyles((theme) => ({
     tableContainer: {
@@ -41,8 +41,8 @@ const TableCell = withStyles((theme) => ({
 const StatusInfoCard = React.memo(function StatusInfoCard() {
     const classes = useStyles();
     const { id: orderId } = useParams();
-    const status = useSelector(state => selectOrderStatusField(state, { orderId }));
-    const { procurement, production, qa } = status;
+    const order = useSelector(state => selectOrderById(state, { orderId }));
+    const { procurement, production, qa } = order;
 
     const HeaderCell = ({ header }) =>
         <TableCell align="center" width={ 140 }>{ header }</TableCell>
@@ -61,7 +61,14 @@ const StatusInfoCard = React.memo(function StatusInfoCard() {
     return (
         <InfoCard
             title={ title }
-            button={ <EditOrderStatusButton orderId={ orderId } status={ status }/> }
+            button={
+                <EditOrderStatusButton
+                    orderId={ orderId }
+                    procurement={ order.procurement }
+                    production={ order.production }
+                    qa={ order.qa }
+                />
+            }
             content={
                 <TableContainer className={ classes.tableContainer }>
                     <Table>

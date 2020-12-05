@@ -6,10 +6,11 @@ import UnitCounter from '../shared/classes/UnitCounter.js';
 import { dateToLocaleDate } from '../shared/utils/format.js';
 import PopoverNotes from '../shared/components/PopoverNotes.js';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateOrder } from './duck/thunks.js';
+import { updateOrder, updateOrderStatus } from './duck/thunks.js';
 import { selectAllActiveOrders } from './duck/selectors.js';
-import StatusDisplay from './StatusDisplay.js';
-import { selectItemUnitsMap } from '../../app/duck/selectors.js';
+import { selectItemUnitsMap, selectOrderStatuses } from '../../app/duck/selectors.js';
+import StatusDropdown from '../shared/components/StatusDropdown.js';
+import { getOptionId } from '../../app/utils/options/getters.js';
 
 const { ordersTableHeadersMap } = LANGUAGE.order.ordersOverview;
 
@@ -19,6 +20,7 @@ export default function OrdersTable() {
     const location = useLocation();
     const orders = useSelector(selectAllActiveOrders);
     const itemUnitsMap = useSelector(selectItemUnitsMap);
+    const orderStatuses = useSelector(selectOrderStatuses);
 
     const onRowClick = (params) => history.push(`${ location.pathname }/${ params.id }?tab=details`);
 
@@ -26,12 +28,10 @@ export default function OrdersTable() {
         (orderId, data) => dispatch(updateOrder({ orderId, update: data })),
         [dispatch]);
 
-    const renderPopoverNotes = useCallback(
-        (params) => <PopoverNotes
-            notes={ params.notes }
-            onSubmit={ (data) => onNotesSubmit(params.id, data) }
-        />,
-        [onNotesSubmit]);
+    const createStatusChangeHandler = useCallback(
+        (orderId, statusStep) => (newStatus) =>
+            dispatch(updateOrderStatus({ orderId, update: { [statusStep]: { status: getOptionId(newStatus)}}})),
+        [dispatch]);
 
     const columns = useMemo(() => [
         { field: 'id', hide: true },
@@ -42,27 +42,52 @@ export default function OrdersTable() {
         {
             field: 'procurement',
             headerName: ordersTableHeadersMap.procurement,
-            renderCell: params => <StatusDisplay status={ params.procurement }/>,
-            align: 'center'
+            renderCell: params =>
+                <StatusDropdown
+                    status={ params.procurement }
+                    statuses={ orderStatuses }
+                    colorMap="order"
+                    onStatusChange={ createStatusChangeHandler(params.id, 'procurement')}
+                />,
+            align: 'center',
+            width: 140
         },
         {
             field: 'production',
             headerName: ordersTableHeadersMap.production,
-            renderCell: params => <StatusDisplay status={ params.procurement }/>,
-            align: 'center'
+            renderCell: params =>
+                <StatusDropdown
+                    status={ params.production }
+                    statuses={ orderStatuses }
+                    colorMap="order"
+                    onStatusChange={ createStatusChangeHandler(params.id, 'production')}
+                />,
+            align: 'center',
+            width: 140
         },
         {
             field: 'qa',
             headerName: ordersTableHeadersMap.qa,
-            renderCell: params => <StatusDisplay status={ params.procurement }/>,
-            align: 'center'
+            renderCell: params =>
+                <StatusDropdown
+                    status={ params.qa }
+                    statuses={ orderStatuses }
+                    colorMap="order"
+                    onStatusChange={ createStatusChangeHandler(params.id, 'qa')}
+                />,
+            align: 'center',
+            width: 140
         },
         {
             field: 'notes',
             headerName: ordersTableHeadersMap.notes,
-            renderCell: renderPopoverNotes
+            renderCell: params =>
+                <PopoverNotes
+                    notes={ params.notes }
+                    onSubmit={ (data) => onNotesSubmit(params.id, data) }
+                />
         }
-    ], [renderPopoverNotes]);
+    ], [createStatusChangeHandler, onNotesSubmit, orderStatuses]);
 
     const rows = useMemo(() => orders.map(order => ({
         id: order._id,
@@ -70,9 +95,9 @@ export default function OrdersTable() {
         totalQ: UnitCounter.stringRep(order.totalQ, itemUnitsMap, LOCALE),
         crd: dateToLocaleDate(order.crd),
         toName: order.toAdd.name,
-        procurement: order.status.procurement.status,
-        production: order.status.production.status,
-        qa: order.status.qa.status,
+        procurement: order.procurement.status,
+        production: order.production.status,
+        qa: order.qa.status,
         notes: order.notes
     })), [orders, itemUnitsMap]);
 
