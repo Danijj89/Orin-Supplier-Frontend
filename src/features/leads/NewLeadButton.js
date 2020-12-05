@@ -24,10 +24,16 @@ const NewLeadButton = React.memo(function NewLeadButton({ className }) {
     const onButtonClick = useCallback(() => setIsOpen(true), []);
     const onSubmit = useCallback(
         (data) => {
-            data.company = companyId;
-            data.createdBy = userId;
-            if (data.assignedTo) data.assignedTo = data.assignedTo._id;
-            dispatch(createLead({ data }));
+            const { contactName, contactEmail, phone, ...lead } = data;
+            lead.contact = {
+                name: contactName,
+                email: contactEmail,
+                phone: phone
+            }
+            lead.company = companyId;
+            lead.createdBy = userId;
+            if (lead.assignedTo) lead.assignedTo = lead.assignedTo._id;
+            dispatch(createLead({ data: lead }));
             setIsOpen(false);
         },
         [dispatch, companyId, userId]);

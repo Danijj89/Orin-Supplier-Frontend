@@ -24,8 +24,8 @@ const createLead = async (lead) => {
 
 const updateLead = async (leadId, update) => {
     const configs = {
-        method: 'post',
-        url: `leads${leadId}`,
+        method: 'put',
+        url: `leads/${leadId}`,
         data: update
     };
     const { data } = await fetchWithAuth(configs);

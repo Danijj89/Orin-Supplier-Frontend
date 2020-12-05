@@ -22,7 +22,8 @@ export const createLead = createAsyncThunk('leads/createLead',
 export const updateLead = createAsyncThunk('leads/updateLead',
     async ({ leadId, update }, {rejectWithValue}) => {
         try {
-            return await LeadService.updateLead(leadId, update);
+            await LeadService.updateLead(leadId, update);
+            return { leadId, update };
         } catch (err) {
             return rejectWithValue(err.response.data);
         }

@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectLeadById } from './duck/selectors.js';
 import Grid from '@material-ui/core/Grid';
 import { useForm } from 'react-hook-form';
@@ -17,6 +17,8 @@ import { dateToLocaleDate } from '../shared/utils/format.js';
 import StatusDropdown from '../shared/components/StatusDropdown.js';
 import { selectLeadPotentials, selectLeadTypes, selectSalesStatuses } from '../../app/duck/selectors.js';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
+import { getOptionId } from '../../app/utils/options/getters.js';
+import { updateLead } from './duck/thunks.js';
 
 const {
     formLabels,
@@ -27,6 +29,7 @@ const {
 } = LANGUAGE.lead.lead.leadDetails;
 
 const LeadDetails = React.memo(function LeadDetails() {
+    const dispatch = useDispatch();
     const { id: leadId } = useParams();
     const users = useSelector(selectAllActiveUsers);
     const usersMap = useSelector(selectUsersMap);
@@ -47,7 +50,7 @@ const LeadDetails = React.memo(function LeadDetails() {
             quotation: lead.quotation,
             sample: lead.sample,
             lastContact: lead.lastContact,
-            assignedTo: usersMap[lead.assignedTo],
+            assignedTo: usersMap[lead.assignedTo] || null,
             notes: lead.notes,
             salesStatus: lead.salesStatus,
             leadType: lead.leadType,
@@ -71,9 +74,20 @@ const LeadDetails = React.memo(function LeadDetails() {
 
     const onSubmit = useCallback(
         (data) => {
-
+            const { contactName, contactEmail, phone, additional, ...update } = data;
+            update.contact = {
+                name: contactName,
+                email: contactEmail,
+                phone: phone,
+                additional: additional
+            };
+            update.salesStatus = getOptionId(update.salesStatus);
+            update.leadType = getOptionId(update.leadType);
+            update.leadPotential = getOptionId(update.leadPotential);
+            if (update.assignedTo) update.assignedTo = update.assignedTo._id;
+            dispatch(updateLead({ leadId, update }));
         },
-        []);
+        [dispatch, leadId]);
 
     return (
         <form onSubmit={ handleSubmit(onSubmit) } autoComplete="off" noValidate>

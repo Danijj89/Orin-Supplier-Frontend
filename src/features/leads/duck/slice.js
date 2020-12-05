@@ -40,7 +40,7 @@ const leadsSlice = createSlice({
         },
         [createLead.fulfilled]: (state, action) => {
             leadsAdapter.upsertOne(state, action.payload);
-            state.status = 'FULFILLED';
+            state.status = 'IDLE';
         },
         [createLead.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -50,9 +50,13 @@ const leadsSlice = createSlice({
             state.status = 'PENDING';
         },
         [updateLead.fulfilled]: (state, action) => {
-            const { _id: id, ...changes } = action.payload;
+            const { leadId: id, update: changes } = action.payload;
+            if (changes.contact) {
+                const prevContact = state.entities[id].contact;
+                changes.contact = { ...prevContact, ...changes.contact };
+            }
             leadsAdapter.updateOne(state, { id, changes });
-            state.status = 'FULFILLED';
+            state.status = 'IDLE';
         },
         [updateLead.rejected]: (state, action) => {
             state.status = 'REJECTED';
