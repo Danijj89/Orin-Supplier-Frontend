@@ -9,16 +9,22 @@ import Lead from './Lead.js';
 import { fetchLeads } from './duck/thunks.js';
 import { cleanHomeState } from '../home/duck/slice.js';
 import { cleanLeadState } from './duck/slice.js';
+import { selectUserDataStatus, selectUserError } from '../users/duck/selectors.js';
+import { fetchUsers } from '../users/duck/thunks.js';
+import { cleanUserState } from '../users/duck/slice.js';
 
 const LeadContainer = React.memo(function LeadContainer() {
     const dispatch = useDispatch();
+
     const homeDataStatus = useSelector(selectHomeDataStatus);
     const homeError = useSelector(selectHomeError);
     const leadDataStatus = useSelector(selectLeadDataStatus);
     const leadError = useSelector(selectLeadError);
+    const userDataStatus = useSelector(selectUserDataStatus);
+    const userError = useSelector(selectUserError);
 
-    const status = determineStatus(leadDataStatus, homeDataStatus);
-    const errors = getErrors(leadError, homeError);
+    const status = determineStatus(leadDataStatus, homeDataStatus, userDataStatus);
+    const errors = getErrors(leadError, homeError, userError);
 
     const companyId = useSelector(selectCompanyId);
 
@@ -26,6 +32,7 @@ const LeadContainer = React.memo(function LeadContainer() {
     useEffect(() => {
         if (!fetched.current && companyId) {
             if (leadDataStatus === 'IDLE') dispatch(fetchLeads({ companyId }));
+            dispatch(fetchUsers({ companyId }));
             fetched.current = true;
         }
     }, [dispatch, companyId, leadDataStatus]);
@@ -35,6 +42,7 @@ const LeadContainer = React.memo(function LeadContainer() {
             if (errors.length > 0) {
                 dispatch(cleanHomeState());
                 dispatch(cleanLeadState());
+                dispatch(cleanUserState());
             }
         }
     }, [dispatch, errors.length]);

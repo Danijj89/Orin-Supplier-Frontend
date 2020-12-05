@@ -243,6 +243,28 @@ export const ENGLISH = {
             tabsLabelsMap: {
                 details: 'Details',
                 addresses: 'Addresses'
+            },
+            leadDetails: {
+                formLabels: {
+                    name: 'Company',
+                    contactName: 'Name',
+                    contactEmail: 'Email',
+                    phone: 'Phone',
+                    additional: 'Other Contacts',
+                    source: 'Source',
+                    quotation: 'Last Quotation',
+                    sample: 'Sample',
+                    lastContact: 'Last Contact',
+                    assignedTo: 'Sales',
+                    notes: 'Notes',
+                    salesStatus: 'Sales Status',
+                    leadType: 'Lead Type',
+                    leadPotential: 'Lead Potential',
+                },
+                createdAtLabel: 'Created At',
+                leadInfoTitleLabel: 'Lead Information',
+                salesInfoTitleLabel: 'Sales Information',
+                saveButtonLabel: 'Save'
             }
         }
     },
