@@ -89,7 +89,6 @@ const CreateShipment = React.memo(function CreateShipment() {
     const shipment = useSelector(state => selectEditShipmentShellById(state, { shipmentId }));
     const companyDefaultAddress = useSelector(selectCompanyDefaultAddress);
 
-
     const initialShipmentOrders = useSelector(state => selectShipmentOrders(state, { shipmentId }));
     const initialOrderIds = initialShipmentOrders?.map(order => order._id);
     const isEdit = Boolean(shipmentId);
@@ -138,7 +137,7 @@ const CreateShipment = React.memo(function CreateShipment() {
             setValue('consigneeAdd', null);
             setClientOrders(clientIdToActiveOrdersMap[chosenClient._id]);
             prevClient.current = chosenClient;
-        } else if (!chosenClient) {
+        } else if (!chosenClient && prevClient.current !== chosenClient) {
             setClientAddresses([]);
             setValue('consigneeAdd', null);
             setValue('orderIds', []);
