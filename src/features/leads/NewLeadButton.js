@@ -12,7 +12,7 @@ const {
     buttonLabel,
     dialogTitleLabel,
     dialogSubmitLabel
-} = LANGUAGE.lead.newLeadButton;
+} = LANGUAGE.lead.overview.newLeadButton;
 
 const NewLeadButton = React.memo(function NewLeadButton({ className }) {
     const dispatch = useDispatch();

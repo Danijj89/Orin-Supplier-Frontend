@@ -14,7 +14,7 @@ import { dateToLocaleDate } from '../shared/utils/format.js';
 
 const {
     tableHeaders
-} = LANGUAGE.lead.leadsTable;
+} = LANGUAGE.lead.overview.leadsTable;
 
 const LeadsTable = React.memo(function LeadsTable() {
     const dispatch = useDispatch();
@@ -25,7 +25,7 @@ const LeadsTable = React.memo(function LeadsTable() {
     const leads = useSelector(selectAllLeads);
 
     const onRowClick = useCallback(
-        (params) => history.push(`/home/leads/${ params.id }`),
+        (params) => history.push(`/home/leads/${ params.id }?tab=details`),
         [history]);
 
     const createSalesStatusChangeHandler = useCallback(

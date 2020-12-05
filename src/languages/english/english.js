@@ -207,34 +207,42 @@ export const ENGLISH = {
         }
     },
     lead: {
-        newLeadButton: {
-            buttonLabel: 'New Lead',
-            dialogTitleLabel: 'New Lead',
-            dialogSubmitLabel: 'Create'
-        },
-        leadDialog: {
-            formLabels: {
-                name: 'Company Name',
-                contactName: 'Primary Contact Name',
-                contactEmail: 'Primary Contact Email',
-                phone: 'Phone',
-                source: 'Source',
-                assignedTo: 'Assigned Sales'
+        overview: {
+            newLeadButton: {
+                buttonLabel: 'New Lead',
+                dialogTitleLabel: 'New Lead',
+                dialogSubmitLabel: 'Create'
+            },
+            leadDialog: {
+                formLabels: {
+                    name: 'Company Name',
+                    contactName: 'Primary Contact Name',
+                    contactEmail: 'Primary Contact Email',
+                    phone: 'Phone',
+                    source: 'Source',
+                    assignedTo: 'Assigned Sales'
+                }
+            },
+            leadsTable: {
+                tableHeaders: {
+                    name: 'Customer Name',
+                    contactName: 'Contact',
+                    contactEmail: 'Email',
+                    salesStatus: 'Sales Status',
+                    leadType: 'Lead Type',
+                    source: 'Source',
+                    quotation: 'Last Quotation',
+                    sample: 'Sample',
+                    lastContact: 'Last Contact',
+                    assignedTo: 'Sales',
+                    notes: 'Notes'
+                }
             }
         },
-        leadsTable: {
-            tableHeaders: {
-                name: 'Customer Name',
-                contactName: 'Contact',
-                contactEmail: 'Email',
-                salesStatus: 'Sales Status',
-                leadType: 'Lead Type',
-                source: 'Source',
-                quotation: 'Last Quotation',
-                sample: 'Sample',
-                lastContact: 'Last Contact',
-                assignedTo: 'Sales',
-                notes: 'Notes'
+        lead: {
+            tabsLabelsMap: {
+                details: 'Details',
+                addresses: 'Addresses'
             }
         }
     },

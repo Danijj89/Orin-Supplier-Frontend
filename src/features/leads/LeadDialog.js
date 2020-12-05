@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 
 const {
     formLabels
-} = LANGUAGE.lead.leadDialog;
+} = LANGUAGE.lead.overview.leadDialog;
 
 const LeadDialog = React.memo(function LeadDialog(
     { isOpen, onSubmit, onCancel, submitLabel, titleLabel }) {
