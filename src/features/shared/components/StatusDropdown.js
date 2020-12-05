@@ -130,7 +130,13 @@ const StatusDropdown = React.memo(function StatusDropdown(
 StatusDropdown.propTypes = {
     status: PropTypes.object.isRequired,
     statuses: PropTypes.array.isRequired,
-    colorMap: PropTypes.oneOf(['shipment', 'order']),
+    colorMap: PropTypes.oneOf([
+        'shipment',
+        'order',
+        'salesStatus',
+        'leadType',
+        'leadPotential'
+    ]).isRequired,
     onStatusChange: PropTypes.func.isRequired,
     className: PropTypes.string
 };

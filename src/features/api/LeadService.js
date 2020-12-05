@@ -22,11 +22,20 @@ const createLead = async (lead) => {
     return data;
 };
 
-
+const updateLead = async (leadId, update) => {
+    const configs = {
+        method: 'post',
+        url: `leads${leadId}`,
+        data: update
+    };
+    const { data } = await fetchWithAuth(configs);
+    return data;
+};
 
 const LeadService = {
     fetchLeads,
-    createLead
+    createLead,
+    updateLead
 };
 
 export default LeadService;

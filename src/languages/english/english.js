@@ -221,6 +221,21 @@ export const ENGLISH = {
                 source: 'Source',
                 assignedTo: 'Assigned Sales'
             }
+        },
+        leadsTable: {
+            tableHeaders: {
+                name: 'Customer Name',
+                contactName: 'Contact',
+                contactEmail: 'Email',
+                salesStatus: 'Sales Status',
+                leadType: 'Lead Type',
+                source: 'Source',
+                quotation: 'Last Quotation',
+                sample: 'Sample',
+                lastContact: 'Last Contact',
+                assignedTo: 'Sales',
+                notes: 'Notes'
+            }
         }
     },
     order: {

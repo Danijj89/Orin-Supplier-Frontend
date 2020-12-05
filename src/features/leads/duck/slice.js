@@ -1,5 +1,5 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import { createLead, fetchLeads } from './thunks.js';
+import { createLead, fetchLeads, updateLead } from './thunks.js';
 
 
 export const leadsAdapter = createEntityAdapter({
@@ -43,6 +43,18 @@ const leadsSlice = createSlice({
             state.status = 'FULFILLED';
         },
         [createLead.rejected]: (state, action) => {
+            state.status = 'REJECTED';
+            state.error = action.payload.message;
+        },
+        [updateLead.pending]: (state) => {
+            state.status = 'PENDING';
+        },
+        [updateLead.fulfilled]: (state, action) => {
+            const { _id: id, ...changes } = action.payload;
+            leadsAdapter.updateOne(state, { id, changes });
+            state.status = 'FULFILLED';
+        },
+        [updateLead.rejected]: (state, action) => {
             state.status = 'REJECTED';
             state.error = action.payload.message;
         }

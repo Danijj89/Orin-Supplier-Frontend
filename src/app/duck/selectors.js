@@ -95,6 +95,24 @@ export const selectShipmentStatusesMap = createSelector(
 
 export const selectContainerTypes = state => state.app.appData.containerTypes;
 
+export const selectSalesStatuses = state => state.app.appData.salesStatuses;
+export const selectSalesStatusesMap = createSelector(
+    selectSalesStatuses,
+    getOptionsMap
+);
+
+export const selectLeadTypes = state => state.app.appData.leadTypes;
+export const selectLeadTypesMap = createSelector(
+    selectLeadTypes,
+    getOptionsMap
+);
+
+export const selectLeadPotentials = state => state.app.appData.leadPotentials;
+export const selectLeadPotentialsMap = createSelector(
+    selectLeadPotentials,
+    getOptionsMap
+);
+
 export const selectDefaultRowItem = createSelector(
     selectItemUnits,
     selectPackageUnits,
