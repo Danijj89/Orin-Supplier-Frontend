@@ -206,6 +206,23 @@ export const ENGLISH = {
             }
         }
     },
+    lead: {
+        newLeadButton: {
+            buttonLabel: 'New Lead',
+            dialogTitleLabel: 'New Lead',
+            dialogSubmitLabel: 'Create'
+        },
+        leadDialog: {
+            formLabels: {
+                name: 'Company Name',
+                contactName: 'Primary Contact Name',
+                contactEmail: 'Primary Contact Email',
+                phone: 'Phone',
+                source: 'Source',
+                assignedTo: 'Assigned Sales'
+            }
+        }
+    },
     order: {
         ordersOverview: {
             newOrderButtonLabel: 'New Order',

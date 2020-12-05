@@ -9,3 +9,12 @@ export const fetchLeads = createAsyncThunk('leads/fetchLeads',
             return rejectWithValue(err.response.data);
         }
     });
+
+export const createLead = createAsyncThunk('leads/createLead',
+    async ({ data }, { rejectWithValue }) => {
+        try {
+            return await LeadService.createLead(data);
+        } catch (err) {
+            return rejectWithValue(err.response.data);
+        }
+    });

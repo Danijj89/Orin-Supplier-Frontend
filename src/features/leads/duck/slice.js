@@ -1,6 +1,5 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import { shipmentsAdapter } from '../../shipments/duck/slice.js';
-import { fetchLeads } from './thunks.js';
+import { createLead, fetchLeads } from './thunks.js';
 
 
 export const leadsAdapter = createEntityAdapter({
@@ -34,6 +33,17 @@ const leadsSlice = createSlice({
         },
         [fetchLeads.rejected]: (state, action) => {
             state.dataStatus = 'REJECTED';
+            state.error = action.payload.message;
+        },
+        [createLead.pending]: (state) => {
+            state.status = 'PENDING';
+        },
+        [createLead.fulfilled]: (state, action) => {
+            leadsAdapter.upsertOne(state, action.payload);
+            state.status = 'FULFILLED';
+        },
+        [createLead.rejected]: (state, action) => {
+            state.status = 'REJECTED';
             state.error = action.payload.message;
         }
     }

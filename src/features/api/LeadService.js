@@ -12,8 +12,21 @@ const fetchLeads = async (companyId) => {
     return data;
 };
 
+const createLead = async (lead) => {
+    const configs = {
+        method: 'post',
+        url: 'leads',
+        data: lead
+    };
+    const { data } = await fetchWithAuth(configs);
+    return data;
+};
+
+
+
 const LeadService = {
-    fetchLeads
+    fetchLeads,
+    createLead
 };
 
 export default LeadService;
