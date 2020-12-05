@@ -265,6 +265,15 @@ export const ENGLISH = {
                 leadInfoTitleLabel: 'Lead Information',
                 salesInfoTitleLabel: 'Sales Information',
                 saveButtonLabel: 'Save'
+            },
+            leadAddresses: {
+                newLeadAddressButton: {
+                    buttonLabel: 'New Address',
+                    dialogTitleLabel: 'New Lead Address',
+                    dialogSubmitLabel: 'Add'
+                },
+                editDialogTitleLabel: 'Edit Address',
+                editDialogSubmitLabel: 'Save'
             }
         }
     },

@@ -49,3 +49,8 @@ export const selectLeadById = createSelector(
     (_, { leadId }) => leadId,
     (leadsMap, leadId) => leadsMap[leadId]
 );
+
+export const selectLeadAddresses = createSelector(
+    selectLeadById,
+    lead => lead.addresses
+);

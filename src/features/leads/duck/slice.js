@@ -1,5 +1,12 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import { createLead, fetchLeads, updateLead } from './thunks.js';
+import {
+    createLead,
+    createLeadAddress,
+    deleteLeadAddress,
+    fetchLeads,
+    updateLead, updateLeadAddress,
+    updateLeadDefaultAddress
+} from './thunks.js';
 
 
 export const leadsAdapter = createEntityAdapter({
@@ -8,9 +15,9 @@ export const leadsAdapter = createEntityAdapter({
 });
 
 const initialState = leadsAdapter.getInitialState({
-   dataStatus: 'IDLE',
-   status: 'IDLE',
-   error: null
+    dataStatus: 'IDLE',
+    status: 'IDLE',
+    error: null
 });
 
 const leadsSlice = createSlice({
@@ -59,6 +66,66 @@ const leadsSlice = createSlice({
             state.status = 'IDLE';
         },
         [updateLead.rejected]: (state, action) => {
+            state.status = 'REJECTED';
+            state.error = action.payload.message;
+        },
+        [createLeadAddress.pending]: (state) => {
+            state.status = 'PENDING';
+        },
+        [createLeadAddress.fulfilled]: (state, action) => {
+            const { _id: id, ...changes } = action.payload;
+            leadsAdapter.updateOne(state, { id, changes });
+            state.status = 'IDLE';
+        },
+        [createLeadAddress.rejected]: (state, action) => {
+            state.status = 'REJECTED';
+            state.error = action.payload.message;
+        },
+        [deleteLeadAddress.pending]: (state) => {
+            state.status = 'PENDING';
+        },
+        [deleteLeadAddress.fulfilled]: (state, action) => {
+            const { leadId, addressId } = action.payload;
+            const newAddresses = state.entities[leadId].addresses.filter(
+                a => a._id !== addressId);
+            leadsAdapter.updateOne(state, {
+                id: leadId,
+                changes: { addresses: newAddresses }
+            });
+            state.status = 'IDLE';
+        },
+        [deleteLeadAddress.rejected]: (state, action) => {
+            state.status = 'REJECTED';
+            state.error = action.payload.message;
+        },
+        [updateLeadDefaultAddress.pending]: (state) => {
+            state.status = 'PENDING';
+        },
+        [updateLeadDefaultAddress.fulfilled]: (state, action) => {
+            const { leadId, addressId } = action.payload;
+            const newAddresses = state.entities[leadId].addresses.map(address => {
+                if (address.default) address.default = false;
+                else if (address._id === addressId) address.default = true;
+                return address;
+            })
+            leadsAdapter.updateOne(state, { id: leadId, changes: { addresses: newAddresses } });
+            state.status = 'IDLE';
+        },
+        [updateLeadDefaultAddress.rejected]: (state, action) => {
+            state.status = 'REJECTED';
+            state.error = action.payload.message;
+        },
+        [updateLeadAddress.pending]: (state) => {
+            state.status = 'PENDING';
+        },
+        [updateLeadAddress.fulfilled]: (state, action) => {
+            const { leadId, addressId, update } = action.payload;
+            const updatedAddresses = state.entities[leadId].addresses.map(
+                add => add._id === addressId ? { ...add, ...update } : add);
+            leadsAdapter.updateOne(state, { id: leadId, changes: { addresses: updatedAddresses } });
+            state.status = 'IDLE';
+        },
+        [updateLeadAddress.rejected]: (state, action) => {
             state.status = 'REJECTED';
             state.error = action.payload.message;
         }

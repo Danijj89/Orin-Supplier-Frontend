@@ -32,10 +32,52 @@ const updateLead = async (leadId, update) => {
     return data;
 };
 
+const createLeadAddress = async (leadId, address) => {
+    const configs = {
+        method: 'post',
+        url: `leads/${leadId}/addresses`,
+        data: address
+    };
+    const { data } = await fetchWithAuth(configs);
+    return data;
+};
+
+const deleteLeadAddress = async (leadId, addressId) => {
+    const configs = {
+        method: 'delete',
+        url: `leads/${leadId}/addresses/${addressId}`
+    };
+    const { data } = await fetchWithAuth(configs);
+    return data;
+};
+
+const updateLeadDefaultAddress = async (leadId, addressId) => {
+    const configs = {
+        method: 'put',
+        url: `leads/${leadId}/addresses/${addressId}/default`
+    };
+    const { data } = await fetchWithAuth(configs);
+    return data;
+};
+
+const updateLeadAddress = async (leadId, addressId, update) => {
+    const configs = {
+        method: 'put',
+        url: `leads/${leadId}/addresses/${addressId}`,
+        data: update
+    };
+    const { data } = await fetchWithAuth(configs);
+    return data;
+};
+
 const LeadService = {
     fetchLeads,
     createLead,
-    updateLead
+    updateLead,
+    createLeadAddress,
+    deleteLeadAddress,
+    updateLeadDefaultAddress,
+    updateLeadAddress
 };
 
 export default LeadService;

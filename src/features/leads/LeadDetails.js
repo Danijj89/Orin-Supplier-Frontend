@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectLeadById } from './duck/selectors.js';
 import Grid from '@material-ui/core/Grid';
@@ -28,9 +27,8 @@ const {
     saveButtonLabel
 } = LANGUAGE.lead.lead.leadDetails;
 
-const LeadDetails = React.memo(function LeadDetails() {
+const LeadDetails = React.memo(function LeadDetails({ leadId }) {
     const dispatch = useDispatch();
-    const { id: leadId } = useParams();
     const users = useSelector(selectAllActiveUsers);
     const usersMap = useSelector(selectUsersMap);
     const salesStatusOptions = useSelector(selectSalesStatuses);

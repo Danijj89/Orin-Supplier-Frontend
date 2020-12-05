@@ -5,6 +5,7 @@ import { LANGUAGE } from '../../app/utils/constants.js';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 import queryString from 'query-string';
 import LeadDetails from './LeadDetails.js';
+import LeadAddresses from './LeadAddresses.js';
 
 const {
     tabsLabelsMap
@@ -18,8 +19,8 @@ const Lead = React.memo(function Lead() {
     const tabValue = tab || 'details';
 
     const onTabChange = useCallback(
-        (newValue) => history.push(`/home/leads/${leadId}?tab=${newValue}`),
-    [history, leadId]);
+        (newValue) => history.push(`/home/leads/${ leadId }?tab=${ newValue }`),
+        [history, leadId]);
 
     return (
         <Paper>
@@ -29,7 +30,10 @@ const Lead = React.memo(function Lead() {
                 onChange={ onTabChange }
             />
             { tabValue === 'details' &&
-                <LeadDetails />
+            <LeadDetails leadId={ leadId }/>
+            }
+            { tabValue === 'addresses' &&
+            <LeadAddresses leadId={ leadId }/>
             }
         </Paper>
     )
