@@ -49,7 +49,7 @@ const OrderDetailsDialog = React.memo(function OrderDetailsDialog(
     const companyPorts = useSelector(selectCompanyPorts);
     const clients = useSelector(selectAllActiveClients);
 
-    const initialClient = useSelector(state => selectClientById(state, order.to));
+    const initialClient = useSelector(state => selectClientById(state, { clientId: order.to }));
     const initialClientAddress = useSelector(
         state => selectClientAddress(state,
             { clientId: order.to, addressId: order.toAdd.addressId }

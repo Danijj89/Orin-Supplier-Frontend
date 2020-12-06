@@ -10,7 +10,6 @@ import { updateLead } from './duck/thunks.js';
 import { getOptionId } from '../../app/utils/options/getters.js';
 import { selectUsersMap } from '../users/duck/selectors.js';
 import PopoverNotes from '../shared/components/PopoverNotes.js';
-import { dateToLocaleDate } from '../shared/utils/format.js';
 
 const {
     tableHeaders
@@ -79,9 +78,9 @@ const LeadsTable = React.memo(function LeadsTable() {
                 />
         },
         { field: 'source', headerName: tableHeaders.source },
-        { field: 'quotation', headerName: tableHeaders.quotation },
-        { field: 'sample', headerName: tableHeaders.sample },
-        { field: 'lastContact', headerName: tableHeaders.lastContact },
+        { field: 'quotation', headerName: tableHeaders.quotation, type: 'date' },
+        { field: 'sample', headerName: tableHeaders.sample, type: 'date' },
+        { field: 'lastContact', headerName: tableHeaders.lastContact, type: 'date' },
         { field: 'assignedTo', headerName: tableHeaders.assignedTo },
         {
             field: 'notes',
@@ -102,9 +101,9 @@ const LeadsTable = React.memo(function LeadsTable() {
         salesStatus: lead.salesStatus,
         leadType: lead.leadType,
         source: lead.source,
-        quotation: dateToLocaleDate(lead.quotation),
-        sample: dateToLocaleDate(lead.sample),
-        lastContact: dateToLocaleDate(lead.lastContact),
+        quotation: lead.quotation,
+        sample: lead.sample,
+        lastContact: lead.lastContact,
         assignedTo: usersMap[lead.assignedTo]?.name,
         notes: lead.notes
     })), [leads, usersMap]);

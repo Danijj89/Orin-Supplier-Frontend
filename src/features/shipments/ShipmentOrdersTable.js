@@ -2,7 +2,6 @@ import React, { useCallback, useMemo } from 'react';
 import Table from '../shared/components/table/Table.js';
 import OrderStatusDisplay from '../orders/OrderStatusDisplay.js';
 import UnitCounter from '../shared/classes/UnitCounter.js';
-import { dateToLocaleDate } from '../shared/utils/format.js';
 import { LANGUAGE, LOCALE } from '../../app/utils/constants.js';
 import { Box } from '@material-ui/core';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
@@ -43,7 +42,7 @@ const ShipmentOrdersTable = React.memo(function ShipmentOrdersTable() {
         { field: 'ref', headerName: tableHeaderLabelsMap.ref },
         { field: 'clientRef', headerName: tableHeaderLabelsMap.clientRef },
         { field: 'totalQ', headerName: tableHeaderLabelsMap.totalQ },
-        { field: 'crd', headerName: tableHeaderLabelsMap.crd },
+        { field: 'crd', headerName: tableHeaderLabelsMap.crd, type: 'date' },
         { field: 'del', headerName: tableHeaderLabelsMap.del, align: 'center' },
         {
             field: 'production',
@@ -70,7 +69,7 @@ const ShipmentOrdersTable = React.memo(function ShipmentOrdersTable() {
                 ref: order.ref,
                 clientRef: order.clientRef,
                 totalQ: UnitCounter.stringRep(order.totalQ, itemUnitsMap, LOCALE),
-                crd: dateToLocaleDate(order.crd),
+                crd: order.crd,
                 del: getOptionLabel(order.del, LOCALE),
                 production: order.production.status,
                 qa: order.qa.status,

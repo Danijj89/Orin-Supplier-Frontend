@@ -2,6 +2,7 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { TableRow as MuiTableRow } from '@material-ui/core';
 import TableCell from '@material-ui/core/TableCell';
+import { dateToLocaleDate } from '../../utils/format.js';
 
 const TableRow = React.memo(function TableRow({ row, columns, onRowClick, disableRowHover }) {
 
@@ -9,6 +10,13 @@ const TableRow = React.memo(function TableRow({ row, columns, onRowClick, disabl
         (row) => () => { if (onRowClick) return onRowClick(row) },
         [onRowClick]
     );
+
+    const getText = useCallback((column) => {
+        const val = row[column.field];
+        if (column.type === 'number') return val;
+        if (column.type === 'date') return dateToLocaleDate(val);
+        return val || '-';
+    }, [row]);
 
     return (
         <MuiTableRow
@@ -32,7 +40,7 @@ const TableRow = React.memo(function TableRow({ row, columns, onRowClick, disabl
                         align={ column.align }
                         width={ column.width }
                     >
-                        { column.type === 'number' ? row[column.field] : (row[column.field] || '-') }
+                        { getText(column) }
                     </TableCell>
                 );
             }) }

@@ -26,3 +26,32 @@ export function stableSort(array, comparator) {
     });
     return stabilizedThis.map((el) => el[0]);
 }
+
+export function getFilter(column) {
+    const filter = {
+        field: column.field,
+        type: column.filter
+    };
+    switch (column.filter) {
+        case 'date':
+            filter.start = null;
+            filter.end = null;
+            break;
+        case 'option':
+            filter.options = column.filterOptions;
+            filter.values = [];
+            break;
+        default:
+            filter.value = '';
+    }
+    return filter;
+}
+
+export function createFilter(type, field, val1, val2) {
+    switch (type) {
+        case 'date':
+            return { type, field, start: val1, end: val2 };
+        default:
+            return { type, field, value: val1 }
+    }
+}

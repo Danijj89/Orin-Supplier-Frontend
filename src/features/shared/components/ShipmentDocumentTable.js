@@ -7,7 +7,6 @@ import { LANGUAGE, LOCALE } from '../../../app/utils/constants.js';
 import { GetApp as IconDownload } from '@material-ui/icons';
 import { IconButton } from '@material-ui/core';
 import { selectUsersMap } from '../../users/duck/selectors.js';
-import { dateToLocaleDate } from '../utils/format.js';
 import { getOptionLabel } from '../../../app/utils/options/getters.js';
 import { downloadShipmentDocument } from '../../documents/duck/thunks.js';
 import DeleteButton from '../buttons/DeleteButton.js';
@@ -45,7 +44,7 @@ const ShipmentDocumentTable = React.memo(function ShipmentDocumentTable(
         },
         { field: 'ref', headerName: tableHeaderLabelsMap.ref },
         { field: 'type', headerName: tableHeaderLabelsMap.type },
-        { field: 'createdAt', headerName: tableHeaderLabelsMap.createdAt },
+        { field: 'createdAt', headerName: tableHeaderLabelsMap.createdAt, type: 'date' },
         { field: 'createdBy', headerName: tableHeaderLabelsMap.createdBy },
         {
             field: 'excel',
@@ -79,7 +78,7 @@ const ShipmentDocumentTable = React.memo(function ShipmentDocumentTable(
         id: doc._id,
         ref: doc.ref,
         type: getOptionLabel(doc.type, LOCALE),
-        createdAt: dateToLocaleDate(doc.createdAt),
+        createdAt: doc.createdAt,
         createdBy: usersMap[doc.createdBy]?.name,
         fileName: doc.fileName
     })), [documents, usersMap]);

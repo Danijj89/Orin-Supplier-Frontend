@@ -3,7 +3,6 @@ import { useHistory, useLocation } from 'react-router-dom';
 import Table from '../shared/components/table/Table.js';
 import { LANGUAGE, LOCALE } from '../../app/utils/constants.js';
 import UnitCounter from '../shared/classes/UnitCounter.js';
-import { dateToLocaleDate } from '../shared/utils/format.js';
 import PopoverNotes from '../shared/components/PopoverNotes.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateOrder, updateOrderStatus } from './duck/thunks.js';
@@ -37,7 +36,12 @@ export default function OrdersTable() {
         { field: 'id', hide: true },
         { field: 'ref', headerName: ordersTableHeadersMap.ref },
         { field: 'totalQ', headerName: ordersTableHeadersMap.totalQ },
-        { field: 'crd', headerName: ordersTableHeadersMap.crd },
+        {
+            field: 'crd',
+            headerName: ordersTableHeadersMap.crd,
+            type: 'date',
+            filter: 'date'
+        },
         { field: 'toName', headerName: ordersTableHeadersMap.toName },
         {
             field: 'procurement',
@@ -50,7 +54,9 @@ export default function OrdersTable() {
                     onStatusChange={ createStatusChangeHandler(params.id, 'procurement')}
                 />,
             align: 'center',
-            width: 140
+            width: 140,
+            filter: 'option',
+            filterOptions: orderStatuses
         },
         {
             field: 'production',
@@ -93,7 +99,7 @@ export default function OrdersTable() {
         id: order._id,
         ref: order.ref,
         totalQ: UnitCounter.stringRep(order.totalQ, itemUnitsMap, LOCALE),
-        crd: dateToLocaleDate(order.crd),
+        crd: order.crd,
         toName: order.toAdd.name,
         procurement: order.procurement.status,
         production: order.production.status,

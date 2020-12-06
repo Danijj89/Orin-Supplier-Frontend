@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
     Table as MuiTable,
@@ -7,6 +7,9 @@ import {
 import TableHeader from './TableHeader.js';
 import TableFooter from './TableFooter.js';
 import TableBody from './TableBody.js';
+import { getComparator, getFilter, stableSort } from './utils/helpers.js';
+import FilterSelector from './FilterSelector.js';
+import { getOptionId } from '../../../../app/utils/options/getters.js';
 
 const Table = React.memo(function Table(
     {
@@ -19,16 +22,51 @@ const Table = React.memo(function Table(
         footer,
         maxEmptyRows = 5
     }) {
+
     const [order, setOrder] = React.useState('asc');
     const [orderBy, setOrderBy] = React.useState();
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const [processedRows, setProcessedRows] = useState(rows || []);
 
     const onSort = (field) => {
         const isAsc = orderBy === field && order === 'asc';
         setOrder(isAsc ? 'desc' : 'asc');
         setOrderBy(field);
-    }
+        setProcessedRows(stableSort(rows, getComparator(order, orderBy)));
+    };
+
+    const onFilter = useCallback(
+        (filters) => {
+            if (filters.length === 0) {
+                if (orderBy) setProcessedRows(stableSort(rows, getComparator(order, orderBy)));
+                else setProcessedRows(rows);
+            } else {
+                let filteredRows = [...processedRows];
+                for (const filter of filters) {
+                    switch (filter.type) {
+                        case 'date':
+                            if (filter.start && filter.end)
+                                filteredRows = filteredRows.filter(row => {
+                                    const val = new Date(row[filter.field]);
+                                    return val >= filter.start && val <= filter.end;
+                                });
+                            else if (filter.start) {
+                                filteredRows = filteredRows.filter(row => {
+                                    return new Date(row[filter.field]) >= filter.start;
+                                });
+                            }
+                            else filteredRows = filteredRows.filter(row => new Date(row[filter.field]) <= filter.end);
+                            break;
+                        case 'option':
+                            filteredRows = filteredRows.filter(row => filter.values.includes(getOptionId(row[filter.field])));
+                            break;
+                        default:
+                    }
+                }
+                setProcessedRows(filteredRows);
+            }
+        }, [order, orderBy, rows, processedRows]);
 
     const onPageChange = (event, newPage) => setPage(newPage);
     const onRowsPerPageChange = (event) => {
@@ -38,6 +76,7 @@ const Table = React.memo(function Table(
 
     return (
         <TableContainer className={ className }>
+            <FilterSelector columns={ columns } onFilter={ onFilter }/>
             <MuiTable stickyHeader size={ dense && 'small' }>
                 <TableHeader
                     columns={ columns }
@@ -46,12 +85,10 @@ const Table = React.memo(function Table(
                     onSort={ onSort }
                 />
                 <TableBody
-                    rows={ rows }
+                    rows={ processedRows }
                     columns={ columns }
                     rowsPerPage={ rowsPerPage }
                     page={ page }
-                    order={ order }
-                    orderBy={ orderBy }
                     onRowClick={ onRowClick }
                     disableRowHover={ disableRowHover }
                     maxEmptyRows={ maxEmptyRows }
@@ -59,7 +96,7 @@ const Table = React.memo(function Table(
                 />
                 <TableFooter
                     footer={ footer }
-                    numRows={ rows.length }
+                    numRows={ processedRows.length }
                     rowsPerPage={ rowsPerPage }
                     page={ page }
                     onPageChange={ onPageChange }
@@ -82,3 +119,4 @@ Table.propTypes = {
 };
 
 export default Table;
+

@@ -55,6 +55,7 @@ const SideTextField = React.memo(function SideTextField(
         rowsMax = 1,
         autoFocus,
         type,
+        onChange,
         ...props
     }) {
     const isTextArea = useMemo(
@@ -94,6 +95,7 @@ const SideTextField = React.memo(function SideTextField(
                 multiline={ isTextArea }
                 autoFocus={ autoFocus }
                 type={ type }
+                onChange={ onChange }
             />
         </Box>
     );
@@ -111,7 +113,8 @@ SideTextField.propTypes = {
     rows: PropTypes.number,
     rowsMax: PropTypes.number,
     autoFocus: PropTypes.bool,
-    type: PropTypes.string
+    type: PropTypes.string,
+    onChange: PropTypes.func,
 };
 
 export default SideTextField;
