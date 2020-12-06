@@ -69,7 +69,9 @@ export default function OrdersTable() {
                     onStatusChange={ createStatusChangeHandler(params.id, 'production')}
                 />,
             align: 'center',
-            width: 140
+            width: 140,
+            filter: 'option',
+            filterOptions: orderStatuses
         },
         {
             field: 'qa',
@@ -82,7 +84,9 @@ export default function OrdersTable() {
                     onStatusChange={ createStatusChangeHandler(params.id, 'qa')}
                 />,
             align: 'center',
-            width: 140
+            width: 140,
+            filter: 'option',
+            filterOptions: orderStatuses
         },
         {
             field: 'notes',
