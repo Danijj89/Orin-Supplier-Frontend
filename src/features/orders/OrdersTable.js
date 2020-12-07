@@ -42,7 +42,11 @@ export default function OrdersTable() {
             type: 'date',
             filter: 'date'
         },
-        { field: 'toName', headerName: ordersTableHeadersMap.toName },
+        {
+            field: 'toName',
+            headerName: ordersTableHeadersMap.toName,
+            filter: 'text'
+        },
         {
             field: 'procurement',
             headerName: ordersTableHeadersMap.procurement,

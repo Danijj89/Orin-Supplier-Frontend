@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Checkbox, FormControlLabel, Typography } from '@material-ui/core';
 import { getOptionId, getOptionLabel } from '../../../../../app/utils/options/getters.js';

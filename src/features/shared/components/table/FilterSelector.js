@@ -9,6 +9,7 @@ import DateFilter from './filters/DateFilter.js';
 import OptionFilter from './filters/OptionFilter.js';
 import useSessionStorage from '../../hooks/useSessionStorage.js';
 import { SESSION_ORDER_TABLE_FILTERS } from '../../../../app/sessionKeys.js';
+import TextFilter from './filters/TextFilter.js';
 
 
 const FilterSelector = React.memo(function FilterSelector(
@@ -51,6 +52,8 @@ const FilterSelector = React.memo(function FilterSelector(
                         return filter.start || filter.end;
                     case 'option':
                         return filter.values.length > 0;
+                    case 'text':
+                        return filter.value;
                     default:
                         return filter;
                 }
@@ -97,13 +100,18 @@ const FilterSelector = React.memo(function FilterSelector(
                                             <DateFilter filter={ filter } onChange={ onFilterChange }/>
                                         </Grid>
                                     );
-
                                 case 'option':
                                     return (
                                         <Grid key={ filter.field } container item direction="column" alignItems="center" md>
                                             <OptionFilter filter={ filter } onChange={ onFilterChange }/>
                                         </Grid>
-                                    )
+                                    );
+                                case 'text':
+                                    return (
+                                        <Grid key={ filter.field } container item direction="column" alignItems="center" md>
+                                            <TextFilter filter={ filter } onChange={ onFilterChange }/>
+                                        </Grid>
+                                    );
                                 default:
                                     return null;
                             }
