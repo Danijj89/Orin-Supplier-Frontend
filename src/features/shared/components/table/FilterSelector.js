@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
@@ -7,16 +7,19 @@ import Popover from '@material-ui/core/Popover';
 import { getFilter } from './utils/helpers.js';
 import DateFilter from './filters/DateFilter.js';
 import OptionFilter from './filters/OptionFilter.js';
+import useSessionStorage from '../../hooks/useSessionStorage.js';
+import { SESSION_ORDER_TABLE_FILTERS } from '../../../../app/sessionKeys.js';
 
 
 const FilterSelector = React.memo(function FilterSelector(
     { columns, onFilter }) {
+
     const initialFilters = useMemo(
         () => columns.filter(column => column.filter)
             .map(column => getFilter(column)),
         [columns]);
 
-    const [filters, setFilters] = useState(initialFilters);
+    const [filters, setFilters] = useSessionStorage(SESSION_ORDER_TABLE_FILTERS, initialFilters);
     const [anchorEl, setAnchorEl] = useState(false);
 
     const onFilterChange = useCallback(
@@ -31,7 +34,7 @@ const FilterSelector = React.memo(function FilterSelector(
                 }
                 return filter;
             }));
-        }, []);
+        }, [setFilters]);
 
     const onClick = useCallback(
         (e) => setAnchorEl(prev => prev ? null : e.currentTarget),
@@ -57,6 +60,14 @@ const FilterSelector = React.memo(function FilterSelector(
         },
         [onFilter, filters]
     );
+
+    const mounted = useRef(false);
+    useEffect(() => {
+        if (!mounted.current) {
+            onSubmit();
+            mounted.current = true;
+        }
+    }, [onSubmit]);
 
     return (
         <Box hidden={ !filters.length }>

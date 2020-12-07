@@ -115,3 +115,5 @@ export default function OrdersTable() {
         <Table columns={ columns } rows={ rows } onRowClick={ onRowClick }/>
     )
 }
+
+
