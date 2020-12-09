@@ -17,18 +17,6 @@ const useStyles = makeStyles((theme) => ({
     label: {
         marginRight: theme.spacing(4),
     },
-    input: {
-        width: 320,
-        minHeight: 36,
-        borderWidth: 1,
-        borderStyle: 'solid',
-        borderRadius: 8,
-        borderColor: theme.palette.grey.light,
-        backgroundColor: 'white',
-        paddingLeft: theme.spacing(1),
-        paddingRight: theme.spacing(1),
-        paddingTop: theme.spacing(0.2),
-    },
     required: {
         color: 'red',
         marginLeft: theme.spacing(1),
@@ -39,6 +27,21 @@ const useStyles = makeStyles((theme) => ({
     disabled: {
         backgroundColor: theme.palette.backgroundSecondary.main,
     },
+    root: {
+        '&.Mui-focused': {
+            borderColor: theme.palette.primary.main
+        },
+        width: 320,
+        minHeight: 36,
+        borderWidth: 1,
+        borderStyle: 'solid',
+        borderRadius: 4,
+        borderColor: theme.palette.grey.light,
+        backgroundColor: 'white',
+        paddingLeft: theme.spacing(1),
+        paddingRight: theme.spacing(1),
+        paddingTop: theme.spacing(0.2),
+    }
 }));
 
 const SideTextField = React.memo(function SideTextField({
@@ -87,6 +90,7 @@ const SideTextField = React.memo(function SideTextField({
                     ...props.InputProps,
                     disableUnderline: true,
                     autoComplete: 'nope',
+                    className: classes.root
                 }}
                 required={required}
                 error={error}

@@ -10,7 +10,6 @@ import { formatAddress } from '../shared/utils/format.js';
 import InfoCard from '../shared/wrappers/InfoCard.js';
 import { LANGUAGE, LOCALE } from '../../app/utils/constants.js';
 import SideTextField from '../shared/inputs/SideTextField.js';
-import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { updateShipment } from './duck/thunks.js';
 import { addressToDocAddress } from '../shared/utils/entityConversion.js';
 import { makeStyles } from '@material-ui/core/styles';

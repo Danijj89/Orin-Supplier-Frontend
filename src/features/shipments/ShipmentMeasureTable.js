@@ -3,7 +3,6 @@ import RHFMeasureTable, {
     validateItemMeasures,
 } from '../shared/rhf/forms/RHFMeasureTable.js';
 import { useForm } from 'react-hook-form';
-import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateShipment } from './duck/thunks.js';

@@ -54,7 +54,7 @@ const InfoCard = React.memo(function InfoCard({
         <Card className={clsx(classes.root, className)}>
             <Grid container className={classes.container}>
                 <Grid item className={classes.topPanel} xs={12}>
-                    <Typography variant="h7" className={classes.title}>
+                    <Typography variant="subtitle1" className={classes.title}>
                         {title}
                     </Typography>
                     {button &&

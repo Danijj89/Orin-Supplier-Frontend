@@ -67,11 +67,11 @@ const EditShipment = React.memo(function EditShipment() {
     return (
         <Box className={classes.container}>
             <ThemedButton
-                variant={cancelButtonLabel}
+                variant="text"
                 onClick={onCancel}
                 className={classes.newContact}
             >
-                {'Back'}
+                {cancelButtonLabel}
             </ThemedButton>
             <Card>
                 <Grid container item justify="space-between">

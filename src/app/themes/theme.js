@@ -55,12 +55,7 @@ let appTheme = createMuiTheme({
             head: {
                 fontWeight: 'bold',
             },
-        },
-        MuiTextField: {
-            root: {
-                color: 'red',
-            },
-        },
+        }
     },
 });
 appTheme = responsiveFontSizes(appTheme);

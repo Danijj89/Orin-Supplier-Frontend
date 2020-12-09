@@ -4,7 +4,6 @@ import RHFProductTable, {
 } from '../shared/rhf/forms/RHFProductTable.js';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import { updateShipment } from './duck/thunks.js';
 import { tableItemsToItems } from '../shared/utils/entityConversion.js';
