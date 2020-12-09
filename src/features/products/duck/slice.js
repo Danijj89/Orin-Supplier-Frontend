@@ -27,7 +27,7 @@ const productsSlice = createSlice({
             state.dataStatus = 'PENDING';
         },
         [fetchProducts.fulfilled]: (state, action) => {
-            productsAdapter.upsertMany(state, action.payload);
+            productsAdapter.setAll(state, action.payload);
             state.dataStatus = 'FULFILLED';
         },
         [fetchProducts.rejected]: (state, action) => {

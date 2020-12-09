@@ -41,7 +41,7 @@ const ordersSlice = createSlice({
         },
         [fetchOrders.fulfilled]: (state, action) => {
             state.dataStatus = 'FULFILLED';
-            ordersAdapter.upsertMany(state, action.payload);
+            ordersAdapter.setAll(state, action.payload);
         },
         [fetchOrders.rejected]: (state, action) => {
             state.dataStatus = 'REJECTED';
