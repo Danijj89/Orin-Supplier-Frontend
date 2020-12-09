@@ -10,6 +10,7 @@ import TableBody from './TableBody.js';
 import { getComparator, stableSort } from './utils/helpers.js';
 import FilterSelector from './FilterSelector.js';
 import { getOptionId } from '../../../../app/utils/options/getters.js';
+import Box from '@material-ui/core/Box';
 
 const Table = React.memo(function Table(
     {
@@ -94,7 +95,9 @@ const Table = React.memo(function Table(
 
     return (
         <TableContainer className={ className }>
-            { filterOptions && <FilterSelector filterOptions={ filterOptions } onFilter={ onFilter }/> }
+            <Box hidden={ !Boolean(filterOptions) }>
+                { filterOptions && <FilterSelector filterOptions={ filterOptions } onFilter={ onFilter }/> }
+            </Box>
             <MuiTable stickyHeader size={ dense && 'small' }>
                 <TableHeader
                     columns={ columns }
