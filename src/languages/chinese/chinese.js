@@ -27,7 +27,7 @@ export const CHINESE = {
                 products: '产品',
                 settings: '设置',
             },
-            helloMessageLabel: '您好,',
+            helloMessageLabel: '您好',
         },
         settings: {
             tabsLabelsMap: {
