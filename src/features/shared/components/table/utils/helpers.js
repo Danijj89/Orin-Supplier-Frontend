@@ -39,6 +39,13 @@ export function prepareFilters(filters) {
                 preparedFilter.options = filter.options;
                 preparedFilter.values = [];
                 break;
+            case 'dropdown':
+                preparedFilter.value = null;
+                break;
+            case 'range':
+                preparedFilter.min = null;
+                preparedFilter.max = null;
+                break;
             default:
                 preparedFilter.value = '';
         }

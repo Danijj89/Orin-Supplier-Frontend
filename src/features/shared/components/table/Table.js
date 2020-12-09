@@ -60,6 +60,17 @@ const Table = React.memo(function Table(
                         case 'text':
                             filteredRows = filteredRows.filter(row => row[filter.field].includes(filter.value));
                             break;
+                        case 'dropdown':
+                            filteredRows = filteredRows.filter(row => row[filter.field] === filter.value);
+                            break;
+                        case 'range':
+                            if (filter.min && filter.max) filteredRows = filteredRows.filter(row => {
+                                const val = row[filter.field];
+                                return val >= filter.min && val <= filter.max;
+                            });
+                            else if (filter.min) filteredRows = filteredRows.filter(row => row[filter.field] >= filter.min);
+                            else filteredRows = filteredRows.filter(row => row[filter.field] <= filter.max);
+                            break;
                         default:
                     }
                 }

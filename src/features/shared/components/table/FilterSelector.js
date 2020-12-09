@@ -10,6 +10,8 @@ import useSessionStorage from '../../hooks/useSessionStorage.js';
 import TextFilter from './filters/TextFilter.js';
 import { prepareFilters } from './utils/helpers.js';
 import { LANGUAGE } from '../../../../app/utils/constants.js';
+import DropdownFilter from './filters/DropdownFilter.js';
+import RangeFilter from './filters/RangeFilter.js';
 
 const {
     filterPopoverButtonLabel,
@@ -49,6 +51,10 @@ const FilterSelector = React.memo(function FilterSelector(
                         return filter.values.length > 0;
                     case 'text':
                         return filter.value;
+                    case 'dropdown':
+                        return filter.value;
+                    case 'range':
+                        return filter.min || filter.max;
                     default:
                         return filter;
                 }
@@ -111,6 +117,24 @@ const FilterSelector = React.memo(function FilterSelector(
                                 case 'text':
                                     return (
                                         <TextFilter
+                                            key={ filter.field }
+                                            filterIdx={ idx }
+                                            filter={ filter }
+                                            setFilters={ setFilters }
+                                        />
+                                    );
+                                case 'dropdown':
+                                    return (
+                                        <DropdownFilter
+                                            key={ filter.field }
+                                            filterIdx={ idx }
+                                            filter={ filter }
+                                            setFilters={ setFilters }
+                                        />
+                                    );
+                                case 'range':
+                                    return (
+                                        <RangeFilter
                                             key={ filter.field }
                                             filterIdx={ idx }
                                             filter={ filter }

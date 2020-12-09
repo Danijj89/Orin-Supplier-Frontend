@@ -884,6 +884,10 @@ export const ENGLISH = {
                     },
                     textFilter: {
                         searchTermLabel: 'Search Text'
+                    },
+                    rangeFilter: {
+                        minLabel: 'Min',
+                        maxLabel: 'Max'
                     }
                 }
             },

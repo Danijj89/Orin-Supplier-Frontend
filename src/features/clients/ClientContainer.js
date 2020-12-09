@@ -32,7 +32,7 @@ const ClientContainer = React.memo(function ClientContainer() {
 
     const companyId = useSelector(selectCompanyId);
     const client = useSelector(state => selectClientById(state, { clientId }));
-    const isClientActive = useMemo(() => client?.active === true, [client]);
+    const isClientInactive = useMemo(() => client?.active === false || (!client && clientDataStatus === 'FULFILLED'), [client]);
 
     const fetched = useRef(false);
     useEffect(() => {
@@ -57,10 +57,10 @@ const ClientContainer = React.memo(function ClientContainer() {
 
     return (
         <>
-            { !isClientActive && <Redirect to={ '/home/clients' }/> }
+            { isClientInactive && <Redirect to={ '/home/clients' }/> }
             { status === 'REJECTED' && <ErrorPage errors={ errors }/> }
             { status === 'PENDING' && <Loader/> }
-            { isClientActive && status === 'FULFILLED' && <Client/> }
+            { !isClientInactive && status === 'FULFILLED' && <Client/> }
         </>
     )
 });
