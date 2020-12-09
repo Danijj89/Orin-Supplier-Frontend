@@ -82,25 +82,29 @@ export const itemsToConsolidationItems =
         }));
 
 export const consolidationTableItemsToConsolidationItems = (items) =>
-    items.map(item => ({
-        hsc: item.hsc,
-        localD: item.localD,
-        quantity: item.quantity,
-        unit: item.unit,
-        price: item.price,
-        total: item.total,
-        currency: item.currency,
-        coo: item.coo,
-        fdc: item.fdc,
-        dop: item.dop,
-        description: item.description,
-        package: item.package,
-        pUnit: item.pUnit,
-        netW: item.netW,
-        grossW: item.grossW,
-        dim: item.dim,
-        dg: false
-    }));
+    items.map(item => {
+        const temp = {
+            hsc: item.hsc,
+            localD: item.localD,
+            quantity: item.quantity,
+            price: item.price,
+            total: item.total,
+            dop: item.dop,
+            description: item.description,
+            package: item.package,
+            pUnit: item.pUnit,
+            netW: item.netW,
+            grossW: item.grossW,
+            dim: item.dim,
+            dg: false
+        };
+        if (item.unit) temp.unit = getOptionId(item.unit);
+        if (item.currency) temp.currency = getOptionId(item.currency);
+        if (item.coo) temp.coo = getOptionId(item.coo);
+        if (item.fdc) temp.fdc = getOptionId(item.fdc);
+        if (item.pUnit) temp.pUnit = getOptionId(item.pUnit);
+        return temp;
+    });
 
 export const shipmentToCommercialInvoice = (shipment) => ({
     autoGenerateRef: true,
