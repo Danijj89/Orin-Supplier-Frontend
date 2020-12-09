@@ -3,11 +3,10 @@ import PropTypes from 'prop-types';
 import Table from './table/Table.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectShipmentDocuments } from '../../shipments/duck/selectors.js';
-import { LANGUAGE, LOCALE } from '../../../app/utils/constants.js';
+import { LANGUAGE } from '../../../app/utils/constants.js';
 import { GetApp as IconDownload } from '@material-ui/icons';
 import { IconButton } from '@material-ui/core';
 import { selectUsersMap } from '../../users/duck/selectors.js';
-import { getOptionLabel } from '../../../app/utils/options/getters.js';
 import { downloadShipmentDocument } from '../../documents/duck/thunks.js';
 import DeleteButton from '../buttons/DeleteButton.js';
 import { deleteDocument } from '../../shipments/duck/thunks.js';
@@ -43,8 +42,8 @@ const ShipmentDocumentTable = React.memo(function ShipmentDocumentTable(
                 />
         },
         { field: 'ref', headerName: tableHeaderLabelsMap.ref },
-        { field: 'type', headerName: tableHeaderLabelsMap.type },
-        { field: 'createdAt', headerName: tableHeaderLabelsMap.createdAt, type: 'date' },
+        { field: 'type', headerName: tableHeaderLabelsMap.type, type: 'option' },
+        { field: 'createdAt', headerName: tableHeaderLabelsMap.createdAt, type: 'datetime' },
         { field: 'createdBy', headerName: tableHeaderLabelsMap.createdBy },
         {
             field: 'excel',
@@ -77,7 +76,7 @@ const ShipmentDocumentTable = React.memo(function ShipmentDocumentTable(
     const rows = useMemo(() => documents.map(doc => ({
         id: doc._id,
         ref: doc.ref,
-        type: getOptionLabel(doc.type, LOCALE),
+        type: doc.type,
         createdAt: doc.createdAt,
         createdBy: usersMap[doc.createdBy]?.name,
         fileName: doc.fileName

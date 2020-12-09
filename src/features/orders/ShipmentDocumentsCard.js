@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
 const ShipmentDocumentsCard = React.memo(function ShipmentDocumentsCard({ shipmentId, className }) {
     const classes = useStyles();
     const history = useHistory();
-    const shipment = useSelector(state => selectShipmentById(state, shipmentId));
+    const shipment = useSelector(state => selectShipmentById(state, { shipmentId }));
 
     const onShipmentClick = () => history.push(`/home/shipments/${ shipmentId }`);
 
