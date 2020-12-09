@@ -1,15 +1,17 @@
 import { ordersAdapter } from './slice.js';
 import { createSelector } from '@reduxjs/toolkit';
-import {
-    selectCompanyDefaultAddress,
-    selectCurrentCompany
-} from '../../home/duck/selectors.js';
+import { selectCompanyDefaultAddress, selectCurrentCompany } from '../../home/duck/selectors.js';
 import {
     selectCountriesMap,
     selectCurrencies,
     selectCurrenciesMap,
-    selectCurrentUserId, selectDefaultRowItem,
-    selectDeliveryMethods, selectDeliveryMethodsMap, selectItemUnits, selectItemUnitsMap, selectOrderStatusesMap
+    selectCurrentUserId,
+    selectDefaultRowItem,
+    selectDeliveryMethods,
+    selectDeliveryMethodsMap,
+    selectItemUnits,
+    selectItemUnitsMap,
+    selectOrderStatusesMap
 } from '../../../app/duck/selectors.js';
 import { getOptionId } from '../../../app/utils/options/getters.js';
 
@@ -105,16 +107,6 @@ export const selectNewOrder = createSelector(
         autoGenerateRef: false,
         items: [defaultRowItem]
     })
-);
-
-export const selectShipmentShellClientIdToActiveOrdersMap = createSelector(
-    selectAllActiveAndUnarchivedOrders,
-    orders => orders.reduce((map, order) => {
-        const enhancedOrder = { ...order, selected: false };
-        if (map.hasOwnProperty(enhancedOrder.to)) map[enhancedOrder.to].push(enhancedOrder);
-        else map[enhancedOrder.to] = [enhancedOrder];
-        return map;
-    }, {})
 );
 
 

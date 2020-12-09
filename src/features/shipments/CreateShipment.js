@@ -13,8 +13,7 @@ import {
 } from '../home/duck/selectors.js';
 import { selectAllActiveClients } from '../clients/duck/selectors.js';
 import {
-    selectOrdersMap,
-    selectShipmentShellClientIdToActiveOrdersMap
+    selectOrdersMap
 } from '../orders/duck/selectors.js';
 import Table from '../shared/components/table/Table.js';
 import OrderStatusDisplay from '../orders/OrderStatusDisplay.js';
@@ -27,7 +26,7 @@ import ErrorMessages from '../shared/components/ErrorMessages.js';
 import {
     selectEditShipmentShellById,
     selectOrderToShipmentItemsQuantityMap,
-    selectShipmentOrders
+    selectShipmentOrders, selectShipmentShellClientIdToActiveOrdersMap
 } from './duck/selectors.js';
 import { addressToDocAddress } from '../shared/utils/entityConversion.js';
 import RHFAutoComplete from '../shared/rhf/inputs/RHFAutoComplete.js';

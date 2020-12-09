@@ -1,14 +1,23 @@
 import { shipmentsAdapter } from './slice.js';
 import { createSelector } from '@reduxjs/toolkit';
-import { selectAllActiveOrders, selectOrdersMap } from '../../orders/duck/selectors.js';
+import {
+    selectAllActiveAndUnarchivedOrders,
+    selectAllActiveOrders,
+    selectOrdersMap
+} from '../../orders/duck/selectors.js';
 import {
     selectCountriesMap,
     selectCurrenciesMap,
-    selectDeliveryMethodsMap, selectDocumentTypesMap, selectItemUnitsMap,
-    selectMeasurementUnitsMap, selectPackageUnitsMap, selectShipmentStatusesMap, selectWeightUnitsMap
+    selectDeliveryMethodsMap,
+    selectDocumentTypesMap,
+    selectItemUnitsMap,
+    selectMeasurementUnitsMap,
+    selectPackageUnitsMap,
+    selectShipmentStatusesMap,
+    selectWeightUnitsMap
 } from '../../../app/duck/selectors.js';
 import { selectCompanyAddresses, selectCurrentCompany } from '../../home/duck/selectors.js';
-import { selectClientsMap } from '../../clients/duck/selectors.js';
+import { selectAllActiveClients, selectClientsMap } from '../../clients/duck/selectors.js';
 import { getOptionId } from '../../../app/utils/options/getters.js';
 
 export const {
@@ -161,4 +170,19 @@ export const selectPopulatedShipmentById = createSelector(
 );
 
 
-
+export const selectShipmentShellClientIdToActiveOrdersMap = createSelector(
+    selectAllActiveAndUnarchivedOrders,
+    selectAllActiveClients,
+    (orders, clients) => {
+        const clientsToOrdersMap = clients.reduce((map, client) => {
+            map[client._id] = [];
+            return map;
+        }, {});
+        orders.forEach(order => {
+            const enhancedOrder = { ...order, selected: false };
+            if (clientsToOrdersMap.hasOwnProperty(enhancedOrder.to))
+                clientsToOrdersMap[enhancedOrder.to].push(enhancedOrder);
+        });
+        return clientsToOrdersMap;
+    }
+);

@@ -236,7 +236,7 @@ const NavBar = React.memo(function NavBar() {
                             selected={ currentTab === 'leads' }
                         >
                             <ListItemText>
-                                <span className={ classes.tabsText }>Leads</span>
+                                <span className={ classes.tabsText }>{ tabsLabelsMap.leads }</span>
                             </ListItemText>
                         </ListItem>
                         <ListItem
