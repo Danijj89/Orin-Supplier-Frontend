@@ -5,6 +5,7 @@ import ProductDialog from '../shared/forms/ProductDialog.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteProduct, updateProduct } from './duck/thunks.js';
 import { selectActiveProductsMap, selectAllActiveProducts } from './duck/selectors.js';
+import { SESSION_PRODUCT_TABLE_FILTERS } from '../../app/sessionKeys.js';
 
 const {
     tableHeadersMap,
@@ -32,9 +33,9 @@ export default function ProductTable() {
 
     const createDeleteHandler = useCallback(
         (productId) => () => {
-        dispatch(deleteProduct({ productId }));
-        setIsEdit(false);
-    }, [dispatch]);
+            dispatch(deleteProduct({ productId }));
+            setIsEdit(false);
+        }, [dispatch]);
 
     const columns = useMemo(() => [
         { field: 'id', hide: true },
@@ -70,12 +71,21 @@ export default function ProductTable() {
         hsc: product.hsc,
     })), [products]);
 
+    const filterOptions = useMemo(() => ({
+        sessionKey: SESSION_PRODUCT_TABLE_FILTERS,
+        filters: [
+            { field: 'lastOrder', type: 'date', label: tableHeadersMap.lastOrder },
+            { field: 'salesYTD', type: 'range', label: tableHeadersMap.salesYTD }
+        ]
+    }), []);
+
     return (
         <>
             <Table
                 columns={ columns }
                 rows={ rows }
                 onRowClick={ onRowClick }
+                filterOptions={ filterOptions }
             />
             { product && (
                 <ProductDialog

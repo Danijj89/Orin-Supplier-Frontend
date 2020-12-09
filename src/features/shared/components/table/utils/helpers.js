@@ -43,8 +43,8 @@ export function prepareFilters(filters) {
                 preparedFilter.value = null;
                 break;
             case 'range':
-                preparedFilter.min = null;
-                preparedFilter.max = null;
+                preparedFilter.min = '';
+                preparedFilter.max = '';
                 break;
             default:
                 preparedFilter.value = '';

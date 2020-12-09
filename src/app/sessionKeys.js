@@ -9,3 +9,4 @@ export const SESSION_ORDER_TABLE_FILTERS = SESSION_STORAGE_PREFIX + 'order-table
 export const SESSION_CLIENT_TABLE_FILTERS = SESSION_STORAGE_PREFIX + 'client-table-filters';
 export const SESSION_SHIPMENT_TABLE_FILTERS = SESSION_STORAGE_PREFIX + 'shipment-table-filters';
 export const SESSION_LEAD_TABLE_FILTERS = SESSION_STORAGE_PREFIX + 'lead-table-filters';
+export const SESSION_PRODUCT_TABLE_FILTERS = SESSION_STORAGE_PREFIX + 'product-table-filters';

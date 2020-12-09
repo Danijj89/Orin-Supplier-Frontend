@@ -37,10 +37,6 @@ const FilterSelector = React.memo(function FilterSelector({ filterOptions, onFil
     const onCancel = useCallback(
         () => setAnchorEl(null), []);
 
-    const onClear = useCallback(() => {
-        setFilters(preparedFilters);
-    }, [setFilters, preparedFilters]);
-
     const onSubmit = useCallback(
         () => {
             let count = 0;
@@ -65,6 +61,12 @@ const FilterSelector = React.memo(function FilterSelector({ filterOptions, onFil
             onFilter(activeFilters);
             setAnchorEl(null);
         }, [onFilter, filters]);
+
+    const onClear = useCallback(() => {
+        setFilters(preparedFilters);
+        setNumActiveFilters(0);
+        onFilter([]);
+    }, [setFilters, preparedFilters, onFilter]);
 
     // call when the user refreshes the page
     const mounted = useRef(false);

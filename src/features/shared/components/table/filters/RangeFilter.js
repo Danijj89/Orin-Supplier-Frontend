@@ -13,18 +13,24 @@ const {
 const RangeFilter = React.memo(function RangeFilter({ filterIdx, filter, setFilters }) {
 
     const onMinRangeChange = useCallback(
-        (e) => setFilters(prevFilters => {
-            const newFilter = { ...prevFilters[filterIdx] };
-            newFilter.min = e.target.value;
-            return [...prevFilters.slice(0, filterIdx), newFilter, ...prevFilters.slice(filterIdx + 1)];
-        }), [filterIdx, setFilters]);
+        (e) => {
+            const { value } = e.target;
+            setFilters(prevFilters => {
+                const newFilter = { ...prevFilters[filterIdx] };
+                newFilter.min = value;
+                return [...prevFilters.slice(0, filterIdx), newFilter, ...prevFilters.slice(filterIdx + 1)];
+            })
+        }, [filterIdx, setFilters]);
 
     const onMaxRangeChange = useCallback(
-        (e) => setFilters(prevFilters => {
-            const newFilter = { ...prevFilters[filterIdx] };
-            newFilter.max = e.target.value;
-            return [...prevFilters.slice(0, filterIdx), newFilter, ...prevFilters.slice(filterIdx + 1)];
-        }), [filterIdx, setFilters]);
+        (e) => {
+            const { value } = e.target;
+            setFilters(prevFilters => {
+                const newFilter = { ...prevFilters[filterIdx] };
+                newFilter.max = value;
+                return [...prevFilters.slice(0, filterIdx), newFilter, ...prevFilters.slice(filterIdx + 1)];
+            })
+        }, [filterIdx, setFilters]);
 
     return (
         <Grid
@@ -39,11 +45,13 @@ const RangeFilter = React.memo(function RangeFilter({ filterIdx, filter, setFilt
                 label={ minLabel }
                 onChange={ onMinRangeChange }
                 value={ filter.min }
+                type="number"
             />
             <TextField
                 label={ maxLabel }
                 onChange={ onMaxRangeChange }
                 value={ filter.max }
+                type="number"
             />
         </Grid>
     );
