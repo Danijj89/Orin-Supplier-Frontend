@@ -32,7 +32,9 @@ const ClientContainer = React.memo(function ClientContainer() {
 
     const companyId = useSelector(selectCompanyId);
     const client = useSelector(state => selectClientById(state, { clientId }));
-    const isClientInactive = useMemo(() => client?.active === false || (!client && clientDataStatus === 'FULFILLED'), [client]);
+    const isClientInactive = useMemo(
+        () => client?.active === false || (!client && clientDataStatus === 'FULFILLED'),
+        [client, clientDataStatus]);
 
     const fetched = useRef(false);
     useEffect(() => {
