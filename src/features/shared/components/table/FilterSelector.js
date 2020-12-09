@@ -4,38 +4,29 @@ import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import ThemedButton from '../../buttons/ThemedButton.js';
 import Popover from '@material-ui/core/Popover';
-import { getFilter } from './utils/helpers.js';
 import DateFilter from './filters/DateFilter.js';
 import OptionFilter from './filters/OptionFilter.js';
 import useSessionStorage from '../../hooks/useSessionStorage.js';
-import { SESSION_ORDER_TABLE_FILTERS } from '../../../../app/sessionKeys.js';
 import TextFilter from './filters/TextFilter.js';
+import { prepareFilters } from './utils/helpers.js';
+import { LANGUAGE } from '../../../../app/utils/constants.js';
+
+const {
+    filterPopoverButtonLabel,
+    clearButtonLabel,
+    saveButtonLabel
+} = LANGUAGE.shared.components.table.filterSelector;
 
 
 const FilterSelector = React.memo(function FilterSelector(
-    { columns, onFilter }) {
+    { filterOptions, onFilter }) {
 
-    const initialFilters = useMemo(
-        () => columns.filter(column => column.filter)
-            .map(column => getFilter(column)),
-        [columns]);
+    const preparedFilters = useMemo(
+        () => prepareFilters(filterOptions.filters),
+        [filterOptions.filters]);
 
-    const [filters, setFilters] = useSessionStorage(SESSION_ORDER_TABLE_FILTERS, initialFilters);
+    const [filters, setFilters] = useSessionStorage(filterOptions.sessionKey, preparedFilters);
     const [anchorEl, setAnchorEl] = useState(false);
-
-    const onFilterChange = useCallback(
-        (type, field, newValue, option) => {
-            setFilters(prevFilters => prevFilters.map(filter => {
-                if (filter.field === field) {
-                    if (filter.type === 'date') return { ...filter, [option]: newValue && new Date(newValue) };
-                    else if (filter.type === 'option') {
-                        if (newValue) return { ...filter, values: [...filter.values, option] };
-                        else return { ...filter, values: filter.values.filter(opt => opt !== option) }
-                    } else return { ...filter, value: newValue };
-                }
-                return filter;
-            }));
-        }, [setFilters]);
 
     const onClick = useCallback(
         (e) => setAnchorEl(prev => prev ? null : e.currentTarget),
@@ -43,6 +34,10 @@ const FilterSelector = React.memo(function FilterSelector(
 
     const onCancel = useCallback(
         () => setAnchorEl(null), []);
+
+    const onClear = useCallback(() => {
+        setFilters(preparedFilters);
+    }, [setFilters, preparedFilters]);
 
     const onSubmit = useCallback(
         () => {
@@ -64,6 +59,7 @@ const FilterSelector = React.memo(function FilterSelector(
         [onFilter, filters]
     );
 
+    // call when the user refreshes the page
     const mounted = useRef(false);
     useEffect(() => {
         if (!mounted.current) {
@@ -73,9 +69,9 @@ const FilterSelector = React.memo(function FilterSelector(
     }, [onSubmit]);
 
     return (
-        <Box hidden={ !filters.length }>
+        <Box>
             <ThemedButton onClick={ onClick }>
-                Filters
+                { filterPopoverButtonLabel }
             </ThemedButton>
             <Popover
                 open={ Boolean(anchorEl) }
@@ -91,35 +87,47 @@ const FilterSelector = React.memo(function FilterSelector(
                 } }
             >
                 <Grid container>
-                    <Grid container item xs={12}>
-                        { filters.map((filter) => {
+                    <Grid container item xs={ 12 }>
+                        { filters.map((filter, idx) => {
                             switch (filter.type) {
                                 case 'date':
                                     return (
-                                        <Grid key={ filter.field } container item direction="column" alignItems="center" md>
-                                            <DateFilter filter={ filter } onChange={ onFilterChange }/>
-                                        </Grid>
+                                        <DateFilter
+                                            key={ filter.field }
+                                            filterIdx={ idx }
+                                            filter={ filter }
+                                            setFilters={ setFilters }
+                                        />
                                     );
                                 case 'option':
                                     return (
-                                        <Grid key={ filter.field } container item direction="column" alignItems="center" md>
-                                            <OptionFilter filter={ filter } onChange={ onFilterChange }/>
-                                        </Grid>
+                                        <OptionFilter
+                                            key={ filter.field }
+                                            filterIdx={ idx }
+                                            filter={ filter }
+                                            setFilters={ setFilters }
+                                        />
                                     );
                                 case 'text':
                                     return (
-                                        <Grid key={ filter.field } container item direction="column" alignItems="center" md>
-                                            <TextFilter filter={ filter } onChange={ onFilterChange }/>
-                                        </Grid>
+                                        <TextFilter
+                                            key={ filter.field }
+                                            filterIdx={ idx }
+                                            filter={ filter }
+                                            setFilters={ setFilters }
+                                        />
                                     );
                                 default:
                                     return null;
                             }
                         }) }
                     </Grid>
-                    <Grid container item xs={ 12 } justify="flex-end">
+                    <Grid container item xs={ 12 } justify="space-between">
+                        <ThemedButton onClick={ onClear }>
+                            { clearButtonLabel }
+                        </ThemedButton>
                         <ThemedButton onClick={ onSubmit }>
-                            Save
+                            { saveButtonLabel }
                         </ThemedButton>
                     </Grid>
                 </Grid>
@@ -129,19 +137,14 @@ const FilterSelector = React.memo(function FilterSelector(
 });
 
 FilterSelector.propTypes = {
-    columns: PropTypes.array.isRequired,
+    filterOptions: PropTypes.exact({
+        sessionKey: PropTypes.string.isRequired,
+        filters: PropTypes.array.isRequired
+    }).isRequired,
     onFilter: PropTypes.func.isRequired
 };
 
 export default FilterSelector;
-
-// <FormControlLabel
-//     control={ <Checkbox color="primary"/> }
-//     label={ filter.field }
-//     labelPlacement="top"
-//     onChange={ e => onChange(e.target.checked) }
-//     checked={ filter.value.includes() }
-// />
 
 
 

@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
     Table as MuiTable,
@@ -7,7 +7,7 @@ import {
 import TableHeader from './TableHeader.js';
 import TableFooter from './TableFooter.js';
 import TableBody from './TableBody.js';
-import { getComparator, getFilter, stableSort } from './utils/helpers.js';
+import { getComparator, stableSort } from './utils/helpers.js';
 import FilterSelector from './FilterSelector.js';
 import { getOptionId } from '../../../../app/utils/options/getters.js';
 
@@ -20,7 +20,8 @@ const Table = React.memo(function Table(
         dense,
         disableRowHover,
         footer,
-        maxEmptyRows = 5
+        maxEmptyRows = 5,
+        filterOptions
     }) {
 
         const [order, setOrder] = React.useState('asc');
@@ -74,7 +75,7 @@ const Table = React.memo(function Table(
 
         return (
             <TableContainer className={ className }>
-                <FilterSelector columns={ columns } onFilter={ onFilter }/>
+                { filterOptions && <FilterSelector filterOptions={ filterOptions } onFilter={ onFilter }/> }
                 <MuiTable stickyHeader size={ dense && 'small' }>
                     <TableHeader
                         columns={ columns }
@@ -114,7 +115,8 @@ Table.propTypes = {
     dense: PropTypes.bool,
     disableRowHover: PropTypes.bool,
     disablePagination: PropTypes.bool,
-    maxEmptyRows: PropTypes.number
+    maxEmptyRows: PropTypes.number,
+    filterOptions: PropTypes.object
 };
 
 export default Table;
