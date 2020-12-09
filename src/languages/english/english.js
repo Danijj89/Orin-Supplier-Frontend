@@ -28,7 +28,7 @@ export const ENGLISH = {
                 products: 'Products',
                 settings: 'Settings',
             },
-            helloMessageLabel: 'Hello'
+            helloMessageLabel: 'Hello',
         },
         settings: {
             tabsLabelsMap: {
@@ -62,25 +62,26 @@ export const ENGLISH = {
             phoneLabel: 'Company Phone',
             tabsLabelsMap: {
                 addresses: 'Addresses',
-                bankDetails: 'Bank Details'
+                bankDetails: 'Bank Details',
             },
             bankDetails: {
                 titleLabel: 'Bank Details',
                 dialogTitleLabel: 'Edit Bank Details',
                 dialogSubmitLabel: 'Update',
                 tableHeaderLabelsMap: {
-                    detail: 'Bank Details'
-                }
+                    detail: 'Bank Details',
+                },
             },
             bankDetailDialog: {
                 detailLabel: 'Bank Details',
-                deleteMessage: 'Are you sure you want to delete this bank details?'
+                deleteMessage:
+                    'Are you sure you want to delete this bank details?',
             },
             newBankDetailButton: {
                 buttonLabel: 'Add Bank Details',
                 dialogTitleLabel: 'New Bank Details',
-                dialogSubmitLabel: 'Create'
-            }
+                dialogSubmitLabel: 'Create',
+            },
         },
         newAddressButton: {
             typeLabel: 'Address Type',
@@ -134,8 +135,8 @@ export const ENGLISH = {
                     source: 'Source',
                     incoterm: 'Default Incoterm',
                     payment: 'Default Payment Term',
-                    clientSince: 'Client Since'
-                }
+                    clientSince: 'Client Since',
+                },
             },
             notesLabel: 'Notes',
             tabsLabelsMap: {
@@ -151,7 +152,7 @@ export const ENGLISH = {
             clientAddressCards: {
                 addressesTableTitleLabel: 'Addresses',
                 editAddressDialogTitleLabel: 'Edit Address',
-                editAddressDialogSubmitLabel: 'Update Address'
+                editAddressDialogSubmitLabel: 'Update Address',
             },
             clientContactsTable: {
                 contactTableHeadersMap: {
@@ -161,7 +162,7 @@ export const ENGLISH = {
                     fax: 'Fax',
                     title: 'Title',
                     department: 'Department',
-                    additional: 'Additional'
+                    additional: 'Additional',
                 },
                 editDialogTitleLabel: 'Edit Contact',
                 editDialogSubmitLabel: 'Update',
@@ -169,7 +170,7 @@ export const ENGLISH = {
                 newDialogSubmitLabel: 'Add',
                 newButtonLabel: 'Add Contact',
                 defaultButtonLabel: 'Default',
-                setDefaultButtonLabel: 'Set Default'
+                setDefaultButtonLabel: 'Set Default',
             },
             clientOrdersTable: {
                 ordersTableHeadersMap: {
@@ -189,7 +190,7 @@ export const ENGLISH = {
             newProductButton: {
                 buttonLabel: 'New Product',
                 dialogTitleLabel: 'Add new product',
-                dialogSubmitLabel: 'Create Product'
+                dialogSubmitLabel: 'Create Product',
             },
             productTable: {
                 tableHeadersMap: {
@@ -199,19 +200,19 @@ export const ENGLISH = {
                     lastOrder: 'Last Order',
                     salesYTD: 'Sales YTD',
                     orderCountYTD: 'Order Count YTD',
-                    hsc: 'HS Code'
+                    hsc: 'HS Code',
                 },
                 editDialogTitleLabel: 'Edit Product',
-                editDialogSubmitLabel: 'Update'
-            }
-        }
+                editDialogSubmitLabel: 'Update',
+            },
+        },
     },
     lead: {
         overview: {
             newLeadButton: {
                 buttonLabel: 'New Lead',
                 dialogTitleLabel: 'New Lead',
-                dialogSubmitLabel: 'Create'
+                dialogSubmitLabel: 'Create',
             },
             leadDialog: {
                 formLabels: {
@@ -220,8 +221,8 @@ export const ENGLISH = {
                     contactEmail: 'Primary Contact Email',
                     phone: 'Phone',
                     source: 'Source',
-                    assignedTo: 'Assigned Sales'
-                }
+                    assignedTo: 'Assigned Sales',
+                },
             },
             leadsTable: {
                 tableHeaders: {
@@ -235,14 +236,14 @@ export const ENGLISH = {
                     sample: 'Sample',
                     lastContact: 'Last Contact',
                     assignedTo: 'Sales',
-                    notes: 'Notes'
-                }
-            }
+                    notes: 'Notes',
+                },
+            },
         },
         lead: {
             tabsLabelsMap: {
                 details: 'Details',
-                addresses: 'Addresses'
+                addresses: 'Addresses',
             },
             leadDetails: {
                 formLabels: {
@@ -266,18 +267,18 @@ export const ENGLISH = {
                 salesInfoTitleLabel: 'Sales Information',
                 saveButtonLabel: 'Save',
                 deleteMessage: 'Are you sure you want to delete this lead?',
-                convertButtonLabel: 'Convert to Client'
+                convertButtonLabel: 'Convert to Client',
             },
             leadAddresses: {
                 newLeadAddressButton: {
                     buttonLabel: 'New Address',
                     dialogTitleLabel: 'New Lead Address',
-                    dialogSubmitLabel: 'Add'
+                    dialogSubmitLabel: 'Add',
                 },
                 editDialogTitleLabel: 'Edit Address',
-                editDialogSubmitLabel: 'Save'
-            }
-        }
+                editDialogSubmitLabel: 'Save',
+            },
+        },
     },
     order: {
         ordersOverview: {
@@ -301,17 +302,17 @@ export const ENGLISH = {
             titleLabel: 'New Order',
             createOrderDetails: {
                 prevButtonLabel: 'Cancel',
-                nextButtonLabel: 'Next: Products'
+                nextButtonLabel: 'Next: Products',
             },
             createOrderProducts: {
                 prevButtonLabel: 'Back: Details',
-                nextButtonLabel: 'Submit'
-            }
+                nextButtonLabel: 'Submit',
+            },
         },
         order: {
             tabsLabelsMap: {
                 details: 'Order Details',
-                documents: 'Documents'
+                documents: 'Documents',
             },
             orderDetails: {
                 detailsInfoCard: {
@@ -331,15 +332,15 @@ export const ENGLISH = {
                     editOrderDetailsButton: {
                         buttonLabel: 'Edit',
                         dialogTitleLabel: 'Edit Order',
-                        dialogSubmitLabel: 'Update'
-                    }
+                        dialogSubmitLabel: 'Update',
+                    },
                 },
                 statusInfoCard: {
                     title: 'Order Progress',
                     headerLabelsMap: {
                         procurement: 'Procurement',
                         production: 'Production',
-                        qa: 'QA'
+                        qa: 'QA',
                     },
                     statusLabel: 'Status',
                     estimatedLabel: 'Estimated Completion',
@@ -347,7 +348,7 @@ export const ENGLISH = {
                     editOrderStatusButton: {
                         buttonLabel: 'Edit',
                         titleLabel: 'Order Status',
-                        submitLabel: 'Update'
+                        submitLabel: 'Update',
                     },
                     orderStatusDialog: {
                         procurementTitleLabel: 'Procurement',
@@ -355,8 +356,8 @@ export const ENGLISH = {
                         qaTitleLabel: 'QA',
                         statusLabel: 'Status',
                         estimatedLabel: 'Estimated',
-                        actualLabel: 'Actual'
-                    }
+                        actualLabel: 'Actual',
+                    },
                 },
                 notesLabel: 'Notes',
                 productTableTitleLabel: 'Products',
@@ -367,32 +368,33 @@ export const ENGLISH = {
                         quantity: 'Quantity',
                         unit: 'Unit',
                         price: 'Unit Price',
-                        total: 'Amount'
+                        total: 'Amount',
                     },
                     totalLabel: 'Total',
                     editOrderProductsButton: {
                         buttonLabel: 'Edit',
                         dialogTitleLabel: 'Products',
-                        dialogSubmitLabel: 'Update'
-                    }
-                }
+                        dialogSubmitLabel: 'Update',
+                    },
+                },
             },
             orderDocuments: {
                 buttonLabels: {
                     generateExcel: 'Generate Excel',
-                    generatePdf: 'Generate PDF'
+                    generatePdf: 'Generate PDF',
                 },
                 textLabels: {
-                    noOrder: 'No Orders'
+                    noOrder: 'No Orders',
                 },
                 shipmentDocumentsCard: {
                     titleLabel: 'Shipment No:',
-                }
+                },
             },
             errorMessages: {
-                orderWasDeleted: 'The order you selected is no longer existent.'
-            }
-        }
+                orderWasDeleted:
+                    'The order you selected is no longer existent.',
+            },
+        },
     },
     shipment: {
         overview: {
@@ -405,9 +407,9 @@ export const ENGLISH = {
                     status: 'Status',
                     pod: 'Destination Port',
                     del: 'Mode',
-                    containerQ: 'Containers'
-                }
-            }
+                    containerQ: 'Containers',
+                },
+            },
         },
         createShipment: {
             newTitleLabel: 'New Shipment',
@@ -424,7 +426,7 @@ export const ENGLISH = {
                 production: 'Production',
                 qa: 'QA',
                 notes: 'Notes',
-                fulfilled: '% Fulfilled'
+                fulfilled: '% Fulfilled',
             },
             prevButtonLabel: 'Cancel',
             nextButtonLabel: 'Submit',
@@ -432,22 +434,22 @@ export const ENGLISH = {
                 missingSupplierAddress: 'You must select a supplier address.',
                 missingConsignee: 'You must select a consignee.',
                 missingConsigneeAddress: 'You must select a consignee address.',
-                atLeastOneOrder: 'You must select at least one order.'
-            }
+                atLeastOneOrder: 'You must select at least one order.',
+            },
         },
         shipment: {
             editShipmentButtonLabel: 'Edit Shipment Information',
             tabsLabelsMap: {
                 orders: 'Orders Included',
-                documents: 'Documents'
+                documents: 'Documents',
             },
             documentButton: {
                 buttonLabel: 'Generate Document',
                 dialogTitleLabel: 'Choose a Document to Generate',
                 submitButtonLabel: 'Continue',
                 formLabels: {
-                    document: 'Document'
-                }
+                    document: 'Document',
+                },
             },
             shipmentOrdersTable: {
                 tableHeaderLabelsMap: {
@@ -458,9 +460,9 @@ export const ENGLISH = {
                     del: 'Shipping Mode',
                     production: 'Production',
                     qa: 'QA',
-                    notes: 'Notes'
+                    notes: 'Notes',
                 },
-                editOrdersButtonLabel: 'Edit Included Orders'
+                editOrdersButtonLabel: 'Edit Included Orders',
             },
             shipmentDocumentTable: {
                 tableHeaderLabelsMap: {
@@ -469,9 +471,9 @@ export const ENGLISH = {
                     createdAt: 'Created At',
                     createdBy: 'Created By',
                     excel: 'Download Excel',
-                    pdf: 'Download PDF'
+                    pdf: 'Download PDF',
                 },
-                deleteMessage: 'Are you sure you want to delete this document?'
+                deleteMessage: 'Are you sure you want to delete this document?',
             },
             shipmentInfoCard: {
                 titleLabel: 'Shipment Information',
@@ -483,8 +485,8 @@ export const ENGLISH = {
                     pol: 'Port of Loading',
                     pod: 'Port of Destination',
                     etd: 'ETD',
-                    eta: 'ETA'
-                }
+                    eta: 'ETA',
+                },
             },
             documentStatusCard: {
                 titleLabel: 'Document Status',
@@ -492,18 +494,18 @@ export const ENGLISH = {
                     docCutOff: 'Doc Cut Off',
                     bol: 'Bill of Landing No',
                     bolType: 'Bill Release Type',
-                    released: 'Released'
-                }
-            }
+                    released: 'Released',
+                },
+            },
         },
         editShipment: {
             titleLabel: 'Shipment Information',
-            cancelButtonLabel: 'Cancel',
+            cancelButtonLabel: 'Back',
             deleteMessage: 'Are you sure you want to delete this shipment?',
             tabsLabelsMap: {
                 shipment: 'Shipment',
                 products: 'Products',
-                measures: 'Measures'
+                measures: 'Measures',
             },
             successMessage: 'Update Successful!',
             shipmentInfo: {
@@ -526,12 +528,13 @@ export const ENGLISH = {
                     pod: 'Port of Discharge',
                     carrier: 'Freight Forwarder',
                     eta: 'ETA',
-                    etd: 'ETD'
+                    etd: 'ETD',
                 },
                 submitButtonLabel: 'Update',
+                cancelButtonLabel: 'Cancel',
                 errorMessages: {
                     missingSellerAdd: 'You must select a seller address.',
-                    missingConsigneeAdd: 'You must select a consignee address.'
+                    missingConsigneeAdd: 'You must select a consignee address.',
                 },
                 containerSelectorButton: {
                     titleLabel: 'Select Containers',
@@ -540,21 +543,24 @@ export const ENGLISH = {
                     containerSelectorTable: {
                         tableHeaders: {
                             type: 'Container Type',
-                            quantity: 'Quantity'
-                        }
-                    }
-                }
+                            quantity: 'Quantity',
+                        },
+                    },
+                },
             },
             productTable: {
-                submitButtonLabel: 'Submit'
+                cancelButtonLabel: 'Cancel',
+                submitButtonLabel: 'Submit',
             },
             measureTable: {
-                submitButtonLabel: 'Submit'
+                cancelButtonLabel: 'Cancel',
+                submitButtonLabel: 'Submit',
             },
             consolidationTable: {
-                submitButtonLabel: 'Submit'
-            }
-        }
+                cancelButtonLabel: 'Cancel',
+                submitButtonLabel: 'Submit',
+            },
+        },
     },
     documents: {
         ci: {
@@ -574,7 +580,7 @@ export const ENGLISH = {
                     scRef: 'Sales Contract',
                     pol: 'Port of Loading',
                     pod: 'Port of Destination',
-                    notes: 'Notes'
+                    notes: 'Notes',
                 },
                 prevButtonLabel: 'Cancel',
                 nextButtonLabel: 'Next',
@@ -583,7 +589,7 @@ export const ENGLISH = {
                 titleLabel: 'Commercial Invoice Products',
                 prevButtonLabel: 'Details',
                 nextButtonLabel: 'Generate',
-            }
+            },
         },
         pl: {
             details: {
@@ -599,7 +605,7 @@ export const ENGLISH = {
                     scRef: 'Sales Contract',
                     pol: 'Port of Loading',
                     pod: 'Port of Destination',
-                    notes: 'Notes'
+                    notes: 'Notes',
                 },
                 prevButtonLabel: 'Cancel',
                 nextButtonLabel: 'Next',
@@ -608,7 +614,7 @@ export const ENGLISH = {
                 titleLabel: 'Packing List Products',
                 prevButtonLabel: 'Details',
                 nextButtonLabel: 'Generate',
-            }
+            },
         },
         sc: {
             details: {
@@ -627,7 +633,7 @@ export const ENGLISH = {
                     customText: 'Custom Text',
                     pol: 'Port of Loading',
                     pod: 'Port of Destination',
-                    notes: 'Package'
+                    notes: 'Package',
                 },
                 prevButtonLabel: 'Cancel',
                 nextButtonLabel: 'Next',
@@ -636,7 +642,7 @@ export const ENGLISH = {
                 titleLabel: 'Contract Products',
                 prevButtonLabel: 'Details',
                 nextButtonLabel: 'Generate',
-            }
+            },
         },
         ce: {
             details: {
@@ -659,7 +665,7 @@ export const ENGLISH = {
                     pod: 'Port of Destination',
                     netWeight: 'Net Weight',
                     grossWeight: 'Gross Weight',
-                    incoterm: 'Transaction Mode'
+                    incoterm: 'Transaction Mode',
                 },
                 prevButtonLabel: 'Cancel',
                 nextButtonLabel: 'Next',
@@ -671,7 +677,7 @@ export const ENGLISH = {
                     del: 'Delivery Method',
                     bol: 'Bill of Landing',
                     scRef: 'Sales Contract',
-                    containerNum: 'Container Number and Products'
+                    containerNum: 'Container Number and Products',
                 },
                 prevButtonLabel: 'Back',
                 nextButtonLabel: 'Next',
@@ -680,8 +686,8 @@ export const ENGLISH = {
                 titleLabel: 'China Export Products',
                 prevButtonLabel: 'Back',
                 nextButtonLabel: 'Generate',
-            }
-        }
+            },
+        },
     },
     shared: {
         wrappers: {
@@ -727,7 +733,7 @@ export const ENGLISH = {
                 incotermLabel: 'Default Incoterm',
                 paymentTermLabel: 'Default Payment Term',
                 notesLabel: 'Notes',
-                deleteMessage: 'Are you sure you want to delete this client?'
+                deleteMessage: 'Are you sure you want to delete this client?',
             },
             contactDialog: {
                 nameLabel: 'Name',
@@ -746,11 +752,11 @@ export const ENGLISH = {
                 descriptionLabel: 'Product Description (EN)',
                 localDescriptionLabel: 'Product Description (CN)',
                 hscLabel: 'HS Code',
-                deleteMessage: 'Are you sure you want to delete this product?'
+                deleteMessage: 'Are you sure you want to delete this product?',
             },
             orderDetailsDialog: {
-                deleteMessage: 'Are you sure you want to delete this order?'
-            }
+                deleteMessage: 'Are you sure you want to delete this order?',
+            },
         },
         rhf: {
             forms: {
@@ -775,13 +781,13 @@ export const ENGLISH = {
                         del: 'Delivery Method',
                         pol: 'Port of Loading',
                         pod: 'Port of Destination',
-                        carrier: 'Shipping Carrier'
-                    }
+                        carrier: 'Shipping Carrier',
+                    },
                 },
                 productTable: {
                     formLabels: {
                         currency: 'Currency',
-                        saveItems: 'Save New Items To Inventory'
+                        saveItems: 'Save New Items To Inventory',
                     },
                     totalLabel: 'Total:',
                     notInOrderLabel: 'None',
@@ -792,20 +798,21 @@ export const ENGLISH = {
                         quantity: 'Quantity',
                         unit: 'Unit',
                         price: 'Unit Price',
-                        total: 'Amount'
+                        total: 'Amount',
                     },
                     marksPlaceholderLabel: 'Marks...',
                     errorMessages: {
                         missingCurrency: 'You must select a currency.',
-                        missingCustomColumnName: 'You must give a name to all custom columns.',
+                        missingCustomColumnName:
+                            'You must give a name to all custom columns.',
                         missingItemInfo: 'Some item is missing information.',
-                        missingItems: 'You need to add at least one item'
-                    }
+                        missingItems: 'You need to add at least one item',
+                    },
                 },
                 measureTable: {
                     formLabels: {
                         measurementUnit: 'Measurement Unit',
-                        weightUnit: 'Weight Unit'
+                        weightUnit: 'Weight Unit',
                     },
                     tableHeaderLabels: {
                         ref: 'Item Reference',
@@ -814,22 +821,24 @@ export const ENGLISH = {
                         pUnit: 'P. Unit',
                         netW: 'Net Weight',
                         grossW: 'Gross Weight',
-                        dim: 'Volume'
+                        dim: 'Volume',
                     },
                     totalLabel: 'Total:',
                     marksLabel: 'Marks:',
                     errorMessages: {
-                        missingMeasurementUnit: 'You must select a measurement unit.',
+                        missingMeasurementUnit:
+                            'You must select a measurement unit.',
                         missingWeightUnit: 'You must select a weight unit.',
-                        missingCustomColumnName: 'You must give a name to all custom columns.',
+                        missingCustomColumnName:
+                            'You must give a name to all custom columns.',
                         missingItemInfo: 'Some item is missing information.',
-                        missingItems: 'You need to add at least one item'
-                    }
+                        missingItems: 'You need to add at least one item',
+                    },
                 },
                 consolidationTable: {
                     formLabels: {
                         measurementUnit: 'Measurement Unit',
-                        weightUnit: 'Weight Unit'
+                        weightUnit: 'Weight Unit',
                     },
                     tableHeaderLabels: {
                         description: 'Description',
@@ -840,12 +849,13 @@ export const ENGLISH = {
                         pUnit: 'Unit',
                         netW: 'Net Weight',
                         grossW: 'Gross Weight',
-                        dim: 'Volume'
+                        dim: 'Volume',
                     },
                     totalLabel: 'Total:',
                     errorMessages: {
-                        missingCustomColumnName: 'You must give a name to all custom columns.'
-                    }
+                        missingCustomColumnName:
+                            'You must give a name to all custom columns.',
+                    },
                 },
                 chinaExportTable: {
                     tableHeaderLabels: {
@@ -858,16 +868,16 @@ export const ENGLISH = {
                         currency: 'Currency',
                         coo: 'Origin',
                         fdc: 'Destination',
-                        dop: 'Domestic Origin'
+                        dop: 'Domestic Origin',
                     },
                     totalLabel: 'Total:',
                     marksPlaceholderLabel: 'Marks...',
                     errorMessages: {
                         missingItemInfo: 'Some item is missing information.',
-                        missingItems: 'You need to add at least one item'
-                    }
-                }
-            }
+                        missingItems: 'You need to add at least one item',
+                    },
+                },
+            },
         },
         components: {
             table: {
@@ -875,7 +885,7 @@ export const ENGLISH = {
                 rowsPerPageLabel: 'Rows per page',
             },
             editableTable: {
-                addRowButtonLabel: 'Add'
+                addRowButtonLabel: 'Add',
             },
             notFound: {
                 message: '404 - Not Found!',
@@ -888,14 +898,14 @@ export const ENGLISH = {
                 editButtonLabel: 'Edit',
                 deleteButtonLabel: 'Delete',
                 defaultButtonLabel: 'Default',
-                setDefaultButtonLabel: 'Set as Default'
+                setDefaultButtonLabel: 'Set as Default',
             },
             textAreaCard: {
-                submitLabel: 'Edit'
+                submitLabel: 'Edit',
             },
             errorPage: {
-                backButtonLabel: 'Go Back'
-            }
+                backButtonLabel: 'Go Back',
+            },
         },
         buttons: {
             deleteButton: {
@@ -948,7 +958,7 @@ export const ENGLISH = {
                 Completed: 'Completed',
                 Exception: 'Exception',
             },
-        }
+        },
     },
     defaults: {
         documentNames: {

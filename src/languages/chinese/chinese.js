@@ -497,7 +497,7 @@ export const CHINESE = {
         },
         editShipment: {
             titleLabel: '运输信息',
-            cancelButtonLabel: '取消',
+            cancelButtonLabel: '回上一页',
             deleteMessage: '您确定要删除这个运输吗？',
             tabsLabelsMap: {
                 shipment: '运输',
@@ -528,6 +528,7 @@ export const CHINESE = {
                     etd: '预计到达',
                 },
                 submitButtonLabel: '确定',
+                cancelButtonLabel: '取消',
                 errorMessages: {
                     missingSellerAdd: '必须选择卖家地址',
                     missingConsigneeAdd: '必须选择买家地址',
@@ -545,12 +546,15 @@ export const CHINESE = {
                 },
             },
             productTable: {
+                cancelButtonLabel: '取消',
                 submitButtonLabel: '确定',
             },
             measureTable: {
+                cancelButtonLabel: '取消',
                 submitButtonLabel: '确定',
             },
             consolidationTable: {
+                cancelButtonLabel: '取消',
                 submitButtonLabel: '确定',
             },
         },

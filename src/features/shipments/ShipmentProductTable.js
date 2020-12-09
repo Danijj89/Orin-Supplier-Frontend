@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
-import RHFProductTable, { validateItems } from '../shared/rhf/forms/RHFProductTable.js';
+import RHFProductTable, {
+    validateItems,
+} from '../shared/rhf/forms/RHFProductTable.js';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
@@ -11,6 +13,7 @@ import Paper from '@material-ui/core/Paper';
 import { useParams } from 'react-router-dom';
 import { selectShipmentById } from './duck/selectors.js';
 import { getOptionId } from '../../app/utils/options/getters.js';
+import Footer from '../shared/components/Footer.js';
 
 const productTableFieldNames = {
     custom1: 'ciCustom1',
@@ -19,27 +22,39 @@ const productTableFieldNames = {
     items: 'items',
     quantity: 'quantity',
     total: 'total',
-    marks: 'marks'
+    marks: 'marks',
 };
 
 const useStyles = makeStyles((theme) => ({
-    submitButton: {
-        marginTop: theme.spacing(2),
+    card: {
+        marginTop: theme.spacing(3),
     },
 }));
 
 const {
-    submitButtonLabel
+    submitButtonLabel,
+    cancelButtonLabel,
 } = LANGUAGE.shipment.editShipment.productTable;
 
-const ShipmentProductTable = React.memo(function ShipmentProductTable() {
+const ShipmentProductTable = React.memo(function ShipmentProductTable({
+    onCancel,
+}) {
     const classes = useStyles();
     const dispatch = useDispatch();
     const { id: shipmentId } = useParams();
 
-    const shipment = useSelector(state => selectShipmentById(state, { shipmentId }));
+    const shipment = useSelector((state) =>
+        selectShipmentById(state, { shipmentId })
+    );
 
-    const { register, control, errors, setValue, getValues, handleSubmit } = useForm({
+    const {
+        register,
+        control,
+        errors,
+        setValue,
+        getValues,
+        handleSubmit,
+    } = useForm({
         mode: 'onSubmit',
         defaultValues: {
             [productTableFieldNames.currency]: shipment.currency,
@@ -49,11 +64,14 @@ const ShipmentProductTable = React.memo(function ShipmentProductTable() {
             [productTableFieldNames.custom1]: shipment.ciCustom1,
             [productTableFieldNames.custom2]: shipment.ciCustom2,
             [productTableFieldNames.marks]: shipment.marks,
-        }
+        },
     });
 
     useEffect(() => {
-        register({ name: productTableFieldNames.items }, { validate: validateItems });
+        register(
+            { name: productTableFieldNames.items },
+            { validate: validateItems }
+        );
         register({ name: productTableFieldNames.custom1 });
         register({ name: productTableFieldNames.custom2 });
         register({ name: productTableFieldNames.quantity });
@@ -68,21 +86,28 @@ const ShipmentProductTable = React.memo(function ShipmentProductTable() {
 
     return (
         <Paper>
-            <form onSubmit={ handleSubmit(onSubmit) } autoComplete="off">
+            <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
                 <RHFProductTable
-                    rhfRegister={ register }
-                    rhfErrors={ errors }
-                    rhfControl={ control }
-                    rhfSetValue={ setValue }
-                    rhfGetValues={ getValues }
-                    fieldNames={ productTableFieldNames }
+                    rhfRegister={register}
+                    rhfErrors={errors}
+                    rhfControl={control}
+                    rhfSetValue={setValue}
+                    rhfGetValues={getValues}
+                    fieldNames={productTableFieldNames}
                     isEdit
                     isShipment
+                    className={classes.card}
                 />
-                <ThemedButton className={ classes.submitButton } type="submit">{ submitButtonLabel }</ThemedButton>
+
+                <Footer
+                    prevLabel={cancelButtonLabel}
+                    nextLabel={submitButtonLabel}
+                    onPrevClick={onCancel}
+                    nextButtonType="submit"
+                />
             </form>
         </Paper>
-    )
+    );
 });
 
 export default ShipmentProductTable;

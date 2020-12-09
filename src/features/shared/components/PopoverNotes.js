@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { ChatBubble as IconChatFull, ChatBubbleOutline as IconChatEmpty } from '@material-ui/icons';
+import {
+    ChatBubble as IconChatFull,
+    ChatBubbleOutline as IconChatEmpty,
+} from '@material-ui/icons';
 import Popover from '@material-ui/core/Popover';
 import { useForm } from 'react-hook-form';
 import Grid from '@material-ui/core/Grid';
@@ -11,8 +14,22 @@ import Box from '@material-ui/core/Box';
 
 const useStyles = makeStyles((theme) => ({
     container: {
-        padding: theme.spacing(2)
-    }
+        padding: theme.spacing(2),
+    },
+    cancelButton: {
+        marginRight: theme.spacing(1),
+        marginTop: theme.spacing(1),
+        color: theme.palette.danger.light,
+        borderColor: theme.palette.danger.light,
+        '&:hover': {
+            color: theme.palette.white.main,
+            borderColor: theme.palette.danger.dark,
+            backgroundColor: theme.palette.danger.main,
+        },
+    },
+    updateButton: {
+        marginTop: theme.spacing(1),
+    },
 }));
 
 const PopoverNotes = React.memo(function PopoverNotes({ notes, onSubmit }) {
@@ -22,9 +39,9 @@ const PopoverNotes = React.memo(function PopoverNotes({ notes, onSubmit }) {
     const { register, handleSubmit } = useForm({
         mode: 'onSubmit',
         defaultValues: {
-            notes: notes
+            notes: notes,
         },
-        shouldUnregister: false
+        shouldUnregister: false,
     });
 
     const handleClick = (e) => {
@@ -40,44 +57,70 @@ const PopoverNotes = React.memo(function PopoverNotes({ notes, onSubmit }) {
     };
 
     return (
-        <Box onClick={e => e.stopPropagation() }>
-            { notes && <ThemedButton variant="text" onClick={ handleClick }><IconChatFull/></ThemedButton> }
-            { !notes && <ThemedButton variant="text" onClick={ handleClick }><IconChatEmpty/></ThemedButton> }
+        <Box onClick={(e) => e.stopPropagation()}>
+            {notes && (
+                <ThemedButton variant="text" onClick={handleClick}>
+                    <IconChatFull />
+                </ThemedButton>
+            )}
+            {!notes && (
+                <ThemedButton variant="text" onClick={handleClick}>
+                    <IconChatEmpty />
+                </ThemedButton>
+            )}
             <Popover
-                open={ Boolean(anchorEl) }
-                anchorEl={ anchorEl }
-                onClose={ onCancel }
-                anchorOrigin={ {
+                open={Boolean(anchorEl)}
+                anchorEl={anchorEl}
+                onClose={onCancel}
+                anchorOrigin={{
                     vertical: 'bottom',
                     horizontal: 'left',
-                } }
-                transformOrigin={ {
+                }}
+                transformOrigin={{
                     vertical: 'top',
                     horizontal: 'right',
-                } }>
+                }}
+            >
                 <form onSubmit={handleSubmit(onFromSubmit)} autoComplete="off">
                     <Grid
                         container
-                        onClick={ e => e.stopPropagation()}
-                        className={ classes.container }
+                        onClick={(e) => e.stopPropagation()}
+                        className={classes.container}
                     >
                         <Grid container item>
-                            <TextArea name="notes" inputRef={ register } autoFocus rowsMax={ 8 } rows={ 4 }/>
+                            <TextArea
+                                name="notes"
+                                inputRef={register}
+                                autoFocus
+                                rowsMax={8}
+                                rows={4}
+                            />
                         </Grid>
                         <Grid container item justify="flex-end">
-                            <ThemedButton onClick={ onCancel }>Cancel</ThemedButton>
-                            <ThemedButton type="submit">Update</ThemedButton>
+                            <ThemedButton
+                                onClick={onCancel}
+                                variant="outlined"
+                                className={classes.cancelButton}
+                            >
+                                Cancel
+                            </ThemedButton>
+                            <ThemedButton
+                                type="submit"
+                                className={classes.updateButton}
+                            >
+                                Update
+                            </ThemedButton>
                         </Grid>
                     </Grid>
                 </form>
             </Popover>
         </Box>
-    )
+    );
 });
 
 PopoverNotes.propTypes = {
     notes: PropTypes.string,
-    onSubmit: PropTypes.func.isRequired
+    onSubmit: PropTypes.func.isRequired,
 };
 
 export default PopoverNotes;

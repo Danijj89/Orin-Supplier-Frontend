@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
-import RHFMeasureTable, { validateItemMeasures } from '../shared/rhf/forms/RHFMeasureTable.js';
+import RHFMeasureTable, {
+    validateItemMeasures,
+} from '../shared/rhf/forms/RHFMeasureTable.js';
 import { useForm } from 'react-hook-form';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { LANGUAGE } from '../../app/utils/constants.js';
@@ -11,6 +13,7 @@ import Paper from '@material-ui/core/Paper';
 import { useParams } from 'react-router-dom';
 import { selectShipmentById } from './duck/selectors.js';
 import { getOptionId } from '../../app/utils/options/getters.js';
+import Footer from '../shared/components/Footer.js';
 
 const measureTableFieldNames = {
     custom1: 'plCustom1',
@@ -22,26 +25,38 @@ const measureTableFieldNames = {
     weightUnit: 'weightUnit',
     measurementUnit: 'measurementUnit',
     items: 'items',
-    marks: 'marks'
+    marks: 'marks',
 };
 
 const useStyles = makeStyles((theme) => ({
-    submitButton: {
-         marginTop: theme.spacing(2),
-    }
+    card: {
+        margin: theme.spacing(3),
+    },
 }));
 
 const {
-    submitButtonLabel
+    submitButtonLabel,
+    cancelButtonLabel,
 } = LANGUAGE.shipment.editShipment.measureTable;
 
-const ShipmentMeasureTable = React.memo(function ShipmentMeasureTable() {
+const ShipmentMeasureTable = React.memo(function ShipmentMeasureTable({
+    onCancel,
+}) {
     const classes = useStyles();
     const dispatch = useDispatch();
     const { id: shipmentId } = useParams();
-    const shipment = useSelector(state => selectShipmentById(state, { shipmentId }));
+    const shipment = useSelector((state) =>
+        selectShipmentById(state, { shipmentId })
+    );
 
-    const { register, control, errors, setValue, getValues, handleSubmit } = useForm({
+    const {
+        register,
+        control,
+        errors,
+        setValue,
+        getValues,
+        handleSubmit,
+    } = useForm({
         mode: 'onSubmit',
         defaultValues: {
             [measureTableFieldNames.items]: shipment.items,
@@ -53,12 +68,15 @@ const ShipmentMeasureTable = React.memo(function ShipmentMeasureTable() {
             [measureTableFieldNames.dimension]: shipment.dimension,
             [measureTableFieldNames.custom1]: shipment.plCustom1,
             [measureTableFieldNames.custom2]: shipment.plCustom2,
-            [measureTableFieldNames.marks]: shipment.marks
-        }
+            [measureTableFieldNames.marks]: shipment.marks,
+        },
     });
 
     useEffect(() => {
-        register({ name: measureTableFieldNames.items }, { validate: validateItemMeasures });
+        register(
+            { name: measureTableFieldNames.items },
+            { validate: validateItemMeasures }
+        );
         register({ name: measureTableFieldNames.custom1 });
         register({ name: measureTableFieldNames.custom2 });
         register({ name: measureTableFieldNames.package });
@@ -76,19 +94,25 @@ const ShipmentMeasureTable = React.memo(function ShipmentMeasureTable() {
 
     return (
         <Paper>
-            <form onSubmit={ handleSubmit(onSubmit) } autoComplete="off">
+            <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
                 <RHFMeasureTable
-                    rhfRegister={ register }
-                    rhfControl={ control }
-                    rhfGetValues={ getValues }
-                    rhfSetValue={ setValue }
-                    rhfErrors={ errors }
-                    fieldNames={ measureTableFieldNames }
+                    rhfRegister={register}
+                    rhfControl={control}
+                    rhfGetValues={getValues}
+                    rhfSetValue={setValue}
+                    rhfErrors={errors}
+                    fieldNames={measureTableFieldNames}
+                    className={classes.card}
                 />
-                <ThemedButton className={classes.submitButton} type="submit">{ submitButtonLabel }</ThemedButton>
+                <Footer
+                    prevLabel={cancelButtonLabel}
+                    nextLabel={submitButtonLabel}
+                    onPrevClick={onCancel}
+                    nextButtonType="submit"
+                />
             </form>
         </Paper>
-    )
+    );
 });
 
 export default ShipmentMeasureTable;

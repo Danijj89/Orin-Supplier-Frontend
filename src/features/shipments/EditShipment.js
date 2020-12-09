@@ -22,19 +22,9 @@ import { deleteShipment } from './duck/thunks.js';
 import queryString from 'query-string';
 
 const useStyles = makeStyles((theme) => ({
-    container: {
+    title: {
         margin: theme.spacing(2),
     },
-    cancelButton: {
-        marginBottom: theme.spacing(1),
-        color: theme.palette.danger.light,
-        borderColor: theme.palette.danger.light,
-        '&:hover': {
-            color: theme.palette.white.main,
-            borderColor: theme.palette.danger.dark,
-            backgroundColor: theme.palette.danger.main,
-        }
-    }
 }));
 
 const {
@@ -42,7 +32,7 @@ const {
     cancelButtonLabel,
     tabsLabelsMap,
     successMessage,
-    deleteMessage
+    deleteMessage,
 } = LANGUAGE.shipment.editShipment;
 
 const EditShipment = React.memo(function EditShipment() {
@@ -59,52 +49,67 @@ const EditShipment = React.memo(function EditShipment() {
     const onTabChange = useCallback(
         (newValue) => {
             dispatch(cleanShipmentStatus());
-            history.push(`${ location.pathname }?tab=${ newValue }`);
+            history.push(`${location.pathname}?tab=${newValue}`);
         },
-        [dispatch, history, location.pathname]);
+        [dispatch, history, location.pathname]
+    );
 
     const onCancel = useCallback(
-        () => history.push(`/home/shipments/${ shipmentId }`),
-        [history, shipmentId]);
+        () => history.push(`/home/shipments/${shipmentId}`),
+        [history, shipmentId]
+    );
 
-    const onDelete = useCallback(
-        () => {
-            dispatch(deleteShipment({ shipmentId }));
-            history.push('/home/shipments');
-        },
-        [history, dispatch, shipmentId]);
+    const onDelete = useCallback(() => {
+        dispatch(deleteShipment({ shipmentId }));
+        history.push('/home/shipments');
+    }, [history, dispatch, shipmentId]);
 
     return (
-        <Box className={ classes.container }>
+        <Box className={classes.container}>
+            <ThemedButton
+                variant={cancelButtonLabel}
+                onClick={onCancel}
+                className={classes.newContact}
+            >
+                {'Back'}
+            </ThemedButton>
             <Card>
                 <Grid container item justify="space-between">
-                    <ThemedButton
-                        onClick={ onCancel }
-                        variant="outlined"
-                        className={ classes.cancelButton }
-                    >{ cancelButtonLabel }</ThemedButton>
+                    <Typography className={classes.title} variant="h5">
+                        {titleLabel}
+                    </Typography>
                     <DeleteButton
-                        onDelete={ onDelete }
-                        deleteMessage={ deleteMessage }
+                        onDelete={onDelete}
+                        deleteMessage={deleteMessage}
                     />
                 </Grid>
-                <Typography variant="h5">{ titleLabel }</Typography>
+
                 <NavTabs
-                    tabsLabelsMap={ tabsLabelsMap }
-                    tabValue={ tabValue }
-                    onChange={ onTabChange }
+                    tabsLabelsMap={tabsLabelsMap}
+                    tabValue={tabValue}
+                    onChange={onTabChange}
                 />
-                { shipmentStatus === 'REJECTED' && <ErrorMessages errors={ [shipmentError] }/> }
-                { shipmentStatus === 'FULFILLED' && <SuccessMessage message={ successMessage }/> }
-                { shipmentStatus === 'PENDING' && <Loader/> }
+                {shipmentStatus === 'REJECTED' && (
+                    <ErrorMessages errors={[shipmentError]} />
+                )}
+                {shipmentStatus === 'FULFILLED' && (
+                    <SuccessMessage message={successMessage} />
+                )}
+                {shipmentStatus === 'PENDING' && <Loader />}
             </Card>
             <Box>
-                { tabValue === 'shipment' && <ShipmentInfo /> }
-                { tabValue === 'products' && <ShipmentProductTable /> }
-                { tabValue === 'measures' && <ShipmentMeasureTable /> }
+                {tabValue === 'shipment' && (
+                    <ShipmentInfo onCancel={onCancel} />
+                )}
+                {tabValue === 'products' && (
+                    <ShipmentProductTable onCancel={onCancel} />
+                )}
+                {tabValue === 'measures' && (
+                    <ShipmentMeasureTable onCancel={onCancel} />
+                )}
             </Box>
         </Box>
-    )
+    );
 });
 
 export default EditShipment;
