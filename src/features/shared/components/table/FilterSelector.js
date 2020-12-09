@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
 import ThemedButton from '../../buttons/ThemedButton.js';
 import Popover from '@material-ui/core/Popover';
 import DateFilter from './filters/DateFilter.js';
@@ -12,6 +11,8 @@ import { prepareFilters } from './utils/helpers.js';
 import { LANGUAGE } from '../../../../app/utils/constants.js';
 import DropdownFilter from './filters/DropdownFilter.js';
 import RangeFilter from './filters/RangeFilter.js';
+import Badge from '@material-ui/core/Badge';
+import { FilterList as IconFilterList } from '@material-ui/icons';
 
 const {
     filterPopoverButtonLabel,
@@ -20,14 +21,13 @@ const {
 } = LANGUAGE.shared.components.table.filterSelector;
 
 
-const FilterSelector = React.memo(function FilterSelector(
-    { filterOptions, onFilter }) {
-
+const FilterSelector = React.memo(function FilterSelector({ filterOptions, onFilter }) {
     const preparedFilters = useMemo(
         () => prepareFilters(filterOptions.filters),
         [filterOptions.filters]);
 
     const [filters, setFilters] = useSessionStorage(filterOptions.sessionKey, preparedFilters);
+    const [numActiveFilters, setNumActiveFilters] = useState(0);
     const [anchorEl, setAnchorEl] = useState(false);
 
     const onClick = useCallback(
@@ -43,27 +43,28 @@ const FilterSelector = React.memo(function FilterSelector(
 
     const onSubmit = useCallback(
         () => {
-            const activeFilters = filters.filter(filter => {
-                switch (filter.type) {
-                    case 'date':
-                        return filter.start || filter.end;
-                    case 'option':
-                        return filter.values.length > 0;
-                    case 'text':
-                        return filter.value;
-                    case 'dropdown':
-                        return filter.value;
-                    case 'range':
-                        return filter.min || filter.max;
-                    default:
-                        return filter;
+            let count = 0;
+            const activeFilters = [];
+            filters.forEach(filter => {
+                const { type } = filter;
+                if (type === 'date' && (filter.start || filter.end)) {
+                    count++;
+                    activeFilters.push({ ...filter });
+                } else if (type === 'option' && filter.values.length > 0) {
+                    count += filter.values.length;
+                    activeFilters.push({ ...filter });
+                } else if ((type === 'text' || type === 'dropdown') && filter.value) {
+                    count++;
+                    activeFilters.push({ ...filter });
+                } else if (type === 'range' && (filter.min || filter.map)) {
+                    count++;
+                    activeFilters.push({ ...filter });
                 }
             });
+            setNumActiveFilters(count);
             onFilter(activeFilters);
             setAnchorEl(null);
-        },
-        [onFilter, filters]
-    );
+        }, [onFilter, filters]);
 
     // call when the user refreshes the page
     const mounted = useRef(false);
@@ -75,8 +76,22 @@ const FilterSelector = React.memo(function FilterSelector(
     }, [onSubmit]);
 
     return (
-        <Box>
-            <ThemedButton onClick={ onClick }>
+        <>
+            <ThemedButton
+                onClick={ onClick }
+                startIcon={
+                    <Badge
+                        color="secondary"
+                        badgeContent={ numActiveFilters }
+                        anchorOrigin={ {
+                            vertical: 'top',
+                            horizontal: 'left'
+                        } }
+                    >
+                        <IconFilterList/>
+                    </Badge>
+                }
+            >
                 { filterPopoverButtonLabel }
             </ThemedButton>
             <Popover
@@ -156,7 +171,7 @@ const FilterSelector = React.memo(function FilterSelector(
                     </Grid>
                 </Grid>
             </Popover>
-        </Box>
+        </>
     );
 });
 
