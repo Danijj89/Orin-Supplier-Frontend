@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
     Table as MuiTable,
@@ -7,9 +7,10 @@ import {
 import TableHeader from './TableHeader.js';
 import TableFooter from './TableFooter.js';
 import TableBody from './TableBody.js';
-import { getComparator, getFilter, stableSort } from './utils/helpers.js';
+import { getComparator, stableSort } from './utils/helpers.js';
 import FilterSelector from './FilterSelector.js';
 import { getOptionId } from '../../../../app/utils/options/getters.js';
+import Box from '@material-ui/core/Box';
 
 const Table = React.memo(function Table(
     {
@@ -20,14 +21,23 @@ const Table = React.memo(function Table(
         dense,
         disableRowHover,
         footer,
-        maxEmptyRows = 5
+        maxEmptyRows = 5,
+        filterOptions
     }) {
+
 
     const [order, setOrder] = React.useState('asc');
     const [orderBy, setOrderBy] = React.useState();
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const [processedRows, setProcessedRows] = useState(rows || []);
+
+    const prevRows = useRef(rows);
+    useEffect(() => {
+        if (prevRows.current !== rows) {
+            setProcessedRows(rows);
+        }
+    }, [rows]);
 
     const onSort = (field) => {
         const isAsc = orderBy === field && order === 'asc';
@@ -38,35 +48,44 @@ const Table = React.memo(function Table(
 
     const onFilter = useCallback(
         (filters) => {
-            if (filters.length === 0) {
-                if (orderBy) setProcessedRows(stableSort(rows, getComparator(order, orderBy)));
-                else setProcessedRows(rows);
-            } else {
-                let filteredRows = [...processedRows];
-                for (const filter of filters) {
-                    switch (filter.type) {
-                        case 'date':
-                            if (filter.start && filter.end)
-                                filteredRows = filteredRows.filter(row => {
-                                    const val = new Date(row[filter.field]);
-                                    return val >= filter.start && val <= filter.end;
-                                });
-                            else if (filter.start) {
-                                filteredRows = filteredRows.filter(row => {
-                                    return new Date(row[filter.field]) >= filter.start;
-                                });
-                            }
-                            else filteredRows = filteredRows.filter(row => new Date(row[filter.field]) <= filter.end);
-                            break;
-                        case 'option':
-                            filteredRows = filteredRows.filter(row => filter.values.includes(getOptionId(row[filter.field])));
-                            break;
-                        default:
-                    }
+            let filteredRows = [...rows];
+            for (const filter of filters) {
+                switch (filter.type) {
+                    case 'date':
+                        if (filter.start && filter.end)
+                            filteredRows = filteredRows.filter(row => {
+                                const val = new Date(row[filter.field]);
+                                return val >= filter.start && val <= filter.end;
+                            });
+                        else if (filter.start) {
+                            filteredRows = filteredRows.filter(row => {
+                                return new Date(row[filter.field]) >= filter.start;
+                            });
+                        } else filteredRows = filteredRows.filter(row => new Date(row[filter.field]) <= filter.end);
+                        break;
+                    case 'option':
+                        filteredRows = filteredRows.filter(row => filter.values.includes(getOptionId(row[filter.field])));
+                        break;
+                    case 'text':
+                        filteredRows = filteredRows.filter(row => row[filter.field].includes(filter.value));
+                        break;
+                    case 'dropdown':
+                        filteredRows = filteredRows.filter(row => row[filter.field] === filter.value);
+                        break;
+                    case 'range':
+                        if (filter.min && filter.max) filteredRows = filteredRows.filter(row => {
+                            const val = row[filter.field];
+                            return val >= filter.min && val <= filter.max;
+                        });
+                        else if (filter.min) filteredRows = filteredRows.filter(row => row[filter.field] >= filter.min);
+                        else filteredRows = filteredRows.filter(row => row[filter.field] <= filter.max);
+                        break;
+                    default:
                 }
-                setProcessedRows(filteredRows);
             }
-        }, [order, orderBy, rows, processedRows]);
+            if (orderBy) filteredRows = stableSort(filteredRows, getComparator(order, orderBy));
+            setProcessedRows(filteredRows);
+        }, [order, orderBy, rows]);
 
     const onPageChange = (event, newPage) => setPage(newPage);
     const onRowsPerPageChange = (event) => {
@@ -76,7 +95,9 @@ const Table = React.memo(function Table(
 
     return (
         <TableContainer className={ className }>
-            <FilterSelector columns={ columns } onFilter={ onFilter }/>
+            <Box hidden={ !Boolean(filterOptions) }>
+                { filterOptions && <FilterSelector filterOptions={ filterOptions } onFilter={ onFilter }/> }
+            </Box>
             <MuiTable stickyHeader size={ dense && 'small' }>
                 <TableHeader
                     columns={ columns }
@@ -115,7 +136,8 @@ Table.propTypes = {
     dense: PropTypes.bool,
     disableRowHover: PropTypes.bool,
     disablePagination: PropTypes.bool,
-    maxEmptyRows: PropTypes.number
+    maxEmptyRows: PropTypes.number,
+    filterOptions: PropTypes.object
 };
 
 export default Table;

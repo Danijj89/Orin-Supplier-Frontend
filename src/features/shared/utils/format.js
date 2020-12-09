@@ -8,6 +8,13 @@ export function dateToLocaleDate(date) {
     return new Date(date).toLocaleString(LOCALE, dateOptions);
 }
 
+export function dateToLocaleDatetime(date) {
+    if (!date) return null;
+    const dateOptions = { year: 'numeric', month: 'long', day: 'numeric',
+        hour: 'numeric', minute: 'numeric', second: 'numeric' };
+    return new Date(date).toLocaleString(LOCALE, dateOptions);
+}
+
 export function dateToYYMMDD(dateString) {
     return dateString.substr(0, 10);
 }

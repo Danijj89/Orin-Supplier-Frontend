@@ -8,8 +8,9 @@ import StatusDropdown from '../shared/components/StatusDropdown.js';
 import { selectLeadTypes, selectSalesStatuses } from '../../app/duck/selectors.js';
 import { updateLead } from './duck/thunks.js';
 import { getOptionId } from '../../app/utils/options/getters.js';
-import { selectUsersMap } from '../users/duck/selectors.js';
+import { selectAllActiveUserNames, selectUsersMap } from '../users/duck/selectors.js';
 import PopoverNotes from '../shared/components/PopoverNotes.js';
+import { SESSION_LEAD_TABLE_FILTERS } from '../../app/sessionKeys.js';
 
 const {
     tableHeaders
@@ -22,6 +23,7 @@ const LeadsTable = React.memo(function LeadsTable() {
     const leadTypeOptions = useSelector(selectLeadTypes);
     const usersMap = useSelector(selectUsersMap);
     const leads = useSelector(selectAllLeads);
+    const usersName = useSelector(selectAllActiveUserNames);
 
     const onRowClick = useCallback(
         (params) => {
@@ -108,11 +110,25 @@ const LeadsTable = React.memo(function LeadsTable() {
         notes: lead.notes
     })), [leads, usersMap]);
 
+    const filterOptions = useMemo(() => ({
+        sessionKey: SESSION_LEAD_TABLE_FILTERS,
+        filters: [
+            { field: 'salesStatus', type: 'option', options: salesStatusOptions, label: tableHeaders.salesStatus },
+            { field: 'leadType', type: 'option', options: leadTypeOptions, label: tableHeaders.leadType },
+            { field: 'source', type: 'text', label: tableHeaders.source},
+            { field: 'quotation', type: 'date', label: tableHeaders.quotation},
+            { field: 'sample', type: 'date', label: tableHeaders.sample },
+            { field: 'lastContact', type: 'date', label: tableHeaders.lastContact },
+            { field: 'assignedTo', type: 'dropdown', options: usersName, label: tableHeaders.assignedTo }
+        ]
+    }), [leadTypeOptions, salesStatusOptions, usersName]);
+
     return (
         <Table
             rows={ rows }
             columns={ columns }
             onRowClick={ onRowClick }
+            filterOptions={ filterOptions }
         />
     )
 });

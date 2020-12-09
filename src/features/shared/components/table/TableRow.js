@@ -2,7 +2,9 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { TableRow as MuiTableRow } from '@material-ui/core';
 import TableCell from '@material-ui/core/TableCell';
-import { dateToLocaleDate } from '../../utils/format.js';
+import { dateToLocaleDate, dateToLocaleDatetime } from '../../utils/format.js';
+import { getOptionLabel } from '../../../../app/utils/options/getters.js';
+import { LOCALE } from '../../../../app/utils/constants.js';
 
 const TableRow = React.memo(function TableRow({ row, columns, onRowClick, disableRowHover }) {
 
@@ -15,6 +17,8 @@ const TableRow = React.memo(function TableRow({ row, columns, onRowClick, disabl
         const val = row[column.field];
         if (column.type === 'number') return val;
         if (column.type === 'date') return dateToLocaleDate(val);
+        if (column.type === 'datetime') return dateToLocaleDatetime(val);
+        if (column.type === 'option') return getOptionLabel(val, LOCALE);
         return val || '-';
     }, [row]);
 

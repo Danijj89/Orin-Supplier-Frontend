@@ -14,3 +14,8 @@ export const selectAllActiveUsers = createSelector(
     selectAllUsers,
     users => users.filter(user => user.active)
 );
+
+export const selectAllActiveUserNames = createSelector(
+    selectAllActiveUsers,
+    users => users.map(user => user.name)
+);

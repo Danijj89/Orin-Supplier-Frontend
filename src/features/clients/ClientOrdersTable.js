@@ -5,7 +5,6 @@ import Table from '../shared/components/table/Table.js';
 import UnitCounter from '../shared/classes/UnitCounter.js';
 import { useSelector } from 'react-redux';
 import { selectClientOrders } from './duck/selectors.js';
-import { getOptionLabel } from '../../app/utils/options/getters.js';
 import { selectItemUnitsMap } from '../../app/duck/selectors.js';
 
 const {
@@ -24,11 +23,11 @@ const ClientOrdersTable = React.memo(function ClientOrdersTable() {
         { field: 'id', hide: true },
         { field: 'ref', headerName: ordersTableHeadersMap.ref },
         { field: 'clientRef', headerName: ordersTableHeadersMap.clientRef },
-        { field: 'crd', headerName: ordersTableHeadersMap.crd },
-        { field: 'realCrd', headerName: ordersTableHeadersMap.realCrd },
+        { field: 'crd', headerName: ordersTableHeadersMap.crd, type: 'date' },
+        { field: 'realCrd', headerName: ordersTableHeadersMap.realCrd, type: 'date' },
         { field: 'totalQ', headerName: ordersTableHeadersMap.totalQ },
         { field: 'totalA', headerName: ordersTableHeadersMap.totalA },
-        { field: 'del', headerName: ordersTableHeadersMap.del }
+        { field: 'del', headerName: ordersTableHeadersMap.del, type: 'option' }
     ], []);
 
     const rows = useMemo(() => clientOrders.map(order => ({
@@ -37,7 +36,7 @@ const ClientOrdersTable = React.memo(function ClientOrdersTable() {
         clientRef: order.clientRef,
         crd: order.crd,
         realCrd: order.realCrd,
-        del: getOptionLabel(order.del, LOCALE),
+        del: order.del,
         totalQ: UnitCounter.stringRep(order.totalQ, itemUnitsMap, LOCALE),
         totalA: order.totalA
     })), [clientOrders, itemUnitsMap]);

@@ -10,6 +10,7 @@ import { selectAllActiveOrders } from './duck/selectors.js';
 import { selectItemUnitsMap, selectOrderStatuses } from '../../app/duck/selectors.js';
 import StatusDropdown from '../shared/components/StatusDropdown.js';
 import { getOptionId } from '../../app/utils/options/getters.js';
+import { SESSION_ORDER_TABLE_FILTERS } from '../../app/sessionKeys.js';
 
 const { ordersTableHeadersMap } = LANGUAGE.order.ordersOverview;
 
@@ -29,20 +30,15 @@ export default function OrdersTable() {
 
     const createStatusChangeHandler = useCallback(
         (orderId, statusStep) => (newStatus) =>
-            dispatch(updateOrderStatus({ orderId, update: { [statusStep]: { status: getOptionId(newStatus)}}})),
+            dispatch(updateOrderStatus({ orderId, update: { [statusStep]: { status: getOptionId(newStatus) } } })),
         [dispatch]);
 
     const columns = useMemo(() => [
         { field: 'id', hide: true },
         { field: 'ref', headerName: ordersTableHeadersMap.ref },
         { field: 'totalQ', headerName: ordersTableHeadersMap.totalQ },
-        {
-            field: 'crd',
-            headerName: ordersTableHeadersMap.crd,
-            type: 'date',
-            filter: 'date'
-        },
-        { field: 'toName', headerName: ordersTableHeadersMap.toName },
+        { field: 'crd', headerName: ordersTableHeadersMap.crd, type: 'date' },
+        { field: 'toName', headerName: ordersTableHeadersMap.toName, },
         {
             field: 'procurement',
             headerName: ordersTableHeadersMap.procurement,
@@ -51,12 +47,10 @@ export default function OrdersTable() {
                     status={ params.procurement }
                     statuses={ orderStatuses }
                     colorMap="order"
-                    onStatusChange={ createStatusChangeHandler(params.id, 'procurement')}
+                    onStatusChange={ createStatusChangeHandler(params.id, 'procurement') }
                 />,
             align: 'center',
-            width: 140,
-            filter: 'option',
-            filterOptions: orderStatuses
+            width: 140
         },
         {
             field: 'production',
@@ -66,12 +60,10 @@ export default function OrdersTable() {
                     status={ params.production }
                     statuses={ orderStatuses }
                     colorMap="order"
-                    onStatusChange={ createStatusChangeHandler(params.id, 'production')}
+                    onStatusChange={ createStatusChangeHandler(params.id, 'production') }
                 />,
             align: 'center',
-            width: 140,
-            filter: 'option',
-            filterOptions: orderStatuses
+            width: 140
         },
         {
             field: 'qa',
@@ -81,12 +73,10 @@ export default function OrdersTable() {
                     status={ params.qa }
                     statuses={ orderStatuses }
                     colorMap="order"
-                    onStatusChange={ createStatusChangeHandler(params.id, 'qa')}
+                    onStatusChange={ createStatusChangeHandler(params.id, 'qa') }
                 />,
             align: 'center',
-            width: 140,
-            filter: 'option',
-            filterOptions: orderStatuses
+            width: 140
         },
         {
             field: 'notes',
@@ -111,7 +101,25 @@ export default function OrdersTable() {
         notes: order.notes
     })), [orders, itemUnitsMap]);
 
+    const filterOptions = useMemo(() => ({
+        sessionKey: SESSION_ORDER_TABLE_FILTERS,
+        filters: [
+            { field: 'crd', type: 'date', label: ordersTableHeadersMap.crd },
+            { field: 'toName', type: 'text', label: ordersTableHeadersMap.toName },
+            { field: 'procurement', type: 'option', options: orderStatuses, label: ordersTableHeadersMap.procurement },
+            { field: 'production', type: 'option', options: orderStatuses, label: ordersTableHeadersMap.production },
+            { field: 'qa', type: 'option', options: orderStatuses, label: ordersTableHeadersMap.qa },
+        ]
+    }), [orderStatuses]);
+
     return (
-        <Table columns={ columns } rows={ rows } onRowClick={ onRowClick }/>
+        <Table
+            columns={ columns }
+            rows={ rows }
+            onRowClick={ onRowClick }
+            filterOptions={ filterOptions }
+        />
     )
 }
+
+

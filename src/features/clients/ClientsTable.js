@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectAllActiveClients } from './duck/selectors.js';
 import PopoverNotes from '../shared/components/PopoverNotes.js';
 import { updateClient } from './duck/thunks.js';
+import { selectAllActiveUserNames, selectUsersMap } from '../users/duck/selectors.js';
+import { SESSION_CLIENT_TABLE_FILTERS } from '../../app/sessionKeys.js';
 
 const { clientTableHeadersMap } = LANGUAGE.client.clientOverview;
 
@@ -13,9 +15,11 @@ const ClientsTable = React.memo(function ClientsTable() {
     const history = useHistory();
     const dispatch = useDispatch();
     const clients = useSelector(selectAllActiveClients);
+    const usersMap = useSelector(selectUsersMap);
+    const users = useSelector(selectAllActiveUserNames);
 
     const onRowClick = useCallback(
-        (row) => history.push(`/home/clients/${ row.id }`),
+        (row) => history.push(`/home/clients/${ row.id }?tab=addresses`),
         [history]);
 
     const createNoteSubmitHandler = useCallback(
@@ -54,13 +58,33 @@ const ClientsTable = React.memo(function ClientsTable() {
                 lastOrder: client.lastOrder,
                 salesYTD: client.salesYTD,
                 orderCountYTD: client.orderCountYTD,
-                assignedTo: client.assignedTo?.name,
+                assignedTo: usersMap[client.assignedTo]?.name,
                 notes: client.notes
             }
-        }), [clients]);
+        }), [clients, usersMap]);
+
+    const filterOptions = useMemo(() => ({
+        sessionKey: SESSION_CLIENT_TABLE_FILTERS,
+        filters: [
+            {
+                field: 'assignedTo',
+                type: 'dropdown',
+                label: clientTableHeadersMap.assignedTo,
+                options: users
+            },
+            { field: 'lastOrder', type: 'date', label: clientTableHeadersMap.lastOrder },
+            { field: 'salesYTD', type: 'range', label: clientTableHeadersMap.salesYTD },
+            { field: 'orderCountYTD', type: 'range', label: clientTableHeadersMap.orderCountYTD }
+        ]
+    }), [users]);
 
     return (
-        <Table rows={ rows } columns={ columns } onRowClick={ onRowClick }/>
+        <Table
+            rows={ rows }
+            columns={ columns }
+            onRowClick={ onRowClick }
+            filterOptions={ filterOptions }
+        />
     );
 });
 
