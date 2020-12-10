@@ -8,13 +8,15 @@ import Grid from '@material-ui/core/Grid';
 const OptionFilter = React.memo(function OptionFilter({ filterIdx, filter, setFilters }) {
 
     const createSelectOptionHandler = useCallback(
-        (option) => (e) =>
+        (option) => (e) => {
+            const { checked } = e.target;
             setFilters(prevFilters => {
                 const newFilter = {...prevFilters[filterIdx]};
-                if (e.target.checked) newFilter.values = [...newFilter.values, getOptionId(option)];
+                if (checked) newFilter.values = [...newFilter.values, getOptionId(option)];
                 else newFilter.values = newFilter.values.filter(opt => opt !== getOptionId(option));
                 return [...prevFilters.slice(0, filterIdx), newFilter, ...prevFilters.slice(filterIdx + 1)];
-            }), [filterIdx, setFilters]);
+            })
+        }, [filterIdx, setFilters]);
 
     const func = useCallback(
         (option) => Boolean(filter.values.find(val => val === getOptionId(option))),
