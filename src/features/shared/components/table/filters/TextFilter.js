@@ -12,11 +12,14 @@ const {
 const TextFilter = React.memo(function TextFilter({ filterIdx, filter, setFilters }) {
 
     const onTextChange = useCallback(
-        (e) => setFilters(prevFilters => {
-            const newFilter = { ...prevFilters[filterIdx] };
-            newFilter.value = e.target.value;
-            return [...prevFilters.slice(0, filterIdx), newFilter, ...prevFilters.slice(filterIdx + 1)];
-        }), [filterIdx, setFilters]);
+        (e) => {
+            const { value } = e.target;
+            setFilters(prevFilters => {
+                const newFilter = { ...prevFilters[filterIdx] };
+                newFilter.value = value;
+                return [...prevFilters.slice(0, filterIdx), newFilter, ...prevFilters.slice(filterIdx + 1)];
+            })
+        }, [filterIdx, setFilters]);
 
     return (
         <Grid
