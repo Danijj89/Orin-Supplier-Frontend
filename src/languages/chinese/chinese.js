@@ -22,7 +22,7 @@ export const CHINESE = {
             tabsLabelsMap: {
                 orders: '订单',
                 shipments: '运输',
-                leads: '销售线索',
+                leads: '线索',
                 clients: '客户',
                 products: '产品',
                 settings: '设置',
@@ -876,9 +876,26 @@ export const CHINESE = {
             table: {
                 paginationAllLabel: '全部',
                 rowsPerPageLabel: '每页行数',
+                filterSelector: {
+                    filterPopoverButtonLabel: '筛选',
+                    clearButtonLabel: '清楚所有筛选',
+                    saveButtonLabel: '保存',
+                    dateFilter: {
+                        emptyLabel: '选择起止日期...',
+                        startLabel: '起',
+                        endLabel: '止',
+                    },
+                    textFilter: {
+                        searchTermLabel: '请输入关键词',
+                    },
+                    rangeFilter: {
+                        minLabel: '最低',
+                        maxLabel: '最高',
+                    },
+                },
             },
             editableTable: {
-                addRowButtonLabel: '亲近',
+                addRowButtonLabel: '添加',
             },
             notFound: {
                 message: '404 - 未找到!',

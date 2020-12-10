@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, {
+    useCallback,
+    useEffect,
+    useMemo,
+    useRef,
+    useState,
+} from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import ThemedButton from '../../buttons/ThemedButton.js';
@@ -13,54 +19,74 @@ import DropdownFilter from './filters/DropdownFilter.js';
 import RangeFilter from './filters/RangeFilter.js';
 import Badge from '@material-ui/core/Badge';
 import { FilterList as IconFilterList } from '@material-ui/icons';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+    popover: {
+        padding: theme.spacing(3),
+    },
+    actionButtons: {
+        marginTop: theme.spacing(3),
+    },
+}));
 
 const {
     filterPopoverButtonLabel,
     clearButtonLabel,
-    saveButtonLabel
+    saveButtonLabel,
 } = LANGUAGE.shared.components.table.filterSelector;
 
-
-const FilterSelector = React.memo(function FilterSelector({ filterOptions, onFilter }) {
+const FilterSelector = React.memo(function FilterSelector({
+    filterOptions,
+    onFilter,
+}) {
     const preparedFilters = useMemo(
         () => prepareFilters(filterOptions.filters),
-        [filterOptions.filters]);
+        [filterOptions.filters]
+    );
 
-    const [filters, setFilters] = useSessionStorage(filterOptions.sessionKey, preparedFilters);
+    const classes = useStyles();
+
+    const [filters, setFilters] = useSessionStorage(
+        filterOptions.sessionKey,
+        preparedFilters
+    );
     const [numActiveFilters, setNumActiveFilters] = useState(0);
     const [anchorEl, setAnchorEl] = useState(false);
 
     const onClick = useCallback(
-        (e) => setAnchorEl(prev => prev ? null : e.currentTarget),
-        []);
+        (e) => setAnchorEl((prev) => (prev ? null : e.currentTarget)),
+        []
+    );
 
-    const onCancel = useCallback(
-        () => setAnchorEl(null), []);
+    const onCancel = useCallback(() => setAnchorEl(null), []);
 
-    const onSubmit = useCallback(
-        () => {
-            let count = 0;
-            const activeFilters = [];
-            filters.forEach(filter => {
-                const { type } = filter;
-                if (type === 'date' && (filter.start || filter.end)) {
-                    count++;
-                    activeFilters.push({ ...filter });
-                } else if (type === 'option' && filter.values.length > 0) {
-                    count += filter.values.length;
-                    activeFilters.push({ ...filter });
-                } else if ((type === 'text' || type === 'dropdown') && filter.value) {
-                    count++;
-                    activeFilters.push({ ...filter });
-                } else if (type === 'range' && (filter.min || filter.map)) {
-                    count++;
-                    activeFilters.push({ ...filter });
-                }
-            });
-            setNumActiveFilters(count);
-            onFilter(activeFilters);
-            setAnchorEl(null);
-        }, [onFilter, filters]);
+    const onSubmit = useCallback(() => {
+        let count = 0;
+        const activeFilters = [];
+        filters.forEach((filter) => {
+            const { type } = filter;
+            if (type === 'date' && (filter.start || filter.end)) {
+                count++;
+                activeFilters.push({ ...filter });
+            } else if (type === 'option' && filter.values.length > 0) {
+                count += filter.values.length;
+                activeFilters.push({ ...filter });
+            } else if (
+                (type === 'text' || type === 'dropdown') &&
+                filter.value
+            ) {
+                count++;
+                activeFilters.push({ ...filter });
+            } else if (type === 'range' && (filter.min || filter.map)) {
+                count++;
+                activeFilters.push({ ...filter });
+            }
+        });
+        setNumActiveFilters(count);
+        onFilter(activeFilters);
+        setAnchorEl(null);
+    }, [onFilter, filters]);
 
     const onClear = useCallback(() => {
         setFilters(preparedFilters);
@@ -80,95 +106,103 @@ const FilterSelector = React.memo(function FilterSelector({ filterOptions, onFil
     return (
         <>
             <ThemedButton
-                onClick={ onClick }
+                onClick={onClick}
+                variant={'text'}
                 startIcon={
                     <Badge
                         color="secondary"
-                        badgeContent={ numActiveFilters }
-                        anchorOrigin={ {
+                        badgeContent={numActiveFilters}
+                        anchorOrigin={{
                             vertical: 'top',
-                            horizontal: 'left'
-                        } }
+                            horizontal: 'left',
+                        }}
                     >
-                        <IconFilterList/>
+                        <IconFilterList />
                     </Badge>
                 }
             >
-                { filterPopoverButtonLabel }
+                {filterPopoverButtonLabel}
             </ThemedButton>
             <Popover
-                open={ Boolean(anchorEl) }
-                anchorEl={ anchorEl }
-                onClose={ onCancel }
-                anchorOrigin={ {
+                open={Boolean(anchorEl)}
+                anchorEl={anchorEl}
+                onClose={onCancel}
+                anchorOrigin={{
                     vertical: 'bottom',
                     horizontal: 'left',
-                } }
-                transformOrigin={ {
+                }}
+                transformOrigin={{
                     vertical: 'top',
                     horizontal: 'right',
-                } }
+                }}
             >
-                <Grid container>
-                    <Grid container item xs={ 12 }>
-                        { filters.map((filter, idx) => {
+                <Grid container className={classes.popover}>
+                    <Grid container item xs={12}>
+                        {filters.map((filter, idx) => {
                             switch (filter.type) {
                                 case 'date':
                                     return (
                                         <DateFilter
-                                            key={ filter.field }
-                                            filterIdx={ idx }
-                                            filter={ filter }
-                                            setFilters={ setFilters }
+                                            key={filter.field}
+                                            filterIdx={idx}
+                                            filter={filter}
+                                            setFilters={setFilters}
                                         />
                                     );
                                 case 'option':
                                     return (
                                         <OptionFilter
-                                            key={ filter.field }
-                                            filterIdx={ idx }
-                                            filter={ filter }
-                                            setFilters={ setFilters }
+                                            key={filter.field}
+                                            filterIdx={idx}
+                                            filter={filter}
+                                            setFilters={setFilters}
                                         />
                                     );
                                 case 'text':
                                     return (
                                         <TextFilter
-                                            key={ filter.field }
-                                            filterIdx={ idx }
-                                            filter={ filter }
-                                            setFilters={ setFilters }
+                                            key={filter.field}
+                                            filterIdx={idx}
+                                            filter={filter}
+                                            setFilters={setFilters}
                                         />
                                     );
                                 case 'dropdown':
                                     return (
                                         <DropdownFilter
-                                            key={ filter.field }
-                                            filterIdx={ idx }
-                                            filter={ filter }
-                                            setFilters={ setFilters }
+                                            key={filter.field}
+                                            filterIdx={idx}
+                                            filter={filter}
+                                            setFilters={setFilters}
                                         />
                                     );
                                 case 'range':
                                     return (
                                         <RangeFilter
-                                            key={ filter.field }
-                                            filterIdx={ idx }
-                                            filter={ filter }
-                                            setFilters={ setFilters }
+                                            key={filter.field}
+                                            filterIdx={idx}
+                                            filter={filter}
+                                            setFilters={setFilters}
                                         />
                                     );
                                 default:
                                     return null;
                             }
-                        }) }
+                        })}
                     </Grid>
-                    <Grid container item xs={ 12 } justify="space-between">
-                        <ThemedButton onClick={ onClear }>
-                            { clearButtonLabel }
+                    <Grid container item xs={12} justify="space-between">
+                        <ThemedButton
+                            className={classes.actionButtons}
+                            onClick={onClear}
+                            variant={'outlined'}
+                        >
+                            {clearButtonLabel}
                         </ThemedButton>
-                        <ThemedButton onClick={ onSubmit }>
-                            { saveButtonLabel }
+                        <ThemedButton
+                            className={classes.actionButtons}
+                            onClick={onSubmit}
+                        >
+                            {saveButtonLabel}
                         </ThemedButton>
                     </Grid>
                 </Grid>
@@ -180,16 +214,9 @@ const FilterSelector = React.memo(function FilterSelector({ filterOptions, onFil
 FilterSelector.propTypes = {
     filterOptions: PropTypes.exact({
         sessionKey: PropTypes.string.isRequired,
-        filters: PropTypes.array.isRequired
+        filters: PropTypes.array.isRequired,
     }).isRequired,
-    onFilter: PropTypes.func.isRequired
+    onFilter: PropTypes.func.isRequired,
 };
 
 export default FilterSelector;
-
-
-
-
-
-
-
