@@ -1,10 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import CompanyService from '../../api/CompanyService.js';
 
-export const fetchCompanyById = createAsyncThunk('home/fetchCompanyById',
-    async ({ companyId }, { rejectWithValue }) => {
+export const fetchCurrentCompany = createAsyncThunk('home/fetchCompanyById',
+    async (_, { rejectWithValue }) => {
         try {
-            return await CompanyService.fetchCompanyById(companyId);
+            return await CompanyService.fetchCurrentCompany();
         } catch (err) {
             return rejectWithValue(err.response.data);
         }

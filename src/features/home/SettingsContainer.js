@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectCompanyId, selectHomeError, selectHomeDataStatus } from './duck/selectors.js';
+import { selectHomeError, selectHomeDataStatus } from './duck/selectors.js';
 import { determineStatus, getErrors } from '../shared/utils/state.js';
 import ErrorPage from '../shared/components/ErrorPage.js';
 import Loader from '../shared/components/Loader.js';
@@ -9,6 +9,7 @@ import { fetchUsers } from '../users/duck/thunks.js';
 import Settings from './Settings.js';
 import { cleanHomeState } from './duck/slice.js';
 import { cleanUserState } from '../users/duck/slice.js';
+import { fetchCurrentCompany } from './duck/thunks.js';
 
 const SettingsContainer = React.memo(function SettingsContainer() {
     const dispatch = useDispatch();
@@ -20,12 +21,14 @@ const SettingsContainer = React.memo(function SettingsContainer() {
     const status = determineStatus(homeDataStatus, userDataStatus);
     const errors = getErrors(homeError, userError);
 
-    const companyId = useSelector(selectCompanyId);
-
+    const fetched = useRef(false);
     useEffect(() => {
-        if (userDataStatus === 'IDLE' && companyId)
-            dispatch(fetchUsers({ companyId }));
-    }, [dispatch, companyId, userDataStatus]);
+        if (!fetched.current) {
+            if (homeDataStatus === 'IDLE') dispatch(fetchCurrentCompany());
+            dispatch(fetchUsers());
+            fetched.current = true;
+        }
+    }, [dispatch, homeDataStatus]);
 
     useEffect(() => {
         return () => {

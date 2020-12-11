@@ -11,9 +11,9 @@ export const updateUser = createAsyncThunk('users/updateUser',
     });
 
 export const fetchUsers = createAsyncThunk('users/fetchUsers',
-    async ({ companyId }, { rejectWithValue }) => {
+    async (_, { rejectWithValue }) => {
         try {
-            return await UserService.fetchUsers(companyId);
+            return await UserService.fetchUsers();
         } catch (err) {
             return rejectWithValue(err.response.data);
         }

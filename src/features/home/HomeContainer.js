@@ -5,7 +5,7 @@ import { determineStatus, getErrors } from '../shared/utils/state.js';
 import ErrorPage from '../shared/components/ErrorPage.js';
 import Loader from '../shared/components/Loader.js';
 import Home from './Home.js';
-import { fetchCompanyById } from './duck/thunks.js';
+import { fetchCurrentCompany } from './duck/thunks.js';
 import { selectCurrentUserCompanyId } from '../../app/duck/selectors.js';
 import { Redirect } from 'react-router-dom';
 
@@ -21,7 +21,7 @@ const HomeContainer = React.memo(function HomeContainer() {
 
     useEffect(() => {
         if ((homeDataStatus === 'REJECTED' || homeDataStatus === 'IDLE') && companyId) {
-            dispatch(fetchCompanyById({ companyId }));
+            dispatch(fetchCurrentCompany({ companyId }));
         }
     }, [dispatch, companyId, homeDataStatus]);
 

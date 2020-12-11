@@ -7,7 +7,7 @@ import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import appTheme from './themes/theme.js';
 import NotFound from '../features/shared/components/NotFound.js';
-import HomeContainer from '../features/home/HomeContainer.js';
+import Home from '../features/home/Home.js';
 
 export default function App() {
 
@@ -19,7 +19,7 @@ export default function App() {
                         <LoginPage/>
                     </Route>
                     <Route path='/home'>
-                        <HomeContainer/>
+                        <Home/>
                     </Route>
                     <Route>
                         <NotFound/>

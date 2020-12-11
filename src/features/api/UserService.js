@@ -10,13 +10,10 @@ const updateUser = async (id, update) => {
     return data;
 };
 
-const fetchUsers = async (companyId) => {
+const fetchUsers = async () => {
     const configs = {
         method: 'get',
-        url: 'users',
-        params: {
-            company: companyId
-        }
+        url: 'users'
     };
     const { data } = await fetchWithAuth(configs);
     return data;
