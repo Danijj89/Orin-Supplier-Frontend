@@ -18,6 +18,9 @@ export const ENGLISH = {
             },
         },
     },
+    admin: {
+
+    },
     home: {
         navbar: {
             tabsLabelsMap: {

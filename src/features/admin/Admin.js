@@ -1,15 +1,14 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import Box from '@material-ui/core/Box';
+import ThemedButton from '../shared/buttons/ThemedButton.js';
 
 const Admin = React.memo(function Admin() {
 
     return (
-        <div>Admin</div>
+        <Box>
+           <ThemedButton></ThemedButton>
+        </Box>
     );
 });
-
-Admin.propTypes = {
-
-};
 
 export default Admin;
