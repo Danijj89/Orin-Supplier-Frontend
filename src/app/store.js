@@ -8,8 +8,9 @@ import productReducer from '../features/products/duck/slice.js';
 import shipmentReducer from '../features/shipments/duck/slice.js';
 import documentReducer from '../features/documents/duck/slice.js';
 import leadReducer from '../features/leads/duck/slice.js';
-import roleReducer from '../features/admin/duck/roles/slice.js';
 import resourceReducer from '../features/admin/duck/resources/slice.js';
+import permissionReducer from '../features/admin/duck/permissions/slice.js';
+import roleReducer from '../features/admin/duck/roles/slice.js';
 
 export default configureStore({
     reducer: {
@@ -22,7 +23,8 @@ export default configureStore({
         shipments: shipmentReducer,
         documents: documentReducer,
         leads: leadReducer,
-        roles: roleReducer,
-        resources: resourceReducer
+        resources: resourceReducer,
+        permissions: permissionReducer,
+        roles: roleReducer
     }
 });

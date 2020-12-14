@@ -28,8 +28,20 @@ export const ENGLISH = {
                     _id: 'Resource Name'
                 }
             },
+            newPermissionButton: {
+                buttonLabel: 'New Permission',
+                dialogTitle: 'Permission Info',
+                dialogSubmit: 'Create',
+                formLabels: {
+                    _id: 'Permission Name',
+                    resource: 'Resource',
+                    action: 'Action',
+                    attributes: 'Attributes'
+                }
+            },
             formLabels: {
-                resource: 'Resources'
+                resource: 'Resources',
+                permission: 'Permissions'
             }
         },
     },

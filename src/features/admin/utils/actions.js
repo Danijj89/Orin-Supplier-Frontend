@@ -6,3 +6,6 @@ export const READ_OWN = 'read:own';
 export const CREATE_OWN = 'create:own';
 export const UPDATE_OWN = 'update:own';
 export const DELETE_OWN = 'delete:own';
+
+export const actions = ['create:any', 'read:any', 'update:any', 'delete:any',
+    'create:own', 'read:own', 'update:own', 'delete:own'];
