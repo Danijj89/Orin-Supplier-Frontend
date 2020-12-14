@@ -1,7 +1,5 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import { fetchRoles } from './thunks.js';
-import { ordersAdapter } from '../../../orders/duck/slice.js';
-
 
 export const rolesAdapter = createEntityAdapter({
     selectId: role => role._id,
@@ -25,17 +23,17 @@ const rolesSlice = createSlice({
         }
     },
     extraReducers: {
-        [fetchRoles.pending]: (state, action) => {
+        [fetchRoles.pending]: (state) => {
             state.dataStatus = 'PENDING';
         },
         [fetchRoles.fulfilled]: (state, action) => {
-            ordersAdapter.setAll(state, action.payload);
+            rolesAdapter.setAll(state, action.payload);
             state.dataStatus = 'FULFILLED';
         },
         [fetchRoles.rejected]: (state, action) => {
             state.dataStatus = 'REJECTED';
             state.error = action.payload.message;
-        },
+        }
     }
 });
 

@@ -19,7 +19,19 @@ export const ENGLISH = {
         },
     },
     admin: {
-
+        admin: {
+            newResourceButton: {
+                buttonLabel: 'New Resource',
+                dialogTitle: 'Resource Info',
+                dialogSubmit: 'Create',
+                formLabels: {
+                    _id: 'Resource Name'
+                }
+            },
+            formLabels: {
+                resource: 'Resources'
+            }
+        },
     },
     home: {
         navbar: {

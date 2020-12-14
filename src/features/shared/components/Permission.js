@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { selectAccessControl, selectSessionUser } from '../../../app/duck/selectors.js';
+import { selectAppGrants, selectSessionUser } from '../../../app/duck/selectors.js';
 import {
     CREATE_ANY,
     CREATE_OWN,
@@ -11,9 +11,11 @@ import {
     UPDATE_ANY,
     UPDATE_OWN
 } from '../../admin/utils/actions.js';
+import { AccessControl } from 'accesscontrol';
 
 const Permission = React.memo(function Permission({ resource, action, children }) {
-    const ac = useSelector(selectAccessControl);
+    const grants = useSelector(selectAppGrants);
+    const ac = new AccessControl(grants);
     const { roles } = useSelector(selectSessionUser);
     if (!roles?.length) {
         return null;

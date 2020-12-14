@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { SESSION_APP_DATA, SESSION_COOKIE, SESSION_USER } from '../sessionKeys.js';
 import { signIn } from './thunks.js';
-import accessControl from 'accesscontrol';
 
 const initialState = {
     user: JSON.parse(sessionStorage.getItem(SESSION_USER)),
@@ -20,9 +19,6 @@ const appSlice = createSlice({
             state.error = null;
             state.user = null;
             state.appData = null;
-        },
-        setAccessControl: (state, action) => {
-            state.ac = new accessControl.AccessControl(state.appData.grants);
         }
     },
     extraReducers: {
@@ -45,6 +41,6 @@ const appSlice = createSlice({
     }
 });
 
-export const { cleanAppState, setAccessControl } = appSlice.actions;
+export const { cleanAppState } = appSlice.actions;
 
 export default appSlice.reducer;
