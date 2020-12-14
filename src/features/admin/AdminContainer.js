@@ -13,6 +13,9 @@ import { cleanResourceState } from './duck/resources/slice.js';
 import { selectPermissionDataStatus, selectPermissionError } from './duck/permissions/selectors.js';
 import { fetchPermissions } from './duck/permissions/thunks.js';
 import { cleanPermissionState } from './duck/permissions/slice.js';
+import { selectCompanyDataStatus, selectCompanyError } from './duck/companies/selectors.js';
+import { cleanCompanyState } from './duck/companies/slice.js';
+import { fetchCompanies } from './duck/companies/thunks.js';
 
 const AdminContainer = React.memo(function AdminContainer() {
     const dispatch = useDispatch();
@@ -23,9 +26,21 @@ const AdminContainer = React.memo(function AdminContainer() {
     const permissionError = useSelector(selectPermissionError);
     const roleDataStatus = useSelector(selectRoleDataStatus);
     const roleError = useSelector(selectRoleError);
+    const companyDataStatus = useSelector(selectCompanyDataStatus);
+    const companyError = useSelector(selectCompanyError);
 
-    const status = determineStatus(resourceDataStatus, permissionDataStatus, roleDataStatus);
-    const errors = getErrors(resourceError, permissionError, roleError);
+    const status = determineStatus(
+        resourceDataStatus,
+        permissionDataStatus,
+        roleDataStatus,
+        companyDataStatus
+    );
+    const errors = getErrors(
+        resourceError,
+        permissionError,
+        roleError,
+        companyError
+    );
 
     const fetched = useRef(false);
     useEffect(() => {
@@ -33,6 +48,7 @@ const AdminContainer = React.memo(function AdminContainer() {
             dispatch(fetchResources());
             dispatch(fetchPermissions());
             dispatch(fetchRoles());
+            dispatch(fetchCompanies());
             fetched.current = true;
         }
     }, [dispatch]);
@@ -43,6 +59,7 @@ const AdminContainer = React.memo(function AdminContainer() {
                 dispatch(cleanResourceState());
                 dispatch(cleanPermissionState());
                 dispatch(cleanRoleState());
+                dispatch(cleanCompanyState());
             }
         }
     }, [dispatch, errors.length]);

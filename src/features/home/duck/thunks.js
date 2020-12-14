@@ -4,7 +4,7 @@ import CompanyService from '../../api/CompanyService.js';
 export const fetchCurrentCompany = createAsyncThunk('home/fetchCompanyById',
     async (_, { rejectWithValue }) => {
         try {
-            return await CompanyService.fetchCurrentCompany();
+            return await CompanyService.fetchSessionCompany();
         } catch (err) {
             return rejectWithValue(err.response.data);
         }

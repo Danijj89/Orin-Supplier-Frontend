@@ -8,6 +8,8 @@ import { LANGUAGE } from '../../app/utils/constants.js';
 import NewPermissionButton from './NewPermissionButton.js';
 import { Grid } from '@material-ui/core';
 import { selectAllPermissionsIds } from './duck/permissions/selectors.js';
+import NewRoleButton from './NewRoleButton.js';
+import { selectAllRoleIds } from './duck/roles/selectors.js';
 
 const {
     formLabels
@@ -16,11 +18,14 @@ const {
 const Admin = React.memo(function Admin() {
     const resources = useSelector(selectAllResources);
     const permissionIds = useSelector(selectAllPermissionsIds);
+    const rolesId = useSelector(selectAllRoleIds);
 
     const { control } = useForm({
         mode: 'onSubmit',
         defaultValues: {
             resource: null,
+            permission: null,
+            role: null
         }
     });
 
@@ -29,6 +34,7 @@ const Admin = React.memo(function Admin() {
             <Grid item xs={12}>
                 <NewResourceButton/>
                 <NewPermissionButton/>
+                <NewRoleButton/>
             </Grid>
             <Grid item xs={12}>
                 <RHFAutoComplete
@@ -42,6 +48,12 @@ const Admin = React.memo(function Admin() {
                     name="permission"
                     label={ formLabels.permission }
                     options={ permissionIds }
+                />
+                <RHFAutoComplete
+                    rhfControl={ control }
+                    name="role"
+                    label={ formLabels.role }
+                    options={ rolesId }
                 />
             </Grid>
         </Grid>

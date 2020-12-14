@@ -39,9 +39,19 @@ export const ENGLISH = {
                     attributes: 'Attributes'
                 }
             },
+            newRoleButton: {
+                buttonLabel: 'New Role',
+                dialogTitle: 'Role Info',
+                dialogSubmit: 'Create',
+                formLabels: {
+                    _id: 'Role Name',
+                    company: 'Company'
+                }
+            },
             formLabels: {
                 resource: 'Resources',
-                permission: 'Permissions'
+                permission: 'Permissions',
+                role: 'Roles'
             }
         },
     },

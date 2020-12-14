@@ -1,1 +1,1 @@
-export const ROLES = 'ROLES';
+export const PERMISSIONS = 'permissions';

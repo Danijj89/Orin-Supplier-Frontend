@@ -9,3 +9,12 @@ export const fetchRoles = createAsyncThunk('roles/fetchRoles',
             return rejectWithValue(err.response.data);
         }
     });
+
+export const createRole = createAsyncThunk('roles/createRole',
+    async ({ role }, { rejectWithValue }) => {
+        try {
+            return await RoleService.createRole(role);
+        } catch (err) {
+            return rejectWithValue(err.response.data);
+        }
+    });

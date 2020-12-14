@@ -1,5 +1,5 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import { fetchRoles } from './thunks.js';
+import { createRole, fetchRoles } from './thunks.js';
 
 export const rolesAdapter = createEntityAdapter({
     selectId: role => role._id,
@@ -31,6 +31,17 @@ const rolesSlice = createSlice({
             state.dataStatus = 'FULFILLED';
         },
         [fetchRoles.rejected]: (state, action) => {
+            state.dataStatus = 'REJECTED';
+            state.error = action.payload.message;
+        },
+        [createRole.pending]: (state) => {
+            state.dataStatus = 'PENDING';
+        },
+        [createRole.fulfilled]: (state, action) => {
+            rolesAdapter.upsertOne(state, action.payload);
+            state.dataStatus = 'FULFILLED';
+        },
+        [createRole.rejected]: (state, action) => {
             state.dataStatus = 'REJECTED';
             state.error = action.payload.message;
         }

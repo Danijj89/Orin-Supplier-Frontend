@@ -9,8 +9,19 @@ const fetchRoles = async () => {
     return data;
 };
 
+const createRole = async (role) => {
+    const configs = {
+        method: 'post',
+        url: 'roles',
+        data: role
+    };
+    const { data } = await fetchWithAuth(configs);
+    return data;
+};
+
 const RoleService = {
-    fetchRoles
+    fetchRoles,
+    createRole
 };
 
 export default RoleService
