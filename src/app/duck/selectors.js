@@ -15,6 +15,7 @@ export const selectAppError = state => state.app.error;
 export const selectCurrentUserCompanyId = state => state.app.user?.company;
 export const selectSessionUserName = state => state.app.user?.name;
 export const selectSessionUser = state => state.app.user;
+export const selectAccessControl = state => state.app.ac;
 
 export const selectCurrentUser = createSelector(
     selectCurrentUserId,

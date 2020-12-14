@@ -31,6 +31,9 @@ import { fetchClients } from '../clients/duck/thunks.js';
 import { fetchShipments } from '../shipments/duck/thunks.js';
 import { fetchProducts } from '../products/duck/thunks.js';
 import { selectSessionUserName } from '../../app/duck/selectors.js';
+import Permission from '../shared/components/Permission.js';
+import { ROLES } from '../admin/utils/resources.js';
+import { READ_ANY } from '../admin/utils/actions.js';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -169,6 +172,16 @@ const NavBar = React.memo(function NavBar() {
                 </IconButton>
                 { tabsLabelsMap.products }
             </MenuItem>
+            <Permission resource={ ROLES } action={ READ_ANY }>
+                <MenuItem
+                    onClick={ () => onTabClick('admin', '/home/admin') }
+                >
+                    <IconButton color="inherit">
+                        <AccountCircle/>
+                    </IconButton>
+                    { tabsLabelsMap.settings }
+                </MenuItem>
+            </Permission>
             <MenuItem
                 onClick={ () => onTabClick('settings', '/home/settings?tab=account') }
             >
@@ -271,6 +284,24 @@ const NavBar = React.memo(function NavBar() {
                                 </span>
                             </ListItemText>
                         </ListItem>
+                        <Permission resource={ ROLES } action={ READ_ANY }>
+                            <ListItem
+                                button
+                                component="a"
+                                onClick={ () => onTabClick('admin', '/home/admin') }
+                                classes={ {
+                                    root: classes.menuButtons,
+                                    selected: classes.selected,
+                                } }
+                                selected={ currentTab === 'admin' }
+                            >
+                                <ListItemText>
+                                <span className={ classes.tabsText }>
+                                    { tabsLabelsMap.admin }
+                                </span>
+                                </ListItemText>
+                            </ListItem>
+                        </Permission>
                     </List>
                     <div className={ classes.grow }/>
                     <Typography variant="subtitle1">

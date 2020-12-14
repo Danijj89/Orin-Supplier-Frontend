@@ -26,6 +26,7 @@ export const ENGLISH = {
                 leads: 'Leads',
                 clients: 'Clients',
                 products: 'Products',
+                admin: 'Admin',
                 settings: 'Settings',
             },
             helloMessageLabel: 'Hello',
