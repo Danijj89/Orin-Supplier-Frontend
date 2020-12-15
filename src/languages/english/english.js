@@ -596,7 +596,7 @@ export const ENGLISH = {
                 titleLabel: 'Packing List Details',
                 formLabels: {
                     autoGenerateRef: 'Auto-generate Packing List Number',
-                    ref: 'Invoice Number',
+                    ref: 'Packing List Number',
                     sellerAdd: 'Seller Address',
                     consignee: 'Client',
                     consigneeAdd: 'Client Address',
@@ -890,16 +890,16 @@ export const ENGLISH = {
                     dateFilter: {
                         emptyLabel: 'Select a Date...',
                         startLabel: 'Start',
-                        endLabel: 'End'
+                        endLabel: 'End',
                     },
                     textFilter: {
-                        searchTermLabel: 'Search Text'
+                        searchTermLabel: 'Search Text',
                     },
                     rangeFilter: {
                         minLabel: 'Min',
-                        maxLabel: 'Max'
-                    }
-                }
+                        maxLabel: 'Max',
+                    },
+                },
             },
             editableTable: {
                 addRowButtonLabel: 'Add',
@@ -918,7 +918,7 @@ export const ENGLISH = {
                 setDefaultButtonLabel: 'Set as Default',
             },
             textAreaCard: {
-                submitLabel: 'Edit',
+                submitLabel: 'Update',
             },
             errorPage: {
                 backButtonLabel: 'Go Back',

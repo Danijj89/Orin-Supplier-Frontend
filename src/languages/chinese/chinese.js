@@ -911,7 +911,7 @@ export const CHINESE = {
                 setDefaultButtonLabel: '设置为默认',
             },
             textAreaCard: {
-                submitLabel: '编辑',
+                submitLabel: '确定',
             },
             errorPage: {
                 backButtonLabel: '回上一页',

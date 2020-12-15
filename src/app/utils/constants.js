@@ -24,7 +24,7 @@ const backendErrors = {
 };
 
 // The language package used for the application
-export const LANGUAGE = languages[currentLocale];
+export const LANGUAGE = languages['zh'];
 export const LOCALE = 'zh';
 export const BACKEND_ERRORS = backendErrors[currentLocale];
 

@@ -6,15 +6,15 @@ function getOptionsMap(options) {
     return options.reduce((map, option) => {
         map[option.id] = option;
         return map;
-    }, {})
+    }, {});
 }
 
-export const selectCurrentUserId = state => state.app.user._id;
-export const selectAppStatus = state => state.app.status;
-export const selectAppError = state => state.app.error;
-export const selectCurrentUserCompanyId = state => state.app.user?.company;
-export const selectSessionUserName = state => state.app.user?.name;
-export const selectSessionUser = state => state.app.user;
+export const selectCurrentUserId = (state) => state.app.user._id;
+export const selectAppStatus = (state) => state.app.status;
+export const selectAppError = (state) => state.app.error;
+export const selectCurrentUserCompanyId = (state) => state.app.user?.company;
+export const selectSessionUserName = (state) => state.app.user?.name;
+export const selectSessionUser = (state) => state.app.user;
 
 export const selectCurrentUser = createSelector(
     selectCurrentUserId,
@@ -22,92 +22,101 @@ export const selectCurrentUser = createSelector(
     (userId, usersMap) => usersMap[userId]
 );
 
-export const selectIncoterms = state => state.app.appData.incoterms;
-export const selectExemptionTypes = state => state.app.appData.exemptionTypes;
-export const selectSupervisionMethods = state => state.app.appData.supervisionMethods;
-export const selectBillOfLandingTypes = state => state.app.appData.billOfLandingTypes;
+export const selectIncoterms = (state) => state.app.appData.incoterms;
+export const selectExemptionTypes = (state) => state.app.appData.exemptionTypes;
+export const selectSupervisionMethods = (state) =>
+    state.app.appData.supervisionMethods;
+export const selectBillOfLandingTypes = (state) =>
+    state.app.appData.billOfLandingTypes;
+export const selectBillOfLandingTypesMap = createSelector(
+    selectBillOfLandingTypes,
+    getOptionsMap
+);
 
-export const selectDeliveryMethods = state => state.app.appData.deliveryMethods;
+export const selectDeliveryMethods = (state) =>
+    state.app.appData.deliveryMethods;
 export const selectDeliveryMethodsMap = createSelector(
     selectDeliveryMethods,
     getOptionsMap
 );
 
-export const selectCurrencies = state => state.app.appData.currencies;
+export const selectCurrencies = (state) => state.app.appData.currencies;
 export const selectCurrenciesMap = createSelector(
     selectCurrencies,
     getOptionsMap
 );
 
-export const selectPackageUnits = state => state.app.appData.packageUnits;
+export const selectPackageUnits = (state) => state.app.appData.packageUnits;
 export const selectPackageUnitsMap = createSelector(
     selectPackageUnits,
     getOptionsMap
 );
 
-export const selectItemUnits = state => state.app.appData.itemUnits;
+export const selectItemUnits = (state) => state.app.appData.itemUnits;
 export const selectItemUnitsMap = createSelector(
     selectItemUnits,
     getOptionsMap
 );
 
-export const selectWeightUnits = state => state.app.appData.weightUnits;
+export const selectWeightUnits = (state) => state.app.appData.weightUnits;
 export const selectWeightUnitsMap = createSelector(
     selectWeightUnits,
     getOptionsMap
 );
 
-export const selectMeasurementUnits = state => state.app.appData.measurementUnits;
+export const selectMeasurementUnits = (state) =>
+    state.app.appData.measurementUnits;
 export const selectMeasurementUnitsMap = createSelector(
     selectMeasurementUnits,
     getOptionsMap
 );
 
-export const selectCountries = state => state.app.appData.countries;
+export const selectCountries = (state) => state.app.appData.countries;
 export const selectCountriesMap = createSelector(
     selectCountries,
     getOptionsMap
 );
 
-export const selectIndustries = state => state.app.appData.industries;
+export const selectIndustries = (state) => state.app.appData.industries;
 export const selectIndustriesMap = createSelector(
     selectIndustries,
     getOptionsMap
 );
 
-export const selectDocumentTypes = state => state.app.appData.documentTypes;
+export const selectDocumentTypes = (state) => state.app.appData.documentTypes;
 export const selectDocumentTypesMap = createSelector(
     selectDocumentTypes,
     getOptionsMap
 );
 
-export const selectOrderStatuses = state => state.app.appData.orderStatuses;
+export const selectOrderStatuses = (state) => state.app.appData.orderStatuses;
 export const selectOrderStatusesMap = createSelector(
     selectOrderStatuses,
     getOptionsMap
 );
 
-export const selectShipmentStatuses = state => state.app.appData.shipmentStatuses;
+export const selectShipmentStatuses = (state) =>
+    state.app.appData.shipmentStatuses;
 export const selectShipmentStatusesMap = createSelector(
     selectShipmentStatuses,
     getOptionsMap
 );
 
-export const selectContainerTypes = state => state.app.appData.containerTypes;
+export const selectContainerTypes = (state) => state.app.appData.containerTypes;
 
-export const selectSalesStatuses = state => state.app.appData.salesStatuses;
+export const selectSalesStatuses = (state) => state.app.appData.salesStatuses;
 export const selectSalesStatusesMap = createSelector(
     selectSalesStatuses,
     getOptionsMap
 );
 
-export const selectLeadTypes = state => state.app.appData.leadTypes;
+export const selectLeadTypes = (state) => state.app.appData.leadTypes;
 export const selectLeadTypesMap = createSelector(
     selectLeadTypes,
     getOptionsMap
 );
 
-export const selectLeadPotentials = state => state.app.appData.leadPotentials;
+export const selectLeadPotentials = (state) => state.app.appData.leadPotentials;
 export const selectLeadPotentialsMap = createSelector(
     selectLeadPotentials,
     getOptionsMap
@@ -138,7 +147,7 @@ export const selectDefaultRowItem = createSelector(
         ciCustom1: '',
         ciCustom2: '',
         plCustom1: '',
-        plCustom2: ''
+        plCustom2: '',
     })
 );
 
@@ -166,14 +175,14 @@ export const selectDefaultConsolidationRowItem = createSelector(
         grossW: 0, // gross weight
         dim: 0,
         description: '',
-        dg: false
+        dg: false,
     })
 );
 
 export const selectDefaultContainerRowItem = createSelector(
     selectContainerTypes,
-    containerTypes => ({
+    (containerTypes) => ({
         type: getOptionId(containerTypes[0]),
-        quantity: 0
+        quantity: 0,
     })
 );
