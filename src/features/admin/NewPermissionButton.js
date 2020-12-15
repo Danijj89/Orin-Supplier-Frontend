@@ -6,7 +6,7 @@ import FormDialog from '../shared/wrappers/FormDialog.js';
 import SideTextField from '../shared/inputs/SideTextField.js';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import RHFAutoComplete from '../shared/rhf/inputs/RHFAutoComplete.js';
-import { selectAllResources } from './duck/resources/selectors.js';
+import { selectAllResourceIds } from './duck/resources/selectors.js';
 import { actions } from './utils/actions.js';
 import { createPermission } from './duck/permissions/thunks.js';
 
@@ -15,11 +15,11 @@ const {
     dialogTitle,
     dialogSubmit,
     formLabels
-} = LANGUAGE.admin.admin.newPermissionButton;
+} = LANGUAGE.admin.admin.permissions.newPermissionButton;
 
 const NewPermissionButton = React.memo(function NewPermissionButton() {
     const dispatch = useDispatch();
-    const resources = useSelector(selectAllResources);
+    const resources = useSelector(selectAllResourceIds);
     const [open, setOpen] = useState(false);
 
     const { register, control, errors, handleSubmit } = useForm({

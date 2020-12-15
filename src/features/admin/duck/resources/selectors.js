@@ -3,14 +3,14 @@ import { createSelector } from '@reduxjs/toolkit';
 
 
 export const {
-    selectAll
+    selectAll: selectAllResources
 } = resourcesAdapter.getSelectors(state => state.resources);
 
 export const selectResourceDataStatus = state => state.resources.dataStatus;
 export const selectResourceError = state => state.resources.error;
 
-export const selectAllResources = createSelector(
-    selectAll,
+export const selectAllResourceIds = createSelector(
+    selectAllResources,
     resources => resources.map(resource => resource._id)
 );
 

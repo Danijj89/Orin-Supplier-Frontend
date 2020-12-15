@@ -20,40 +20,59 @@ export const ENGLISH = {
     },
     admin: {
         admin: {
-            newResourceButton: {
-                buttonLabel: 'New Resource',
-                dialogTitle: 'Resource Info',
-                dialogSubmit: 'Create',
-                formLabels: {
-                    _id: 'Resource Name'
-                }
+            tabsLabelsMap: {
+                resources: 'Resources',
+                permissions: 'Permissions',
+                roles: 'Roles',
             },
-            newPermissionButton: {
-                buttonLabel: 'New Permission',
-                dialogTitle: 'Permission Info',
-                dialogSubmit: 'Create',
-                formLabels: {
-                    _id: 'Permission Name',
+            permissions: {
+                newPermissionButton: {
+                    buttonLabel: 'New Permission',
+                    dialogTitle: 'Permission Info',
+                    dialogSubmit: 'Create',
+                    formLabels: {
+                        _id: 'Permission Name',
+                        resource: 'Resource',
+                        action: 'Action',
+                        attributes: 'Attributes'
+                    }
+                },
+                tableHeaderLabels: {
+                    _id: 'Name',
                     resource: 'Resource',
                     action: 'Action',
                     attributes: 'Attributes'
                 }
             },
-            newRoleButton: {
-                buttonLabel: 'New Role',
-                dialogTitle: 'Role Info',
-                dialogSubmit: 'Create',
-                formLabels: {
-                    _id: 'Role Name',
-                    company: 'Company'
+            resources: {
+                newResourceButton: {
+                    buttonLabel: 'New Resource',
+                    dialogTitle: 'Resource Info',
+                    dialogSubmit: 'Create',
+                    formLabels: {
+                        _id: 'Resource Name'
+                    }
+                },
+                tableHeaderLabels: {
+                    _id: 'Name'
                 }
             },
-            formLabels: {
-                resource: 'Resources',
-                permission: 'Permissions',
-                role: 'Roles'
+            roles: {
+                newRoleButton: {
+                    buttonLabel: 'New Role',
+                    dialogTitle: 'Role Info',
+                    dialogSubmit: 'Create',
+                    formLabels: {
+                        _id: 'Role Name',
+                        company: 'Company'
+                    }
+                },
+                rolesLabel: 'Roles',
+                tableHeaderLabels: {
+                    _id: 'Permission Name'
+                }
             }
-        },
+        }
     },
     home: {
         navbar: {

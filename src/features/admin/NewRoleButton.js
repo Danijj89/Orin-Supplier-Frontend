@@ -38,9 +38,9 @@ const {
     dialogTitle,
     dialogSubmit,
     formLabels
-} = LANGUAGE.admin.admin.newRoleButton;
+} = LANGUAGE.admin.admin.roles.newRoleButton;
 
-const NewPermissionButton = React.memo(function NewPermissionButton() {
+const NewRoleButton = React.memo(function NewRoleButton() {
     const classes = useStyles();
     const dispatch = useDispatch();
     const companies = useSelector(selectAllCompanies);
@@ -136,4 +136,4 @@ const NewPermissionButton = React.memo(function NewPermissionButton() {
     );
 });
 
-export default NewPermissionButton;
+export default NewRoleButton;

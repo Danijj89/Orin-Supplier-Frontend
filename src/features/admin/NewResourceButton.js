@@ -12,7 +12,7 @@ const {
     dialogTitle,
     dialogSubmit,
     formLabels
-} = LANGUAGE.admin.admin.newResourceButton;
+} = LANGUAGE.admin.admin.resources.newResourceButton;
 
 const NewResourceButton = React.memo(function NewResourceButton() {
     const dispatch = useDispatch();
