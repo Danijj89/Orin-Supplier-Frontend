@@ -24,6 +24,7 @@ export const ENGLISH = {
                 resources: 'Resources',
                 permissions: 'Permissions',
                 roles: 'Roles',
+                users: 'Users'
             },
             permissions: {
                 newPermissionButton: {
@@ -70,6 +71,14 @@ export const ENGLISH = {
                 rolesLabel: 'Roles',
                 tableHeaderLabels: {
                     _id: 'Permission Name'
+                }
+            },
+            users: {
+                companyLabel: 'Company',
+                tableHeaderLabels: {
+                    name: 'Name',
+                    email: 'Email',
+                    roles: 'Roles'
                 }
             }
         }

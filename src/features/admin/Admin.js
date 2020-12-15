@@ -5,6 +5,7 @@ import Resources from '../Resources.js';
 import Roles from './Roles.js';
 import NavTabs from '../shared/components/NavTabs.js';
 import { LANGUAGE } from '../../app/utils/constants.js';
+import Users from './Users.js';
 
 const {
     tabsLabelsMap
@@ -25,6 +26,7 @@ const Admin = React.memo(function Admin() {
             { tabValue === 'resources' && <Resources/> }
             { tabValue === 'permissions' && <Permissions/> }
             { tabValue === 'roles' && <Roles/> }
+            { tabValue === 'users' && <Users/> }
         </>
     );
 });
