@@ -23,7 +23,11 @@ const NewPermissionButton = React.memo(function NewPermissionButton() {
     const [open, setOpen] = useState(false);
 
     const { register, control, errors, handleSubmit } = useForm({
-        mode: 'onSubmit'
+        mode: 'onSubmit',
+        defaultValues: {
+            resource: null,
+            action: actions[0]
+        }
     });
 
     const onClick = () => setOpen(true);

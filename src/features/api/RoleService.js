@@ -19,9 +19,20 @@ const createRole = async (role) => {
     return data;
 };
 
+const updateRole = async (roleId, update) => {
+    const configs = {
+        method: 'put',
+        url: `roles/${roleId}`,
+        data: update
+    };
+    const { data } = await fetchWithAuth(configs);
+    return data;
+};
+
 const RoleService = {
     fetchRoles,
-    createRole
+    createRole,
+    updateRole
 };
 
 export default RoleService

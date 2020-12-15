@@ -18,3 +18,13 @@ export const createRole = createAsyncThunk('roles/createRole',
             return rejectWithValue(err.response.data);
         }
     });
+
+export const updateRole = createAsyncThunk('roles/updateRole',
+    async ({ roleId, update }, { rejectWithValue }) => {
+        try {
+            await RoleService.updateRole(roleId, update);
+            return { roleId, update };
+        } catch (err) {
+            return rejectWithValue(err.response.data);
+        }
+    });

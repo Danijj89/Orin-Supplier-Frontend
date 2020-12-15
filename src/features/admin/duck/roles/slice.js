@@ -1,9 +1,9 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import { createRole, fetchRoles } from './thunks.js';
+import { createRole, fetchRoles, updateRole } from './thunks.js';
 
 export const rolesAdapter = createEntityAdapter({
     selectId: role => role._id,
-    sortComparer: (a, b) => b.name.localeCompare(a.name)
+    sortComparer: (a, b) => b._id.localeCompare(a._id)
 });
 
 const initialState = rolesAdapter.getInitialState({
@@ -35,14 +35,26 @@ const rolesSlice = createSlice({
             state.error = action.payload.message;
         },
         [createRole.pending]: (state) => {
-            state.dataStatus = 'PENDING';
+            state.status = 'PENDING';
         },
         [createRole.fulfilled]: (state, action) => {
             rolesAdapter.upsertOne(state, action.payload);
-            state.dataStatus = 'FULFILLED';
+            state.status = 'FULFILLED';
         },
         [createRole.rejected]: (state, action) => {
-            state.dataStatus = 'REJECTED';
+            state.status = 'REJECTED';
+            state.error = action.payload.message;
+        },
+        [updateRole.pending]: (state) => {
+            state.status = 'PENDING';
+        },
+        [updateRole.fulfilled]: (state, action) => {
+            const { roleId: id, update: changes } = action.payload;
+            rolesAdapter.updateOne(state, { id, changes });
+            state.status = 'FULFILLED';
+        },
+        [updateRole.rejected]: (state, action) => {
+            state.status = 'REJECTED';
             state.error = action.payload.message;
         }
     }

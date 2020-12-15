@@ -23,7 +23,7 @@ const Permissions = React.memo(function Permissions() {
 
     const rows = useMemo(() => permissions.map(permission => ({
         _id: permission._id,
-        resource: permission.response,
+        resource: permission.resource,
         action: permission.action,
         attributes: permission.attributes
     })), [permissions]);

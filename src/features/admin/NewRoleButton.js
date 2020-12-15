@@ -18,19 +18,13 @@ import Paper from '@material-ui/core/Paper';
 import { createRole } from './duck/roles/thunks.js';
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        margin: 'auto',
-    },
     paper: {
         width: 320,
         height: 230,
         overflow: 'auto',
         marginLeft: theme.spacing(2),
         marginRight: theme.spacing(2)
-    },
-    button: {
-        margin: theme.spacing(0.5, 0),
-    },
+    }
 }));
 
 const {
@@ -44,7 +38,7 @@ const NewRoleButton = React.memo(function NewRoleButton() {
     const classes = useStyles();
     const dispatch = useDispatch();
     const companies = useSelector(selectAllCompanies);
-    const allPermissions = useSelector(selectAllPermissionsIds);
+    const permissionIds = useSelector(selectAllPermissionsIds);
     const [open, setOpen] = useState(false);
 
     const { register, control, errors, handleSubmit, setValue, watch, getValues } = useForm({
@@ -113,22 +107,19 @@ const NewRoleButton = React.memo(function NewRoleButton() {
                 />
                 <Paper className={ classes.paper }>
                     <List dense component="div" role="list">
-                        { allPermissions.map((permission) => {
-                            return (
-                                <ListItem key={ permission } role="listitem" button onClick={ onSelect(permission) }>
-                                    <ListItemIcon>
-                                        <Checkbox
-                                            checked={ permissions.indexOf(permission) !== -1 }
-                                            tabIndex={ -1 }
-                                            disableRipple
-                                            color="primary"
-                                        />
-                                    </ListItemIcon>
-                                    <ListItemText primary={ permission }/>
-                                </ListItem>
-                            );
-                        }) }
-                        <ListItem/>
+                        { permissionIds.map((permission) =>
+                            <ListItem key={ permission } role="listitem" button onClick={ onSelect(permission) }>
+                                <ListItemIcon>
+                                    <Checkbox
+                                        checked={ permissions.indexOf(permission) !== -1 }
+                                        tabIndex={ -1 }
+                                        disableRipple
+                                        color="primary"
+                                    />
+                                </ListItemIcon>
+                                <ListItemText primary={ permission }/>
+                            </ListItem>
+                        ) }
                     </List>
                 </Paper>
             </FormDialog>

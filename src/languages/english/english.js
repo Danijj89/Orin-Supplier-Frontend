@@ -68,13 +68,16 @@ export const ENGLISH = {
                         company: 'Company'
                     }
                 },
-                rolesLabel: 'Roles',
                 tableHeaderLabels: {
-                    _id: 'Permission Name'
-                }
+                    _id: 'Role Name'
+                },
+                dialogTitleLabel: 'Role Permissions',
+                dialogSubmitLabel: 'Update'
             },
             users: {
                 companyLabel: 'Company',
+                dialogTitleLabel: 'User Roles',
+                dialogSubmitLabel: 'Update',
                 tableHeaderLabels: {
                     name: 'Name',
                     email: 'Email',

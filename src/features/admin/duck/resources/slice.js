@@ -35,14 +35,14 @@ const resourcesSlice = createSlice({
             state.error = action.payload.message;
         },
         [createResource.pending]: (state) => {
-            state.dataStatus = 'PENDING';
+            state.status = 'PENDING';
         },
         [createResource.fulfilled]: (state, action) => {
             resourcesAdapter.upsertOne(state, action.payload);
-            state.dataStatus = 'FULFILLED';
+            state.status = 'FULFILLED';
         },
         [createResource.rejected]: (state, action) => {
-            state.dataStatus = 'REJECTED';
+            state.status = 'REJECTED';
             state.error = action.payload.message;
         }
     }
