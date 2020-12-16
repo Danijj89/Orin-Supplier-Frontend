@@ -24,7 +24,8 @@ export const ENGLISH = {
                 resources: 'Resources',
                 permissions: 'Permissions',
                 roles: 'Roles',
-                users: 'Users'
+                users: 'Users',
+                companies: 'Companies'
             },
             permissions: {
                 newPermissionButton: {
@@ -89,6 +90,18 @@ export const ENGLISH = {
                     dialogSubmitLabel: 'Create'
                 }
             },
+            companies: {
+                tableHeaderLabels: {
+                    name: 'Name',
+                    industries: 'Industries',
+                    city: 'City'
+                },
+                newCompanyButton: {
+                    buttonLabel: 'New Company',
+                    dialogTitleLabel: 'Company Info',
+                    dialogSubmitLabel: 'Create',
+                }
+            },
             adminUserDialog: {
                 formLabels: {
                     name: 'Name',
@@ -97,6 +110,23 @@ export const ENGLISH = {
                     confirmPassword: 'Confirm Password',
                     company: 'Company',
                     roles: 'Roles'
+                }
+            },
+            adminCompanyDialog: {
+                formLabels: {
+                    type: 'Type',
+                    name: 'Name',
+                    address: 'Address',
+                    address2: 'Address 2',
+                    city: 'City',
+                    administrative: 'State',
+                    country: 'Country',
+                    zip: 'Zip Code',
+                    phone: 'Phone',
+                    email: 'Email',
+                    taxNumber: 'Tax Number',
+                    currency: 'Default Currency',
+                    industries: 'Industries'
                 }
             }
         }

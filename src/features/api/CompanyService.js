@@ -95,6 +95,16 @@ const updateCompanyBankDetail = async (companyId, bankDetailsId, update) => {
     return data;
 };
 
+const createCompany = async (company) => {
+    const configs = {
+        method: 'post',
+        url: 'companies',
+        data: company
+    };
+    const { data } = await fetchWithAuth(configs);
+    return data;
+};
+
 const CompanyService = {
     fetchCompanies,
     fetchSessionCompany,
@@ -105,7 +115,8 @@ const CompanyService = {
     updateCompany,
     createCompanyBankDetail,
     deleteCompanyBankDetail,
-    updateCompanyBankDetail
+    updateCompanyBankDetail,
+    createCompany
 };
 
 export default CompanyService;

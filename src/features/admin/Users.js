@@ -9,7 +9,6 @@ import SideTextField from '../shared/inputs/SideTextField.js';
 import NewUserButton from './NewUserButton.js';
 import AdminUserDialog from './AdminUserDialog.js';
 
-
 const {
     companyLabel,
     dialogTitleLabel,
@@ -40,7 +39,6 @@ const Users = React.memo(function Users() {
     };
 
     const columns = useMemo(() => [
-        { field: 'user', hide: true },
         { field: 'name', headerName: tableHeaderLabels.name },
         { field: 'email', headerName: tableHeaderLabels.email },
         { field: 'roles', headerName: tableHeaderLabels.roles }

@@ -9,3 +9,12 @@ export const fetchCompanies = createAsyncThunk('companies/fetchCompanies',
             return rejectWithValue(err.response.data);
         }
     });
+
+export const createCompany = createAsyncThunk('companies/createCompany',
+    async ({ company }, { rejectWithValue }) => {
+        try {
+            return await CompanyService.createCompany(company);
+        } catch (err) {
+            return rejectWithValue(err.response.data);
+        }
+    });

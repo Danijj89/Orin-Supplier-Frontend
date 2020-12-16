@@ -1,5 +1,5 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import { fetchCompanies } from './thunks.js';
+import { createCompany, fetchCompanies } from './thunks.js';
 import { createUser } from '../../../users/duck/thunks.js';
 
 export const companiesAdapter = createEntityAdapter({
@@ -51,6 +51,17 @@ const companiesSlice = createSlice({
             state.status = 'REJECTED';
             state.error = action.payload.message;
         },
+        [createCompany.pending]: (state) => {
+            state.status = 'PENDING';
+        },
+        [createCompany.fulfilled]: (state, action) => {
+            companiesAdapter.upsertOne(state, action.payload);
+            state.status = 'FULFILLED';
+        },
+        [createCompany.rejected]: (state, action) => {
+            state.status = 'REJECTED';
+            state.error = action.payload.message;
+        }
     }
 });
 
