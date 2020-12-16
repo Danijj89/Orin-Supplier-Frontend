@@ -19,9 +19,20 @@ const fetchUsers = async () => {
     return data;
 };
 
+const createUser = async (user) => {
+    const configs = {
+        method: 'post',
+        url: 'users',
+        data: user
+    };
+    const { data } = await fetchWithAuth(configs);
+    return data;
+};
+
 const UserService = {
     updateUser,
-    fetchUsers
+    fetchUsers,
+    createUser
 };
 
 export default UserService;

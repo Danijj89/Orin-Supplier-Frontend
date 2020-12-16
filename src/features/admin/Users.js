@@ -15,6 +15,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import ListItemText from '@material-ui/core/ListItemText';
 import makeStyles from '@material-ui/core/styles/makeStyles.js';
 import { selectAllRoleIds } from './duck/roles/selectors.js';
+import NewUserButton from './NewUserButton.js';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -99,6 +100,7 @@ const Users = React.memo(function Users() {
 
     return (
         <Paper>
+            <NewUserButton />
             <Autocomplete
                 renderInput={ (params) =>
                     <SideTextField

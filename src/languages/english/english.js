@@ -82,6 +82,21 @@ export const ENGLISH = {
                     name: 'Name',
                     email: 'Email',
                     roles: 'Roles'
+                },
+                newUserButton: {
+                    buttonLabel: 'New User',
+                    dialogTitleLabel: 'New User',
+                    dialogSubmitLabel: 'Create'
+                }
+            },
+            adminUserDialog: {
+                formLabels: {
+                    name: 'Name',
+                    email: 'Email',
+                    password: 'Password',
+                    confirmPassword: 'Confirm Password',
+                    company: 'Company',
+                    roles: 'Roles'
                 }
             }
         }
