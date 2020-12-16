@@ -26,7 +26,7 @@ export function roundToNDecimal(num, dec) {
 export function formatAddress(address, locale = 'en') {
     return address.name + '\n'
         + address.address + '\n'
-        + (address.address2 && address.address2 + '\n')
+        + (address.address2 ? address.address2 + '\n' : '')
         + (address.city && address.city + ', ')
         + (address.zip && address.zip + ' ')
         + (address.administrative && address.administrative + ' ')
