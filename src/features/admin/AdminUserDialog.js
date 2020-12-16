@@ -95,7 +95,7 @@ const AdminUserDialog = React.memo(function AdminUserDialog(
                 name="name"
                 inputRef={ register({ required: !isEdit }) }
                 error={ !!errors.name }
-                required
+                required={ !isEdit }
                 disabled={ isEdit }
             />
             { !isEdit && <SideTextField
