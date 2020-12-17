@@ -252,7 +252,7 @@ const CreateShipment = React.memo(function CreateShipment() {
                             variant="h5">{ isEdit ? editTitleLabel : newTitleLabel }</Typography>
                 <Divider/>
                 <Paper>
-                    { errs.length > 0 && <ErrorMessages errors={ errs }/> }
+                    { errs.length > 0 && <ErrorMessages error={ errs }/> }
                     <FormContainer>
                         <RHFAutoComplete
                             rhfControl={ control }

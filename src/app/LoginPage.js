@@ -108,7 +108,7 @@ export default function LoginPage() {
                 <CardMedia className={ classes.logo } component="img" src={ logo } alt="Logo"/>
                 <Typography variant="h3">{ title }</Typography>
                 <form className={ classes.form } onSubmit={ handleSubmit(onSignInClick) } autoComplete="off">
-                    { isError && <ErrorMessages errors={ allErrors }/> }
+                    { isError && <ErrorMessages error={ allErrors }/> }
                     <TextField
                         name="email"
                         type="email"

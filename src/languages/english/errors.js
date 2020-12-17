@@ -13,5 +13,6 @@ export const ENGLISH_ERRORS = {
     SHIPMENT_SHIP_ADDRESS_MISMATCH: 'Unable to create a shipment. Chosen orders have different shipping addresses.',
     SHIPMENT_EXCESSIVE_CUSTOM_COLUMNS: 'Unable to create a shipment. Chosen orders have too many different custom columns.',
     UNSUPPORTED_OPERATION: 'The operation attempted is not supported.',
+    NO_PERMISSION: 'You don\'t have the permissions to perform this operation',
     DEFAULT: 'Error occurred. Please try again later.'
 };

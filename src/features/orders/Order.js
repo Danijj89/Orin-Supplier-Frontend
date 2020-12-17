@@ -31,7 +31,7 @@ const Order = React.memo(function Order() {
     const tabValue = tab || 'details';
 
     const setTabValue = (newValue) =>
-        history.push(`${location.pathname}?tab=${newValue}`);
+        history.push(`${ location.pathname }?tab=${ newValue }`);
 
     return (
         <Box className={ classes.root }>
@@ -43,7 +43,7 @@ const Order = React.memo(function Order() {
                     className={ classes.orderTabs }
                 />
             </Paper>
-            { tabValue === 'details' && <OrderDetails /> }
+            { tabValue === 'details' && <OrderDetails/> }
             { tabValue === 'documents' && <OrderDocuments/> }
         </Box>
     )
