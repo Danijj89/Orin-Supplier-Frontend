@@ -48,6 +48,7 @@ const NewResourceButton = React.memo(function NewResourceButton() {
                     inputRef={ register({ required: true }) }
                     error={ !!errors._id }
                     required
+                    autoFocus
                 />
             </FormDialog>
         </>

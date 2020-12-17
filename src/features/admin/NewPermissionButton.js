@@ -56,6 +56,7 @@ const NewPermissionButton = React.memo(function NewPermissionButton() {
                     inputRef={ register({ required: true }) }
                     error={ !!errors._id }
                     required
+                    autoFocus
                 />
                 <RHFAutoComplete
                     rhfControl={ control }

@@ -19,7 +19,7 @@ import { updateRole } from './duck/roles/thunks.js';
 const useStyles = makeStyles((theme) => ({
     paper: {
         width: 320,
-        height: 230,
+        height: 600,
         overflow: 'auto',
         marginLeft: theme.spacing(2),
         marginRight: theme.spacing(2)
