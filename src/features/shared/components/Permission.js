@@ -13,41 +13,46 @@ import {
 } from '../../admin/utils/actions.js';
 import { AccessControl } from 'accesscontrol';
 
-const Permission = React.memo(function Permission({ resource, action, children }) {
+const Permission = React.memo(function Permission({ resource, action = [], owner, children }) {
     const grants = useSelector(selectAppGrants);
     const ac = new AccessControl(grants);
-    const { roles } = useSelector(selectSessionUser);
+    const { _id: userId, roles } = useSelector(selectSessionUser);
+    const actions = Array.isArray(action) ? action : [action];
     if (!roles?.length) {
         return null;
     }
     let match = false;
-    switch (action) {
-        case READ_ANY:
-            match = ac.can(roles).readAny(resource).granted;
-            break;
-        case CREATE_ANY:
-            match = ac.can(roles).createAny(resource).granted;
-            break;
-        case UPDATE_ANY:
-            match = ac.can(roles).updateAny(resource).granted;
-            break;
-        case DELETE_ANY:
-            match = ac.can(roles).deleteAny(resource).granted;
-            break;
-        case READ_OWN:
-            match = ac.can(roles).readOwn(resource).granted;
-            break;
-        case CREATE_OWN:
-            match = ac.can(roles).createOwn(resource).granted;
-            break;
-        case UPDATE_OWN:
-            match = ac.can(roles).updateOwn(resource).granted;
-            break;
-        case DELETE_OWN:
-            match = ac.can(roles).deleteOwn(resource).granted;
-            break;
-        default:
+    for (const action of actions) {
+        switch (action) {
+            case READ_ANY:
+                match = ac.can(roles).readAny(resource).granted;
+                break;
+            case CREATE_ANY:
+                match = ac.can(roles).createAny(resource).granted;
+                break;
+            case UPDATE_ANY:
+                match = ac.can(roles).updateAny(resource).granted;
+                break;
+            case DELETE_ANY:
+                match = ac.can(roles).deleteAny(resource).granted;
+                break;
+            case READ_OWN:
+                match = ac.can(roles).readOwn(resource).granted && owner === userId;
+                break;
+            case CREATE_OWN:
+                match = ac.can(roles).createOwn(resource).granted && owner === userId;
+                break;
+            case UPDATE_OWN:
+                match = ac.can(roles).updateOwn(resource).granted && owner === userId;
+                break;
+            case DELETE_OWN:
+                match = ac.can(roles).deleteOwn(resource).granted && owner === userId;
+                break;
+            default:
+        }
+        if (match) break;
     }
+
     if (match) {
         return <>{ children }</>
     } else {
@@ -57,7 +62,11 @@ const Permission = React.memo(function Permission({ resource, action, children }
 
 Permission.propTypes = {
     resource: PropTypes.string.isRequired,
-    action: PropTypes.string.isRequired,
+    action: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.array
+    ]).isRequired,
+    owner: PropTypes.string,
     children: PropTypes.node.isRequired
 };
 

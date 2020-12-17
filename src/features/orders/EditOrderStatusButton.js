@@ -5,6 +5,9 @@ import OrderStatusDialog from './OrderStatusDialog.js';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import { useDispatch } from 'react-redux';
 import { updateOrderStatus } from './duck/thunks.js';
+import Permission from '../shared/components/Permission.js';
+import { ORDER_STATUS } from '../admin/utils/resources.js';
+import { UPDATE_ANY, UPDATE_OWN } from '../admin/utils/actions.js';
 
 const {
     buttonLabel,
@@ -13,7 +16,7 @@ const {
 } = LANGUAGE.order.order.orderDetails.statusInfoCard.editOrderStatusButton;
 
 const EditOrderStatusButton = React.memo(function EditOrderStatusButton(
-    { orderId, procurement, production, qa, className }) {
+    { orderId, procurement, production, qa, createdBy, className }) {
     const dispatch = useDispatch();
     const [isEdit, setIsEdit] = useState(false);
 
@@ -26,21 +29,23 @@ const EditOrderStatusButton = React.memo(function EditOrderStatusButton(
     }, [dispatch, orderId]);
 
     return (
-        <Box className={ className }>
-            <ThemedButton onClick={ onEdit }>
-                { buttonLabel }
-            </ThemedButton>
-            <OrderStatusDialog
-                isOpen={ isEdit }
-                procurement={ procurement }
-                production={ production }
-                qa={ qa }
-                titleLabel={ titleLabel }
-                submitLabel={ submitLabel }
-                onCancel={ onCancel }
-                onSubmit={ onSubmit }
-            />
-        </Box>
+        <Permission resource={ ORDER_STATUS } action={ [UPDATE_ANY, UPDATE_OWN] } owner={ createdBy }>
+            <Box className={ className }>
+                <ThemedButton onClick={ onEdit }>
+                    { buttonLabel }
+                </ThemedButton>
+                <OrderStatusDialog
+                    isOpen={ isEdit }
+                    procurement={ procurement }
+                    production={ production }
+                    qa={ qa }
+                    titleLabel={ titleLabel }
+                    submitLabel={ submitLabel }
+                    onCancel={ onCancel }
+                    onSubmit={ onSubmit }
+                />
+            </Box>
+        </Permission>
     )
 });
 

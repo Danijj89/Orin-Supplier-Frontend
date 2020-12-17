@@ -2,9 +2,9 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import ProductService from '../../api/ProductService.js';
 
 export const fetchProducts = createAsyncThunk('products/fetchProducts',
-    async ({ companyId }, { rejectWithValue }) => {
+    async (_, { rejectWithValue }) => {
         try {
-            return await ProductService.fetchProducts(companyId);
+            return await ProductService.fetchProducts();
         } catch (err) {
             return rejectWithValue(err.response.data);
         }

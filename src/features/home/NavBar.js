@@ -32,7 +32,7 @@ import { fetchShipments } from '../shipments/duck/thunks.js';
 import { fetchProducts } from '../products/duck/thunks.js';
 import { selectSessionUserName } from '../../app/duck/selectors.js';
 import Permission from '../shared/components/Permission.js';
-import { PERMISSIONS } from '../admin/utils/resources.js';
+import { PERMISSION } from '../admin/utils/resources.js';
 import { READ_ANY } from '../admin/utils/actions.js';
 
 const useStyles = makeStyles((theme) => ({
@@ -172,7 +172,7 @@ const NavBar = React.memo(function NavBar() {
                 </IconButton>
                 { tabsLabelsMap.products }
             </MenuItem>
-            {/*<Permission resource={ ROLES } action={ READ_ANY }>*/}
+            <Permission resource={ PERMISSION } action={ READ_ANY }>
                 <MenuItem
                     onClick={ () => onTabClick('admin', '/home/admin') }
                 >
@@ -181,7 +181,7 @@ const NavBar = React.memo(function NavBar() {
                     </IconButton>
                     { tabsLabelsMap.settings }
                 </MenuItem>
-            {/*</Permission>*/}
+            </Permission>
             <MenuItem
                 onClick={ () => onTabClick('settings', '/home/settings?tab=account') }
             >
@@ -284,7 +284,7 @@ const NavBar = React.memo(function NavBar() {
                                 </span>
                             </ListItemText>
                         </ListItem>
-                        {/*<Permission resource={ PERMISSIONS } action={ READ_ANY }>*/}
+                        <Permission resource={ PERMISSION } action={ READ_ANY }>
                             <ListItem
                                 button
                                 component="a"
@@ -301,7 +301,7 @@ const NavBar = React.memo(function NavBar() {
                                 </span>
                                 </ListItemText>
                             </ListItem>
-                        {/*</Permission>*/}
+                        </Permission>
                     </List>
                     <div className={ classes.grow }/>
                     <Typography variant="subtitle1">

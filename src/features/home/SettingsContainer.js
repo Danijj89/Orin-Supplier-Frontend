@@ -25,10 +25,10 @@ const SettingsContainer = React.memo(function SettingsContainer() {
     useEffect(() => {
         if (!fetched.current) {
             if (homeDataStatus === 'IDLE') dispatch(fetchCurrentCompany());
-            dispatch(fetchUsers());
+            if (userDataStatus === 'IDLE') dispatch(fetchUsers());
             fetched.current = true;
         }
-    }, [dispatch, homeDataStatus]);
+    }, [dispatch, homeDataStatus, userDataStatus]);
 
     useEffect(() => {
         return () => {

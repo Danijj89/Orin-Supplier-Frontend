@@ -2,9 +2,9 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import OrderService from './services.js';
 
 export const fetchOrders = createAsyncThunk('orders/fetchOrders',
-    async ({ companyId }, { rejectWithValue }) => {
+    async (_, { rejectWithValue }) => {
         try {
-            return await OrderService.fetchOrdersByCompanyId(companyId);
+            return await OrderService.fetchOrders();
         } catch (err) {
             return rejectWithValue(err.response.data);
         }

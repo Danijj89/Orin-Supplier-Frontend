@@ -67,6 +67,7 @@ const StatusInfoCard = React.memo(function StatusInfoCard() {
                     procurement={ order.procurement }
                     production={ order.production }
                     qa={ order.qa }
+                    createdBy={ order.createdBy }
                 />
             }
             content={

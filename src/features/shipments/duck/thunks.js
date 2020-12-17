@@ -11,9 +11,9 @@ export const createShipment = createAsyncThunk('shipments/createShipment',
     });
 
 export const fetchShipments = createAsyncThunk('shipments/fetchShipments',
-    async ({ companyId }, { rejectWithValue }) => {
+    async (_, { rejectWithValue }) => {
         try {
-            return await ShipmentService.fetchShipments(companyId);
+            return await ShipmentService.fetchShipments();
         } catch (err) {
             return rejectWithValue(err.response.data);
         }
