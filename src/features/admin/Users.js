@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import Paper from '@material-ui/core/Paper';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectAllCompanies } from './duck/companies/selectors.js';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import Table from '../shared/components/table/Table.js';
@@ -8,6 +8,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import SideTextField from '../shared/inputs/SideTextField.js';
 import NewUserButton from './NewUserButton.js';
 import AdminUserDialog from './AdminUserDialog.js';
+import { updateUserRoles } from './duck/companies/thunks.js';
 
 const {
     companyLabel,
@@ -17,6 +18,7 @@ const {
 } = LANGUAGE.admin.admin.users;
 
 const Users = React.memo(function Users() {
+    const dispatch = useDispatch();
     const companies = useSelector(selectAllCompanies);
     const [company, setCompany] = useState(null);
     const [isEdit, setIsEdit] = useState(false);
@@ -35,7 +37,9 @@ const Users = React.memo(function Users() {
         setIsEdit(false);
     };
     const onEditSubmit = (data) => {
-        console.log(data)
+        const { _id: userId, company: companyId, ...update } = data;
+        dispatch(updateUserRoles({ companyId, userId, update }));
+        setIsEdit(false);
     };
 
     const columns = useMemo(() => [

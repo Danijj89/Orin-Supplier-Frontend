@@ -18,12 +18,3 @@ export const fetchUsers = createAsyncThunk('users/fetchUsers',
             return rejectWithValue(err.response.data);
         }
     });
-
-export const createUser = createAsyncThunk('users/createUser',
-    async ({ user }, { rejectWithValue }) => {
-        try {
-            return await UserService.createUser(user);
-        } catch (err) {
-            return rejectWithValue(err.response.data);
-        }
-    });

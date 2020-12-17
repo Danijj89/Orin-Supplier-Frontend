@@ -72,7 +72,8 @@ const AdminUserDialog = React.memo(function AdminUserDialog(
         if (isEdit) {
             actualData = {
                 _id: data._id,
-                roles: data.roles
+                roles: data.roles,
+                company: data.company
             };
         } else {
             const { _id, ...rest } = data;

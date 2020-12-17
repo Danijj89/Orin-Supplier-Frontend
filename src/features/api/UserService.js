@@ -29,10 +29,21 @@ const createUser = async (user) => {
     return data;
 };
 
+const updateUserRoles = async (userId, update) => {
+    const configs = {
+        method: 'put',
+        url: `users/${ userId }`,
+        data: update
+    };
+    const { data } = await fetchWithAuth(configs);
+    return data;
+};
+
 const UserService = {
     updateUser,
     fetchUsers,
-    createUser
+    createUser,
+    updateUserRoles
 };
 
 export default UserService;
