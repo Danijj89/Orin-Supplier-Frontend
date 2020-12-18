@@ -51,7 +51,7 @@ const NewRoleButton = React.memo(function NewRoleButton() {
     });
 
     useEffect(() => {
-        register({ name: 'permissions' }, { validate: permissions => permissions.length });
+        register({ name: 'permissions' }, { validate: permissions => permissions.length > 0 });
     }, [register]);
 
     const permissions = watch('permissions');

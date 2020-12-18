@@ -9,7 +9,7 @@ import { selectCompanyId } from '../home/duck/selectors.js';
 import {
     addressToDocAddress, tableItemsToItems
 } from '../shared/utils/entityConversion.js';
-import { selectCurrentUserId } from '../../app/duck/selectors.js';
+import { selectSessionUserId } from '../../app/duck/selectors.js';
 import { createDocument } from '../shipments/duck/thunks.js';
 import { useHistory } from 'react-router-dom';
 import { getOptionId } from '../../app/utils/options/getters.js';
@@ -40,7 +40,7 @@ const PackingListProducts = React.memo(function PackingListProducts(
     const dispatch = useDispatch();
     const history = useHistory();
     const companyId = useSelector(selectCompanyId);
-    const userId = useSelector(selectCurrentUserId);
+    const userId = useSelector(selectSessionUserId);
 
     const { register, control, getValues, setValue, errors, handleSubmit } = useForm({
         mode: 'onSubmit',

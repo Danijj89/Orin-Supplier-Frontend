@@ -37,10 +37,12 @@ const Permission = React.memo(function Permission({ resource, action = [], isOwn
                 match = ac.can(roles).deleteAny(resource).granted;
                 break;
             case READ_OWN:
-                match = ac.can(roles).readOwn(resource).granted && isOwner;
+                match = ac.can(roles).readOwn(resource).granted;
+                match = match && typeof isOwner === 'undefined' ? true : isOwner;
                 break;
             case CREATE_OWN:
-                match = ac.can(roles).createOwn(resource).granted && isOwner;
+                match = ac.can(roles).createOwn(resource).granted;
+                match = match && typeof isOwner === 'undefined' ? true : isOwner;
                 break;
             case UPDATE_OWN:
                 match = ac.can(roles).updateOwn(resource).granted && isOwner;

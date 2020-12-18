@@ -9,7 +9,7 @@ function getOptionsMap(options) {
     }, {});
 }
 
-export const selectCurrentUserId = state => state.app.user._id;
+export const selectSessionUserId = state => state.app.user._id;
 export const selectAppStatus = state => state.app.status;
 export const selectAppError = state => state.app.error;
 export const selectCurrentUserCompanyId = state => state.app.user?.company;
@@ -19,7 +19,7 @@ export const selectAppGrants = state => state.app.appData?.grants;
 
 
 export const selectCurrentUser = createSelector(
-    selectCurrentUserId,
+    selectSessionUserId,
     selectUsersMap,
     (userId, usersMap) => usersMap[userId]
 );

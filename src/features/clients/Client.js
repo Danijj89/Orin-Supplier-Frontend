@@ -13,6 +13,9 @@ import ClientAddressCards from './ClientAddressCards.js';
 import ClientContactsTable from './ClientContactsTable.js';
 import ClientOrdersTable from './ClientOrdersTable.js';
 import queryString from 'query-string';
+import Permission from '../shared/components/Permission.js';
+import { ORDER } from '../admin/utils/resources.js';
+import { READ_ANY, READ_OWN } from '../admin/utils/actions.js';
 
 const {
     notesLabel,
@@ -43,7 +46,7 @@ const Client = React.memo(function Client() {
 
     return (
         <Container>
-            <ClientDetailsCard />
+            <ClientDetailsCard/>
             <TextAreaCard
                 titleLabel={ notesLabel }
                 className={ classes.notesCard }
@@ -60,8 +63,10 @@ const Client = React.memo(function Client() {
                 <ClientAddressCards/> }
                 { tabValue === 'contacts' &&
                 <ClientContactsTable/> }
-                { tabValue === 'orders' &&
-                <ClientOrdersTable /> }
+                <Permission resource={ ORDER } action={ [READ_ANY, READ_OWN] }>
+                    { tabValue === 'orders' &&
+                    <ClientOrdersTable/> }
+                </Permission>
             </Paper>
         </Container>
     );

@@ -3,7 +3,7 @@ import { createResource, fetchResources } from './thunks.js';
 
 export const resourcesAdapter = createEntityAdapter({
     selectId: resource => resource._id,
-    sortComparer: (a, b) => b._id.localeCompare(a._id)
+    sortComparer: (a, b) => a._id.localeCompare(b._id)
 });
 
 const initialState = resourcesAdapter.getInitialState({

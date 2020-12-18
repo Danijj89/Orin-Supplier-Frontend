@@ -29,19 +29,22 @@ const Table = React.memo(function Table(
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const [processedRows, setProcessedRows] = useState(rows || []);
 
+    const onSort = useCallback((field) => {
+        const isAsc = orderBy === field && order === 'asc';
+        const newOrder = isAsc ? 'desc' : 'asc';
+        setOrder(newOrder);
+        setOrderBy(field);
+        setProcessedRows(stableSort(rows, getComparator(newOrder, field)));
+    }, [order, orderBy, rows]);
+
     const prevRows = useRef(rows);
     useEffect(() => {
         if (prevRows.current !== rows) {
-            setProcessedRows(rows);
+            if (orderBy) setProcessedRows(stableSort(rows, getComparator(order, orderBy)));
+            else setProcessedRows(rows);
+            prevRows.current = rows;
         }
-    }, [rows]);
-
-    const onSort = (field) => {
-        const isAsc = orderBy === field && order === 'asc';
-        setOrder(isAsc ? 'desc' : 'asc');
-        setOrderBy(field);
-        setProcessedRows(stableSort(rows, getComparator(order, orderBy)));
-    };
+    }, [rows, orderBy, order]);
 
     const onFilter = useCallback(
         (filters) => {

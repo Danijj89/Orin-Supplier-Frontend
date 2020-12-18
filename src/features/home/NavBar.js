@@ -21,11 +21,11 @@ import {
     DirectionsBoatOutlined as IconBoat,
     LocalOfferOutlined as IconTag,
     AddCircleOutlineOutlined as IconPlus,
+    SupervisorAccount as IconAdmin
 } from '@material-ui/icons';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectCompanyId } from './duck/selectors.js';
 import { fetchOrders } from '../orders/duck/thunks.js';
 import { fetchClients } from '../clients/duck/thunks.js';
 import { fetchShipments } from '../shipments/duck/thunks.js';
@@ -95,23 +95,22 @@ const NavBar = React.memo(function NavBar() {
     const history = useHistory();
     const location = useLocation();
     const currentTab = location.pathname.split('/')[2];
-    const companyId = useSelector(selectCompanyId);
     const userName = useSelector(selectSessionUserName);
 
     const onTabClick = (tabName, href) => {
         if (tabName === currentTab) {
             switch (tabName) {
                 case 'orders':
-                    dispatch(fetchOrders({ companyId }));
+                    dispatch(fetchOrders());
                     break;
                 case 'clients':
-                    dispatch(fetchClients({ companyId }));
+                    dispatch(fetchClients());
                     break;
                 case 'shipments':
-                    dispatch(fetchShipments({ companyId }));
+                    dispatch(fetchShipments());
                     break;
                 case 'products':
-                    dispatch(fetchProducts({ companyId }));
+                    dispatch(fetchProducts());
                     break;
                 default:
             }
@@ -156,7 +155,7 @@ const NavBar = React.memo(function NavBar() {
                     { tabsLabelsMap.clients }
                 </MenuItem>
             </Permission>
-            <Permission resource={ LEAD } action={ [READ_ANY, READ_OWN] }>
+            <Permission resource={ LEAD } action={ [READ_ANY, READ_OWN] } >
                 <MenuItem onClick={ () => onTabClick('leads', '/home/leads') }>
                     <IconButton color="inherit">
                         <IconPlus/>
@@ -181,9 +180,9 @@ const NavBar = React.memo(function NavBar() {
                     onClick={ () => onTabClick('admin', '/home/admin') }
                 >
                     <IconButton color="inherit">
-                        <AccountCircle/>
+                        <IconAdmin/>
                     </IconButton>
-                    { tabsLabelsMap.settings }
+                    { tabsLabelsMap.admin }
                 </MenuItem>
             </Permission>
             <MenuItem

@@ -20,7 +20,7 @@ import OrderStatusDisplay from '../orders/OrderStatusDisplay.js';
 import UnitCounter from '../shared/classes/UnitCounter.js';
 import { makeStyles } from '@material-ui/core/styles';
 import Footer from '../shared/components/Footer.js';
-import { selectCurrentUserId, selectItemUnitsMap } from '../../app/duck/selectors.js';
+import { selectSessionUserId, selectItemUnitsMap } from '../../app/duck/selectors.js';
 import { createShipment, updateShipmentShell } from './duck/thunks.js';
 import ErrorMessages from '../shared/components/ErrorMessages.js';
 import {
@@ -76,7 +76,7 @@ const CreateShipment = React.memo(function CreateShipment() {
     const location = useLocation();
     const { id: shipmentId } = queryString.parse(location.search);
 
-    const userId = useSelector(selectCurrentUserId);
+    const userId = useSelector(selectSessionUserId);
     const companyId = useSelector(selectCompanyId);
     const companyAddresses = useSelector(selectActiveCompanyAddresses);
     const clients = useSelector(selectAllActiveClients);

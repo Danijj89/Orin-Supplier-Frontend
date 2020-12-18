@@ -18,7 +18,7 @@ import Typography from '@material-ui/core/Typography';
 import { dateToLocaleDate } from '../shared/utils/format.js';
 import StatusDropdown from '../shared/components/StatusDropdown.js';
 import {
-    selectCurrentUserId,
+    selectSessionUserId,
     selectLeadPotentials,
     selectLeadTypes,
     selectSalesStatuses,
@@ -72,7 +72,7 @@ const LeadDetails = React.memo(function LeadDetails({ leadId }) {
     const leadTypeOptions = useSelector(selectLeadTypes);
     const leadPotentialOptions = useSelector(selectLeadPotentials);
     const lead = useSelector((state) => selectLeadById(state, { leadId }));
-    const userId = useSelector(selectCurrentUserId);
+    const userId = useSelector(selectSessionUserId);
 
     const {
         register,

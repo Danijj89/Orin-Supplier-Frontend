@@ -5,7 +5,7 @@ import {
     selectCountriesMap,
     selectCurrencies,
     selectCurrenciesMap,
-    selectCurrentUserId,
+    selectSessionUserId,
     selectDefaultRowItem,
     selectDeliveryMethods,
     selectDeliveryMethodsMap,
@@ -92,7 +92,7 @@ export const selectNewOrder = createSelector(
     selectDeliveryMethods,
     selectCurrencies,
     selectItemUnits,
-    selectCurrentUserId,
+    selectSessionUserId,
     selectDefaultRowItem,
     (company, companyDefaultAddress, deliveryMethods, currencies, itemUnits, userId, defaultRowItem) => ({
         from: company._id,

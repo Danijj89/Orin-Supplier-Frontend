@@ -3,7 +3,7 @@ import { createPermission, fetchPermissions } from './thunks.js';
 
 export const permissionAdapter = createEntityAdapter({
     selectId: permission => permission._id,
-    sortComparer: (a, b) => b._id.localeCompare(a._id)
+    sortComparer: (a, b) => a._id.localeCompare(b._id)
 });
 
 const initialState = permissionAdapter.getInitialState({

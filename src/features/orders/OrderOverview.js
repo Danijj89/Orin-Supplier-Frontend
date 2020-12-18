@@ -7,6 +7,9 @@ import { Paper } from '@material-ui/core';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import OrdersTable from './OrdersTable.js';
 import { makeStyles } from '@material-ui/core/styles';
+import Permission from '../shared/components/Permission.js';
+import { ORDER } from '../admin/utils/resources.js';
+import { CREATE_ANY, CREATE_OWN } from '../admin/utils/actions.js';
 
 const { newOrderButtonLabel } = LANGUAGE.order.ordersOverview;
 
@@ -31,13 +34,15 @@ const OrderOverview = React.memo(function OrderOverview() {
 
     return (
         <Paper className={ classes.orderOverviewRoot }>
-            <ThemedButton
-                className={ classes.newOrder }
-                onClick={ onNewOrderClick }
-            >
-                { newOrderButtonLabel }
-            </ThemedButton>
-            <OrdersTable />
+            <Permission resource={ ORDER } action={ [CREATE_ANY, CREATE_OWN] }>
+                <ThemedButton
+                    className={ classes.newOrder }
+                    onClick={ onNewOrderClick }
+                >
+                    { newOrderButtonLabel }
+                </ThemedButton>
+            </Permission>
+            <OrdersTable/>
         </Paper>
     );
 });

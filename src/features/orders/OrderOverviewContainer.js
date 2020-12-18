@@ -7,6 +7,9 @@ import OrderOverview from './OrderOverview.js';
 import { fetchOrders } from './duck/thunks.js';
 import ErrorPage from '../shared/components/ErrorPage.js';
 import { cleanOrderState } from './duck/slice.js';
+import Permission from '../shared/components/Permission.js';
+import { ORDER } from '../admin/utils/resources.js';
+import { READ_ANY, READ_OWN } from '../admin/utils/actions.js';
 
 const OrderOverviewContainer = React.memo(function OrderOverviewContainer() {
     const dispatch = useDispatch();
@@ -22,7 +25,7 @@ const OrderOverviewContainer = React.memo(function OrderOverviewContainer() {
             if (orderDataStatus === 'IDLE') dispatch(fetchOrders());
             fetched.current = true;
         }
-    }, [dispatch, orderDataStatus, ]);
+    }, [dispatch, orderDataStatus,]);
 
     useEffect(() => {
         return () => {
@@ -33,11 +36,11 @@ const OrderOverviewContainer = React.memo(function OrderOverviewContainer() {
     }, [dispatch, errors.length]);
 
     return (
-        <>
+        <Permission resource={ ORDER } action={ [READ_ANY, READ_OWN] }>
             { status === 'REJECTED' && <ErrorPage errors={ errors }/> }
             { status === 'PENDING' && <Loader/> }
-            { status === 'FULFILLED' && <OrderOverview />}
-        </>
+            { status === 'FULFILLED' && <OrderOverview/> }
+        </Permission>
     );
 });
 

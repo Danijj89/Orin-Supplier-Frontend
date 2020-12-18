@@ -32,7 +32,7 @@ const Permissions = React.memo(function Permissions() {
         <Paper>
             <Grid container>
                 <NewPermissionButton />
-                <Table rows={rows} columns={columns} />
+                <Table rows={rows} columns={columns} dense/>
             </Grid>
         </Paper>
     );

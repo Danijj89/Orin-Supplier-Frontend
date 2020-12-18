@@ -7,7 +7,7 @@ import { Box } from '@material-ui/core';
 import ClientDialog from '../shared/forms/ClientDialog.js';
 import { makeStyles } from '@material-ui/core/styles';
 import { selectAllActiveUsers } from '../users/duck/selectors.js';
-import { selectCurrentUserId } from '../../app/duck/selectors.js';
+import { selectSessionUserId } from '../../app/duck/selectors.js';
 import { selectCompanyId } from '../home/duck/selectors.js';
 
 const { newClientButtonLabel, newClientDialogTitleLabel, newClientSubmitButtonLabel } = LANGUAGE.client.clientOverview;
@@ -23,7 +23,7 @@ const NewClientButton = React.memo(function NewClientButton({ className }) {
     const dispatch = useDispatch();
     const companyId = useSelector(selectCompanyId);
     const users = useSelector(selectAllActiveUsers);
-    const userId = useSelector(selectCurrentUserId);
+    const userId = useSelector(selectSessionUserId);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const client = { assignedTo: userId };
 

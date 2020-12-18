@@ -18,6 +18,9 @@ import { cleanHomeState } from '../home/duck/slice.js';
 import { cleanClientState } from '../clients/duck/slice.js';
 import { cleanProductState } from '../products/duck/slice.js';
 import { fetchCurrentCompany } from '../home/duck/thunks.js';
+import Permission from '../shared/components/Permission.js';
+import { ORDER } from '../admin/utils/resources.js';
+import { CREATE_ANY, CREATE_OWN } from '../admin/utils/actions.js';
 
 export default function CreateOrderContainer() {
     const dispatch = useDispatch();
@@ -56,11 +59,11 @@ export default function CreateOrderContainer() {
     }, [dispatch, errors.length]);
 
     return (
-        <>
+        <Permission resource={ORDER} action={[CREATE_ANY, CREATE_OWN]}>
             { currentOrderId && <Redirect to={ `/home/orders/${ currentOrderId }` }/> }
             { status === 'REJECTED' && <ErrorPage errors={errors} />}
             { status === 'PENDING' && <Loader/> }
             { !currentOrderId && status === 'FULFILLED' && <CreateOrder/> }
-        </>
+        </Permission>
     );
 }

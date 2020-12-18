@@ -8,7 +8,7 @@ import { Typography } from '@material-ui/core';
 import { addressToDocAddress, tableItemsToItems } from '../shared/utils/entityConversion.js';
 import { createDocument } from '../shipments/duck/thunks.js';
 import { selectCompanyId } from '../home/duck/selectors.js';
-import { selectCurrentUserId } from '../../app/duck/selectors.js';
+import { selectSessionUserId } from '../../app/duck/selectors.js';
 import { useHistory } from 'react-router-dom';
 import { getOptionId } from '../../app/utils/options/getters.js';
 
@@ -41,7 +41,7 @@ const CommercialInvoiceProducts = React.memo(function CommercialInvoiceProducts(
     const history = useHistory();
 
     const companyId = useSelector(selectCompanyId);
-    const userId = useSelector(selectCurrentUserId);
+    const userId = useSelector(selectSessionUserId);
 
     const { register, control, errors, getValues, setValue, handleSubmit } = useForm({
         mode: 'onSubmit',

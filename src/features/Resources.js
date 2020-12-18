@@ -26,7 +26,7 @@ const Resources = React.memo(function Resources() {
         <Paper>
             <Grid container>
                 <NewResourceButton />
-                <Table rows={rows} columns={columns} />
+                <Table rows={rows} columns={columns} dense/>
             </Grid>
         </Paper>
     );

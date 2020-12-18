@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import NewRoleButton from './NewRoleButton.js';
@@ -15,6 +15,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import makeStyles from '@material-ui/core/styles/makeStyles.js';
 import { selectAllPermissionsIds } from './duck/permissions/selectors.js';
 import { updateRole } from './duck/roles/thunks.js';
+import { useForm } from 'react-hook-form';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -39,41 +40,46 @@ const Roles = React.memo(function Roles() {
     const permissionIds = useSelector(selectAllPermissionsIds);
     const [isEdit, setIsEdit] = useState(false);
     const [role, setRole] = useState(null);
-    const [permissions, setPermissions] = useState([]);
+
+    const { register, getValues, setValue, watch, handleSubmit } = useForm({
+        mode: 'onSubmit',
+        defaultValues: {
+            permission: []
+        }
+    });
+
+    useEffect(() => {
+        register({ name: 'permissions' }, { validate: permissions => permissions.length > 0 });
+    }, [register]);
+
+    const permissions = watch('permissions');
 
     const onRowClick = useCallback(
         (params) => {
             setRole(params.role);
-            setPermissions(params.role.permissions);
+            setValue('permissions', params.role.permissions);
             setIsEdit(true);
-        }, []);
+        }, [setValue]);
 
     const onEditCancel = useCallback(() => {
         setRole(null);
         setIsEdit(false);
     }, []);
 
-    const onEditSubmit = useCallback(() => {
-        if (permissions.length > 0) {
-            const update = {
-                permissions
-            };
-            dispatch(updateRole({ roleId: role._id, update }));
-            setRole(null);
-            setIsEdit(false);
-        }
-    }, [dispatch, permissions, role]);
+    const onEditSubmit = useCallback((data) => {
+        dispatch(updateRole({ roleId: role._id, update: data }));
+        setRole(null);
+        setIsEdit(false);
+    }, [dispatch, role]);
 
     const onSelect = useCallback(
         (permission) => () => {
-            setPermissions(prevPermissions => {
-                const currentIdx = prevPermissions.indexOf(permission);
-                const newPermissions = [...prevPermissions];
-                if (currentIdx === -1) newPermissions.push(permission);
-                else newPermissions.splice(currentIdx, 1);
-                return newPermissions;
-            });
-        }, []);
+            const newPermissions = [...getValues('permissions')];
+            const currentIdx = newPermissions.indexOf(permission);
+            if (currentIdx === -1) newPermissions.push(permission);
+            else newPermissions.splice(currentIdx, 1);
+            setValue('permissions', newPermissions);
+        }, [getValues, setValue]);
 
     const columns = useMemo(() => [
         { field: '_id', headerName: tableHeaderLabels._id },
@@ -104,7 +110,7 @@ const Roles = React.memo(function Roles() {
                     titleLabel={ dialogTitleLabel }
                     submitLabel={ dialogSubmitLabel }
                     onCancel={ onEditCancel }
-                    onSubmit={ onEditSubmit }
+                    onSubmit={ handleSubmit(onEditSubmit) }
                 >
                     <Paper className={ classes.paper }>
                         <List dense component="div" role="list">
