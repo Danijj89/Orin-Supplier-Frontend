@@ -89,8 +89,8 @@ const TextAreaCard = React.memo(function TextAreaCard({ titleLabel, value, class
 
 TextAreaCard.propTypes = {
     titleLabel: PropTypes.string.isRequired,
-    value: PropTypes.string.isRequired,
     onSubmit: PropTypes.func.isRequired,
+    value: PropTypes.string,
     className: PropTypes.string
 };
 
