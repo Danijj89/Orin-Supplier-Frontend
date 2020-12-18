@@ -13,7 +13,7 @@ import {
     selectClientError
 } from '../clients/duck/selectors.js';
 import { fetchClients } from '../clients/duck/thunks.js';
-import { selectCompanyId, selectHomeError, selectHomeDataStatus } from '../home/duck/selectors.js';
+import { selectHomeError, selectHomeDataStatus } from '../home/duck/selectors.js';
 import { selectProductDataStatus } from '../products/duck/selectors.js';
 import { fetchProducts } from '../products/duck/thunks.js';
 import ErrorPage from '../shared/components/ErrorPage.js';

@@ -2,7 +2,7 @@ import React, { useCallback, useEffect } from 'react';
 import FormDialog from '../shared/wrappers/FormDialog.js';
 import { useForm } from 'react-hook-form';
 import { makeStyles } from '@material-ui/core/styles';
-import { Grid, Divider, Typography } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
 import FormContainer from '../shared/wrappers/FormContainer.js';
 import { LANGUAGE, LOCALE } from '../../app/utils/constants.js';
 import PropTypes from 'prop-types';

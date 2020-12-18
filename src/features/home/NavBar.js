@@ -141,14 +141,17 @@ const NavBar = React.memo(function NavBar() {
             open={ isMobileMenuOpen }
             onClose={ handleMobileMenuClose }
         >
-            <Permission resource={ ORDER } action={ [READ_ANY, READ_OWN] }>
-                <MenuItem onClick={ () => onTabClick('orders', '/home/orders') }>
-                    <IconButton color="inherit">
-                        <IconViewStream/>
-                    </IconButton>
-                    { tabsLabelsMap.orders }
-                </MenuItem>
-            </Permission>
+            {/* The div here is to avoid ref forward error */}
+            <div>
+                <Permission resource={ ORDER } action={ [READ_ANY, READ_OWN] }>
+                    <MenuItem onClick={ () => onTabClick('orders', '/home/orders') }>
+                        <IconButton color="inherit">
+                            <IconViewStream/>
+                        </IconButton>
+                        { tabsLabelsMap.orders }
+                    </MenuItem>
+                </Permission>
+            </div>
             <Permission resource={ CLIENT } action={ [READ_ANY, READ_OWN] }>
                 <MenuItem onClick={ () => onTabClick('clients', '/home/clients') }>
                     <IconButton color="inherit">

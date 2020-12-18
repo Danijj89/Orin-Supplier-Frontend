@@ -1,13 +1,11 @@
 import React, { useEffect, useMemo, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectLeadById, selectLeadDataStatus, selectLeadError } from './duck/selectors.js';
-import { selectCompanyId, selectHomeDataStatus, selectHomeError } from '../home/duck/selectors.js';
 import { determineStatus, getErrors } from '../shared/utils/state.js';
 import ErrorPage from '../shared/components/ErrorPage.js';
 import Loader from '../shared/components/Loader.js';
 import Lead from './Lead.js';
 import { fetchLeads } from './duck/thunks.js';
-import { cleanHomeState } from '../home/duck/slice.js';
 import { cleanLeadState } from './duck/slice.js';
 import { selectUserDataStatus, selectUserError } from '../users/duck/selectors.js';
 import { fetchUsers } from '../users/duck/thunks.js';
