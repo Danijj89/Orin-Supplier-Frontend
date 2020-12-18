@@ -24,6 +24,7 @@ const SalesContractContainer = lazy(() => import('../documents/SalesContractCont
 const ChinaExportContainer = lazy(() => import('../documents/ChinaExportContainer.js'));
 const LeadOverviewContainer = lazy(() => import('../leads/LeadOverviewContainer.js'));
 const LeadContainer = lazy(() => import('../leads/LeadContainer.js'));
+const AdminContainer = lazy(() => import('../admin/AdminContainer.js'));
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -207,6 +208,15 @@ const Home = React.memo(function Home() {
                     >
                         <Suspense>
                             <ChinaExportContainer/>
+                        </Suspense>
+                    </Route>
+                    <Route
+                        exact
+                        path={ `${ match.url }/admin` }
+                        isPrivate
+                    >
+                        <Suspense>
+                            <AdminContainer/>
                         </Suspense>
                     </Route>
                     <Route>

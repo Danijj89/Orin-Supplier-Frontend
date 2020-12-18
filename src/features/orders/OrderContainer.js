@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectOrderById, selectOrderDataStatus, selectOrderError } from './duck/selectors.js';
 import { determineStatus, getErrors } from '../shared/utils/state.js';
-import { selectCompanyId, selectHomeError, selectHomeDataStatus } from '../home/duck/selectors.js';
+import { selectHomeError, selectHomeDataStatus } from '../home/duck/selectors.js';
 import ErrorPage from '../shared/components/ErrorPage.js';
 import Loader from '../shared/components/Loader.js';
 import { fetchOrders } from './duck/thunks.js';
@@ -23,6 +23,7 @@ import { cleanClientState } from '../clients/duck/slice.js';
 import { cleanProductState } from '../products/duck/slice.js';
 import { cleanUserState } from '../users/duck/slice.js';
 import { cleanShipmentState } from '../shipments/duck/slice.js';
+import { fetchCurrentCompany } from '../home/duck/thunks.js';
 
 const {
     errorMessages
@@ -54,22 +55,30 @@ const OrderContainer = React.memo(function OrderContainer() {
     );
     const errors = getErrors(orderError, homeError, userError, clientError, productError, shipmentError);
 
-    const companyId = useSelector(selectCompanyId);
     const order = useSelector(state => selectOrderById(state, { orderId }));
     const isOrderInactive = useMemo(() => order?.active === false
         || (!order && orderDataStatus === 'FULFILLED') , [order, orderDataStatus]);
 
     const fetched = useRef(false);
     useEffect(() => {
-        if (!fetched.current && companyId) {
-            if (orderDataStatus === 'IDLE') dispatch(fetchOrders({ companyId }));
-            dispatch(fetchUsers({ companyId }));
-            dispatch(fetchClients({ companyId }));
-            dispatch(fetchProducts({ companyId }));
-            dispatch(fetchShipments({ companyId }));
+        if (!fetched.current) {
+            if (orderDataStatus === 'IDLE') dispatch(fetchOrders());
+            if (userDataStatus === 'IDLE') dispatch(fetchUsers());
+            if (clientDataStatus === 'IDLE') dispatch(fetchClients());
+            if (productDataStatus === 'IDLE') dispatch(fetchProducts());
+            if (shipmentDataStatus === 'IDLE') dispatch(fetchShipments());
+            if (homeDataStatus === 'IDLE') dispatch(fetchCurrentCompany());
             fetched.current = true;
         }
-    }, [dispatch, orderDataStatus, companyId]);
+    }, [
+        dispatch,
+        orderDataStatus,
+        userDataStatus,
+        clientDataStatus,
+        productDataStatus,
+        shipmentDataStatus,
+        homeDataStatus
+    ]);
 
     useEffect(() => {
         return () => {

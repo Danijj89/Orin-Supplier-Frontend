@@ -90,7 +90,7 @@ const EditShipment = React.memo(function EditShipment() {
                     onChange={onTabChange}
                 />
                 {shipmentStatus === 'REJECTED' && (
-                    <ErrorMessages errors={[shipmentError]} />
+                    <ErrorMessages error={[shipmentError]} />
                 )}
                 {shipmentStatus === 'FULFILLED' && (
                     <SuccessMessage message={successMessage} />

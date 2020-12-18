@@ -14,7 +14,7 @@ const ErrorPage = React.memo(function ErrorPage({ errors, className }) {
 
     return (
         <Box className={ className }>
-            <ErrorMessages errors={ errors }/>
+            <ErrorMessages error={ errors }/>
             <ThemedButton onClick={ onClick }>
                 { backButtonLabel }
             </ThemedButton>

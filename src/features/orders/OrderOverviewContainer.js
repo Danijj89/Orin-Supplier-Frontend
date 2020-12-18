@@ -1,35 +1,32 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectOrderDataStatus, selectOrderError } from './duck/selectors.js';
 import { determineStatus, getErrors } from '../shared/utils/state.js';
 import Loader from '../shared/components/Loader.js';
 import OrderOverview from './OrderOverview.js';
 import { fetchOrders } from './duck/thunks.js';
-import { selectCompanyId, selectHomeError, selectHomeDataStatus } from '../home/duck/selectors.js';
 import ErrorPage from '../shared/components/ErrorPage.js';
-import { cleanHomeState } from '../home/duck/slice.js';
 import { cleanOrderState } from './duck/slice.js';
 
 const OrderOverviewContainer = React.memo(function OrderOverviewContainer() {
     const dispatch = useDispatch();
-    const homeDataStatus = useSelector(selectHomeDataStatus);
-    const homeError = useSelector(selectHomeError);
+
     const orderDataStatus = useSelector(selectOrderDataStatus);
     const orderError = useSelector(selectOrderError);
-    const status = determineStatus(orderDataStatus, homeDataStatus);
-    const errors = getErrors(orderError, homeError);
+    const status = determineStatus(orderDataStatus);
+    const errors = getErrors(orderError);
 
-    const companyId = useSelector(selectCompanyId);
-
+    const fetched = useRef(false);
     useEffect(() => {
-        if (orderDataStatus === 'IDLE' && companyId)
-            dispatch(fetchOrders({ companyId }));
-    }, [dispatch, orderDataStatus, companyId]);
+        if (!fetched.current) {
+            if (orderDataStatus === 'IDLE') dispatch(fetchOrders());
+            fetched.current = true;
+        }
+    }, [dispatch, orderDataStatus, ]);
 
     useEffect(() => {
         return () => {
             if (errors.length > 0) {
-                dispatch(cleanHomeState());
                 dispatch(cleanOrderState());
             }
         }

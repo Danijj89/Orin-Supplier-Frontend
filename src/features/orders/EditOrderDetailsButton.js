@@ -3,10 +3,14 @@ import { Box } from '@material-ui/core';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import OrderDetailsDialog from '../shared/forms/OrderDetailsDialog.js';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { deleteOrder, updateOrder } from './duck/thunks.js';
 import { addressToDocAddress } from '../shared/utils/entityConversion.js';
 import { getOptionId } from '../../app/utils/options/getters.js';
+import Permission from '../shared/components/Permission.js';
+import { ORDER } from '../admin/utils/resources.js';
+import { UPDATE_ANY, UPDATE_OWN } from '../admin/utils/actions.js';
+import { selectSessionUser } from '../../app/duck/selectors.js';
 
 const {
     buttonLabel,
@@ -16,6 +20,7 @@ const {
 
 const EditOrderDetailsButton = React.memo(function EditOrderDetailsButton({ order, className }) {
     const dispatch = useDispatch();
+    const sessionUser = useSelector(selectSessionUser);
     const [isEdit, setIsEdit] = useState(false);
 
     const onEdit = useCallback(() => setIsEdit(true), []);
@@ -36,22 +41,28 @@ const EditOrderDetailsButton = React.memo(function EditOrderDetailsButton({ orde
     }, [dispatch, order._id]);
 
     return (
-        <Box className={ className }>
-            <ThemedButton
-                onClick={ onEdit }
-            >
-                { buttonLabel }
-            </ThemedButton>
-            <OrderDetailsDialog
-                order={ order }
-                isOpen={ isEdit }
-                titleLabel={ dialogTitleLabel }
-                submitLabel={ dialogSubmitLabel }
-                onCancel={ onCancel }
-                onSubmit={ onSubmit }
-                onDelete={ onDelete }
-            />
-        </Box>
+        <Permission
+            resource={ ORDER }
+            action={ [UPDATE_ANY, UPDATE_OWN] }
+            isOwner={ sessionUser._id === order.createdBy }
+        >
+            <Box className={ className }>
+                <ThemedButton
+                    onClick={ onEdit }
+                >
+                    { buttonLabel }
+                </ThemedButton>
+                <OrderDetailsDialog
+                    order={ order }
+                    isOpen={ isEdit }
+                    titleLabel={ dialogTitleLabel }
+                    submitLabel={ dialogSubmitLabel }
+                    onCancel={ onCancel }
+                    onSubmit={ onSubmit }
+                    onDelete={ onDelete }
+                />
+            </Box>
+        </Permission>
     )
 });
 

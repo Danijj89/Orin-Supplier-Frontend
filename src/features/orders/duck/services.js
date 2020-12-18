@@ -1,12 +1,9 @@
 import { fetchWithAuth } from '../../api/utils.js';
 
-const fetchOrdersByCompanyId = async (id) => {
+const fetchOrders = async () => {
     const configs = {
         method: 'get',
-        url: `orders`,
-        params: {
-            company: id
-        }
+        url: `orders`
     };
     const { data } = await fetchWithAuth(configs);
     return data;
@@ -61,7 +58,7 @@ const deleteOrder = async (id) => {
 };
 
 const OrderService = {
-    fetchOrdersByCompanyId,
+    fetchOrders,
     createOrder,
     fetchOrderById,
     updateOrder,

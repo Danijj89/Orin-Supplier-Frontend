@@ -1,9 +1,18 @@
 import { fetchWithAuth } from './utils.js';
 
-const fetchCompanyById = async (id) => {
+const fetchCompanies = async () => {
     const configs = {
         method: 'get',
-        url: `companies/${ id }`,
+        url: 'companies'
+    };
+    const { data } = await fetchWithAuth(configs);
+    return data;
+};
+
+const fetchSessionCompany = async () => {
+    const configs = {
+        method: 'get',
+        url: `companies/session`,
     };
     const { data } = await fetchWithAuth(configs);
     return data;
@@ -86,8 +95,19 @@ const updateCompanyBankDetail = async (companyId, bankDetailsId, update) => {
     return data;
 };
 
+const createCompany = async (company) => {
+    const configs = {
+        method: 'post',
+        url: 'companies',
+        data: company
+    };
+    const { data } = await fetchWithAuth(configs);
+    return data;
+};
+
 const CompanyService = {
-    fetchCompanyById,
+    fetchCompanies,
+    fetchSessionCompany,
     addNewAddress,
     deleteAddress,
     updateAddress,
@@ -95,7 +115,8 @@ const CompanyService = {
     updateCompany,
     createCompanyBankDetail,
     deleteCompanyBankDetail,
-    updateCompanyBankDetail
+    updateCompanyBankDetail,
+    createCompany
 };
 
 export default CompanyService;

@@ -7,11 +7,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { updateCompany } from './duck/thunks.js';
 import { selectCurrentCompany } from './duck/selectors.js';
 import { getOptionId } from '../../app/utils/options/getters.js';
+import Permission from '../shared/components/Permission.js';
+import { COMPANY } from '../admin/utils/resources.js';
+import { UPDATE_ANY, UPDATE_OWN } from '../admin/utils/actions.js';
+import { selectSessionUser } from '../../app/duck/selectors.js';
 
 const { editButtonLabel, dialogTitleLabel, dialogSubmitLabel } = LANGUAGE.home.companyDetails;
 
 const EditCompanyInfoButton = React.memo(function EditCompanyInfoButton({ className }) {
     const dispatch = useDispatch();
+    const sessionUser = useSelector(selectSessionUser);
     const [isEdit, setIsEdit] = useState(false);
     const company = useSelector(selectCurrentCompany);
 
@@ -26,22 +31,28 @@ const EditCompanyInfoButton = React.memo(function EditCompanyInfoButton({ classN
     };
 
     return (
-        <Box className={ className }>
-            <ThemedButton
-                onClick={ onEdit }
-                variant="outlined"
-            >
-                { editButtonLabel }
-            </ThemedButton>
-            <CompanyDialog
-                company={ company }
-                isOpen={ isEdit }
-                titleLabel={ dialogTitleLabel }
-                submitLabel={ dialogSubmitLabel }
-                onSubmit={ onSubmitEditDialog }
-                onCancel={ onCancelEditDialog }
-            />
-        </Box>
+        <Permission
+            resource={ COMPANY }
+            action={ [UPDATE_ANY, UPDATE_OWN] }
+            isOwner={ sessionUser.company === company._id }
+        >
+            <Box className={ className }>
+                <ThemedButton
+                    onClick={ onEdit }
+                    variant="outlined"
+                >
+                    { editButtonLabel }
+                </ThemedButton>
+                <CompanyDialog
+                    company={ company }
+                    isOpen={ isEdit }
+                    titleLabel={ dialogTitleLabel }
+                    submitLabel={ dialogSubmitLabel }
+                    onSubmit={ onSubmitEditDialog }
+                    onCancel={ onCancelEditDialog }
+                />
+            </Box>
+        </Permission>
     )
 });
 

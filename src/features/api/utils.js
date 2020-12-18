@@ -11,7 +11,7 @@ export const fetchWithAuth = async configs => {
         return await axios(newConfigs);
     } catch (error) {
         const { status, data } = error.response;
-        if (status === 403) {
+        if (status === 401) {
             sessionStorage.clear();
             window.location.replace('/login');
         } else {

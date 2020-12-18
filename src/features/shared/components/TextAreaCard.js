@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { Card, Typography, Divider } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
@@ -60,7 +61,7 @@ const TextAreaCard = React.memo(function TextAreaCard({ titleLabel, value, class
             <Divider/>
             { !isEdit &&
             <Typography onClick={ onDisplayClick } className={ classes.display }>
-                { val }
+                { value }
             </Typography>
             }
             { isEdit &&
@@ -85,5 +86,12 @@ const TextAreaCard = React.memo(function TextAreaCard({ titleLabel, value, class
         </Card>
     )
 });
+
+TextAreaCard.propTypes = {
+    titleLabel: PropTypes.string.isRequired,
+    onSubmit: PropTypes.func.isRequired,
+    value: PropTypes.string,
+    className: PropTypes.string
+};
 
 export default TextAreaCard;

@@ -268,7 +268,7 @@ const RHFChinaExportTable = React.memo(function RHFChinaExportTable(
 
     return (
         <Grid container>
-            { isError && <ErrorMessages errors={ errMessages }/> }
+            { isError && <ErrorMessages error={ errMessages }/> }
             <EditableTable
                 rows={ rows }
                 columns={ columns }

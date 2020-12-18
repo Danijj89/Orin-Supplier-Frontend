@@ -325,7 +325,7 @@ const RHFMeasureTable = React.memo(function RHFMeasureTable(
         <Grid container className={ className }>
             { isError &&
             <Grid container item justify="center" xs={ 12 }>
-                <ErrorMessages errors={ errMessages }/>
+                <ErrorMessages error={ errMessages }/>
             </Grid>
             }
             <Grid container item justify="flex-end" xs={ 12 }>

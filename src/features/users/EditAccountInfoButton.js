@@ -5,8 +5,10 @@ import { Box } from '@material-ui/core';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUser } from './duck/thunks.js';
-import { selectCurrentUserId } from '../../app/duck/selectors.js';
-import { selectUserById } from './duck/selectors.js';
+import { selectSessionUser } from '../../app/duck/selectors.js';
+import Permission from '../shared/components/Permission.js';
+import { USER } from '../admin/utils/resources.js';
+import { UPDATE_ANY, UPDATE_OWN } from '../admin/utils/actions.js';
 
 const {
     editButtonLabel,
@@ -14,10 +16,9 @@ const {
     dialogSubmitLabel
 } = LANGUAGE.home.accountDetails;
 
-const EditAccountInfoButton = React.memo(function EditAccountInfoButton({ className }) {
+const EditAccountInfoButton = React.memo(function EditAccountInfoButton({ user, className }) {
     const dispatch = useDispatch();
-    const userId = useSelector(selectCurrentUserId);
-    const user = useSelector(state => selectUserById(state, userId));
+    const sessionUser = useSelector(selectSessionUser);
     const [isEdit, setIsEdit] = useState(false);
 
     const onEdit = () => setIsEdit(true);
@@ -30,22 +31,24 @@ const EditAccountInfoButton = React.memo(function EditAccountInfoButton({ classN
     };
 
     return (
-        <Box className={ className }>
-            <ThemedButton
-                onClick={ onEdit }
-                variant="outlined"
-            >
-                { editButtonLabel }
-            </ThemedButton>
-            <UserDialog
-                user={ user }
-                isOpen={ isEdit }
-                titleLabel={ dialogTitleLabel }
-                submitLabel={ dialogSubmitLabel }
-                onSubmit={ onSubmitEditDialog }
-                onCancel={ onCancelEditDialog }
-            />
-        </Box>
+        <Permission resource={ USER } action={ [UPDATE_ANY, UPDATE_OWN] } isOwner={ sessionUser._id === user._id }>
+            <Box className={ className }>
+                <ThemedButton
+                    onClick={ onEdit }
+                    variant="outlined"
+                >
+                    { editButtonLabel }
+                </ThemedButton>
+                <UserDialog
+                    user={ user }
+                    isOpen={ isEdit }
+                    titleLabel={ dialogTitleLabel }
+                    submitLabel={ dialogSubmitLabel }
+                    onSubmit={ onSubmitEditDialog }
+                    onCancel={ onCancelEditDialog }
+                />
+            </Box>
+        </Permission>
     )
 });
 

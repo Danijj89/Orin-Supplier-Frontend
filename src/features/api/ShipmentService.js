@@ -10,13 +10,10 @@ const createShipment = async (shipment) => {
     return data;
 };
 
-const fetchShipments = async (companyId) => {
+const fetchShipments = async () => {
     const configs = {
         method: 'get',
-        url: 'shipments',
-        params: {
-            company: companyId
-        }
+        url: 'shipments'
     };
     const { data } = await fetchWithAuth(configs);
     return data;

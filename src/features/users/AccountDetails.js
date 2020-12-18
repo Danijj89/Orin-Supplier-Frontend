@@ -8,6 +8,9 @@ import InfoCard from '../shared/wrappers/InfoCard.js';
 import EditAccountInfoButton from './EditAccountInfoButton.js';
 import { makeStyles } from '@material-ui/core/styles';
 import { selectCurrentUser } from '../../app/duck/selectors.js';
+import Permission from '../shared/components/Permission.js';
+import { USER } from '../admin/utils/resources.js';
+import { READ_ANY, READ_OWN } from '../admin/utils/actions.js';
 
 const { titleLabel, nameLabel, emailLabel } = LANGUAGE.home.accountDetails;
 
@@ -26,20 +29,22 @@ const AccountDetails = React.memo(function AccountDetails() {
     const user = useSelector(selectCurrentUser);
 
     return (
-        <InfoCard
-            title={ titleLabel }
-            button={ <EditAccountInfoButton /> }
-            content={
-                <Container>
-                    <TextWithLabel label={ nameLabel } text={ user.name }/>
-                    <TextWithLabel label={ emailLabel } text={ user.email }/>
-                    <ResetPasswordButton
-                        className={ classes.resetPwdButton }
-                        userId={ user._id }
-                    />
-                </Container>
-            }
-        />
+        <Permission resource={ USER } action={ [READ_ANY, READ_OWN] } isOwner={ true }>
+            <InfoCard
+                title={ titleLabel }
+                button={ <EditAccountInfoButton user={ user }/> }
+                content={
+                    <Container>
+                        <TextWithLabel label={ nameLabel } text={ user.name }/>
+                        <TextWithLabel label={ emailLabel } text={ user.email }/>
+                        <ResetPasswordButton
+                            className={ classes.resetPwdButton }
+                            userId={ user._id }
+                        />
+                    </Container>
+                }
+            />
+        </Permission>
     );
 });
 

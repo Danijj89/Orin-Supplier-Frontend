@@ -31,6 +31,9 @@ import { fetchClients } from '../clients/duck/thunks.js';
 import { fetchShipments } from '../shipments/duck/thunks.js';
 import { fetchProducts } from '../products/duck/thunks.js';
 import { selectSessionUserName } from '../../app/duck/selectors.js';
+import Permission from '../shared/components/Permission.js';
+import { CLIENT, LEAD, PERMISSION } from '../admin/utils/resources.js';
+import { READ_ANY, READ_OWN } from '../admin/utils/actions.js';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -145,18 +148,22 @@ const NavBar = React.memo(function NavBar() {
                 </IconButton>
                 { tabsLabelsMap.orders }
             </MenuItem>
-            <MenuItem onClick={ () => onTabClick('clients', '/home/clients') }>
-                <IconButton color="inherit">
-                    <IconPeople/>
-                </IconButton>
-                { tabsLabelsMap.clients }
-            </MenuItem>
-            <MenuItem onClick={ () => onTabClick('leads', '/home/leads') }>
-                <IconButton color="inherit">
-                    <IconPlus/>
-                </IconButton>
-                { tabsLabelsMap.leads }
-            </MenuItem>
+            <Permission resource={ CLIENT } action={ [READ_ANY, READ_OWN] }>
+                <MenuItem onClick={ () => onTabClick('clients', '/home/clients') }>
+                    <IconButton color="inherit">
+                        <IconPeople/>
+                    </IconButton>
+                    { tabsLabelsMap.clients }
+                </MenuItem>
+            </Permission>
+            <Permission resource={ LEAD } action={ [READ_ANY, READ_OWN] }>
+                <MenuItem onClick={ () => onTabClick('leads', '/home/leads') }>
+                    <IconButton color="inherit">
+                        <IconPlus/>
+                    </IconButton>
+                    { tabsLabelsMap.leads }
+                </MenuItem>
+            </Permission>
             <MenuItem onClick={ () => onTabClick('shipments', '/home/shipments') }>
                 <IconButton color="inherit">
                     <IconBoat/>
@@ -169,6 +176,16 @@ const NavBar = React.memo(function NavBar() {
                 </IconButton>
                 { tabsLabelsMap.products }
             </MenuItem>
+            <Permission resource={ PERMISSION } action={ READ_ANY }>
+                <MenuItem
+                    onClick={ () => onTabClick('admin', '/home/admin') }
+                >
+                    <IconButton color="inherit">
+                        <AccountCircle/>
+                    </IconButton>
+                    { tabsLabelsMap.settings }
+                </MenuItem>
+            </Permission>
             <MenuItem
                 onClick={ () => onTabClick('settings', '/home/settings?tab=account') }
             >
@@ -207,38 +224,42 @@ const NavBar = React.memo(function NavBar() {
                                 </span>
                             </ListItemText>
                         </ListItem>
-                        <ListItem
-                            button
-                            component="a"
-                            onClick={ () =>
-                                onTabClick('clients', '/home/clients')
-                            }
-                            classes={ {
-                                root: classes.menuButtons,
-                                selected: classes.selected,
-                            } }
-                            selected={ currentTab === 'clients' }
-                        >
-                            <ListItemText>
+                        <Permission resource={ CLIENT } action={ [READ_ANY, READ_OWN] }>
+                            <ListItem
+                                button
+                                component="a"
+                                onClick={ () =>
+                                    onTabClick('clients', '/home/clients')
+                                }
+                                classes={ {
+                                    root: classes.menuButtons,
+                                    selected: classes.selected,
+                                } }
+                                selected={ currentTab === 'clients' }
+                            >
+                                <ListItemText>
                                 <span className={ classes.tabsText }>
                                     { tabsLabelsMap.clients }
                                 </span>
-                            </ListItemText>
-                        </ListItem>
-                        <ListItem
-                            button
-                            component="a"
-                            onClick={ () => onTabClick('leads', '/home/leads') }
-                            classes={ {
-                                root: classes.menuButtons,
-                                selected: classes.selected,
-                            } }
-                            selected={ currentTab === 'leads' }
-                        >
-                            <ListItemText>
-                                <span className={ classes.tabsText }>{ tabsLabelsMap.leads }</span>
-                            </ListItemText>
-                        </ListItem>
+                                </ListItemText>
+                            </ListItem>
+                        </Permission>
+                        <Permission resource={ LEAD } action={ [READ_ANY, READ_OWN] }>
+                            <ListItem
+                                button
+                                component="a"
+                                onClick={ () => onTabClick('leads', '/home/leads') }
+                                classes={ {
+                                    root: classes.menuButtons,
+                                    selected: classes.selected,
+                                } }
+                                selected={ currentTab === 'leads' }
+                            >
+                                <ListItemText>
+                                    <span className={ classes.tabsText }>{ tabsLabelsMap.leads }</span>
+                                </ListItemText>
+                            </ListItem>
+                        </Permission>
                         <ListItem
                             button
                             component="a"
@@ -271,6 +292,24 @@ const NavBar = React.memo(function NavBar() {
                                 </span>
                             </ListItemText>
                         </ListItem>
+                        <Permission resource={ PERMISSION } action={ READ_ANY }>
+                            <ListItem
+                                button
+                                component="a"
+                                onClick={ () => onTabClick('admin', '/home/admin') }
+                                classes={ {
+                                    root: classes.menuButtons,
+                                    selected: classes.selected,
+                                } }
+                                selected={ currentTab === 'admin' }
+                            >
+                                <ListItemText>
+                                <span className={ classes.tabsText }>
+                                    { tabsLabelsMap.admin }
+                                </span>
+                                </ListItemText>
+                            </ListItem>
+                        </Permission>
                     </List>
                     <div className={ classes.grow }/>
                     <Typography variant="subtitle1">

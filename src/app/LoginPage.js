@@ -118,21 +118,12 @@ export default function LoginPage() {
         .concat([appError]);
 
     return (
-        <Grid container className={classes.container}>
-            <Grid item xs={12} sm={5} className={classes.leftPanel}>
-                <CardMedia
-                    className={classes.logo}
-                    component="img"
-                    src={logo}
-                    alt="Logo"
-                />
-                <Typography variant="h3">{title}</Typography>
-                <form
-                    className={classes.form}
-                    onSubmit={handleSubmit(onSignInClick)}
-                    autoComplete="off"
-                >
-                    {isError && <ErrorMessages errors={allErrors} />}
+        <Grid container className={ classes.container }>
+            <Grid item xs={ 5 } className={ classes.leftPanel }>
+                <CardMedia className={ classes.logo } component="img" src={ logo } alt="Logo"/>
+                <Typography variant="h3">{ title }</Typography>
+                <form className={ classes.form } onSubmit={ handleSubmit(onSignInClick) } autoComplete="off">
+                    { isError && <ErrorMessages error={ allErrors }/> }
                     <TextField
                         name="email"
                         type="email"

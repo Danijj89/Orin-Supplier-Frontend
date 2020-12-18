@@ -9,17 +9,20 @@ import FilterSelector from './FilterSelector.js';
 import { getOptionId } from '../../../../app/utils/options/getters.js';
 import Box from '@material-ui/core/Box';
 
-const Table = React.memo(function Table({
-    rows,
-    columns,
-    className,
-    onRowClick,
-    dense,
-    disableRowHover,
-    footer,
-    maxEmptyRows = 5,
-    filterOptions,
-}) {
+
+const Table = React.memo(function Table(
+    {
+        rows,
+        columns,
+        className,
+        onRowClick,
+        dense,
+        disableRowHover,
+        footer,
+        maxEmptyRows = 5,
+        filterOptions
+    }) {
+
     const [order, setOrder] = React.useState('asc');
     const [orderBy, setOrderBy] = React.useState();
     const [page, setPage] = React.useState(0);

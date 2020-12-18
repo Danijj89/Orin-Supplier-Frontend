@@ -16,32 +16,33 @@ export const {
 export const selectLeadDataStatus = state => state.leads.dataStatus;
 export const selectLeadError = state => state.leads.error;
 
-export const selectLeadsMap = createSelector(
-    selectEntities,
+export const selectAllLeads = createSelector(
+    selectAll,
     selectCountriesMap,
     selectSalesStatusesMap,
     selectLeadTypesMap,
     selectLeadPotentialsMap,
-    (leadsMap, countriesMap, salesStatusesMap, leadTypesMap, leadPotentialsMap) =>
-        Object.entries(leadsMap).reduce((map, [id, lead]) => {
-            map[id] = {
-                ...lead,
-                salesStatus: salesStatusesMap[lead.salesStatus],
-                leadType: leadTypesMap[lead.leadType],
-                leadPotential: leadPotentialsMap[lead.leadPotential],
-                addresses: lead.addresses.map(
-                    address => ({
-                        ...address,
-                        country: countriesMap[address.country]
-                    }))
-            }
-            return map;
-        }, {})
+    (leads, countriesMap, salesStatusesMap, leadTypesMap, leadPotentialsMap) =>
+        leads.map(lead => ({
+            ...lead,
+            salesStatus: salesStatusesMap[lead.salesStatus],
+            leadType: leadTypesMap[lead.leadType],
+            leadPotential: leadPotentialsMap[lead.leadPotential],
+            addresses: lead.addresses.map(
+                address => ({
+                    ...address,
+                    country: countriesMap[address.country]
+                }))
+        }))
 );
 
-export const selectAllLeads = createSelector(
-    selectLeadsMap,
-    leadsMap => Object.values(leadsMap)
+export const selectLeadsMap = createSelector(
+    selectAllLeads,
+    (leads) =>
+        leads.reduce((map, lead) => {
+            map[lead._id] = lead;
+            return map;
+        }, {})
 );
 
 export const selectLeadById = createSelector(

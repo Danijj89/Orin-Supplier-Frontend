@@ -38,7 +38,7 @@ const leadsSlice = createSlice({
             state.dataStatus = 'PENDING';
         },
         [fetchLeads.fulfilled]: (state, action) => {
-            leadsAdapter.upsertMany(state, action.payload);
+            leadsAdapter.setAll(state, action.payload);
             state.dataStatus = 'FULFILLED';
         },
         [fetchLeads.rejected]: (state, action) => {

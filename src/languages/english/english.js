@@ -18,6 +18,119 @@ export const ENGLISH = {
             },
         },
     },
+    admin: {
+        admin: {
+            tabsLabelsMap: {
+                resources: 'Resources',
+                permissions: 'Permissions',
+                roles: 'Roles',
+                users: 'Users',
+                companies: 'Companies'
+            },
+            permissions: {
+                newPermissionButton: {
+                    buttonLabel: 'New Permission',
+                    dialogTitle: 'Permission Info',
+                    dialogSubmit: 'Create',
+                    formLabels: {
+                        _id: 'Permission Name',
+                        resource: 'Resource',
+                        action: 'Action',
+                        attributes: 'Attributes'
+                    }
+                },
+                tableHeaderLabels: {
+                    _id: 'Name',
+                    resource: 'Resource',
+                    action: 'Action',
+                    attributes: 'Attributes'
+                }
+            },
+            resources: {
+                newResourceButton: {
+                    buttonLabel: 'New Resource',
+                    dialogTitle: 'Resource Info',
+                    dialogSubmit: 'Create',
+                    formLabels: {
+                        _id: 'Resource Name'
+                    }
+                },
+                tableHeaderLabels: {
+                    _id: 'Name'
+                }
+            },
+            roles: {
+                newRoleButton: {
+                    buttonLabel: 'New Role',
+                    dialogTitle: 'Role Info',
+                    dialogSubmit: 'Create',
+                    formLabels: {
+                        _id: 'Role Name',
+                        company: 'Company'
+                    }
+                },
+                tableHeaderLabels: {
+                    _id: 'Role Name'
+                },
+                dialogTitleLabel: 'Role Permissions',
+                dialogSubmitLabel: 'Update'
+            },
+            users: {
+                companyLabel: 'Company',
+                dialogTitleLabel: 'User Roles',
+                dialogSubmitLabel: 'Update',
+                tableHeaderLabels: {
+                    name: 'Name',
+                    email: 'Email',
+                    roles: 'Roles'
+                },
+                newUserButton: {
+                    buttonLabel: 'New User',
+                    dialogTitleLabel: 'New User',
+                    dialogSubmitLabel: 'Create'
+                }
+            },
+            companies: {
+                tableHeaderLabels: {
+                    name: 'Name',
+                    industries: 'Industries',
+                    city: 'City'
+                },
+                newCompanyButton: {
+                    buttonLabel: 'New Company',
+                    dialogTitleLabel: 'Company Info',
+                    dialogSubmitLabel: 'Create',
+                }
+            },
+            adminUserDialog: {
+                formLabels: {
+                    name: 'Name',
+                    email: 'Email',
+                    password: 'Password',
+                    confirmPassword: 'Confirm Password',
+                    company: 'Company',
+                    roles: 'Roles'
+                }
+            },
+            adminCompanyDialog: {
+                formLabels: {
+                    type: 'Type',
+                    name: 'Name',
+                    address: 'Address',
+                    address2: 'Address 2',
+                    city: 'City',
+                    administrative: 'State',
+                    country: 'Country',
+                    zip: 'Zip Code',
+                    phone: 'Phone',
+                    email: 'Email',
+                    taxNumber: 'Tax Number',
+                    currency: 'Default Currency',
+                    industries: 'Industries'
+                }
+            }
+        }
+    },
     home: {
         navbar: {
             tabsLabelsMap: {
@@ -26,6 +139,7 @@ export const ENGLISH = {
                 leads: 'Leads',
                 clients: 'Clients',
                 products: 'Products',
+                admin: 'Admin',
                 settings: 'Settings',
             },
             helloMessageLabel: 'Hello',

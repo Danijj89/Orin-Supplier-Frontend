@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Box, List, ListItem, ListItemText } from '@material-ui/core';
+import { List, ListItem, ListItemText } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
@@ -12,25 +12,25 @@ const useStyles = makeStyles({
     }
 })
 
-const ErrorMessages = React.memo(function ErrorMessages({ errors, className }) {
+const ErrorMessages = React.memo(function ErrorMessages({ error = [], className }) {
     const classes = useStyles();
-
+    const errors = Array.isArray(error) ? error : [error];
     return (
-        <Box className={ className }>
-            <List>
-                { errors.length > 0 && errors.map((error, index) =>
-                    <ListItem key={ index } className={ classes.listItem }>
-                        <ListItemText primary={ error } className={ classes.error }/>
-                    </ListItem>
-                ) }
-            </List>
-        </Box>
-
+        <List className={ className }>
+            { errors.length > 0 && errors.map((error, index) =>
+                <ListItem key={ index } className={ classes.listItem }>
+                    <ListItemText primary={ error } className={ classes.error }/>
+                </ListItem>
+            ) }
+        </List>
     )
 });
 
 ErrorMessages.propTypes = {
-    errors: PropTypes.array.isRequired,
+    error: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.array
+    ]).isRequired,
     className: PropTypes.string
 };
 

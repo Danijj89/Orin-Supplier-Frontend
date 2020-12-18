@@ -70,35 +70,37 @@ const FormDialog = React.memo(function FormDialog(
             className={ className }
             scroll='paper'
         >
-            <DialogTitle>{ titleLabel }</DialogTitle>
-            <Divider/>
-            <DialogContent className={ classes.container }>
-                { children }
-            </DialogContent>
-            <DialogActions className={ classes.dialogAction }>
-                { onDelete &&
-                        <DeleteButton
-                            onDelete={ onDelete }
-                            deleteMessage={ deleteMessage }
-                            className={ classes.onDeleteButton }
-                        />
-                 }
-                <Box>
-                    <ThemedButton
-                        className={ classes.onCancelButton }
-                        variant="outlined"
-                        onClick={ onCancel }
-                    >
-                        { cancelLabel }
-                    </ThemedButton>
-                    <ThemedButton
-                        className={ classes.onSubmitButton }
-                        onClick={ onSubmit }
-                    >
-                        { submitLabel }
-                    </ThemedButton>
-                </Box>
-            </DialogActions>
+            <form onSubmit={ onSubmit } autoComplete="off" noValidate>
+                <DialogTitle>{ titleLabel }</DialogTitle>
+                <Divider/>
+                <DialogContent className={ classes.container }>
+                    { children }
+                </DialogContent>
+                <DialogActions className={ classes.dialogAction }>
+                    { onDelete &&
+                    <DeleteButton
+                        onDelete={ onDelete }
+                        deleteMessage={ deleteMessage }
+                        className={ classes.onDeleteButton }
+                    />
+                    }
+                    <Box>
+                        <ThemedButton
+                            className={ classes.onCancelButton }
+                            variant="outlined"
+                            onClick={ onCancel }
+                        >
+                            { cancelLabel }
+                        </ThemedButton>
+                        <ThemedButton
+                            className={ classes.onSubmitButton }
+                            type="submit"
+                        >
+                            { submitLabel }
+                        </ThemedButton>
+                    </Box>
+                </DialogActions>
+            </form>
         </Dialog>
     );
 });

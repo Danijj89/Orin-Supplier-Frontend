@@ -82,7 +82,6 @@ const AddressDialog = React.memo(function AddressDialog({ isOpen, onSubmit, onCa
                 label={ address2Label }
                 name="address2"
                 inputRef={ register }
-                error={ !!errors.address2 }
             />
             <SideTextField
                 label={ cityLabel }
@@ -95,7 +94,6 @@ const AddressDialog = React.memo(function AddressDialog({ isOpen, onSubmit, onCa
                 label={ administrativeLabel }
                 name="administrative"
                 inputRef={ register }
-                error={ !!errors.administrative }
             />
             <RHFAutoComplete
                 rhfControl={ control }
@@ -111,19 +109,16 @@ const AddressDialog = React.memo(function AddressDialog({ isOpen, onSubmit, onCa
                 label={ zipLabel }
                 name="zip"
                 inputRef={ register }
-                error={ !!errors.zip }
             />
             <SideTextField
                 label={ phoneLabel }
                 name="phone"
                 inputRef={ register }
-                error={ !!errors.phone }
             />
             <SideTextField
                 label={ emailLabel }
                 name="email"
                 inputRef={ register }
-                error={ !!errors.email }
             />
         </FormDialog>
     )

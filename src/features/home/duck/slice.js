@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import {
     addNewAddress, createCompanyBankDetail,
     deleteAddress, deleteCompanyBankDetail,
-    fetchCompanyById,
+    fetchCurrentCompany,
     updateAddress,
     updateCompany, updateCompanyBankDetail,
     updateDefaultAddress
@@ -27,14 +27,14 @@ const homeSlice = createSlice({
         }
     },
     extraReducers: {
-        [fetchCompanyById.pending]: (state, action) => {
+        [fetchCurrentCompany.pending]: (state, action) => {
             state.dataStatus = 'PENDING';
         },
-        [fetchCompanyById.fulfilled]: (state, action) => {
+        [fetchCurrentCompany.fulfilled]: (state, action) => {
             state.company = action.payload;
             state.dataStatus = 'FULFILLED';
         },
-        [fetchCompanyById.rejected]: (state, action) => {
+        [fetchCurrentCompany.rejected]: (state, action) => {
             state.dataStatus = 'REJECTED';
             state.error = action.payload.message;
         },
