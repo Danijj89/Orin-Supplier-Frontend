@@ -37,10 +37,10 @@ const Permission = React.memo(function Permission({ resource, action = [], owner
                 match = ac.can(roles).deleteAny(resource).granted;
                 break;
             case READ_OWN:
-                match = ac.can(roles).readOwn(resource).granted && owner === userId;
+                match = ac.can(roles).readOwn(resource).granted;
                 break;
             case CREATE_OWN:
-                match = ac.can(roles).createOwn(resource).granted && owner === userId;
+                match = ac.can(roles).createOwn(resource).granted;
                 break;
             case UPDATE_OWN:
                 match = ac.can(roles).updateOwn(resource).granted && owner === userId;

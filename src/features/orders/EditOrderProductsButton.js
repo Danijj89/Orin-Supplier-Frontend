@@ -7,6 +7,9 @@ import { useDispatch } from 'react-redux';
 import { updateOrder } from './duck/thunks.js';
 import { productTableItemsToOrderItems } from '../shared/utils/entityConversion.js';
 import { getOptionId } from '../../app/utils/options/getters.js';
+import Permission from '../shared/components/Permission.js';
+import { ORDER } from '../admin/utils/resources.js';
+import { UPDATE_ANY, UPDATE_OWN } from '../admin/utils/actions.js';
 
 const {
     buttonLabel,
@@ -29,21 +32,23 @@ const EditOrderProductsButton = React.memo(function EditOrderProductsButton({ or
     };
 
     return (
-        <Box className={ className }>
-            <ThemedButton
-                onClick={ onEdit }
-            >
-                { buttonLabel }
-            </ThemedButton>
-            <OrderProductsDialog
-                order={ order }
-                isOpen={ isEdit }
-                titleLabel={ dialogTitleLabel }
-                submitLabel={ dialogSubmitLabel }
-                onCancel={ onCancel }
-                onSubmit={ onSubmit }
-            />
-        </Box>
+        <Permission resource={ ORDER } action={ [UPDATE_ANY, UPDATE_OWN] } owner={ order.createdBy }>
+            <Box className={ className }>
+                <ThemedButton
+                    onClick={ onEdit }
+                >
+                    { buttonLabel }
+                </ThemedButton>
+                <OrderProductsDialog
+                    order={ order }
+                    isOpen={ isEdit }
+                    titleLabel={ dialogTitleLabel }
+                    submitLabel={ dialogSubmitLabel }
+                    onCancel={ onCancel }
+                    onSubmit={ onSubmit }
+                />
+            </Box>
+        </Permission>
     )
 });
 
