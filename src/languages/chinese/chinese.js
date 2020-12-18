@@ -382,7 +382,7 @@ export const CHINESE = {
                     generatePdf: '生成 PDF',
                 },
                 textLabels: {
-                    noOrder: '无订单',
+                    noOrder: '无订单文件',
                 },
                 shipmentDocumentsCard: {
                     titleLabel: '运输号码:',
