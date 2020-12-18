@@ -1,12 +1,9 @@
 import { fetchWithAuth } from './utils.js';
 
-const fetchLeads = async (companyId) => {
+const fetchLeads = async () => {
     const configs = {
         method: 'get',
-        url: 'leads',
-        params: {
-            company: companyId
-        }
+        url: 'leads'
     };
     const { data } = await fetchWithAuth(configs);
     return data;

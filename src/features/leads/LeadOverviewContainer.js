@@ -4,8 +4,6 @@ import { selectLeadDataStatus, selectLeadError } from './duck/selectors.js';
 import { determineStatus, getErrors } from '../shared/utils/state.js';
 import ErrorPage from '../shared/components/ErrorPage.js';
 import Loader from '../shared/components/Loader.js';
-import { selectCompanyId, selectHomeDataStatus, selectHomeError } from '../home/duck/selectors.js';
-import { cleanHomeState } from '../home/duck/slice.js';
 import { cleanLeadState } from './duck/slice.js';
 import LeadOverview from './LeadOverview.js';
 import { fetchLeads } from './duck/thunks.js';
@@ -16,31 +14,26 @@ import { cleanUserState } from '../users/duck/slice.js';
 const LeadOverviewContainer = React.memo(function LeadOverviewContainer() {
     const dispatch = useDispatch();
 
-    const homeDataStatus = useSelector(selectHomeDataStatus);
-    const homeError = useSelector(selectHomeError);
     const leadDataStatus = useSelector(selectLeadDataStatus);
     const leadError = useSelector(selectLeadError);
     const userDataStatus = useSelector(selectUserDataStatus);
     const userError = useSelector(selectUserError);
 
-    const status = determineStatus(homeDataStatus, leadDataStatus, userDataStatus);
-    const errors = getErrors(homeError, leadError, userError);
-
-    const companyId = useSelector(selectCompanyId);
+    const status = determineStatus(leadDataStatus, userDataStatus);
+    const errors = getErrors(leadError, userError);
 
     const fetched = useRef(false);
     useEffect(() => {
-        if (!fetched.current && companyId) {
-            if (leadDataStatus === 'IDLE') dispatch(fetchLeads({ companyId }));
-            dispatch(fetchUsers({companyId}));
+        if (!fetched.current) {
+            if (leadDataStatus === 'IDLE') dispatch(fetchLeads());
+            if (userDataStatus === 'IDLE') dispatch(fetchUsers());
             fetched.current = true;
         }
-    }, [dispatch, companyId, leadDataStatus]);
+    }, [dispatch, leadDataStatus, userDataStatus]);
 
     useEffect(() => {
         return () => {
             if (errors.length > 0) {
-                dispatch(cleanHomeState());
                 dispatch(cleanLeadState());
                 dispatch(cleanUserState());
             }

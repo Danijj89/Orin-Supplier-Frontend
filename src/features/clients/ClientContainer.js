@@ -5,12 +5,10 @@ import { selectClientById, selectClientDataStatus, selectClientError } from './d
 import ErrorPage from '../shared/components/ErrorPage.js';
 import Loader from '../shared/components/Loader.js';
 import { selectUserDataStatus, selectUserError } from '../users/duck/selectors.js';
-import { selectCompanyId } from '../home/duck/selectors.js';
 import { fetchClients } from './duck/thunks.js';
 import { fetchUsers } from '../users/duck/thunks.js';
 import Client from './Client.js';
 import { Redirect, useParams } from 'react-router-dom';
-import { cleanHomeState } from '../home/duck/slice.js';
 import { cleanUserState } from '../users/duck/slice.js';
 import { cleanClientState } from './duck/slice.js';
 import { selectOrderDataStatus, selectOrderError } from '../orders/duck/selectors.js';
@@ -30,7 +28,6 @@ const ClientContainer = React.memo(function ClientContainer() {
     const status = determineStatus(clientDataStatus, userDataStatus, orderDataStatus);
     const errors = getErrors(clientError, userError, orderError);
 
-    const companyId = useSelector(selectCompanyId);
     const client = useSelector(state => selectClientById(state, { clientId }));
     const isClientInactive = useMemo(
         () => client?.active === false || (!client && clientDataStatus === 'FULFILLED'),
@@ -38,18 +35,17 @@ const ClientContainer = React.memo(function ClientContainer() {
 
     const fetched = useRef(false);
     useEffect(() => {
-        if (!fetched.current && companyId) {
-            if (clientDataStatus === 'IDLE') dispatch(fetchClients({ companyId }));
-            dispatch(fetchUsers({ companyId }));
-            dispatch(fetchOrders({ companyId }));
+        if (!fetched.current) {
+            if (clientDataStatus === 'IDLE') dispatch(fetchClients());
+            if (userDataStatus === 'IDLE') dispatch(fetchUsers());
+            if (orderDataStatus === 'IDLE') dispatch(fetchOrders());
             fetched.current = true;
         }
-    }, [dispatch, clientDataStatus, companyId]);
+    }, [dispatch, clientDataStatus, userDataStatus, orderDataStatus]);
 
     useEffect(() => {
         return () => {
             if (errors.length > 0) {
-                dispatch(cleanHomeState());
                 dispatch(cleanUserState());
                 dispatch(cleanClientState());
                 dispatch(cleanOrderState());

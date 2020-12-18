@@ -1,20 +1,21 @@
 import React, { useEffect, useRef } from 'react';
 import CreateShipment from './CreateShipment.js';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectCompanyId, selectHomeDataStatus, selectHomeError } from '../home/duck/selectors.js';
+import { selectHomeDataStatus, selectHomeError } from '../home/duck/selectors.js';
 import { determineStatus, getErrors } from '../shared/utils/state.js';
 import Loader from '../shared/components/Loader.js';
 import { fetchClients } from '../clients/duck/thunks.js';
 import { selectClientDataStatus, selectClientError } from '../clients/duck/selectors.js';
 import { selectOrderDataStatus, selectOrderError } from '../orders/duck/selectors.js';
 import { fetchOrders } from '../orders/duck/thunks.js';
-import { selectCurrentShipmentId } from './duck/selectors.js';
+import { selectCurrentShipmentId, selectShipmentDataStatus, selectShipmentError } from './duck/selectors.js';
 import { Redirect } from 'react-router-dom';
 import { fetchShipments } from './duck/thunks.js';
 import { cleanHomeState } from '../home/duck/slice.js';
 import { cleanClientState } from '../clients/duck/slice.js';
 import { cleanOrderState } from '../orders/duck/slice.js';
 import ErrorPage from '../shared/components/ErrorPage.js';
+import { fetchCurrentCompany } from '../home/duck/thunks.js';
 
 export default function CreateShipmentContainer() {
     const dispatch = useDispatch();
@@ -25,22 +26,30 @@ export default function CreateShipmentContainer() {
     const clientError = useSelector(selectClientError);
     const orderDataStatus = useSelector(selectOrderDataStatus);
     const orderError = useSelector(selectOrderError);
+    const shipmentDataStatus = useSelector(selectShipmentDataStatus);
+    const shipmentError = useSelector(selectShipmentError);
 
-    const status = determineStatus(homeDataStatus, clientDataStatus, orderDataStatus);
-    const errors = getErrors(homeError, clientError, orderError);
+    const status = determineStatus(homeDataStatus, clientDataStatus, orderDataStatus, shipmentDataStatus);
+    const errors = getErrors(homeError, clientError, orderError, shipmentError);
 
-    const companyId = useSelector(selectCompanyId);
     const currentShipmentId = useSelector(selectCurrentShipmentId);
 
     const fetched = useRef(false);
     useEffect(() => {
-        if (!fetched.current && companyId) {
-            dispatch(fetchShipments({ companyId }));
-            dispatch(fetchClients({ companyId }));
-            dispatch(fetchOrders({ companyId }));
+        if (!fetched.current) {
+            if (shipmentDataStatus === 'IDLE') dispatch(fetchShipments());
+            if (clientDataStatus === 'IDLE') dispatch(fetchClients());
+            if (orderDataStatus === 'IDLE') dispatch(fetchOrders());
+            if (homeDataStatus === 'IDLE') dispatch(fetchCurrentCompany());
             fetched.current = true;
         }
-    }, [companyId, dispatch]);
+    }, [
+        dispatch,
+        shipmentDataStatus,
+        clientDataStatus,
+        orderDataStatus,
+        homeDataStatus
+    ]);
 
     useEffect(() => {
         return () => {
@@ -48,6 +57,7 @@ export default function CreateShipmentContainer() {
                 dispatch(cleanHomeState());
                 dispatch(cleanClientState());
                 dispatch(cleanOrderState());
+                dispatch(cleanHomeState());
             }
         }
     }, [dispatch, errors.length]);

@@ -18,33 +18,29 @@ const LeadContainer = React.memo(function LeadContainer() {
     const dispatch = useDispatch();
     const { id: leadId } = useParams();
 
-    const homeDataStatus = useSelector(selectHomeDataStatus);
-    const homeError = useSelector(selectHomeError);
     const leadDataStatus = useSelector(selectLeadDataStatus);
     const leadError = useSelector(selectLeadError);
     const userDataStatus = useSelector(selectUserDataStatus);
     const userError = useSelector(selectUserError);
 
-    const status = determineStatus(leadDataStatus, homeDataStatus, userDataStatus);
-    const errors = getErrors(leadError, homeError, userError);
+    const status = determineStatus(leadDataStatus, userDataStatus);
+    const errors = getErrors(leadError, userError);
 
-    const companyId = useSelector(selectCompanyId);
     const lead = useSelector(state => selectLeadById(state, { leadId }));
     const leadExists = useMemo(() => Boolean(lead) && leadDataStatus === 'FULFILLED', [leadDataStatus, lead]);
 
     const fetched = useRef(false);
     useEffect(() => {
-        if (!fetched.current && companyId) {
-            if (leadDataStatus === 'IDLE') dispatch(fetchLeads({ companyId }));
-            dispatch(fetchUsers({ companyId }));
+        if (!fetched.current) {
+            if (leadDataStatus === 'IDLE') dispatch(fetchLeads());
+            if (userDataStatus === 'IDLE') dispatch(fetchUsers());
             fetched.current = true;
         }
-    }, [dispatch, companyId, leadDataStatus]);
+    }, [dispatch, leadDataStatus, userDataStatus]);
 
     useEffect(() => {
         return () => {
             if (errors.length > 0) {
-                dispatch(cleanHomeState());
                 dispatch(cleanLeadState());
                 dispatch(cleanUserState());
             }

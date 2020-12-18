@@ -24,6 +24,7 @@ import { cleanClientState } from '../clients/duck/slice.js';
 import { cleanProductState } from '../products/duck/slice.js';
 import { cleanShipmentState } from './duck/slice.js';
 import { cleanOrderState } from '../orders/duck/slice.js';
+import { fetchCurrentCompany } from '../home/duck/thunks.js';
 
 export default function EditShipmentContainer() {
     const dispatch = useDispatch();
@@ -48,18 +49,24 @@ export default function EditShipmentContainer() {
     );
     const errors = getErrors(homeError, shipmentError, clientError, productError, orderError);
 
-    const companyId = useSelector(selectCompanyId);
-
     const fetched = useRef(false);
     useEffect(() => {
-        if (!fetched.current && companyId) {
-            if (shipmentDataStatus === 'IDLE') dispatch(fetchShipments({ companyId }));
-            dispatch(fetchClients({ companyId }));
-            dispatch(fetchProducts({ companyId }));
-            dispatch(fetchOrders({ companyId }));
+        if (!fetched.current) {
+            if (shipmentDataStatus === 'IDLE') dispatch(fetchShipments());
+            if (clientDataStatus === 'IDLE') dispatch(fetchClients());
+            if (productDataStatus === 'IDLE') dispatch(fetchProducts());
+            if (orderDataStatus === 'IDLE') dispatch(fetchOrders());
+            if (homeDataStatus === 'IDLE') dispatch(fetchCurrentCompany());
             fetched.current = true;
         }
-    }, [dispatch, companyId, shipmentDataStatus]);
+    }, [
+        dispatch,
+        shipmentDataStatus,
+        clientDataStatus,
+        productDataStatus,
+        orderDataStatus,
+        homeDataStatus
+    ]);
 
     useEffect(() => {
         return () => {

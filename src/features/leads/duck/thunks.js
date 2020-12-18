@@ -3,9 +3,9 @@ import LeadService from '../../api/LeadService.js';
 import { addClient } from '../../clients/duck/slice.js';
 
 export const fetchLeads = createAsyncThunk('leads/fetchLeads',
-    async ({ companyId }, { rejectWithValue }) => {
+    async (_, { rejectWithValue }) => {
         try {
-            return await LeadService.fetchLeads(companyId);
+            return await LeadService.fetchLeads();
         } catch (err) {
             return rejectWithValue(err.response.data);
         }

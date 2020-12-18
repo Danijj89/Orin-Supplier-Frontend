@@ -4,33 +4,25 @@ import { selectShipmentDataStatus, selectShipmentError } from './duck/selectors.
 import { determineStatus, getErrors } from '../shared/utils/state.js';
 import ErrorPage from '../shared/components/ErrorPage.js';
 import Loader from '../shared/components/Loader.js';
-import { selectCompanyId, selectHomeError, selectHomeDataStatus } from '../home/duck/selectors.js';
 import { fetchShipments } from './duck/thunks.js';
 import ShipmentOverview from './ShipmentOverview.js';
-import { cleanHomeState } from '../home/duck/slice.js';
 import { cleanShipmentState } from './duck/slice.js';
 
 const ShipmentOverviewContainer = React.memo(function ShipmentOverviewContainer() {
     const dispatch = useDispatch();
     const shipmentDataStatus = useSelector(selectShipmentDataStatus);
     const shipmentError = useSelector(selectShipmentError);
-    const homeDataStatus = useSelector(selectHomeDataStatus);
-    const homeError = useSelector(selectHomeError);
 
-    const status = determineStatus(shipmentDataStatus, homeDataStatus);
-    const errors = getErrors(shipmentError, homeError);
-
-    const companyId = useSelector(selectCompanyId);
+    const status = determineStatus(shipmentDataStatus);
+    const errors = getErrors(shipmentError);
 
     useEffect(() => {
-        if (shipmentDataStatus === 'IDLE' && companyId)
-            dispatch(fetchShipments({ companyId }));
-    }, [dispatch, companyId, shipmentDataStatus]);
+        if (shipmentDataStatus === 'IDLE') dispatch(fetchShipments());
+    }, [dispatch, shipmentDataStatus]);
 
     useEffect(() => {
         return () => {
             if (errors.length > 0) {
-                dispatch(cleanHomeState());
                 dispatch(cleanShipmentState());
             }
         }

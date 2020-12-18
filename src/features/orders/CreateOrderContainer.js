@@ -5,7 +5,7 @@ import {
     selectCurrentOrderId
 } from './duck/selectors.js';
 import Loader from '../shared/components/Loader.js';
-import { selectCompanyId, selectHomeError, selectHomeDataStatus } from '../home/duck/selectors.js';
+import { selectHomeError, selectHomeDataStatus } from '../home/duck/selectors.js';
 import { determineStatus, getErrors } from '../shared/utils/state.js';
 import { selectClientDataStatus, selectClientError } from '../clients/duck/selectors.js';
 import { fetchClients } from '../clients/duck/thunks.js';
@@ -17,6 +17,7 @@ import ErrorPage from '../shared/components/ErrorPage.js';
 import { cleanHomeState } from '../home/duck/slice.js';
 import { cleanClientState } from '../clients/duck/slice.js';
 import { cleanProductState } from '../products/duck/slice.js';
+import { fetchCurrentCompany } from '../home/duck/thunks.js';
 
 export default function CreateOrderContainer() {
     const dispatch = useDispatch();
@@ -32,16 +33,16 @@ export default function CreateOrderContainer() {
     const errors = getErrors(clientError, productError, homeError);
 
     const currentOrderId = useSelector(selectCurrentOrderId);
-    const companyId = useSelector(selectCompanyId);
 
     const fetched = useRef(false);
     useEffect(() => {
-        if (!fetched.current && companyId) {
-            dispatch(fetchClients({ companyId }));
-            dispatch(fetchProducts({ companyId }));
+        if (!fetched.current) {
+            if (clientDataStatus === 'IDLE') dispatch(fetchClients());
+            if (productDataStatus === 'IDLE') dispatch(fetchProducts());
+            if (homeDataStatus === 'IDLE') dispatch(fetchCurrentCompany());
             fetched.current = true;
         }
-    }, [dispatch, companyId]);
+    }, [dispatch, clientDataStatus, productDataStatus, homeDataStatus]);
 
     useEffect(() => {
         return () => {

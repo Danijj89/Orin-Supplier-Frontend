@@ -129,6 +129,7 @@ const LeadsTable = React.memo(function LeadsTable() {
             columns={ columns }
             onRowClick={ onRowClick }
             filterOptions={ filterOptions }
+            dense
         />
     )
 });
