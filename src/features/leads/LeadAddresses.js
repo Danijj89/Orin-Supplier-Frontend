@@ -8,6 +8,10 @@ import NewLeadAddressButton from './NewLeadAddressButton.js';
 import { deleteLeadAddress, updateLeadAddress, updateLeadDefaultAddress } from './duck/thunks.js';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import { getOptionId } from '../../app/utils/options/getters.js';
+import Permission from '../shared/components/Permission.js';
+import { LEAD } from '../admin/utils/resources.js';
+import { UPDATE_ANY, UPDATE_OWN } from '../admin/utils/actions.js';
+import { selectSessionUserId } from '../../app/duck/selectors.js';
 
 const {
     editDialogTitleLabel,
@@ -16,6 +20,7 @@ const {
 
 const LeadAddresses = React.memo(function LeadAddresses({ leadId }) {
     const dispatch = useDispatch();
+    const sessionUserId = useSelector(selectSessionUserId);
     const lead = useSelector(state => selectLeadById(state, { leadId }));
     const addresses = useSelector(
         state => selectLeadAddresses(state, { leadId }));
@@ -53,10 +58,16 @@ const LeadAddresses = React.memo(function LeadAddresses({ leadId }) {
     return (
         <Grid container>
             <Grid container item xs={ 12 }>
-                <NewLeadAddressButton
-                    leadId={ leadId }
-                    leadName={ lead.name }
-                />
+                <Permission
+                    resource={ LEAD }
+                    action={ [UPDATE_ANY, UPDATE_OWN] }
+                    isOwner={ sessionUserId === lead.createdBy || sessionUserId === lead.assignedTo }
+                >
+                    <NewLeadAddressButton
+                        leadId={ leadId }
+                        leadName={ lead.name }
+                    />
+                </Permission>
             </Grid>
             <Grid container item xs={ 12 }>
                 { addresses.map(address =>
@@ -69,20 +80,25 @@ const LeadAddresses = React.memo(function LeadAddresses({ leadId }) {
                         />
                     </Grid>
                 ) }
-                { editAddress && (
-                    <AddressDialog
-                        isOpen={ isEditOpen }
-                        address={ editAddress }
-                        titleLabel={ editDialogTitleLabel }
-                        submitLabel={ editDialogSubmitLabel }
-                        onCancel={ onEditCancel }
-                        onSubmit={ onSubmit }
-                    />
-                ) }
+                <Permission
+                    resource={ LEAD }
+                    action={ [UPDATE_ANY, UPDATE_OWN] }
+                    isOwner={ sessionUserId === lead.createdBy || sessionUserId === lead.assignedTo }
+                >
+                    { editAddress && (
+                        <AddressDialog
+                            isOpen={ isEditOpen }
+                            address={ editAddress }
+                            titleLabel={ editDialogTitleLabel }
+                            submitLabel={ editDialogSubmitLabel }
+                            onCancel={ onEditCancel }
+                            onSubmit={ onSubmit }
+                        />
+                    ) }
+                </Permission>
             </Grid>
         </Grid>
-    )
-
+    );
 });
 
 export default LeadAddresses;

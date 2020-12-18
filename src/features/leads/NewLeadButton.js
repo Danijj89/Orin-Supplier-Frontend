@@ -1,5 +1,4 @@
 import React, { useCallback, useState } from 'react';
-import Box from '@material-ui/core/Box';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import LeadDialog from './LeadDialog.js';
@@ -8,6 +7,9 @@ import { createLead } from './duck/thunks.js';
 import { selectCompanyId } from '../home/duck/selectors.js';
 import { selectSessionUserId } from '../../app/duck/selectors.js';
 import { makeStyles } from '@material-ui/core/styles';
+import Permission from '../shared/components/Permission.js';
+import { LEAD } from '../admin/utils/resources.js';
+import { CREATE_ANY, CREATE_OWN } from '../admin/utils/actions.js';
 
 const {
     buttonLabel,
@@ -48,18 +50,18 @@ const NewLeadButton = React.memo(function NewLeadButton({ className }) {
     );
 
     return (
-        <Box className={className}>
-            <ThemedButton onClick={onButtonClick} className={classes.newLead}>
-                {buttonLabel}
+        <Permission resource={ LEAD } action={ [CREATE_ANY, CREATE_OWN] }>
+            <ThemedButton onClick={ onButtonClick } className={ classes.newLead }>
+                { buttonLabel }
             </ThemedButton>
             <LeadDialog
-                isOpen={isOpen}
-                onSubmit={onSubmit}
-                onCancel={onCancel}
-                submitLabel={dialogSubmitLabel}
-                titleLabel={dialogTitleLabel}
+                isOpen={ isOpen }
+                onSubmit={ onSubmit }
+                onCancel={ onCancel }
+                submitLabel={ dialogSubmitLabel }
+                titleLabel={ dialogTitleLabel }
             />
-        </Box>
+        </Permission>
     );
 });
 

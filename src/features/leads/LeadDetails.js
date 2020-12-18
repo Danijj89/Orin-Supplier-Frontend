@@ -29,6 +29,9 @@ import { convertLeadToClient, deleteLead, updateLead } from './duck/thunks.js';
 import DeleteButton from '../shared/buttons/DeleteButton.js';
 import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
+import Permission from '../shared/components/Permission.js';
+import { LEAD } from '../admin/utils/resources.js';
+import { DELETE_ANY, DELETE_OWN, UPDATE_ANY, UPDATE_OWN } from '../admin/utils/actions.js';
 
 const {
     formLabels,
@@ -72,7 +75,7 @@ const LeadDetails = React.memo(function LeadDetails({ leadId }) {
     const leadTypeOptions = useSelector(selectLeadTypes);
     const leadPotentialOptions = useSelector(selectLeadPotentials);
     const lead = useSelector((state) => selectLeadById(state, { leadId }));
-    const userId = useSelector(selectSessionUserId);
+    const sessionUserId = useSelector(selectSessionUserId);
 
     const {
         register,
@@ -117,9 +120,9 @@ const LeadDetails = React.memo(function LeadDetails({ leadId }) {
     );
 
     const onConvert = useCallback(() => {
-        dispatch(convertLeadToClient({ leadId, userId }));
+        dispatch(convertLeadToClient({ leadId, sessionUserId }));
         history.push('/home/leads');
-    }, [dispatch, history, leadId, userId]);
+    }, [dispatch, history, leadId, sessionUserId]);
 
     const onDelete = useCallback(() => {
         dispatch(deleteLead({ leadId }));
@@ -151,192 +154,210 @@ const LeadDetails = React.memo(function LeadDetails({ leadId }) {
     );
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} autoComplete="off" noValidate>
+        <form onSubmit={ handleSubmit(onSubmit) } autoComplete="off" noValidate>
             <Grid container>
-                <Grid container item justify="flex-end" xs={12}>
-                    <ThemedButton
-                        className={classes.convertButton}
-                        onClick={onConvert}
-                        variant="outlined"
+                <Grid container item justify="flex-end" xs={ 12 }>
+                    <Permission
+                        resource={ LEAD }
+                        action={ [UPDATE_ANY, UPDATE_OWN] }
+                        isOwner={ sessionUserId === lead.createdBy || sessionUserId === lead.assignedTo }
                     >
-                        {convertButtonLabel}
-                    </ThemedButton>
+                        <ThemedButton
+                            className={ classes.convertButton }
+                            onClick={ onConvert }
+                            variant="outlined"
+                        >
+                            { convertButtonLabel }
+                        </ThemedButton>
+                    </Permission>
                 </Grid>
-                <Grid container item alignItems="flex-start" xs={12}>
+                <Grid container item alignItems="flex-start" xs={ 12 }>
                     <Grid container item justify="center" md>
                         <Typography variant="h5">
-                            {leadInfoTitleLabel}
+                            { leadInfoTitleLabel }
                         </Typography>
                         <FormContainer>
                             <SideTextField
-                                label={formLabels.name}
+                                label={ formLabels.name }
                                 name="name"
-                                inputRef={register({ required: true })}
-                                error={!!errors.name}
+                                inputRef={ register({ required: true }) }
+                                error={ !!errors.name }
                                 required
                             />
                             <SideTextField
-                                label={formLabels.contactName}
+                                label={ formLabels.contactName }
                                 name="contactName"
-                                inputRef={register}
+                                inputRef={ register }
                             />
                             <SideTextField
-                                label={formLabels.contactEmail}
+                                label={ formLabels.contactEmail }
                                 name="contactEmail"
-                                inputRef={register}
+                                inputRef={ register }
                                 type="email"
                             />
                             <SideTextField
-                                label={formLabels.phone}
+                                label={ formLabels.phone }
                                 name="phone"
-                                inputRef={register}
+                                inputRef={ register }
                             />
                             <SideTextField
-                                label={formLabels.additional}
+                                label={ formLabels.additional }
                                 name="additional"
-                                inputRef={register}
+                                inputRef={ register }
                             />
                             <Grid
-                                className={classes.selector}
+                                className={ classes.selector }
                                 container
                                 item
-                                xs={12}
+                                xs={ 12 }
                             >
                                 <Typography
-                                    className={classes.selectorLabel}
+                                    className={ classes.selectorLabel }
                                     align="right"
                                     variant="subtitle1"
                                 >
-                                    {formLabels.salesStatus}
+                                    { formLabels.salesStatus }
                                 </Typography>
                                 <StatusDropdown
-                                    status={salesStatus}
-                                    statuses={salesStatusOptions}
+                                    status={ salesStatus }
+                                    statuses={ salesStatusOptions }
                                     colorMap="salesStatus"
-                                    onStatusChange={createStatusChangeHandler(
+                                    onStatusChange={ createStatusChangeHandler(
                                         'salesStatus'
-                                    )}
+                                    ) }
                                 />
                             </Grid>
                             <Grid
-                                className={classes.selector}
+                                className={ classes.selector }
                                 container
                                 item
-                                xs={12}
+                                xs={ 12 }
                             >
                                 <Typography
-                                    className={classes.selectorLabel}
+                                    className={ classes.selectorLabel }
                                     align="right"
                                     variant="subtitle1"
                                 >
-                                    {formLabels.leadType}
+                                    { formLabels.leadType }
                                 </Typography>
                                 <StatusDropdown
-                                    status={leadType}
-                                    statuses={leadTypeOptions}
+                                    status={ leadType }
+                                    statuses={ leadTypeOptions }
                                     colorMap="leadType"
-                                    onStatusChange={createStatusChangeHandler(
+                                    onStatusChange={ createStatusChangeHandler(
                                         'leadType'
-                                    )}
+                                    ) }
                                 />
                             </Grid>
                             <Grid
-                                className={classes.selector}
+                                className={ classes.selector }
                                 container
                                 item
-                                xs={12}
+                                xs={ 12 }
                             >
                                 <Typography
-                                    className={classes.selectorLabel}
+                                    className={ classes.selectorLabel }
                                     align="right"
                                     variant="subtitle1"
                                 >
-                                    {formLabels.leadPotential}
+                                    { formLabels.leadPotential }
                                 </Typography>
                                 <StatusDropdown
-                                    status={leadPotential}
-                                    statuses={leadPotentialOptions}
+                                    status={ leadPotential }
+                                    statuses={ leadPotentialOptions }
                                     colorMap="leadPotential"
-                                    onStatusChange={createStatusChangeHandler(
+                                    onStatusChange={ createStatusChangeHandler(
                                         'leadPotential'
-                                    )}
+                                    ) }
                                 />
                             </Grid>
                         </FormContainer>
                     </Grid>
-                    <Grid container item justify="center" md={1}>
+                    <Grid container item justify="center" md={ 1 }>
                         <Box
-                            component={Divider}
-                            display={{ xs: 'none', lg: 'block' }}
+                            component={ Divider }
+                            display={ { xs: 'none', lg: 'block' } }
                             orientation="vertical"
                         />
                     </Grid>
                     <Grid container item justify="center" md>
                         <Typography variant="h5">
-                            {salesInfoTitleLabel}
+                            { salesInfoTitleLabel }
                         </Typography>
                         <FormContainer>
                             <SideTextField
-                                label={formLabels.source}
+                                label={ formLabels.source }
                                 name="source"
-                                inputRef={register}
+                                inputRef={ register }
                             />
                             <RHFDateField
-                                rhfControl={control}
+                                rhfControl={ control }
                                 name="quotation"
-                                label={formLabels.quotation}
+                                label={ formLabels.quotation }
                             />
                             <RHFDateField
-                                rhfControl={control}
+                                rhfControl={ control }
                                 name="sample"
-                                label={formLabels.sample}
+                                label={ formLabels.sample }
                             />
                             <RHFDateField
-                                rhfControl={control}
+                                rhfControl={ control }
                                 name="lastContact"
-                                label={formLabels.lastContact}
+                                label={ formLabels.lastContact }
                             />
                             <RHFAutoComplete
-                                rhfControl={control}
+                                rhfControl={ control }
                                 name="assignedTo"
-                                label={formLabels.assignedTo}
-                                options={users}
-                                getOptionLabel={(option) => option.name}
-                                getOptionSelected={(option, value) =>
+                                label={ formLabels.assignedTo }
+                                options={ users }
+                                getOptionLabel={ (option) => option.name }
+                                getOptionSelected={ (option, value) =>
                                     option._id === value._id || !value.active
                                 }
                             />
                             <SideTextField
                                 name="notes"
                                 multiline
-                                rows={4}
-                                rowsMax={8}
-                                label={formLabels.notes}
-                                inputRef={register}
+                                rows={ 4 }
+                                rowsMax={ 8 }
+                                label={ formLabels.notes }
+                                inputRef={ register }
                             />
                             <Typography
-                                className={classes.createdAtCaption}
+                                className={ classes.createdAtCaption }
                                 variant="caption"
                             >
-                                {`${createdAtLabel} ${dateToLocaleDate(
+                                { `${ createdAtLabel } ${ dateToLocaleDate(
                                     lead.createdAt
-                                )}`}
+                                ) }` }
                             </Typography>
                         </FormContainer>
                     </Grid>
                 </Grid>
-                <Grid container item justify="center" xs={12}>
-                    <DeleteButton
-                        onDelete={onDelete}
-                        deleteMessage={deleteMessage}
-                        className={classes.actionButton}
-                    />
-                    <ThemedButton
-                        type="submit"
-                        className={classes.actionButton}
+                <Grid container item justify="center" xs={ 12 }>
+                    <Permission
+                        resource={ LEAD }
+                        action={ [DELETE_ANY, DELETE_OWN] }
+                        isOwner={ sessionUserId === lead.createdBy || sessionUserId === lead.assignedTo }
                     >
-                        {saveButtonLabel}
-                    </ThemedButton>
+                        <DeleteButton
+                            onDelete={ onDelete }
+                            deleteMessage={ deleteMessage }
+                            className={ classes.actionButton }
+                        />
+                    </Permission>
+                    <Permission
+                        resource={ LEAD }
+                        action={ [UPDATE_ANY, UPDATE_OWN] }
+                        isOwner={ sessionUserId === lead.createdBy || sessionUserId === lead.assignedTo }
+                    >
+                        <ThemedButton
+                            type="submit"
+                            className={ classes.actionButton }
+                        >
+                            { saveButtonLabel }
+                        </ThemedButton>
+                    </Permission>
                 </Grid>
             </Grid>
         </form>

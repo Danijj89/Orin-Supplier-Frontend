@@ -32,7 +32,7 @@ import { fetchShipments } from '../shipments/duck/thunks.js';
 import { fetchProducts } from '../products/duck/thunks.js';
 import { selectSessionUserName } from '../../app/duck/selectors.js';
 import Permission from '../shared/components/Permission.js';
-import { CLIENT, LEAD, PERMISSION } from '../admin/utils/resources.js';
+import { CLIENT, LEAD, ORDER, PERMISSION } from '../admin/utils/resources.js';
 import { READ_ANY, READ_OWN } from '../admin/utils/actions.js';
 
 const useStyles = makeStyles((theme) => ({
@@ -141,12 +141,14 @@ const NavBar = React.memo(function NavBar() {
             open={ isMobileMenuOpen }
             onClose={ handleMobileMenuClose }
         >
-            <MenuItem onClick={ () => onTabClick('orders', '/home/orders') }>
-                <IconButton color="inherit">
-                    <IconViewStream/>
-                </IconButton>
-                { tabsLabelsMap.orders }
-            </MenuItem>
+            <Permission resource={ ORDER } action={ [READ_ANY, READ_OWN] }>
+                <MenuItem onClick={ () => onTabClick('orders', '/home/orders') }>
+                    <IconButton color="inherit">
+                        <IconViewStream/>
+                    </IconButton>
+                    { tabsLabelsMap.orders }
+                </MenuItem>
+            </Permission>
             <Permission resource={ CLIENT } action={ [READ_ANY, READ_OWN] }>
                 <MenuItem onClick={ () => onTabClick('clients', '/home/clients') }>
                     <IconButton color="inherit">
@@ -155,7 +157,7 @@ const NavBar = React.memo(function NavBar() {
                     { tabsLabelsMap.clients }
                 </MenuItem>
             </Permission>
-            <Permission resource={ LEAD } action={ [READ_ANY, READ_OWN] } >
+            <Permission resource={ LEAD } action={ [READ_ANY, READ_OWN] }>
                 <MenuItem onClick={ () => onTabClick('leads', '/home/leads') }>
                     <IconButton color="inherit">
                         <IconPlus/>
@@ -207,22 +209,24 @@ const NavBar = React.memo(function NavBar() {
                         className={ classes.logo }
                     />
                     <List className={ classes.menu }>
-                        <ListItem
-                            button
-                            component="a"
-                            onClick={ () => onTabClick('orders', '/home/orders') }
-                            selected={ currentTab === 'orders' }
-                            classes={ {
-                                root: classes.menuButtons,
-                                selected: classes.selected,
-                            } }
-                        >
-                            <ListItemText>
+                        <Permission resource={ ORDER } action={ [READ_ANY, READ_OWN] }>
+                            <ListItem
+                                button
+                                component="a"
+                                onClick={ () => onTabClick('orders', '/home/orders') }
+                                selected={ currentTab === 'orders' }
+                                classes={ {
+                                    root: classes.menuButtons,
+                                    selected: classes.selected,
+                                } }
+                            >
+                                <ListItemText>
                                 <span className={ classes.tabsText }>
                                     { tabsLabelsMap.orders }
                                 </span>
-                            </ListItemText>
-                        </ListItem>
+                                </ListItemText>
+                            </ListItem>
+                        </Permission>
                         <Permission resource={ CLIENT } action={ [READ_ANY, READ_OWN] }>
                             <ListItem
                                 button
