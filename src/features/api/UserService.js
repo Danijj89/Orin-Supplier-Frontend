@@ -32,7 +32,7 @@ const createUser = async (user) => {
 const updateUserRoles = async (userId, update) => {
     const configs = {
         method: 'put',
-        url: `users/${ userId }`,
+        url: `users/${ userId }/roles`,
         data: update
     };
     const { data } = await fetchWithAuth(configs);

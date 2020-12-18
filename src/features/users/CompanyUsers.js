@@ -7,6 +7,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Box, List, ListItem, Divider } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import { selectAllUsers } from './duck/selectors.js';
+import Permission from '../shared/components/Permission.js';
+import { USER } from '../admin/utils/resources.js';
+import { CREATE_ANY, CREATE_OWN, READ_ANY, READ_OWN } from '../admin/utils/actions.js';
 
 const useStyles = makeStyles((theme) => ({
     list: {
@@ -25,27 +28,31 @@ const CompanyUsers = React.memo(function CompanyUsers() {
     const users = useSelector(selectAllUsers);
 
     return (
-        <InfoCard
-            title={ titleLabel }
-            button={
-                <ThemedButton variant="text">
-                    { inviteButtonLabel }
-                    <IconAdd/>
-                </ThemedButton>
-            }
-            content={
-                <List className={ classes.list }>
-                    { users.map((user) => (
-                        <Box key={ user._id }>
-                            <ListItem className={ classes.listItem } disabled={ !user.active }>
-                                { user.name }
-                            </ListItem>
-                            <Divider/>
-                        </Box>
-                    )) }
-                </List>
-            }
-        />
+        <Permission resource={ USER } action={ [READ_ANY, READ_OWN] }>
+            <InfoCard
+                title={ titleLabel }
+                button={
+                    <Permission resource={ USER } action={ [CREATE_ANY, CREATE_OWN] }>
+                        <ThemedButton variant="text">
+                            { inviteButtonLabel }
+                            <IconAdd/>
+                        </ThemedButton>
+                    </Permission>
+                }
+                content={
+                    <List className={ classes.list }>
+                        { users.map((user) => (
+                            <Box key={ user._id }>
+                                <ListItem className={ classes.listItem } disabled={ !user.active }>
+                                    { user.name }
+                                </ListItem>
+                                <Divider/>
+                            </Box>
+                        )) }
+                    </List>
+                }
+            />
+        </Permission>
     );
 });
 

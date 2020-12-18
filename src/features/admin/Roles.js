@@ -59,6 +59,7 @@ const Roles = React.memo(function Roles() {
                 permissions
             };
             dispatch(updateRole({ roleId: role._id, update }));
+            setRole(null);
             setIsEdit(false);
         }
     }, [dispatch, permissions, role]);
