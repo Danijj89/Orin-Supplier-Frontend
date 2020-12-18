@@ -31,7 +31,7 @@ const updateLead = async (leadId, update) => {
 
 const createLeadAddress = async (leadId, address) => {
     const configs = {
-        method: 'post',
+        method: 'put',
         url: `leads/${leadId}/addresses`,
         data: address
     };
