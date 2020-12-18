@@ -6,6 +6,7 @@ import { LANGUAGE } from '../../app/utils/constants.js';
 import BankDetailDialog from './BankDetailDialog.js';
 import { createCompanyBankDetail } from './duck/thunks.js';
 import { selectCompanyId } from './duck/selectors.js';
+import Permission from '../shared/components/Permission.js';
 
 const {
     buttonLabel,

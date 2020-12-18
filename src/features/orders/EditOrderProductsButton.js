@@ -3,13 +3,14 @@ import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { Box } from '@material-ui/core';
 import OrderProductsDialog from '../shared/forms/OrderProductsDialog.js';
 import { LANGUAGE } from '../../app/utils/constants.js';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { updateOrder } from './duck/thunks.js';
 import { productTableItemsToOrderItems } from '../shared/utils/entityConversion.js';
 import { getOptionId } from '../../app/utils/options/getters.js';
 import Permission from '../shared/components/Permission.js';
 import { ORDER } from '../admin/utils/resources.js';
 import { UPDATE_ANY, UPDATE_OWN } from '../admin/utils/actions.js';
+import { selectSessionUser } from '../../app/duck/selectors.js';
 
 const {
     buttonLabel,
@@ -19,6 +20,7 @@ const {
 
 const EditOrderProductsButton = React.memo(function EditOrderProductsButton({ order, className }) {
     const dispatch = useDispatch();
+    const sessionUser = useSelector(selectSessionUser);
     const [isEdit, setIsEdit] = useState(false);
 
     const onEdit = () => setIsEdit(true);
@@ -32,7 +34,7 @@ const EditOrderProductsButton = React.memo(function EditOrderProductsButton({ or
     };
 
     return (
-        <Permission resource={ ORDER } action={ [UPDATE_ANY, UPDATE_OWN] } owner={ order.createdBy }>
+        <Permission resource={ ORDER } action={ [UPDATE_ANY, UPDATE_OWN] } isOwner={ sessionUser._id === order.createdBy }>
             <Box className={ className }>
                 <ThemedButton
                     onClick={ onEdit }

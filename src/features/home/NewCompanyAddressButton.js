@@ -8,6 +8,10 @@ import { addNewAddress } from './duck/thunks.js';
 import { makeStyles } from '@material-ui/core/styles';
 import { selectCompanyId, selectCompanyLegalAddress } from './duck/selectors.js';
 import { getOptionId } from '../../app/utils/options/getters.js';
+import Permission from '../shared/components/Permission.js';
+import { COMPANY } from '../admin/utils/resources.js';
+import { CREATE_ANY, CREATE_OWN } from '../admin/utils/actions.js';
+import { selectSessionUser } from '../../app/duck/selectors.js';
 
 const {
     newAddressButtonLabel,
@@ -24,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
 export default function NewCompanyAddressButton({ className }) {
     const classes = useStyles();
     const dispatch = useDispatch();
+    const sessionUser = useSelector(selectSessionUser);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const companyId = useSelector(selectCompanyId);
     const companyLegalAddress = useSelector(selectCompanyLegalAddress);
@@ -40,21 +45,27 @@ export default function NewCompanyAddressButton({ className }) {
     };
 
     return (
-        <Box className={ className }>
-            <ThemedButton
-                onClick={ onClick }
-                className={ classes.newAddressButton }
-            >
-                { newAddressButtonLabel }
-            </ThemedButton>
-            <AddressDialog
-                isOpen={ isDialogOpen }
-                address={ address }
-                titleLabel={ newAddressDialogTitleLabel }
-                submitLabel={ newAddressDialogSubmitLabel }
-                onCancel={ onCancel }
-                onSubmit={ onSubmit }
-            />
-        </Box>
+        <Permission
+            resource={ COMPANY }
+            action={ [CREATE_ANY, CREATE_OWN] }
+            isOwner={ sessionUser.company === companyId }
+        >
+            <Box className={ className }>
+                <ThemedButton
+                    onClick={ onClick }
+                    className={ classes.newAddressButton }
+                >
+                    { newAddressButtonLabel }
+                </ThemedButton>
+                <AddressDialog
+                    isOpen={ isDialogOpen }
+                    address={ address }
+                    titleLabel={ newAddressDialogTitleLabel }
+                    submitLabel={ newAddressDialogSubmitLabel }
+                    onCancel={ onCancel }
+                    onSubmit={ onSubmit }
+                />
+            </Box>
+        </Permission>
     );
 }

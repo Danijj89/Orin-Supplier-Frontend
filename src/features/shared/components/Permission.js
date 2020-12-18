@@ -13,10 +13,10 @@ import {
 } from '../../admin/utils/actions.js';
 import { AccessControl } from 'accesscontrol';
 
-const Permission = React.memo(function Permission({ resource, action = [], owner, children }) {
+const Permission = React.memo(function Permission({ resource, action = [], isOwner, children }) {
     const grants = useSelector(selectAppGrants);
     const ac = new AccessControl(grants);
-    const { _id: userId, roles } = useSelector(selectSessionUser);
+    const { roles } = useSelector(selectSessionUser);
     const actions = Array.isArray(action) ? action : [action];
     if (!roles?.length) {
         return null;
@@ -37,16 +37,16 @@ const Permission = React.memo(function Permission({ resource, action = [], owner
                 match = ac.can(roles).deleteAny(resource).granted;
                 break;
             case READ_OWN:
-                match = ac.can(roles).readOwn(resource).granted;
+                match = ac.can(roles).readOwn(resource).granted && isOwner;
                 break;
             case CREATE_OWN:
-                match = ac.can(roles).createOwn(resource).granted;
+                match = ac.can(roles).createOwn(resource).granted && isOwner;
                 break;
             case UPDATE_OWN:
-                match = ac.can(roles).updateOwn(resource).granted && owner === userId;
+                match = ac.can(roles).updateOwn(resource).granted && isOwner;
                 break;
             case DELETE_OWN:
-                match = ac.can(roles).deleteOwn(resource).granted && owner === userId;
+                match = ac.can(roles).deleteOwn(resource).granted && isOwner;
                 break;
             default:
         }
@@ -66,7 +66,7 @@ Permission.propTypes = {
         PropTypes.string,
         PropTypes.array
     ]).isRequired,
-    owner: PropTypes.string,
+    isOwner: PropTypes.bool,
     children: PropTypes.node.isRequired
 };
 
