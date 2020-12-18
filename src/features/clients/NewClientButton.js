@@ -3,12 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { createClient } from './duck/thunks.js';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { LANGUAGE } from '../../app/utils/constants.js';
-import { Box } from '@material-ui/core';
 import ClientDialog from '../shared/forms/ClientDialog.js';
 import { makeStyles } from '@material-ui/core/styles';
 import { selectAllActiveUsers } from '../users/duck/selectors.js';
-import { selectSessionUserId } from '../../app/duck/selectors.js';
-import { selectCompanyId } from '../home/duck/selectors.js';
+import { selectSessionUserCompanyId, selectSessionUserId } from '../../app/duck/selectors.js';
+import Permission from '../shared/components/Permission.js';
+import { CLIENT } from '../admin/utils/resources.js';
+import { CREATE_ANY, CREATE_OWN } from '../admin/utils/actions.js';
 
 const { newClientButtonLabel, newClientDialogTitleLabel, newClientSubmitButtonLabel } = LANGUAGE.client.clientOverview;
 
@@ -18,10 +19,10 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const NewClientButton = React.memo(function NewClientButton({ className }) {
+const NewClientButton = React.memo(function NewClientButton() {
     const classes = useStyles();
     const dispatch = useDispatch();
-    const companyId = useSelector(selectCompanyId);
+    const companyId = useSelector(selectSessionUserCompanyId);
     const users = useSelector(selectAllActiveUsers);
     const userId = useSelector(selectSessionUserId);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -39,7 +40,7 @@ const NewClientButton = React.memo(function NewClientButton({ className }) {
     };
 
     return (
-        <Box className={ className }>
+        <Permission resource={ CLIENT } action={ [CREATE_ANY, CREATE_OWN] }>
             <ThemedButton
                 onClick={ onClick }
                 className={ classes.newClient }
@@ -53,7 +54,7 @@ const NewClientButton = React.memo(function NewClientButton({ className }) {
                 onCancel={ onCancel }
                 onSubmit={ onSubmit }
             />
-        </Box>
+        </Permission>
     )
 });
 

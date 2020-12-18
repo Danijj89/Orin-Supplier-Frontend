@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const NewLeadButton = React.memo(function NewLeadButton({ className }) {
+const NewLeadButton = React.memo(function NewLeadButton() {
     const classes = useStyles();
     const dispatch = useDispatch();
     const [isOpen, setIsOpen] = useState(false);

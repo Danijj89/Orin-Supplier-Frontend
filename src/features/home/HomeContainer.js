@@ -1,11 +1,11 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import Home from './Home.js';
-import { selectCurrentUserCompanyId } from '../../app/duck/selectors.js';
+import { selectSessionUserCompanyId } from '../../app/duck/selectors.js';
 import { Redirect } from 'react-router-dom';
 
 const HomeContainer = React.memo(function HomeContainer() {
-    const companyId = useSelector(selectCurrentUserCompanyId);
+    const companyId = useSelector(selectSessionUserCompanyId);
 
     if (companyId) return <Home />;
     else return <Redirect to={ '/login' }/>;

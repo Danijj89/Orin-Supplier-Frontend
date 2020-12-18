@@ -7,8 +7,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import NewClientContactButton from './NewClientContactButton.js';
 import { deleteContact, updateContact, updateDefaultClientContact } from './duck/thunks.js';
 import { useParams } from 'react-router-dom';
-import { selectClientActiveContacts } from './duck/selectors.js';
+import { selectActiveClientById } from './duck/selectors.js';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
+import { CLIENT } from '../admin/utils/resources.js';
+import { UPDATE_ANY, UPDATE_OWN } from '../admin/utils/actions.js';
+import Permission from '../shared/components/Permission.js';
+import { isClientOwner } from '../admin/utils/resourceOwnerCheckers.js';
+import { selectSessionUserId } from '../../app/duck/selectors.js';
 
 const {
     contactTableHeadersMap,
@@ -21,16 +26,17 @@ const {
 const ClientContactsTable = React.memo(function ClientContactsTable() {
     const dispatch = useDispatch();
     const { id: clientId } = useParams();
-    const clientContacts = useSelector(state => selectClientActiveContacts(state, { clientId }));
+    const sessionUserId = useSelector(selectSessionUserId);
+    const client = useSelector(state => selectActiveClientById(state, { clientId }));
 
     const [isEdit, setIsEdit] = useState(false);
     const [editContact, setEditContact] = useState(null);
 
     const onRowClick = useCallback(
         (params) => {
-        setEditContact(clientContacts.find(contact => contact._id === params.id));
-        setIsEdit(true);
-    }, [clientContacts]);
+            setEditContact(client.contacts.find(contact => contact._id === params.id));
+            setIsEdit(true);
+        }, [client.contacts]);
 
     const createSetClientDefaultContactHandler = useCallback(
         (clientId, contactId) => (e) => {
@@ -83,7 +89,7 @@ const ClientContactsTable = React.memo(function ClientContactsTable() {
     ], [renderDefaultButton]);
 
     const rows = useMemo(() =>
-        clientContacts.map(contact => ({
+        client.contacts.map(contact => ({
             id: contact._id,
             name: contact.name,
             email: contact.email,
@@ -93,7 +99,7 @@ const ClientContactsTable = React.memo(function ClientContactsTable() {
             department: contact.department,
             additional: contact.additional,
             default: contact.default
-        })), [clientContacts]);
+        })), [client.contacts]);
 
     return (
         <Box>
@@ -102,18 +108,30 @@ const ClientContactsTable = React.memo(function ClientContactsTable() {
                 columns={ columns }
                 onRowClick={ onRowClick }
             />
-            { editContact && (
-                <ContactDialog
-                    isOpen={ isEdit }
-                    contact={ editContact }
-                    titleLabel={ editDialogTitleLabel }
-                    submitLabel={ editDialogSubmitLabel }
-                    onCancel={ onEditCancel }
-                    onSubmit={ onSubmit }
-                    onDelete={ createDeleteContactHandler(clientId, editContact) }
-                />
-            ) }
-            <NewClientContactButton clientId={ clientId }/>
+            <Permission
+                resource={ CLIENT }
+                action={ [UPDATE_ANY, UPDATE_OWN] }
+                isOwner={ isClientOwner(sessionUserId, client) }
+            >
+                { editContact && (
+                    <ContactDialog
+                        isOpen={ isEdit }
+                        contact={ editContact }
+                        titleLabel={ editDialogTitleLabel }
+                        submitLabel={ editDialogSubmitLabel }
+                        onCancel={ onEditCancel }
+                        onSubmit={ onSubmit }
+                        onDelete={ createDeleteContactHandler(clientId, editContact) }
+                    />
+                ) }
+            </Permission>
+            <Permission
+                resource={ CLIENT }
+                action={ [UPDATE_ANY, UPDATE_OWN] }
+                isOwner={ isClientOwner(sessionUserId, client) }
+            >
+                <NewClientContactButton clientId={ clientId }/>
+            </Permission>
         </Box>
     )
 });

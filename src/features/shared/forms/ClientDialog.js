@@ -71,6 +71,7 @@ const ClientDialog = React.memo(function ClientDialog(
                 inputRef={ register({ required: true }) }
                 error={ !!errors.name }
                 required
+                autoFocus
             />
             <RHFAutoComplete
                 rhfControl={ control }

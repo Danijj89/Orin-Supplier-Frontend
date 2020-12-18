@@ -6,6 +6,9 @@ import UnitCounter from '../shared/classes/UnitCounter.js';
 import { useSelector } from 'react-redux';
 import { selectClientOrders } from './duck/selectors.js';
 import { selectItemUnitsMap } from '../../app/duck/selectors.js';
+import { ORDER } from '../admin/utils/resources.js';
+import { READ_ANY, READ_OWN } from '../admin/utils/actions.js';
+import Permission from '../shared/components/Permission.js';
 
 const {
     ordersTableHeadersMap
@@ -42,7 +45,9 @@ const ClientOrdersTable = React.memo(function ClientOrdersTable() {
     })), [clientOrders, itemUnitsMap]);
 
     return (
-        <Table rows={ rows } columns={ columns } onRowClick={ onRowClick }/>
+        <Permission resource={ ORDER } action={ [READ_ANY, READ_OWN] }>
+            <Table rows={ rows } columns={ columns } onRowClick={ onRowClick }/>
+        </Permission>
     )
 });
 

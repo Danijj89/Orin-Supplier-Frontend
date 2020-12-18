@@ -10,6 +10,11 @@ import NewClientAddressButton from '../shared/buttons/NewClientAddressButton.js'
 import { useParams } from 'react-router-dom';
 import { selectActiveClientById } from './duck/selectors.js';
 import { getOptionId } from '../../app/utils/options/getters.js';
+import Permission from '../shared/components/Permission.js';
+import { CLIENT } from '../admin/utils/resources.js';
+import { UPDATE_ANY, UPDATE_OWN } from '../admin/utils/actions.js';
+import { isClientOwner } from '../admin/utils/resourceOwnerCheckers.js';
+import { selectSessionUserId } from '../../app/duck/selectors.js';
 
 const useStyles = makeStyles((theme) => ({
     cards: {
@@ -36,15 +41,16 @@ const ClientAddressCards = React.memo(function ClientAddressCards() {
     const classes = useStyles();
     const dispatch = useDispatch();
     const { id: clientId } = useParams();
+    const sessionUserId = useSelector(selectSessionUserId);
     const client = useSelector((state) => selectActiveClientById(state, { clientId }));
     const [isEditAddressOpen, setIsEditAddressOpen] = useState(false);
     const [editAddress, setEditAddress] = useState(null);
 
     const createDeleteAddressHandler = useCallback(
         (clientId, addressId) => () => {
-        dispatch(deleteClientAddress({ clientId, addressId }));
-        setIsEditAddressOpen(false);
-    }, [dispatch]);
+            dispatch(deleteClientAddress({ clientId, addressId }));
+            setIsEditAddressOpen(false);
+        }, [dispatch]);
 
     const createSetDefaultAddressHandler = useCallback(
         (clientId, addressId) =>
@@ -53,9 +59,9 @@ const ClientAddressCards = React.memo(function ClientAddressCards() {
 
     const createEditAddressHandler = useCallback(
         (address) => () => {
-        setEditAddress(address);
-        setIsEditAddressOpen(true);
-    }, []);
+            setEditAddress(address);
+            setIsEditAddressOpen(true);
+        }, []);
 
     const onEditAddressCancel = () => setIsEditAddressOpen(false);
 
@@ -85,21 +91,33 @@ const ClientAddressCards = React.memo(function ClientAddressCards() {
                     )) }
                 </Grid>
             </Box>
-            { editAddress && (
-                <AddressDialog
-                    isOpen={ isEditAddressOpen }
-                    address={ editAddress }
-                    titleLabel={ editAddressDialogTitleLabel }
-                    submitLabel={ editAddressDialogSubmitLabel }
-                    onCancel={ onEditAddressCancel }
-                    onSubmit={ onSubmit }
+            <Permission
+                resource={ CLIENT }
+                action={ [UPDATE_ANY, UPDATE_OWN] }
+                isOwner={ isClientOwner(sessionUserId, client) }
+            >
+                { editAddress && (
+                    <AddressDialog
+                        isOpen={ isEditAddressOpen }
+                        address={ editAddress }
+                        titleLabel={ editAddressDialogTitleLabel }
+                        submitLabel={ editAddressDialogSubmitLabel }
+                        onCancel={ onEditAddressCancel }
+                        onSubmit={ onSubmit }
+                    />
+                ) }
+            </Permission>
+            <Permission
+                resource={ CLIENT }
+                action={ [UPDATE_ANY, UPDATE_OWN] }
+                isOwner={ isClientOwner(sessionUserId, client) }
+            >
+                <NewClientAddressButton
+                    className={ classes.newAddressButton }
+                    clientId={ clientId }
+                    clientName={ client.name }
                 />
-            ) }
-            <NewClientAddressButton
-                className={ classes.newAddressButton }
-                clientId={ clientId }
-                clientName={ client.name }
-            />
+            </Permission>
         </Paper>
     );
 });

@@ -14,10 +14,17 @@ import { cleanClientState } from './duck/slice.js';
 import { selectOrderDataStatus, selectOrderError } from '../orders/duck/selectors.js';
 import { fetchOrders } from '../orders/duck/thunks.js';
 import { cleanOrderState } from '../orders/duck/slice.js';
+import Permission from '../shared/components/Permission.js';
+import { CLIENT } from '../admin/utils/resources.js';
+import { READ_ANY, READ_OWN } from '../admin/utils/actions.js';
+import { selectSessionUserId } from '../../app/duck/selectors.js';
+import { isClientOwner } from '../admin/utils/resourceOwnerCheckers.js';
 
 const ClientContainer = React.memo(function ClientContainer() {
     const dispatch = useDispatch();
     const { id: clientId } = useParams();
+    const sessionUserId = useSelector(selectSessionUserId);
+
     const clientDataStatus = useSelector(selectClientDataStatus);
     const clientError = useSelector(selectClientError);
     const userDataStatus = useSelector(selectUserDataStatus);
@@ -54,13 +61,17 @@ const ClientContainer = React.memo(function ClientContainer() {
     }, [dispatch, errors.length]);
 
     return (
-        <>
+        <Permission
+            resource={ CLIENT }
+            action={ [READ_ANY, READ_OWN] }
+            isOwner={ isClientOwner(sessionUserId, client) }
+        >
             { isClientInactive && <Redirect to={ '/home/clients' }/> }
             { status === 'REJECTED' && <ErrorPage errors={ errors }/> }
             { status === 'PENDING' && <Loader/> }
             { !isClientInactive && status === 'FULFILLED' && <Client/> }
-        </>
-    )
+        </Permission>
+    );
 });
 
 export default ClientContainer;
