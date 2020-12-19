@@ -27,6 +27,8 @@ const ClientOverviewContainer = React.memo(function ClientOverviewContainer() {
     );
     const errors = getErrors(clientError, userError);
 
+    console.log(status)
+
     const fetched = useRef(false);
     useEffect(() => {
         if (!fetched.current) {

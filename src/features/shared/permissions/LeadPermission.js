@@ -18,8 +18,6 @@ const LeadPermission = React.memo(function LeadPermission(
             { children }
         </Permission>
     );
-}, (prev, next) => {
-    return prev.leadId === next.leadId;
 });
 
 LeadPermission.propTypes = {

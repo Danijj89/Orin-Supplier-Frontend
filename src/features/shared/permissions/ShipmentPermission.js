@@ -18,8 +18,6 @@ const ShipmentPermission = React.memo(function ShipmentPermission(
             { children }
         </Permission>
     );
-}, (prev, next) => {
-    return prev.shipmentId === next.shipmentId;
 });
 
 ShipmentPermission.propTypes = {

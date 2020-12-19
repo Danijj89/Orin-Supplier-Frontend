@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import CompanyService from '../../api/CompanyService.js';
 
-export const fetchCurrentCompany = createAsyncThunk('home/fetchCompanyById',
+export const fetchCurrentCompany = createAsyncThunk('home/fetchCurrentCompany',
     async (_, { rejectWithValue }) => {
         try {
             return await CompanyService.fetchSessionCompany();

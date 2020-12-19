@@ -18,8 +18,6 @@ const ClientPermission = React.memo(function ClientPermission(
             { children }
         </Permission>
     );
-}, (prev, next) => {
-    return prev.clientId === next.clientId;
 });
 
 ClientPermission.propTypes = {

@@ -18,8 +18,6 @@ const OrderPermission = React.memo(function OrderPermission(
             { children }
         </Permission>
     );
-}, (prev, next) => {
-    return prev.orderId === next.orderId;
 });
 
 OrderPermission.propTypes = {
