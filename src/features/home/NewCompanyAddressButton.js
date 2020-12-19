@@ -6,12 +6,12 @@ import { LANGUAGE } from '../../app/utils/constants.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { addNewAddress } from './duck/thunks.js';
 import { makeStyles } from '@material-ui/core/styles';
-import { selectCompanyId, selectCompanyLegalAddress } from './duck/selectors.js';
+import { selectCompanyLegalAddress } from './duck/selectors.js';
 import { getOptionId } from '../../app/utils/options/getters.js';
 import Permission from '../shared/components/Permission.js';
 import { COMPANY } from '../admin/utils/resources.js';
 import { CREATE_ANY, CREATE_OWN } from '../admin/utils/actions.js';
-import { selectSessionUser } from '../../app/duck/selectors.js';
+import { selectSessionUser, selectSessionUserCompanyId } from '../../app/duck/selectors.js';
 
 const {
     newAddressButtonLabel,
@@ -30,7 +30,7 @@ export default function NewCompanyAddressButton({ className }) {
     const dispatch = useDispatch();
     const sessionUser = useSelector(selectSessionUser);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
-    const companyId = useSelector(selectCompanyId);
+    const companyId = useSelector(selectSessionUserCompanyId);
     const companyLegalAddress = useSelector(selectCompanyLegalAddress);
     const address = { name: companyLegalAddress.name };
 

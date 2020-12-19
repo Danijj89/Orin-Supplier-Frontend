@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import { createProduct } from './duck/thunks.js';
 import { makeStyles } from '@material-ui/core/styles';
-import { selectCompanyId } from '../home/duck/selectors.js';
+import { selectSessionUserCompanyId } from '../../app/duck/selectors.js';
 
 const {
     buttonLabel,
@@ -24,7 +24,7 @@ const NewProductButton = React.memo(function NewProductButton() {
     const classes = useStyles();
     const dispatch = useDispatch();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
-    const companyId = useSelector(selectCompanyId);
+    const companyId = useSelector(selectSessionUserCompanyId);
     const product = { company: companyId };
 
     const onClick = () => setIsDialogOpen(true);

@@ -9,7 +9,6 @@ export const selectHomeDataStatus = state => state.home.dataStatus;
 export const selectHomeStatus = state => state.home.status;
 export const selectHomeError = state => state.home.error;
 export const selectCompanyPorts = state => state.home.company.ports;
-export const selectCompanyId = state => state.home.company?._id;
 
 export const selectCurrentCompany = createSelector(
     state => state.home.company,

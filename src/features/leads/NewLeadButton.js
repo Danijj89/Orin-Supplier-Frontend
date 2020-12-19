@@ -4,8 +4,7 @@ import { LANGUAGE } from '../../app/utils/constants.js';
 import LeadDialog from './LeadDialog.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { createLead } from './duck/thunks.js';
-import { selectCompanyId } from '../home/duck/selectors.js';
-import { selectSessionUserId } from '../../app/duck/selectors.js';
+import { selectSessionUserCompanyId, selectSessionUserId } from '../../app/duck/selectors.js';
 import { makeStyles } from '@material-ui/core/styles';
 import Permission from '../shared/components/Permission.js';
 import { LEAD } from '../admin/utils/resources.js';
@@ -27,7 +26,7 @@ const NewLeadButton = React.memo(function NewLeadButton() {
     const classes = useStyles();
     const dispatch = useDispatch();
     const [isOpen, setIsOpen] = useState(false);
-    const companyId = useSelector(selectCompanyId);
+    const companyId = useSelector(selectSessionUserCompanyId);
     const userId = useSelector(selectSessionUserId);
 
     const onCancel = useCallback(() => setIsOpen(false), []);

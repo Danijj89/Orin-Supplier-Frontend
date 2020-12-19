@@ -8,8 +8,7 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { addressToDocAddress, tableItemsToItems } from '../shared/utils/entityConversion.js';
 import { createDocument } from '../shipments/duck/thunks.js';
-import { selectCompanyId } from '../home/duck/selectors.js';
-import { selectSessionUserId } from '../../app/duck/selectors.js';
+import { selectSessionUserCompanyId, selectSessionUserId } from '../../app/duck/selectors.js';
 import { getOptionId } from '../../app/utils/options/getters.js';
 
 const {
@@ -34,7 +33,7 @@ const SalesContractProducts = React.memo(function SalesContractProducts(
     { salesContract, setSalesContract, shipmentId }) {
     const dispatch = useDispatch();
     const history = useHistory();
-    const companyId = useSelector(selectCompanyId);
+    const companyId = useSelector(selectSessionUserCompanyId);
     const userId = useSelector(selectSessionUserId);
 
     const { register, control, errors, getValues, setValue, handleSubmit } = useForm({

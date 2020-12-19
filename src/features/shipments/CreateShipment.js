@@ -9,7 +9,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
     selectActiveCompanyAddresses,
     selectCompanyDefaultAddress,
-    selectCompanyId,
 } from '../home/duck/selectors.js';
 import { selectAllActiveClients } from '../clients/duck/selectors.js';
 import {
@@ -20,7 +19,10 @@ import OrderStatusDisplay from '../orders/OrderStatusDisplay.js';
 import UnitCounter from '../shared/classes/UnitCounter.js';
 import { makeStyles } from '@material-ui/core/styles';
 import Footer from '../shared/components/Footer.js';
-import { selectSessionUserId, selectItemUnitsMap } from '../../app/duck/selectors.js';
+import {
+    selectItemUnitsMap,
+    selectSessionUser
+} from '../../app/duck/selectors.js';
 import { createShipment, updateShipmentShell } from './duck/thunks.js';
 import ErrorMessages from '../shared/components/ErrorMessages.js';
 import {
@@ -75,9 +77,8 @@ const CreateShipment = React.memo(function CreateShipment() {
     const history = useHistory();
     const location = useLocation();
     const { id: shipmentId } = queryString.parse(location.search);
-
-    const userId = useSelector(selectSessionUserId);
-    const companyId = useSelector(selectCompanyId);
+    
+    const { _id: userId, company: companyId } = useSelector(selectSessionUser);
     const companyAddresses = useSelector(selectActiveCompanyAddresses);
     const clients = useSelector(selectAllActiveClients);
     const ordersMap = useSelector(selectOrdersMap);

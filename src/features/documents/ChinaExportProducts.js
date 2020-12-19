@@ -10,8 +10,7 @@ import { getOptionId } from '../../app/utils/options/getters.js';
 import { consolidationTableItemsToConsolidationItems } from '../shared/utils/entityConversion.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { createDocument } from '../shipments/duck/thunks.js';
-import { selectCompanyId } from '../home/duck/selectors.js';
-import { selectSessionUserId } from '../../app/duck/selectors.js';
+import { selectSessionUserCompanyId, selectSessionUserId } from '../../app/duck/selectors.js';
 
 const {
     titleLabel,
@@ -32,7 +31,7 @@ const ChinaExportProducts = React.memo(function ChinaExportProducts(
     { chinaExport, setChinaExport, shipmentId }) {
     const history = useHistory();
     const dispatch = useDispatch();
-    const companyId = useSelector(selectCompanyId);
+    const companyId = useSelector(selectSessionUserCompanyId);
     const userId = useSelector(selectSessionUserId);
 
     const { register, control, getValues, setValue, errors, handleSubmit } = useForm({

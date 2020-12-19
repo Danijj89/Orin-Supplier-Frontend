@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import BankDetailDialog from './BankDetailDialog.js';
 import { createCompanyBankDetail } from './duck/thunks.js';
-import { selectCompanyId } from './duck/selectors.js';
+import { selectSessionUserCompanyId } from '../../app/duck/selectors.js';
 
 const {
     buttonLabel,
@@ -15,7 +15,7 @@ const {
 
 const NewBankDetailButton = React.memo(function NewBankDetailButton({ className }) {
     const dispatch = useDispatch();
-    const companyId = useSelector(selectCompanyId);
+    const companyId = useSelector(selectSessionUserCompanyId);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 
     const onClick = () => setIsDialogOpen(true);

@@ -3,7 +3,7 @@ import { Box, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectActiveCompanyBankDetails, selectCompanyId } from './duck/selectors.js';
+import { selectActiveCompanyBankDetails } from './duck/selectors.js';
 import BankDetailDialog from './BankDetailDialog.js';
 import NewBankDetailButton from './NewBankDetailButton.js';
 import { deleteCompanyBankDetail, updateCompanyBankDetail } from './duck/thunks.js';
@@ -11,7 +11,7 @@ import Table from '../shared/components/table/Table.js';
 import Permission from '../shared/components/Permission.js';
 import { COMPANY } from '../admin/utils/resources.js';
 import { CREATE_ANY, CREATE_OWN, UPDATE_ANY, UPDATE_OWN } from '../admin/utils/actions.js';
-import { selectSessionUser } from '../../app/duck/selectors.js';
+import { selectSessionUser, selectSessionUserCompanyId } from '../../app/duck/selectors.js';
 
 const useStyles = makeStyles((theme) => ({
     cards: {
@@ -39,7 +39,7 @@ const CompanyBankDetails = React.memo(function CompanyBankDetails() {
     const dispatch = useDispatch();
     const sessionUser = useSelector(selectSessionUser);
     const bankDetails = useSelector(selectActiveCompanyBankDetails);
-    const companyId = useSelector(selectCompanyId);
+    const companyId = useSelector(selectSessionUserCompanyId);
     const [isEdit, setIsEdit] = useState(false);
     const [editBankDetail, setEditBankDetail] = useState(null);
 
