@@ -40,7 +40,7 @@ const updateClient = async (id, update) => {
 
 const createClientAddress = async (clientId, address) => {
     const configs = {
-        method: 'put',
+        method: 'post',
         url: `clients/${clientId}/addresses`,
         data: address
     };

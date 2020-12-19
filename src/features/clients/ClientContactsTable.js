@@ -10,7 +10,7 @@ import { useParams } from 'react-router-dom';
 import { selectActiveClientById } from './duck/selectors.js';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { CLIENT } from '../admin/utils/resources.js';
-import { UPDATE_ANY, UPDATE_OWN } from '../admin/utils/actions.js';
+import { CREATE_ANY, CREATE_OWN, UPDATE_ANY, UPDATE_OWN } from '../admin/utils/actions.js';
 import Permission from '../shared/components/Permission.js';
 import { isClientOwner } from '../admin/utils/resourceOwnerCheckers.js';
 import { selectSessionUserId } from '../../app/duck/selectors.js';
@@ -127,7 +127,7 @@ const ClientContactsTable = React.memo(function ClientContactsTable() {
             </Permission>
             <Permission
                 resource={ CLIENT }
-                action={ [UPDATE_ANY, UPDATE_OWN] }
+                action={ [CREATE_ANY, CREATE_OWN] }
                 isOwner={ isClientOwner(sessionUserId, client) }
             >
                 <NewClientContactButton clientId={ clientId }/>

@@ -12,7 +12,7 @@ import { selectActiveClientById } from './duck/selectors.js';
 import { getOptionId } from '../../app/utils/options/getters.js';
 import Permission from '../shared/components/Permission.js';
 import { CLIENT } from '../admin/utils/resources.js';
-import { UPDATE_ANY, UPDATE_OWN } from '../admin/utils/actions.js';
+import { CREATE_ANY, CREATE_OWN, UPDATE_ANY, UPDATE_OWN } from '../admin/utils/actions.js';
 import { isClientOwner } from '../admin/utils/resourceOwnerCheckers.js';
 import { selectSessionUserId } from '../../app/duck/selectors.js';
 
@@ -109,7 +109,7 @@ const ClientAddressCards = React.memo(function ClientAddressCards() {
             </Permission>
             <Permission
                 resource={ CLIENT }
-                action={ [UPDATE_ANY, UPDATE_OWN] }
+                action={ [CREATE_ANY, CREATE_OWN] }
                 isOwner={ isClientOwner(sessionUserId, client) }
             >
                 <NewClientAddressButton
