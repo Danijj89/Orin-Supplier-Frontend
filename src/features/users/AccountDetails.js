@@ -8,7 +8,7 @@ import EditAccountInfoButton from './EditAccountInfoButton.js';
 import { makeStyles } from '@material-ui/core/styles';
 import { selectCurrentUser } from '../../app/duck/selectors.js';
 import { USER } from '../admin/utils/resources.js';
-import { READ_OWN, UPDATE_OWN } from '../admin/utils/actions.js';
+import { READ_OWN } from '../admin/utils/actions.js';
 import UserPermission from '../shared/permissions/UserPermission.js';
 
 const { titleLabel, nameLabel, emailLabel } = LANGUAGE.home.accountDetails;
@@ -36,12 +36,10 @@ const AccountDetails = React.memo(function AccountDetails() {
                     <>
                         <TextWithLabel label={ nameLabel } text={ user.name }/>
                         <TextWithLabel label={ emailLabel } text={ user.email }/>
-                        <UserPermission resource={ USER } action={ UPDATE_OWN } userId={ user._id }>
-                            <ResetPasswordButton
-                                className={ classes.resetPwdButton }
-                                userId={ user._id }
-                            />
-                        </UserPermission>
+                        <ResetPasswordButton
+                            className={ classes.resetPwdButton }
+                            userId={ user._id }
+                        />
                     </>
                 }
             />

@@ -7,9 +7,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Box, List, ListItem, Divider } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import { selectAllUsers } from './duck/selectors.js';
-import Permission from '../shared/permissions/Permission.js';
 import { USER } from '../admin/utils/resources.js';
-import { CREATE_ANY, CREATE_OWN, READ_ANY, READ_OWN } from '../admin/utils/actions.js';
+import { CREATE_ANY, READ_ANY } from '../admin/utils/actions.js';
+import UserPermission from '../shared/permissions/UserPermission.js';
 
 const useStyles = makeStyles((theme) => ({
     list: {
@@ -28,16 +28,16 @@ const CompanyUsers = React.memo(function CompanyUsers() {
     const users = useSelector(selectAllUsers);
 
     return (
-        <Permission resource={ USER } action={ READ_ANY }>
+        <UserPermission resource={ USER } action={ READ_ANY }>
             <InfoCard
                 title={ titleLabel }
                 button={
-                    <Permission resource={ USER } action={ CREATE_ANY }>
+                    <UserPermission resource={ USER } action={ CREATE_ANY }>
                         <ThemedButton variant="text">
                             { inviteButtonLabel }
                             <IconAdd/>
                         </ThemedButton>
-                    </Permission>
+                    </UserPermission>
                 }
                 content={
                     <List className={ classes.list }>
@@ -52,7 +52,7 @@ const CompanyUsers = React.memo(function CompanyUsers() {
                     </List>
                 }
             />
-        </Permission>
+        </UserPermission>
     );
 });
 
