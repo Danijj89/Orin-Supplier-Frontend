@@ -77,7 +77,7 @@ const CreateShipment = React.memo(function CreateShipment() {
     const history = useHistory();
     const location = useLocation();
     const { id: shipmentId } = queryString.parse(location.search);
-    
+
     const { _id: userId, company: companyId } = useSelector(selectSessionUser);
     const companyAddresses = useSelector(selectActiveCompanyAddresses);
     const clients = useSelector(selectAllActiveClients);

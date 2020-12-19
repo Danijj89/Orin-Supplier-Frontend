@@ -10,7 +10,7 @@ import { cleanNewDocument } from '../documents/duck/slice.js';
 import RHFAutoComplete from '../shared/rhf/inputs/RHFAutoComplete.js';
 import { selectDocumentTypes } from '../../app/duck/selectors.js';
 import { getOptionLabel } from '../../app/utils/options/getters.js';
-import { DOCUMENT } from '../admin/utils/resources.js';
+import { SHIPMENT } from '../admin/utils/resources.js';
 import { CREATE_ANY } from '../admin/utils/actions.js';
 import Permission from '../shared/components/Permission.js';
 
@@ -59,7 +59,7 @@ const DocumentButton = React.memo(function DocumentButton() {
     }, [dispatch, history, id]);
 
     return (
-        <Permission resource={ DOCUMENT } action={ [CREATE_ANY] }>
+        <Permission resource={ SHIPMENT } action={ [CREATE_ANY] }>
             <ThemedButton onClick={ onEdit }>{ buttonLabel }</ThemedButton>
             <FormDialog
                 isOpen={ isEdit }

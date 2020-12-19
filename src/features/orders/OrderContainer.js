@@ -28,6 +28,7 @@ import Permission from '../shared/components/Permission.js';
 import { ORDER } from '../admin/utils/resources.js';
 import { READ_ANY, READ_OWN } from '../admin/utils/actions.js';
 import { selectSessionUserId } from '../../app/duck/selectors.js';
+import { isOrderOwner } from '../admin/utils/resourceOwnerCheckers.js';
 
 const {
     errorMessages
@@ -101,7 +102,11 @@ const OrderContainer = React.memo(function OrderContainer() {
     }, [dispatch, errors.length]);
 
     return (
-        <Permission resource={ ORDER } action={ [READ_ANY, READ_OWN] } isOwner={ sessionUserId === order?.createdBy }>
+        <Permission
+            resource={ ORDER }
+            action={ [READ_ANY, READ_OWN] }
+            isOwner={ isOrderOwner(sessionUserId, order) }
+        >
             { isOrderInactive && <ErrorPage errors={ [errorMessages.orderWasDeleted] }/> }
             { status === 'REJECTED' && <ErrorPage errors={ errors }/> }
             { status === 'PENDING' && <Loader/> }

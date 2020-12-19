@@ -10,7 +10,8 @@ import { getOptionId } from '../../app/utils/options/getters.js';
 import Permission from '../shared/components/Permission.js';
 import { ORDER } from '../admin/utils/resources.js';
 import { UPDATE_ANY, UPDATE_OWN } from '../admin/utils/actions.js';
-import { selectSessionUser } from '../../app/duck/selectors.js';
+import { selectSessionUserId } from '../../app/duck/selectors.js';
+import { isOrderOwner } from '../admin/utils/resourceOwnerCheckers.js';
 
 const {
     buttonLabel,
@@ -20,7 +21,7 @@ const {
 
 const EditOrderProductsButton = React.memo(function EditOrderProductsButton({ order, className }) {
     const dispatch = useDispatch();
-    const sessionUser = useSelector(selectSessionUser);
+    const sessionUserId = useSelector(selectSessionUserId);
     const [isEdit, setIsEdit] = useState(false);
 
     const onEdit = () => setIsEdit(true);
@@ -34,7 +35,11 @@ const EditOrderProductsButton = React.memo(function EditOrderProductsButton({ or
     };
 
     return (
-        <Permission resource={ ORDER } action={ [UPDATE_ANY, UPDATE_OWN] } isOwner={ sessionUser._id === order.createdBy }>
+        <Permission
+            resource={ ORDER }
+            action={ [UPDATE_ANY, UPDATE_OWN] }
+            isOwner={ isOrderOwner(sessionUserId, order) }
+        >
             <Box className={ className }>
                 <ThemedButton
                     onClick={ onEdit }
