@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectCompanyId, selectHomeError, selectHomeDataStatus } from '../home/duck/selectors.js';
+import { selectHomeError, selectHomeDataStatus } from '../home/duck/selectors.js';
 import { selectShipmentDataStatus, selectShipmentError } from '../shipments/duck/selectors.js';
 import { determineStatus, getErrors } from '../shared/utils/state.js';
 import ErrorPage from '../shared/components/ErrorPage.js';
@@ -16,6 +16,7 @@ import { cleanShipmentState } from '../shipments/duck/slice.js';
 import Permission from '../shared/components/Permission.js';
 import { DOCUMENT } from '../admin/utils/resources.js';
 import { CREATE_ANY } from '../admin/utils/actions.js';
+import { fetchCurrentCompany } from '../home/duck/thunks.js';
 
 const PackingListContainer = React.memo(function PackingListContainer() {
     const dispatch = useDispatch();
@@ -30,16 +31,15 @@ const PackingListContainer = React.memo(function PackingListContainer() {
     const status = determineStatus(homeDataStatus, shipmentDataStatus, clientDataStatus);
     const errors = getErrors(homeError, shipmentError, clientError);
 
-    const companyId = useSelector(selectCompanyId);
-
     const fetched = useRef(false);
     useEffect(() => {
-        if (!fetched.current && companyId) {
-            if (shipmentDataStatus === 'IDLE') dispatch(fetchShipments({ companyId }));
-            dispatch(fetchClients({ companyId }));
+        if (!fetched.current) {
+            if (shipmentDataStatus === 'IDLE') dispatch(fetchShipments());
+            if (clientDataStatus === 'IDLE') dispatch(fetchClients());
+            if (homeDataStatus === 'IDLE') dispatch(fetchCurrentCompany());
             fetched.current = true;
         }
-    }, [dispatch, shipmentDataStatus, companyId]);
+    }, [dispatch, shipmentDataStatus, clientDataStatus, homeDataStatus]);
 
     useEffect(() => {
         return () => {
@@ -47,7 +47,6 @@ const PackingListContainer = React.memo(function PackingListContainer() {
                 dispatch(cleanHomeState());
                 dispatch(cleanShipmentState());
                 dispatch(cleanClientState());
-                dispatch(cleanShipmentState());
             }
             dispatch(cleanNewDocument());
         }

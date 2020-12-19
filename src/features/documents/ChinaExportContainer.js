@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectCompanyId, selectHomeError, selectHomeDataStatus } from '../home/duck/selectors.js';
+import { selectHomeError, selectHomeDataStatus } from '../home/duck/selectors.js';
 import { determineStatus, getErrors } from '../shared/utils/state.js';
 import Loader from '../shared/components/Loader.js';
 import ErrorPage from '../shared/components/ErrorPage.js';
@@ -22,6 +22,7 @@ import { fetchProducts } from '../products/duck/thunks.js';
 import { DOCUMENT } from '../admin/utils/resources.js';
 import { CREATE_ANY } from '../admin/utils/actions.js';
 import Permission from '../shared/components/Permission.js';
+import { fetchCurrentCompany } from '../home/duck/thunks.js';
 
 const ChinaExportContainer = React.memo(function ChinaExportContainer() {
     const dispatch = useDispatch();
@@ -43,18 +44,22 @@ const ChinaExportContainer = React.memo(function ChinaExportContainer() {
     );
     const errors = getErrors(homeError, shipmentError, clientError, productError);
 
-
-    const companyId = useSelector(selectCompanyId);
-
     const fetched = useRef(false);
     useEffect(() => {
-        if (!fetched.current && companyId) {
-            if (shipmentDataStatus === 'IDLE') dispatch(fetchShipments({ companyId }));
-            dispatch(fetchClients({ companyId }));
-            dispatch(fetchProducts({ companyId }));
+        if (!fetched.current) {
+            if (shipmentDataStatus === 'IDLE') dispatch(fetchShipments());
+            if (clientDataStatus === 'IDLE') dispatch(fetchClients());
+            if (productDataStatus === 'IDLE') dispatch(fetchProducts());
+            if (homeDataStatus === 'IDLE') dispatch(fetchCurrentCompany());
             fetched.current = true;
         }
-    }, [dispatch, companyId, shipmentDataStatus]);
+    }, [
+        dispatch,
+        shipmentDataStatus,
+        clientDataStatus,
+        productDataStatus,
+        homeDataStatus
+    ]);
 
     useEffect(() => {
         return () => {
