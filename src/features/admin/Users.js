@@ -41,6 +41,7 @@ const Users = React.memo(function Users() {
         const { _id: userId, company: companyId, ...update } = data;
         dispatch(updateUserRoles({ companyId, userId, update }));
         setIsEdit(false);
+        setUser(null);
     };
 
     const columns = useMemo(() => [

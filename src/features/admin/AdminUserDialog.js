@@ -49,7 +49,8 @@ const AdminUserDialog = React.memo(function AdminUserDialog(
             confirmPassword: null,
             company: user?.company || null,
             roles: user?.roles || []
-        }
+        },
+        shouldUnregister: true
     });
 
     useEffect(() => {
@@ -57,6 +58,12 @@ const AdminUserDialog = React.memo(function AdminUserDialog(
     }, [register]);
 
     const roles = watch('roles');
+
+    const onCancelClick = useCallback(
+        () => {
+            onCancel();
+            setValue('roles', []);
+        }, [setValue, onCancel]);
 
     const onSelect = useCallback(
         (role) => () => {
@@ -81,12 +88,13 @@ const AdminUserDialog = React.memo(function AdminUserDialog(
             actualData.company = actualData.company._id;
         }
         onSubmit(actualData);
-    }, [onSubmit, isEdit]);
+        setValue('roles', []);
+    }, [onSubmit, isEdit, setValue]);
 
     return (
         <FormDialog
             onSubmit={ handleSubmit(onFormSubmit) }
-            onCancel={ onCancel }
+            onCancel={ onCancelClick }
             isOpen={ isOpen }
             titleLabel={ titleLabel }
             submitLabel={ submitLabel }
@@ -140,7 +148,7 @@ const AdminUserDialog = React.memo(function AdminUserDialog(
                         <ListItem key={ role } role="listitem" button onClick={ onSelect(role) }>
                             <ListItemIcon>
                                 <Checkbox
-                                    checked={ roles.indexOf(role) !== -1 }
+                                    checked={ roles?.indexOf(role) !== -1 }
                                     tabIndex={ -1 }
                                     disableRipple
                                     color="primary"
