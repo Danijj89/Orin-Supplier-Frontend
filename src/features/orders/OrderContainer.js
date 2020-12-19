@@ -24,7 +24,6 @@ import { cleanProductState } from '../products/duck/slice.js';
 import { cleanUserState } from '../users/duck/slice.js';
 import { cleanShipmentState } from '../shipments/duck/slice.js';
 import { fetchCurrentCompany } from '../home/duck/thunks.js';
-import { ORDER } from '../admin/utils/resources.js';
 import { READ_ANY, READ_OWN } from '../admin/utils/actions.js';
 import OrderPermission from '../shared/permissions/OrderPermission.js';
 
@@ -99,11 +98,7 @@ const OrderContainer = React.memo(function OrderContainer() {
     }, [dispatch, errors.length]);
 
     return (
-        <OrderPermission
-            resource={ ORDER }
-            action={ [READ_ANY, READ_OWN] }
-            orderId={ orderId }
-        >
+        <OrderPermission action={ [READ_ANY, READ_OWN] } orderId={ orderId }>
             { isOrderInactive && <ErrorPage errors={ [errorMessages.orderWasDeleted] }/> }
             { status === 'REJECTED' && <ErrorPage errors={ errors }/> }
             { status === 'PENDING' && <Loader/> }

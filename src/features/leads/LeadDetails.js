@@ -29,7 +29,6 @@ import { convertLeadToClient, deleteLead, updateLead } from './duck/thunks.js';
 import DeleteButton from '../shared/buttons/DeleteButton.js';
 import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import { LEAD } from '../admin/utils/resources.js';
 import { DELETE_ANY, DELETE_OWN, UPDATE_ANY, UPDATE_OWN } from '../admin/utils/actions.js';
 import LeadPermission from '../shared/permissions/LeadPermission.js';
 
@@ -157,10 +156,7 @@ const LeadDetails = React.memo(function LeadDetails({ leadId }) {
         <form onSubmit={ handleSubmit(onSubmit) } autoComplete="off" noValidate>
             <Grid container>
                 <Grid container item justify="flex-end" xs={ 12 }>
-                    <LeadPermission
-                        resource={ LEAD }
-                        action={ [UPDATE_ANY, UPDATE_OWN] }
-                    >
+                    <LeadPermission action={ [UPDATE_ANY, UPDATE_OWN] }>
                         <ThemedButton
                             className={ classes.convertButton }
                             onClick={ onConvert }
@@ -334,22 +330,14 @@ const LeadDetails = React.memo(function LeadDetails({ leadId }) {
                     </Grid>
                 </Grid>
                 <Grid container item justify="center" xs={ 12 }>
-                    <LeadPermission
-                        resource={ LEAD }
-                        action={ [DELETE_ANY, DELETE_OWN] }
-                        leadId={ leadId }
-                    >
+                    <LeadPermission action={ [DELETE_ANY, DELETE_OWN] } leadId={ leadId }>
                         <DeleteButton
                             onDelete={ onDelete }
                             deleteMessage={ deleteMessage }
                             className={ classes.actionButton }
                         />
                     </LeadPermission>
-                    <LeadPermission
-                        resource={ LEAD }
-                        action={ [UPDATE_ANY, UPDATE_OWN] }
-                        leadId={ leadId }
-                    >
+                    <LeadPermission action={ [UPDATE_ANY, UPDATE_OWN] } leadId={ leadId }>
                         <ThemedButton
                             type="submit"
                             className={ classes.actionButton }

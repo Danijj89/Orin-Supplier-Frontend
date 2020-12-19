@@ -7,7 +7,6 @@ import { useDispatch } from 'react-redux';
 import { deleteOrder, updateOrder } from './duck/thunks.js';
 import { addressToDocAddress } from '../shared/utils/entityConversion.js';
 import { getOptionId } from '../../app/utils/options/getters.js';
-import { ORDER } from '../admin/utils/resources.js';
 import { UPDATE_ANY, UPDATE_OWN } from '../admin/utils/actions.js';
 import OrderPermission from '../shared/permissions/OrderPermission.js';
 
@@ -39,11 +38,7 @@ const EditOrderDetailsButton = React.memo(function EditOrderDetailsButton({ orde
     }, [dispatch, order._id]);
 
     return (
-        <OrderPermission
-            resource={ ORDER }
-            action={ [UPDATE_ANY, UPDATE_OWN] }
-            orderId={ order._id }
-        >
+        <OrderPermission action={ [UPDATE_ANY, UPDATE_OWN] } orderId={ order._id }>
             <Box className={ className }>
                 <ThemedButton
                     onClick={ onEdit }

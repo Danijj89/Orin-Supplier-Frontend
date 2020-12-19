@@ -20,7 +20,6 @@ import Grid from '@material-ui/core/Grid';
 import DeleteButton from '../shared/buttons/DeleteButton.js';
 import { deleteShipment } from './duck/thunks.js';
 import queryString from 'query-string';
-import { SHIPMENT } from '../admin/utils/resources.js';
 import { DELETE_ANY, DELETE_OWN } from '../admin/utils/actions.js';
 import ShipmentPermission from '../shared/permissions/ShipmentPermission.js';
 
@@ -81,11 +80,7 @@ const EditShipment = React.memo(function EditShipment() {
                     <Typography className={ classes.title } variant="h5">
                         { titleLabel }
                     </Typography>
-                    <ShipmentPermission
-                        resource={ SHIPMENT }
-                        action={ [DELETE_ANY, DELETE_OWN] }
-                        shipmentId={shipmentId}
-                    >
+                    <ShipmentPermission action={ [DELETE_ANY, DELETE_OWN] } shipmentId={shipmentId}>
                         <DeleteButton
                             onDelete={ onDelete }
                             deleteMessage={ deleteMessage }

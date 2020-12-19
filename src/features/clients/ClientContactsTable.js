@@ -9,7 +9,6 @@ import { deleteContact, updateContact, updateDefaultClientContact } from './duck
 import { useParams } from 'react-router-dom';
 import { selectClientActiveContacts } from './duck/selectors.js';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
-import { CLIENT } from '../admin/utils/resources.js';
 import { CREATE_ANY, CREATE_OWN, UPDATE_ANY, UPDATE_OWN } from '../admin/utils/actions.js';
 import ClientPermission from '../shared/permissions/ClientPermission.js';
 
@@ -105,11 +104,7 @@ const ClientContactsTable = React.memo(function ClientContactsTable() {
                 columns={ columns }
                 onRowClick={ onRowClick }
             />
-            <ClientPermission
-                resource={ CLIENT }
-                action={ [UPDATE_ANY, UPDATE_OWN] }
-                clientId={ clientId }
-            >
+            <ClientPermission action={ [UPDATE_ANY, UPDATE_OWN] } clientId={ clientId }>
                 { editContact && (
                     <ContactDialog
                         isOpen={ isEdit }
@@ -122,11 +117,7 @@ const ClientContactsTable = React.memo(function ClientContactsTable() {
                     />
                 ) }
             </ClientPermission>
-            <ClientPermission
-                resource={ CLIENT }
-                action={ [CREATE_ANY, CREATE_OWN] }
-                clientId={ clientId }
-            >
+            <ClientPermission action={ [CREATE_ANY, CREATE_OWN] } clientId={ clientId }>
                 <NewClientContactButton clientId={ clientId }/>
             </ClientPermission>
         </Box>

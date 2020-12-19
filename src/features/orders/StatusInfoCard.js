@@ -9,10 +9,9 @@ import EditOrderStatusButton from './EditOrderStatusButton.js';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectOrderById } from './duck/selectors.js';
-import Permission from '../shared/permissions/Permission.js';
-import { ORDER_STATUS } from '../admin/utils/resources.js';
 import { READ_ANY, READ_OWN } from '../admin/utils/actions.js';
 import { selectSessionUser } from '../../app/duck/selectors.js';
+import OrderStatusPermission from '../shared/permissions/OrderStatusPermission.js';
 
 const useStyles = makeStyles((theme) => ({
     tableContainer: {
@@ -64,11 +63,7 @@ const StatusInfoCard = React.memo(function StatusInfoCard() {
         <TableCell align="center">{ date ? dateToLocaleDate(date) : '-' }</TableCell>
 
     return (
-        <Permission
-            resource={ ORDER_STATUS }
-            action={ [READ_ANY, READ_OWN] }
-            isOwner={ sessionUser._id === order.createdBy }
-        >
+        <OrderStatusPermission action={ [READ_ANY, READ_OWN] } orderId={ orderId }>
             <InfoCard
                 title={ title }
                 button={
@@ -115,7 +110,7 @@ const StatusInfoCard = React.memo(function StatusInfoCard() {
                     </TableContainer>
                 }
             />
-        </Permission>
+        </OrderStatusPermission>
     );
 });
 

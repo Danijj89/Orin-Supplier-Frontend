@@ -5,7 +5,6 @@ import { Box } from '@material-ui/core';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import { useDispatch } from 'react-redux';
 import { updateUser } from './duck/thunks.js';
-import { USER } from '../admin/utils/resources.js';
 import { UPDATE_OWN } from '../admin/utils/actions.js';
 import UserPermission from '../shared/permissions/UserPermission.js';
 
@@ -29,7 +28,7 @@ const EditAccountInfoButton = React.memo(function EditAccountInfoButton({ user, 
     };
 
     return (
-        <UserPermission resource={ USER } action={ UPDATE_OWN } userId={ user._id }>
+        <UserPermission action={ UPDATE_OWN } userId={ user._id }>
             <Box className={ className }>
                 <ThemedButton
                     onClick={ onEdit }

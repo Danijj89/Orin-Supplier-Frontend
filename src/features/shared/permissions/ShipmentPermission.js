@@ -5,8 +5,10 @@ import { selectSessionUserId } from '../../../app/duck/selectors.js';
 import Permission from './Permission.js';
 import { selectShipmentOwnerById } from '../../shipments/duck/selectors.js';
 
+const RESOURCE = 'shipment';
+
 const ShipmentPermission = React.memo(function ShipmentPermission(
-    { resource, action = [], shipmentId, children }) {
+    { action = [], shipmentId, children }) {
     const shipmentOwner = useSelector(state => selectShipmentOwnerById(state, { shipmentId }));
     const sessionUserId = useSelector(selectSessionUserId);
     const isOwner = useMemo(
@@ -14,14 +16,13 @@ const ShipmentPermission = React.memo(function ShipmentPermission(
         [shipmentOwner, sessionUserId, shipmentId]);
 
     return (
-        <Permission resource={ resource } action={ action } isOwner={ isOwner }>
+        <Permission resource={ RESOURCE } action={ action } isOwner={ isOwner }>
             { children }
         </Permission>
     );
 });
 
 ShipmentPermission.propTypes = {
-    resource: PropTypes.string.isRequired,
     action: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.array

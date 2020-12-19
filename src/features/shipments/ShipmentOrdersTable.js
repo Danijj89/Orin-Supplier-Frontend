@@ -10,7 +10,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import { selectShipmentOrders } from './duck/selectors.js';
 import { selectItemUnitsMap } from '../../app/duck/selectors.js';
 import { getOptionLabel } from '../../app/utils/options/getters.js';
-import { ORDER, SHIPMENT } from '../admin/utils/resources.js';
 import { CREATE_ANY, CREATE_OWN, READ_ANY, READ_OWN } from '../admin/utils/actions.js';
 import OrderPermission from '../shared/permissions/OrderPermission.js';
 import ShipmentPermission from '../shared/permissions/ShipmentPermission.js';
@@ -83,16 +82,12 @@ const ShipmentOrdersTable = React.memo(function ShipmentOrdersTable() {
 
     return (
         <>
-            <ShipmentPermission
-                resource={ SHIPMENT }
-                action={ [CREATE_ANY, CREATE_OWN] }
-                shipmentId={ shipmentId }
-            >
+            <ShipmentPermission action={ [CREATE_ANY, CREATE_OWN] } shipmentId={ shipmentId }>
                 <ThemedButton variant="outlined" onClick={ onEditOrders } className={ classes.button }>
                     { editOrdersButtonLabel }
                 </ThemedButton>
             </ShipmentPermission>
-            <OrderPermission resource={ ORDER } action={ [READ_ANY, READ_OWN] }>
+            <OrderPermission action={ [READ_ANY, READ_OWN] }>
                 <Table columns={ columns } rows={ rows } onRowClick={ onRowClick }/>
             </OrderPermission>
         </>

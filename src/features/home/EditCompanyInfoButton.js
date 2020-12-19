@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { updateCompany } from './duck/thunks.js';
 import { selectCurrentCompany } from './duck/selectors.js';
 import { getOptionId } from '../../app/utils/options/getters.js';
-import { COMPANY } from '../admin/utils/resources.js';
 import { UPDATE_ANY, UPDATE_OWN } from '../admin/utils/actions.js';
 import CompanyPermission from '../shared/permissions/CompanyPermission.js';
 
@@ -29,11 +28,7 @@ const EditCompanyInfoButton = React.memo(function EditCompanyInfoButton({ classN
     };
 
     return (
-        <CompanyPermission
-            resource={ COMPANY }
-            action={ [UPDATE_ANY, UPDATE_OWN] }
-            companyId={ company._id }
-        >
+        <CompanyPermission action={ [UPDATE_ANY, UPDATE_OWN] } companyId={ company._id }>
             <Box className={ className }>
                 <ThemedButton
                     onClick={ onEdit }

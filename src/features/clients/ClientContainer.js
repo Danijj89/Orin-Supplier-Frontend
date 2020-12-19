@@ -14,7 +14,6 @@ import { cleanClientState } from './duck/slice.js';
 import { selectOrderDataStatus, selectOrderError } from '../orders/duck/selectors.js';
 import { fetchOrders } from '../orders/duck/thunks.js';
 import { cleanOrderState } from '../orders/duck/slice.js';
-import { CLIENT } from '../admin/utils/resources.js';
 import { READ_ANY, READ_OWN } from '../admin/utils/actions.js';
 import ClientPermission from '../shared/permissions/ClientPermission.js';
 
@@ -58,11 +57,7 @@ const ClientContainer = React.memo(function ClientContainer() {
     }, [dispatch, errors.length]);
 
     return (
-        <ClientPermission
-            resource={ CLIENT }
-            action={ [READ_ANY, READ_OWN] }
-            clientId={ clientId }
-        >
+        <ClientPermission action={ [READ_ANY, READ_OWN] } clientId={ clientId }>
             { isClientInactive && <Redirect to={ '/home/clients' }/> }
             { status === 'REJECTED' && <ErrorPage errors={ errors }/> }
             { status === 'PENDING' && <Loader/> }

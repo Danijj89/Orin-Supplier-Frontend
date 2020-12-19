@@ -8,7 +8,6 @@ import { addNewAddress } from './duck/thunks.js';
 import { makeStyles } from '@material-ui/core/styles';
 import { selectCompanyLegalAddress } from './duck/selectors.js';
 import { getOptionId } from '../../app/utils/options/getters.js';
-import { COMPANY } from '../admin/utils/resources.js';
 import { CREATE_ANY, CREATE_OWN } from '../admin/utils/actions.js';
 import { selectSessionUserCompanyId } from '../../app/duck/selectors.js';
 import CompanyPermission from '../shared/permissions/CompanyPermission.js';
@@ -44,11 +43,7 @@ const NewCompanyAddressButton = React.memo(function NewCompanyAddressButton({ cl
     };
 
     return (
-        <CompanyPermission
-            resource={ COMPANY }
-            action={ [CREATE_ANY, CREATE_OWN] }
-            companyId={ companyId }
-        >
+        <CompanyPermission action={ [CREATE_ANY, CREATE_OWN] } companyId={ companyId }>
             <Box className={ className }>
                 <ThemedButton
                     onClick={ onClick }

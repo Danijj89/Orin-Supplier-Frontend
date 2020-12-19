@@ -5,7 +5,6 @@ import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import ShipmentsTable from './ShipmentsTable.js';
 import { makeStyles } from '@material-ui/core/styles';
-import { SHIPMENT } from '../admin/utils/resources.js';
 import { CREATE_ANY, CREATE_OWN } from '../admin/utils/actions.js';
 import ShipmentPermission from '../shared/permissions/ShipmentPermission.js';
 
@@ -30,7 +29,7 @@ const ShipmentOverview = React.memo(function ShipmentOverview() {
 
     return (
         <Paper className={ classes.shipmentOverviewRoot }>
-            <ShipmentPermission resource={ SHIPMENT } action={ [CREATE_ANY, CREATE_OWN] }>
+            <ShipmentPermission action={ [CREATE_ANY, CREATE_OWN] }>
                 <ThemedButton
                     onClick={ onNewOrderClick }
                     className={ classes.newShipmentButton }

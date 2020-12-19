@@ -5,7 +5,6 @@ import { useDispatch } from 'react-redux';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import ResetPassWordDialog from '../shared/forms/ResetPasswordDialog.js';
 import { updateUser } from './duck/thunks.js';
-import { USER } from '../admin/utils/resources.js';
 import { UPDATE_OWN } from '../admin/utils/actions.js';
 import UserPermission from '../shared/permissions/UserPermission.js';
 
@@ -28,7 +27,7 @@ const ResetPasswordButton = React.memo(function ResetPasswordButton({ userId, cl
     };
 
     return (
-        <UserPermission resource={ USER } action={ UPDATE_OWN } userId={ userId }>
+        <UserPermission action={ UPDATE_OWN } userId={ userId }>
             <Box className={ className }>
                 <ThemedButton
                     onClick={ onEdit }

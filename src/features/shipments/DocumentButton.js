@@ -10,7 +10,6 @@ import { cleanNewDocument } from '../documents/duck/slice.js';
 import RHFAutoComplete from '../shared/rhf/inputs/RHFAutoComplete.js';
 import { selectDocumentTypes } from '../../app/duck/selectors.js';
 import { getOptionLabel } from '../../app/utils/options/getters.js';
-import { SHIPMENT } from '../admin/utils/resources.js';
 import { CREATE_ANY, CREATE_OWN } from '../admin/utils/actions.js';
 import ShipmentPermission from '../shared/permissions/ShipmentPermission.js';
 
@@ -59,11 +58,7 @@ const DocumentButton = React.memo(function DocumentButton() {
     }, [dispatch, history, shipmentId]);
 
     return (
-        <ShipmentPermission
-            resource={ SHIPMENT }
-            action={ [CREATE_ANY, CREATE_OWN] }
-            shipmentId={shipmentId}
-        >
+        <ShipmentPermission action={ [CREATE_ANY, CREATE_OWN] } shipmentId={shipmentId}>
             <ThemedButton onClick={ onEdit }>{ buttonLabel }</ThemedButton>
             <FormDialog
                 isOpen={ isEdit }

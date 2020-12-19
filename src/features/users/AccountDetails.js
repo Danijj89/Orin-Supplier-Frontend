@@ -7,7 +7,6 @@ import InfoCard from '../shared/wrappers/InfoCard.js';
 import EditAccountInfoButton from './EditAccountInfoButton.js';
 import { makeStyles } from '@material-ui/core/styles';
 import { selectCurrentUser } from '../../app/duck/selectors.js';
-import { USER } from '../admin/utils/resources.js';
 import { READ_OWN } from '../admin/utils/actions.js';
 import UserPermission from '../shared/permissions/UserPermission.js';
 
@@ -28,7 +27,7 @@ const AccountDetails = React.memo(function AccountDetails() {
     const user = useSelector(selectCurrentUser);
 
     return (
-        <UserPermission resource={ USER } action={ READ_OWN } userId={ user._id }>
+        <UserPermission action={ READ_OWN } userId={ user._id }>
             <InfoCard
                 title={ titleLabel }
                 button={ <EditAccountInfoButton user={ user }/> }

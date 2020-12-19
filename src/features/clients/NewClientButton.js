@@ -7,7 +7,6 @@ import ClientDialog from '../shared/forms/ClientDialog.js';
 import { makeStyles } from '@material-ui/core/styles';
 import { selectAllActiveUsers } from '../users/duck/selectors.js';
 import { selectSessionUserCompanyId, selectSessionUserId } from '../../app/duck/selectors.js';
-import { CLIENT } from '../admin/utils/resources.js';
 import { CREATE_ANY, CREATE_OWN } from '../admin/utils/actions.js';
 import ClientPermission from '../shared/permissions/ClientPermission.js';
 
@@ -40,7 +39,7 @@ const NewClientButton = React.memo(function NewClientButton() {
     };
 
     return (
-        <ClientPermission resource={ CLIENT } action={ [CREATE_ANY, CREATE_OWN] }>
+        <ClientPermission action={ [CREATE_ANY, CREATE_OWN] }>
             <ThemedButton
                 onClick={ onClick }
                 className={ classes.newClient }

@@ -9,7 +9,6 @@ import Paper from '@material-ui/core/Paper';
 import { Typography } from '@material-ui/core';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import { downloadOrder } from '../documents/duck/thunks.js';
-import { SHIPMENT } from '../admin/utils/resources.js';
 import { READ_ANY } from '../admin/utils/actions.js';
 import ShipmentPermission from '../shared/permissions/ShipmentPermission.js';
 
@@ -48,7 +47,7 @@ const OrderDocuments = React.memo(function OrderDocuments() {
     ]);
 
     return (
-        <ShipmentPermission resource={ SHIPMENT } action={ [READ_ANY] }>
+        <ShipmentPermission action={ [READ_ANY] }>
             <ThemedButton
                 variant="outlined"
                 onClick={ createGenerateDocumentHandler('xlsx') }

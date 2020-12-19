@@ -4,10 +4,9 @@ import { useSelector } from 'react-redux';
 import { selectOrderOwnerById } from '../../orders/duck/selectors.js';
 import { selectSessionUserId } from '../../../app/duck/selectors.js';
 import Permission from './Permission.js';
+import { ORDER_STATUS } from '../../admin/utils/resources.js';
 
-const RESOURCE = 'order';
-
-const OrderPermission = React.memo(function OrderPermission(
+const OrderStatusPermission = React.memo(function OrderStatusPermission(
     { action = [], orderId, children }) {
     const orderOwner = useSelector(state => selectOrderOwnerById(state, { orderId }));
     const sessionUserId = useSelector(selectSessionUserId);
@@ -16,13 +15,13 @@ const OrderPermission = React.memo(function OrderPermission(
         [orderOwner, sessionUserId, orderId]);
 
     return (
-        <Permission resource={ RESOURCE } action={ action } isOwner={ isOwner }>
+        <Permission resource={ ORDER_STATUS } action={ action } isOwner={ isOwner }>
             { children }
         </Permission>
     );
 });
 
-OrderPermission.propTypes = {
+OrderStatusPermission.propTypes = {
     action: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.array
@@ -31,4 +30,4 @@ OrderPermission.propTypes = {
     children: PropTypes.node.isRequired
 };
 
-export default OrderPermission;
+export default OrderStatusPermission;

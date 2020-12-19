@@ -5,10 +5,9 @@ import OrderStatusDialog from './OrderStatusDialog.js';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateOrderStatus } from './duck/thunks.js';
-import Permission from '../shared/permissions/Permission.js';
-import { ORDER_STATUS } from '../admin/utils/resources.js';
 import { UPDATE_ANY, UPDATE_OWN } from '../admin/utils/actions.js';
 import { selectSessionUser } from '../../app/duck/selectors.js';
+import OrderStatusPermission from '../shared/permissions/OrderStatusPermission.js';
 
 const {
     buttonLabel,
@@ -31,11 +30,7 @@ const EditOrderStatusButton = React.memo(function EditOrderStatusButton(
     }, [dispatch, orderId]);
 
     return (
-        <Permission
-            resource={ ORDER_STATUS }
-            action={ [UPDATE_ANY, UPDATE_OWN] }
-            isOwner={ sessionUser._id === createdBy }
-        >
+        <OrderStatusPermission action={ [UPDATE_ANY, UPDATE_OWN] } orderId={ orderId }>
             <Box className={ className }>
                 <ThemedButton onClick={ onEdit }>
                     { buttonLabel }
@@ -51,7 +46,7 @@ const EditOrderStatusButton = React.memo(function EditOrderStatusButton(
                     onSubmit={ onSubmit }
                 />
             </Box>
-        </Permission>
+        </OrderStatusPermission>
     )
 });
 

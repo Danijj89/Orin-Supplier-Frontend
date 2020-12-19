@@ -8,7 +8,6 @@ import NewLeadAddressButton from './NewLeadAddressButton.js';
 import { deleteLeadAddress, updateLeadAddress, updateLeadDefaultAddress } from './duck/thunks.js';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import { getOptionId } from '../../app/utils/options/getters.js';
-import { LEAD } from '../admin/utils/resources.js';
 import { CREATE_ANY, CREATE_OWN, UPDATE_ANY, UPDATE_OWN } from '../admin/utils/actions.js';
 import LeadPermission from '../shared/permissions/LeadPermission.js';
 
@@ -56,11 +55,7 @@ const LeadAddresses = React.memo(function LeadAddresses({ leadId }) {
     return (
         <Grid container>
             <Grid container item xs={ 12 }>
-                <LeadPermission
-                    resource={ LEAD }
-                    action={ [CREATE_ANY, CREATE_OWN] }
-                    leadId={ leadId }
-                >
+                <LeadPermission action={ [CREATE_ANY, CREATE_OWN] } leadId={ leadId }>
                     <NewLeadAddressButton
                         leadId={ leadId }
                         leadName={ lead.name }
@@ -78,11 +73,7 @@ const LeadAddresses = React.memo(function LeadAddresses({ leadId }) {
                         />
                     </Grid>
                 ) }
-                <LeadPermission
-                    resource={ LEAD }
-                    action={ [UPDATE_ANY, UPDATE_OWN] }
-                    leadId={ leadId }
-                >
+                <LeadPermission action={ [UPDATE_ANY, UPDATE_OWN] } leadId={ leadId }>
                     { editAddress && (
                         <AddressDialog
                             isOpen={ isEditOpen }

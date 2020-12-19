@@ -21,7 +21,6 @@ import { selectProductDataStatus, selectProductError } from '../products/duck/se
 import { fetchProducts } from '../products/duck/thunks.js';
 import { CREATE_ANY, CREATE_OWN } from '../admin/utils/actions.js';
 import { fetchCurrentCompany } from '../home/duck/thunks.js';
-import { SHIPMENT } from '../admin/utils/resources.js';
 import ShipmentPermission from '../shared/permissions/ShipmentPermission.js';
 
 const ChinaExportContainer = React.memo(function ChinaExportContainer() {
@@ -74,7 +73,7 @@ const ChinaExportContainer = React.memo(function ChinaExportContainer() {
     }, [dispatch, errors.length]);
 
     return (
-        <ShipmentPermission resource={ SHIPMENT } action={ [CREATE_ANY, CREATE_OWN] }>
+        <ShipmentPermission action={ [CREATE_ANY, CREATE_OWN] }>
             { status === 'REJECTED' && <ErrorPage errors={ errors }/> }
             { status === 'PENDING' && <Loader/> }
             { status === 'FULFILLED' && <ChinaExport/> }

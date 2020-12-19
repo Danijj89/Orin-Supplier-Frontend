@@ -5,7 +5,6 @@ import ThemedButton from '../shared/buttons/ThemedButton.js';
 import ClientDialog from '../shared/forms/ClientDialog.js';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import { deleteClient, updateClient } from './duck/thunks.js';
-import { CLIENT } from '../admin/utils/resources.js';
 import { UPDATE_ANY, UPDATE_OWN } from '../admin/utils/actions.js';
 import ClientPermission from '../shared/permissions/ClientPermission.js';
 
@@ -34,11 +33,7 @@ const EditClientButton = React.memo(function EditClientButton({ client, classNam
     };
 
     return (
-        <ClientPermission
-            resource={ CLIENT }
-            action={ [UPDATE_ANY, UPDATE_OWN] }
-            clientId={ client._id }
-        >
+        <ClientPermission action={ [UPDATE_ANY, UPDATE_OWN] } clientId={ client._id }>
             <Box className={ className }>
                 <ThemedButton
                     onClick={ onEdit }

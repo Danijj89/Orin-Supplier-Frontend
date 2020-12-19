@@ -7,7 +7,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Box, List, ListItem, Divider } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import { selectAllUsers } from './duck/selectors.js';
-import { USER } from '../admin/utils/resources.js';
 import { CREATE_ANY, READ_ANY } from '../admin/utils/actions.js';
 import UserPermission from '../shared/permissions/UserPermission.js';
 
@@ -28,11 +27,11 @@ const CompanyUsers = React.memo(function CompanyUsers() {
     const users = useSelector(selectAllUsers);
 
     return (
-        <UserPermission resource={ USER } action={ READ_ANY }>
+        <UserPermission action={ READ_ANY }>
             <InfoCard
                 title={ titleLabel }
                 button={
-                    <UserPermission resource={ USER } action={ CREATE_ANY }>
+                    <UserPermission action={ CREATE_ANY }>
                         <ThemedButton variant="text">
                             { inviteButtonLabel }
                             <IconAdd/>

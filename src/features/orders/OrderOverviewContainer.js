@@ -7,7 +7,6 @@ import OrderOverview from './OrderOverview.js';
 import { fetchOrders } from './duck/thunks.js';
 import ErrorPage from '../shared/components/ErrorPage.js';
 import { cleanOrderState } from './duck/slice.js';
-import { ORDER } from '../admin/utils/resources.js';
 import { READ_ANY, READ_OWN } from '../admin/utils/actions.js';
 import OrderPermission from '../shared/permissions/OrderPermission.js';
 
@@ -36,7 +35,7 @@ const OrderOverviewContainer = React.memo(function OrderOverviewContainer() {
     }, [dispatch, errors.length]);
 
     return (
-        <OrderPermission resource={ ORDER } action={ [READ_ANY, READ_OWN] }>
+        <OrderPermission action={ [READ_ANY, READ_OWN] }>
             { status === 'REJECTED' && <ErrorPage errors={ errors }/> }
             { status === 'PENDING' && <Loader/> }
             { status === 'FULFILLED' && <OrderOverview/> }

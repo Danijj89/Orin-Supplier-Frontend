@@ -18,7 +18,6 @@ import { cleanHomeState } from '../home/duck/slice.js';
 import { cleanClientState } from '../clients/duck/slice.js';
 import { cleanProductState } from '../products/duck/slice.js';
 import { fetchCurrentCompany } from '../home/duck/thunks.js';
-import { ORDER } from '../admin/utils/resources.js';
 import { CREATE_ANY, CREATE_OWN } from '../admin/utils/actions.js';
 import OrderPermission from '../shared/permissions/OrderPermission.js';
 
@@ -59,7 +58,7 @@ export default function CreateOrderContainer() {
     }, [dispatch, errors.length]);
 
     return (
-        <OrderPermission resource={ ORDER } action={ [CREATE_ANY, CREATE_OWN] }>
+        <OrderPermission action={ [CREATE_ANY, CREATE_OWN] }>
             { currentOrderId && <Redirect to={ `/home/orders/${ currentOrderId }` }/> }
             { status === 'REJECTED' && <ErrorPage errors={ errors }/> }
             { status === 'PENDING' && <Loader/> }

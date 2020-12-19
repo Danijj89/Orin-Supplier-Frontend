@@ -8,8 +8,8 @@ import { fetchProducts } from './duck/thunks.js';
 import ProductOverview from './ProductOverview.js';
 import { cleanProductState } from './duck/slice.js';
 import Permission from '../shared/permissions/Permission.js';
-import { PRODUCT } from '../admin/utils/resources.js';
 import { READ_ANY } from '../admin/utils/actions.js';
+import ProductPermission from '../shared/permissions/ProductPermission.js';
 
 const ProductOverviewContainer = React.memo(function ProductOverviewContainer() {
     const dispatch = useDispatch();
@@ -32,11 +32,11 @@ const ProductOverviewContainer = React.memo(function ProductOverviewContainer() 
     }, [dispatch, errors.length]);
 
     return (
-        <Permission resource={ PRODUCT } action={ [READ_ANY] }>
+        <ProductPermission action={ [READ_ANY] }>
             { status === 'REJECTED' && <ErrorPage errors={ errors }/> }
             { status === 'PENDING' && <Loader/> }
             { status === 'FULFILLED' && <ProductOverview/> }
-        </Permission>
+        </ProductPermission>
     )
 });
 

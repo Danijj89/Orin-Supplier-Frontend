@@ -7,8 +7,8 @@ import { deleteProduct, updateProduct } from './duck/thunks.js';
 import { selectActiveProductsMap, selectAllActiveProducts } from './duck/selectors.js';
 import { SESSION_PRODUCT_TABLE_FILTERS } from '../../app/sessionKeys.js';
 import Permission from '../shared/permissions/Permission.js';
-import { PRODUCT } from '../admin/utils/resources.js';
 import { UPDATE_ANY } from '../admin/utils/actions.js';
+import ProductPermission from '../shared/permissions/ProductPermission.js';
 
 const {
     tableHeadersMap,
@@ -91,7 +91,7 @@ export default function ProductTable() {
                 filterOptions={ filterOptions }
             />
             { product && (
-                <Permission resource={ PRODUCT } action={ UPDATE_ANY }>
+                <ProductPermission action={ UPDATE_ANY }>
                     <ProductDialog
                         isOpen={ isEdit }
                         product={ product }
@@ -102,7 +102,7 @@ export default function ProductTable() {
                         onDelete={ createDeleteHandler(product._id) }
                         isEdit
                     />
-                </Permission>
+                </ProductPermission>
             ) }
         </>
     );

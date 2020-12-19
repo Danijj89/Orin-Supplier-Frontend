@@ -8,7 +8,6 @@ import BankDetailDialog from './BankDetailDialog.js';
 import NewBankDetailButton from './NewBankDetailButton.js';
 import { deleteCompanyBankDetail, updateCompanyBankDetail } from './duck/thunks.js';
 import Table from '../shared/components/table/Table.js';
-import { COMPANY } from '../admin/utils/resources.js';
 import { CREATE_ANY, CREATE_OWN, UPDATE_ANY, UPDATE_OWN } from '../admin/utils/actions.js';
 import { selectSessionUserCompanyId } from '../../app/duck/selectors.js';
 import CompanyPermission from '../shared/permissions/CompanyPermission.js';
@@ -78,11 +77,7 @@ const CompanyBankDetails = React.memo(function CompanyBankDetails() {
             </Typography>
             <Table rows={ rows } columns={ columns } onRowClick={ onRowClick }/>
             { editBankDetail &&
-            <CompanyPermission
-                resource={ COMPANY }
-                action={ [UPDATE_ANY, UPDATE_OWN] }
-                companyId={ companyId }
-            >
+            <CompanyPermission action={ [UPDATE_ANY, UPDATE_OWN] } companyId={ companyId }>
                 <BankDetailDialog
                     isOpen={ isEdit }
                     bankDetail={ editBankDetail }
@@ -94,11 +89,7 @@ const CompanyBankDetails = React.memo(function CompanyBankDetails() {
                 />
             </CompanyPermission>
             }
-            <CompanyPermission
-                resource={ COMPANY }
-                action={ [CREATE_ANY, CREATE_OWN] }
-                companyId={ companyId }
-            >
+            <CompanyPermission action={ [CREATE_ANY, CREATE_OWN] } companyId={ companyId }>
                 <NewBankDetailButton/>
             </CompanyPermission>
         </Box>

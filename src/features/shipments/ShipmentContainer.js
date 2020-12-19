@@ -13,7 +13,6 @@ import { cleanCurrentShipmentId, cleanShipmentState } from './duck/slice.js';
 import ErrorPage from '../shared/components/ErrorPage.js';
 import { selectOrderDataStatus, selectOrderError } from '../orders/duck/selectors.js';
 import { cleanOrderState } from '../orders/duck/slice.js';
-import { SHIPMENT } from '../admin/utils/resources.js';
 import { READ_ANY, READ_OWN } from '../admin/utils/actions.js';
 import { useParams } from 'react-router-dom';
 import ShipmentPermission from '../shared/permissions/ShipmentPermission.js';
@@ -50,11 +49,7 @@ const ShipmentContainer = React.memo(function ShipmentContainer() {
     }, [dispatch, errors.length]);
 
     return (
-        <ShipmentPermission
-            resource={ SHIPMENT }
-            action={ [READ_ANY, READ_OWN] }
-            shipmentId={shipmentId}
-        >
+        <ShipmentPermission action={ [READ_ANY, READ_OWN] } shipmentId={shipmentId}>
             { status === 'REJECTED' && <ErrorPage errors={ errors }/> }
             { status === 'PENDING' && <Loader/> }
             { status === 'FULFILLED' && <Shipment/> }

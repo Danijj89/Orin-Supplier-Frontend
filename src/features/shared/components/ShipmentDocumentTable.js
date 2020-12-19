@@ -11,7 +11,6 @@ import { downloadShipmentDocument } from '../../documents/duck/thunks.js';
 import DeleteButton from '../buttons/DeleteButton.js';
 import { deleteDocument } from '../../shipments/duck/thunks.js';
 import { DELETE_ANY, DELETE_OWN, READ_ANY, READ_OWN } from '../../admin/utils/actions.js';
-import { SHIPMENT } from '../../admin/utils/resources.js';
 import ShipmentPermission from '../permissions/ShipmentPermission.js';
 
 const {
@@ -38,11 +37,7 @@ const ShipmentDocumentTable = React.memo(function ShipmentDocumentTable(
         {
             field: 'delete',
             renderCell: params =>
-                <ShipmentPermission
-                    resource={ SHIPMENT }
-                    action={ [DELETE_ANY, DELETE_OWN] }
-                    shipmentId={ shipmentId }
-                >
+                <ShipmentPermission action={ [DELETE_ANY, DELETE_OWN] } shipmentId={ shipmentId }>
                     <DeleteButton
                         onDelete={ createDeleteHandler(params.id) }
                         deleteMessage={ deleteMessage }
@@ -92,11 +87,7 @@ const ShipmentDocumentTable = React.memo(function ShipmentDocumentTable(
     })), [documents, usersMap]);
 
     return (
-        <ShipmentPermission
-            resource={ SHIPMENT }
-            action={ [READ_ANY, READ_OWN] }
-            shipmentId={ shipmentId }
-        >
+        <ShipmentPermission action={ [READ_ANY, READ_OWN] } shipmentId={ shipmentId }>
             <Table
                 rows={ rows }
                 columns={ columns }

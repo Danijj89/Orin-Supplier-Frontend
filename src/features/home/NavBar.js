@@ -32,12 +32,13 @@ import { fetchShipments } from '../shipments/duck/thunks.js';
 import { fetchProducts } from '../products/duck/thunks.js';
 import { selectSessionUserName } from '../../app/duck/selectors.js';
 import Permission from '../shared/permissions/Permission.js';
-import { CLIENT, LEAD, ORDER, PERMISSION, PRODUCT, SHIPMENT } from '../admin/utils/resources.js';
 import { READ_ANY, READ_OWN } from '../admin/utils/actions.js';
 import OrderPermission from '../shared/permissions/OrderPermission.js';
 import LeadPermission from '../shared/permissions/LeadPermission.js';
 import ClientPermission from '../shared/permissions/ClientPermission.js';
 import ShipmentPermission from '../shared/permissions/ShipmentPermission.js';
+import ProductPermission from '../shared/permissions/ProductPermission.js';
+import PermissionPermission from '../shared/permissions/PermissionPermission.js';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -147,7 +148,7 @@ const NavBar = React.memo(function NavBar() {
         >
             {/* The div here is to avoid ref forward error */ }
             <div>
-                <OrderPermission resource={ ORDER } action={ [READ_ANY, READ_OWN] }>
+                <OrderPermission action={ [READ_ANY, READ_OWN] }>
                     <MenuItem onClick={ () => onTabClick('orders', '/home/orders') }>
                         <IconButton color="inherit">
                             <IconViewStream/>
@@ -156,7 +157,7 @@ const NavBar = React.memo(function NavBar() {
                     </MenuItem>
                 </OrderPermission>
             </div>
-            <ClientPermission resource={ CLIENT } action={ [READ_ANY, READ_OWN] }>
+            <ClientPermission action={ [READ_ANY, READ_OWN] }>
                 <MenuItem onClick={ () => onTabClick('clients', '/home/clients') }>
                     <IconButton color="inherit">
                         <IconPeople/>
@@ -164,7 +165,7 @@ const NavBar = React.memo(function NavBar() {
                     { tabsLabelsMap.clients }
                 </MenuItem>
             </ClientPermission>
-            <LeadPermission resource={ LEAD } action={ [READ_ANY, READ_OWN] }>
+            <LeadPermission action={ [READ_ANY, READ_OWN] }>
                 <MenuItem onClick={ () => onTabClick('leads', '/home/leads') }>
                     <IconButton color="inherit">
                         <IconPlus/>
@@ -172,7 +173,7 @@ const NavBar = React.memo(function NavBar() {
                     { tabsLabelsMap.leads }
                 </MenuItem>
             </LeadPermission>
-            <ShipmentPermission resource={ SHIPMENT } action={ [READ_ANY, READ_OWN] }>
+            <ShipmentPermission action={ [READ_ANY, READ_OWN] }>
                 <MenuItem onClick={ () => onTabClick('shipments', '/home/shipments') }>
                     <IconButton color="inherit">
                         <IconBoat/>
@@ -180,15 +181,15 @@ const NavBar = React.memo(function NavBar() {
                     { tabsLabelsMap.shipments }
                 </MenuItem>
             </ShipmentPermission>
-            <Permission resource={ PRODUCT } action={ [READ_ANY] }>
+            <ProductPermission action={ [READ_ANY] }>
                 <MenuItem onClick={ () => onTabClick('products', '/home/products') }>
                     <IconButton color="inherit">
                         <IconTag/>
                     </IconButton>
                     { tabsLabelsMap.products }
                 </MenuItem>
-            </Permission>
-            <Permission resource={ PERMISSION } action={ READ_ANY }>
+            </ProductPermission>
+            <PermissionPermission action={ READ_ANY }>
                 <MenuItem
                     onClick={ () => onTabClick('admin', '/home/admin') }
                 >
@@ -197,7 +198,7 @@ const NavBar = React.memo(function NavBar() {
                     </IconButton>
                     { tabsLabelsMap.admin }
                 </MenuItem>
-            </Permission>
+            </PermissionPermission>
             <MenuItem
                 onClick={ () => onTabClick('settings', '/home/settings?tab=account') }
             >
@@ -220,7 +221,7 @@ const NavBar = React.memo(function NavBar() {
                         className={ classes.logo }
                     />
                     <List className={ classes.menu }>
-                        <OrderPermission resource={ ORDER } action={ [READ_ANY, READ_OWN] }>
+                        <OrderPermission action={ [READ_ANY, READ_OWN] }>
                             <ListItem
                                 button
                                 component="a"
@@ -238,7 +239,7 @@ const NavBar = React.memo(function NavBar() {
                                 </ListItemText>
                             </ListItem>
                         </OrderPermission>
-                        <ClientPermission resource={ CLIENT } action={ [READ_ANY, READ_OWN] }>
+                        <ClientPermission action={ [READ_ANY, READ_OWN] }>
                             <ListItem
                                 button
                                 component="a"
@@ -258,7 +259,7 @@ const NavBar = React.memo(function NavBar() {
                                 </ListItemText>
                             </ListItem>
                         </ClientPermission>
-                        <LeadPermission resource={ LEAD } action={ [READ_ANY, READ_OWN] }>
+                        <LeadPermission action={ [READ_ANY, READ_OWN] }>
                             <ListItem
                                 button
                                 component="a"
@@ -274,7 +275,7 @@ const NavBar = React.memo(function NavBar() {
                                 </ListItemText>
                             </ListItem>
                         </LeadPermission>
-                        <ShipmentPermission resource={ SHIPMENT } action={ [READ_ANY, READ_OWN] }>
+                        <ShipmentPermission action={ [READ_ANY, READ_OWN] }>
                             <ListItem
                                 button
                                 component="a"
@@ -292,7 +293,7 @@ const NavBar = React.memo(function NavBar() {
                                 </ListItemText>
                             </ListItem>
                         </ShipmentPermission>
-                        <Permission resource={ PRODUCT } action={ [READ_ANY] }>
+                        <ProductPermission action={ [READ_ANY] }>
                             <ListItem
                                 button
                                 component="a"
@@ -309,8 +310,8 @@ const NavBar = React.memo(function NavBar() {
                                 </span>
                                 </ListItemText>
                             </ListItem>
-                        </Permission>
-                        <Permission resource={ PERMISSION } action={ READ_ANY }>
+                        </ProductPermission>
+                        <PermissionPermission action={ READ_ANY }>
                             <ListItem
                                 button
                                 component="a"
@@ -327,7 +328,7 @@ const NavBar = React.memo(function NavBar() {
                                 </span>
                                 </ListItemText>
                             </ListItem>
-                        </Permission>
+                        </PermissionPermission>
                     </List>
                     <div className={ classes.grow }/>
                     <Typography variant="subtitle1">

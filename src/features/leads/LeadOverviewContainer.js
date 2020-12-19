@@ -10,7 +10,6 @@ import { fetchLeads } from './duck/thunks.js';
 import { selectUserDataStatus, selectUserError } from '../users/duck/selectors.js';
 import { fetchUsers } from '../users/duck/thunks.js';
 import { cleanUserState } from '../users/duck/slice.js';
-import { LEAD } from '../admin/utils/resources.js';
 import { READ_ANY, READ_OWN } from '../admin/utils/actions.js';
 import LeadPermission from '../shared/permissions/LeadPermission.js';
 
@@ -44,7 +43,7 @@ const LeadOverviewContainer = React.memo(function LeadOverviewContainer() {
     }, [dispatch, errors.length]);
 
     return (
-        <LeadPermission resource={ LEAD } action={ [READ_ANY, READ_OWN] }>
+        <LeadPermission action={ [READ_ANY, READ_OWN] }>
             { status === 'REJECTED' && <ErrorPage errors={ errors }/> }
             { status === 'PENDING' && <Loader/> }
             { status === 'FULFILLED' && <LeadOverview/> }

@@ -10,7 +10,6 @@ import { fetchUsers } from '../users/duck/thunks.js';
 import ClientOverview from './ClientOverview.js';
 import { cleanUserState } from '../users/duck/slice.js';
 import { cleanClientState } from './duck/slice.js';
-import { CLIENT } from '../admin/utils/resources.js';
 import { READ_ANY, READ_OWN } from '../admin/utils/actions.js';
 import ClientPermission from '../shared/permissions/ClientPermission.js';
 
@@ -48,7 +47,7 @@ const ClientOverviewContainer = React.memo(function ClientOverviewContainer() {
     }, [dispatch, errors.length]);
 
     return (
-        <ClientPermission resource={ CLIENT } action={ [READ_ANY, READ_OWN] }>
+        <ClientPermission action={ [READ_ANY, READ_OWN] }>
             { status === 'REJECTED' && <ErrorPage errors={ errors }/> }
             { status === 'PENDING' && <Loader/> }
             { status === 'FULFILLED' && <ClientOverview/> }

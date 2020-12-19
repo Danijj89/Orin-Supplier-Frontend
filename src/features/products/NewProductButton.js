@@ -7,8 +7,8 @@ import { createProduct } from './duck/thunks.js';
 import { makeStyles } from '@material-ui/core/styles';
 import { selectSessionUserCompanyId } from '../../app/duck/selectors.js';
 import Permission from '../shared/permissions/Permission.js';
-import { PRODUCT } from '../admin/utils/resources.js';
 import { CREATE_ANY } from '../admin/utils/actions.js';
+import ProductPermission from '../shared/permissions/ProductPermission.js';
 
 const {
     buttonLabel,
@@ -39,7 +39,7 @@ const NewProductButton = React.memo(function NewProductButton() {
     };
 
     return (
-        <Permission resource={ PRODUCT } action={ CREATE_ANY }>
+        <ProductPermission action={ CREATE_ANY }>
             <ThemedButton onClick={ onClick } className={ classes.newProduct }>
                 { buttonLabel }
             </ThemedButton>
@@ -51,7 +51,7 @@ const NewProductButton = React.memo(function NewProductButton() {
                 onCancel={ onCancel }
                 onSubmit={ onSubmit }
             />
-        </Permission>
+        </ProductPermission>
     );
 });
 

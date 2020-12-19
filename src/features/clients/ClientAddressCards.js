@@ -10,7 +10,6 @@ import NewClientAddressButton from '../shared/buttons/NewClientAddressButton.js'
 import { useParams } from 'react-router-dom';
 import { selectActiveClientById } from './duck/selectors.js';
 import { getOptionId } from '../../app/utils/options/getters.js';
-import { CLIENT } from '../admin/utils/resources.js';
 import { CREATE_ANY, CREATE_OWN, UPDATE_ANY, UPDATE_OWN } from '../admin/utils/actions.js';
 import ClientPermission from '../shared/permissions/ClientPermission.js';
 
@@ -89,11 +88,7 @@ const ClientAddressCards = React.memo(function ClientAddressCards() {
                 </Grid>
             </Box>
             { editAddress &&
-            <ClientPermission
-                resource={ CLIENT }
-                action={ [UPDATE_ANY, UPDATE_OWN] }
-                clientId={ clientId }
-            >
+            <ClientPermission action={ [UPDATE_ANY, UPDATE_OWN] } clientId={ clientId }>
                 <AddressDialog
                     isOpen={ isEditAddressOpen }
                     address={ editAddress }
@@ -103,11 +98,7 @@ const ClientAddressCards = React.memo(function ClientAddressCards() {
                     onSubmit={ onSubmit }
                 />
             </ClientPermission> }
-            <ClientPermission
-                resource={ CLIENT }
-                action={ [CREATE_ANY, CREATE_OWN] }
-                clientId={ clientId }
-            >
+            <ClientPermission action={ [CREATE_ANY, CREATE_OWN] } clientId={ clientId }>
                 <NewClientAddressButton
                     className={ classes.newAddressButton }
                     clientId={ clientId }

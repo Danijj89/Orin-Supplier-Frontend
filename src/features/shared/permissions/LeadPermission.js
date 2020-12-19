@@ -5,8 +5,10 @@ import { selectSessionUserId } from '../../../app/duck/selectors.js';
 import Permission from './Permission.js';
 import { selectLeadOwnersById } from '../../leads/duck/selectors.js';
 
+const RESOURCE = 'lead';
+
 const LeadPermission = React.memo(function LeadPermission(
-    { resource, action = [], leadId, children }) {
+    { action = [], leadId, children }) {
     const leadOwners = useSelector(state => selectLeadOwnersById(state, { leadId }));
     const sessionUserId = useSelector(selectSessionUserId);
     const isOwner = useMemo(
@@ -14,14 +16,13 @@ const LeadPermission = React.memo(function LeadPermission(
         [leadOwners, sessionUserId, leadId]);
 
     return (
-        <Permission resource={ resource } action={ action } isOwner={ isOwner }>
+        <Permission resource={ RESOURCE } action={ action } isOwner={ isOwner }>
             { children }
         </Permission>
     );
 });
 
 LeadPermission.propTypes = {
-    resource: PropTypes.string.isRequired,
     action: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.array

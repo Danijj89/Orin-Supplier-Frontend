@@ -4,22 +4,23 @@ import { useSelector } from 'react-redux';
 import { selectSessionUserId } from '../../../app/duck/selectors.js';
 import Permission from './Permission.js';
 
+const RESOURCE = 'user';
+
 const UserPermission = React.memo(function UserPermission(
-    { resource, action = [], userId, children }) {
+    { action = [], userId, children }) {
     const sessionUserId = useSelector(selectSessionUserId);
     const isOwner = useMemo(
         () => userId ? userId === sessionUserId : true,
         [userId, sessionUserId]);
 
     return (
-        <Permission resource={ resource } action={ action } isOwner={ isOwner }>
+        <Permission resource={ RESOURCE } action={ action } isOwner={ isOwner }>
             { children }
         </Permission>
     );
 });
 
 UserPermission.propTypes = {
-    resource: PropTypes.string.isRequired,
     action: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.array

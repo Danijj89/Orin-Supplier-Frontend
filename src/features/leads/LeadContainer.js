@@ -11,7 +11,6 @@ import { selectUserDataStatus, selectUserError } from '../users/duck/selectors.j
 import { fetchUsers } from '../users/duck/thunks.js';
 import { cleanUserState } from '../users/duck/slice.js';
 import { useParams, Redirect } from 'react-router-dom';
-import { LEAD } from '../admin/utils/resources.js';
 import { READ_ANY, READ_OWN } from '../admin/utils/actions.js';
 import LeadPermission from '../shared/permissions/LeadPermission.js';
 
@@ -49,11 +48,7 @@ const LeadContainer = React.memo(function LeadContainer() {
     }, [dispatch, errors.length]);
 
     return (
-        <LeadPermission
-            resource={ LEAD }
-            action={ [READ_ANY, READ_OWN] }
-            leadId={ leadId }
-        >
+        <LeadPermission action={ [READ_ANY, READ_OWN] } leadId={ leadId }>
             { !leadExists && <Redirect to={ '/home/leads' }/> }
             { status === 'REJECTED' && <ErrorPage errors={ errors }/> }
             { status === 'PENDING' && <Loader/> }
