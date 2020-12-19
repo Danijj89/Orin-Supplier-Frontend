@@ -28,11 +28,11 @@ const CompanyUsers = React.memo(function CompanyUsers() {
     const users = useSelector(selectAllUsers);
 
     return (
-        <Permission resource={ USER } action={ [READ_ANY, READ_OWN] }>
+        <Permission resource={ USER } action={ READ_ANY }>
             <InfoCard
                 title={ titleLabel }
                 button={
-                    <Permission resource={ USER } action={ [CREATE_ANY, CREATE_OWN] }>
+                    <Permission resource={ USER } action={ CREATE_ANY }>
                         <ThemedButton variant="text">
                             { inviteButtonLabel }
                             <IconAdd/>
