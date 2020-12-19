@@ -4,7 +4,7 @@ import { fetchShipments } from './duck/thunks.js';
 import { useDispatch, useSelector } from 'react-redux';
 import {
     selectShipmentDataStatus,
-    selectShipmentError, selectShipmentOwnerById
+    selectShipmentError
 } from './duck/selectors.js';
 import { fetchOrders } from '../orders/duck/thunks.js';
 import { determineStatus, getErrors } from '../shared/utils/state.js';
@@ -13,18 +13,14 @@ import { cleanCurrentShipmentId, cleanShipmentState } from './duck/slice.js';
 import ErrorPage from '../shared/components/ErrorPage.js';
 import { selectOrderDataStatus, selectOrderError } from '../orders/duck/selectors.js';
 import { cleanOrderState } from '../orders/duck/slice.js';
-import Permission from '../shared/components/Permission.js';
 import { SHIPMENT } from '../admin/utils/resources.js';
 import { READ_ANY, READ_OWN } from '../admin/utils/actions.js';
 import { useParams } from 'react-router-dom';
-import { selectSessionUserId } from '../../app/duck/selectors.js';
-import { isShipmentOwner } from '../admin/utils/resourceOwnerCheckers.js';
+import ShipmentPermission from '../shared/permissions/ShipmentPermission.js';
 
 const ShipmentContainer = React.memo(function ShipmentContainer() {
     const dispatch = useDispatch();
     const { id: shipmentId } = useParams();
-    const sessionUserId = useSelector(selectSessionUserId);
-    const shipmentOwner = useSelector(state => selectShipmentOwnerById(state, { shipmentId }));
 
     const shipmentDataStatus = useSelector(selectShipmentDataStatus);
     const shipmentError = useSelector(selectShipmentError);
@@ -54,15 +50,15 @@ const ShipmentContainer = React.memo(function ShipmentContainer() {
     }, [dispatch, errors.length]);
 
     return (
-        <Permission
+        <ShipmentPermission
             resource={ SHIPMENT }
             action={ [READ_ANY, READ_OWN] }
-            isOwner={isShipmentOwner(sessionUserId, shipmentOwner)}
+            shipmentId={shipmentId}
         >
             { status === 'REJECTED' && <ErrorPage errors={ errors }/> }
             { status === 'PENDING' && <Loader/> }
             { status === 'FULFILLED' && <Shipment/> }
-        </Permission>
+        </ShipmentPermission>
     )
 });
 

@@ -7,13 +7,13 @@ import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { useHistory, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
-import { selectShipmentOrders, selectShipmentOwnerById } from './duck/selectors.js';
-import { selectItemUnitsMap, selectSessionUserId } from '../../app/duck/selectors.js';
+import { selectShipmentOrders } from './duck/selectors.js';
+import { selectItemUnitsMap } from '../../app/duck/selectors.js';
 import { getOptionLabel } from '../../app/utils/options/getters.js';
-import Permission from '../shared/components/Permission.js';
 import { ORDER, SHIPMENT } from '../admin/utils/resources.js';
 import { CREATE_ANY, CREATE_OWN, READ_ANY, READ_OWN } from '../admin/utils/actions.js';
-import { isShipmentOwner } from '../admin/utils/resourceOwnerCheckers.js';
+import OrderPermission from '../shared/permissions/OrderPermission.js';
+import ShipmentPermission from '../shared/permissions/ShipmentPermission.js';
 
 const useStyles = makeStyles((theme) => ({
     button: {
@@ -30,9 +30,7 @@ const ShipmentOrdersTable = React.memo(function ShipmentOrdersTable() {
     const classes = useStyles();
     const history = useHistory();
     const { id: shipmentId } = useParams();
-    const sessionUserId = useSelector(selectSessionUserId);
     const orders = useSelector(state => selectShipmentOrders(state, { shipmentId }));
-    const shipmentOwner = useSelector(state => selectShipmentOwnerById(state, { shipmentId }));
     const itemUnitsMap = useSelector(selectItemUnitsMap);
 
     const onEditOrders = useCallback(
@@ -85,18 +83,18 @@ const ShipmentOrdersTable = React.memo(function ShipmentOrdersTable() {
 
     return (
         <>
-            <Permission
+            <ShipmentPermission
                 resource={ SHIPMENT }
                 action={ [CREATE_ANY, CREATE_OWN] }
-                isOwner={ isShipmentOwner(sessionUserId, shipmentOwner) }
+                shipmentId={ shipmentId }
             >
                 <ThemedButton variant="outlined" onClick={ onEditOrders } className={ classes.button }>
                     { editOrdersButtonLabel }
                 </ThemedButton>
-            </Permission>
-            <Permission resource={ ORDER } action={ [READ_ANY, READ_OWN] }>
+            </ShipmentPermission>
+            <OrderPermission resource={ ORDER } action={ [READ_ANY, READ_OWN] }>
                 <Table columns={ columns } rows={ rows } onRowClick={ onRowClick }/>
-            </Permission>
+            </OrderPermission>
         </>
     )
 });

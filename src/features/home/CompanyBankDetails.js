@@ -8,7 +8,7 @@ import BankDetailDialog from './BankDetailDialog.js';
 import NewBankDetailButton from './NewBankDetailButton.js';
 import { deleteCompanyBankDetail, updateCompanyBankDetail } from './duck/thunks.js';
 import Table from '../shared/components/table/Table.js';
-import Permission from '../shared/components/Permission.js';
+import Permission from '../shared/permissions/Permission.js';
 import { COMPANY } from '../admin/utils/resources.js';
 import { CREATE_ANY, CREATE_OWN, UPDATE_ANY, UPDATE_OWN } from '../admin/utils/actions.js';
 import { selectSessionUser, selectSessionUserCompanyId } from '../../app/duck/selectors.js';

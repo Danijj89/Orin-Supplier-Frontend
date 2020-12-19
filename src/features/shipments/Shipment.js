@@ -12,13 +12,9 @@ import DocumentButton from './DocumentButton.js';
 import ShipmentDocumentTable from '../shared/components/ShipmentDocumentTable.js';
 import queryString from 'query-string';
 import Card from '@material-ui/core/Card';
-import Permission from '../shared/components/Permission.js';
 import { SHIPMENT } from '../admin/utils/resources.js';
 import { UPDATE_ANY, UPDATE_OWN } from '../admin/utils/actions.js';
-import { useSelector } from 'react-redux';
-import { selectSessionUserId } from '../../app/duck/selectors.js';
-import { selectShipmentOwnerById } from './duck/selectors.js';
-import { isShipmentOwner } from '../admin/utils/resourceOwnerCheckers.js';
+import ShipmentPermission from '../shared/permissions/ShipmentPermission.js';
 
 const {
     editShipmentButtonLabel,
@@ -54,8 +50,6 @@ const Shipment = React.memo(function Shipment() {
     const location = useLocation();
     const { tab } = queryString.parse(location.search);
     const tabValue = tab || 'orders';
-    const sessionUserId = useSelector(selectSessionUserId);
-    const shipmentOwner = useSelector(state => selectShipmentOwnerById(state, { shipmentId }));
 
     const onTabChange = useCallback(
         (newValue) => history.push(`${ location.pathname }?tab=${ newValue }`),
@@ -74,15 +68,15 @@ const Shipment = React.memo(function Shipment() {
                 <DocumentStatusCard/>
             </Grid>
             <Grid container item xs={ 12 } className={ classes.shipmentActions }>
-                <Permission
+                <ShipmentPermission
                     resource={ SHIPMENT }
                     action={ [UPDATE_ANY, UPDATE_OWN] }
-                    isOwner={ isShipmentOwner(sessionUserId, shipmentOwner) }
+                    shipmentId={ shipmentId }
                 >
                     <ThemedButton className={ classes.editShipmentButton } onClick={ onEditShipmentInfo }>
                         { editShipmentButtonLabel }
                     </ThemedButton>
-                </Permission>
+                </ShipmentPermission>
                 <DocumentButton/>
             </Grid>
             <Grid item xs={ 12 }>

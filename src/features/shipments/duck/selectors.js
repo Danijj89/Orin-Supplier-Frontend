@@ -87,7 +87,7 @@ export const selectShipmentById = createSelector(
 
 export const selectShipmentOwnerById = createSelector(
     selectShipmentById,
-    shipment => shipment.createdBy
+    shipment => shipment?.createdBy
 );
 
 export const selectShipmentOrders = createSelector(

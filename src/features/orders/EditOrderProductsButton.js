@@ -3,15 +3,13 @@ import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { Box } from '@material-ui/core';
 import OrderProductsDialog from '../shared/forms/OrderProductsDialog.js';
 import { LANGUAGE } from '../../app/utils/constants.js';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { updateOrder } from './duck/thunks.js';
 import { productTableItemsToOrderItems } from '../shared/utils/entityConversion.js';
 import { getOptionId } from '../../app/utils/options/getters.js';
-import Permission from '../shared/components/Permission.js';
 import { ORDER } from '../admin/utils/resources.js';
 import { UPDATE_ANY, UPDATE_OWN } from '../admin/utils/actions.js';
-import { selectSessionUserId } from '../../app/duck/selectors.js';
-import { isOrderOwner } from '../admin/utils/resourceOwnerCheckers.js';
+import OrderPermission from '../shared/permissions/OrderPermission.js';
 
 const {
     buttonLabel,
@@ -21,7 +19,6 @@ const {
 
 const EditOrderProductsButton = React.memo(function EditOrderProductsButton({ order, className }) {
     const dispatch = useDispatch();
-    const sessionUserId = useSelector(selectSessionUserId);
     const [isEdit, setIsEdit] = useState(false);
 
     const onEdit = () => setIsEdit(true);
@@ -35,10 +32,10 @@ const EditOrderProductsButton = React.memo(function EditOrderProductsButton({ or
     };
 
     return (
-        <Permission
+        <OrderPermission
             resource={ ORDER }
             action={ [UPDATE_ANY, UPDATE_OWN] }
-            isOwner={ isOrderOwner(sessionUserId, order) }
+            orderId={ order._id }
         >
             <Box className={ className }>
                 <ThemedButton
@@ -55,7 +52,7 @@ const EditOrderProductsButton = React.memo(function EditOrderProductsButton({ or
                     onSubmit={ onSubmit }
                 />
             </Box>
-        </Permission>
+        </OrderPermission>
     )
 });
 

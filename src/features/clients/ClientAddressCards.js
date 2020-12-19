@@ -10,11 +10,9 @@ import NewClientAddressButton from '../shared/buttons/NewClientAddressButton.js'
 import { useParams } from 'react-router-dom';
 import { selectActiveClientById } from './duck/selectors.js';
 import { getOptionId } from '../../app/utils/options/getters.js';
-import Permission from '../shared/components/Permission.js';
 import { CLIENT } from '../admin/utils/resources.js';
 import { CREATE_ANY, CREATE_OWN, UPDATE_ANY, UPDATE_OWN } from '../admin/utils/actions.js';
-import { isClientOwner } from '../admin/utils/resourceOwnerCheckers.js';
-import { selectSessionUserId } from '../../app/duck/selectors.js';
+import ClientPermission from '../shared/permissions/ClientPermission.js';
 
 const useStyles = makeStyles((theme) => ({
     cards: {
@@ -41,7 +39,6 @@ const ClientAddressCards = React.memo(function ClientAddressCards() {
     const classes = useStyles();
     const dispatch = useDispatch();
     const { id: clientId } = useParams();
-    const sessionUserId = useSelector(selectSessionUserId);
     const client = useSelector((state) => selectActiveClientById(state, { clientId }));
     const [isEditAddressOpen, setIsEditAddressOpen] = useState(false);
     const [editAddress, setEditAddress] = useState(null);
@@ -92,10 +89,10 @@ const ClientAddressCards = React.memo(function ClientAddressCards() {
                 </Grid>
             </Box>
             { editAddress &&
-            <Permission
+            <ClientPermission
                 resource={ CLIENT }
                 action={ [UPDATE_ANY, UPDATE_OWN] }
-                isOwner={ isClientOwner(sessionUserId, client) }
+                clientId={ clientId }
             >
                 <AddressDialog
                     isOpen={ isEditAddressOpen }
@@ -105,18 +102,18 @@ const ClientAddressCards = React.memo(function ClientAddressCards() {
                     onCancel={ onEditAddressCancel }
                     onSubmit={ onSubmit }
                 />
-            </Permission> }
-            <Permission
+            </ClientPermission> }
+            <ClientPermission
                 resource={ CLIENT }
                 action={ [CREATE_ANY, CREATE_OWN] }
-                isOwner={ isClientOwner(sessionUserId, client) }
+                clientId={ clientId }
             >
                 <NewClientAddressButton
                     className={ classes.newAddressButton }
                     clientId={ clientId }
                     clientName={ client.name }
                 />
-            </Permission>
+            </ClientPermission>
         </Paper>
     );
 });

@@ -53,6 +53,10 @@ export const selectClientNotes = createSelector(
     client => client.notes
 );
 
+export const selectClientOwnerById = createSelector(
+    selectClientById,
+    client => [client?.createdBy, client?.assignedTo]
+);
 
 export const selectAllActiveClients = createSelector(
     selectAllClients,
@@ -88,7 +92,6 @@ export const selectClientActiveContacts = createSelector(
     selectActiveClientById,
     client => client.contacts
 );
-
 
 export const selectClientOrders = createSelector(
     selectAllActiveOrders,

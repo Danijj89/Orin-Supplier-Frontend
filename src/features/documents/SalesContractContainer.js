@@ -14,9 +14,9 @@ import { cleanHomeState } from '../home/duck/slice.js';
 import { cleanClientState } from '../clients/duck/slice.js';
 import { cleanShipmentState } from '../shipments/duck/slice.js';
 import { CREATE_ANY, CREATE_OWN } from '../admin/utils/actions.js';
-import Permission from '../shared/components/Permission.js';
 import { fetchCurrentCompany } from '../home/duck/thunks.js';
 import { SHIPMENT } from '../admin/utils/resources.js';
+import ShipmentPermission from '../shared/permissions/ShipmentPermission.js';
 
 const SalesContractContainer = React.memo(function SalesContractContainer() {
     const dispatch = useDispatch();
@@ -53,13 +53,12 @@ const SalesContractContainer = React.memo(function SalesContractContainer() {
     }, [dispatch, errors.length]);
 
     return (
-        <Permission resource={ SHIPMENT } action={ [CREATE_ANY, CREATE_OWN] }>
+        <ShipmentPermission resource={ SHIPMENT } action={ [CREATE_ANY, CREATE_OWN] }>
             { status === 'REJECTED' && <ErrorPage errors={ errors }/> }
             { status === 'PENDING' && <Loader/> }
             { status === 'FULFILLED' && <SalesContract/> }
-        </Permission>
-    )
-
+        </ShipmentPermission>
+    );
 });
 
 export default SalesContractContainer;

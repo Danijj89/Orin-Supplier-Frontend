@@ -16,11 +16,11 @@ import { cleanClientState } from '../clients/duck/slice.js';
 import { cleanOrderState } from '../orders/duck/slice.js';
 import ErrorPage from '../shared/components/ErrorPage.js';
 import { fetchCurrentCompany } from '../home/duck/thunks.js';
-import Permission from '../shared/components/Permission.js';
 import { SHIPMENT } from '../admin/utils/resources.js';
 import { CREATE_ANY, CREATE_OWN } from '../admin/utils/actions.js';
+import ShipmentPermission from '../shared/permissions/ShipmentPermission.js';
 
-export default function CreateShipmentContainer() {
+const CreateShipmentContainer = React.memo(function CreateShipmentContainer() {
     const dispatch = useDispatch();
 
     const homeDataStatus = useSelector(selectHomeDataStatus);
@@ -66,11 +66,13 @@ export default function CreateShipmentContainer() {
     }, [dispatch, errors.length]);
 
     return (
-        <Permission resource={ SHIPMENT } action={ [CREATE_ANY, CREATE_OWN] }>
+        <ShipmentPermission resource={ SHIPMENT } action={ [CREATE_ANY, CREATE_OWN] }>
             { currentShipmentId && <Redirect to={ `/home/shipments/${ currentShipmentId }` }/> }
             { status === 'REJECTED' && <ErrorPage errors={ errors }/> }
             { status === 'PENDING' && <Loader/> }
             { !currentShipmentId && status === 'FULFILLED' && <CreateShipment/> }
-        </Permission>
-    )
-}
+        </ShipmentPermission>
+    );
+});
+
+export default CreateShipmentContainer;

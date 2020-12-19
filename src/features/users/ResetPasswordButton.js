@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import ResetPassWordDialog from '../shared/forms/ResetPasswordDialog.js';
 import { updateUser } from './duck/thunks.js';
-import Permission from '../shared/components/Permission.js';
+import Permission from '../shared/permissions/Permission.js';
 import { USER } from '../admin/utils/resources.js';
 import { UPDATE_ANY, UPDATE_OWN } from '../admin/utils/actions.js';
 import { selectSessionUser } from '../../app/duck/selectors.js';

@@ -68,6 +68,11 @@ export const selectOrderById = createSelector(
     (ordersMap, orderId) => ordersMap[orderId]
 );
 
+export const selectOrderOwnerById = createSelector(
+    selectOrderById,
+    order => order?.createdBy
+);
+
 export const selectAllActiveAndUnarchivedOrders = createSelector(
     selectAllOrders,
     orders => orders.filter(order => order.active && !order.archived)

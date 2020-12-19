@@ -6,7 +6,7 @@ import { LANGUAGE } from '../../app/utils/constants.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUser } from './duck/thunks.js';
 import { selectSessionUser } from '../../app/duck/selectors.js';
-import Permission from '../shared/components/Permission.js';
+import Permission from '../shared/permissions/Permission.js';
 import { USER } from '../admin/utils/resources.js';
 import { UPDATE_ANY, UPDATE_OWN } from '../admin/utils/actions.js';
 

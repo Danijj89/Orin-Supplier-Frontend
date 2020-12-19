@@ -2,7 +2,7 @@ import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import Table from './table/Table.js';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectShipmentDocuments, selectShipmentOwnerById } from '../../shipments/duck/selectors.js';
+import { selectShipmentDocuments } from '../../shipments/duck/selectors.js';
 import { LANGUAGE } from '../../../app/utils/constants.js';
 import { GetApp as IconDownload } from '@material-ui/icons';
 import { IconButton } from '@material-ui/core';
@@ -10,11 +10,9 @@ import { selectUsersMap } from '../../users/duck/selectors.js';
 import { downloadShipmentDocument } from '../../documents/duck/thunks.js';
 import DeleteButton from '../buttons/DeleteButton.js';
 import { deleteDocument } from '../../shipments/duck/thunks.js';
-import Permission from './Permission.js';
 import { DELETE_ANY, DELETE_OWN, READ_ANY, READ_OWN } from '../../admin/utils/actions.js';
 import { SHIPMENT } from '../../admin/utils/resources.js';
-import { isShipmentOwner } from '../../admin/utils/resourceOwnerCheckers.js';
-import { selectSessionUserId } from '../../../app/duck/selectors.js';
+import ShipmentPermission from '../permissions/ShipmentPermission.js';
 
 const {
     tableHeaderLabelsMap,
@@ -25,8 +23,6 @@ const ShipmentDocumentTable = React.memo(function ShipmentDocumentTable(
     { shipmentId, maxEmptyRows, className }) {
     const dispatch = useDispatch();
     const documents = useSelector(state => selectShipmentDocuments(state, { shipmentId }));
-    const shipmentOwner = useSelector(state => selectShipmentOwnerById(state, { shipmentId }));
-    const sessionUserId = useSelector(selectSessionUserId);
     const usersMap = useSelector(selectUsersMap);
 
     const onDownload = useCallback(
@@ -42,17 +38,17 @@ const ShipmentDocumentTable = React.memo(function ShipmentDocumentTable(
         {
             field: 'delete',
             renderCell: params =>
-                <Permission
+                <ShipmentPermission
                     resource={ SHIPMENT }
                     action={ [DELETE_ANY, DELETE_OWN] }
-                    isOwner={ isShipmentOwner(sessionUserId, shipmentOwner) }
+                    shipmentId={ shipmentId }
                 >
                     <DeleteButton
                         onDelete={ createDeleteHandler(params.id) }
                         deleteMessage={ deleteMessage }
                         variant="icon"
                     />
-                </Permission>
+                </ShipmentPermission>
         },
         { field: 'ref', headerName: tableHeaderLabelsMap.ref },
         { field: 'type', headerName: tableHeaderLabelsMap.type, type: 'option' },
@@ -84,7 +80,7 @@ const ShipmentDocumentTable = React.memo(function ShipmentDocumentTable(
             align: 'center',
             width: 50
         }
-    ], [onDownload, createDeleteHandler]);
+    ], [onDownload, createDeleteHandler, shipmentId]);
 
     const rows = useMemo(() => documents.map(doc => ({
         id: doc._id,
@@ -96,10 +92,10 @@ const ShipmentDocumentTable = React.memo(function ShipmentDocumentTable(
     })), [documents, usersMap]);
 
     return (
-        <Permission
+        <ShipmentPermission
             resource={ SHIPMENT }
             action={ [READ_ANY, READ_OWN] }
-            isOwner={ isShipmentOwner(sessionUserId, shipmentOwner) }
+            shipmentId={ shipmentId }
         >
             <Table
                 rows={ rows }
@@ -108,7 +104,7 @@ const ShipmentDocumentTable = React.memo(function ShipmentDocumentTable(
                 maxEmptyRows={ maxEmptyRows }
                 className={ className }
             />
-        </Permission>
+        </ShipmentPermission>
     );
 });
 

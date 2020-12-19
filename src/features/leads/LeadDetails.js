@@ -29,9 +29,9 @@ import { convertLeadToClient, deleteLead, updateLead } from './duck/thunks.js';
 import DeleteButton from '../shared/buttons/DeleteButton.js';
 import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import Permission from '../shared/components/Permission.js';
 import { LEAD } from '../admin/utils/resources.js';
 import { DELETE_ANY, DELETE_OWN, UPDATE_ANY, UPDATE_OWN } from '../admin/utils/actions.js';
+import LeadPermission from '../shared/permissions/LeadPermission.js';
 
 const {
     formLabels,
@@ -157,10 +157,9 @@ const LeadDetails = React.memo(function LeadDetails({ leadId }) {
         <form onSubmit={ handleSubmit(onSubmit) } autoComplete="off" noValidate>
             <Grid container>
                 <Grid container item justify="flex-end" xs={ 12 }>
-                    <Permission
+                    <LeadPermission
                         resource={ LEAD }
                         action={ [UPDATE_ANY, UPDATE_OWN] }
-                        isOwner={ sessionUserId === lead.createdBy || sessionUserId === lead.assignedTo }
                     >
                         <ThemedButton
                             className={ classes.convertButton }
@@ -169,7 +168,7 @@ const LeadDetails = React.memo(function LeadDetails({ leadId }) {
                         >
                             { convertButtonLabel }
                         </ThemedButton>
-                    </Permission>
+                    </LeadPermission>
                 </Grid>
                 <Grid container item alignItems="flex-start" xs={ 12 }>
                     <Grid container item justify="center" md>
@@ -335,21 +334,21 @@ const LeadDetails = React.memo(function LeadDetails({ leadId }) {
                     </Grid>
                 </Grid>
                 <Grid container item justify="center" xs={ 12 }>
-                    <Permission
+                    <LeadPermission
                         resource={ LEAD }
                         action={ [DELETE_ANY, DELETE_OWN] }
-                        isOwner={ sessionUserId === lead.createdBy || sessionUserId === lead.assignedTo }
+                        leadId={ leadId }
                     >
                         <DeleteButton
                             onDelete={ onDelete }
                             deleteMessage={ deleteMessage }
                             className={ classes.actionButton }
                         />
-                    </Permission>
-                    <Permission
+                    </LeadPermission>
+                    <LeadPermission
                         resource={ LEAD }
                         action={ [UPDATE_ANY, UPDATE_OWN] }
-                        isOwner={ sessionUserId === lead.createdBy || sessionUserId === lead.assignedTo }
+                        leadId={ leadId }
                     >
                         <ThemedButton
                             type="submit"
@@ -357,7 +356,7 @@ const LeadDetails = React.memo(function LeadDetails({ leadId }) {
                         >
                             { saveButtonLabel }
                         </ThemedButton>
-                    </Permission>
+                    </LeadPermission>
                 </Grid>
             </Grid>
         </form>

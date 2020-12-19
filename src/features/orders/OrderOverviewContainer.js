@@ -7,9 +7,9 @@ import OrderOverview from './OrderOverview.js';
 import { fetchOrders } from './duck/thunks.js';
 import ErrorPage from '../shared/components/ErrorPage.js';
 import { cleanOrderState } from './duck/slice.js';
-import Permission from '../shared/components/Permission.js';
 import { ORDER } from '../admin/utils/resources.js';
 import { READ_ANY, READ_OWN } from '../admin/utils/actions.js';
+import OrderPermission from '../shared/permissions/OrderPermission.js';
 
 const OrderOverviewContainer = React.memo(function OrderOverviewContainer() {
     const dispatch = useDispatch();
@@ -36,11 +36,11 @@ const OrderOverviewContainer = React.memo(function OrderOverviewContainer() {
     }, [dispatch, errors.length]);
 
     return (
-        <Permission resource={ ORDER } action={ [READ_ANY, READ_OWN] }>
+        <OrderPermission resource={ ORDER } action={ [READ_ANY, READ_OWN] }>
             { status === 'REJECTED' && <ErrorPage errors={ errors }/> }
             { status === 'PENDING' && <Loader/> }
             { status === 'FULFILLED' && <OrderOverview/> }
-        </Permission>
+        </OrderPermission>
     );
 });
 

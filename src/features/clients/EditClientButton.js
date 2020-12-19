@@ -1,15 +1,13 @@
 import React, { useCallback, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Box } from '@material-ui/core';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import ClientDialog from '../shared/forms/ClientDialog.js';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import { deleteClient, updateClient } from './duck/thunks.js';
-import Permission from '../shared/components/Permission.js';
 import { CLIENT } from '../admin/utils/resources.js';
 import { UPDATE_ANY, UPDATE_OWN } from '../admin/utils/actions.js';
-import { selectSessionUserId } from '../../app/duck/selectors.js';
-import { isClientOwner } from '../admin/utils/resourceOwnerCheckers.js';
+import ClientPermission from '../shared/permissions/ClientPermission.js';
 
 const {
     buttonLabel,
@@ -19,7 +17,6 @@ const {
 
 const EditClientButton = React.memo(function EditClientButton({ client, className }) {
     const dispatch = useDispatch();
-    const sessionUserId = useSelector(selectSessionUserId);
     const [isEdit, setIsEdit] = useState(false);
 
     const onEdit = () => setIsEdit(true);
@@ -37,10 +34,10 @@ const EditClientButton = React.memo(function EditClientButton({ client, classNam
     };
 
     return (
-        <Permission
+        <ClientPermission
             resource={ CLIENT }
             action={ [UPDATE_ANY, UPDATE_OWN] }
-            isOwner={ isClientOwner(sessionUserId, client) }
+            clientId={ client._id }
         >
             <Box className={ className }>
                 <ThemedButton
@@ -60,7 +57,7 @@ const EditClientButton = React.memo(function EditClientButton({ client, classNam
                     isEdit
                 />
             </Box>
-        </Permission>
+        </ClientPermission>
     )
 });
 

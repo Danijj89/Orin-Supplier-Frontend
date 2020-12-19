@@ -11,15 +11,13 @@ import { selectUserDataStatus, selectUserError } from '../users/duck/selectors.j
 import { fetchUsers } from '../users/duck/thunks.js';
 import { cleanUserState } from '../users/duck/slice.js';
 import { useParams, Redirect } from 'react-router-dom';
-import Permission from '../shared/components/Permission.js';
 import { LEAD } from '../admin/utils/resources.js';
 import { READ_ANY, READ_OWN } from '../admin/utils/actions.js';
-import { selectSessionUserId } from '../../app/duck/selectors.js';
+import LeadPermission from '../shared/permissions/LeadPermission.js';
 
 const LeadContainer = React.memo(function LeadContainer() {
     const dispatch = useDispatch();
     const { id: leadId } = useParams();
-    const sessionUserId = useSelector(selectSessionUserId);
 
     const leadDataStatus = useSelector(selectLeadDataStatus);
     const leadError = useSelector(selectLeadError);
@@ -51,16 +49,16 @@ const LeadContainer = React.memo(function LeadContainer() {
     }, [dispatch, errors.length]);
 
     return (
-        <Permission
+        <LeadPermission
             resource={ LEAD }
             action={ [READ_ANY, READ_OWN] }
-            isOwner={ sessionUserId === lead.createdBy || sessionUserId === lead.assignedTo }
+            leadId={ leadId }
         >
             { !leadExists && <Redirect to={ '/home/leads' }/> }
             { status === 'REJECTED' && <ErrorPage errors={ errors }/> }
             { status === 'PENDING' && <Loader/> }
             { leadExists && status === 'FULFILLED' && <Lead/> }
-        </Permission>
+        </LeadPermission>
     );
 });
 

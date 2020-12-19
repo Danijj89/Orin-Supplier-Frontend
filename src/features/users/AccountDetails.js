@@ -8,7 +8,7 @@ import InfoCard from '../shared/wrappers/InfoCard.js';
 import EditAccountInfoButton from './EditAccountInfoButton.js';
 import { makeStyles } from '@material-ui/core/styles';
 import { selectCurrentUser } from '../../app/duck/selectors.js';
-import Permission from '../shared/components/Permission.js';
+import Permission from '../shared/permissions/Permission.js';
 import { USER } from '../admin/utils/resources.js';
 import { READ_ANY, READ_OWN } from '../admin/utils/actions.js';
 

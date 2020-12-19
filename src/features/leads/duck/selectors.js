@@ -55,3 +55,8 @@ export const selectLeadAddresses = createSelector(
     selectLeadById,
     lead => lead.addresses
 );
+
+export const selectLeadOwnersById = createSelector(
+    selectLeadById,
+    lead => [lead?.createdBy, lead?.assignedTo]
+);

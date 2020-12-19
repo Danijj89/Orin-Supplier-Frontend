@@ -7,7 +7,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Box, List, ListItem, Divider } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import { selectAllUsers } from './duck/selectors.js';
-import Permission from '../shared/components/Permission.js';
+import Permission from '../shared/permissions/Permission.js';
 import { USER } from '../admin/utils/resources.js';
 import { CREATE_ANY, CREATE_OWN, READ_ANY, READ_OWN } from '../admin/utils/actions.js';
 

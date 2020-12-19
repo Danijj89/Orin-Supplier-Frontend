@@ -5,7 +5,7 @@ import OrderStatusDialog from './OrderStatusDialog.js';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateOrderStatus } from './duck/thunks.js';
-import Permission from '../shared/components/Permission.js';
+import Permission from '../shared/permissions/Permission.js';
 import { ORDER_STATUS } from '../admin/utils/resources.js';
 import { UPDATE_ANY, UPDATE_OWN } from '../admin/utils/actions.js';
 import { selectSessionUser } from '../../app/duck/selectors.js';

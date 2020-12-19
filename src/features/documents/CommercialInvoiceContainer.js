@@ -22,10 +22,10 @@ import { cleanShipmentState } from '../shipments/duck/slice.js';
 import { selectProductDataStatus, selectProductError } from '../products/duck/selectors.js';
 import { fetchProducts } from '../products/duck/thunks.js';
 import { cleanOrderState } from '../orders/duck/slice.js';
-import Permission from '../shared/components/Permission.js';
 import { CREATE_ANY, CREATE_OWN } from '../admin/utils/actions.js';
 import { fetchCurrentCompany } from '../home/duck/thunks.js';
 import { SHIPMENT } from '../admin/utils/resources.js';
+import ShipmentPermission from '../shared/permissions/ShipmentPermission.js';
 
 const CommercialInvoiceContainer = React.memo(function CommercialInvoiceContainer() {
     const dispatch = useDispatch();
@@ -91,12 +91,12 @@ const CommercialInvoiceContainer = React.memo(function CommercialInvoiceContaine
     }, [dispatch, errors.length]);
 
     return (
-        <Permission resource={ SHIPMENT } action={ [CREATE_ANY, CREATE_OWN] }>
+        <ShipmentPermission resource={ SHIPMENT } action={ [CREATE_ANY, CREATE_OWN] }>
             { status === 'REJECTED' && <ErrorPage errors={ errors }/> }
             { status === 'PENDING' && <Loader/> }
             { status === 'FULFILLED' && <CommercialInvoice/> }
-        </Permission>
-    )
+        </ShipmentPermission>
+    );
 });
 
 export default CommercialInvoiceContainer;

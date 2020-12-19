@@ -24,11 +24,9 @@ import { cleanProductState } from '../products/duck/slice.js';
 import { cleanUserState } from '../users/duck/slice.js';
 import { cleanShipmentState } from '../shipments/duck/slice.js';
 import { fetchCurrentCompany } from '../home/duck/thunks.js';
-import Permission from '../shared/components/Permission.js';
 import { ORDER } from '../admin/utils/resources.js';
 import { READ_ANY, READ_OWN } from '../admin/utils/actions.js';
-import { selectSessionUserId } from '../../app/duck/selectors.js';
-import { isOrderOwner } from '../admin/utils/resourceOwnerCheckers.js';
+import OrderPermission from '../shared/permissions/OrderPermission.js';
 
 const {
     errorMessages
@@ -37,7 +35,6 @@ const {
 const OrderContainer = React.memo(function OrderContainer() {
     const dispatch = useDispatch();
     const { id: orderId } = useParams();
-    const sessionUserId = useSelector(selectSessionUserId);
 
     const orderDataStatus = useSelector(selectOrderDataStatus);
     const orderError = useSelector(selectOrderError);
@@ -102,16 +99,16 @@ const OrderContainer = React.memo(function OrderContainer() {
     }, [dispatch, errors.length]);
 
     return (
-        <Permission
+        <OrderPermission
             resource={ ORDER }
             action={ [READ_ANY, READ_OWN] }
-            isOwner={ isOrderOwner(sessionUserId, order) }
+            orderId={ orderId }
         >
             { isOrderInactive && <ErrorPage errors={ [errorMessages.orderWasDeleted] }/> }
             { status === 'REJECTED' && <ErrorPage errors={ errors }/> }
             { status === 'PENDING' && <Loader/> }
             { !isOrderInactive && status === 'FULFILLED' && <Order/> }
-        </Permission>
+        </OrderPermission>
     )
 });
 

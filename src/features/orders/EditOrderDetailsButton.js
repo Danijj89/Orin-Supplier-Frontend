@@ -3,15 +3,13 @@ import { Box } from '@material-ui/core';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import OrderDetailsDialog from '../shared/forms/OrderDetailsDialog.js';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { deleteOrder, updateOrder } from './duck/thunks.js';
 import { addressToDocAddress } from '../shared/utils/entityConversion.js';
 import { getOptionId } from '../../app/utils/options/getters.js';
-import Permission from '../shared/components/Permission.js';
 import { ORDER } from '../admin/utils/resources.js';
 import { UPDATE_ANY, UPDATE_OWN } from '../admin/utils/actions.js';
-import { selectSessionUserId } from '../../app/duck/selectors.js';
-import { isOrderOwner } from '../admin/utils/resourceOwnerCheckers.js';
+import OrderPermission from '../shared/permissions/OrderPermission.js';
 
 const {
     buttonLabel,
@@ -21,7 +19,6 @@ const {
 
 const EditOrderDetailsButton = React.memo(function EditOrderDetailsButton({ order, className }) {
     const dispatch = useDispatch();
-    const sessionUserId = useSelector(selectSessionUserId);
     const [isEdit, setIsEdit] = useState(false);
 
     const onEdit = useCallback(() => setIsEdit(true), []);
@@ -42,10 +39,10 @@ const EditOrderDetailsButton = React.memo(function EditOrderDetailsButton({ orde
     }, [dispatch, order._id]);
 
     return (
-        <Permission
+        <OrderPermission
             resource={ ORDER }
             action={ [UPDATE_ANY, UPDATE_OWN] }
-            isOwner={ isOrderOwner(sessionUserId, order) }
+            orderId={ order._id }
         >
             <Box className={ className }>
                 <ThemedButton
@@ -63,7 +60,7 @@ const EditOrderDetailsButton = React.memo(function EditOrderDetailsButton({ orde
                     onDelete={ onDelete }
                 />
             </Box>
-        </Permission>
+        </OrderPermission>
     )
 });
 

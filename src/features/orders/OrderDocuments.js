@@ -9,9 +9,9 @@ import Paper from '@material-ui/core/Paper';
 import { Typography } from '@material-ui/core';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import { downloadOrder } from '../documents/duck/thunks.js';
-import Permission from '../shared/components/Permission.js';
 import { SHIPMENT } from '../admin/utils/resources.js';
 import { READ_ANY } from '../admin/utils/actions.js';
+import ShipmentPermission from '../shared/permissions/ShipmentPermission.js';
 
 const useStyles = makeStyles((theme) => ({
     shipmentCards: {
@@ -48,7 +48,7 @@ const OrderDocuments = React.memo(function OrderDocuments() {
     ]);
 
     return (
-        <Permission resource={ SHIPMENT } action={ [READ_ANY] }>
+        <ShipmentPermission resource={ SHIPMENT } action={ [READ_ANY] }>
             <ThemedButton
                 variant="outlined"
                 onClick={ createGenerateDocumentHandler('xlsx') }
@@ -76,7 +76,7 @@ const OrderDocuments = React.memo(function OrderDocuments() {
                     <Typography variant="h6">{ textLabels.noOrder }</Typography>
                 ) }
             </Paper>
-        </Permission>
+        </ShipmentPermission>
     );
 });
 

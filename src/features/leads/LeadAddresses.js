@@ -8,10 +8,9 @@ import NewLeadAddressButton from './NewLeadAddressButton.js';
 import { deleteLeadAddress, updateLeadAddress, updateLeadDefaultAddress } from './duck/thunks.js';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import { getOptionId } from '../../app/utils/options/getters.js';
-import Permission from '../shared/components/Permission.js';
 import { LEAD } from '../admin/utils/resources.js';
 import { CREATE_ANY, CREATE_OWN, UPDATE_ANY, UPDATE_OWN } from '../admin/utils/actions.js';
-import { selectSessionUserId } from '../../app/duck/selectors.js';
+import LeadPermission from '../shared/permissions/LeadPermission.js';
 
 const {
     editDialogTitleLabel,
@@ -20,7 +19,6 @@ const {
 
 const LeadAddresses = React.memo(function LeadAddresses({ leadId }) {
     const dispatch = useDispatch();
-    const sessionUserId = useSelector(selectSessionUserId);
     const lead = useSelector(state => selectLeadById(state, { leadId }));
     const addresses = useSelector(
         state => selectLeadAddresses(state, { leadId }));
@@ -58,16 +56,16 @@ const LeadAddresses = React.memo(function LeadAddresses({ leadId }) {
     return (
         <Grid container>
             <Grid container item xs={ 12 }>
-                <Permission
+                <LeadPermission
                     resource={ LEAD }
                     action={ [CREATE_ANY, CREATE_OWN] }
-                    isOwner={ sessionUserId === lead.createdBy || sessionUserId === lead.assignedTo }
+                    leadId={ leadId }
                 >
                     <NewLeadAddressButton
                         leadId={ leadId }
                         leadName={ lead.name }
                     />
-                </Permission>
+                </LeadPermission>
             </Grid>
             <Grid container item xs={ 12 }>
                 { addresses.map(address =>
@@ -80,10 +78,10 @@ const LeadAddresses = React.memo(function LeadAddresses({ leadId }) {
                         />
                     </Grid>
                 ) }
-                <Permission
+                <LeadPermission
                     resource={ LEAD }
                     action={ [UPDATE_ANY, UPDATE_OWN] }
-                    isOwner={ sessionUserId === lead.createdBy || sessionUserId === lead.assignedTo }
+                    leadId={ leadId }
                 >
                     { editAddress && (
                         <AddressDialog
@@ -95,7 +93,7 @@ const LeadAddresses = React.memo(function LeadAddresses({ leadId }) {
                             onSubmit={ onSubmit }
                         />
                     ) }
-                </Permission>
+                </LeadPermission>
             </Grid>
         </Grid>
     );

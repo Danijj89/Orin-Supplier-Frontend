@@ -8,13 +8,11 @@ import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { cleanNewDocument } from '../documents/duck/slice.js';
 import RHFAutoComplete from '../shared/rhf/inputs/RHFAutoComplete.js';
-import { selectDocumentTypes, selectSessionUserId } from '../../app/duck/selectors.js';
+import { selectDocumentTypes } from '../../app/duck/selectors.js';
 import { getOptionLabel } from '../../app/utils/options/getters.js';
 import { SHIPMENT } from '../admin/utils/resources.js';
 import { CREATE_ANY, CREATE_OWN } from '../admin/utils/actions.js';
-import Permission from '../shared/components/Permission.js';
-import { selectShipmentOwnerById } from './duck/selectors.js';
-import { isShipmentOwner } from '../admin/utils/resourceOwnerCheckers.js';
+import ShipmentPermission from '../shared/permissions/ShipmentPermission.js';
 
 const {
     buttonLabel,
@@ -26,10 +24,8 @@ const {
 const DocumentButton = React.memo(function DocumentButton() {
     const history = useHistory();
     const dispatch = useDispatch();
-    const { id } = useParams();
+    const { id: shipmentId } = useParams();
     const documentTypeOptions = useSelector(selectDocumentTypes);
-    const shipmentOwner = useSelector(state => selectShipmentOwnerById(state, { shipmentId: id }));
-    const sessionUserId = useSelector(selectSessionUserId);
     const [isEdit, setIsEdit] = useState(false);
 
     const { control, errors, handleSubmit } = useForm({
@@ -46,27 +42,27 @@ const DocumentButton = React.memo(function DocumentButton() {
         dispatch(cleanNewDocument());
         switch (data.document.id) {
             case 'CI':
-                history.push(`/home/documents/ci/new?step=details&shipment=${ id }`);
+                history.push(`/home/documents/ci/new?step=details&shipment=${ shipmentId }`);
                 break;
             case 'PL':
-                history.push(`/home/documents/pl/new?step=details&shipment=${ id }`);
+                history.push(`/home/documents/pl/new?step=details&shipment=${ shipmentId }`);
                 break;
             case 'SC':
-                history.push(`/home/documents/sc/new?step=details&shipment=${ id }`);
+                history.push(`/home/documents/sc/new?step=details&shipment=${ shipmentId }`);
                 break;
             case 'CE':
-                history.push(`/home/documents/ce/new?step=details&shipment=${ id }`);
+                history.push(`/home/documents/ce/new?step=details&shipment=${ shipmentId }`);
                 break;
             default:
                 history.push('/home/shipments');
         }
-    }, [dispatch, history, id]);
+    }, [dispatch, history, shipmentId]);
 
     return (
-        <Permission
+        <ShipmentPermission
             resource={ SHIPMENT }
             action={ [CREATE_ANY, CREATE_OWN] }
-            isOwner={ isShipmentOwner(sessionUserId, shipmentOwner) }
+            shipmentId={shipmentId}
         >
             <ThemedButton onClick={ onEdit }>{ buttonLabel }</ThemedButton>
             <FormDialog
@@ -87,7 +83,7 @@ const DocumentButton = React.memo(function DocumentButton() {
                     required
                 />
             </FormDialog>
-        </Permission>
+        </ShipmentPermission>
     )
 });
 

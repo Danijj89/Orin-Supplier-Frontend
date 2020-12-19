@@ -9,7 +9,7 @@ import EditOrderStatusButton from './EditOrderStatusButton.js';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectOrderById } from './duck/selectors.js';
-import Permission from '../shared/components/Permission.js';
+import Permission from '../shared/permissions/Permission.js';
 import { ORDER_STATUS } from '../admin/utils/resources.js';
 import { READ_ANY, READ_OWN } from '../admin/utils/actions.js';
 import { selectSessionUser } from '../../app/duck/selectors.js';

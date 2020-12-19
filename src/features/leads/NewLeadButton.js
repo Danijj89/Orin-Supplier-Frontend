@@ -6,9 +6,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { createLead } from './duck/thunks.js';
 import { selectSessionUserCompanyId, selectSessionUserId } from '../../app/duck/selectors.js';
 import { makeStyles } from '@material-ui/core/styles';
-import Permission from '../shared/components/Permission.js';
 import { LEAD } from '../admin/utils/resources.js';
 import { CREATE_ANY, CREATE_OWN } from '../admin/utils/actions.js';
+import LeadPermission from '../shared/permissions/LeadPermission.js';
 
 const {
     buttonLabel,
@@ -49,7 +49,7 @@ const NewLeadButton = React.memo(function NewLeadButton() {
     );
 
     return (
-        <Permission resource={ LEAD } action={ [CREATE_ANY, CREATE_OWN] }>
+        <LeadPermission resource={ LEAD } action={ [CREATE_ANY, CREATE_OWN] }>
             <ThemedButton onClick={ onButtonClick } className={ classes.newLead }>
                 { buttonLabel }
             </ThemedButton>
@@ -60,7 +60,7 @@ const NewLeadButton = React.memo(function NewLeadButton() {
                 submitLabel={ dialogSubmitLabel }
                 titleLabel={ dialogTitleLabel }
             />
-        </Permission>
+        </LeadPermission>
     );
 });
 
