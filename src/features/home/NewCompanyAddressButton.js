@@ -8,10 +8,10 @@ import { addNewAddress } from './duck/thunks.js';
 import { makeStyles } from '@material-ui/core/styles';
 import { selectCompanyLegalAddress } from './duck/selectors.js';
 import { getOptionId } from '../../app/utils/options/getters.js';
-import Permission from '../shared/permissions/Permission.js';
 import { COMPANY } from '../admin/utils/resources.js';
 import { CREATE_ANY, CREATE_OWN } from '../admin/utils/actions.js';
-import { selectSessionUser, selectSessionUserCompanyId } from '../../app/duck/selectors.js';
+import { selectSessionUserCompanyId } from '../../app/duck/selectors.js';
+import CompanyPermission from '../shared/permissions/CompanyPermission.js';
 
 const {
     newAddressButtonLabel,
@@ -25,10 +25,9 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function NewCompanyAddressButton({ className }) {
+const NewCompanyAddressButton = React.memo(function NewCompanyAddressButton({ className }) {
     const classes = useStyles();
     const dispatch = useDispatch();
-    const sessionUser = useSelector(selectSessionUser);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const companyId = useSelector(selectSessionUserCompanyId);
     const companyLegalAddress = useSelector(selectCompanyLegalAddress);
@@ -45,10 +44,10 @@ export default function NewCompanyAddressButton({ className }) {
     };
 
     return (
-        <Permission
+        <CompanyPermission
             resource={ COMPANY }
             action={ [CREATE_ANY, CREATE_OWN] }
-            isOwner={ sessionUser.company === companyId }
+            companyId={ companyId }
         >
             <Box className={ className }>
                 <ThemedButton
@@ -66,6 +65,8 @@ export default function NewCompanyAddressButton({ className }) {
                     onSubmit={ onSubmit }
                 />
             </Box>
-        </Permission>
+        </CompanyPermission>
     );
-}
+});
+
+export default NewCompanyAddressButton;

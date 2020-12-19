@@ -8,10 +8,10 @@ import BankDetailDialog from './BankDetailDialog.js';
 import NewBankDetailButton from './NewBankDetailButton.js';
 import { deleteCompanyBankDetail, updateCompanyBankDetail } from './duck/thunks.js';
 import Table from '../shared/components/table/Table.js';
-import Permission from '../shared/permissions/Permission.js';
 import { COMPANY } from '../admin/utils/resources.js';
 import { CREATE_ANY, CREATE_OWN, UPDATE_ANY, UPDATE_OWN } from '../admin/utils/actions.js';
-import { selectSessionUser, selectSessionUserCompanyId } from '../../app/duck/selectors.js';
+import { selectSessionUserCompanyId } from '../../app/duck/selectors.js';
+import CompanyPermission from '../shared/permissions/CompanyPermission.js';
 
 const useStyles = makeStyles((theme) => ({
     cards: {
@@ -37,7 +37,6 @@ const {
 const CompanyBankDetails = React.memo(function CompanyBankDetails() {
     const classes = useStyles();
     const dispatch = useDispatch();
-    const sessionUser = useSelector(selectSessionUser);
     const bankDetails = useSelector(selectActiveCompanyBankDetails);
     const companyId = useSelector(selectSessionUserCompanyId);
     const [isEdit, setIsEdit] = useState(false);
@@ -79,10 +78,10 @@ const CompanyBankDetails = React.memo(function CompanyBankDetails() {
             </Typography>
             <Table rows={ rows } columns={ columns } onRowClick={ onRowClick }/>
             { editBankDetail &&
-            <Permission
+            <CompanyPermission
                 resource={ COMPANY }
                 action={ [UPDATE_ANY, UPDATE_OWN] }
-                isOwner={ sessionUser.company === companyId }
+                companyId={ companyId }
             >
                 <BankDetailDialog
                     isOpen={ isEdit }
@@ -93,15 +92,15 @@ const CompanyBankDetails = React.memo(function CompanyBankDetails() {
                     onSubmit={ onUpdate }
                     onDelete={ () => onDelete(editBankDetail._id) }
                 />
-            </Permission>
+            </CompanyPermission>
             }
-            <Permission
+            <CompanyPermission
                 resource={ COMPANY }
                 action={ [CREATE_ANY, CREATE_OWN] }
-                isOwner={ sessionUser.company === companyId }
+                companyId={ companyId }
             >
                 <NewBankDetailButton/>
-            </Permission>
+            </CompanyPermission>
         </Box>
     )
 });
