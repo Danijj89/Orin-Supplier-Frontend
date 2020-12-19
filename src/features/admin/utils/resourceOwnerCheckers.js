@@ -4,3 +4,6 @@ export const isClientOwner = (userId, client) =>
 
 export const isOrderOwner = (userId, order) =>
     userId === order?.createdBy;
+
+export const isShipmentOwner = (userId, shipmentOwner) =>
+    userId === shipmentOwner;

@@ -85,6 +85,11 @@ export const selectShipmentById = createSelector(
     (shipmentsMap, shipmentId) => shipmentsMap[shipmentId]
 );
 
+export const selectShipmentOwnerById = createSelector(
+    selectShipmentById,
+    shipment => shipment.createdBy
+);
+
 export const selectShipmentOrders = createSelector(
     selectShipmentById,
     selectOrdersMap,

@@ -5,7 +5,7 @@ import { LANGUAGE } from '../../app/utils/constants.js';
 import NavTabs from '../shared/components/NavTabs.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { selectShipmentError, selectShipmentStatus } from './duck/selectors.js';
+import { selectShipmentError, selectShipmentOwnerById, selectShipmentStatus } from './duck/selectors.js';
 import ShipmentInfo from './ShipmentInfo.js';
 import Loader from '../shared/components/Loader.js';
 import SuccessMessage from '../shared/components/SuccessMessage.js';
@@ -22,7 +22,9 @@ import { deleteShipment } from './duck/thunks.js';
 import queryString from 'query-string';
 import Permission from '../shared/components/Permission.js';
 import { SHIPMENT } from '../admin/utils/resources.js';
-import { DELETE_ANY } from '../admin/utils/actions.js';
+import { DELETE_ANY, DELETE_OWN } from '../admin/utils/actions.js';
+import { selectSessionUserId } from '../../app/duck/selectors.js';
+import { isShipmentOwner } from '../admin/utils/resourceOwnerCheckers.js';
 
 const useStyles = makeStyles((theme) => ({
     title: {
@@ -48,6 +50,8 @@ const EditShipment = React.memo(function EditShipment() {
     const tabValue = tab || 'shipment';
     const shipmentStatus = useSelector(selectShipmentStatus);
     const shipmentError = useSelector(selectShipmentError);
+    const sessionUserId = useSelector(selectSessionUserId);
+    const shipmentOwner = useSelector(state => selectShipmentOwnerById(state, { shipmentId }));
 
     const onTabChange = useCallback(
         (newValue) => {
@@ -81,7 +85,11 @@ const EditShipment = React.memo(function EditShipment() {
                     <Typography className={ classes.title } variant="h5">
                         { titleLabel }
                     </Typography>
-                    <Permission resource={ SHIPMENT } action={ [DELETE_ANY] }>
+                    <Permission
+                        resource={ SHIPMENT }
+                        action={ [DELETE_ANY, DELETE_OWN] }
+                        isOwner={ isShipmentOwner(sessionUserId, shipmentOwner) }
+                    >
                         <DeleteButton
                             onDelete={ onDelete }
                             deleteMessage={ deleteMessage }

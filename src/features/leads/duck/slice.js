@@ -9,7 +9,6 @@ import {
     updateLeadDefaultAddress
 } from './thunks.js';
 
-
 export const leadsAdapter = createEntityAdapter({
     selectId: lead => lead._id,
     sortComparer: (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()

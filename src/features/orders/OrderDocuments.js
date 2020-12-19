@@ -48,33 +48,33 @@ const OrderDocuments = React.memo(function OrderDocuments() {
     ]);
 
     return (
-        <Permission resource={SHIPMENT} action={[READ_ANY]}>
+        <Permission resource={ SHIPMENT } action={ [READ_ANY] }>
             <ThemedButton
                 variant="outlined"
-                onClick={createGenerateDocumentHandler('xlsx')}
-                className={classes.orderDocsActions}
+                onClick={ createGenerateDocumentHandler('xlsx') }
+                className={ classes.orderDocsActions }
             >
-                {buttonLabels.generateExcel}
+                { buttonLabels.generateExcel }
             </ThemedButton>
             <ThemedButton
                 variant="outlined"
-                onClick={createGenerateDocumentHandler('pdf')}
-                className={classes.orderDocsActions}
+                onClick={ createGenerateDocumentHandler('pdf') }
+                className={ classes.orderDocsActions }
             >
-                {buttonLabels.generatePdf}
+                { buttonLabels.generatePdf }
             </ThemedButton>
-            <Paper className={classes.orderDocsCard}>
-                {isOrderInShipment &&
-                    orderShipmentIds.map((id) => (
-                        <ShipmentDocumentsCard
-                            className={classes.shipmentCards}
-                            key={id}
-                            shipmentId={id}
-                        />
-                    ))}
-                {!isOrderInShipment && (
-                    <Typography variant="h6">{textLabels.noOrder}</Typography>
-                )}
+            <Paper className={ classes.orderDocsCard }>
+                { isOrderInShipment &&
+                orderShipmentIds.map((id) => (
+                    <ShipmentDocumentsCard
+                        className={ classes.shipmentCards }
+                        key={ id }
+                        shipmentId={ id }
+                    />
+                )) }
+                { !isOrderInShipment && (
+                    <Typography variant="h6">{ textLabels.noOrder }</Typography>
+                ) }
             </Paper>
         </Permission>
     );

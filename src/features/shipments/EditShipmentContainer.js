@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
     selectShipmentDataStatus,
-    selectShipmentError
+    selectShipmentError, selectShipmentOwnerById
 } from './duck/selectors.js';
 import { fetchShipments } from './duck/thunks.js';
 import { determineStatus, getErrors } from '../shared/utils/state.js';
@@ -27,10 +27,16 @@ import { cleanOrderState } from '../orders/duck/slice.js';
 import { fetchCurrentCompany } from '../home/duck/thunks.js';
 import Permission from '../shared/components/Permission.js';
 import { SHIPMENT } from '../admin/utils/resources.js';
-import { UPDATE_ANY } from '../admin/utils/actions.js';
+import { UPDATE_ANY, UPDATE_OWN } from '../admin/utils/actions.js';
+import { selectSessionUserId } from '../../app/duck/selectors.js';
+import { useParams } from 'react-router-dom';
+import { isShipmentOwner } from '../admin/utils/resourceOwnerCheckers.js';
 
 export default function EditShipmentContainer() {
     const dispatch = useDispatch();
+    const { id: shipmentId } = useParams();
+    const sessionUserId = useSelector(selectSessionUserId);
+    const shipmentOwner = useSelector(state => selectShipmentOwnerById(state, { shipmentId }));
 
     const homeDataStatus = useSelector(selectHomeDataStatus);
     const homeError = useSelector(selectHomeError);
@@ -84,7 +90,11 @@ export default function EditShipmentContainer() {
     }, [dispatch, errors.length]);
 
     return (
-        <Permission resource={ SHIPMENT } action={ [UPDATE_ANY] }>
+        <Permission
+            resource={ SHIPMENT }
+            action={ [UPDATE_ANY, UPDATE_OWN] }
+            isOwner={ isShipmentOwner(sessionUserId, shipmentOwner) }
+        >
             { status === 'REJECTED' && <ErrorPage errors={ errors }/> }
             { status === 'PENDING' && <Loader/> }
             { status === 'FULFILLED' && <EditShipment/> }

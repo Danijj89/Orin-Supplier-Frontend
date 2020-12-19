@@ -15,7 +15,7 @@ import { cleanClientState } from '../clients/duck/slice.js';
 import { cleanShipmentState } from '../shipments/duck/slice.js';
 import Permission from '../shared/components/Permission.js';
 import { SHIPMENT } from '../admin/utils/resources.js';
-import { CREATE_ANY } from '../admin/utils/actions.js';
+import { CREATE_ANY, CREATE_OWN } from '../admin/utils/actions.js';
 import { fetchCurrentCompany } from '../home/duck/thunks.js';
 
 const PackingListContainer = React.memo(function PackingListContainer() {
@@ -53,7 +53,7 @@ const PackingListContainer = React.memo(function PackingListContainer() {
     }, [dispatch, errors.length]);
 
     return (
-        <Permission resource={ SHIPMENT } action={ [CREATE_ANY] }>
+        <Permission resource={ SHIPMENT } action={ [CREATE_ANY, CREATE_OWN] }>
             { status === 'REJECTED' && <ErrorPage errors={ errors }/> }
             { status === 'PENDING' && <Loader/> }
             { status === 'FULFILLED' && <PackingList/> }

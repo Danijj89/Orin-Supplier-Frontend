@@ -8,11 +8,13 @@ import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { cleanNewDocument } from '../documents/duck/slice.js';
 import RHFAutoComplete from '../shared/rhf/inputs/RHFAutoComplete.js';
-import { selectDocumentTypes } from '../../app/duck/selectors.js';
+import { selectDocumentTypes, selectSessionUserId } from '../../app/duck/selectors.js';
 import { getOptionLabel } from '../../app/utils/options/getters.js';
 import { SHIPMENT } from '../admin/utils/resources.js';
-import { CREATE_ANY } from '../admin/utils/actions.js';
+import { CREATE_ANY, CREATE_OWN } from '../admin/utils/actions.js';
 import Permission from '../shared/components/Permission.js';
+import { selectShipmentOwnerById } from './duck/selectors.js';
+import { isShipmentOwner } from '../admin/utils/resourceOwnerCheckers.js';
 
 const {
     buttonLabel,
@@ -26,6 +28,8 @@ const DocumentButton = React.memo(function DocumentButton() {
     const dispatch = useDispatch();
     const { id } = useParams();
     const documentTypeOptions = useSelector(selectDocumentTypes);
+    const shipmentOwner = useSelector(state => selectShipmentOwnerById(state, { shipmentId: id }));
+    const sessionUserId = useSelector(selectSessionUserId);
     const [isEdit, setIsEdit] = useState(false);
 
     const { control, errors, handleSubmit } = useForm({
@@ -59,7 +63,11 @@ const DocumentButton = React.memo(function DocumentButton() {
     }, [dispatch, history, id]);
 
     return (
-        <Permission resource={ SHIPMENT } action={ [CREATE_ANY] }>
+        <Permission
+            resource={ SHIPMENT }
+            action={ [CREATE_ANY, CREATE_OWN] }
+            isOwner={ isShipmentOwner(sessionUserId, shipmentOwner) }
+        >
             <ThemedButton onClick={ onEdit }>{ buttonLabel }</ThemedButton>
             <FormDialog
                 isOpen={ isEdit }

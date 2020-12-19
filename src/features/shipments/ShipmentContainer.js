@@ -4,7 +4,7 @@ import { fetchShipments } from './duck/thunks.js';
 import { useDispatch, useSelector } from 'react-redux';
 import {
     selectShipmentDataStatus,
-    selectShipmentError
+    selectShipmentError, selectShipmentOwnerById
 } from './duck/selectors.js';
 import { fetchOrders } from '../orders/duck/thunks.js';
 import { determineStatus, getErrors } from '../shared/utils/state.js';
@@ -15,10 +15,17 @@ import { selectOrderDataStatus, selectOrderError } from '../orders/duck/selector
 import { cleanOrderState } from '../orders/duck/slice.js';
 import Permission from '../shared/components/Permission.js';
 import { SHIPMENT } from '../admin/utils/resources.js';
-import { READ_ANY } from '../admin/utils/actions.js';
+import { READ_ANY, READ_OWN } from '../admin/utils/actions.js';
+import { useParams } from 'react-router-dom';
+import { selectSessionUserId } from '../../app/duck/selectors.js';
+import { isShipmentOwner } from '../admin/utils/resourceOwnerCheckers.js';
 
 const ShipmentContainer = React.memo(function ShipmentContainer() {
     const dispatch = useDispatch();
+    const { id: shipmentId } = useParams();
+    const sessionUserId = useSelector(selectSessionUserId);
+    const shipmentOwner = useSelector(state => selectShipmentOwnerById(state, { shipmentId }));
+
     const shipmentDataStatus = useSelector(selectShipmentDataStatus);
     const shipmentError = useSelector(selectShipmentError);
     const orderDataStatus = useSelector(selectOrderDataStatus);
@@ -47,7 +54,11 @@ const ShipmentContainer = React.memo(function ShipmentContainer() {
     }, [dispatch, errors.length]);
 
     return (
-        <Permission resource={ SHIPMENT } action={ [READ_ANY] }>
+        <Permission
+            resource={ SHIPMENT }
+            action={ [READ_ANY, READ_OWN] }
+            isOwner={isShipmentOwner(sessionUserId, shipmentOwner)}
+        >
             { status === 'REJECTED' && <ErrorPage errors={ errors }/> }
             { status === 'PENDING' && <Loader/> }
             { status === 'FULFILLED' && <Shipment/> }
