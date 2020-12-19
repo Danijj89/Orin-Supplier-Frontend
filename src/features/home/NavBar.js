@@ -32,7 +32,7 @@ import { fetchShipments } from '../shipments/duck/thunks.js';
 import { fetchProducts } from '../products/duck/thunks.js';
 import { selectSessionUserName } from '../../app/duck/selectors.js';
 import Permission from '../shared/permissions/Permission.js';
-import { CLIENT, LEAD, ORDER, PERMISSION, SHIPMENT } from '../admin/utils/resources.js';
+import { CLIENT, LEAD, ORDER, PERMISSION, PRODUCT, SHIPMENT } from '../admin/utils/resources.js';
 import { READ_ANY, READ_OWN } from '../admin/utils/actions.js';
 import OrderPermission from '../shared/permissions/OrderPermission.js';
 import LeadPermission from '../shared/permissions/LeadPermission.js';
@@ -180,12 +180,14 @@ const NavBar = React.memo(function NavBar() {
                     { tabsLabelsMap.shipments }
                 </MenuItem>
             </ShipmentPermission>
-            <MenuItem onClick={ () => onTabClick('products', '/home/products') }>
-                <IconButton color="inherit">
-                    <IconTag/>
-                </IconButton>
-                { tabsLabelsMap.products }
-            </MenuItem>
+            <Permission resource={ PRODUCT } action={ [READ_ANY] }>
+                <MenuItem onClick={ () => onTabClick('products', '/home/products') }>
+                    <IconButton color="inherit">
+                        <IconTag/>
+                    </IconButton>
+                    { tabsLabelsMap.products }
+                </MenuItem>
+            </Permission>
             <Permission resource={ PERMISSION } action={ READ_ANY }>
                 <MenuItem
                     onClick={ () => onTabClick('admin', '/home/admin') }
@@ -290,22 +292,24 @@ const NavBar = React.memo(function NavBar() {
                                 </ListItemText>
                             </ListItem>
                         </ShipmentPermission>
-                        <ListItem
-                            button
-                            component="a"
-                            onClick={ () => onTabClick('products', '/home/products') }
-                            classes={ {
-                                root: classes.menuButtons,
-                                selected: classes.selected,
-                            } }
-                            selected={ currentTab === 'products' }
-                        >
-                            <ListItemText>
+                        <Permission resource={ PRODUCT } action={ [READ_ANY] }>
+                            <ListItem
+                                button
+                                component="a"
+                                onClick={ () => onTabClick('products', '/home/products') }
+                                classes={ {
+                                    root: classes.menuButtons,
+                                    selected: classes.selected,
+                                } }
+                                selected={ currentTab === 'products' }
+                            >
+                                <ListItemText>
                                 <span className={ classes.tabsText }>
                                     { tabsLabelsMap.products }
                                 </span>
-                            </ListItemText>
-                        </ListItem>
+                                </ListItemText>
+                            </ListItem>
+                        </Permission>
                         <Permission resource={ PERMISSION } action={ READ_ANY }>
                             <ListItem
                                 button

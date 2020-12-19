@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
-import { Box } from '@material-ui/core';
 import ProductDialog from '../shared/forms/ProductDialog.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import { createProduct } from './duck/thunks.js';
 import { makeStyles } from '@material-ui/core/styles';
 import { selectSessionUserCompanyId } from '../../app/duck/selectors.js';
+import Permission from '../shared/permissions/Permission.js';
+import { PRODUCT } from '../admin/utils/resources.js';
+import { CREATE_ANY } from '../admin/utils/actions.js';
 
 const {
     buttonLabel,
@@ -37,7 +39,7 @@ const NewProductButton = React.memo(function NewProductButton() {
     };
 
     return (
-        <Box>
+        <Permission resource={ PRODUCT } action={ CREATE_ANY }>
             <ThemedButton onClick={ onClick } className={ classes.newProduct }>
                 { buttonLabel }
             </ThemedButton>
@@ -49,7 +51,7 @@ const NewProductButton = React.memo(function NewProductButton() {
                 onCancel={ onCancel }
                 onSubmit={ onSubmit }
             />
-        </Box>
+        </Permission>
     );
 });
 
