@@ -19,6 +19,9 @@ import ChinaExport from './ChinaExport.js';
 import { cleanShipmentState } from '../shipments/duck/slice.js';
 import { selectProductDataStatus, selectProductError } from '../products/duck/selectors.js';
 import { fetchProducts } from '../products/duck/thunks.js';
+import { DOCUMENT } from '../admin/utils/resources.js';
+import { CREATE_ANY } from '../admin/utils/actions.js';
+import Permission from '../shared/components/Permission.js';
 
 const ChinaExportContainer = React.memo(function ChinaExportContainer() {
     const dispatch = useDispatch();
@@ -66,11 +69,11 @@ const ChinaExportContainer = React.memo(function ChinaExportContainer() {
     }, [dispatch, errors.length]);
 
     return (
-        <>
+        <Permission resource={ DOCUMENT } action={ [CREATE_ANY] }>
             { status === 'REJECTED' && <ErrorPage errors={ errors }/> }
             { status === 'PENDING' && <Loader/> }
             { status === 'FULFILLED' && <ChinaExport/> }
-        </>
+        </Permission>
     )
 });
 

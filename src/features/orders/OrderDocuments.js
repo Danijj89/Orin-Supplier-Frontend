@@ -5,11 +5,13 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectOrderShipmentIdsField } from './duck/selectors.js';
-import Box from '@material-ui/core/Box';
 import Paper from '@material-ui/core/Paper';
 import { Typography } from '@material-ui/core';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import { downloadOrder } from '../documents/duck/thunks.js';
+import Permission from '../shared/components/Permission.js';
+import { DOCUMENT } from '../admin/utils/resources.js';
+import { READ_ANY } from '../admin/utils/actions.js';
 
 const useStyles = makeStyles((theme) => ({
     shipmentCards: {
@@ -46,7 +48,7 @@ const OrderDocuments = React.memo(function OrderDocuments() {
     ]);
 
     return (
-        <Box>
+        <Permission resource={DOCUMENT} action={[READ_ANY]}>
             <ThemedButton
                 variant="outlined"
                 onClick={createGenerateDocumentHandler('xlsx')}
@@ -74,7 +76,7 @@ const OrderDocuments = React.memo(function OrderDocuments() {
                     <Typography variant="h6">{textLabels.noOrder}</Typography>
                 )}
             </Paper>
-        </Box>
+        </Permission>
     );
 });
 

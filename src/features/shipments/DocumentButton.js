@@ -1,6 +1,5 @@
 import React, { useCallback, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-import Box from '@material-ui/core/Box';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import FormDialog from '../shared/wrappers/FormDialog.js';
 import { LANGUAGE, LOCALE } from '../../app/utils/constants.js';
@@ -11,6 +10,9 @@ import { cleanNewDocument } from '../documents/duck/slice.js';
 import RHFAutoComplete from '../shared/rhf/inputs/RHFAutoComplete.js';
 import { selectDocumentTypes } from '../../app/duck/selectors.js';
 import { getOptionLabel } from '../../app/utils/options/getters.js';
+import { DOCUMENT } from '../admin/utils/resources.js';
+import { CREATE_ANY } from '../admin/utils/actions.js';
+import Permission from '../shared/components/Permission.js';
 
 const {
     buttonLabel,
@@ -57,7 +59,7 @@ const DocumentButton = React.memo(function DocumentButton() {
     }, [dispatch, history, id]);
 
     return (
-        <Box>
+        <Permission resource={ DOCUMENT } action={ [CREATE_ANY] }>
             <ThemedButton onClick={ onEdit }>{ buttonLabel }</ThemedButton>
             <FormDialog
                 isOpen={ isEdit }
@@ -77,7 +79,7 @@ const DocumentButton = React.memo(function DocumentButton() {
                     required
                 />
             </FormDialog>
-        </Box>
+        </Permission>
     )
 });
 

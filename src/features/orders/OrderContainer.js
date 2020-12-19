@@ -101,7 +101,7 @@ const OrderContainer = React.memo(function OrderContainer() {
     }, [dispatch, errors.length]);
 
     return (
-        <Permission resource={ ORDER } action={ [READ_ANY, READ_OWN] } isOwner={ sessionUserId === order.createdBy }>
+        <Permission resource={ ORDER } action={ [READ_ANY, READ_OWN] } isOwner={ sessionUserId === order?.createdBy }>
             { isOrderInactive && <ErrorPage errors={ [errorMessages.orderWasDeleted] }/> }
             { status === 'REJECTED' && <ErrorPage errors={ errors }/> }
             { status === 'PENDING' && <Loader/> }

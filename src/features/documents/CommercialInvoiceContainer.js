@@ -22,6 +22,9 @@ import { cleanShipmentState } from '../shipments/duck/slice.js';
 import { selectProductDataStatus, selectProductError } from '../products/duck/selectors.js';
 import { fetchProducts } from '../products/duck/thunks.js';
 import { cleanOrderState } from '../orders/duck/slice.js';
+import Permission from '../shared/components/Permission.js';
+import { DOCUMENT } from '../admin/utils/resources.js';
+import { CREATE_ANY } from '../admin/utils/actions.js';
 
 const CommercialInvoiceContainer = React.memo(function CommercialInvoiceContainer() {
     const dispatch = useDispatch();
@@ -81,11 +84,11 @@ const CommercialInvoiceContainer = React.memo(function CommercialInvoiceContaine
     }, [dispatch, errors.length]);
 
     return (
-        <>
+        <Permission resource={ DOCUMENT } action={ [CREATE_ANY] }>
             { status === 'REJECTED' && <ErrorPage errors={ errors }/> }
             { status === 'PENDING' && <Loader/> }
             { status === 'FULFILLED' && <CommercialInvoice/> }
-        </>
+        </Permission>
     )
 });
 

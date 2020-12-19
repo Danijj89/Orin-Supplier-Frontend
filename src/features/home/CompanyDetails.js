@@ -8,7 +8,7 @@ import { LANGUAGE, LOCALE } from '../../app/utils/constants.js';
 import DividerDataDisplay from '../shared/wrappers/DividerDisplay.js';
 import NavTabs from '../shared/components/NavTabs.js';
 import Paper from '@material-ui/core/Paper';
-import CompanyBankDetails from '../documents/CompanyBankDetails.js';
+import CompanyBankDetails from './CompanyBankDetails.js';
 import { useSelector } from 'react-redux';
 import { getOptionLabel } from '../../app/utils/options/getters.js';
 import { selectCompanyLegalAddress, selectCurrentCompany } from './duck/selectors.js';

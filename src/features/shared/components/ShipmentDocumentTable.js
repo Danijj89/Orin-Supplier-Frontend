@@ -10,6 +10,9 @@ import { selectUsersMap } from '../../users/duck/selectors.js';
 import { downloadShipmentDocument } from '../../documents/duck/thunks.js';
 import DeleteButton from '../buttons/DeleteButton.js';
 import { deleteDocument } from '../../shipments/duck/thunks.js';
+import Permission from './Permission.js';
+import { DOCUMENT } from '../../admin/utils/resources.js';
+import { DELETE_ANY, READ_ANY } from '../../admin/utils/actions.js';
 
 const {
     tableHeaderLabelsMap,
@@ -35,11 +38,13 @@ const ShipmentDocumentTable = React.memo(function ShipmentDocumentTable(
         {
             field: 'delete',
             renderCell: params =>
-                <DeleteButton
-                    onDelete={ createDeleteHandler(params.id) }
-                    deleteMessage={ deleteMessage }
-                    variant="icon"
-                />
+                <Permission resource={ DOCUMENT } action={ [DELETE_ANY] }>
+                    <DeleteButton
+                        onDelete={ createDeleteHandler(params.id) }
+                        deleteMessage={ deleteMessage }
+                        variant="icon"
+                    />
+                </Permission>
         },
         { field: 'ref', headerName: tableHeaderLabelsMap.ref },
         { field: 'type', headerName: tableHeaderLabelsMap.type, type: 'option' },
@@ -83,13 +88,15 @@ const ShipmentDocumentTable = React.memo(function ShipmentDocumentTable(
     })), [documents, usersMap]);
 
     return (
-        <Table
-            rows={ rows }
-            columns={ columns }
-            dense
-            maxEmptyRows={ maxEmptyRows }
-            className={ className }
-        />
+        <Permission resource={ DOCUMENT } action={ [READ_ANY] }>
+            <Table
+                rows={ rows }
+                columns={ columns }
+                dense
+                maxEmptyRows={ maxEmptyRows }
+                className={ className }
+            />
+        </Permission>
     );
 });
 

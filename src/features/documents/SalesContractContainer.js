@@ -13,6 +13,9 @@ import SalesContract from './SalesContract.js';
 import { cleanHomeState } from '../home/duck/slice.js';
 import { cleanClientState } from '../clients/duck/slice.js';
 import { cleanShipmentState } from '../shipments/duck/slice.js';
+import { DOCUMENT } from '../admin/utils/resources.js';
+import { CREATE_ANY } from '../admin/utils/actions.js';
+import Permission from '../shared/components/Permission.js';
 
 const SalesContractContainer = React.memo(function SalesContractContainer() {
     const dispatch = useDispatch();
@@ -51,11 +54,11 @@ const SalesContractContainer = React.memo(function SalesContractContainer() {
     }, [dispatch, errors.length]);
 
     return (
-        <>
+        <Permission resource={ DOCUMENT } action={ [CREATE_ANY] }>
             { status === 'REJECTED' && <ErrorPage errors={ errors }/> }
             { status === 'PENDING' && <Loader/> }
             { status === 'FULFILLED' && <SalesContract/> }
-        </>
+        </Permission>
     )
 
 });
