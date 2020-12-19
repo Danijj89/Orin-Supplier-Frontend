@@ -32,7 +32,7 @@ import { fetchShipments } from '../shipments/duck/thunks.js';
 import { fetchProducts } from '../products/duck/thunks.js';
 import { selectSessionUserName } from '../../app/duck/selectors.js';
 import Permission from '../shared/components/Permission.js';
-import { CLIENT, LEAD, ORDER, PERMISSION } from '../admin/utils/resources.js';
+import { CLIENT, LEAD, ORDER, PERMISSION, SHIPMENT } from '../admin/utils/resources.js';
 import { READ_ANY, READ_OWN } from '../admin/utils/actions.js';
 
 const useStyles = makeStyles((theme) => ({
@@ -141,7 +141,7 @@ const NavBar = React.memo(function NavBar() {
             open={ isMobileMenuOpen }
             onClose={ handleMobileMenuClose }
         >
-            {/* The div here is to avoid ref forward error */}
+            {/* The div here is to avoid ref forward error */ }
             <div>
                 <Permission resource={ ORDER } action={ [READ_ANY, READ_OWN] }>
                     <MenuItem onClick={ () => onTabClick('orders', '/home/orders') }>
@@ -168,12 +168,14 @@ const NavBar = React.memo(function NavBar() {
                     { tabsLabelsMap.leads }
                 </MenuItem>
             </Permission>
-            <MenuItem onClick={ () => onTabClick('shipments', '/home/shipments') }>
-                <IconButton color="inherit">
-                    <IconBoat/>
-                </IconButton>
-                { tabsLabelsMap.shipments }
-            </MenuItem>
+            <Permission resource={ SHIPMENT } action={ [READ_ANY, READ_OWN] }>
+                <MenuItem onClick={ () => onTabClick('shipments', '/home/shipments') }>
+                    <IconButton color="inherit">
+                        <IconBoat/>
+                    </IconButton>
+                    { tabsLabelsMap.shipments }
+                </MenuItem>
+            </Permission>
             <MenuItem onClick={ () => onTabClick('products', '/home/products') }>
                 <IconButton color="inherit">
                     <IconTag/>
@@ -266,22 +268,24 @@ const NavBar = React.memo(function NavBar() {
                                 </ListItemText>
                             </ListItem>
                         </Permission>
-                        <ListItem
-                            button
-                            component="a"
-                            onClick={ () => onTabClick('shipments', '/home/shipments') }
-                            classes={ {
-                                root: classes.menuButtons,
-                                selected: classes.selected,
-                            } }
-                            selected={ currentTab === 'shipments' }
-                        >
-                            <ListItemText>
+                        <Permission resource={ SHIPMENT } action={ [READ_ANY, READ_OWN] }>
+                            <ListItem
+                                button
+                                component="a"
+                                onClick={ () => onTabClick('shipments', '/home/shipments') }
+                                classes={ {
+                                    root: classes.menuButtons,
+                                    selected: classes.selected,
+                                } }
+                                selected={ currentTab === 'shipments' }
+                            >
+                                <ListItemText>
                                 <span className={ classes.tabsText }>
                                     { tabsLabelsMap.shipments }
                                 </span>
-                            </ListItemText>
-                        </ListItem>
+                                </ListItemText>
+                            </ListItem>
+                        </Permission>
                         <ListItem
                             button
                             component="a"

@@ -7,6 +7,9 @@ import Loader from '../shared/components/Loader.js';
 import { fetchShipments } from './duck/thunks.js';
 import ShipmentOverview from './ShipmentOverview.js';
 import { cleanShipmentState } from './duck/slice.js';
+import Permission from '../shared/components/Permission.js';
+import { SHIPMENT } from '../admin/utils/resources.js';
+import { READ_ANY, READ_OWN } from '../admin/utils/actions.js';
 
 const ShipmentOverviewContainer = React.memo(function ShipmentOverviewContainer() {
     const dispatch = useDispatch();
@@ -29,11 +32,11 @@ const ShipmentOverviewContainer = React.memo(function ShipmentOverviewContainer(
     }, [dispatch, errors.length]);
 
     return (
-        <>
+        <Permission resource={ SHIPMENT } action={ [READ_ANY, READ_OWN] }>
             { status === 'REJECTED' && <ErrorPage errors={ errors }/> }
             { status === 'PENDING' && <Loader/> }
             { status === 'FULFILLED' && <ShipmentOverview/> }
-        </>
+        </Permission>
     )
 });
 

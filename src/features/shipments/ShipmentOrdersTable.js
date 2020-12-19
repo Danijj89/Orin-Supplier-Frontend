@@ -3,7 +3,6 @@ import Table from '../shared/components/table/Table.js';
 import OrderStatusDisplay from '../orders/OrderStatusDisplay.js';
 import UnitCounter from '../shared/classes/UnitCounter.js';
 import { LANGUAGE, LOCALE } from '../../app/utils/constants.js';
-import { Box } from '@material-ui/core';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { useHistory, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -11,6 +10,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import { selectShipmentOrders } from './duck/selectors.js';
 import { selectItemUnitsMap } from '../../app/duck/selectors.js';
 import { getOptionLabel } from '../../app/utils/options/getters.js';
+import Permission from '../shared/components/Permission.js';
+import { ORDER, SHIPMENT } from '../admin/utils/resources.js';
+import { CREATE_ANY, READ_ANY, READ_OWN } from '../admin/utils/actions.js';
 
 const useStyles = makeStyles((theme) => ({
     button: {
@@ -79,12 +81,16 @@ const ShipmentOrdersTable = React.memo(function ShipmentOrdersTable() {
     }, [orders, itemUnitsMap]);
 
     return (
-        <Box>
-            <ThemedButton variant="outlined" onClick={ onEditOrders } className={ classes.button }>
-                { editOrdersButtonLabel }
-            </ThemedButton>
-            <Table columns={ columns } rows={ rows } onRowClick={ onRowClick }/>
-        </Box>
+        <>
+            <Permission resource={ SHIPMENT } action={ [CREATE_ANY] }>
+                <ThemedButton variant="outlined" onClick={ onEditOrders } className={ classes.button }>
+                    { editOrdersButtonLabel }
+                </ThemedButton>
+            </Permission>
+            <Permission resource={ ORDER } action={ [READ_ANY, READ_OWN] }>
+                <Table columns={ columns } rows={ rows } onRowClick={ onRowClick }/>
+            </Permission>
+        </>
     )
 });
 

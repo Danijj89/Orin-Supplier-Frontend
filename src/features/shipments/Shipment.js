@@ -12,6 +12,9 @@ import DocumentButton from './DocumentButton.js';
 import ShipmentDocumentTable from '../shared/components/ShipmentDocumentTable.js';
 import queryString from 'query-string';
 import Card from '@material-ui/core/Card';
+import Permission from '../shared/components/Permission.js';
+import { SHIPMENT } from '../admin/utils/resources.js';
+import { UPDATE_ANY } from '../admin/utils/actions.js';
 
 const {
     editShipmentButtonLabel,
@@ -65,9 +68,11 @@ const Shipment = React.memo(function Shipment() {
                 <DocumentStatusCard/>
             </Grid>
             <Grid container item xs={ 12 } className={ classes.shipmentActions }>
-                <ThemedButton className={ classes.editShipmentButton } onClick={ onEditShipmentInfo }>
-                    { editShipmentButtonLabel }
-                </ThemedButton>
+                <Permission resource={ SHIPMENT } action={ [UPDATE_ANY] }>
+                    <ThemedButton className={ classes.editShipmentButton } onClick={ onEditShipmentInfo }>
+                        { editShipmentButtonLabel }
+                    </ThemedButton>
+                </Permission>
                 <DocumentButton/>
             </Grid>
             <Grid item xs={ 12 }>

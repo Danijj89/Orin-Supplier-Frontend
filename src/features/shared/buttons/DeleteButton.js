@@ -31,8 +31,9 @@ const DeleteButton = React.memo(function DeleteButton(
 
     const onCancel = () => setIsDialogOpen(false);
 
-    const onConfirm = () => {
-        onDelete();
+    const onConfirm = (event) => {
+        event.stopPropagation();
+        onDelete(event);
         setIsDialogOpen(false);
     };
 
@@ -44,6 +45,7 @@ const DeleteButton = React.memo(function DeleteButton(
                 size="small"
                 color="inherit"
                 className={ clsx(classes.button, className) }
+                type="button"
             >
                 { deleteButtonLabel }
             </Button> }

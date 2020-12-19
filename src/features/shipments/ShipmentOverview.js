@@ -5,6 +5,9 @@ import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import ShipmentsTable from './ShipmentsTable.js';
 import { makeStyles } from '@material-ui/core/styles';
+import Permission from '../shared/components/Permission.js';
+import { SHIPMENT } from '../admin/utils/resources.js';
+import { CREATE_ANY } from '../admin/utils/actions.js';
 
 const useStyles = makeStyles((theme) => ({
     shipmentOverviewRoot: {
@@ -23,17 +26,19 @@ const ShipmentOverview = React.memo(function ShipmentOverview() {
     const location = useLocation();
 
     const onNewOrderClick = () =>
-        history.push(`${location.pathname}/shell`);
+        history.push(`${ location.pathname }/shell`);
 
 
     return (
         <Paper className={ classes.shipmentOverviewRoot }>
-            <ThemedButton
-                onClick={ onNewOrderClick }
-                className={ classes.newShipmentButton }
-            >
-                { newShipmentButtonLabel }
-            </ThemedButton>
+            <Permission resource={ SHIPMENT } action={ [CREATE_ANY] }>
+                <ThemedButton
+                    onClick={ onNewOrderClick }
+                    className={ classes.newShipmentButton }
+                >
+                    { newShipmentButtonLabel }
+                </ThemedButton>
+            </Permission>
             <ShipmentsTable/>
         </Paper>
     )

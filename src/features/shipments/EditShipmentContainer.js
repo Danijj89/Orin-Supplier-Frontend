@@ -25,6 +25,9 @@ import { cleanProductState } from '../products/duck/slice.js';
 import { cleanShipmentState } from './duck/slice.js';
 import { cleanOrderState } from '../orders/duck/slice.js';
 import { fetchCurrentCompany } from '../home/duck/thunks.js';
+import Permission from '../shared/components/Permission.js';
+import { SHIPMENT } from '../admin/utils/resources.js';
+import { UPDATE_ANY } from '../admin/utils/actions.js';
 
 export default function EditShipmentContainer() {
     const dispatch = useDispatch();
@@ -81,10 +84,10 @@ export default function EditShipmentContainer() {
     }, [dispatch, errors.length]);
 
     return (
-        <>
+        <Permission resource={ SHIPMENT } action={ [UPDATE_ANY] }>
             { status === 'REJECTED' && <ErrorPage errors={ errors }/> }
             { status === 'PENDING' && <Loader/> }
             { status === 'FULFILLED' && <EditShipment/> }
-        </>
+        </Permission>
     )
 }

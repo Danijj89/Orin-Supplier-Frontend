@@ -20,6 +20,9 @@ import Grid from '@material-ui/core/Grid';
 import DeleteButton from '../shared/buttons/DeleteButton.js';
 import { deleteShipment } from './duck/thunks.js';
 import queryString from 'query-string';
+import Permission from '../shared/components/Permission.js';
+import { SHIPMENT } from '../admin/utils/resources.js';
+import { DELETE_ANY } from '../admin/utils/actions.js';
 
 const useStyles = makeStyles((theme) => ({
     title: {
@@ -49,13 +52,13 @@ const EditShipment = React.memo(function EditShipment() {
     const onTabChange = useCallback(
         (newValue) => {
             dispatch(cleanShipmentStatus());
-            history.push(`${location.pathname}?tab=${newValue}`);
+            history.push(`${ location.pathname }?tab=${ newValue }`);
         },
         [dispatch, history, location.pathname]
     );
 
     const onCancel = useCallback(
-        () => history.push(`/home/shipments/${shipmentId}`),
+        () => history.push(`/home/shipments/${ shipmentId }`),
         [history, shipmentId]
     );
 
@@ -65,48 +68,49 @@ const EditShipment = React.memo(function EditShipment() {
     }, [history, dispatch, shipmentId]);
 
     return (
-        <Box className={classes.container}>
+        <Box className={ classes.container }>
             <ThemedButton
                 variant="text"
-                onClick={onCancel}
-                className={classes.newContact}
+                onClick={ onCancel }
+                className={ classes.newContact }
             >
-                {cancelButtonLabel}
+                { cancelButtonLabel }
             </ThemedButton>
             <Card>
                 <Grid container item justify="space-between">
-                    <Typography className={classes.title} variant="h5">
-                        {titleLabel}
+                    <Typography className={ classes.title } variant="h5">
+                        { titleLabel }
                     </Typography>
-                    <DeleteButton
-                        onDelete={onDelete}
-                        deleteMessage={deleteMessage}
-                    />
+                    <Permission resource={ SHIPMENT } action={ [DELETE_ANY] }>
+                        <DeleteButton
+                            onDelete={ onDelete }
+                            deleteMessage={ deleteMessage }
+                        />
+                    </Permission>
                 </Grid>
-
                 <NavTabs
-                    tabsLabelsMap={tabsLabelsMap}
-                    tabValue={tabValue}
-                    onChange={onTabChange}
+                    tabsLabelsMap={ tabsLabelsMap }
+                    tabValue={ tabValue }
+                    onChange={ onTabChange }
                 />
-                {shipmentStatus === 'REJECTED' && (
-                    <ErrorMessages error={[shipmentError]} />
-                )}
-                {shipmentStatus === 'FULFILLED' && (
-                    <SuccessMessage message={successMessage} />
-                )}
-                {shipmentStatus === 'PENDING' && <Loader />}
+                { shipmentStatus === 'REJECTED' && (
+                    <ErrorMessages error={ [shipmentError] }/>
+                ) }
+                { shipmentStatus === 'FULFILLED' && (
+                    <SuccessMessage message={ successMessage }/>
+                ) }
+                { shipmentStatus === 'PENDING' && <Loader/> }
             </Card>
             <Box>
-                {tabValue === 'shipment' && (
-                    <ShipmentInfo onCancel={onCancel} />
-                )}
-                {tabValue === 'products' && (
-                    <ShipmentProductTable onCancel={onCancel} />
-                )}
-                {tabValue === 'measures' && (
-                    <ShipmentMeasureTable onCancel={onCancel} />
-                )}
+                { tabValue === 'shipment' && (
+                    <ShipmentInfo onCancel={ onCancel }/>
+                ) }
+                { tabValue === 'products' && (
+                    <ShipmentProductTable onCancel={ onCancel }/>
+                ) }
+                { tabValue === 'measures' && (
+                    <ShipmentMeasureTable onCancel={ onCancel }/>
+                ) }
             </Box>
         </Box>
     );

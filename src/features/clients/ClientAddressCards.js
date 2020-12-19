@@ -91,22 +91,21 @@ const ClientAddressCards = React.memo(function ClientAddressCards() {
                     )) }
                 </Grid>
             </Box>
+            { editAddress &&
             <Permission
                 resource={ CLIENT }
                 action={ [UPDATE_ANY, UPDATE_OWN] }
                 isOwner={ isClientOwner(sessionUserId, client) }
             >
-                { editAddress && (
-                    <AddressDialog
-                        isOpen={ isEditAddressOpen }
-                        address={ editAddress }
-                        titleLabel={ editAddressDialogTitleLabel }
-                        submitLabel={ editAddressDialogSubmitLabel }
-                        onCancel={ onEditAddressCancel }
-                        onSubmit={ onSubmit }
-                    />
-                ) }
-            </Permission>
+                <AddressDialog
+                    isOpen={ isEditAddressOpen }
+                    address={ editAddress }
+                    titleLabel={ editAddressDialogTitleLabel }
+                    submitLabel={ editAddressDialogSubmitLabel }
+                    onCancel={ onEditAddressCancel }
+                    onSubmit={ onSubmit }
+                />
+            </Permission> }
             <Permission
                 resource={ CLIENT }
                 action={ [CREATE_ANY, CREATE_OWN] }
