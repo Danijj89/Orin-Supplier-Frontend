@@ -6,7 +6,6 @@ import { LANGUAGE } from '../../app/utils/constants.js';
 import { createProduct } from './duck/thunks.js';
 import { makeStyles } from '@material-ui/core/styles';
 import { selectSessionUserCompanyId } from '../../app/duck/selectors.js';
-import Permission from '../shared/permissions/Permission.js';
 import { CREATE_ANY } from '../admin/utils/actions.js';
 import ProductPermission from '../shared/permissions/ProductPermission.js';
 

@@ -3,10 +3,9 @@ import { Box } from '@material-ui/core';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import OrderStatusDialog from './OrderStatusDialog.js';
 import { LANGUAGE } from '../../app/utils/constants.js';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { updateOrderStatus } from './duck/thunks.js';
 import { UPDATE_ANY, UPDATE_OWN } from '../admin/utils/actions.js';
-import { selectSessionUser } from '../../app/duck/selectors.js';
 import OrderStatusPermission from '../shared/permissions/OrderStatusPermission.js';
 
 const {
@@ -18,7 +17,6 @@ const {
 const EditOrderStatusButton = React.memo(function EditOrderStatusButton(
     { orderId, procurement, production, qa, createdBy, className }) {
     const dispatch = useDispatch();
-    const sessionUser = useSelector(selectSessionUser);
     const [isEdit, setIsEdit] = useState(false);
 
     const onEdit = () => setIsEdit(true);

@@ -10,7 +10,6 @@ import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectOrderById } from './duck/selectors.js';
 import { READ_ANY, READ_OWN } from '../admin/utils/actions.js';
-import { selectSessionUser } from '../../app/duck/selectors.js';
 import OrderStatusPermission from '../shared/permissions/OrderStatusPermission.js';
 
 const useStyles = makeStyles((theme) => ({
@@ -44,7 +43,6 @@ const TableCell = withStyles((theme) => ({
 const StatusInfoCard = React.memo(function StatusInfoCard() {
     const classes = useStyles();
     const { id: orderId } = useParams();
-    const sessionUser = useSelector(selectSessionUser);
     const order = useSelector(state => selectOrderById(state, { orderId }));
     const { procurement, production, qa } = order;
 

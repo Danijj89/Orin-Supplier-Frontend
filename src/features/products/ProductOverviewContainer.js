@@ -7,7 +7,6 @@ import Loader from '../shared/components/Loader.js';
 import { fetchProducts } from './duck/thunks.js';
 import ProductOverview from './ProductOverview.js';
 import { cleanProductState } from './duck/slice.js';
-import Permission from '../shared/permissions/Permission.js';
 import { READ_ANY } from '../admin/utils/actions.js';
 import ProductPermission from '../shared/permissions/ProductPermission.js';
 

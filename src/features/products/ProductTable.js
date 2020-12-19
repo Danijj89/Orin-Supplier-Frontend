@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { deleteProduct, updateProduct } from './duck/thunks.js';
 import { selectActiveProductsMap, selectAllActiveProducts } from './duck/selectors.js';
 import { SESSION_PRODUCT_TABLE_FILTERS } from '../../app/sessionKeys.js';
-import Permission from '../shared/permissions/Permission.js';
 import { UPDATE_ANY } from '../admin/utils/actions.js';
 import ProductPermission from '../shared/permissions/ProductPermission.js';
 
