@@ -9,7 +9,7 @@ import { SESSION_NEW_ORDER } from '../../../app/sessionKeys.js';
 
 export const ordersAdapter = createEntityAdapter({
     selectId: order => order._id,
-    sortComparer: (a, b) => b.createdAt.localeCompare(a.createdAt)
+    sortComparer: (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
 });
 
 const initialState = ordersAdapter.getInitialState({

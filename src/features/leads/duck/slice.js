@@ -11,7 +11,7 @@ import {
 
 export const leadsAdapter = createEntityAdapter({
     selectId: lead => lead._id,
-    sortComparer: (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    sortComparer: (a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
 });
 
 const initialState = leadsAdapter.getInitialState({

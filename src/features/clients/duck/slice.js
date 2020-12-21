@@ -10,7 +10,7 @@ import {
 
 export const clientsAdapter = createEntityAdapter({
     selectId: client => client._id,
-    sortComparer: (a, b) => a.name.localeCompare(b.name)
+    sortComparer: (a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
 });
 
 const initialState = clientsAdapter.getInitialState({
