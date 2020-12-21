@@ -82,6 +82,8 @@ const RHFOrderDetails = React.memo(function RHFOrderDetails(
         () => isEdit || Boolean(autoGenerateRef),
         [isEdit, autoGenerateRef]);
 
+    console.log(!!errors[fieldNames.toAdd]);
+
     return (
         <Grid container justify="center" className={ className }>
             <Grid item className={ classes.details }>

@@ -2,7 +2,6 @@ import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Box, TextField as MuiTextField, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import clsx from 'clsx';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -21,53 +20,49 @@ const useStyles = makeStyles((theme) => ({
         color: 'red',
         marginLeft: theme.spacing(1),
     },
-    inputInvalid: {
-        borderColor: 'red',
-    },
-    disabled: {
-        backgroundColor: theme.palette.backgroundSecondary.main,
-    },
     root: {
         '&.Mui-focused': {
-            borderColor: theme.palette.primary.main
+            borderColor: props => props.isError
+                ? theme.palette.danger.main
+                : theme.palette.primary.main,
         },
         width: 320,
         minHeight: 36,
         borderWidth: 1,
         borderStyle: 'solid',
         borderRadius: 4,
-        borderColor: theme.palette.grey.light,
-        backgroundColor: 'white',
+        borderColor: props => props.isError
+            ? theme.palette.danger.main
+            : theme.palette.grey.light,
+        backgroundColor: props => props.disabled
+            ? theme.palette.backgroundSecondary.main
+            : theme.palette.backgroundPrimary.main,
         paddingLeft: theme.spacing(1),
         paddingRight: theme.spacing(1),
         paddingTop: theme.spacing(0.2),
     }
 }));
 
-const SideTextField = React.memo(function SideTextField({
-    label,
-    required,
-    className,
-    error,
-    disabled,
-    name,
-    inputRef,
-    value,
-    rows = 1,
-    rowsMax = 1,
-    autoFocus,
-    type,
-    onChange,
-    ...props
-}) {
-    const isTextArea = useMemo(() => rows > 1 || rowsMax > 1, [rows, rowsMax]);
-    const classes = useStyles({ isTextArea });
-    const classNames = clsx(
-        classes.input,
+const SideTextField = React.memo(function SideTextField(
+    {
+        label,
+        required,
         className,
-        error && !disabled && classes.inputInvalid,
-        disabled && classes.disabled
-    );
+        error,
+        disabled,
+        name,
+        inputRef,
+        value,
+        rows = 1,
+        rowsMax = 1,
+        autoFocus,
+        type,
+        onChange,
+        ...props
+    }) {
+    const isTextArea = useMemo(() => rows > 1 || rowsMax > 1, [rows, rowsMax]);
+    const isError = useMemo(() => error && !disabled, [error, disabled]);
+    const classes = useStyles({ isTextArea, disabled, isError });
 
     const isRequired = useMemo(() => Boolean(required), [required]);
     const actualInputRef = useMemo(() => (inputRef ? inputRef : null), [
@@ -75,32 +70,32 @@ const SideTextField = React.memo(function SideTextField({
     ]);
 
     return (
-        <Box className={classes.container}>
-            <Typography className={classes.label} variant="subtitle1">
-                {label}
-                {isRequired && <span className={classes.required}>*</span>}
+        <Box className={ classes.container }>
+            <Typography className={ classes.label } variant="subtitle1">
+                { label }
+                { isRequired && <span className={ classes.required }>*</span> }
             </Typography>
             <MuiTextField
-                {...props}
-                className={classNames}
-                name={name}
-                value={value}
-                inputRef={actualInputRef}
-                InputProps={{
+                { ...props }
+                className={ className }
+                name={ name }
+                value={ value }
+                inputRef={ actualInputRef }
+                InputProps={ {
                     ...props.InputProps,
                     disableUnderline: true,
                     autoComplete: 'nope',
                     className: classes.root
-                }}
-                required={required}
-                error={error}
-                disabled={disabled}
-                rows={rows}
-                rowsMax={rowsMax}
-                multiline={isTextArea}
-                autoFocus={autoFocus}
-                type={type}
-                onChange={onChange}
+                } }
+                required={ required }
+                error={ error }
+                disabled={ disabled }
+                rows={ rows }
+                rowsMax={ rowsMax }
+                multiline={ isTextArea }
+                autoFocus={ autoFocus }
+                type={ type }
+                onChange={ onChange }
             />
         </Box>
     );
