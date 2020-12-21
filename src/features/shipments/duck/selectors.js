@@ -31,8 +31,8 @@ export const selectShipmentDataStatus = state => state.shipments.dataStatus;
 export const selectShipmentError = state => state.shipments.error;
 export const selectCurrentShipmentId = state => state.shipments.currentShipmentId;
 
-export const selectShipmentsMap = createSelector(
-    selectEntities,
+export const selectAllShipments = createSelector(
+    selectAll,
     selectCountriesMap,
     selectDeliveryMethodsMap,
     selectCurrenciesMap,
@@ -42,41 +42,41 @@ export const selectShipmentsMap = createSelector(
     selectPackageUnitsMap,
     selectShipmentStatusesMap,
     selectDocumentTypesMap,
-    (shipmentsMap, countriesMap, deliveryMethodsMap, currenciesMap,
+    (shipments, countriesMap, deliveryMethodsMap, currenciesMap,
      measurementUnitsMap, weightUnitsMap, itemUnitsMap, packageUnitsMap,
-     shipmentStatusesMap, documentTypesMap) => Object.entries(shipmentsMap).reduce((map, [id, shipment]) => {
-        map[id] = {
-            ...shipment,
-            sellerAdd: { ...shipment.sellerAdd, country: countriesMap[shipment.sellerAdd.country] },
-            consigneeAdd: { ...shipment.consigneeAdd, country: countriesMap[shipment.consigneeAdd.country] },
-            shipAdd: { ...shipment.shipAdd, country: countriesMap[shipment.shipAdd?.country] },
-            del: deliveryMethodsMap[shipment.del],
-            currency: currenciesMap[shipment.currency],
-            measurementUnit: measurementUnitsMap[shipment.measurementUnit],
-            weightUnit: weightUnitsMap[shipment.weightUnit],
-            status: shipmentStatusesMap[shipment.status],
-            coo: countriesMap[shipment.coo],
-            items: shipment.items.map(item => ({
-                ...item,
-                unit: itemUnitsMap[item.unit],
-                pUnit: packageUnitsMap[item.pUnit],
-                coo: countriesMap[item.coo],
-                fdc: countriesMap[item.fdc],
-                dop: countriesMap[item.dop]
-            })),
-            documents: shipment.documents.map(document => ({
-                    ...document,
-                    type: documentTypesMap[document.type]
-                })
-            )
-        }
-        return map;
-    }, {})
+     shipmentStatusesMap, documentTypesMap) => shipments.map(shipment => ({
+        ...shipment,
+        sellerAdd: { ...shipment.sellerAdd, country: countriesMap[shipment.sellerAdd.country] },
+        consigneeAdd: { ...shipment.consigneeAdd, country: countriesMap[shipment.consigneeAdd.country] },
+        shipAdd: { ...shipment.shipAdd, country: countriesMap[shipment.shipAdd?.country] },
+        del: deliveryMethodsMap[shipment.del],
+        currency: currenciesMap[shipment.currency],
+        measurementUnit: measurementUnitsMap[shipment.measurementUnit],
+        weightUnit: weightUnitsMap[shipment.weightUnit],
+        status: shipmentStatusesMap[shipment.status],
+        coo: countriesMap[shipment.coo],
+        items: shipment.items.map(item => ({
+            ...item,
+            unit: itemUnitsMap[item.unit],
+            pUnit: packageUnitsMap[item.pUnit],
+            coo: countriesMap[item.coo],
+            fdc: countriesMap[item.fdc],
+            dop: countriesMap[item.dop]
+        })),
+        documents: shipment.documents.map(document => ({
+                ...document,
+                type: documentTypesMap[document.type]
+            })
+        )
+    }))
 );
 
-export const selectAllShipments = createSelector(
-    selectShipmentsMap,
-    shipmentsMap => Object.values(shipmentsMap)
+export const selectShipmentsMap = createSelector(
+    selectAllShipments,
+    shipments => shipments.reduce((map, shipment) => {
+        map[shipment._id] = shipment;
+        return map;
+    }, {})
 );
 
 export const selectShipmentById = createSelector(

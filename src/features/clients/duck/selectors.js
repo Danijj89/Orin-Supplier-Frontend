@@ -19,26 +19,25 @@ export const selectClientDataStatus = state => state.clients.dataStatus;
 export const selectClientStatus = state => state.clients.status;
 export const selectClientError = state => state.clients.error;
 
-export const selectClientsMap = createSelector(
-    selectEntities,
+export const selectAllClients = createSelector(
+    selectAll,
     selectCountriesMap,
-    (clientsMap, countriesMap) =>
-        Object.entries(clientsMap).reduce(
-            (map, [id, client]) => {
-                map[id] = {
-                    ...client,
-                    addresses: client.addresses.map(address => ({
-                        ...address,
-                        country: countriesMap[address.country]
-                    }))
-                };
-                return map;
-            }, {})
+    (clients, countriesMap) =>
+        clients.map(client => ({
+            ...client,
+            addresses: client.addresses.map(address => ({
+                ...address,
+                country: countriesMap[address.country]
+            }))
+        }), {})
 );
 
-export const selectAllClients = createSelector(
-    selectClientsMap,
-    (clientsMap) => Object.values(clientsMap)
+export const selectClientsMap = createSelector(
+    selectAllClients,
+    (clients) => clients.reduce((map, client) => {
+        map[client._id] = client;
+        return map;
+    }, {})
 );
 
 export const selectClientById = createSelector(
@@ -113,7 +112,7 @@ export const selectSessionActiveClients = createSelector(
         const ac = new AccessControl(grants);
         if (ac.can(roles).readAny(CLIENT_RESOURCE).granted) return clients;
         else if (ac.can(roles).readOwn(CLIENT_RESOURCE).granted)
-        return clients.filter(client => isOwnClient(sessionUserId, client));
+            return clients.filter(client => isOwnClient(sessionUserId, client));
         else return [];
     }
 );

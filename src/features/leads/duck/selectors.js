@@ -41,8 +41,7 @@ export const selectAllLeads = createSelector(
 
 export const selectLeadsMap = createSelector(
     selectAllLeads,
-    (leads) =>
-        leads.reduce((map, lead) => {
+    (leads) => leads.reduce((map, lead) => {
             map[lead._id] = lead;
             return map;
         }, {})

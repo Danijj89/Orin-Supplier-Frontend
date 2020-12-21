@@ -10,27 +10,27 @@ export const {
 export const selectCompanyDataStatus = state => state.companies.dataStatus;
 export const selectCompanyError = state => state.companies.error;
 
-export const selectCompaniesMap = createSelector(
-    selectEntities,
+export const selectAllCompanies = createSelector(
+    selectAll,
     selectCountriesMap,
     selectCurrenciesMap,
     selectIndustriesMap,
-    (companiesMap, countriesMap, currenciesMap, industriesMap) =>
-        Object.entries(companiesMap).reduce((map, [id, company]) => {
-            map[id] = {
-                ...company,
-                currency: company.currency ? currenciesMap[company.currency] : null,
-                industries: company.industries.map(industry => industriesMap[industry]),
-                addresses: company.addresses.map(address => ({
-                    ...address,
-                    country: countriesMap[address.country]
-                }))
-            };
+    (companies, countriesMap, currenciesMap, industriesMap) => companies.map(company => ({
+        ...company,
+        currency: company.currency ? currenciesMap[company.currency] : null,
+        industries: company.industries.map(industry => industriesMap[industry]),
+        addresses: company.addresses.map(address => ({
+            ...address,
+            country: countriesMap[address.country]
+        }))
+    }))
+);
+
+export const selectCompaniesMap = createSelector(
+    selectAllCompanies,
+    companies => companies.reduce((map, company) => {
+            map[company._id] = company;
             return map;
         }, {})
 );
 
-export const selectAllCompanies = createSelector(
-    selectCompaniesMap,
-    companiesMap => Object.values(companiesMap)
-);
