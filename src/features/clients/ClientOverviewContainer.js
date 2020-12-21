@@ -5,7 +5,10 @@ import { determineStatus, getErrors } from '../shared/utils/state.js';
 import ErrorPage from '../shared/components/ErrorPage.js';
 import Loader from '../shared/components/Loader.js';
 import { fetchClients } from './duck/thunks.js';
-import { selectUserDataStatus, selectUserError } from '../users/duck/selectors.js';
+import {
+    selectUserDataStatus,
+    selectUserError,
+} from '../users/duck/selectors.js';
 import { fetchUsers } from '../users/duck/thunks.js';
 import ClientOverview from './ClientOverview.js';
 import { cleanUserState } from '../users/duck/slice.js';
@@ -20,13 +23,8 @@ const ClientOverviewContainer = React.memo(function ClientOverviewContainer() {
     const userDataStatus = useSelector(selectUserDataStatus);
     const userError = useSelector(selectUserError);
 
-    const status = determineStatus(
-        clientDataStatus,
-        userDataStatus
-    );
+    const status = determineStatus(clientDataStatus, userDataStatus);
     const errors = getErrors(clientError, userError);
-
-    console.log(status)
 
     const fetched = useRef(false);
     useEffect(() => {
@@ -43,14 +41,14 @@ const ClientOverviewContainer = React.memo(function ClientOverviewContainer() {
                 dispatch(cleanUserState());
                 dispatch(cleanClientState());
             }
-        }
+        };
     }, [dispatch, errors.length]);
 
     return (
-        <ClientPermission action={ [READ_ANY, READ_OWN] }>
-            { status === 'REJECTED' && <ErrorPage errors={ errors }/> }
-            { status === 'PENDING' && <Loader/> }
-            { status === 'FULFILLED' && <ClientOverview/> }
+        <ClientPermission action={[READ_ANY, READ_OWN]}>
+            {status === 'REJECTED' && <ErrorPage errors={errors} />}
+            {status === 'PENDING' && <Loader />}
+            {status === 'FULFILLED' && <ClientOverview />}
         </ClientPermission>
     );
 });
