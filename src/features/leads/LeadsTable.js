@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo } from 'react'
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectAllLeads } from './duck/selectors.js';
+import { selectSessionLeads } from './duck/selectors.js';
 import Table from '../shared/components/table/Table.js';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import StatusDropdown from '../shared/components/StatusDropdown.js';
@@ -22,7 +22,7 @@ const LeadsTable = React.memo(function LeadsTable() {
     const salesStatusOptions = useSelector(selectSalesStatuses);
     const leadTypeOptions = useSelector(selectLeadTypes);
     const usersMap = useSelector(selectUsersMap);
-    const leads = useSelector(selectAllLeads);
+    const leads = useSelector(selectSessionLeads);
     const usersName = useSelector(selectAllActiveUserNames);
 
     const onRowClick = useCallback(

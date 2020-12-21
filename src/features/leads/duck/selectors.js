@@ -65,7 +65,7 @@ export const selectLeadOwnersById = createSelector(
     lead => [lead?.createdBy, lead?.assignedTo]
 );
 
-export const selectSessionActiveLeads = createSelector(
+export const selectSessionLeads = createSelector(
     selectAllLeads,
     selectSessionUser,
     selectAppGrants,

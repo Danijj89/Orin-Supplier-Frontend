@@ -2,7 +2,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Grid, IconButton } from '@material-ui/core';
 import { useWatch } from 'react-hook-form';
-import { LANGUAGE } from '../../../../app/utils/constants.js';
+import { LANGUAGE, LOCALE } from '../../../../app/utils/constants.js';
 import EditableTable from '../../components/editable_table/EditableTable.js';
 import DeleteIconButton from '../../buttons/DeleteIconButton.js';
 import TableTextField from '../../inputs/TableTextField.js';
@@ -284,7 +284,7 @@ const RHFProductTable = React.memo(function RHFProductTable(
             headerName: tableHeaderLabels.unit,
             type: 'dropdown',
             options: itemUnitOptions,
-            getOptionLabel: option => getOptionLabel(option),
+            getOptionLabel: option => getOptionLabel(option, LOCALE),
             getOptionSelected: (option, value) => option.id === value.id,
             width: 50
         },
