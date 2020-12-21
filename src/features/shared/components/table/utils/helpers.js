@@ -36,7 +36,6 @@ export function prepareFilters(filters) {
                 preparedFilter.end = null;
                 break;
             case 'option':
-                preparedFilter.options = filter.options;
                 preparedFilter.values = [];
                 break;
             case 'dropdown':

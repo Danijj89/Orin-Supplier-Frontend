@@ -1,7 +1,13 @@
 import { clientsAdapter } from './slice.js';
 import { createSelector } from '@reduxjs/toolkit';
-import { selectCountriesMap } from '../../../app/duck/selectors.js';
+import {
+    selectAppGrants,
+    selectCountriesMap,
+    selectSessionUser,
+} from '../../../app/duck/selectors.js';
 import { selectAllActiveOrders } from '../../orders/duck/selectors.js';
+import { CLIENT_RESOURCE, isOwnClient } from '../../shared/permissions/ClientPermission.js';
+import { AccessControl } from 'accesscontrol';
 
 export const {
     selectAll,
@@ -97,6 +103,19 @@ export const selectClientOrders = createSelector(
     selectAllActiveOrders,
     (state, { clientId }) => clientId,
     (orders, clientId) => orders.filter(order => order.to === clientId)
+);
+
+export const selectSessionActiveClients = createSelector(
+    selectAllActiveClients,
+    selectSessionUser,
+    selectAppGrants,
+    (clients, { _id: sessionUserId, roles }, grants) => {
+        const ac = new AccessControl(grants);
+        if (ac.can(roles).readAny(CLIENT_RESOURCE).granted) return clients;
+        else if (ac.can(roles).readOwn(CLIENT_RESOURCE).granted)
+        return clients.filter(client => isOwnClient(sessionUserId, client));
+        else return [];
+    }
 );
 
 

@@ -3,18 +3,18 @@ import { useHistory } from 'react-router-dom';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import Table from '../shared/components/table/Table.js';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectAllActiveClients } from './duck/selectors.js';
 import PopoverNotes from '../shared/components/PopoverNotes.js';
 import { updateClient } from './duck/thunks.js';
 import { selectAllActiveUserNames, selectUsersMap } from '../users/duck/selectors.js';
 import { SESSION_CLIENT_TABLE_FILTERS } from '../../app/sessionKeys.js';
+import { selectSessionActiveClients } from './duck/selectors.js';
 
 const { clientTableHeadersMap } = LANGUAGE.client.clientOverview;
 
 const ClientsTable = React.memo(function ClientsTable() {
     const history = useHistory();
     const dispatch = useDispatch();
-    const clients = useSelector(selectAllActiveClients);
+    const clients = useSelector(selectSessionActiveClients);
     const usersMap = useSelector(selectUsersMap);
     const users = useSelector(selectAllActiveUserNames);
 

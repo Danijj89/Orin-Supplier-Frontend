@@ -5,7 +5,12 @@ import { selectSessionUserId } from '../../../app/duck/selectors.js';
 import Permission from './Permission.js';
 import { selectClientOwnerById } from '../../clients/duck/selectors.js';
 
-const RESOURCE = 'client';
+export function isOwnClient(ownerId, client) {
+    const { createdBy, assignedTo } = client;
+    return ownerId === createdBy || ownerId === assignedTo;
+}
+
+export const CLIENT_RESOURCE = 'client';
 
 const ClientPermission = React.memo(function ClientPermission(
     { action = [], clientId, children }) {
@@ -16,7 +21,7 @@ const ClientPermission = React.memo(function ClientPermission(
         [clientOwners, sessionUserId, clientId]);
 
     return (
-        <Permission resource={ RESOURCE } action={ action } isOwner={ isOwner }>
+        <Permission resource={ CLIENT_RESOURCE } action={ action } isOwner={ isOwner }>
             { children }
         </Permission>
     );

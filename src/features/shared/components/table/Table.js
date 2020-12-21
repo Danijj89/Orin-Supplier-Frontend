@@ -7,7 +7,6 @@ import TableBody from './TableBody.js';
 import { getComparator, stableSort } from './utils/helpers.js';
 import FilterSelector from './FilterSelector.js';
 import { getOptionId } from '../../../../app/utils/options/getters.js';
-import Box from '@material-ui/core/Box';
 
 
 const Table = React.memo(function Table(
@@ -121,46 +120,44 @@ const Table = React.memo(function Table(
     };
 
     return (
-        <TableContainer className={className}>
+        <TableContainer className={ className }>
             <Grid
                 container
                 direction="row"
                 justify="flex-end"
                 alignItems="center"
             >
-                <Box hidden={!Boolean(filterOptions)}>
-                    {filterOptions && (
-                        <FilterSelector
-                            filterOptions={filterOptions}
-                            onFilter={onFilter}
-                        />
-                    )}
-                </Box>
+                { filterOptions && (
+                    <FilterSelector
+                        filterOptions={ filterOptions }
+                        onFilter={ onFilter }
+                    />
+                ) }
             </Grid>
-            <MuiTable stickyHeader size={dense && 'small'}>
+            <MuiTable stickyHeader size={ dense && 'small' }>
                 <TableHeader
-                    columns={columns}
-                    order={order}
-                    orderBy={orderBy}
-                    onSort={onSort}
+                    columns={ columns }
+                    order={ order }
+                    orderBy={ orderBy }
+                    onSort={ onSort }
                 />
                 <TableBody
-                    rows={processedRows}
-                    columns={columns}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    onRowClick={onRowClick}
-                    disableRowHover={disableRowHover}
-                    maxEmptyRows={maxEmptyRows}
-                    dense={dense}
+                    rows={ processedRows }
+                    columns={ columns }
+                    rowsPerPage={ rowsPerPage }
+                    page={ page }
+                    onRowClick={ onRowClick }
+                    disableRowHover={ disableRowHover }
+                    maxEmptyRows={ maxEmptyRows }
+                    dense={ dense }
                 />
                 <TableFooter
-                    footer={footer}
-                    numRows={processedRows.length}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    onPageChange={onPageChange}
-                    onRowsPerPageChange={onRowsPerPageChange}
+                    footer={ footer }
+                    numRows={ processedRows.length }
+                    rowsPerPage={ rowsPerPage }
+                    page={ page }
+                    onPageChange={ onPageChange }
+                    onRowsPerPageChange={ onRowsPerPageChange }
                 />
             </MuiTable>
         </TableContainer>
