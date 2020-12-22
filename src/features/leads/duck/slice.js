@@ -3,8 +3,8 @@ import {
     convertLeadToClient,
     createLead,
     createLeadAddress, deleteLead,
-    deleteLeadAddress,
-    fetchLeads,
+    deleteLeadAddress, fetchAllTableLeads,
+    fetchLeads, fetchTableLeads,
     updateLead, updateLeadAddress,
     updateLeadDefaultAddress
 } from './thunks.js';
@@ -152,6 +152,28 @@ const leadsSlice = createSlice({
             state.status = 'IDLE';
         },
         [convertLeadToClient.rejected]: (state, action) => {
+            state.status = 'REJECTED';
+            state.error = action.payload.message;
+        },
+        [fetchTableLeads.pending]: (state) => {
+            state.status = 'PENDING';
+        },
+        [fetchTableLeads.fulfilled]: (state, action) => {
+            leadsAdapter.setAll(state, action.payload);
+            state.status = 'IDLE';
+        },
+        [fetchTableLeads.rejected]: (state, action) => {
+            state.status = 'REJECTED';
+            state.error = action.payload.message;
+        },
+        [fetchAllTableLeads.pending]: (state) => {
+            state.status = 'PENDING';
+        },
+        [fetchAllTableLeads.fulfilled]: (state, action) => {
+            leadsAdapter.setAll(state, action.payload);
+            state.status = 'IDLE';
+        },
+        [fetchAllTableLeads.rejected]: (state, action) => {
             state.status = 'REJECTED';
             state.error = action.payload.message;
         }

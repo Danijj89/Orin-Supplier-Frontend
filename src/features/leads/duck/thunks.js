@@ -89,3 +89,21 @@ export const convertLeadToClient = createAsyncThunk('leads/convertLeadToClient',
             return rejectWithValue(err.response.data);
         }
     });
+
+export const fetchTableLeads = createAsyncThunk('leads/fetchTableLeads',
+    async (_, { rejectWithValue }) => {
+        try {
+            return await LeadService.fetchLeads();
+        } catch (err) {
+            return rejectWithValue(err.response.data);
+        }
+    });
+
+export const fetchAllTableLeads = createAsyncThunk('leads/fetchAllLeads',
+    async (_, { rejectWithValue }) => {
+        try {
+            return await LeadService.fetchAllLeads();
+        } catch (err) {
+            return rejectWithValue(err.response.data);
+        }
+    });

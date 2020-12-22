@@ -1,4 +1,4 @@
-import { getOptionId } from '../../../../../app/utils/options/getters.js';
+import { getOptionId } from 'app/utils/options/getters.js';
 
 export function descendingComparator(a, b, orderBy) {
     if (typeof a[orderBy] === 'string' || typeof b[orderBy] === 'string') {
@@ -25,29 +25,4 @@ export function stableSort(array, comparator) {
         return a[1] - b[1];
     });
     return stabilizedThis.map((el) => el[0]);
-}
-
-export function prepareFilters(filters) {
-    return filters.map(filter => {
-        const preparedFilter = { ...filter };
-        switch (filter.type) {
-            case 'date':
-                preparedFilter.start = null;
-                preparedFilter.end = null;
-                break;
-            case 'option':
-                preparedFilter.values = [];
-                break;
-            case 'dropdown':
-                preparedFilter.value = null;
-                break;
-            case 'range':
-                preparedFilter.min = '';
-                preparedFilter.max = '';
-                break;
-            default:
-                preparedFilter.value = '';
-        }
-        return preparedFilter;
-    });
 }

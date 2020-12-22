@@ -1,12 +1,11 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Table as MuiTable, TableContainer, Grid } from '@material-ui/core';
+import { Table as MuiTable, TableContainer } from '@material-ui/core';
 import TableHeader from './TableHeader.js';
 import TableFooter from './TableFooter.js';
 import TableBody from './TableBody.js';
 import { getComparator, stableSort } from './utils/helpers.js';
-import FilterSelector from './FilterSelector.js';
-import { getOptionId } from '../../../../app/utils/options/getters.js';
+import TableToolbar from './TableToolbar.js';
 
 
 const Table = React.memo(function Table(
@@ -19,7 +18,7 @@ const Table = React.memo(function Table(
         disableRowHover,
         footer,
         maxEmptyRows = 5,
-        filterOptions
+        tools
     }) {
 
     const [order, setOrder] = React.useState('asc');
@@ -36,82 +35,12 @@ const Table = React.memo(function Table(
         setProcessedRows(stableSort(rows, getComparator(newOrder, field)));
     }, [order, orderBy, rows]);
 
-    const prevRows = useRef(rows);
-    useEffect(() => {
-        if (prevRows.current !== rows) {
-            if (orderBy) setProcessedRows(stableSort(rows, getComparator(order, orderBy)));
-            else setProcessedRows(rows);
-            prevRows.current = rows;
-        }
-    }, [rows, orderBy, order]);
-
-    const onFilter = useCallback(
-        (filters) => {
-            let filteredRows = [...rows];
-            for (const filter of filters) {
-                switch (filter.type) {
-                    case 'date':
-                        if (filter.start && filter.end)
-                            filteredRows = filteredRows.filter((row) => {
-                                const val = new Date(row[filter.field]);
-                                return val >= filter.start && val <= filter.end;
-                            });
-                        else if (filter.start) {
-                            filteredRows = filteredRows.filter((row) => {
-                                return (
-                                    new Date(row[filter.field]) >= filter.start
-                                );
-                            });
-                        } else
-                            filteredRows = filteredRows.filter(
-                                (row) =>
-                                    new Date(row[filter.field]) <= filter.end
-                            );
-                        break;
-                    case 'option':
-                        filteredRows = filteredRows.filter((row) =>
-                            filter.values.includes(
-                                getOptionId(row[filter.field])
-                            )
-                        );
-                        break;
-                    case 'text':
-                        filteredRows = filteredRows.filter((row) =>
-                            row[filter.field].includes(filter.value)
-                        );
-                        break;
-                    case 'dropdown':
-                        filteredRows = filteredRows.filter(
-                            (row) => row[filter.field] === filter.value
-                        );
-                        break;
-                    case 'range':
-                        if (filter.min && filter.max)
-                            filteredRows = filteredRows.filter((row) => {
-                                const val = row[filter.field];
-                                return val >= filter.min && val <= filter.max;
-                            });
-                        else if (filter.min)
-                            filteredRows = filteredRows.filter(
-                                (row) => row[filter.field] >= filter.min
-                            );
-                        else
-                            filteredRows = filteredRows.filter(
-                                (row) => row[filter.field] <= filter.max
-                            );
-                        break;
-                    default:
-                }
-            }
-            if (orderBy)
-                filteredRows = stableSort(
-                    filteredRows,
-                    getComparator(order, orderBy)
-                );
-            setProcessedRows(filteredRows);
-        },
-        [order, orderBy, rows]
-    );
+    const setRows = useCallback(
+        (rows) => {
+            let newRows = rows;
+            if (orderBy) newRows = stableSort(newRows, getComparator(order, orderBy));
+            setProcessedRows(newRows);
+        }, [order, orderBy]);
 
     const onPageChange = (event, newPage) => setPage(newPage);
     const onRowsPerPageChange = (event) => {
@@ -121,19 +50,7 @@ const Table = React.memo(function Table(
 
     return (
         <TableContainer className={ className }>
-            <Grid
-                container
-                direction="row"
-                justify="flex-end"
-                alignItems="center"
-            >
-                { filterOptions && (
-                    <FilterSelector
-                        filterOptions={ filterOptions }
-                        onFilter={ onFilter }
-                    />
-                ) }
-            </Grid>
+            { tools && <TableToolbar tools={ tools } rows={ rows } setRows={ setRows }/> }
             <MuiTable stickyHeader size={ dense && 'small' }>
                 <TableHeader
                     columns={ columns }
@@ -173,7 +90,7 @@ Table.propTypes = {
     disableRowHover: PropTypes.bool,
     disablePagination: PropTypes.bool,
     maxEmptyRows: PropTypes.number,
-    filterOptions: PropTypes.object,
+    tools: PropTypes.array,
 };
 
 export default Table;

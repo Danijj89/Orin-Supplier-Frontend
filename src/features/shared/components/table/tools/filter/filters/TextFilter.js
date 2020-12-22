@@ -2,12 +2,12 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import TextField from '@material-ui/core/TextField';
 import { Typography } from '@material-ui/core';
-import { LANGUAGE } from '../../../../../app/utils/constants.js';
+import { LANGUAGE } from 'app/utils/constants.js';
 import Grid from '@material-ui/core/Grid';
 
 const {
     searchTermLabel
-} = LANGUAGE.shared.components.table.filterSelector.textFilter;
+} = LANGUAGE.shared.components.table.tools.filter.filters.textFilter;
 
 const TextFilter = React.memo(function TextFilter({ filterIdx, filter, setFilters }) {
 

@@ -7,19 +7,19 @@ import React, {
 } from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
-import ThemedButton from '../../buttons/ThemedButton.js';
+import ThemedButton from '../../../../buttons/ThemedButton.js';
 import Popover from '@material-ui/core/Popover';
 import DateFilter from './filters/DateFilter.js';
 import OptionFilter from './filters/OptionFilter.js';
-import useSessionStorage from '../../hooks/useSessionStorage.js';
+import useSessionStorage from '../../../../hooks/useSessionStorage.js';
 import TextFilter from './filters/TextFilter.js';
-import { prepareFilters } from './utils/helpers.js';
-import { LANGUAGE } from '../../../../app/utils/constants.js';
+import { LANGUAGE } from 'app/utils/constants.js';
 import DropdownFilter from './filters/DropdownFilter.js';
 import RangeFilter from './filters/RangeFilter.js';
 import Badge from '@material-ui/core/Badge';
 import { FilterList as IconFilterList } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
+import { filterRows, prepareFilters } from 'features/shared/components/table/tools/filter/util/helpers.js';
 
 const useStyles = makeStyles((theme) => ({
     popover: {
@@ -33,32 +33,35 @@ const useStyles = makeStyles((theme) => ({
 const {
     filterPopoverButtonLabel,
     clearButtonLabel,
-    saveButtonLabel,
-} = LANGUAGE.shared.components.table.filterSelector;
+    saveButtonLabel
+} = LANGUAGE.shared.components.table.tools.filter;
 
 const FilterSelector = React.memo(function FilterSelector({
-    filterOptions,
-    onFilter,
+    options,
+    rows,
+    setRows,
 }) {
-    const preparedFilters = useMemo(
-        () => prepareFilters(filterOptions.filters),
-        [filterOptions.filters]
-    );
-
     const classes = useStyles();
-
+    const { filters: initialFilters, sessionKey } = options;
+    const preparedFilters = useMemo(
+        () => prepareFilters(initialFilters),
+        [initialFilters]
+    );
     const [filters, setFilters] = useSessionStorage(
-        filterOptions.sessionKey,
+        sessionKey,
         preparedFilters
     );
     const [numActiveFilters, setNumActiveFilters] = useState(0);
     const [anchorEl, setAnchorEl] = useState(false);
 
-    const onClick = useCallback(
-        (e) => setAnchorEl((prev) => (prev ? null : e.currentTarget)),
-        []
-    );
+    const onClear = useCallback(() => {
+        setFilters(preparedFilters);
+        setNumActiveFilters(0);
+        setRows(rows);
+    }, [setFilters, preparedFilters, setRows, rows]);
 
+    const onClick = useCallback(
+        (e) => setAnchorEl((prev) => (prev ? null : e.currentTarget)), []);
     const onCancel = useCallback(() => setAnchorEl(null), []);
 
     const onSubmit = useCallback(() => {
@@ -83,25 +86,24 @@ const FilterSelector = React.memo(function FilterSelector({
                 activeFilters.push({ ...filter });
             }
         });
+        setRows(filterRows(rows, activeFilters));
         setNumActiveFilters(count);
-        onFilter(activeFilters);
         setAnchorEl(null);
-    }, [onFilter, filters]);
-
-    const onClear = useCallback(() => {
-        setFilters(preparedFilters);
-        setNumActiveFilters(0);
-        onFilter([]);
-    }, [setFilters, preparedFilters, onFilter]);
+    }, [filters, rows, setRows]);
 
     // call when the user refreshes the page
     const mounted = useRef(false);
+    const prevRows = useRef(rows);
     useEffect(() => {
         if (!mounted.current) {
             onSubmit();
             mounted.current = true;
+            prevRows.current = rows;
+        } else if (prevRows.current !== rows) {
+            onSubmit();
+            prevRows.current = rows;
         }
-    }, [onSubmit]);
+    }, [onSubmit, rows]);
 
     return (
         <>
@@ -137,6 +139,9 @@ const FilterSelector = React.memo(function FilterSelector({
                 }}
             >
                 <Grid container className={classes.popover}>
+                    <Grid>
+
+                    </Grid>
                     <Grid container item xs={12}>
                         {filters.map((filter, idx) => {
                             switch (filter.type) {
@@ -212,11 +217,12 @@ const FilterSelector = React.memo(function FilterSelector({
 });
 
 FilterSelector.propTypes = {
-    filterOptions: PropTypes.exact({
+    options: PropTypes.exact({
         sessionKey: PropTypes.string.isRequired,
         filters: PropTypes.array.isRequired,
     }).isRequired,
-    onFilter: PropTypes.func.isRequired,
+    rows: PropTypes.array.isRequired,
+    setRows: PropTypes.func.isRequired
 };
 
 export default FilterSelector;

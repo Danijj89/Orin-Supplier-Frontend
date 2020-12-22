@@ -997,23 +997,30 @@ export const ENGLISH = {
             table: {
                 paginationAllLabel: 'All',
                 rowsPerPageLabel: 'Rows per page',
-                filterSelector: {
-                    filterPopoverButtonLabel: 'Filters',
-                    clearButtonLabel: 'Clear Filters',
-                    saveButtonLabel: 'Save',
-                    dateFilter: {
-                        emptyLabel: 'Select a Date...',
-                        startLabel: 'Start',
-                        endLabel: 'End',
+                tools: {
+                    filter: {
+                        filterPopoverButtonLabel: 'Filters',
+                        clearButtonLabel: 'Clear Filters',
+                        saveButtonLabel: 'Save',
+                        filters: {
+                            dateFilter: {
+                                emptyLabel: 'Select a Date...',
+                                startLabel: 'Start',
+                                endLabel: 'End',
+                            },
+                            textFilter: {
+                                searchTermLabel: 'Search Text',
+                            },
+                            rangeFilter: {
+                                minLabel: 'Min',
+                                maxLabel: 'Max',
+                            },
+                        }
                     },
-                    textFilter: {
-                        searchTermLabel: 'Search Text',
-                    },
-                    rangeFilter: {
-                        minLabel: 'Min',
-                        maxLabel: 'Max',
-                    },
-                },
+                    archive: {
+                        includeLabel: 'Include Archived?'
+                    }
+                }
             },
             editableTable: {
                 addRowButtonLabel: 'Add',

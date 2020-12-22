@@ -2,13 +2,13 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
-import { LANGUAGE } from '../../../../../app/utils/constants.js';
+import { LANGUAGE } from 'app/utils/constants.js';
 import { Typography } from '@material-ui/core';
 
 const {
     minLabel,
     maxLabel
-} = LANGUAGE.shared.components.table.filterSelector.rangeFilter;
+} = LANGUAGE.shared.components.table.tools.filter.filters.rangeFilter;
 
 const RangeFilter = React.memo(function RangeFilter({ filterIdx, filter, setFilters }) {
 
