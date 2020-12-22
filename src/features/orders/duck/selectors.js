@@ -1,6 +1,6 @@
 import { ordersAdapter } from './slice.js';
 import { createSelector } from '@reduxjs/toolkit';
-import { selectCompanyDefaultAddress, selectCurrentCompany } from '../../home/duck/selectors.js';
+import { selectCompanyDefaultAddress, selectCurrentCompany } from 'features/home/duck/home/selectors.js';
 import {
     selectCountriesMap,
     selectCurrencies,

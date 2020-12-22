@@ -1,14 +1,14 @@
 import React from 'react';
-import { LANGUAGE } from '../../app/utils/constants.js';
+import { LANGUAGE } from 'app/utils/constants.js';
 import { useSelector } from 'react-redux';
-import TextWithLabel from '../shared/components/TextWithLabel.js';
-import ResetPasswordButton from './ResetPasswordButton.js';
-import InfoCard from '../shared/wrappers/InfoCard.js';
-import EditAccountInfoButton from './EditAccountInfoButton.js';
+import TextWithLabel from 'features/shared/components/TextWithLabel.js';
+import ResetPasswordButton from 'features/home/ResetPasswordButton.js';
+import InfoCard from 'features/shared/wrappers/InfoCard.js';
+import EditAccountInfoButton from 'features/home/EditAccountInfoButton.js';
 import { makeStyles } from '@material-ui/core/styles';
-import { selectCurrentUser } from '../../app/duck/selectors.js';
-import { READ_OWN } from '../admin/utils/actions.js';
-import UserPermission from '../shared/permissions/UserPermission.js';
+import { selectCurrentUser } from 'app/duck/selectors.js';
+import { READ_OWN } from 'features/admin/utils/actions.js';
+import UserPermission from 'features/shared/permissions/UserPermission.js';
 
 const { titleLabel, nameLabel, emailLabel } = LANGUAGE.home.accountDetails;
 

@@ -8,6 +8,7 @@ export const {
 } = companiesAdapter.getSelectors(state => state.companies);
 
 export const selectCompanyDataStatus = state => state.companies.dataStatus;
+export const selectCompanyStatus = state => state.companies.status;
 export const selectCompanyError = state => state.companies.error;
 
 export const selectAllCompanies = createSelector(

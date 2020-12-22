@@ -1,16 +1,11 @@
 import React, { useCallback } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { Box, Typography } from '@material-ui/core';
-import { LANGUAGE } from '../../app/utils/constants.js';
+import { LANGUAGE } from 'app/utils/constants.js';
 import NavTabs from '../shared/components/NavTabs.js';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { selectShipmentError, selectShipmentStatus } from './duck/selectors.js';
 import ShipmentInfo from './ShipmentInfo.js';
-import Loader from '../shared/components/Loader.js';
-import SuccessMessage from '../shared/components/SuccessMessage.js';
-import { cleanShipmentStatus } from './duck/slice.js';
-import ErrorMessages from '../shared/components/ErrorMessages.js';
 import ShipmentProductTable from './ShipmentProductTable.js';
 import ShipmentMeasureTable from './ShipmentMeasureTable.js';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
@@ -33,7 +28,6 @@ const {
     titleLabel,
     cancelButtonLabel,
     tabsLabelsMap,
-    successMessage,
     deleteMessage,
 } = LANGUAGE.shipment.editShipment;
 
@@ -45,15 +39,10 @@ const EditShipment = React.memo(function EditShipment() {
     const location = useLocation();
     const { tab } = queryString.parse(location.search);
     const tabValue = tab || 'shipment';
-    const shipmentStatus = useSelector(selectShipmentStatus);
-    const shipmentError = useSelector(selectShipmentError);
 
     const onTabChange = useCallback(
-        (newValue) => {
-            dispatch(cleanShipmentStatus());
-            history.push(`${ location.pathname }?tab=${ newValue }`);
-        },
-        [dispatch, history, location.pathname]
+        (newValue) => history.push(`${ location.pathname }?tab=${ newValue }`),
+        [history, location.pathname]
     );
 
     const onCancel = useCallback(
@@ -92,13 +81,6 @@ const EditShipment = React.memo(function EditShipment() {
                     tabValue={ tabValue }
                     onChange={ onTabChange }
                 />
-                { shipmentStatus === 'REJECTED' && (
-                    <ErrorMessages error={ [shipmentError] }/>
-                ) }
-                { shipmentStatus === 'FULFILLED' && (
-                    <SuccessMessage message={ successMessage }/>
-                ) }
-                { shipmentStatus === 'PENDING' && <Loader/> }
             </Card>
             <Box>
                 { tabValue === 'shipment' && (

@@ -49,7 +49,7 @@ const clientsSlice = createSlice({
         },
         [createClient.fulfilled]: (state, action) => {
             clientsAdapter.upsertOne(state, action.payload);
-            state.status = 'IDLE';
+            state.status = 'FULFILLED';
         },
         [createClient.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -72,7 +72,7 @@ const clientsSlice = createSlice({
         [updateClient.fulfilled]: (state, action) => {
             const { _id: id, ...changes } = action.payload;
             clientsAdapter.updateOne(state, { id, changes });
-            state.status = 'IDLE';
+            state.status = 'FULFILLED';
         },
         [updateClient.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -84,7 +84,7 @@ const clientsSlice = createSlice({
         [createClientAddress.fulfilled]: (state, action) => {
             const { _id: id, ...changes } = action.payload;
             clientsAdapter.updateOne(state, { id, changes });
-            state.status = 'IDLE';
+            state.status = 'FULFILLED';
         },
         [createClientAddress.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -101,7 +101,7 @@ const clientsSlice = createSlice({
                     return add;
                 });
             clientsAdapter.updateOne(state, { id: clientId, changes: { addresses: newAddresses } });
-            state.status = 'IDLE';
+            state.status = 'FULFILLED';
         },
         [deleteClientAddress.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -118,7 +118,7 @@ const clientsSlice = createSlice({
                 return address;
             })
             clientsAdapter.updateOne(state, { id: clientId, changes: { addresses: newAddresses } });
-            state.status = 'IDLE';
+            state.status = 'FULFILLED';
         },
         [updateDefaultClientAddress.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -132,7 +132,7 @@ const clientsSlice = createSlice({
             const updatedAddresses = state.entities[clientId].addresses.map(
                 add => add._id === addressId ? { ...add, ...update } : add);
             clientsAdapter.updateOne(state, { id: clientId, changes: { addresses: updatedAddresses } });
-            state.status = 'IDLE';
+            state.status = 'FULFILLED';
         },
         [updateAddress.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -144,7 +144,7 @@ const clientsSlice = createSlice({
         [createClientContact.fulfilled]: (state, action) => {
             const { _id: id, ...changes } = action.payload;
             clientsAdapter.updateOne(state, { id, changes });
-            state.status = 'IDLE';
+            state.status = 'FULFILLED';
         },
         [createClientContact.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -161,7 +161,7 @@ const clientsSlice = createSlice({
                     return contact;
                 });
             clientsAdapter.updateOne(state, { id: clientId, changes: { contacts: newContacts } });
-            state.status = 'IDLE';
+            state.status = 'FULFILLED';
         },
         [deleteContact.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -175,7 +175,7 @@ const clientsSlice = createSlice({
             const updatedContacts = state.entities[clientId].contacts.map(
                 contact => contact._id === contactId ? { ...contact, ...update } : contact);
             clientsAdapter.updateOne(state, { id: clientId, changes: { contacts: updatedContacts } });
-            state.status = 'IDLE';
+            state.status = 'FULFILLED';
         },
         [updateContact.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -186,7 +186,7 @@ const clientsSlice = createSlice({
         },
         [deleteClient.fulfilled]: (state, action) => {
             clientsAdapter.updateOne(state, { id: action.payload, changes: { active: false } });
-            state.status = 'IDLE';
+            state.status = 'FULFILLED';
         },
         [deleteClient.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -203,7 +203,7 @@ const clientsSlice = createSlice({
                 return contact;
             })
             clientsAdapter.updateOne(state, { id: clientId, changes: { contacts: newContacts } });
-            state.status = 'IDLE';
+            state.status = 'FULFILLED';
         },
         [updateDefaultClientContact.rejected]: (state, action) => {
             state.status = 'REJECTED';

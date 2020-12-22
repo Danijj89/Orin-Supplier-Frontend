@@ -4,7 +4,7 @@ import { fetchShipments } from './duck/thunks.js';
 import { useDispatch, useSelector } from 'react-redux';
 import {
     selectShipmentDataStatus,
-    selectShipmentError
+    selectShipmentError, selectShipmentStatus
 } from './duck/selectors.js';
 import { fetchOrders } from '../orders/duck/thunks.js';
 import { determineStatus, getErrors } from '../shared/utils/state.js';
@@ -16,6 +16,7 @@ import { cleanOrderState } from '../orders/duck/slice.js';
 import { READ_ANY, READ_OWN } from '../admin/utils/actions.js';
 import { useParams } from 'react-router-dom';
 import ShipmentPermission from '../shared/permissions/ShipmentPermission.js';
+import StatusHandler from 'features/shared/status/StatusHandler.js';
 
 const ShipmentContainer = React.memo(function ShipmentContainer() {
     const dispatch = useDispatch();
@@ -28,6 +29,8 @@ const ShipmentContainer = React.memo(function ShipmentContainer() {
 
     const status = determineStatus(shipmentDataStatus, orderDataStatus);
     const errors = getErrors(shipmentError, orderError);
+
+    const shipmentStatus = useSelector(selectShipmentStatus);
 
     const fetched = useRef(false);
     useEffect(() => {
@@ -49,7 +52,8 @@ const ShipmentContainer = React.memo(function ShipmentContainer() {
     }, [dispatch, errors.length]);
 
     return (
-        <ShipmentPermission action={ [READ_ANY, READ_OWN] } shipmentId={shipmentId}>
+        <ShipmentPermission action={ [READ_ANY, READ_OWN] } shipmentId={ shipmentId }>
+            <StatusHandler status={ shipmentStatus } error={ shipmentError }/>
             { status === 'REJECTED' && <ErrorPage errors={ errors }/> }
             { status === 'PENDING' && <Loader/> }
             { status === 'FULFILLED' && <Shipment/> }

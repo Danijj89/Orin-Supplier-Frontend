@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
     selectActiveCompanyAddresses,
     selectCompanyDefaultAddress,
-} from '../home/duck/selectors.js';
+} from 'features/home/duck/home/selectors.js';
 import { selectAllActiveClients } from '../clients/duck/selectors.js';
 import {
     selectOrdersMap

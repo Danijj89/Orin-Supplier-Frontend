@@ -1,5 +1,5 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import { fetchUsers, inactivateUser, updateUser } from './thunks.js';
+import { fetchUsers, inactivateUser, updateUser } from 'features/home/duck/users/thunks.js';
 
 export const usersAdapter = createEntityAdapter({
     selectId: user => user._id,

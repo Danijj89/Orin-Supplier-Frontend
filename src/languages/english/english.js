@@ -621,7 +621,6 @@ export const ENGLISH = {
                 products: 'Products',
                 measures: 'Measures',
             },
-            successMessage: 'Update Successful!',
             shipmentInfo: {
                 partiesTitleLabel: 'Parties',
                 orderInfoTitleLabel: 'Order Information',

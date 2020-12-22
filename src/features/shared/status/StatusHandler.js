@@ -77,7 +77,8 @@ const StatusHandler = React.memo(function StatusHandler({ status, error }) {
 });
 
 StatusHandler.propTypes = {
-    status: PropTypes.string.isRequired
+    status: PropTypes.string.isRequired,
+    error: PropTypes.string
 };
 
 export default StatusHandler;

@@ -1,11 +1,11 @@
 import React, { useMemo } from 'react';
 import Grid from '@material-ui/core/Grid';
-import Table from './shared/components/table/Table.js';
+import Table from 'features/shared/components/table/Table.js';
 import Paper from '@material-ui/core/Paper';
-import NewResourceButton from './admin/NewResourceButton.js';
-import { LANGUAGE } from '../app/utils/constants.js';
+import NewResourceButton from 'features/admin/NewResourceButton.js';
+import { LANGUAGE } from 'app/utils/constants.js';
 import { useSelector } from 'react-redux';
-import { selectAllResources } from './admin/duck/resources/selectors.js';
+import { selectAllResources } from 'features/admin/duck/resources/selectors.js';
 
 const {
     tableHeaderLabels

@@ -4,7 +4,7 @@ import { Box } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import BankDetailDialog from './BankDetailDialog.js';
-import { createCompanyBankDetail } from './duck/thunks.js';
+import { createCompanyBankDetail } from 'features/home/duck/home/thunks.js';
 import { selectSessionUserCompanyId } from '../../app/duck/selectors.js';
 
 const {

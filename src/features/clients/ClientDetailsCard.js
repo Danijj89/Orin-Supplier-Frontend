@@ -9,7 +9,7 @@ import InfoCard from '../shared/wrappers/InfoCard.js';
 import { makeStyles } from '@material-ui/core/styles';
 import { useParams } from 'react-router-dom';
 import { selectClientById } from './duck/selectors.js';
-import { selectUserById } from '../users/duck/selectors.js';
+import { selectUserById } from 'features/home/duck/users/selectors.js';
 
 const useStyles = makeStyles((theme) => ({
     clientInfoCard: {

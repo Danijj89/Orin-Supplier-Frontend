@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import CreateShipment from './CreateShipment.js';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectHomeDataStatus, selectHomeError } from '../home/duck/selectors.js';
+import { selectHomeDataStatus, selectHomeError } from 'features/home/duck/home/selectors.js';
 import { determineStatus, getErrors } from '../shared/utils/state.js';
 import Loader from '../shared/components/Loader.js';
 import { fetchClients } from '../clients/duck/thunks.js';
@@ -11,11 +11,11 @@ import { fetchOrders } from '../orders/duck/thunks.js';
 import { selectCurrentShipmentId, selectShipmentDataStatus, selectShipmentError } from './duck/selectors.js';
 import { Redirect } from 'react-router-dom';
 import { fetchShipments } from './duck/thunks.js';
-import { cleanHomeState } from '../home/duck/slice.js';
+import { cleanHomeState } from 'features/home/duck/home/slice.js';
 import { cleanClientState } from '../clients/duck/slice.js';
 import { cleanOrderState } from '../orders/duck/slice.js';
 import ErrorPage from '../shared/components/ErrorPage.js';
-import { fetchCurrentCompany } from '../home/duck/thunks.js';
+import { fetchCurrentCompany } from 'features/home/duck/home/thunks.js';
 import { CREATE_ANY, CREATE_OWN } from '../admin/utils/actions.js';
 import ShipmentPermission from '../shared/permissions/ShipmentPermission.js';
 

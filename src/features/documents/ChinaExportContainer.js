@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectHomeError, selectHomeDataStatus } from '../home/duck/selectors.js';
+import { selectHomeError, selectHomeDataStatus } from 'features/home/duck/home/selectors.js';
 import { determineStatus, getErrors } from '../shared/utils/state.js';
 import Loader from '../shared/components/Loader.js';
 import ErrorPage from '../shared/components/ErrorPage.js';
@@ -12,7 +12,7 @@ import { fetchShipments } from '../shipments/duck/thunks.js';
 import { selectClientDataStatus, selectClientError } from '../clients/duck/selectors.js';
 import { fetchClients } from '../clients/duck/thunks.js';
 import { cleanNewDocument } from './duck/slice.js';
-import { cleanHomeState } from '../home/duck/slice.js';
+import { cleanHomeState } from 'features/home/duck/home/slice.js';
 import { cleanClientState } from '../clients/duck/slice.js';
 import { cleanProductState } from '../products/duck/slice.js';
 import ChinaExport from './ChinaExport.js';
@@ -20,7 +20,7 @@ import { cleanShipmentState } from '../shipments/duck/slice.js';
 import { selectProductDataStatus, selectProductError } from '../products/duck/selectors.js';
 import { fetchProducts } from '../products/duck/thunks.js';
 import { CREATE_ANY, CREATE_OWN } from '../admin/utils/actions.js';
-import { fetchCurrentCompany } from '../home/duck/thunks.js';
+import { fetchCurrentCompany } from 'features/home/duck/home/thunks.js';
 import ShipmentPermission from '../shared/permissions/ShipmentPermission.js';
 
 const ChinaExportContainer = React.memo(function ChinaExportContainer() {

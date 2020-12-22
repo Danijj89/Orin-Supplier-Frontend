@@ -5,7 +5,7 @@ import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import ClientDialog from '../shared/forms/ClientDialog.js';
 import { makeStyles } from '@material-ui/core/styles';
-import { selectAllActiveUsers } from '../users/duck/selectors.js';
+import { selectAllActiveUsers } from 'features/home/duck/users/selectors.js';
 import { selectSessionUserCompanyId, selectSessionUserId } from '../../app/duck/selectors.js';
 import { CREATE_ANY, CREATE_OWN } from '../admin/utils/actions.js';
 import ClientPermission from '../shared/permissions/ClientPermission.js';

@@ -3,7 +3,7 @@ import {
     selectCountriesMap,
     selectCurrenciesMap,
     selectIndustriesMap
-} from '../../../app/duck/selectors.js';
+} from 'app/duck/selectors.js';
 
 export const selectHomeDataStatus = state => state.home.dataStatus;
 export const selectHomeStatus = state => state.home.status;

@@ -8,7 +8,7 @@ import StatusDropdown from '../shared/components/StatusDropdown.js';
 import { selectLeadTypes, selectSalesStatuses } from 'app/duck/selectors.js';
 import { fetchAllTableLeads, fetchTableLeads, updateLead } from './duck/thunks.js';
 import { getOptionId } from 'app/utils/options/getters.js';
-import { selectAllActiveUserNames, selectUsersMap } from '../users/duck/selectors.js';
+import { selectAllActiveUserNames, selectUsersMap } from 'features/home/duck/users/selectors.js';
 import PopoverNotes from '../shared/components/PopoverNotes.js';
 import { SESSION_LEAD_TABLE_FILTERS } from 'app/sessionKeys.js';
 

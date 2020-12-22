@@ -6,7 +6,7 @@ import {
     updateAddress,
     updateCompany, updateCompanyBankDetail,
     updateDefaultAddress
-} from './thunks.js';
+} from 'features/home/duck/home/thunks.js';
 
 const initialState = {
     company: null,

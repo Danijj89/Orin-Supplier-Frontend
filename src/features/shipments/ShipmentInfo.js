@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
     selectActiveCompanyAddresses,
     selectCompanyPorts,
-} from '../home/duck/selectors.js';
+} from 'features/home/duck/home/selectors.js';
 import { Grid } from '@material-ui/core';
 import { formatAddress } from '../shared/utils/format.js';
 import InfoCard from '../shared/wrappers/InfoCard.js';

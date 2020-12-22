@@ -1,20 +1,20 @@
 import React, { useCallback } from 'react';
 import { Add as IconAdd } from '@material-ui/icons';
 import { LANGUAGE } from 'app/utils/constants.js';
-import ThemedButton from '../shared/buttons/ThemedButton.js';
-import InfoCard from '../shared/wrappers/InfoCard.js';
+import ThemedButton from 'features/shared/buttons/ThemedButton.js';
+import InfoCard from 'features/shared/wrappers/InfoCard.js';
 import { makeStyles } from '@material-ui/core/styles';
 import { List, ListItem } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectAllUsers } from './duck/selectors.js';
-import { CREATE_ANY, DELETE_ANY, READ_ANY } from '../admin/utils/actions.js';
-import UserPermission from '../shared/permissions/UserPermission.js';
+import { selectAllUsers } from 'features/home/duck/users/selectors.js';
+import { CREATE_ANY, DELETE_ANY, READ_ANY } from 'features/admin/utils/actions.js';
+import UserPermission from 'features/shared/permissions/UserPermission.js';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import Box from '@material-ui/core/Box';
 import Divider from '@material-ui/core/Divider';
 import { selectSessionUserId } from 'app/duck/selectors.js';
-import { inactivateUser } from 'features/users/duck/thunks.js';
+import { inactivateUser } from 'features/home/duck/users/thunks.js';
 
 const useStyles = makeStyles((theme) => ({
     list: {

@@ -6,7 +6,7 @@ import { selectShipmentDocuments } from '../../shipments/duck/selectors.js';
 import { LANGUAGE } from '../../../app/utils/constants.js';
 import { GetApp as IconDownload } from '@material-ui/icons';
 import { IconButton } from '@material-ui/core';
-import { selectUsersMap } from '../../users/duck/selectors.js';
+import { selectUsersMap } from 'features/home/duck/users/selectors.js';
 import { downloadShipmentDocument } from '../../documents/duck/thunks.js';
 import DeleteButton from '../buttons/DeleteButton.js';
 import { deleteDocument } from '../../shipments/duck/thunks.js';

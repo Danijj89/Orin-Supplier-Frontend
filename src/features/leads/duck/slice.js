@@ -49,7 +49,7 @@ const leadsSlice = createSlice({
         },
         [createLead.fulfilled]: (state, action) => {
             leadsAdapter.upsertOne(state, action.payload);
-            state.status = 'IDLE';
+            state.status = 'FULFILLED';
         },
         [createLead.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -65,7 +65,7 @@ const leadsSlice = createSlice({
                 changes.contact = { ...prevContact, ...changes.contact };
             }
             leadsAdapter.updateOne(state, { id, changes });
-            state.status = 'IDLE';
+            state.status = 'FULFILLED';
         },
         [updateLead.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -77,7 +77,7 @@ const leadsSlice = createSlice({
         [createLeadAddress.fulfilled]: (state, action) => {
             const { _id: id, ...changes } = action.payload;
             leadsAdapter.updateOne(state, { id, changes });
-            state.status = 'IDLE';
+            state.status = 'FULFILLED';
         },
         [createLeadAddress.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -94,7 +94,7 @@ const leadsSlice = createSlice({
                 id: leadId,
                 changes: { addresses: newAddresses }
             });
-            state.status = 'IDLE';
+            state.status = 'FULFILLED';
         },
         [deleteLeadAddress.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -111,7 +111,7 @@ const leadsSlice = createSlice({
                 return address;
             })
             leadsAdapter.updateOne(state, { id: leadId, changes: { addresses: newAddresses } });
-            state.status = 'IDLE';
+            state.status = 'FULFILLED';
         },
         [updateLeadDefaultAddress.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -125,7 +125,7 @@ const leadsSlice = createSlice({
             const updatedAddresses = state.entities[leadId].addresses.map(
                 add => add._id === addressId ? { ...add, ...update } : add);
             leadsAdapter.updateOne(state, { id: leadId, changes: { addresses: updatedAddresses } });
-            state.status = 'IDLE';
+            state.status = 'FULFILLED';
         },
         [updateLeadAddress.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -137,7 +137,7 @@ const leadsSlice = createSlice({
         [deleteLead.fulfilled]: (state, action) => {
             const { leadId } = action.payload;
             leadsAdapter.removeOne(state, leadId);
-            state.status = 'IDLE';
+            state.status = 'FULFILLED';
         },
         [deleteLead.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -149,7 +149,7 @@ const leadsSlice = createSlice({
         [convertLeadToClient.fulfilled]: (state, action) => {
             const { leadId } = action.payload;
             leadsAdapter.removeOne(state, leadId);
-            state.status = 'IDLE';
+            state.status = 'FULFILLED';
         },
         [convertLeadToClient.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -160,7 +160,7 @@ const leadsSlice = createSlice({
         },
         [fetchTableLeads.fulfilled]: (state, action) => {
             leadsAdapter.setAll(state, action.payload);
-            state.status = 'IDLE';
+            state.status = 'FULFILLED';
         },
         [fetchTableLeads.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -171,7 +171,7 @@ const leadsSlice = createSlice({
         },
         [fetchAllTableLeads.fulfilled]: (state, action) => {
             leadsAdapter.setAll(state, action.payload);
-            state.status = 'IDLE';
+            state.status = 'FULFILLED';
         },
         [fetchAllTableLeads.rejected]: (state, action) => {
             state.status = 'REJECTED';

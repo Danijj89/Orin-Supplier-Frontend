@@ -5,9 +5,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import AddressDialog from '../shared/forms/AddressDialog.js';
 import NewCompanyAddressButton from './NewCompanyAddressButton.js';
 import { makeStyles } from '@material-ui/core/styles';
-import { deleteAddress, updateAddress, updateDefaultAddress } from './duck/thunks.js';
+import { deleteAddress, updateAddress, updateDefaultAddress } from 'features/home/duck/home/thunks.js';
 import AddressCard from '../shared/components/AddressCard.js';
-import { selectActiveCompanyAddresses } from './duck/selectors.js';
+import { selectActiveCompanyAddresses } from 'features/home/duck/home/selectors.js';
 import { getOptionId } from '../../app/utils/options/getters.js';
 import { selectSessionUserCompanyId } from '../../app/duck/selectors.js';
 

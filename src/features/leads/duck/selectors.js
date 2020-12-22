@@ -6,7 +6,7 @@ import {
     selectLeadPotentialsMap,
     selectLeadTypesMap,
     selectSalesStatusesMap, selectSessionUser
-} from '../../../app/duck/selectors.js';
+} from 'app/duck/selectors.js';
 import { AccessControl } from 'accesscontrol';
 import { isOwnLead, LEAD_RESOURCE } from '../../shared/permissions/LeadPermission.js';
 
@@ -17,6 +17,7 @@ export const {
 } = leadsAdapter.getSelectors(state => state.leads);
 
 export const selectLeadDataStatus = state => state.leads.dataStatus;
+export const selectLeadStatus = state => state.leads.status;
 export const selectLeadError = state => state.leads.error;
 
 export const selectAllLeads = createSelector(

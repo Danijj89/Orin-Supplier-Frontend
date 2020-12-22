@@ -12,7 +12,7 @@ import {
     selectActiveCompanyBankDetails,
     selectActiveCompanyAddresses,
     selectCompanyPorts,
-} from '../home/duck/selectors.js';
+} from 'features/home/duck/home/selectors.js';
 import { selectClientActiveAddresses } from '../clients/duck/selectors.js';
 import RHFDateField from '../shared/rhf/inputs/RHFDateField.js';
 import Grid from '@material-ui/core/Grid';

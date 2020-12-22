@@ -5,7 +5,7 @@ import {
     selectCurrentOrderId
 } from './duck/selectors.js';
 import Loader from '../shared/components/Loader.js';
-import { selectHomeError, selectHomeDataStatus } from '../home/duck/selectors.js';
+import { selectHomeError, selectHomeDataStatus } from 'features/home/duck/home/selectors.js';
 import { determineStatus, getErrors } from '../shared/utils/state.js';
 import { selectClientDataStatus, selectClientError } from '../clients/duck/selectors.js';
 import { fetchClients } from '../clients/duck/thunks.js';
@@ -14,10 +14,10 @@ import { selectProductDataStatus, selectProductError } from '../products/duck/se
 import { fetchProducts } from '../products/duck/thunks.js';
 import { cleanNewOrder } from './duck/slice.js';
 import ErrorPage from '../shared/components/ErrorPage.js';
-import { cleanHomeState } from '../home/duck/slice.js';
+import { cleanHomeState } from 'features/home/duck/home/slice.js';
 import { cleanClientState } from '../clients/duck/slice.js';
 import { cleanProductState } from '../products/duck/slice.js';
-import { fetchCurrentCompany } from '../home/duck/thunks.js';
+import { fetchCurrentCompany } from 'features/home/duck/home/thunks.js';
 import { CREATE_ANY, CREATE_OWN } from '../admin/utils/actions.js';
 import OrderPermission from '../shared/permissions/OrderPermission.js';
 

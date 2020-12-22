@@ -1,5 +1,5 @@
 import { createSelector } from '@reduxjs/toolkit';
-import { selectUsersMap } from '../../features/users/duck/selectors.js';
+import { selectUsersMap } from 'features/home/duck/users/selectors.js';
 import { getOptionId } from '../utils/options/getters.js';
 
 function getOptionsMap(options) {

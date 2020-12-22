@@ -6,7 +6,7 @@ import { LANGUAGE, LOCALE } from '../../app/utils/constants.js';
 import SideTextField from '../shared/inputs/SideTextField.js';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
-import { selectCompanyPorts } from '../home/duck/selectors.js';
+import { selectCompanyPorts } from 'features/home/duck/home/selectors.js';
 import { selectDeliveryMethods } from '../../app/duck/selectors.js';
 import { selectShipmentSalesContractRefs } from '../shipments/duck/selectors.js';
 import Typography from '@material-ui/core/Typography';

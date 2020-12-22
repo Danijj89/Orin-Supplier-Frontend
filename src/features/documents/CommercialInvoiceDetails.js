@@ -11,7 +11,7 @@ import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import RHFAutoComplete from '../shared/rhf/inputs/RHFAutoComplete.js';
 import { useSelector } from 'react-redux';
-import { selectActiveCompanyAddresses, selectCompanyPorts } from '../home/duck/selectors.js';
+import { selectActiveCompanyAddresses, selectCompanyPorts } from 'features/home/duck/home/selectors.js';
 import { selectClientActiveAddresses } from '../clients/duck/selectors.js';
 import Footer from '../shared/components/Footer.js';
 import { useHistory } from 'react-router-dom';

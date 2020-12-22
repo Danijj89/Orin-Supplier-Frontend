@@ -39,7 +39,7 @@ const productsSlice = createSlice({
         },
         [createProduct.fulfilled]: (state, action) => {
             productsAdapter.upsertOne(state, action.payload);
-            state.status = 'IDLE';
+            state.status = 'FULFILLED';
         },
         [createProduct.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -50,7 +50,7 @@ const productsSlice = createSlice({
         },
         [deleteProduct.fulfilled]: (state, action) => {
             productsAdapter.updateOne(state, { id: action.payload, changes: { active: false } });
-            state.status = 'IDLE';
+            state.status = 'FULFILLED';
         },
         [deleteProduct.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -62,7 +62,7 @@ const productsSlice = createSlice({
         [updateProduct.fulfilled]: (state, action) => {
             const { _id: id, ...changes } = action.payload;
             productsAdapter.updateOne(state, { id, changes });
-            state.status = 'IDLE';
+            state.status = 'FULFILLED';
         },
         [updateProduct.rejected]: (state, action) => {
             state.status = 'REJECTED';

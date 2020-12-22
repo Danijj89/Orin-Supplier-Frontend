@@ -16,7 +16,7 @@ import {
     selectShipmentStatusesMap,
     selectWeightUnitsMap
 } from '../../../app/duck/selectors.js';
-import { selectCompanyAddresses, selectCurrentCompany } from '../../home/duck/selectors.js';
+import { selectCompanyAddresses, selectCurrentCompany } from 'features/home/duck/home/selectors.js';
 import { selectAllActiveClients, selectClientsMap } from '../../clients/duck/selectors.js';
 import { getOptionId } from '../../../app/utils/options/getters.js';
 

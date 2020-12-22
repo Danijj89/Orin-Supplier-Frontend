@@ -3,9 +3,9 @@ import { useHistory } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import { Container } from '@material-ui/core';
 import { LANGUAGE } from 'app/utils/constants.js';
-import AccountDetails from '../users/AccountDetails.js';
+import AccountDetails from 'features/home/AccountDetails.js';
 import CompanyDetails from './CompanyDetails.js';
-import CompanyUsers from '../users/CompanyUsers.js';
+import CompanyUsers from 'features/home/CompanyUsers.js';
 import NavTabs from '../shared/components/NavTabs.js';
 import queryString from 'query-string';
 

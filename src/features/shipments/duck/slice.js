@@ -44,7 +44,7 @@ const shipmentsSlice = createSlice({
             const { _id } = action.payload;
             shipmentsAdapter.upsertOne(state, action.payload);
             state.currentShipmentId = _id;
-            state.status = 'IDLE';
+            state.status = 'FULFILLED';
         },
         [createShipment.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -79,7 +79,7 @@ const shipmentsSlice = createSlice({
             const { _id, ...changes } = action.payload;
             shipmentsAdapter.updateOne(state, { id: _id, changes });
             state.currentShipmentId = _id;
-            state.status = 'IDLE';
+            state.status = 'FULFILLED';
         },
         [updateShipmentShell.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -103,7 +103,7 @@ const shipmentsSlice = createSlice({
         [createDocument.fulfilled]: (state, action) => {
             const { _id, ...changes } = action.payload;
             shipmentsAdapter.updateOne(state, { id: _id, changes });
-            state.status = 'IDLE';
+            state.status = 'FULFILLED';
         },
         [createDocument.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -114,7 +114,7 @@ const shipmentsSlice = createSlice({
         },
         [deleteShipment.fulfilled]: (state, action) => {
             shipmentsAdapter.removeOne(state, action.payload);
-            state.status = 'IDLE';
+            state.status = 'FULFILLED';
         },
         [deleteShipment.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -127,7 +127,7 @@ const shipmentsSlice = createSlice({
             const { shipmentId, documentId } = action.payload;
             const newDocuments = state.entities[shipmentId].documents.filter(doc => doc._id !== documentId);
             shipmentsAdapter.updateOne(state, { id: shipmentId, changes: { documents: newDocuments } });
-            state.status = 'IDLE';
+            state.status = 'FULFILLED';
         },
         [deleteDocument.rejected]: (state, action) => {
             state.status = 'REJECTED';

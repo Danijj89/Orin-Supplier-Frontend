@@ -5,7 +5,7 @@ import Table from '../shared/components/table/Table.js';
 import { useDispatch, useSelector } from 'react-redux';
 import PopoverNotes from '../shared/components/PopoverNotes.js';
 import { updateClient } from './duck/thunks.js';
-import { selectAllActiveUserNames, selectUsersMap } from '../users/duck/selectors.js';
+import { selectAllActiveUserNames, selectUsersMap } from 'features/home/duck/users/selectors.js';
 import { SESSION_CLIENT_TABLE_FILTERS } from '../../app/sessionKeys.js';
 import { selectSessionActiveClients } from './duck/selectors.js';
 
