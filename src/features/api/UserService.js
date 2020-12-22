@@ -39,11 +39,21 @@ const updateUserRoles = async (userId, update) => {
     return data;
 };
 
+const inactivateUser = async (userId) => {
+    const configs = {
+        method: 'delete',
+        url: `users/${ userId }`
+    };
+    const { data } = await fetchWithAuth(configs);
+    return data;
+};
+
 const UserService = {
     updateUser,
     fetchUsers,
     createUser,
-    updateUserRoles
+    updateUserRoles,
+    inactivateUser
 };
 
 export default UserService;

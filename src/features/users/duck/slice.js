@@ -1,5 +1,5 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import { fetchUsers, updateUser } from './thunks.js';
+import { fetchUsers, inactivateUser, updateUser } from './thunks.js';
 
 export const usersAdapter = createEntityAdapter({
     selectId: user => user._id,
@@ -16,14 +16,25 @@ const usersSlice = createSlice({
     name: 'users',
     initialState,
     reducers: {
-        cleanUserState: (state, action) => {
+        cleanUserState: (state) => {
             state.dataStatus = 'IDLE';
             state.status = 'IDLE';
             state.error = null;
         }
     },
     extraReducers: {
-        [updateUser.pending]: (state, action) => {
+        [fetchUsers.pending]: (state) => {
+            state.dataStatus = 'PENDING';
+        },
+        [fetchUsers.fulfilled]: (state, action) => {
+            usersAdapter.upsertMany(state, action.payload);
+            state.dataStatus = 'FULFILLED';
+        },
+        [fetchUsers.rejected]: (state, action) => {
+            state.dataStatus = 'REJECTED';
+            state.error = action.payload.message;
+        },
+        [updateUser.pending]: (state) => {
             state.status = 'PENDING';
         },
         [updateUser.fulfilled]: (state, action) => {
@@ -35,15 +46,16 @@ const usersSlice = createSlice({
             state.status = 'REJECTED';
             state.error = action.payload.message;
         },
-        [fetchUsers.pending]: (state, action) => {
-            state.dataStatus = 'PENDING';
+        [inactivateUser.pending]: (state) => {
+            state.status = 'PENDING';
         },
-        [fetchUsers.fulfilled]: (state, action) => {
-            usersAdapter.upsertMany(state, action.payload);
-            state.dataStatus = 'FULFILLED';
+        [inactivateUser.fulfilled]: (state, action) => {
+            const { userId: id } = action.payload;
+            usersAdapter.updateOne(state, { id, changes: { active: false } });
+            state.status = 'IDLE';
         },
-        [fetchUsers.rejected]: (state, action) => {
-            state.dataStatus = 'REJECTED';
+        [inactivateUser.rejected]: (state, action) => {
+            state.status = 'REJECTED';
             state.error = action.payload.message;
         }
     }

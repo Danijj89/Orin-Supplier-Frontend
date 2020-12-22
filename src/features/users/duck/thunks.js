@@ -18,3 +18,13 @@ export const fetchUsers = createAsyncThunk('users/fetchUsers',
             return rejectWithValue(err.response.data);
         }
     });
+
+export const inactivateUser = createAsyncThunk('users/inactivateUser',
+    async ({ userId }, { rejectWithValue }) => {
+        try {
+            await UserService.inactivateUser(userId);
+            return { userId };
+        } catch (err) {
+            return rejectWithValue(err.response.data);
+        }
+    });

@@ -1,14 +1,20 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Add as IconAdd } from '@material-ui/icons';
-import { LANGUAGE } from '../../app/utils/constants.js';
+import { LANGUAGE } from 'app/utils/constants.js';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import InfoCard from '../shared/wrappers/InfoCard.js';
 import { makeStyles } from '@material-ui/core/styles';
-import { Box, List, ListItem, Divider } from '@material-ui/core';
-import { useSelector } from 'react-redux';
+import { List, ListItem } from '@material-ui/core';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectAllUsers } from './duck/selectors.js';
-import { CREATE_ANY, READ_ANY } from '../admin/utils/actions.js';
+import { CREATE_ANY, DELETE_ANY, READ_ANY } from '../admin/utils/actions.js';
 import UserPermission from '../shared/permissions/UserPermission.js';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import Box from '@material-ui/core/Box';
+import Divider from '@material-ui/core/Divider';
+import { selectSessionUserId } from 'app/duck/selectors.js';
+import { inactivateUser } from 'features/users/duck/thunks.js';
 
 const useStyles = makeStyles((theme) => ({
     list: {
@@ -20,11 +26,19 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const { titleLabel, inviteButtonLabel } = LANGUAGE.home.companyUsers;
+const { titleLabel, inviteButtonLabel, inactivateUserButtonLabel } = LANGUAGE.home.companyUsers;
 
 const CompanyUsers = React.memo(function CompanyUsers() {
     const classes = useStyles();
+    const dispatch = useDispatch();
     const users = useSelector(selectAllUsers);
+    const sessionUserId = useSelector(selectSessionUserId);
+
+    const isActiveAndNotSessionUser = useCallback(
+        (user) => user.active && user._id !== sessionUserId, [sessionUserId]);
+
+    const createInactivateHandler = useCallback(
+        (userId) => () => dispatch(inactivateUser({ userId })), [dispatch]);
 
     return (
         <UserPermission action={ READ_ANY }>
@@ -41,9 +55,19 @@ const CompanyUsers = React.memo(function CompanyUsers() {
                 content={
                     <List className={ classes.list }>
                         { users.map((user) => (
-                            <Box key={ user._id }>
-                                <ListItem className={ classes.listItem } disabled={ !user.active }>
-                                    { user.name }
+                            <Box key={ `company-users-table-user-${ user._id }` }>
+                                <ListItem
+                                    className={ classes.listItem } disabled={ !user.active }>
+                                    <ListItemText primary={ user.name }/>
+                                    { isActiveAndNotSessionUser(user) &&
+                                    <UserPermission action={ DELETE_ANY }>
+                                        <ListItemSecondaryAction>
+                                            <ThemedButton onClick={ createInactivateHandler(user._id) }>
+                                                { inactivateUserButtonLabel }
+                                            </ThemedButton>
+                                        </ListItemSecondaryAction>
+                                    </UserPermission>
+                                    }
                                 </ListItem>
                                 <Divider/>
                             </Box>

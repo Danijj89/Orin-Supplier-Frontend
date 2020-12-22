@@ -220,7 +220,7 @@ export const ENGLISH = {
         companyUsers: {
             titleLabel: 'Colleagues preferences',
             inviteButtonLabel: 'invite new',
-            nameLabel: 'Name',
+            inactivateUserButtonLabel: 'Inactivate'
         },
     },
     client: {
