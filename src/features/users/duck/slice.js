@@ -40,7 +40,7 @@ const usersSlice = createSlice({
         [updateUser.fulfilled]: (state, action) => {
             const { _id: id, ...changes } = action.payload;
             usersAdapter.updateOne(state, { id, changes });
-            state.status = 'IDLE';
+            state.status = 'FULFILLED';
         },
         [updateUser.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -52,7 +52,7 @@ const usersSlice = createSlice({
         [inactivateUser.fulfilled]: (state, action) => {
             const { userId: id } = action.payload;
             usersAdapter.updateOne(state, { id, changes: { active: false } });
-            state.status = 'IDLE';
+            state.status = 'FULFILLED';
         },
         [inactivateUser.rejected]: (state, action) => {
             state.status = 'REJECTED';

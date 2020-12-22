@@ -1097,12 +1097,10 @@ export const ENGLISH = {
                 Exception: 'Exception',
             },
         },
-    },
-    defaults: {
-        documentNames: {
-            PO: 'Purchase Order',
-            CI: 'Commercial Invoice',
-            PL: 'Packing List',
-        },
-    },
+        status: {
+            statusHandler: {
+                successMessage: 'Operation Successful!'
+            }
+        }
+    }
 };
