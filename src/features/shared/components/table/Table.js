@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Table as MuiTable, TableContainer } from '@material-ui/core';
 import TableHeader from './TableHeader.js';

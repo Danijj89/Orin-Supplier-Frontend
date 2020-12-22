@@ -54,12 +54,6 @@ const FilterSelector = React.memo(function FilterSelector({
     const [numActiveFilters, setNumActiveFilters] = useState(0);
     const [anchorEl, setAnchorEl] = useState(false);
 
-    const onClear = useCallback(() => {
-        setFilters(preparedFilters);
-        setNumActiveFilters(0);
-        setRows(rows);
-    }, [setFilters, preparedFilters, setRows, rows]);
-
     const onClick = useCallback(
         (e) => setAnchorEl((prev) => (prev ? null : e.currentTarget)), []);
     const onCancel = useCallback(() => setAnchorEl(null), []);
@@ -90,6 +84,11 @@ const FilterSelector = React.memo(function FilterSelector({
         setNumActiveFilters(count);
         setAnchorEl(null);
     }, [filters, rows, setRows]);
+
+    const onClear = useCallback(() => {
+        setFilters(preparedFilters);
+        setNumActiveFilters(0);
+    }, [setFilters, preparedFilters]);
 
     // call when the user refreshes the page
     const mounted = useRef(false);
