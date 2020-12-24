@@ -1,6 +1,7 @@
 import React, { lazy } from 'react';
 import { useRouteMatch } from 'react-router-dom';
 import { Paper, Box, Typography, Divider } from '@material-ui/core';
+import { useDispatch, useSelector } from 'react-redux';
 import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Route from '../shared/components/AppRoute.js';
@@ -8,21 +9,15 @@ import { Switch, Redirect } from 'react-router-dom';
 import Suspense from '../shared/components/Suspense.js';
 import MetricCard from './MetricsCard';
 import { Bar, Line } from 'react-chartjs-2';
-
-const testMetric = [
-    {
-        metricId: 'New Order',
-        value: 20,
-    },
-    {
-        metricId: 'procurement',
-        value: 5,
-    },
-    {
-        metricId: 'production',
-        value: 12,
-    },
-];
+import {
+    selectNewOrders,
+    selectInProdOrders,
+    selectInQAOrders,
+    selectInProcOrders,
+    selectOrderCountData,
+    selectOrderRevData,
+    selectWithException,
+} from './duck/selectors';
 
 const testMetricShort = [
     {
@@ -41,25 +36,6 @@ const testAccentMetric = {
     value: 15,
 };
 
-const testDangerAccentMetric = {
-    metricId: 'exception',
-    timeFrame: 7,
-    value: 3,
-};
-
-const data = {
-    labels: ['1', '2', '3', '4', '5', '6'],
-    datasets: [
-        {
-            label: 'Orders #',
-            data: [12, 19, 3, 5, 2, 3],
-            fill: false,
-            backgroundColor: 'rgb(16, 156, 241)',
-            borderColor: 'rgba(16, 156, 241, 0.2)',
-        },
-    ],
-};
-
 const options = {
     maintainAspectRatio: false,
     scales: {
@@ -67,6 +43,20 @@ const options = {
             {
                 ticks: {
                     beginAtZero: true,
+                },
+            },
+        ],
+    },
+};
+
+const optionsOrderCount = {
+    maintainAspectRatio: false,
+    scales: {
+        yAxes: [
+            {
+                ticks: {
+                    beginAtZero: true,
+                    stepSize: 1,
                 },
             },
         ],
@@ -83,6 +73,64 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Dashboard = React.memo(function Dashboard() {
+    const newOrders = useSelector(selectNewOrders);
+    const inProc = useSelector(selectInProcOrders);
+    const inProd = useSelector(selectInProdOrders);
+    const inQA = useSelector(selectInQAOrders);
+    const withException = useSelector(selectWithException);
+    const orderCountData = useSelector(selectOrderCountData);
+    const orderRevData = useSelector(selectOrderRevData);
+
+    const orderMetrics = [
+        {
+            metricId: 'New Order',
+            value: newOrders,
+        },
+        {
+            metricId: 'procurement',
+            value: inProc,
+        },
+        {
+            metricId: 'production',
+            value: inProd,
+        },
+        {
+            metricId: 'QA',
+            value: inQA,
+        },
+    ];
+
+    const exceptionMetric = {
+        metricId: 'exception',
+        value: withException,
+    };
+
+    const orderCounts = {
+        labels: Object.keys(orderCountData).reverse(),
+        datasets: [
+            {
+                label: 'Orders #',
+                data: Object.values(orderCountData).reverse(),
+                fill: false,
+                backgroundColor: 'rgb(16, 156, 241)',
+                borderColor: 'rgba(16, 156, 241, 0.2)',
+            },
+        ],
+    };
+
+    const orderRev = {
+        labels: Object.keys(orderRevData).reverse(),
+        datasets: [
+            {
+                label: 'Orders Revenue',
+                data: Object.values(orderRevData).reverse(),
+                fill: false,
+                backgroundColor: 'rgb(16, 156, 241)',
+                borderColor: 'rgba(16, 156, 241, 0.2)',
+            },
+        ],
+    };
+
     const classes = useStyles();
     return (
         <Grid container direction="column">
@@ -95,24 +143,24 @@ const Dashboard = React.memo(function Dashboard() {
             <Grid item>
                 <MetricCard
                     titleLabel={'Orders'}
-                    metrics={testMetric}
+                    metrics={orderMetrics}
                     accentMetric={testAccentMetric}
-                    dangerMetric={testDangerAccentMetric}
+                    dangerMetric={exceptionMetric}
                 />
             </Grid>
 
             <Grid container item>
                 <Grid xs={12} md={6} item className={classes.graph}>
                     <Bar
-                        data={data}
+                        data={orderCounts}
                         width={50}
                         height={200}
-                        options={options}
+                        options={optionsOrderCount}
                     />
                 </Grid>
                 <Grid xs={12} md={6} item className={classes.graph}>
                     <Line
-                        data={data}
+                        data={orderRev}
                         width={50}
                         height={200}
                         options={options}

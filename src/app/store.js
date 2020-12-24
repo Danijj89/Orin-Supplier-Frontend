@@ -12,6 +12,7 @@ import resourceReducer from '../features/admin/duck/resources/slice.js';
 import permissionReducer from '../features/admin/duck/permissions/slice.js';
 import roleReducer from '../features/admin/duck/roles/slice.js';
 import companyReducer from '../features/admin/duck/companies/slice.js';
+import dashboardReducer from '../features/dashboard/duck/slice.js';
 
 export default configureStore({
     reducer: {
@@ -27,6 +28,7 @@ export default configureStore({
         resources: resourceReducer,
         permissions: permissionReducer,
         roles: roleReducer,
-        companies: companyReducer
-    }
+        companies: companyReducer,
+        dashboard: dashboardReducer,
+    },
 });

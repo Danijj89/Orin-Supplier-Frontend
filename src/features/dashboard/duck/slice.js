@@ -21,13 +21,16 @@ const dashboardSlice = createSlice({
     extraReducers: {
         [fetchDashboardData.pending]: (state, action) => {
             state.dataStatus = 'PENDING';
+            state.status = 'PENDING';
         },
         [fetchDashboardData.fulfilled]: (state, action) => {
             state.dashboardData = action.payload;
             state.dataStatus = 'FULFILLED';
+            state.status = 'FULFILLED';
         },
         [fetchDashboardData.rejected]: (state, action) => {
             state.dataStatus = 'REJECTED';
+            state.status = 'REJECTED';
             state.error = action.payload.message;
         },
     },
