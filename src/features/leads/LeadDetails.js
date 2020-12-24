@@ -11,7 +11,7 @@ import RHFAutoComplete from '../shared/rhf/inputs/RHFAutoComplete.js';
 import {
     selectAllActiveUsers,
     selectUsersMap,
-} from '../users/duck/selectors.js';
+} from 'features/home/duck/users/selectors.js';
 import Box from '@material-ui/core/Box';
 import { Divider } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';

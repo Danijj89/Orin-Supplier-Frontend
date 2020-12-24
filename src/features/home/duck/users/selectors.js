@@ -1,4 +1,4 @@
-import { usersAdapter } from './slice.js';
+import { usersAdapter } from 'features/home/duck/users/slice.js';
 import { createSelector } from '@reduxjs/toolkit';
 
 export const {

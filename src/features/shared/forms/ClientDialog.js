@@ -6,7 +6,7 @@ import SideTextField from '../inputs/SideTextField.js';
 import { LANGUAGE } from '../../../app/utils/constants.js';
 import RHFAutoComplete from '../rhf/inputs/RHFAutoComplete.js';
 import { useSelector } from 'react-redux';
-import { selectAllActiveUsers, selectUserById } from '../../users/duck/selectors.js';
+import { selectAllActiveUsers, selectUserById } from 'features/home/duck/users/selectors.js';
 import { selectIncoterms } from '../../../app/duck/selectors.js';
 
 const {

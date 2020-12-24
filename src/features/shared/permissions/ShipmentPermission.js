@@ -5,7 +5,7 @@ import { selectSessionUserId } from '../../../app/duck/selectors.js';
 import Permission from './Permission.js';
 import { selectShipmentOwnerById } from '../../shipments/duck/selectors.js';
 
-const RESOURCE = 'shipment';
+const SHIPMENT_RESOURCE = 'shipment';
 
 const ShipmentPermission = React.memo(function ShipmentPermission(
     { action = [], shipmentId, children }) {
@@ -16,7 +16,7 @@ const ShipmentPermission = React.memo(function ShipmentPermission(
         [shipmentOwner, sessionUserId, shipmentId]);
 
     return (
-        <Permission resource={ RESOURCE } action={ action } isOwner={ isOwner }>
+        <Permission resource={ SHIPMENT_RESOURCE } action={ action } isOwner={ isOwner }>
             { children }
         </Permission>
     );

@@ -29,9 +29,9 @@ const OrderProductTable = React.memo(function OrderProductTable() {
         { field: 'description', headerName: tableHeaderLabelsMap.description },
         { field: 'custom1', headerName: custom1, hide: !custom1 },
         { field: 'custom2', headerName: custom2, hide: !custom2 },
-        { field: 'quantity', headerName: tableHeaderLabelsMap.quantity, type: 'number' },
-        { field: 'price', headerName: tableHeaderLabelsMap.price, type: 'number' },
-        { field: 'total', headerName: tableHeaderLabelsMap.total, type: 'number' },
+        { field: 'quantity', headerName: tableHeaderLabelsMap.quantity, type: 'number', align: 'right' },
+        { field: 'price', headerName: tableHeaderLabelsMap.price, type: 'number', align: 'right' },
+        { field: 'total', headerName: tableHeaderLabelsMap.total, type: 'number', align: 'right' },
     ], [custom1, custom2]);
 
     const rows = useMemo(() => items.map(item => ({
@@ -40,13 +40,13 @@ const OrderProductTable = React.memo(function OrderProductTable() {
         custom1: item.custom1,
         custom2: item.custom2,
         quantity: formatQuantityWithUnit(item.quantity, getOptionLabel(item.unit, LOCALE)),
-        price: item.price,
-        total: item.total
-    })), [items]);
+        price: formatQuantityWithUnit(item.price, getCurrencySymbol(currency)),
+        total: formatQuantityWithUnit(item.total, getCurrencySymbol(currency)),
+    })), [items, currency]);
 
     const footer = useMemo(() => [[
         { field: 'label', value: totalLabel, colSpan: numColumns - 4, align: 'right' },
-        { field: 'totalQ', value: UnitCounter.stringRep(totalQ, itemUnitsMap, LOCALE), colSpan: 2, align: 'center' },
+        { field: 'totalQ', value: UnitCounter.stringRep(totalQ, itemUnitsMap, LOCALE), colSpan: 1, align: 'right' },
         { field: 'totalA', value: `${ getCurrencySymbol(currency) } ${ totalA }`, colSpan: 2, align: 'right' }
     ]], [currency, numColumns, totalQ, totalA, itemUnitsMap]);
 

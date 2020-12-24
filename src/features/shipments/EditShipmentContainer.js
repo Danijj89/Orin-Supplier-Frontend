@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
     selectShipmentDataStatus,
-    selectShipmentError
+    selectShipmentError, selectShipmentStatus
 } from './duck/selectors.js';
 import { fetchShipments } from './duck/thunks.js';
 import { determineStatus, getErrors } from '../shared/utils/state.js';
@@ -13,21 +13,22 @@ import {
     selectClientError
 } from '../clients/duck/selectors.js';
 import { fetchClients } from '../clients/duck/thunks.js';
-import { selectHomeError, selectHomeDataStatus } from '../home/duck/selectors.js';
+import { selectHomeError, selectHomeDataStatus } from 'features/home/duck/home/selectors.js';
 import { selectProductDataStatus } from '../products/duck/selectors.js';
 import { fetchProducts } from '../products/duck/thunks.js';
 import ErrorPage from '../shared/components/ErrorPage.js';
 import { selectOrderDataStatus, selectOrderError } from '../orders/duck/selectors.js';
 import { fetchOrders } from '../orders/duck/thunks.js';
-import { cleanHomeState } from '../home/duck/slice.js';
+import { cleanHomeState } from 'features/home/duck/home/slice.js';
 import { cleanClientState } from '../clients/duck/slice.js';
 import { cleanProductState } from '../products/duck/slice.js';
 import { cleanShipmentState } from './duck/slice.js';
 import { cleanOrderState } from '../orders/duck/slice.js';
-import { fetchCurrentCompany } from '../home/duck/thunks.js';
+import { fetchCurrentCompany } from 'features/home/duck/home/thunks.js';
 import { UPDATE_ANY, UPDATE_OWN } from '../admin/utils/actions.js';
 import { useParams } from 'react-router-dom';
 import ShipmentPermission from '../shared/permissions/ShipmentPermission.js';
+import StatusHandler from 'features/shared/status/StatusHandler.js';
 
 const EditShipmentContainer = React.memo(function EditShipmentContainer() {
     const dispatch = useDispatch();
@@ -52,6 +53,8 @@ const EditShipmentContainer = React.memo(function EditShipmentContainer() {
         orderDataStatus
     );
     const errors = getErrors(homeError, shipmentError, clientError, productError, orderError);
+
+    const shipmentStatus = useSelector(selectShipmentStatus);
 
     const fetched = useRef(false);
     useEffect(() => {
@@ -85,7 +88,8 @@ const EditShipmentContainer = React.memo(function EditShipmentContainer() {
     }, [dispatch, errors.length]);
 
     return (
-        <ShipmentPermission action={ [UPDATE_ANY, UPDATE_OWN] } shipmentId={shipmentId}>
+        <ShipmentPermission action={ [UPDATE_ANY, UPDATE_OWN] } shipmentId={ shipmentId }>
+            <StatusHandler status={ shipmentStatus } error={ shipmentError }/>
             { status === 'REJECTED' && <ErrorPage errors={ errors }/> }
             { status === 'PENDING' && <Loader/> }
             { status === 'FULFILLED' && <EditShipment/> }

@@ -5,7 +5,7 @@ import { selectCurrentUser } from '../../app/duck/selectors.js';
 import SideTextField from '../shared/inputs/SideTextField.js';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import RHFAutoComplete from '../shared/rhf/inputs/RHFAutoComplete.js';
-import { selectAllActiveUsers } from '../users/duck/selectors.js';
+import { selectAllActiveUsers } from 'features/home/duck/users/selectors.js';
 import FormDialog from '../shared/wrappers/FormDialog.js';
 import PropTypes from 'prop-types';
 

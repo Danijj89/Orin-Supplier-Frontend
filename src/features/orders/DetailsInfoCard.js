@@ -4,7 +4,7 @@ import InfoCard from '../shared/wrappers/InfoCard.js';
 import { dateToLocaleDate, formatAddress, formatCurrency } from '../shared/utils/format.js';
 import UnitCounter from '../shared/classes/UnitCounter.js';
 import { useSelector } from 'react-redux';
-import { selectUserById } from '../users/duck/selectors.js';
+import { selectUserById } from 'features/home/duck/users/selectors.js';
 import EditOrderDetailsButton from './EditOrderDetailsButton.js';
 import { Grid } from '@material-ui/core';
 import DividerDataDisplay from '../shared/wrappers/DividerDisplay.js';

@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import UserService from '../../api/UserService.js';
+import UserService from 'features/api/UserService.js';
 
 export const updateUser = createAsyncThunk('users/updateUser',
     async ({ userId, update }, { rejectWithValue }) => {
@@ -14,6 +14,16 @@ export const fetchUsers = createAsyncThunk('users/fetchUsers',
     async (_, { rejectWithValue }) => {
         try {
             return await UserService.fetchUsers();
+        } catch (err) {
+            return rejectWithValue(err.response.data);
+        }
+    });
+
+export const inactivateUser = createAsyncThunk('users/inactivateUser',
+    async ({ userId }, { rejectWithValue }) => {
+        try {
+            await UserService.inactivateUser(userId);
+            return { userId };
         } catch (err) {
             return rejectWithValue(err.response.data);
         }

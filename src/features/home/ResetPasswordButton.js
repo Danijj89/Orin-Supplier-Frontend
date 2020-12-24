@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { LANGUAGE } from '../../app/utils/constants.js';
+import { LANGUAGE } from 'app/utils/constants.js';
 import { Box } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
-import ThemedButton from '../shared/buttons/ThemedButton.js';
-import ResetPassWordDialog from '../shared/forms/ResetPasswordDialog.js';
-import { updateUser } from './duck/thunks.js';
-import { UPDATE_OWN } from '../admin/utils/actions.js';
-import UserPermission from '../shared/permissions/UserPermission.js';
+import ThemedButton from 'features/shared/buttons/ThemedButton.js';
+import ResetPassWordDialog from 'features/shared/forms/ResetPasswordDialog.js';
+import { updateUser } from 'features/home/duck/users/thunks.js';
+import { UPDATE_OWN } from 'features/admin/utils/actions.js';
+import UserPermission from 'features/shared/permissions/UserPermission.js';
 
 const {
     resetButtonLabel,

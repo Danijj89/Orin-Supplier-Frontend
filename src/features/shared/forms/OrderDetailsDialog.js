@@ -5,7 +5,7 @@ import { LANGUAGE } from '../../../app/utils/constants.js';
 import RHFOrderDetails from '../rhf/forms/RHFOrderDetails.js';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { selectActiveCompanyAddresses, selectCompanyAddress, selectCompanyPorts } from '../../home/duck/selectors.js';
+import { selectActiveCompanyAddresses, selectCompanyAddress, selectCompanyPorts } from 'features/home/duck/home/selectors.js';
 import {
     selectAllActiveClients,
     selectClientAddress,

@@ -9,7 +9,7 @@ import { formatAddress } from '../shared/utils/format.js';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
-import { selectActiveCompanyAddresses, selectCompanyPorts } from '../home/duck/selectors.js';
+import { selectActiveCompanyAddresses, selectCompanyPorts } from 'features/home/duck/home/selectors.js';
 import { selectClientActiveAddresses } from '../clients/duck/selectors.js';
 import { selectShipmentCommercialInvoices, selectShipmentSalesContractRefs } from '../shipments/duck/selectors.js';
 import { useHistory } from 'react-router-dom';

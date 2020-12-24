@@ -7,6 +7,7 @@ export const {
 } = resourcesAdapter.getSelectors(state => state.resources);
 
 export const selectResourceDataStatus = state => state.resources.dataStatus;
+export const selectResourceStatus = state => state.resources.status;
 export const selectResourceError = state => state.resources.error;
 
 export const selectAllResourceIds = createSelector(

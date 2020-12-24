@@ -16,7 +16,7 @@ import { useSelector } from 'react-redux';
 import { selectDeliveryMethods, selectIncoterms } from '../../../../app/duck/selectors.js';
 import { getOptionLabel } from '../../../../app/utils/options/getters.js';
 import { selectAllActiveClients } from '../../../clients/duck/selectors.js';
-import { selectActiveCompanyAddresses, selectCompanyPorts } from '../../../home/duck/selectors.js';
+import { selectActiveCompanyAddresses, selectCompanyPorts } from 'features/home/duck/home/selectors.js';
 
 const useStyles = makeStyles((theme) => ({
     details: {
@@ -81,6 +81,8 @@ const RHFOrderDetails = React.memo(function RHFOrderDetails(
     const isRefDisabled = useMemo(
         () => isEdit || Boolean(autoGenerateRef),
         [isEdit, autoGenerateRef]);
+
+    console.log(!!errors[fieldNames.toAdd]);
 
     return (
         <Grid container justify="center" className={ className }>

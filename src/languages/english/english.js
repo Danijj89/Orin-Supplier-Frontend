@@ -220,7 +220,7 @@ export const ENGLISH = {
         companyUsers: {
             titleLabel: 'Colleagues preferences',
             inviteButtonLabel: 'invite new',
-            nameLabel: 'Name',
+            inactivateUserButtonLabel: 'Inactivate'
         },
     },
     client: {
@@ -621,7 +621,6 @@ export const ENGLISH = {
                 products: 'Products',
                 measures: 'Measures',
             },
-            successMessage: 'Update Successful!',
             shipmentInfo: {
                 partiesTitleLabel: 'Parties',
                 orderInfoTitleLabel: 'Order Information',
@@ -997,23 +996,30 @@ export const ENGLISH = {
             table: {
                 paginationAllLabel: 'All',
                 rowsPerPageLabel: 'Rows per page',
-                filterSelector: {
-                    filterPopoverButtonLabel: 'Filters',
-                    clearButtonLabel: 'Clear Filters',
-                    saveButtonLabel: 'Save',
-                    dateFilter: {
-                        emptyLabel: 'Select a Date...',
-                        startLabel: 'Start',
-                        endLabel: 'End',
+                tools: {
+                    filter: {
+                        filterPopoverButtonLabel: 'Filters',
+                        clearButtonLabel: 'Clear Filters',
+                        saveButtonLabel: 'Save',
+                        filters: {
+                            dateFilter: {
+                                emptyLabel: 'Select a Date...',
+                                startLabel: 'Start',
+                                endLabel: 'End',
+                            },
+                            textFilter: {
+                                searchTermLabel: 'Search Text',
+                            },
+                            rangeFilter: {
+                                minLabel: 'Min',
+                                maxLabel: 'Max',
+                            },
+                        }
                     },
-                    textFilter: {
-                        searchTermLabel: 'Search Text',
-                    },
-                    rangeFilter: {
-                        minLabel: 'Min',
-                        maxLabel: 'Max',
-                    },
-                },
+                    archive: {
+                        includeLabel: 'Include Archived?'
+                    }
+                }
             },
             editableTable: {
                 addRowButtonLabel: 'Add',
@@ -1090,12 +1096,10 @@ export const ENGLISH = {
                 Exception: 'Exception',
             },
         },
-    },
-    defaults: {
-        documentNames: {
-            PO: 'Purchase Order',
-            CI: 'Commercial Invoice',
-            PL: 'Packing List',
-        },
-    },
+        status: {
+            statusHandler: {
+                successMessage: 'Operation Successful!'
+            }
+        }
+    }
 };

@@ -1,11 +1,14 @@
 import { leadsAdapter } from './slice.js';
 import { createSelector } from '@reduxjs/toolkit';
 import {
+    selectAppGrants,
     selectCountriesMap,
     selectLeadPotentialsMap,
     selectLeadTypesMap,
-    selectSalesStatusesMap
-} from '../../../app/duck/selectors.js';
+    selectSalesStatusesMap, selectSessionUser
+} from 'app/duck/selectors.js';
+import { AccessControl } from 'accesscontrol';
+import { isOwnLead, LEAD_RESOURCE } from '../../shared/permissions/LeadPermission.js';
 
 export const {
     selectAll,
@@ -14,6 +17,7 @@ export const {
 } = leadsAdapter.getSelectors(state => state.leads);
 
 export const selectLeadDataStatus = state => state.leads.dataStatus;
+export const selectLeadStatus = state => state.leads.status;
 export const selectLeadError = state => state.leads.error;
 
 export const selectAllLeads = createSelector(
@@ -38,8 +42,7 @@ export const selectAllLeads = createSelector(
 
 export const selectLeadsMap = createSelector(
     selectAllLeads,
-    (leads) =>
-        leads.reduce((map, lead) => {
+    (leads) => leads.reduce((map, lead) => {
             map[lead._id] = lead;
             return map;
         }, {})
@@ -56,7 +59,21 @@ export const selectLeadAddresses = createSelector(
     lead => lead.addresses
 );
 
+
 export const selectLeadOwnersById = createSelector(
     selectLeadById,
     lead => [lead?.createdBy, lead?.assignedTo]
+);
+
+export const selectSessionLeads = createSelector(
+    selectAllLeads,
+    selectSessionUser,
+    selectAppGrants,
+    (leads, { _id: sessionUserId, roles }, grants) => {
+        const ac = new AccessControl(grants);
+        if (ac.can(roles).readAny(LEAD_RESOURCE).granted) return leads;
+        else if (ac.can(roles).readOwn(LEAD_RESOURCE).granted)
+            return leads.filter(client => isOwnLead(sessionUserId, client));
+        else return [];
+    }
 );

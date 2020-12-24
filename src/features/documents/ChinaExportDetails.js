@@ -13,7 +13,7 @@ import { useSelector } from 'react-redux';
 import {
     selectActiveCompanyAddresses,
     selectCompanyPorts,
-} from '../home/duck/selectors.js';
+} from 'features/home/duck/home/selectors.js';
 import { selectClientActiveAddresses } from '../clients/duck/selectors.js';
 import {
     selectCountries,

@@ -5,7 +5,12 @@ import { selectSessionUserId } from '../../../app/duck/selectors.js';
 import Permission from './Permission.js';
 import { selectLeadOwnersById } from '../../leads/duck/selectors.js';
 
-const RESOURCE = 'lead';
+export function isOwnLead(ownerId, lead) {
+    const { createdBy, assignedTo } = lead;
+    return ownerId === createdBy || ownerId === assignedTo;
+}
+
+export const LEAD_RESOURCE = 'lead';
 
 const LeadPermission = React.memo(function LeadPermission(
     { action = [], leadId, children }) {
@@ -16,7 +21,7 @@ const LeadPermission = React.memo(function LeadPermission(
         [leadOwners, sessionUserId, leadId]);
 
     return (
-        <Permission resource={ RESOURCE } action={ action } isOwner={ isOwner }>
+        <Permission resource={ LEAD_RESOURCE } action={ action } isOwner={ isOwner }>
             { children }
         </Permission>
     );

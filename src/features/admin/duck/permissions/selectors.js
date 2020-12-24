@@ -6,6 +6,7 @@ export const {
 } = permissionAdapter.getSelectors(state => state.permissions);
 
 export const selectPermissionDataStatus = state => state.permissions.dataStatus;
+export const selectPermissionStatus = state => state.permissions.status;
 export const selectPermissionError = state => state.permissions.error;
 
 export const selectAllPermissionsIds = createSelector(

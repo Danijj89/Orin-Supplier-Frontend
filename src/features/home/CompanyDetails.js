@@ -11,7 +11,7 @@ import Paper from '@material-ui/core/Paper';
 import CompanyBankDetails from './CompanyBankDetails.js';
 import { useSelector } from 'react-redux';
 import { getOptionLabel } from '../../app/utils/options/getters.js';
-import { selectCompanyLegalAddress, selectCurrentCompany } from './duck/selectors.js';
+import { selectCompanyLegalAddress, selectCurrentCompany } from 'features/home/duck/home/selectors.js';
 
 const useStyles = makeStyles((theme) => ({
     topCard: {

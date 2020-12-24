@@ -5,11 +5,11 @@ import {
     fetchOrders,
     updateOrder, updateOrderStatus
 } from './thunks.js';
-import { SESSION_NEW_ORDER } from '../../../app/sessionKeys.js';
+import { SESSION_NEW_ORDER } from 'app/sessionKeys.js';
 
 export const ordersAdapter = createEntityAdapter({
     selectId: order => order._id,
-    sortComparer: (a, b) => b.createdAt.localeCompare(a.createdAt)
+    sortComparer: (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
 });
 
 const initialState = ordersAdapter.getInitialState({
@@ -77,7 +77,7 @@ const ordersSlice = createSlice({
         [updateOrder.fulfilled]: (state, action) => {
             const { _id, ...changes } = action.payload;
             ordersAdapter.updateOne(state, { id: _id, changes });
-            state.status = 'IDLE';
+            state.status = 'FULFILLED';
         },
         [updateOrder.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -88,7 +88,7 @@ const ordersSlice = createSlice({
         },
         [deleteOrder.fulfilled]: (state, action) => {
             ordersAdapter.updateOne(state, { id: action.payload, changes: { active: false } });
-            state.status = 'IDLE';
+            state.status = 'FULFILLED';
         },
         [deleteOrder.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -105,7 +105,7 @@ const ordersSlice = createSlice({
             if (update.production) changes.production = { ...production, ...update.production };
             if (update.qa) changes.qa = { ...qa, ...update.qa };
             ordersAdapter.updateOne(state, { id: orderId, changes });
-            state.status = 'IDLE';
+            state.status = 'FULFILLED';
         },
         [updateOrderStatus.rejected]: (state, action) => {
             state.status = 'REJECTED';

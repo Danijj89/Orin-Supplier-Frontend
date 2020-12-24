@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Checkbox, FormControlLabel, Typography } from '@material-ui/core';
-import { getOptionId, getOptionLabel } from '../../../../../app/utils/options/getters.js';
-import { LOCALE } from '../../../../../app/utils/constants.js';
+import { getOptionId, getOptionLabel } from 'app/utils/options/getters.js';
+import { LOCALE } from 'app/utils/constants.js';
 import Grid from '@material-ui/core/Grid';
 
 const OptionFilter = React.memo(function OptionFilter({ filterIdx, filter, setFilters }) {

@@ -5,7 +5,7 @@ import { selectOrderOwnerById } from '../../orders/duck/selectors.js';
 import { selectSessionUserId } from '../../../app/duck/selectors.js';
 import Permission from './Permission.js';
 
-const RESOURCE = 'order_status';
+const ORDER_STATUS_RESOURCE = 'order_status';
 
 const OrderStatusPermission = React.memo(function OrderStatusPermission(
     { action = [], orderId, children }) {
@@ -16,7 +16,7 @@ const OrderStatusPermission = React.memo(function OrderStatusPermission(
         [orderOwner, sessionUserId, orderId]);
 
     return (
-        <Permission resource={ RESOURCE } action={ action } isOwner={ isOwner }>
+        <Permission resource={ ORDER_STATUS_RESOURCE } action={ action } isOwner={ isOwner }>
             { children }
         </Permission>
     );

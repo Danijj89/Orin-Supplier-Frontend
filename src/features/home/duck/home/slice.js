@@ -6,7 +6,7 @@ import {
     updateAddress,
     updateCompany, updateCompanyBankDetail,
     updateDefaultAddress
-} from './thunks.js';
+} from 'features/home/duck/home/thunks.js';
 
 const initialState = {
     company: null,
@@ -43,7 +43,7 @@ const homeSlice = createSlice({
         },
         [updateCompany.fulfilled]: (state, action) => {
             state.company = action.payload;
-            state.status = 'IDLE';
+            state.status = 'FULFILLED';
         },
         [updateCompany.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -54,7 +54,7 @@ const homeSlice = createSlice({
         },
         [addNewAddress.fulfilled]: (state, action) => {
             state.company = action.payload;
-            state.status = 'IDLE';
+            state.status = 'FULFILLED';
         },
         [addNewAddress.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -65,7 +65,7 @@ const homeSlice = createSlice({
         },
         [deleteAddress.fulfilled]: (state, action) => {
             state.company = action.payload;
-            state.status = 'IDLE';
+            state.status = 'FULFILLED';
         },
         [deleteAddress.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -76,7 +76,7 @@ const homeSlice = createSlice({
         },
         [updateAddress.fulfilled]: (state, action) => {
             state.company = action.payload;
-            state.status = 'IDLE';
+            state.status = 'FULFILLED';
         },
         [updateAddress.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -87,7 +87,7 @@ const homeSlice = createSlice({
         },
         [updateDefaultAddress.fulfilled]: (state, action) => {
             state.company = action.payload;
-            state.status = 'IDLE';
+            state.status = 'FULFILLED';
         },
         [updateDefaultAddress.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -98,7 +98,7 @@ const homeSlice = createSlice({
         },
         [createCompanyBankDetail.fulfilled]: (state, action) => {
             state.company = action.payload;
-            state.status = 'IDLE';
+            state.status = 'FULFILLED';
         },
         [createCompanyBankDetail.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -109,7 +109,7 @@ const homeSlice = createSlice({
         },
         [deleteCompanyBankDetail.fulfilled]: (state, action) => {
             state.company = action.payload;
-            state.status = 'IDLE';
+            state.status = 'FULFILLED';
         },
         [deleteCompanyBankDetail.rejected]: (state, action) => {
             state.status = 'REJECTED';
@@ -120,7 +120,7 @@ const homeSlice = createSlice({
         },
         [updateCompanyBankDetail.fulfilled]: (state, action) => {
             state.company = action.payload;
-            state.status = 'IDLE';
+            state.status = 'FULFILLED';
         },
         [updateCompanyBankDetail.rejected]: (state, action) => {
             state.status = 'REJECTED';

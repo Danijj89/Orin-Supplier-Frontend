@@ -74,6 +74,10 @@ const SALES_STATUS_COLOR_MAP = {
     4: {
         background: '#F7685B',
         color: 'white'
+    },
+    5: {
+        background: '#FFBA08',
+        color: 'white'
     }
 };
 

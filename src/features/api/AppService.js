@@ -4,7 +4,7 @@ import axios from 'axios';
 const signIn = async (data) => {
     const configs = {
         method: 'post',
-        url: '/login',
+        url: 'app/login',
         data: data,
         headers: {
             'content-type': 'application/json'

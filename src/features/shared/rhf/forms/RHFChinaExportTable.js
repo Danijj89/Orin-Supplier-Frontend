@@ -16,7 +16,7 @@ import Grid from '@material-ui/core/Grid';
 import ErrorMessages from '../../components/ErrorMessages.js';
 import UnitCounter from '../../classes/UnitCounter.js';
 import { getCurrencySymbol } from '../../utils/random.js';
-import { selectCompanyDefaultAddress, selectCurrentCompany } from '../../../home/duck/selectors.js';
+import { selectCompanyDefaultAddress, selectCurrentCompany } from 'features/home/duck/home/selectors.js';
 import { selectAllActiveProducts } from '../../../products/duck/selectors.js';
 import TextArea from '../../inputs/TextArea.js';
 import { formatQuantityWithUnit, roundToNDecimal } from '../../utils/format.js';

@@ -56,11 +56,9 @@ const AddressCard = React.memo(function AddressCard(
     const getThirdRow = useCallback(() => {
         let row = '';
         if (address.city) row += address.city;
-        if (address.administrative) row += `, ${ address.administrative }`;
-        if (address.zip) {
-            if (address.administrative) row += address.zip;
-            else row += `, ${ address.zip }`;
-        }
+        if (address.administrative && address.zip) row += `, ${ address.administrative } ${address.zip}`;
+        else if (address.administrative) row += `, ${ address.administrative }`;
+        else if (address.zip) row += `, ${ address.zip }`;
         return row ? <Typography>{ row }</Typography> : null;
     }, [address.administrative, address.city, address.zip]);
 

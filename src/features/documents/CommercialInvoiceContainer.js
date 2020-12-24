@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef } from 'react';
 import CommercialInvoice from './CommercialInvoice.js';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectHomeError, selectHomeDataStatus } from '../home/duck/selectors.js';
+import { selectHomeError, selectHomeDataStatus } from 'features/home/duck/home/selectors.js';
 import { determineStatus, getErrors } from '../shared/utils/state.js';
 import Loader from '../shared/components/Loader.js';
 import ErrorPage from '../shared/components/ErrorPage.js';
@@ -15,7 +15,7 @@ import { fetchClients } from '../clients/duck/thunks.js';
 import { cleanNewDocument } from './duck/slice.js';
 import { selectOrderDataStatus, selectOrderError } from '../orders/duck/selectors.js';
 import { fetchOrders } from '../orders/duck/thunks.js';
-import { cleanHomeState } from '../home/duck/slice.js';
+import { cleanHomeState } from 'features/home/duck/home/slice.js';
 import { cleanClientState } from '../clients/duck/slice.js';
 import { cleanProductState } from '../products/duck/slice.js';
 import { cleanShipmentState } from '../shipments/duck/slice.js';
@@ -23,7 +23,7 @@ import { selectProductDataStatus, selectProductError } from '../products/duck/se
 import { fetchProducts } from '../products/duck/thunks.js';
 import { cleanOrderState } from '../orders/duck/slice.js';
 import { CREATE_ANY, CREATE_OWN } from '../admin/utils/actions.js';
-import { fetchCurrentCompany } from '../home/duck/thunks.js';
+import { fetchCurrentCompany } from 'features/home/duck/home/thunks.js';
 import ShipmentPermission from '../shared/permissions/ShipmentPermission.js';
 
 const CommercialInvoiceContainer = React.memo(function CommercialInvoiceContainer() {

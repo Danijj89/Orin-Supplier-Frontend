@@ -1,16 +1,16 @@
 import React, { useCallback, useMemo } from 'react'
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectAllLeads } from './duck/selectors.js';
+import { selectSessionLeads } from './duck/selectors.js';
 import Table from '../shared/components/table/Table.js';
-import { LANGUAGE } from '../../app/utils/constants.js';
+import { LANGUAGE } from 'app/utils/constants.js';
 import StatusDropdown from '../shared/components/StatusDropdown.js';
-import { selectLeadTypes, selectSalesStatuses } from '../../app/duck/selectors.js';
-import { updateLead } from './duck/thunks.js';
-import { getOptionId } from '../../app/utils/options/getters.js';
-import { selectAllActiveUserNames, selectUsersMap } from '../users/duck/selectors.js';
+import { selectLeadTypes, selectSalesStatuses } from 'app/duck/selectors.js';
+import { fetchAllTableLeads, fetchTableLeads, updateLead } from './duck/thunks.js';
+import { getOptionId } from 'app/utils/options/getters.js';
+import { selectAllActiveUserNames, selectUsersMap } from 'features/home/duck/users/selectors.js';
 import PopoverNotes from '../shared/components/PopoverNotes.js';
-import { SESSION_LEAD_TABLE_FILTERS } from '../../app/sessionKeys.js';
+import { SESSION_LEAD_TABLE_FILTERS } from 'app/sessionKeys.js';
 
 const {
     tableHeaders
@@ -22,7 +22,7 @@ const LeadsTable = React.memo(function LeadsTable() {
     const salesStatusOptions = useSelector(selectSalesStatuses);
     const leadTypeOptions = useSelector(selectLeadTypes);
     const usersMap = useSelector(selectUsersMap);
-    const leads = useSelector(selectAllLeads);
+    const leads = useSelector(selectSessionLeads);
     const usersName = useSelector(selectAllActiveUserNames);
 
     const onRowClick = useCallback(
@@ -110,25 +110,44 @@ const LeadsTable = React.memo(function LeadsTable() {
         notes: lead.notes
     })), [leads, usersMap]);
 
-    const filterOptions = useMemo(() => ({
-        sessionKey: SESSION_LEAD_TABLE_FILTERS,
-        filters: [
-            { field: 'salesStatus', type: 'option', options: salesStatusOptions, label: tableHeaders.salesStatus },
-            { field: 'leadType', type: 'option', options: leadTypeOptions, label: tableHeaders.leadType },
-            { field: 'source', type: 'text', label: tableHeaders.source},
-            { field: 'quotation', type: 'date', label: tableHeaders.quotation},
-            { field: 'sample', type: 'date', label: tableHeaders.sample },
-            { field: 'lastContact', type: 'date', label: tableHeaders.lastContact },
-            { field: 'assignedTo', type: 'dropdown', options: usersName, label: tableHeaders.assignedTo }
-        ]
-    }), [leadTypeOptions, salesStatusOptions, usersName]);
+    const tools = useMemo(() => [
+        {
+            id: 'leads-table-filters',
+            type: 'filter',
+            options: {
+                sessionKey: SESSION_LEAD_TABLE_FILTERS,
+                filters: [
+                    {
+                        field: 'salesStatus',
+                        type: 'option',
+                        options: salesStatusOptions,
+                        label: tableHeaders.salesStatus
+                    },
+                    { field: 'leadType', type: 'option', options: leadTypeOptions, label: tableHeaders.leadType },
+                    { field: 'source', type: 'text', label: tableHeaders.source },
+                    { field: 'quotation', type: 'date', label: tableHeaders.quotation },
+                    { field: 'sample', type: 'date', label: tableHeaders.sample },
+                    { field: 'lastContact', type: 'date', label: tableHeaders.lastContact },
+                    { field: 'assignedTo', type: 'dropdown', options: usersName, label: tableHeaders.assignedTo }
+                ]
+            }
+        },
+        {
+            id: 'leads-table-archive',
+            type: 'archive',
+            options: {
+                fetchData: () => dispatch(fetchTableLeads()),
+                fetchArchivedData: () => dispatch(fetchAllTableLeads())
+            }
+        }
+    ], [dispatch, leadTypeOptions, salesStatusOptions, usersName]);
 
     return (
         <Table
             rows={ rows }
             columns={ columns }
             onRowClick={ onRowClick }
-            filterOptions={ filterOptions }
+            tools={ tools }
             dense
         />
     )

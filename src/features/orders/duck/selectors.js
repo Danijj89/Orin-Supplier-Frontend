@@ -1,6 +1,6 @@
 import { ordersAdapter } from './slice.js';
 import { createSelector } from '@reduxjs/toolkit';
-import { selectCompanyDefaultAddress, selectCurrentCompany } from '../../home/duck/selectors.js';
+import { selectCompanyDefaultAddress, selectCurrentCompany } from 'features/home/duck/home/selectors.js';
 import {
     selectCountriesMap,
     selectCurrencies,
@@ -28,38 +28,38 @@ export const selectOrderError = state => state.orders.error;
 export const selectCurrentOrderId = state => state.orders.currentOrderId;
 export const selectOrderShipmentIdsField = (state, id) => state.orders.entities[id]?.shipmentIds;
 
-export const selectOrdersMap = createSelector(
-    selectEntities,
+export const selectAllOrders = createSelector(
+    selectAll,
     selectDeliveryMethodsMap,
     selectOrderStatusesMap,
     selectCurrenciesMap,
     selectItemUnitsMap,
     selectCountriesMap,
-    (ordersMap, deliveryMethodsMap, orderStatusesMap,
-     currenciesMap, itemUnitsMap, countriesMap) =>
-        Object.entries(ordersMap).reduce((map, [id, order]) => {
-            map[id] = {
-                ...order,
-                fromAdd: { ...order.fromAdd, country: countriesMap[order.fromAdd.country]},
-                toAdd: { ...order.toAdd, country: countriesMap[order.toAdd.country]},
-                shipAdd: { ...order.shipAdd, country: countriesMap[order.shipAdd?.country]},
-                del: deliveryMethodsMap[order.del],
-                currency: currenciesMap[order.currency],
-                procurement: { ...order.procurement, status: orderStatusesMap[order.procurement.status] },
-                production: { ...order.production, status: orderStatusesMap[order.production.status] },
-                qa: { ...order.qa, status: orderStatusesMap[order.qa.status] },
-                items: order.items.map(item => ({
-                    ...item,
-                    unit: itemUnitsMap[item.unit]
-                }))
-            }
-            return map;
-        }, {})
+    (orders, deliveryMethodsMap, orderStatusesMap,
+     currenciesMap, itemUnitsMap, countriesMap) => orders.map(order => ({
+        ...order,
+        fromAdd: { ...order.fromAdd, country: countriesMap[order.fromAdd.country]},
+        toAdd: { ...order.toAdd, country: countriesMap[order.toAdd.country]},
+        shipAdd: { ...order.shipAdd, country: countriesMap[order.shipAdd?.country]},
+        del: deliveryMethodsMap[order.del],
+        currency: currenciesMap[order.currency],
+        procurement: { ...order.procurement, status: orderStatusesMap[order.procurement.status] },
+        production: { ...order.production, status: orderStatusesMap[order.production.status] },
+        qa: { ...order.qa, status: orderStatusesMap[order.qa.status] },
+        items: order.items.map(item => ({
+            ...item,
+            unit: itemUnitsMap[item.unit]
+        }))
+    }))
 );
 
-export const selectAllOrders = createSelector(
-    selectOrdersMap,
-    (ordersMap) => Object.values(ordersMap)
+export const selectOrdersMap = createSelector(
+    selectAllOrders,
+    orders =>
+        orders.reduce((map, order) => {
+            map[order._id] = order;
+            return map;
+        }, {})
 );
 
 export const selectOrderById = createSelector(
