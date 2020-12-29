@@ -18,6 +18,35 @@ export const ENGLISH = {
             },
         },
     },
+    dashboard: {
+        ordersStats: {
+            new: 'New Orders',
+            inProcurement: 'In Procurement',
+            inProduction: 'In Production',
+            inQA: 'In QA',
+            exception: 'Exceptions',
+            completed: 'Completed in last 7 days',
+            title: 'Orders Info',
+        },
+        orderCountGraph: {
+            title: 'Orders Count',
+        },
+        orderRevenueGraph: {
+            title: 'Orders Revenue',
+        },
+        leads: {
+            title: 'Leads',
+            newLeads: 'New Leads',
+            wipLeads: 'Working Leads',
+            closedLeads: 'Closed leads last 7 days',
+        },
+        clients: {
+            title: 'Clients',
+        },
+        crdStats: {
+            title: 'Cargo Ready',
+        },
+    },
     admin: {
         admin: {
             tabsLabelsMap: {
@@ -25,7 +54,7 @@ export const ENGLISH = {
                 permissions: 'Permissions',
                 roles: 'Roles',
                 users: 'Users',
-                companies: 'Companies'
+                companies: 'Companies',
             },
             permissions: {
                 newPermissionButton: {
@@ -36,15 +65,15 @@ export const ENGLISH = {
                         _id: 'Permission Name',
                         resource: 'Resource',
                         action: 'Action',
-                        attributes: 'Attributes'
-                    }
+                        attributes: 'Attributes',
+                    },
                 },
                 tableHeaderLabels: {
                     _id: 'Name',
                     resource: 'Resource',
                     action: 'Action',
-                    attributes: 'Attributes'
-                }
+                    attributes: 'Attributes',
+                },
             },
             resources: {
                 newResourceButton: {
@@ -52,12 +81,12 @@ export const ENGLISH = {
                     dialogTitle: 'Resource Info',
                     dialogSubmit: 'Create',
                     formLabels: {
-                        _id: 'Resource Name'
-                    }
+                        _id: 'Resource Name',
+                    },
                 },
                 tableHeaderLabels: {
-                    _id: 'Name'
-                }
+                    _id: 'Name',
+                },
             },
             roles: {
                 newRoleButton: {
@@ -66,14 +95,14 @@ export const ENGLISH = {
                     dialogSubmit: 'Create',
                     formLabels: {
                         _id: 'Role Name',
-                        company: 'Company'
-                    }
+                        company: 'Company',
+                    },
                 },
                 tableHeaderLabels: {
-                    _id: 'Role Name'
+                    _id: 'Role Name',
                 },
                 dialogTitleLabel: 'Role Permissions',
-                dialogSubmitLabel: 'Update'
+                dialogSubmitLabel: 'Update',
             },
             users: {
                 companyLabel: 'Company',
@@ -82,25 +111,25 @@ export const ENGLISH = {
                 tableHeaderLabels: {
                     name: 'Name',
                     email: 'Email',
-                    roles: 'Roles'
+                    roles: 'Roles',
                 },
                 newUserButton: {
                     buttonLabel: 'New User',
                     dialogTitleLabel: 'New User',
-                    dialogSubmitLabel: 'Create'
-                }
+                    dialogSubmitLabel: 'Create',
+                },
             },
             companies: {
                 tableHeaderLabels: {
                     name: 'Name',
                     industries: 'Industries',
-                    city: 'City'
+                    city: 'City',
                 },
                 newCompanyButton: {
                     buttonLabel: 'New Company',
                     dialogTitleLabel: 'Company Info',
                     dialogSubmitLabel: 'Create',
-                }
+                },
             },
             adminUserDialog: {
                 formLabels: {
@@ -109,8 +138,8 @@ export const ENGLISH = {
                     password: 'Password',
                     confirmPassword: 'Confirm Password',
                     company: 'Company',
-                    roles: 'Roles'
-                }
+                    roles: 'Roles',
+                },
             },
             adminCompanyDialog: {
                 formLabels: {
@@ -126,10 +155,10 @@ export const ENGLISH = {
                     email: 'Email',
                     taxNumber: 'Tax Number',
                     currency: 'Default Currency',
-                    industries: 'Industries'
-                }
-            }
-        }
+                    industries: 'Industries',
+                },
+            },
+        },
     },
     home: {
         navbar: {
@@ -220,7 +249,7 @@ export const ENGLISH = {
         companyUsers: {
             titleLabel: 'Colleagues preferences',
             inviteButtonLabel: 'invite new',
-            inactivateUserButtonLabel: 'Inactivate'
+            inactivateUserButtonLabel: 'Inactivate',
         },
     },
     client: {
@@ -1014,12 +1043,12 @@ export const ENGLISH = {
                                 minLabel: 'Min',
                                 maxLabel: 'Max',
                             },
-                        }
+                        },
                     },
                     archive: {
-                        includeLabel: 'Include Archived?'
-                    }
-                }
+                        includeLabel: 'Include Archived?',
+                    },
+                },
             },
             editableTable: {
                 addRowButtonLabel: 'Add',
@@ -1098,8 +1127,8 @@ export const ENGLISH = {
         },
         status: {
             statusHandler: {
-                successMessage: 'Operation Successful!'
-            }
-        }
-    }
+                successMessage: 'Operation Successful!',
+            },
+        },
+    },
 };

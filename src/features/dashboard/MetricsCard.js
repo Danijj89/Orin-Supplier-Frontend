@@ -74,7 +74,7 @@ const MetricsCard = React.memo(function MetricsCard({
             <Divider />
             <Grid container justify="space-around" alignItems="center">
                 {metrics.map((metric) => (
-                    <Grid className={classes.metric} item>
+                    <Grid className={classes.metric} item key={metric.metricId}>
                         <Typography
                             variant={'h3'}
                             align="center"

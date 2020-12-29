@@ -17,6 +17,35 @@ export const CHINESE = {
             },
         },
     },
+    dashboard: {
+        ordersStats: {
+            new: '新订单',
+            inProcurement: '采购中',
+            inProduction: '生成中',
+            inQA: '验检中',
+            exception: '意外',
+            completed: '7天内完毕',
+            title: '订单总结',
+        },
+        orderCountGraph: {
+            title: '订单量',
+        },
+        orderRevenueGraph: {
+            title: '订单金额',
+        },
+        leads: {
+            title: '销售线索',
+            newLeads: '新线索',
+            wipLeads: '销售中',
+            closedLeads: '近7天赢得',
+        },
+        clients: {
+            title: '客户',
+        },
+        crdStats: {
+            title: '交货标准率',
+        },
+    },
     home: {
         navbar: {
             tabsLabelsMap: {

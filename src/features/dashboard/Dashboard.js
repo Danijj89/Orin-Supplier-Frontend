@@ -9,6 +9,7 @@ import { Switch, Redirect } from 'react-router-dom';
 import Suspense from '../shared/components/Suspense.js';
 import MetricCard from './MetricsCard';
 import { Bar, Line } from 'react-chartjs-2';
+import { LANGUAGE, LOCALE } from '../../app/utils/constants.js';
 import {
     selectNewOrders,
     selectInProdOrders,
@@ -17,37 +18,32 @@ import {
     selectOrderCountData,
     selectOrderRevData,
     selectWithException,
+    selectNewLeadsCount,
+    selectWIPLeadsCount,
+    selectCompletedCount,
+    selectNewClients,
+    selectTotClients,
 } from './duck/selectors';
+
+const {
+    ordersStats,
+    orderCountGraph,
+    orderRevenueGraph,
+    leads,
+    clients,
+    crdStats,
+} = LANGUAGE.dashboard;
 
 const testMetricShort = [
     {
-        metricId: 'New Order',
+        metricId: 'Placeholder',
         value: 20,
     },
     {
-        metricId: 'procurement',
+        metricId: 'Ciao',
         value: 5,
     },
 ];
-
-const testAccentMetric = {
-    metricId: 'completed',
-    timeFrame: 7,
-    value: 15,
-};
-
-const options = {
-    maintainAspectRatio: false,
-    scales: {
-        yAxes: [
-            {
-                ticks: {
-                    beginAtZero: true,
-                },
-            },
-        ],
-    },
-};
 
 const optionsOrderCount = {
     maintainAspectRatio: false,
@@ -58,6 +54,24 @@ const optionsOrderCount = {
                     beginAtZero: true,
                     stepSize: 1,
                 },
+            },
+        ],
+    },
+};
+
+const optionsRevGraph = {
+    scales: {
+        yAxes: [
+            {
+                stacked: true,
+                ticks: {
+                    beginAtZero: true,
+                },
+            },
+        ],
+        xAxes: [
+            {
+                stacked: true,
             },
         ],
     },
@@ -80,28 +94,60 @@ const Dashboard = React.memo(function Dashboard() {
     const withException = useSelector(selectWithException);
     const orderCountData = useSelector(selectOrderCountData);
     const orderRevData = useSelector(selectOrderRevData);
+    const newLeads = useSelector(selectNewLeadsCount);
+    const wipLeads = useSelector(selectWIPLeadsCount);
+    const completedOrders = useSelector(selectCompletedCount);
+    const newClients = useSelector(selectNewClients);
+    const totClients = useSelector(selectTotClients);
 
     const orderMetrics = [
         {
-            metricId: 'New Order',
+            metricId: ordersStats.new,
             value: newOrders,
         },
         {
-            metricId: 'procurement',
+            metricId: ordersStats.inProcurement,
             value: inProc,
         },
         {
-            metricId: 'production',
+            metricId: ordersStats.inProduction,
             value: inProd,
         },
         {
-            metricId: 'QA',
+            metricId: ordersStats.inQA,
             value: inQA,
         },
     ];
 
+    const orderAccentCompleted = {
+        metricId: 'Completed',
+        value: completedOrders,
+    };
+
+    const leadsMetrics = [
+        {
+            metricId: leads.newLeads,
+            value: newLeads,
+        },
+        {
+            metricId: leads.wipLeads,
+            value: wipLeads,
+        },
+    ];
+
+    const clientMetrics = [
+        {
+            metricId: 'New Clients',
+            value: newClients,
+        },
+        {
+            metricId: 'Total Clients',
+            value: totClients,
+        },
+    ];
+
     const exceptionMetric = {
-        metricId: 'exception',
+        metricId: ordersStats.exception,
         value: withException,
     };
 
@@ -109,7 +155,7 @@ const Dashboard = React.memo(function Dashboard() {
         labels: Object.keys(orderCountData).reverse(),
         datasets: [
             {
-                label: 'Orders #',
+                label: orderCountGraph.title,
                 data: Object.values(orderCountData).reverse(),
                 fill: false,
                 backgroundColor: 'rgb(16, 156, 241)',
@@ -119,14 +165,25 @@ const Dashboard = React.memo(function Dashboard() {
     };
 
     const orderRev = {
-        labels: Object.keys(orderRevData).reverse(),
+        labels: Object.keys(orderRevData.labels).reverse(),
         datasets: [
             {
-                label: 'Orders Revenue',
-                data: Object.values(orderRevData).reverse(),
+                label: 'CNY',
+                data: Object.values(orderRevData.cny).reverse(),
                 fill: false,
-                backgroundColor: 'rgb(16, 156, 241)',
-                borderColor: 'rgba(16, 156, 241, 0.2)',
+                backgroundColor: 'rgb(255, 99, 132)',
+            },
+            {
+                label: 'EUR',
+                data: Object.values(orderRevData.eur).reverse(),
+                fill: false,
+                backgroundColor: 'rgb(54, 162, 235)',
+            },
+            {
+                label: 'USD',
+                data: Object.values(orderRevData.usd).reverse(),
+                fill: false,
+                backgroundColor: 'rgb(75, 192, 192)',
             },
         ],
     };
@@ -136,56 +193,55 @@ const Dashboard = React.memo(function Dashboard() {
         <Grid container direction="column">
             <Grid item>
                 <Typography className={classes.title} variant="h4">
-                    Dashboard is alive!
+                    Dashboard
                 </Typography>
             </Grid>
 
             <Grid item>
                 <MetricCard
-                    titleLabel={'Orders'}
+                    titleLabel={ordersStats.title}
                     metrics={orderMetrics}
-                    accentMetric={testAccentMetric}
+                    accentMetric={orderAccentCompleted}
                     dangerMetric={exceptionMetric}
                 />
             </Grid>
 
             <Grid container item>
                 <Grid xs={12} md={6} item className={classes.graph}>
-                    <Bar
+                    <Line
                         data={orderCounts}
                         width={50}
-                        height={200}
+                        height={30}
                         options={optionsOrderCount}
                     />
                 </Grid>
                 <Grid xs={12} md={6} item className={classes.graph}>
-                    <Line
+                    <Bar
                         data={orderRev}
                         width={50}
-                        height={200}
-                        options={options}
+                        height={30}
+                        options={optionsRevGraph}
                     />
                 </Grid>
             </Grid>
 
             <Grid container item>
-                <Grid xs={12} md={6} item>
+                <Grid xs={12} md={4} item>
                     <MetricCard
-                        titleLabel={'Leads'}
-                        metrics={testMetricShort}
-                        accentMetric={testAccentMetric}
+                        titleLabel={leads.title}
+                        metrics={leadsMetrics}
                     />
                 </Grid>
 
-                <Grid xs={12} md={3} item>
+                <Grid xs={12} md={4} item>
                     <MetricCard
-                        titleLabel={'Clients'}
-                        metrics={testMetricShort}
+                        titleLabel={clients.title}
+                        metrics={clientMetrics}
                     />
                 </Grid>
-                <Grid xs={12} md={3} item>
+                <Grid xs={12} md={4} item>
                     <MetricCard
-                        titleLabel={'Cargo Ready'}
+                        titleLabel={crdStats.title}
                         metrics={testMetricShort}
                     />
                 </Grid>

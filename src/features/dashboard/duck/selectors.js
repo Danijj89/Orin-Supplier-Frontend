@@ -16,3 +16,13 @@ export const selectOrderCountData = (state) =>
     state.dashboard.dashboardData.newOrdersByDay;
 export const selectOrderRevData = (state) =>
     state.dashboard.dashboardData.revenueByDay;
+export const selectNewLeadsCount = (state) =>
+    state.dashboard.dashboardData.newLeadsCount;
+export const selectWIPLeadsCount = (state) =>
+    state.dashboard.dashboardData.wipLeads;
+export const selectCompletedCount = (state) =>
+    state.dashboard.dashboardData.completedOrders;
+export const selectNewClients = (state) =>
+    state.dashboard.dashboardData.newClients;
+export const selectTotClients = (state) =>
+    state.dashboard.dashboardData.totClients;
