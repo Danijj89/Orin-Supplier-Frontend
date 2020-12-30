@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Card, Typography, Divider, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -55,6 +55,9 @@ const useStyles = makeStyles((theme) => ({
             height: theme.spacing(30),
         },
     },
+    divider: {
+        height: '50px',
+    },
 }));
 
 const MetricsCard = React.memo(function MetricsCard({
@@ -103,7 +106,13 @@ const MetricsCard = React.memo(function MetricsCard({
                     </Grid>
                 )}
 
-                {accentMetric && <Divider orientation="vertical" flexItem />}
+                {accentMetric && (
+                    <Divider
+                        orientation="vertical"
+                        className={classes.divider}
+                        variant="middle"
+                    />
+                )}
 
                 {accentMetric && (
                     <Grid className={classes.metric} item>

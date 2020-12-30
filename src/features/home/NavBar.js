@@ -21,7 +21,8 @@ import {
     DirectionsBoatOutlined as IconBoat,
     LocalOfferOutlined as IconTag,
     AddCircleOutlineOutlined as IconPlus,
-    SupervisorAccount as IconAdmin
+    SupervisorAccount as IconAdmin,
+    Dashboard as DashboardIcon,
 } from '@material-ui/icons';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MoreIcon from '@material-ui/icons/MoreVert';
@@ -30,6 +31,7 @@ import { fetchOrders } from '../orders/duck/thunks.js';
 import { fetchClients } from '../clients/duck/thunks.js';
 import { fetchShipments } from '../shipments/duck/thunks.js';
 import { fetchProducts } from '../products/duck/thunks.js';
+import { fetchDashboardData } from '../dashboard/duck/thunks.js';
 import { selectSessionUserName } from '../../app/duck/selectors.js';
 import { READ_ANY, READ_OWN } from '../admin/utils/actions.js';
 import OrderPermission from '../shared/permissions/OrderPermission.js';
@@ -42,7 +44,7 @@ import PermissionPermission from '../shared/permissions/PermissionPermission.js'
 const useStyles = makeStyles((theme) => ({
     root: {
         marginBottom: theme.spacing(2),
-        flexGrow: 1
+        flexGrow: 1,
     },
     grow: {
         flexGrow: 1,
@@ -88,10 +90,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const {
-    tabsLabelsMap,
-    helloMessageLabel
-} = LANGUAGE.home.navbar;
+const { tabsLabelsMap, helloMessageLabel } = LANGUAGE.home.navbar;
 
 const NavBar = React.memo(function NavBar() {
     const classes = useStyles();
@@ -116,11 +115,14 @@ const NavBar = React.memo(function NavBar() {
                 case 'products':
                     dispatch(fetchProducts());
                     break;
+                case 'dashboard':
+                    dispatch(fetchDashboardData());
+                    break;
                 default:
             }
         }
         history.push(href);
-    }
+    };
 
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -137,225 +139,282 @@ const NavBar = React.memo(function NavBar() {
     const mobileMenuId = 'primary-search-account-menu-mobile';
     const renderMobileMenu = (
         <Menu
-            anchorEl={ mobileMoreAnchorEl }
-            anchorOrigin={ { vertical: 'top', horizontal: 'right' } }
-            id={ mobileMenuId }
+            anchorEl={mobileMoreAnchorEl}
+            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+            id={mobileMenuId}
             keepMounted
-            transformOrigin={ { vertical: 'top', horizontal: 'right' } }
-            open={ isMobileMenuOpen }
-            onClose={ handleMobileMenuClose }
+            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+            open={isMobileMenuOpen}
+            onClose={handleMobileMenuClose}
         >
-            {/* The div here is to avoid ref forward error */ }
+            {/* The div here is to avoid ref forward error */}
             <div>
-                <OrderPermission action={ [READ_ANY, READ_OWN] }>
-                    <MenuItem onClick={ () => onTabClick('orders', '/home/orders') }>
+                <OrderPermission action={[READ_ANY, READ_OWN]}>
+                    <MenuItem
+                        onClick={() => onTabClick('orders', '/home/orders')}
+                    >
                         <IconButton color="inherit">
-                            <IconViewStream/>
+                            <IconViewStream />
                         </IconButton>
-                        { tabsLabelsMap.orders }
+                        {tabsLabelsMap.orders}
                     </MenuItem>
                 </OrderPermission>
             </div>
-            <ClientPermission action={ [READ_ANY, READ_OWN] }>
-                <MenuItem onClick={ () => onTabClick('clients', '/home/clients') }>
-                    <IconButton color="inherit">
-                        <IconPeople/>
-                    </IconButton>
-                    { tabsLabelsMap.clients }
-                </MenuItem>
-            </ClientPermission>
-            <LeadPermission action={ [READ_ANY, READ_OWN] }>
-                <MenuItem onClick={ () => onTabClick('leads', '/home/leads') }>
-                    <IconButton color="inherit">
-                        <IconPlus/>
-                    </IconButton>
-                    { tabsLabelsMap.leads }
-                </MenuItem>
-            </LeadPermission>
-            <ShipmentPermission action={ [READ_ANY, READ_OWN] }>
-                <MenuItem onClick={ () => onTabClick('shipments', '/home/shipments') }>
-                    <IconButton color="inherit">
-                        <IconBoat/>
-                    </IconButton>
-                    { tabsLabelsMap.shipments }
-                </MenuItem>
-            </ShipmentPermission>
-            <ProductPermission action={ [READ_ANY] }>
-                <MenuItem onClick={ () => onTabClick('products', '/home/products') }>
-                    <IconButton color="inherit">
-                        <IconTag/>
-                    </IconButton>
-                    { tabsLabelsMap.products }
-                </MenuItem>
-            </ProductPermission>
-            <PermissionPermission action={ READ_ANY }>
+            <ClientPermission action={[READ_ANY, READ_OWN]}>
                 <MenuItem
-                    onClick={ () => onTabClick('admin', '/home/admin') }
+                    onClick={() => onTabClick('dashboard', '/home/dashboard')}
                 >
                     <IconButton color="inherit">
-                        <IconAdmin/>
+                        <DashboardIcon />
                     </IconButton>
-                    { tabsLabelsMap.admin }
+                    {tabsLabelsMap.dashboard}
+                </MenuItem>
+            </ClientPermission>
+            <ClientPermission action={[READ_ANY, READ_OWN]}>
+                <MenuItem
+                    onClick={() => onTabClick('clients', '/home/clients')}
+                >
+                    <IconButton color="inherit">
+                        <IconPeople />
+                    </IconButton>
+                    {tabsLabelsMap.clients}
+                </MenuItem>
+            </ClientPermission>
+            <LeadPermission action={[READ_ANY, READ_OWN]}>
+                <MenuItem onClick={() => onTabClick('leads', '/home/leads')}>
+                    <IconButton color="inherit">
+                        <IconPlus />
+                    </IconButton>
+                    {tabsLabelsMap.leads}
+                </MenuItem>
+            </LeadPermission>
+            <ShipmentPermission action={[READ_ANY, READ_OWN]}>
+                <MenuItem
+                    onClick={() => onTabClick('shipments', '/home/shipments')}
+                >
+                    <IconButton color="inherit">
+                        <IconBoat />
+                    </IconButton>
+                    {tabsLabelsMap.shipments}
+                </MenuItem>
+            </ShipmentPermission>
+            <ProductPermission action={[READ_ANY]}>
+                <MenuItem
+                    onClick={() => onTabClick('products', '/home/products')}
+                >
+                    <IconButton color="inherit">
+                        <IconTag />
+                    </IconButton>
+                    {tabsLabelsMap.products}
+                </MenuItem>
+            </ProductPermission>
+            <PermissionPermission action={READ_ANY}>
+                <MenuItem onClick={() => onTabClick('admin', '/home/admin')}>
+                    <IconButton color="inherit">
+                        <IconAdmin />
+                    </IconButton>
+                    {tabsLabelsMap.admin}
                 </MenuItem>
             </PermissionPermission>
             <MenuItem
-                onClick={ () => onTabClick('settings', '/home/settings?tab=account') }
+                onClick={() =>
+                    onTabClick('settings', '/home/settings?tab=account')
+                }
             >
                 <IconButton color="inherit">
-                    <AccountCircle/>
+                    <AccountCircle />
                 </IconButton>
-                { tabsLabelsMap.settings }
+                {tabsLabelsMap.settings}
             </MenuItem>
         </Menu>
     );
 
     return (
         <>
-            <AppBar position="static" color="secondary" className={ classes.root }>
+            <AppBar
+                position="static"
+                color="secondary"
+                className={classes.root}
+            >
                 <Toolbar>
                     <CardMedia
                         component="img"
-                        src={ logo }
+                        src={logo}
                         alt="Logo"
-                        className={ classes.logo }
+                        className={classes.logo}
                     />
-                    <List className={ classes.menu }>
-                        <OrderPermission action={ [READ_ANY, READ_OWN] }>
+                    <List className={classes.menu}>
+                        <OrderPermission action={[READ_ANY, READ_OWN]}>
                             <ListItem
                                 button
                                 component="a"
-                                onClick={ () => onTabClick('orders', '/home/orders') }
-                                selected={ currentTab === 'orders' }
-                                classes={ {
+                                onClick={() =>
+                                    onTabClick('orders', '/home/orders')
+                                }
+                                selected={currentTab === 'orders'}
+                                classes={{
                                     root: classes.menuButtons,
                                     selected: classes.selected,
-                                } }
+                                }}
                             >
                                 <ListItemText>
-                                <span className={ classes.tabsText }>
-                                    { tabsLabelsMap.orders }
-                                </span>
+                                    <span className={classes.tabsText}>
+                                        {tabsLabelsMap.orders}
+                                    </span>
                                 </ListItemText>
                             </ListItem>
                         </OrderPermission>
-                        <ClientPermission action={ [READ_ANY, READ_OWN] }>
+                        <ClientPermission action={[READ_ANY, READ_OWN]}>
                             <ListItem
                                 button
                                 component="a"
-                                onClick={ () =>
-                                    onTabClick('clients', '/home/clients')
+                                onClick={() =>
+                                    onTabClick('dashboard', '/home/dashboard')
                                 }
-                                classes={ {
+                                classes={{
                                     root: classes.menuButtons,
                                     selected: classes.selected,
-                                } }
-                                selected={ currentTab === 'clients' }
+                                }}
+                                selected={currentTab === 'dashboard'}
                             >
                                 <ListItemText>
-                                <span className={ classes.tabsText }>
-                                    { tabsLabelsMap.clients }
-                                </span>
+                                    <span className={classes.tabsText}>
+                                        {tabsLabelsMap.dashboard}
+                                    </span>
                                 </ListItemText>
                             </ListItem>
                         </ClientPermission>
-                        <LeadPermission action={ [READ_ANY, READ_OWN] }>
+                        <ClientPermission action={[READ_ANY, READ_OWN]}>
                             <ListItem
                                 button
                                 component="a"
-                                onClick={ () => onTabClick('leads', '/home/leads') }
-                                classes={ {
+                                onClick={() =>
+                                    onTabClick('clients', '/home/clients')
+                                }
+                                classes={{
                                     root: classes.menuButtons,
                                     selected: classes.selected,
-                                } }
-                                selected={ currentTab === 'leads' }
+                                }}
+                                selected={currentTab === 'clients'}
                             >
                                 <ListItemText>
-                                    <span className={ classes.tabsText }>{ tabsLabelsMap.leads }</span>
+                                    <span className={classes.tabsText}>
+                                        {tabsLabelsMap.clients}
+                                    </span>
+                                </ListItemText>
+                            </ListItem>
+                        </ClientPermission>
+                        <LeadPermission action={[READ_ANY, READ_OWN]}>
+                            <ListItem
+                                button
+                                component="a"
+                                onClick={() =>
+                                    onTabClick('leads', '/home/leads')
+                                }
+                                classes={{
+                                    root: classes.menuButtons,
+                                    selected: classes.selected,
+                                }}
+                                selected={currentTab === 'leads'}
+                            >
+                                <ListItemText>
+                                    <span className={classes.tabsText}>
+                                        {tabsLabelsMap.leads}
+                                    </span>
                                 </ListItemText>
                             </ListItem>
                         </LeadPermission>
-                        <ShipmentPermission action={ [READ_ANY, READ_OWN] }>
+                        <ShipmentPermission action={[READ_ANY, READ_OWN]}>
                             <ListItem
                                 button
                                 component="a"
-                                onClick={ () => onTabClick('shipments', '/home/shipments') }
-                                classes={ {
+                                onClick={() =>
+                                    onTabClick('shipments', '/home/shipments')
+                                }
+                                classes={{
                                     root: classes.menuButtons,
                                     selected: classes.selected,
-                                } }
-                                selected={ currentTab === 'shipments' }
+                                }}
+                                selected={currentTab === 'shipments'}
                             >
                                 <ListItemText>
-                                <span className={ classes.tabsText }>
-                                    { tabsLabelsMap.shipments }
-                                </span>
+                                    <span className={classes.tabsText}>
+                                        {tabsLabelsMap.shipments}
+                                    </span>
                                 </ListItemText>
                             </ListItem>
                         </ShipmentPermission>
-                        <ProductPermission action={ [READ_ANY] }>
+                        <ProductPermission action={[READ_ANY]}>
                             <ListItem
                                 button
                                 component="a"
-                                onClick={ () => onTabClick('products', '/home/products') }
-                                classes={ {
+                                onClick={() =>
+                                    onTabClick('products', '/home/products')
+                                }
+                                classes={{
                                     root: classes.menuButtons,
                                     selected: classes.selected,
-                                } }
-                                selected={ currentTab === 'products' }
+                                }}
+                                selected={currentTab === 'products'}
                             >
                                 <ListItemText>
-                                <span className={ classes.tabsText }>
-                                    { tabsLabelsMap.products }
-                                </span>
+                                    <span className={classes.tabsText}>
+                                        {tabsLabelsMap.products}
+                                    </span>
                                 </ListItemText>
                             </ListItem>
                         </ProductPermission>
-                        <PermissionPermission action={ READ_ANY }>
+                        <PermissionPermission action={READ_ANY}>
                             <ListItem
                                 button
                                 component="a"
-                                onClick={ () => onTabClick('admin', '/home/admin') }
-                                classes={ {
+                                onClick={() =>
+                                    onTabClick('admin', '/home/admin')
+                                }
+                                classes={{
                                     root: classes.menuButtons,
                                     selected: classes.selected,
-                                } }
-                                selected={ currentTab === 'admin' }
+                                }}
+                                selected={currentTab === 'admin'}
                             >
                                 <ListItemText>
-                                <span className={ classes.tabsText }>
-                                    { tabsLabelsMap.admin }
-                                </span>
+                                    <span className={classes.tabsText}>
+                                        {tabsLabelsMap.admin}
+                                    </span>
                                 </ListItemText>
                             </ListItem>
                         </PermissionPermission>
                     </List>
-                    <div className={ classes.grow }/>
+                    <div className={classes.grow} />
                     <Typography variant="subtitle1">
-                        { `${ helloMessageLabel }, ${ userName }` }
+                        {`${helloMessageLabel}, ${userName}`}
                     </Typography>
 
-                    <div className={ classes.sectionDesktop }>
+                    <div className={classes.sectionDesktop}>
                         <IconButton
                             edge="end"
-                            onClick={ () =>
-                                onTabClick('settings', '/home/settings?tab=account')
+                            onClick={() =>
+                                onTabClick(
+                                    'settings',
+                                    '/home/settings?tab=account'
+                                )
                             }
                             color="inherit"
                         >
-                            <AccountCircle/>
+                            <AccountCircle />
                         </IconButton>
                     </div>
-                    <div className={ classes.sectionMobile }>
+                    <div className={classes.sectionMobile}>
                         <IconButton
-                            onClick={ handleMobileMenuOpen }
+                            onClick={handleMobileMenuOpen}
                             color="inherit"
                         >
-                            <MoreIcon/>
+                            <MoreIcon />
                         </IconButton>
                     </div>
                 </Toolbar>
             </AppBar>
-            { renderMobileMenu }
+            {renderMobileMenu}
         </>
     );
 });

@@ -1,11 +1,8 @@
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Dashboard from './Dashboard.js';
-import { selectSessionUserCompanyId } from '../../app/duck/selectors.js';
 import ErrorPage from '../shared/components/ErrorPage.js';
 import Loader from '../shared/components/Loader.js';
-import { useParams, Redirect } from 'react-router-dom';
-import { READ_ANY, READ_OWN } from '../admin/utils/actions.js';
 import {
     selectDashboardDataStatus,
     selectDashboardError,
@@ -16,7 +13,6 @@ import { fetchDashboardData } from './duck/thunks.js';
 
 const DashboardContainer = React.memo(function HomeContainer() {
     const dispatch = useDispatch();
-    const companyId = useSelector(selectSessionUserCompanyId);
     const dashboardDataStatus = useSelector(selectDashboardDataStatus);
     const dashboardError = useSelector(selectDashboardError);
 

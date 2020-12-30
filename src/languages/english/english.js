@@ -19,6 +19,9 @@ export const ENGLISH = {
         },
     },
     dashboard: {
+        dashboard: {
+            title: 'Dashboard',
+        },
         ordersStats: {
             new: 'New Orders',
             inProcurement: 'In Procurement',
@@ -33,6 +36,9 @@ export const ENGLISH = {
         },
         orderRevenueGraph: {
             title: 'Orders Revenue',
+            cny: 'CNY',
+            eur: 'EUR',
+            usd: 'USD',
         },
         leads: {
             title: 'Leads',
@@ -42,9 +48,13 @@ export const ENGLISH = {
         },
         clients: {
             title: 'Clients',
+            newClients: 'New Clients',
+            totClients: 'Total Clients',
         },
         crdStats: {
             title: 'Cargo Ready',
+            crdOT: 'On time',
+            crdDiff: 'Avg day variance',
         },
     },
     admin: {
@@ -170,6 +180,7 @@ export const ENGLISH = {
                 products: 'Products',
                 admin: 'Admin',
                 settings: 'Settings',
+                dashboard: 'Dashboard',
             },
             helloMessageLabel: 'Hello',
         },

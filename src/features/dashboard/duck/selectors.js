@@ -1,5 +1,3 @@
-import { createSelector } from '@reduxjs/toolkit';
-
 export const selectDashboardDataStatus = (state) => state.dashboard.dataStatus;
 export const selectDashboardStatus = (state) => state.dashboard.status;
 export const selectDashboardError = (state) => state.dashboard.error;
@@ -26,3 +24,6 @@ export const selectNewClients = (state) =>
     state.dashboard.dashboardData.newClients;
 export const selectTotClients = (state) =>
     state.dashboard.dashboardData.totClients;
+export const selectCrdPerf = (state) =>
+    state.dashboard.dashboardData.crdPerformance;
+export const selectCrdDiff = (state) => state.dashboard.dashboardData.crdDiff;

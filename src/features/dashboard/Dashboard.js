@@ -1,15 +1,11 @@
-import React, { lazy } from 'react';
-import { useRouteMatch } from 'react-router-dom';
-import { Paper, Box, Typography, Divider } from '@material-ui/core';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
+import { Typography } from '@material-ui/core';
+import { useSelector } from 'react-redux';
 import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import Route from '../shared/components/AppRoute.js';
-import { Switch, Redirect } from 'react-router-dom';
-import Suspense from '../shared/components/Suspense.js';
 import MetricCard from './MetricsCard';
 import { Bar, Line } from 'react-chartjs-2';
-import { LANGUAGE, LOCALE } from '../../app/utils/constants.js';
+import { LANGUAGE } from '../../app/utils/constants.js';
 import {
     selectNewOrders,
     selectInProdOrders,
@@ -23,9 +19,12 @@ import {
     selectCompletedCount,
     selectNewClients,
     selectTotClients,
+    selectCrdDiff,
+    selectCrdPerf,
 } from './duck/selectors';
 
 const {
+    dashboard,
     ordersStats,
     orderCountGraph,
     orderRevenueGraph,
@@ -34,19 +33,8 @@ const {
     crdStats,
 } = LANGUAGE.dashboard;
 
-const testMetricShort = [
-    {
-        metricId: 'Placeholder',
-        value: 20,
-    },
-    {
-        metricId: 'Ciao',
-        value: 5,
-    },
-];
-
 const optionsOrderCount = {
-    maintainAspectRatio: false,
+    maintainAspectRatio: true,
     scales: {
         yAxes: [
             {
@@ -99,6 +87,8 @@ const Dashboard = React.memo(function Dashboard() {
     const completedOrders = useSelector(selectCompletedCount);
     const newClients = useSelector(selectNewClients);
     const totClients = useSelector(selectTotClients);
+    const crdPerf = useSelector(selectCrdPerf);
+    const crdDiff = useSelector(selectCrdDiff);
 
     const orderMetrics = [
         {
@@ -120,7 +110,7 @@ const Dashboard = React.memo(function Dashboard() {
     ];
 
     const orderAccentCompleted = {
-        metricId: 'Completed',
+        metricId: ordersStats.completed,
         value: completedOrders,
     };
 
@@ -137,11 +127,11 @@ const Dashboard = React.memo(function Dashboard() {
 
     const clientMetrics = [
         {
-            metricId: 'New Clients',
+            metricId: clients.newClients,
             value: newClients,
         },
         {
-            metricId: 'Total Clients',
+            metricId: clients.totClients,
             value: totClients,
         },
     ];
@@ -150,6 +140,17 @@ const Dashboard = React.memo(function Dashboard() {
         metricId: ordersStats.exception,
         value: withException,
     };
+
+    const crdMetrics = [
+        {
+            metricId: crdStats.crdOT,
+            value: (crdPerf.toFixed(2) * 100).toString() + '%',
+        },
+        {
+            metricId: crdStats.crdDiff,
+            value: crdDiff,
+        },
+    ];
 
     const orderCounts = {
         labels: Object.keys(orderCountData).reverse(),
@@ -168,19 +169,19 @@ const Dashboard = React.memo(function Dashboard() {
         labels: Object.keys(orderRevData.labels).reverse(),
         datasets: [
             {
-                label: 'CNY',
+                label: orderRevenueGraph.cny,
                 data: Object.values(orderRevData.cny).reverse(),
                 fill: false,
                 backgroundColor: 'rgb(255, 99, 132)',
             },
             {
-                label: 'EUR',
+                label: orderRevenueGraph.eur,
                 data: Object.values(orderRevData.eur).reverse(),
                 fill: false,
                 backgroundColor: 'rgb(54, 162, 235)',
             },
             {
-                label: 'USD',
+                label: orderRevenueGraph.usd,
                 data: Object.values(orderRevData.usd).reverse(),
                 fill: false,
                 backgroundColor: 'rgb(75, 192, 192)',
@@ -193,7 +194,7 @@ const Dashboard = React.memo(function Dashboard() {
         <Grid container direction="column">
             <Grid item>
                 <Typography className={classes.title} variant="h4">
-                    Dashboard
+                    {dashboard.title}
                 </Typography>
             </Grid>
 
@@ -242,7 +243,7 @@ const Dashboard = React.memo(function Dashboard() {
                 <Grid xs={12} md={4} item>
                     <MetricCard
                         titleLabel={crdStats.title}
-                        metrics={testMetricShort}
+                        metrics={crdMetrics}
                     />
                 </Grid>
             </Grid>

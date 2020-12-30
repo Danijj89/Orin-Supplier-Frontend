@@ -18,10 +18,13 @@ export const CHINESE = {
         },
     },
     dashboard: {
+        dashboard: {
+            title: '仪表板',
+        },
         ordersStats: {
             new: '新订单',
             inProcurement: '采购中',
-            inProduction: '生成中',
+            inProduction: '生产中',
             inQA: '验检中',
             exception: '意外',
             completed: '7天内完毕',
@@ -32,6 +35,9 @@ export const CHINESE = {
         },
         orderRevenueGraph: {
             title: '订单金额',
+            cny: '人民币',
+            eur: '欧元',
+            usd: '美金',
         },
         leads: {
             title: '销售线索',
@@ -41,9 +47,13 @@ export const CHINESE = {
         },
         clients: {
             title: '客户',
+            newClients: '新客户',
+            totClients: '总客户',
         },
         crdStats: {
-            title: '交货标准率',
+            title: '交货日期',
+            crdOT: '按时率',
+            crdDiff: '平均日差',
         },
     },
     home: {
@@ -55,6 +65,7 @@ export const CHINESE = {
                 clients: '客户',
                 products: '产品',
                 settings: '设置',
+                dashboard: '数据',
             },
             helloMessageLabel: '您好',
         },
