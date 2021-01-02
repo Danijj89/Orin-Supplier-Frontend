@@ -2,12 +2,12 @@ import React, { useEffect } from 'react';
 import RHFProductTable, { validateItems } from '../shared/rhf/forms/RHFProductTable.js';
 import Footer from '../shared/components/Footer.js';
 import { useForm } from 'react-hook-form';
-import { LANGUAGE } from '../../app/utils/constants.js';
+import { LANGUAGE } from 'app/utils/constants.js';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { addressToDocAddress, productTableItemsToOrderItems } from '../shared/utils/entityConversion.js';
 import { createOrder } from './duck/thunks.js';
-import { getOptionId } from '../../app/utils/options/getters.js';
+import { getOptionId } from 'app/utils/options/getters.js';
 
 const {
     prevButtonLabel,
@@ -20,8 +20,6 @@ const productTableFieldNames = {
     custom2: 'custom2',
     currency: 'currency',
     items: 'items',
-    quantity: 'totalQ',
-    total: 'totalA',
     saveItems: 'saveItems',
     marks: 'marks'
 };
@@ -37,8 +35,6 @@ const CreateOrderProducts = React.memo(function CreateOrderProducts({ order, set
             [productTableFieldNames.items]: order.items,
             [productTableFieldNames.custom1]: order.custom1,
             [productTableFieldNames.custom2]: order.custom2,
-            [productTableFieldNames.quantity]: order.totalQ,
-            [productTableFieldNames.total]: order.totalA,
             [productTableFieldNames.marks]: order.marks,
             [productTableFieldNames.saveItems]: order.saveItems,
             createdBy: order.createdBy
@@ -49,8 +45,6 @@ const CreateOrderProducts = React.memo(function CreateOrderProducts({ order, set
         register({ name: productTableFieldNames.items }, { validate: validateItems });
         register({ name: productTableFieldNames.custom1 });
         register({ name: productTableFieldNames.custom2 });
-        register({ name: productTableFieldNames.quantity });
-        register({ name: productTableFieldNames.total });
     }, [register]);
 
     const onPrevClick = () => {

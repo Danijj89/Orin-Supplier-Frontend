@@ -1,6 +1,6 @@
-import { LOCALE } from '../../../app/utils/constants.js';
+import { LOCALE } from 'app/utils/constants.js';
 import { getCurrencySymbol } from './random.js';
-import { getOptionLabel } from '../../../app/utils/options/getters.js';
+import { getOptionLabel } from 'app/utils/options/getters.js';
 
 export function dateToLocaleDate(date) {
     if (!date) return null;
@@ -39,5 +39,12 @@ export function formatCurrency(currency, value) {
 
 export function formatQuantityWithUnit(quantity, unit) {
     return `${ quantity } ${ unit }`
+}
+
+export function formatItemsTotalQuantities(unitObj, unitsMap, locale = 'en') {
+    let entries = Object.entries(unitObj);
+    if (entries.length > 1) entries = entries.filter(([_, quantity]) => quantity !== 0);
+    return entries.map(([unit, quantity]) => `${ quantity } ${ getOptionLabel(unitsMap[unit], locale) }`)
+        .join(' + ');
 }
 

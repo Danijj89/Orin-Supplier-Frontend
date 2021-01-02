@@ -27,7 +27,7 @@ const OrderOverviewContainer = React.memo(function OrderOverviewContainer() {
             if (orderDataStatus === 'IDLE') dispatch(fetchOrders());
             fetched.current = true;
         }
-    }, [dispatch, orderDataStatus,]);
+    }, [dispatch, orderDataStatus]);
 
     useEffect(() => {
         return () => {

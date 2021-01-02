@@ -1,19 +1,12 @@
 import { ordersAdapter } from './slice.js';
 import { createSelector } from '@reduxjs/toolkit';
-import { selectCompanyDefaultAddress, selectCurrentCompany } from 'features/home/duck/home/selectors.js';
 import {
     selectCountriesMap,
-    selectCurrencies,
     selectCurrenciesMap,
-    selectSessionUserId,
-    selectDefaultRowItem,
-    selectDeliveryMethods,
     selectDeliveryMethodsMap,
-    selectItemUnits,
     selectItemUnitsMap,
     selectOrderStatusesMap
-} from '../../../app/duck/selectors.js';
-import { getOptionId } from '../../../app/utils/options/getters.js';
+} from 'app/duck/selectors.js';
 
 
 export const {
@@ -89,29 +82,6 @@ export const selectActiveOrdersMap = createSelector(
         map[order._id] = order;
         return map;
     }, {})
-);
-
-export const selectNewOrder = createSelector(
-    selectCurrentCompany,
-    selectCompanyDefaultAddress,
-    selectDeliveryMethods,
-    selectCurrencies,
-    selectItemUnits,
-    selectSessionUserId,
-    selectDefaultRowItem,
-    (company, companyDefaultAddress, deliveryMethods, currencies, itemUnits, userId, defaultRowItem) => ({
-        from: company._id,
-        fromAdd: companyDefaultAddress,
-        date: Date.now(),
-        del: deliveryMethods[0],
-        currency: company.currency || currencies[0] ,
-        totalQ: { [getOptionId(itemUnits[0])]: 0 },
-        totalA: 0,
-        createdBy: userId,
-        saveItems: false,
-        autoGenerateRef: false,
-        items: [defaultRowItem]
-    })
 );
 
 

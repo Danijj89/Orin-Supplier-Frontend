@@ -1,16 +1,16 @@
 import React, { useCallback, useMemo } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import Table from '../shared/components/table/Table.js';
-import { LANGUAGE, LOCALE } from '../../app/utils/constants.js';
+import { LANGUAGE, LOCALE } from 'app/utils/constants.js';
 import UnitCounter from '../shared/classes/UnitCounter.js';
 import PopoverNotes from '../shared/components/PopoverNotes.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateOrder, updateOrderStatus } from './duck/thunks.js';
 import { selectAllActiveOrders } from './duck/selectors.js';
-import { selectItemUnitsMap, selectOrderStatuses } from '../../app/duck/selectors.js';
+import { selectItemUnitsMap, selectOrderStatuses } from 'app/duck/selectors.js';
 import StatusDropdown from '../shared/components/StatusDropdown.js';
-import { getOptionId } from '../../app/utils/options/getters.js';
-import { SESSION_ORDER_TABLE_FILTERS } from '../../app/sessionKeys.js';
+import { getOptionId } from 'app/utils/options/getters.js';
+import { SESSION_ORDER_TABLE_FILTERS } from 'app/sessionKeys.js';
 
 const { ordersTableHeadersMap } = LANGUAGE.order.ordersOverview;
 
