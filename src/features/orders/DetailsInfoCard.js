@@ -1,8 +1,7 @@
 import React, { useMemo } from 'react';
-import { LANGUAGE, LOCALE } from '../../app/utils/constants.js';
+import { LANGUAGE, LOCALE } from 'app/utils/constants.js';
 import InfoCard from '../shared/wrappers/InfoCard.js';
-import { dateToLocaleDate, formatAddress, formatCurrency } from '../shared/utils/format.js';
-import UnitCounter from '../shared/classes/UnitCounter.js';
+import { dateToLocaleDate, formatAddress, formatCurrency, formatItemsTotalQuantities } from '../shared/utils/format.js';
 import { useSelector } from 'react-redux';
 import { selectUserById } from 'features/home/duck/users/selectors.js';
 import EditOrderDetailsButton from './EditOrderDetailsButton.js';
@@ -10,7 +9,8 @@ import { Grid } from '@material-ui/core';
 import DividerDataDisplay from '../shared/wrappers/DividerDisplay.js';
 import { selectOrderById } from './duck/selectors.js';
 import { useParams } from 'react-router-dom';
-import { selectItemUnitsMap } from '../../app/duck/selectors.js';
+import { selectItemUnitsMap } from 'app/duck/selectors.js';
+import { getItemsData } from 'features/shared/utils/reducers.js';
 
 const {
     titleLabel,
@@ -33,6 +33,7 @@ export default function DetailsInfoCard() {
     const order = useSelector(state => selectOrderById(state, { orderId }));
     const createdBy = useSelector(state => selectUserById(state, order.createdBy));
     const itemUnitsMap = useSelector(selectItemUnitsMap);
+    const { quantity, total } = getItemsData(order.items);
 
     const leftData = useMemo(() => [
         { label: orderReferenceLabel, value: order.ref },
@@ -40,8 +41,8 @@ export default function DetailsInfoCard() {
         { label: dateLabel, value: dateToLocaleDate(order.date) },
         { label: crdLabel, value: dateToLocaleDate(order.crd) },
         { label: incotermLabel, value: order.incoterm },
-        { label: quantityLabel, value: UnitCounter.stringRep(order.totalQ, itemUnitsMap, LOCALE) }
-    ], [order.ref, order.fromAdd, order.date, order.crd, order.incoterm, order.totalQ, itemUnitsMap]);
+        { label: quantityLabel, value: formatItemsTotalQuantities(quantity, itemUnitsMap, LOCALE) }
+    ], [order.ref, order.fromAdd, order.date, order.crd, order.incoterm, quantity, itemUnitsMap]);
 
     const rightData = useMemo(() => [
         { label: clientReferenceLabel, value: order.clientRef },
@@ -49,8 +50,8 @@ export default function DetailsInfoCard() {
         { label: authorLabel, value: createdBy.name },
         { label: realCrdLabel, value: dateToLocaleDate(order.realCrd) },
         { label: paymentMethodLabel, value: order.pay },
-        { label: totalLabel, value: formatCurrency(order.currency, order.totalA) }
-    ], [order.clientRef, order.toAdd, order.realCrd, order.pay, order.currency, order.totalA, createdBy.name]);
+        { label: totalLabel, value: formatCurrency(order.currency, total) }
+    ], [order.clientRef, order.toAdd, order.realCrd, order.pay, order.currency, total, createdBy.name]);
 
     return (
         <InfoCard

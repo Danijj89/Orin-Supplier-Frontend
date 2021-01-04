@@ -1,7 +1,7 @@
 import React from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import { Paper, Box } from '@material-ui/core';
-import { LANGUAGE } from '../../app/utils/constants.js';
+import { LANGUAGE } from 'app/utils/constants.js';
 import OrderDetails from './OrderDetails.js';
 import OrderDocuments from './OrderDocuments.js';
 import { makeStyles } from '@material-ui/core/styles';

@@ -45,25 +45,26 @@ const OrderDetails = React.memo(function OrderDetails() {
             <Grid className={ classes.detailsInfoCard } item xs={ 12 }>
                 <DetailsInfoCard />
             </Grid>
-            <Grid item xs={ 12 } md={ 6 }>
-                <StatusInfoCard />
-            </Grid>
-            <Grid container item xs={ 12 } md={ 6 } className={ classes.notes }>
-                <TextAreaCard
-                    titleLabel={ notesLabel }
-                    value={ order.notes }
-                    onSubmit={ onNotesSubmit }
-                />
-            </Grid>
-            <Grid item xs={ 12 } className={ classes.productsTable }>
-                <InfoCard
-                    title={ productTableTitleLabel }
-                    button={ <EditOrderProductsButton order={ order }/> }
-                    content={ <OrderProductTable /> }
-                />
-            </Grid>
         </Grid>
     )
 });
 
 export default OrderDetails;
+
+// <Grid item xs={ 12 } md={ 6 }>
+//     <StatusInfoCard />
+// </Grid>
+// <Grid container item xs={ 12 } md={ 6 } className={ classes.notes }>
+//     <TextAreaCard
+//         titleLabel={ notesLabel }
+//         value={ order.notes }
+//         onSubmit={ onNotesSubmit }
+//     />
+// </Grid>
+// <Grid item xs={ 12 } className={ classes.productsTable }>
+//     <InfoCard
+//         title={ productTableTitleLabel }
+//         button={ <EditOrderProductsButton order={ order }/> }
+//         content={ <OrderProductTable /> }
+//     />
+// </Grid>
