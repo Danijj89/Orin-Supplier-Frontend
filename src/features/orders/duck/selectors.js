@@ -36,9 +36,16 @@ export const selectAllOrders = createSelector(
         shipAdd: { ...order.shipAdd, country: countriesMap[order.shipAdd?.country]},
         del: deliveryMethodsMap[order.del],
         currency: currenciesMap[order.currency],
-        procurement: { ...order.procurement, status: orderStatusesMap[order.procurement.status] },
-        production: { ...order.production, status: orderStatusesMap[order.production.status] },
-        qa: { ...order.qa, status: orderStatusesMap[order.qa.status] },
+        shippingSplits: order.shippingSplits.map(split => ({
+            ...split,
+            procurement: { ...split.procurement, status: orderStatusesMap[split.procurement.status] },
+            production: { ...split.production, status: orderStatusesMap[split.production.status] },
+            qa: { ...split.qa, status: orderStatusesMap[split.qa.status] },
+            items: split.items.map(item => ({
+                ...item,
+                unit: itemUnitsMap[item.unit]
+            }))
+        })),
         items: order.items.map(item => ({
             ...item,
             unit: itemUnitsMap[item.unit]

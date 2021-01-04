@@ -1,16 +1,17 @@
 import React, { useCallback, useMemo } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import Table from '../shared/components/table/Table.js';
 import { LANGUAGE, LOCALE } from 'app/utils/constants.js';
-import UnitCounter from '../shared/classes/UnitCounter.js';
 import PopoverNotes from '../shared/components/PopoverNotes.js';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateOrder, updateOrderStatus } from './duck/thunks.js';
+import { updateOrder, updateSplitStatus } from './duck/thunks.js';
 import { selectAllActiveOrders } from './duck/selectors.js';
 import { selectItemUnitsMap, selectOrderStatuses } from 'app/duck/selectors.js';
-import StatusDropdown from '../shared/components/StatusDropdown.js';
 import { getOptionId } from 'app/utils/options/getters.js';
 import { SESSION_ORDER_TABLE_FILTERS } from 'app/sessionKeys.js';
+import { formatItemsTotalQuantities } from 'features/shared/utils/format.js';
+import ShippingPlanTable from 'features/orders/ShippingPlanTable.js';
+import StatusDropdown from 'features/shared/components/StatusDropdown.js';
+import Table from 'features/shared/components/table/Table.js';
 
 const { ordersTableHeadersMap } = LANGUAGE.order.ordersOverview;
 
@@ -22,102 +23,137 @@ export default function OrdersTable() {
     const itemUnitsMap = useSelector(selectItemUnitsMap);
     const orderStatuses = useSelector(selectOrderStatuses);
 
-    const onRowClick = (params) => history.push(`${ location.pathname }/${ params.id }?tab=details`);
+    const createStatusDropdownRenderer = useCallback((status) => (row) => {
+        if (row.shippingSplits.length > 1) return '-';
+        const splitId = row.shippingSplits[0]._id;
+        return (
+            <StatusDropdown
+                status={ row[status] }
+                statuses={ orderStatuses }
+                colorMap="order"
+                onStatusChange={ (newStatus) => dispatch(updateSplitStatus({
+                    orderId: row.id,
+                    splitId,
+                    update: { [status]: { status: getOptionId(newStatus) } }
+                })) }
+            />
+        );
+    }, [dispatch, orderStatuses]);
 
-    const onNotesSubmit = useCallback(
-        (orderId, data) => dispatch(updateOrder({ orderId, update: data })),
-        [dispatch]);
-
-    const createStatusChangeHandler = useCallback(
-        (orderId, statusStep) => (newStatus) =>
-            dispatch(updateOrderStatus({ orderId, update: { [statusStep]: { status: getOptionId(newStatus) } } })),
-        [dispatch]);
+    const createNotesPopoverRenderer = useCallback(row => {
+        if (row.shippingSplits.length > 1) return null;
+        const splitId = row.shippingSplits[0]._id;
+        return (
+            <PopoverNotes
+                notes={ row.notes }
+                onSubmit={ data => dispatch(updateOrder({ orderId: row.id, splitId, update: data })) }
+            />
+        );
+    }, [dispatch]);
 
     const columns = useMemo(() => [
-        { field: 'id', hide: true },
         { field: 'ref', headerName: ordersTableHeadersMap.ref },
-        { field: 'totalQ', headerName: ordersTableHeadersMap.totalQ },
+        {
+            field: 'quantity',
+            headerName: ordersTableHeadersMap.quantity,
+            format: val => formatItemsTotalQuantities(val, itemUnitsMap, LOCALE)
+        },
         { field: 'crd', headerName: ordersTableHeadersMap.crd, type: 'date' },
-        { field: 'toName', headerName: ordersTableHeadersMap.toName, },
+        { field: 'toName', headerName: ordersTableHeadersMap.toName },
         {
             field: 'procurement',
             headerName: ordersTableHeadersMap.procurement,
-            renderCell: params =>
-                <StatusDropdown
-                    status={ params.procurement }
-                    statuses={ orderStatuses }
-                    colorMap="order"
-                    onStatusChange={ createStatusChangeHandler(params.id, 'procurement') }
-                />,
+            renderCell: createStatusDropdownRenderer('procurement'),
             align: 'center',
             width: 140
         },
         {
             field: 'production',
             headerName: ordersTableHeadersMap.production,
-            renderCell: params =>
-                <StatusDropdown
-                    status={ params.production }
-                    statuses={ orderStatuses }
-                    colorMap="order"
-                    onStatusChange={ createStatusChangeHandler(params.id, 'production') }
-                />,
+            renderCell: createStatusDropdownRenderer('production'),
             align: 'center',
             width: 140
         },
         {
             field: 'qa',
             headerName: ordersTableHeadersMap.qa,
-            renderCell: params =>
-                <StatusDropdown
-                    status={ params.qa }
-                    statuses={ orderStatuses }
-                    colorMap="order"
-                    onStatusChange={ createStatusChangeHandler(params.id, 'qa') }
-                />,
+            renderCell: createStatusDropdownRenderer('qa'),
             align: 'center',
             width: 140
         },
         {
             field: 'notes',
             headerName: ordersTableHeadersMap.notes,
-            renderCell: params =>
-                <PopoverNotes
-                    notes={ params.notes }
-                    onSubmit={ (data) => onNotesSubmit(params.id, data) }
-                />
+            renderCell: createNotesPopoverRenderer
         }
-    ], [createStatusChangeHandler, onNotesSubmit, orderStatuses]);
+    ], [createStatusDropdownRenderer, createNotesPopoverRenderer, itemUnitsMap]);
 
     const rows = useMemo(() => orders.map(order => ({
         id: order._id,
         ref: order.ref,
-        totalQ: UnitCounter.stringRep(order.totalQ, itemUnitsMap, LOCALE),
+        quantity: order.quantity,
         crd: order.crd,
         toName: order.toAdd.name,
-        procurement: order.procurement.status,
-        production: order.production.status,
-        qa: order.qa.status,
-        notes: order.notes
-    })), [orders, itemUnitsMap]);
+        notes: order.notes,
+        procurement: order.shippingSplits[0].procurement.status,
+        production: order.shippingSplits[0].production.status,
+        qa: order.shippingSplits[0].qa.status,
+        shippingSplits: order.shippingSplits,
+    })), [orders]);
 
-    const filterOptions = useMemo(() => ({
-        sessionKey: SESSION_ORDER_TABLE_FILTERS,
-        filters: [
-            { field: 'crd', type: 'date', label: ordersTableHeadersMap.crd },
-            { field: 'toName', type: 'text', label: ordersTableHeadersMap.toName },
-            { field: 'procurement', type: 'option', options: orderStatuses, label: ordersTableHeadersMap.procurement },
-            { field: 'production', type: 'option', options: orderStatuses, label: ordersTableHeadersMap.production },
-            { field: 'qa', type: 'option', options: orderStatuses, label: ordersTableHeadersMap.qa },
-        ]
-    }), [orderStatuses]);
+    const onRowClick = useCallback(row =>
+            // history.push(`${ location.pathname }/${ row.id }?tab=details`),
+        {},
+        []);
+    const renderCollapse = useCallback(row =>
+            <ShippingPlanTable orderId={ row.id } shippingSplits={ row.shippingSplits }/>
+        , []);
+    const hasCollapse = useCallback(row => true, []);
+    const tools = useMemo(() => [
+        {
+            id: 'orders-table-filters',
+            type: 'filter',
+            options: {
+                sessionKey: SESSION_ORDER_TABLE_FILTERS,
+                filters: [
+                    { field: 'crd', type: 'date', label: ordersTableHeadersMap.crd },
+                    { field: 'toName', type: 'text', label: ordersTableHeadersMap.toName },
+                    {
+                        field: 'procurement',
+                        type: 'option',
+                        options: orderStatuses,
+                        label: ordersTableHeadersMap.procurement
+                    },
+                    {
+                        field: 'production',
+                        type: 'option',
+                        options: orderStatuses,
+                        label: ordersTableHeadersMap.production
+                    },
+                    { field: 'qa', type: 'option', options: orderStatuses, label: ordersTableHeadersMap.qa },
+                ]
+            }
+        }
+    ], [orderStatuses]);
+
+    const options = useMemo(() => ({
+        table: {
+            dense: true,
+            collapse: true
+        },
+        body: {
+            onRowClick,
+            hasCollapse,
+            renderCollapse,
+        },
+        tools
+    }), [onRowClick, renderCollapse, hasCollapse, tools]);
 
     return (
         <Table
             columns={ columns }
             rows={ rows }
-            onRowClick={ onRowClick }
-            filterOptions={ filterOptions }
+            options={ options }
         />
     )
 }

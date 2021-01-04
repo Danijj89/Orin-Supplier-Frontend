@@ -4,7 +4,7 @@ import ThemedButton from '../shared/buttons/ThemedButton.js';
 import OrderStatusDialog from './OrderStatusDialog.js';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import { useDispatch } from 'react-redux';
-import { updateOrderStatus } from './duck/thunks.js';
+import { updateSplitStatus } from './duck/thunks.js';
 import { UPDATE_ANY, UPDATE_OWN } from '../admin/utils/actions.js';
 import OrderStatusPermission from '../shared/permissions/OrderStatusPermission.js';
 
@@ -23,7 +23,7 @@ const EditOrderStatusButton = React.memo(function EditOrderStatusButton(
     const onCancel = () => setIsEdit(false);
 
     const onSubmit = useCallback((data) => {
-        dispatch(updateOrderStatus({ orderId: orderId, update: data }));
+        dispatch(updateSplitStatus({ orderId: orderId, update: data }));
         setIsEdit(false);
     }, [dispatch, orderId]);
 

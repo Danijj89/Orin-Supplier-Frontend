@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { selectOrderOwnerById } from '../../orders/duck/selectors.js';
-import { selectSessionUserId } from '../../../app/duck/selectors.js';
+import { selectSessionUserId } from 'app/duck/selectors.js';
 import Permission from './Permission.js';
 
 const ORDER_RESOURCE = 'order';

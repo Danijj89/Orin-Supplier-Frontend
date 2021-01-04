@@ -3,7 +3,7 @@ import {
     createOrder, deleteOrder,
     fetchOrderById,
     fetchOrders,
-    updateOrder, updateOrderStatus
+    updateOrder, updateSplitStatus
 } from './thunks.js';
 import { SESSION_NEW_ORDER } from 'app/sessionKeys.js';
 
@@ -94,20 +94,20 @@ const ordersSlice = createSlice({
             state.status = 'REJECTED';
             state.error = action.payload.message;
         },
-        [updateOrderStatus.pending]: (state, action) => {
+        [updateSplitStatus.pending]: (state) => {
             state.status = 'PENDING';
         },
-        [updateOrderStatus.fulfilled]: (state, action) => {
-            const { orderId, update } = action.payload;
-            const { procurement, production, qa } = state.entities[orderId];
-            const changes = {};
-            if (update.procurement) changes.procurement = { ...procurement, ...update.procurement };
-            if (update.production) changes.production = { ...production, ...update.production };
-            if (update.qa) changes.qa = { ...qa, ...update.qa };
-            ordersAdapter.updateOne(state, { id: orderId, changes });
+        [updateSplitStatus.fulfilled]: (state, action) => {
+            const { orderId, splitId, update } = action.payload;
+            const splits = [...state.entities[orderId].shippingSplits];
+            const split = splits.find(split => split._id === splitId);
+            if (update.procurement) split.procurement = { ...split.procurement, ...update.procurement };
+            if (update.production) split.production = { ...split.production, ...update.production };
+            if (update.qa) split.qa = { ...split.qa, ...update.qa };
+            ordersAdapter.updateOne(state, { id: orderId, changes: { shippingSplits: splits } });
             state.status = 'FULFILLED';
         },
-        [updateOrderStatus.rejected]: (state, action) => {
+        [updateSplitStatus.rejected]: (state, action) => {
             state.status = 'REJECTED';
             state.error = action.payload.message;
         }

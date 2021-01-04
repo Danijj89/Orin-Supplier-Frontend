@@ -10,17 +10,18 @@ const TableBody = React.memo(function TableBody(
         columns,
         rowsPerPage,
         page,
-        onRowClick,
-        disableRowHover,
-        maxEmptyRows,
-        dense
+        dense,
+        collapse,
+        options
     }) {
-    const rowHeight = dense ? 61 : 69;
+    const { onRowClick, hasCollapse, renderCollapse, maxEmptyRows } = options;
+    const rowHeight = useMemo(() => dense ? 61 : 69, [dense]);
     const numColumns = useMemo(
         () => columns.reduce((acc, col) => {
             if (!col.hide) acc += 1;
             return acc;
-        }, 0), [columns]);
+        }, 0) + (collapse ? 1 : 0)
+        , [columns, collapse]);
 
     const emptyRows = useMemo(() => {
         const rowsInPage = rows.length - page * rowsPerPage;
@@ -41,7 +42,10 @@ const TableBody = React.memo(function TableBody(
                     row={ row }
                     columns={ columns }
                     onRowClick={ onRowClick }
-                    disableRowHover={ disableRowHover }
+                    numColumns={ numColumns }
+                    collapse={ collapse }
+                    hasCollapse={ hasCollapse }
+                    renderCollapse={ renderCollapse }
                 />
             ) }
             { emptyRows > 0 && (
@@ -57,11 +61,19 @@ TableBody.propTypes = {
     rows: PropTypes.array.isRequired,
     columns: PropTypes.array.isRequired,
     rowsPerPage: PropTypes.number.isRequired,
-    maxEmptyRows: PropTypes.number.isRequired,
-    orderBy: PropTypes.string,
-    onRowClick: PropTypes.func,
-    disableRowHover: PropTypes.bool,
-    dense: PropTypes.bool
+    page: PropTypes.number.isRequired,
+    options: PropTypes.exact({
+        onRowClick: PropTypes.func,
+        hasCollapse: PropTypes.func,
+        renderCollapse: PropTypes.func,
+        maxEmptyRows: PropTypes.number,
+    })
+};
+
+TableBody.defaultProps = {
+    options: {
+        maxEmptyRows: 5
+    }
 };
 
 export default TableBody;

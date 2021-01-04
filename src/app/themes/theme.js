@@ -54,7 +54,7 @@ let appTheme = createMuiTheme({
         MuiTableCell: {
             head: {
                 fontWeight: 'bold',
-            },
+            }
         }
     },
 });

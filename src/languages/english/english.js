@@ -399,7 +399,7 @@ export const ENGLISH = {
             newOrderButtonLabel: 'New Order',
             ordersTableHeadersMap: {
                 ref: 'Purchase Order',
-                totalQ: 'Quantity',
+                quantity: 'Quantity',
                 crd: 'Cargo Ready',
                 toName: 'Client',
                 procurement: 'Procurement',
@@ -407,6 +407,15 @@ export const ENGLISH = {
                 qa: 'QA',
                 notes: 'Notes',
             },
+            shippingPlanTableHeaders: {
+                ref: 'Purchase Order',
+                quantity: 'Quantity',
+                crd: 'Cargo Ready',
+                procurement: 'Procurement',
+                production: 'Production',
+                qa: 'QA',
+                notes: 'Notes',
+            }
         },
         createOrder: {
             stepLabelsMap: {
