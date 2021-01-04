@@ -3,7 +3,7 @@ import {
     createOrder, deleteOrder,
     fetchOrderById,
     fetchOrders,
-    updateOrder, updateSplitStatus
+    updateOrder, updateSplit
 } from './thunks.js';
 import { SESSION_NEW_ORDER } from 'app/sessionKeys.js';
 
@@ -94,23 +94,22 @@ const ordersSlice = createSlice({
             state.status = 'REJECTED';
             state.error = action.payload.message;
         },
-        [updateSplitStatus.pending]: (state) => {
+        [updateSplit.pending]: (state) => {
             state.status = 'PENDING';
         },
-        [updateSplitStatus.fulfilled]: (state, action) => {
+        [updateSplit.fulfilled]: (state, action) => {
             const { orderId, splitId, update } = action.payload;
-            const splits = [...state.entities[orderId].shippingSplits];
-            const split = splits.find(split => split._id === splitId);
-            if (update.procurement) split.procurement = { ...split.procurement, ...update.procurement };
-            if (update.production) split.production = { ...split.production, ...update.production };
-            if (update.qa) split.qa = { ...split.qa, ...update.qa };
-            ordersAdapter.updateOne(state, { id: orderId, changes: { shippingSplits: splits } });
+            const newSplits = state.entities[orderId].shippingSplits.map(split => {
+                if (split._id === splitId) return { ...split, ...update };
+                return split;
+            });
+            ordersAdapter.updateOne(state, { id: orderId, changes: { shippingSplits: newSplits } });
             state.status = 'FULFILLED';
         },
-        [updateSplitStatus.rejected]: (state, action) => {
+        [updateSplit.rejected]: (state, action) => {
             state.status = 'REJECTED';
             state.error = action.payload.message;
-        }
+        },
     }
 });
 

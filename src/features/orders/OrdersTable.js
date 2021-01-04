@@ -3,7 +3,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { LANGUAGE, LOCALE } from 'app/utils/constants.js';
 import PopoverNotes from '../shared/components/PopoverNotes.js';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateOrder, updateSplitStatus } from './duck/thunks.js';
+import { updateSplit } from './duck/thunks.js';
 import { selectAllActiveOrders } from './duck/selectors.js';
 import { selectItemUnitsMap, selectOrderStatuses } from 'app/duck/selectors.js';
 import { getOptionId } from 'app/utils/options/getters.js';
@@ -12,6 +12,7 @@ import { formatItemsTotalQuantities } from 'features/shared/utils/format.js';
 import ShippingPlanTable from 'features/orders/ShippingPlanTable.js';
 import StatusDropdown from 'features/shared/components/StatusDropdown.js';
 import Table from 'features/shared/components/table/Table.js';
+import ThemedButton from 'features/shared/buttons/ThemedButton.js';
 
 const { ordersTableHeadersMap } = LANGUAGE.order.ordersOverview;
 
@@ -31,7 +32,7 @@ export default function OrdersTable() {
                 status={ row[status] }
                 statuses={ orderStatuses }
                 colorMap="order"
-                onStatusChange={ (newStatus) => dispatch(updateSplitStatus({
+                onStatusChange={ (newStatus) => dispatch(updateSplit({
                     orderId: row.id,
                     splitId,
                     update: { [status]: { status: getOptionId(newStatus) } }
@@ -40,19 +41,31 @@ export default function OrdersTable() {
         );
     }, [dispatch, orderStatuses]);
 
-    const createNotesPopoverRenderer = useCallback(row => {
+    const notesPopoverRenderer = useCallback(row => {
         if (row.shippingSplits.length > 1) return null;
-        const splitId = row.shippingSplits[0]._id;
+        const split = row.shippingSplits[0];
         return (
             <PopoverNotes
-                notes={ row.notes }
-                onSubmit={ data => dispatch(updateOrder({ orderId: row.id, splitId, update: data })) }
+                notes={ split.notes }
+                onSubmit={ data => dispatch(updateSplit({ orderId: row.id, splitId: split._id, update: data })) }
             />
         );
     }, [dispatch]);
 
+    const refButtonRenderer = useCallback(row =>
+        <ThemedButton
+            variant="text"
+            onClick={ () => history.push(`${ location.pathname }/${ row.id }?tab=details`) }>
+            { row.ref }
+        </ThemedButton>,
+    [history, location.pathname]);
+
     const columns = useMemo(() => [
-        { field: 'ref', headerName: ordersTableHeadersMap.ref },
+        {
+            field: 'ref',
+            headerName: ordersTableHeadersMap.ref,
+            renderCell: refButtonRenderer
+        },
         {
             field: 'quantity',
             headerName: ordersTableHeadersMap.quantity,
@@ -84,9 +97,14 @@ export default function OrdersTable() {
         {
             field: 'notes',
             headerName: ordersTableHeadersMap.notes,
-            renderCell: createNotesPopoverRenderer
+            renderCell: notesPopoverRenderer
         }
-    ], [createStatusDropdownRenderer, createNotesPopoverRenderer, itemUnitsMap]);
+    ], [
+        createStatusDropdownRenderer,
+        notesPopoverRenderer,
+        refButtonRenderer,
+        itemUnitsMap
+    ]);
 
     const rows = useMemo(() => orders.map(order => ({
         id: order._id,
@@ -94,17 +112,13 @@ export default function OrdersTable() {
         quantity: order.quantity,
         crd: order.crd,
         toName: order.toAdd.name,
-        notes: order.notes,
+        notes: order.shippingSplits[0].notes,
         procurement: order.shippingSplits[0].procurement.status,
         production: order.shippingSplits[0].production.status,
         qa: order.shippingSplits[0].qa.status,
         shippingSplits: order.shippingSplits,
     })), [orders]);
 
-    const onRowClick = useCallback(row =>
-            // history.push(`${ location.pathname }/${ row.id }?tab=details`),
-        {},
-        []);
     const renderCollapse = useCallback(row =>
             <ShippingPlanTable orderId={ row.id } shippingSplits={ row.shippingSplits }/>
         , []);
@@ -142,12 +156,11 @@ export default function OrdersTable() {
             collapse: true
         },
         body: {
-            onRowClick,
             hasCollapse,
             renderCollapse,
         },
         tools
-    }), [onRowClick, renderCollapse, hasCollapse, tools]);
+    }), [renderCollapse, hasCollapse, tools]);
 
     return (
         <Table

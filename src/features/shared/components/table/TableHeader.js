@@ -6,12 +6,11 @@ import TableCell from '@material-ui/core/TableCell';
 import { TableSortLabel } from '@material-ui/core';
 
 const TableHeader = React.memo(function TableHeader(
-    { columns, orderBy, order, onSort, collapse, options }) {
+    { columns, orderBy, order, onSort, options }) {
 
     return (
         <TableHead>
             <TableRow>
-                { collapse && <TableCell /> }
                 { columns.map(column => {
                         if (column.hide) return null;
                         if (column.renderHeader) {

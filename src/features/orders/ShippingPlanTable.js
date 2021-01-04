@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectItemUnitsMap, selectOrderStatuses } from 'app/duck/selectors.js';
 import { makeStyles } from '@material-ui/core/styles';
 import StatusDropdown from 'features/shared/components/StatusDropdown.js';
-import { updateOrder, updateSplitStatus } from 'features/orders/duck/thunks.js';
+import { updateOrder, updateSplit } from 'features/orders/duck/thunks.js';
 import { getOptionId } from 'app/utils/options/getters.js';
 import { LANGUAGE, LOCALE } from 'app/utils/constants.js';
 import TableHead from '@material-ui/core/TableHead';
@@ -47,7 +47,7 @@ const ShippingPlanTableRow = React.memo(function ShippingPlanTableRow({ orderId,
 
     const createStatusChangeHandler = useCallback(
         (orderId, splitId, statusStep) => (newStatus) =>
-            dispatch(updateSplitStatus({
+            dispatch(updateSplit({
                 orderId,
                 splitId,
                 update: { [statusStep]: { status: getOptionId(newStatus) } }
@@ -56,7 +56,6 @@ const ShippingPlanTableRow = React.memo(function ShippingPlanTableRow({ orderId,
 
     return (
         <TableRow className={ classes.row } hover>
-            <TableCell/>
             <TableCell>{ split.ref }</TableCell>
             <TableCell>{ formatItemsTotalQuantities(split.quantity, itemUnitsMap, LOCALE) }</TableCell>
             <TableCell>{ dateToLocaleDate(split.crd) || '-' }</TableCell>
@@ -103,7 +102,6 @@ const ShippingPlanTable = React.memo(function ShippingPlanTable(
             <Table size="small" className={ classes.table }>
                 <TableHead>
                     <TableRow className={ classes.row }>
-                        <TableCell />
                         <TableCell>{ shippingPlanTableHeaders.ref }</TableCell>
                         <TableCell>{ shippingPlanTableHeaders.quantity }</TableCell>
                         <TableCell>{ shippingPlanTableHeaders.crd }</TableCell>

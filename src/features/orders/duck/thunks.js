@@ -47,10 +47,10 @@ export const deleteOrder = createAsyncThunk('orders/deleteOrder',
         }
     });
 
-export const updateSplitStatus = createAsyncThunk('orders/updateSplitStatus',
+export const updateSplit = createAsyncThunk('orders/updateSplit',
     async ({ orderId, splitId, update }, { rejectWithValue }) => {
         try {
-            await OrderService.updateSplitStatus(orderId, splitId, update);
+            await OrderService.updateSplit(orderId, splitId, update);
             return { orderId, splitId, update };
         } catch (err) {
             return rejectWithValue(err.response.data);

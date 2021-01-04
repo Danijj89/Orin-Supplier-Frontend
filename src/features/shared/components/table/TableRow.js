@@ -30,6 +30,11 @@ const TableRow = React.memo(function TableRow(
     const [open, setOpen] = useState(false);
     const isCollapse = useMemo(() => hasCollapse(row), [hasCollapse, row]);
 
+    const onCollapse = useCallback(() => setOpen(prev => !prev), []);
+
+    const onRowClicked = useCallback(
+        row => collapse ? onCollapse() : onRowClick(row), [collapse, onCollapse]);
+
     const getText = useCallback((column) => {
         const val = row[column.field];
         let result;
@@ -42,22 +47,13 @@ const TableRow = React.memo(function TableRow(
         return result;
     }, [row]);
 
-    const onCollapse = useCallback(() => setOpen(prev => !prev), []);
-
     return (
         <>
             <MuiTableRow
-                onClick={ onRowClick }
+                onClick={ onRowClicked }
                 hover
                 className={ classes.row }
             >
-                { collapse &&
-                <TableCell padding="checkbox">
-                    <IconButton size="small" onClick={ onCollapse } disabled={ !isCollapse }>
-                        { open ? <KeyboardArrowUpIcon/> : <KeyboardArrowDownIcon/> }
-                    </IconButton>
-                </TableCell>
-                }
                 { columns.map(column => {
                     if (column.hide) return null;
                     if (column.renderCell) return (
@@ -82,7 +78,7 @@ const TableRow = React.memo(function TableRow(
             </MuiTableRow>
             { isCollapse &&
             <MuiTableRow>
-                <TableCell classes={{ sizeSmall: classes.sizeSmall }} colSpan={ numColumns }>
+                <TableCell classes={ { sizeSmall: classes.sizeSmall } } colSpan={ numColumns }>
                     <Collapse in={ open } timeout="auto" unmountOnExit>
                         { renderCollapse(row) }
                     </Collapse>

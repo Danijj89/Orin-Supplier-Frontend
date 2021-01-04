@@ -20,8 +20,7 @@ const TableBody = React.memo(function TableBody(
         () => columns.reduce((acc, col) => {
             if (!col.hide) acc += 1;
             return acc;
-        }, 0) + (collapse ? 1 : 0)
-        , [columns, collapse]);
+        }, 0), [columns]);
 
     const emptyRows = useMemo(() => {
         const rowsInPage = rows.length - page * rowsPerPage;

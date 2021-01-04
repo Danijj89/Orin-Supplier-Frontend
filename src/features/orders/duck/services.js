@@ -38,10 +38,10 @@ const updateOrder = async (id, update) => {
     return data;
 };
 
-const updateSplitStatus = async (orderId, splitId, update) => {
+const updateSplit = async (orderId, splitId, update) => {
     const configs = {
         method: 'put',
-        url: `/orders/${ orderId }/splits/${ splitId }/status`,
+        url: `/orders/${ orderId }/splits/${ splitId }`,
         data: update
     };
     const { data } = await fetchWithAuth(configs);
@@ -63,7 +63,7 @@ const OrderService = {
     fetchOrderById,
     updateOrder,
     deleteOrder,
-    updateSplitStatus
+    updateSplit
 };
 
 export default OrderService;
