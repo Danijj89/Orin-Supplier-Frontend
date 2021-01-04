@@ -1,14 +1,14 @@
 import React, { useCallback, useState } from 'react';
-import { Box } from '@material-ui/core';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
-import { LANGUAGE } from '../../app/utils/constants.js';
+import { LANGUAGE } from 'app/utils/constants.js';
 import OrderDetailsDialog from '../shared/forms/OrderDetailsDialog.js';
 import { useDispatch } from 'react-redux';
 import { deleteOrder, updateOrder } from './duck/thunks.js';
 import { addressToDocAddress } from '../shared/utils/entityConversion.js';
-import { getOptionId } from '../../app/utils/options/getters.js';
+import { getOptionId } from 'app/utils/options/getters.js';
 import { UPDATE_ANY, UPDATE_OWN } from '../admin/utils/actions.js';
 import OrderPermission from '../shared/permissions/OrderPermission.js';
+import Container from '@material-ui/core/Container';
 
 const {
     buttonLabel,
@@ -39,24 +39,23 @@ const EditOrderDetailsButton = React.memo(function EditOrderDetailsButton({ orde
 
     return (
         <OrderPermission action={ [UPDATE_ANY, UPDATE_OWN] } orderId={ order._id }>
-            <Box className={ className }>
-                <ThemedButton
-                    onClick={ onEdit }
-                >
-                    { buttonLabel }
-                </ThemedButton>
-                <OrderDetailsDialog
-                    order={ order }
-                    isOpen={ isEdit }
-                    titleLabel={ dialogTitleLabel }
-                    submitLabel={ dialogSubmitLabel }
-                    onCancel={ onCancel }
-                    onSubmit={ onSubmit }
-                    onDelete={ onDelete }
-                />
-            </Box>
+            <ThemedButton
+                onClick={ onEdit }
+                className={ className }
+            >
+                { buttonLabel }
+            </ThemedButton>
+            <OrderDetailsDialog
+                order={ order }
+                isOpen={ isEdit }
+                titleLabel={ dialogTitleLabel }
+                submitLabel={ dialogSubmitLabel }
+                onCancel={ onCancel }
+                onSubmit={ onSubmit }
+                onDelete={ onDelete }
+            />
         </OrderPermission>
-    )
+    );
 });
 
 export default EditOrderDetailsButton;

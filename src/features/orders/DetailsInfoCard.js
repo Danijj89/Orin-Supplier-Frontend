@@ -53,10 +53,14 @@ export default function DetailsInfoCard() {
         { label: totalLabel, value: formatCurrency(order.currency, total) }
     ], [order.clientRef, order.toAdd, order.realCrd, order.pay, order.currency, total, createdBy.name]);
 
+    const tools = useMemo(() => [
+        <EditOrderDetailsButton order={ order }/>
+    ], [order]);
+
     return (
         <InfoCard
             title={ titleLabel }
-            button={ <EditOrderDetailsButton order={ order }/> }
+            tools={ tools }
             content={
                 <Grid container>
                     <Grid container item md={ 6 }>

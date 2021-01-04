@@ -16,8 +16,8 @@ const useStyles = makeStyles((theme) => ({
         flex: '1 1 auto',
     },
     topPanel: {
-        paddingTop: theme.spacing(1),
-        paddingBottom: theme.spacing(1),
+        paddingTop: theme.spacing(1.5),
+        paddingBottom: theme.spacing(1.5),
         paddingLeft: theme.spacing(2),
         paddingRight: theme.spacing(2),
         color: theme.palette.tertiary['700'],
@@ -30,10 +30,6 @@ const useStyles = makeStyles((theme) => ({
     title: {
         fontWeight: 'bold',
     },
-    buttons: {
-        display: 'flex',
-        height: '80%',
-    },
     bottomPanel: {
         display: 'flex',
         flexFlow: 'column',
@@ -42,29 +38,31 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const InfoCard = React.memo(function InfoCard({
-    title,
-    content,
-    className,
-    button,
-}) {
+const InfoCard = React.memo(function InfoCard(
+    {
+        title,
+        content,
+        className,
+        tools,
+    }) {
     const classes = useStyles();
 
     return (
-        <Card className={clsx(classes.root, className)}>
-            <Grid container className={classes.container}>
-                <Grid item className={classes.topPanel} xs={12}>
-                    <Typography variant="subtitle1" className={classes.title}>
-                        {title}
+        <Card className={ clsx(classes.root, className) }>
+            <Grid container className={ classes.container }>
+                <Grid item className={ classes.topPanel } xs={ 12 }>
+                    <Typography variant="subtitle1" className={ classes.title }>
+                        { title }
                     </Typography>
-                    {button &&
-                        React.cloneElement(button, {
-                            className: classes.buttons,
-                        })}
+                    { tools && tools.map((tool, idx) =>
+                        React.cloneElement(tool, {
+                            key: `${ title }-card-${ idx }`
+                        })
+                    ) }
                 </Grid>
-                <Divider />
-                <Grid item className={classes.bottomPanel} xs={12}>
-                    {content}
+                <Divider/>
+                <Grid item className={ classes.bottomPanel } xs={ 12 }>
+                    { content }
                 </Grid>
             </Grid>
         </Card>
@@ -75,7 +73,7 @@ InfoCard.propTypes = {
     title: PropTypes.string.isRequired,
     content: PropTypes.element.isRequired,
     className: PropTypes.string,
-    button: PropTypes.element,
+    tools: PropTypes.arrayOf(PropTypes.element),
 };
 
 export default InfoCard;

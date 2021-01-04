@@ -7,6 +7,7 @@ import OrderDocuments from './OrderDocuments.js';
 import { makeStyles } from '@material-ui/core/styles';
 import NavTabs from '../shared/components/NavTabs.js';
 import queryString from 'query-string';
+import ShippingPlan from 'features/orders/ShippingPlan.js';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -45,6 +46,7 @@ const Order = React.memo(function Order() {
             </Paper>
             { tabValue === 'details' && <OrderDetails/> }
             { tabValue === 'documents' && <OrderDocuments/> }
+            { tabValue === 'shippingPlan' && <ShippingPlan />}
         </Box>
     )
 });

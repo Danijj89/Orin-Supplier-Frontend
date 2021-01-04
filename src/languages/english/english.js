@@ -436,6 +436,7 @@ export const ENGLISH = {
             tabsLabelsMap: {
                 details: 'Order Details',
                 documents: 'Documents',
+                shippingPlan: 'Shipping Plan'
             },
             orderDetails: {
                 detailsInfoCard: {
@@ -512,6 +513,18 @@ export const ENGLISH = {
                 shipmentDocumentsCard: {
                     titleLabel: 'Shipment No:',
                 },
+            },
+            shippingPlan: {
+                shippingSplits: {
+                    labels: {
+                        crd: 'Cargo Ready'
+                    },
+                    tableHeaderLabels: {
+                        ref: 'SKU',
+                        description: 'Description',
+
+                    }
+                }
             },
             errorMessages: {
                 orderWasDeleted:
