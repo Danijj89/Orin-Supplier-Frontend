@@ -6,9 +6,6 @@ import { dateToLocaleDate, dateToLocaleDatetime } from '../../utils/format.js';
 import { getOptionLabel } from 'app/utils/options/getters.js';
 import { LOCALE } from 'app/utils/constants.js';
 import Collapse from '@material-ui/core/Collapse';
-import IconButton from '@material-ui/core/IconButton';
-import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(() => ({
@@ -28,23 +25,25 @@ const TableRow = React.memo(function TableRow(
     { row, columns, onRowClick, numColumns, collapse, hasCollapse, renderCollapse }) {
     const classes = useStyles();
     const [open, setOpen] = useState(false);
-    const isCollapse = useMemo(() => hasCollapse(row), [hasCollapse, row]);
+    const isCollapse = useMemo(
+        () => hasCollapse ? hasCollapse(row) : false,
+        [hasCollapse, row]);
 
-    const onCollapse = useCallback(() => setOpen(prev => !prev), []);
+    const onCollapse = useCallback(
+        () => setOpen(prev => !prev), []);
 
     const onRowClicked = useCallback(
-        row => collapse ? onCollapse() : onRowClick(row), [collapse, onCollapse]);
+        row => collapse ? onCollapse() : onRowClick(row),
+        [collapse, onCollapse, onRowClick]);
 
     const getText = useCallback((column) => {
+        if (column.format) return column.format(row);
         const val = row[column.field];
-        let result;
-        if (column.type === 'number') result = val;
-        else if (column.type === 'date') result = dateToLocaleDate(val);
-        else if (column.type === 'datetime') result = dateToLocaleDatetime(val);
-        else if (column.type === 'option') result = getOptionLabel(val, LOCALE);
-        else result = val || '-';
-        if (column.format) return column.format(result);
-        return result;
+        if (column.type === 'number') return val;
+        if (column.type === 'date') return dateToLocaleDate(val);
+        if (column.type === 'datetime') return dateToLocaleDatetime(val);
+        if (column.type === 'option') return getOptionLabel(val, LOCALE);
+        return val || '-';
     }, [row]);
 
     return (
@@ -52,7 +51,6 @@ const TableRow = React.memo(function TableRow(
             <MuiTableRow
                 onClick={ onRowClicked }
                 hover
-                className={ classes.row }
             >
                 { columns.map(column => {
                     if (column.hide) return null;
@@ -77,7 +75,7 @@ const TableRow = React.memo(function TableRow(
                 }) }
             </MuiTableRow>
             { isCollapse &&
-            <MuiTableRow>
+            <MuiTableRow className={ classes.row }>
                 <TableCell classes={ { sizeSmall: classes.sizeSmall } } colSpan={ numColumns }>
                     <Collapse in={ open } timeout="auto" unmountOnExit>
                         { renderCollapse(row) }

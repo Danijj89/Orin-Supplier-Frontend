@@ -38,7 +38,7 @@ export function formatCurrency(currency, value) {
 }
 
 export function formatQuantityWithUnit(quantity, unit) {
-    return `${ quantity } ${ unit }`
+    return `${ quantity } ${ getOptionLabel(unit, LOCALE) }`
 }
 
 export function formatItemsTotalQuantities(unitObj, unitsMap, locale = 'en') {

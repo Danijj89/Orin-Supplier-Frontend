@@ -69,7 +69,7 @@ export default function OrdersTable() {
         {
             field: 'quantity',
             headerName: ordersTableHeadersMap.quantity,
-            format: val => formatItemsTotalQuantities(val, itemUnitsMap, LOCALE)
+            format: row => formatItemsTotalQuantities(row.quantity, itemUnitsMap, LOCALE)
         },
         { field: 'crd', headerName: ordersTableHeadersMap.crd, type: 'date' },
         { field: 'toName', headerName: ordersTableHeadersMap.toName },

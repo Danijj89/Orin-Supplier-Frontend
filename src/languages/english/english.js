@@ -517,12 +517,16 @@ export const ENGLISH = {
             shippingPlan: {
                 shippingSplits: {
                     labels: {
-                        crd: 'Cargo Ready'
+                        crd: 'Cargo Ready',
+                        noCrd: 'No Date Set'
                     },
                     tableHeaderLabels: {
                         ref: 'SKU',
                         description: 'Description',
-
+                        quantity: 'Quantity',
+                        unit: 'Unit',
+                        price: 'Price',
+                        total: 'Total'
                     }
                 }
             },
