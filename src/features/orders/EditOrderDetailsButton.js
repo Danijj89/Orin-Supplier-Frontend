@@ -8,7 +8,6 @@ import { addressToDocAddress } from '../shared/utils/entityConversion.js';
 import { getOptionId } from 'app/utils/options/getters.js';
 import { UPDATE_ANY, UPDATE_OWN } from '../admin/utils/actions.js';
 import OrderPermission from '../shared/permissions/OrderPermission.js';
-import Container from '@material-ui/core/Container';
 
 const {
     buttonLabel,

@@ -10,8 +10,12 @@ import Table from 'features/shared/components/table/Table.js';
 
 const useStyles = makeStyles(theme => ({
     container: {
+        paddingLeft: theme.spacing(4),
+        paddingRight: theme.spacing(4)
+    },
+    splitContainer: {
         display: 'flex',
-        backgroundColor: theme.palette.backgroundSecondary.main
+        backgroundColor: theme.palette.backgroundSecondary.main,
     },
     left: {
         minWidth: 140,
@@ -39,7 +43,7 @@ const {
     tableHeaderLabels
 } = LANGUAGE.order.order.shippingPlan.shippingSplits;
 
-const ShippingSplit = React.memo(function ShippingSplit(
+const ShippingSplitView = React.memo(function ShippingSplit(
     { split, splitNum }) {
     const classes = useStyles();
     const { ref, crd, items } = split;
@@ -79,9 +83,9 @@ const ShippingSplit = React.memo(function ShippingSplit(
     }), [classes.table, classes.right]);
 
     return (
-        <>
+        <Box className={classes.container}>
             <Typography>{ ref }</Typography>
-            <Box className={ classes.container }>
+            <Box className={ classes.splitContainer }>
                 <Box className={ classes.left }>
                     <Avatar>{ splitNum }</Avatar>
                     <Typography>{ labels.crd }</Typography>
@@ -96,12 +100,13 @@ const ShippingSplit = React.memo(function ShippingSplit(
                     options={ options }
                 />
             </Box>
-        </>
+        </Box>
     );
 });
 
-ShippingSplit.propTypes = {
-    split: PropTypes.object.isRequired
+ShippingSplitView.propTypes = {
+    split: PropTypes.object.isRequired,
+    splitNum: PropTypes.number.isRequired
 };
 
-export default ShippingSplit;
+export default ShippingSplitView;

@@ -515,10 +515,14 @@ export const ENGLISH = {
                 },
             },
             shippingPlan: {
+                editButtonLabel: 'Edit',
                 shippingSplits: {
                     labels: {
                         crd: 'Cargo Ready',
-                        noCrd: 'No Date Set'
+                        noCrd: 'No Date Set',
+                        newSplitButton: 'Add Split',
+                        cancelButton: 'Cancel',
+                        submitButton: 'Submit',
                     },
                     tableHeaderLabels: {
                         ref: 'SKU',

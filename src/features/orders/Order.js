@@ -28,8 +28,7 @@ const Order = React.memo(function Order() {
     const classes = useStyles();
     const history = useHistory();
     const location = useLocation();
-    const { tab } = queryString.parse(location.search);
-    const tabValue = tab || 'details';
+    const { tab = 'details' } = queryString.parse(location.search);
 
     const setTabValue = (newValue) =>
         history.push(`${ location.pathname }?tab=${ newValue }`);
@@ -39,14 +38,14 @@ const Order = React.memo(function Order() {
             <Paper>
                 <NavTabs
                     tabsLabelsMap={ tabsLabelsMap }
-                    tabValue={ tabValue }
+                    tabValue={ tab }
                     onChange={ setTabValue }
                     className={ classes.orderTabs }
                 />
             </Paper>
-            { tabValue === 'details' && <OrderDetails/> }
-            { tabValue === 'documents' && <OrderDocuments/> }
-            { tabValue === 'shippingPlan' && <ShippingPlan />}
+            { tab === 'details' && <OrderDetails/> }
+            { tab === 'documents' && <OrderDocuments/> }
+            { tab === 'shippingPlan' && <ShippingPlan /> }
         </Box>
     )
 });

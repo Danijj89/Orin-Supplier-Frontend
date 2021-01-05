@@ -33,8 +33,7 @@ const useStyles = makeStyles((theme) => ({
     bottomPanel: {
         display: 'flex',
         flexFlow: 'column',
-        flex: '1 1 auto',
-        justifyContent: 'center',
+        flex: '1 1 auto'
     },
 }));
 
@@ -46,6 +45,7 @@ const InfoCard = React.memo(function InfoCard(
         tools,
     }) {
     const classes = useStyles();
+    const toolsArray = Array.isArray(tools) ? tools : [tools];
 
     return (
         <Card className={ clsx(classes.root, className) }>
@@ -54,7 +54,7 @@ const InfoCard = React.memo(function InfoCard(
                     <Typography variant="subtitle1" className={ classes.title }>
                         { title }
                     </Typography>
-                    { tools && tools.map((tool, idx) =>
+                    { tools && toolsArray.map((tool, idx) =>
                         React.cloneElement(tool, {
                             key: `${ title }-card-${ idx }`
                         })
@@ -73,7 +73,10 @@ InfoCard.propTypes = {
     title: PropTypes.string.isRequired,
     content: PropTypes.element.isRequired,
     className: PropTypes.string,
-    tools: PropTypes.arrayOf(PropTypes.element),
+    tools: PropTypes.oneOfType([
+        PropTypes.arrayOf(PropTypes.element),
+        PropTypes.element
+    ])
 };
 
 export default InfoCard;
