@@ -22,7 +22,7 @@ const TableBody = React.memo(function TableBody(
         onRowClick,
         hasCollapse,
         renderCollapse,
-        maxEmptyRows
+        maxEmptyRows = 5
     } = options;
     const rowHeight = useMemo(() => dense ? 61 : 69, [dense]);
     const numColumns = useMemo(
@@ -91,12 +91,6 @@ TableBody.propTypes = {
         onAddRow: PropTypes.func,
         maxEmptyRows: PropTypes.number,
     })
-};
-
-TableBody.defaultProps = {
-    options: {
-        maxEmptyRows: 5
-    }
 };
 
 export default TableBody;

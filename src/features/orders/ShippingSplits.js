@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import ShippingSplitView from 'features/orders/ShippingSplitView.js';
+import ShippingSplit from 'features/orders/ShippingSplit.js';
 import { makeStyles } from '@material-ui/core/styles';
 import { useForm } from 'react-hook-form';
 import { roundToNDecimal } from 'features/shared/utils/format.js';
@@ -10,6 +10,7 @@ import Grid from '@material-ui/core/Grid';
 import { getNextSplitRef } from 'features/orders/utils/helpers.js';
 import Footer from 'features/shared/components/Footer.js';
 import { useHistory, useLocation } from 'react-router-dom';
+import useCachedSplitItems from 'features/orders/utils/hooks/useCachedSplitItems.js';
 
 const useStyles = makeStyles(theme => ({
     container: {
@@ -27,11 +28,12 @@ const {
 
 function validateSplits() { return true; }
 
-const ShippingSplits = React.memo(function ShippingSplits(
-    { shippingSplits, totalItems, isEdit }) {
+const ShippingSplits = React.memo(function ShippingSplits({ order }) {
     const classes = useStyles();
     const history = useHistory();
     const location = useLocation();
+    const { shippingSplits, custom1, custom2, items } = order;
+    const [cachedSplitItemsMap, setCachedSplitItemsMap] = useCachedSplitItems(shippingSplits, items);
     const initialSplits = useMemo(() => shippingSplits.map(split => ({
         ref: split.ref,
         crd: split.crd,
@@ -59,27 +61,28 @@ const ShippingSplits = React.memo(function ShippingSplits(
 
     }, []);
 
-    // const onNewSplit = useCallback(() => {
-    //     const splits = getValues('splits');
-    //     let newItems = totalItems.map(item => ({ ...item }));
-    //     for (const split of splits) {
-    //         for (const item of split.items) {
-    //             const newItem = newItems.find(i => i._id === item);
-    //             newItem.quantity -= item.quantity;
-    //         }
-    //     }
-    //     const newRef = getNextSplitRef(splits[splits.length - 1].ref);
-    //     newItems = newItems.filter(item => item.quantity <= 0);
-    //     if (newItems.length === 0) {
-    //
-    //     }
-    //     const newSplit = {
-    //         ref: newRef,
-    //         crd: new Date(),
-    //         items:
-    //     };
-    //     setValue('splits', [...splits, newSplit]);
-    // }, [totalItems, getValues, setValue]);
+    const onNewSplit = useCallback(() => {
+        const splits = getValues('splits');
+        const newRef = getNextSplitRef(splits[splits.length - 1].ref);
+        const newCachedSplitItemsMap = { ...cachedSplitItemsMap };
+        const splitItems = [];
+        for (const item of Object.values(cachedSplitItemsMap)) {
+            if (item.quantity > 0) {
+                splitItems.push({ ...item });
+                newCachedSplitItemsMap[item._id].quantity -= item.quantity;
+            }
+        }
+
+        if (splitItems.length > 0) {
+            const newSplit = {
+                ref: newRef,
+                crd: new Date(),
+                items: splitItems
+            };
+            setValue('splits', [...splits, newSplit]);
+            setCachedSplitItemsMap(newCachedSplitItemsMap);
+        }
+    }, [getValues, setValue, cachedSplitItemsMap, setCachedSplitItemsMap]);
 
     const onCrdChange = useCallback((splitIdx, newValue) => {
         const splits = getValues('splits');
@@ -92,50 +95,72 @@ const ShippingSplits = React.memo(function ShippingSplits(
         newValue = newValue === '' ? newValue : parseInt(newValue);
         const splits = getValues('splits');
         const newSplit = { ...splits[splitIdx] };
+        newSplit.items = [...newSplit.items];
         const item = newSplit.items[rowIdx];
-
+        const diff = item.quantity - newValue;
+        setCachedSplitItemsMap(prevItemsMap => {
+            prevItemsMap[item._id].quantity += diff;
+            return prevItemsMap;
+        });
         item.total = roundToNDecimal(newValue * item.price, 2);
         item.quantity = newValue;
         setValue('splits', [...splits.slice(0, splitIdx), newSplit, ...splits.slice(splitIdx + 1)]);
-    }, [getValues, setValue]);
+
+    }, [getValues, setValue, setCachedSplitItemsMap]);
+
+    const onDeleteRow = useCallback((splitIdx, rowIdx) => {
+        const splits = getValues('splits');
+        const newSplit = { ...splits[splitIdx] };
+        const item = newSplit.items[rowIdx];
+        setCachedSplitItemsMap(prevItemsMap => {
+            prevItemsMap[item._id].quantity += item.quantity;
+            return prevItemsMap;
+        });
+        if (rowIdx === 0) {
+            setValue('splits', splits.filter((_, idx) => idx !== splitIdx));
+        } else {
+            newSplit.items = newSplit.items.filter((_, idx) => idx !== rowIdx);
+            setValue('splits', [...splits.slice(0, splitIdx), newSplit, ...splits.slice(splitIdx + 1)]);
+        }
+    }, [getValues, setValue, setCachedSplitItemsMap]);
 
     return (
         <form onSubmit={ handleSubmit(onSubmit) } autoComplete="off" noValidate>
             <Grid container className={ classes.container } justify="center">
                 <Grid item xs={ 12 }>
                     { splits.map((split, idx) =>
-                        <ShippingSplitView
+                        <ShippingSplit
                             key={ `shipping-plan-${ split.ref }-view` }
                             split={ split }
-                            splitNum={ idx + 1 }
+                            splitIdx={ idx }
+                            onCrdChange={ onCrdChange }
+                            onItemQuantityChange={ onItemQuantityChange }
+                            onDeleteRow={ onDeleteRow }
+                            custom1={ custom1 }
+                            custom2={ custom2 }
                         />
                     ) }
                 </Grid>
-                { isEdit &&
                 <ThemedButton
                     variant="outlined"
                     className={ classes.newSplitButton }
+                    onClick={ onNewSplit }
                 >
                     { labels.newSplitButton }
                 </ThemedButton>
-                }
             </Grid>
-            { isEdit &&
             <Footer
                 prevLabel={ labels.cancelButton }
                 nextLabel={ labels.submitButton }
                 onPrevClick={ onCancel }
                 nextButtonType="submit"
             />
-            }
         </form>
     );
 });
 
 ShippingSplits.propTypes = {
-    shippingSplits: PropTypes.arrayOf(PropTypes.object).isRequired,
-    totalItems: PropTypes.arrayOf(PropTypes.object).isRequired,
-    isEdit: PropTypes.bool
+    order: PropTypes.object
 };
 
 export default ShippingSplits;

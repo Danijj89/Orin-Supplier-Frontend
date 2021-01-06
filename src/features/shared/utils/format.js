@@ -23,6 +23,12 @@ export function roundToNDecimal(num, dec) {
     return Math.round(num * Math.pow(10, dec)) / Math.pow(10, dec);
 }
 
+export function formatNumberWithDecimal(num, dec) {
+    console.log(num);
+    console.log(typeof num)
+    return (Math.round(num * 100) / 100).toFixed(2);
+}
+
 export function formatAddress(address, locale = 'en') {
     return address.name + '\n'
         + address.address + '\n'

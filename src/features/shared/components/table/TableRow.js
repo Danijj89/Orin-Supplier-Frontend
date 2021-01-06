@@ -78,7 +78,7 @@ const TableRow = React.memo(function TableRow(
                 align={ column.align }
             />
         );
-        if (!isEdit) return (
+        if (!isEdit || !column.editType) return (
             <TableCell
                 key={ column.field }
                 align={ column.align }

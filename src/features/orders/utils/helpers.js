@@ -1,7 +1,7 @@
 
 export function getNextSplitRef(lastRef) {
     const len = lastRef.length;
-    const isFirstSplit = lastRef.charCodeAt(len - 2) !== '-';
+    const isFirstSplit = lastRef.charAt(len - 2) !== '-';
 
     if (isFirstSplit) return lastRef + '-A';
 
