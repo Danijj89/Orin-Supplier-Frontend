@@ -122,6 +122,7 @@ const ShippingSplit = React.memo(function ShippingSplit(
     const options = useMemo(() => ({
         table: {
             isEdit: true,
+            dense: true,
             classes: {
                 container: classes.right,
                 table: classes.table
@@ -129,7 +130,8 @@ const ShippingSplit = React.memo(function ShippingSplit(
         },
         body: {
             maxEmptyRows: 0,
-            onCellChange: onCellChange
+            onCellChange: onCellChange,
+            hover: false
         },
         foot: {
             pagination: false

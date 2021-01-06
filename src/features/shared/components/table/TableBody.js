@@ -22,7 +22,8 @@ const TableBody = React.memo(function TableBody(
         onRowClick,
         hasCollapse,
         renderCollapse,
-        maxEmptyRows = 5
+        maxEmptyRows = 5,
+        hover = true
     } = options;
     const rowHeight = useMemo(() => dense ? 61 : 69, [dense]);
     const numColumns = useMemo(
@@ -63,6 +64,7 @@ const TableBody = React.memo(function TableBody(
                     rowIdx={ idx }
                     onCellChange={ onCellChange }
                     isEdit={ isEdit }
+                    hover={ hover }
                 />
             ) }
             { !isEdit && emptyRows > 0 && (
@@ -84,6 +86,7 @@ TableBody.propTypes = {
     collapse: PropTypes.bool,
     isEdit: PropTypes.bool,
     options: PropTypes.exact({
+        hover: PropTypes.bool,
         onCellChange: PropTypes.func,
         onRowClick: PropTypes.func,
         hasCollapse: PropTypes.func,

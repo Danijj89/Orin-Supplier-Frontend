@@ -47,7 +47,8 @@ const TableRow = React.memo(function TableRow(
         renderCollapse,
         rowIdx,
         onCellChange,
-        isEdit
+        isEdit,
+        hover
     }) {
     const classes = useStyles();
     const [open, setOpen] = useState(false);
@@ -165,7 +166,7 @@ const TableRow = React.memo(function TableRow(
 
     return (
         <>
-            <MuiTableRow onClick={ onRowClicked } hover>
+            <MuiTableRow onClick={ onRowClicked } hover={ hover }>
                 { renderedRow }
             </MuiTableRow>
             { isCollapse &&
@@ -199,7 +200,8 @@ TableRow.propTypes = {
     renderCollapse: PropTypes.func,
     rowIdx: PropTypes.number,
     onCellChange: PropTypes.func,
-    isEdit: PropTypes.bool
+    isEdit: PropTypes.bool,
+    hover: PropTypes.bool
 };
 
 export default TableRow;
