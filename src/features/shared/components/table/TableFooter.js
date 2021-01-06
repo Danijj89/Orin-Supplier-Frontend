@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { LANGUAGE } from '../../../../app/utils/constants.js';
+import { LANGUAGE } from 'app/utils/constants.js';
 import { makeStyles } from '@material-ui/core/styles';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
@@ -18,8 +18,20 @@ const useStyles = makeStyles((theme) => ({
 const { paginationAllLabel, rowsPerPageLabel } = LANGUAGE.shared.components.table;
 
 const TableFooter = React.memo(function TableFooter(
-    { footer, numRows, rowsPerPage, page, onPageChange, onRowsPerPageChange }) {
+    {
+        footer,
+        numRows,
+        rowsPerPage,
+        page,
+        onPageChange,
+        onRowsPerPageChange,
+        isEdit,
+        options
+    }) {
     const classes = useStyles();
+    const { pagination = true } = options;
+    const hasPagination = useMemo(() => pagination && !isEdit,
+        [pagination, isEdit]);
 
     return (
         <MuiTableFooter>
@@ -37,6 +49,7 @@ const TableFooter = React.memo(function TableFooter(
                     ) }
                 </TableRow>
             ) }
+            { hasPagination &&
             <TableRow>
                 <TablePagination
                     labelRowsPerPage={ rowsPerPageLabel }
@@ -44,11 +57,12 @@ const TableFooter = React.memo(function TableFooter(
                     count={ numRows }
                     rowsPerPage={ rowsPerPage }
                     page={ page }
-                    SelectProps={ { native: true, } }
+                    SelectProps={ { native: true } }
                     onChangePage={ onPageChange }
                     onChangeRowsPerPage={ onRowsPerPageChange }
                 />
             </TableRow>
+            }
         </MuiTableFooter>
     )
 });
@@ -59,7 +73,11 @@ TableFooter.propTypes = {
     page: PropTypes.number.isRequired,
     onPageChange: PropTypes.func.isRequired,
     onRowsPerPageChange: PropTypes.func.isRequired,
-    footer: PropTypes.array
+    footer: PropTypes.array,
+    isEdit: PropTypes.bool,
+    options: PropTypes.exact({
+        pagination: PropTypes.bool
+    })
 };
 
 export default TableFooter;

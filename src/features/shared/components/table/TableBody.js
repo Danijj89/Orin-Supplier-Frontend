@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import TableRow from './TableRow.js';
 import { TableRow as MuiTableRow, TableBody as MuiTableBody } from '@material-ui/core';
 import TableCell from '@material-ui/core/TableCell';
+import AddRowButtonRow from 'features/shared/components/table/AddRowButtonRow.js';
 
 const TableBody = React.memo(function TableBody(
     {
@@ -12,9 +13,17 @@ const TableBody = React.memo(function TableBody(
         page,
         dense,
         collapse,
+        isEdit,
         options
     }) {
-    const { onRowClick, hasCollapse, renderCollapse, maxEmptyRows } = options;
+    const {
+        onCellChange,
+        onAddRow,
+        onRowClick,
+        hasCollapse,
+        renderCollapse,
+        maxEmptyRows
+    } = options;
     const rowHeight = useMemo(() => dense ? 61 : 69, [dense]);
     const numColumns = useMemo(
         () => columns.reduce((acc, col) => {
@@ -30,14 +39,20 @@ const TableBody = React.memo(function TableBody(
         );
     }, [rowsPerPage, page, rows.length, maxEmptyRows]);
 
+    const pageRows = useMemo(() =>
+            rowsPerPage > 0
+                ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                : rows,
+        [rows, page, rowsPerPage]);
+
+    const showAddRowButton = useMemo(() => isEdit && onAddRow,
+        [isEdit, onAddRow]);
+
     return (
         <MuiTableBody>
-            { (rowsPerPage > 0
-                    ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    : rows
-            ).map((row, index) =>
+            { pageRows.map((row, idx) =>
                 <TableRow
-                    key={ index }
+                    key={ idx }
                     row={ row }
                     columns={ columns }
                     onRowClick={ onRowClick }
@@ -45,13 +60,17 @@ const TableBody = React.memo(function TableBody(
                     collapse={ collapse }
                     hasCollapse={ hasCollapse }
                     renderCollapse={ renderCollapse }
+                    rowIdx={ idx }
+                    onCellChange={ onCellChange }
+                    isEdit={ isEdit }
                 />
             ) }
-            { emptyRows > 0 && (
+            { !isEdit && emptyRows > 0 && (
                 <MuiTableRow style={ { height: rowHeight * emptyRows } }>
                     <TableCell colSpan={ numColumns }/>
                 </MuiTableRow>
             ) }
+            { showAddRowButton && <AddRowButtonRow numColumns={ numColumns } onAddRow={ onAddRow }/> }
         </MuiTableBody>
     )
 });
@@ -61,10 +80,15 @@ TableBody.propTypes = {
     columns: PropTypes.array.isRequired,
     rowsPerPage: PropTypes.number.isRequired,
     page: PropTypes.number.isRequired,
+    dense: PropTypes.bool,
+    collapse: PropTypes.bool,
+    isEdit: PropTypes.bool,
     options: PropTypes.exact({
+        onCellChange: PropTypes.func,
         onRowClick: PropTypes.func,
         hasCollapse: PropTypes.func,
         renderCollapse: PropTypes.func,
+        onAddRow: PropTypes.func,
         maxEmptyRows: PropTypes.number,
     })
 };

@@ -1,17 +1,16 @@
 import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import DeleteIconButton from '../../buttons/DeleteIconButton.js';
-import EditableTable from '../../components/editable_table/EditableTable.js';
 import { useWatch } from 'react-hook-form';
-import { LANGUAGE, LOCALE } from '../../../../app/utils/constants.js';
+import { LANGUAGE, LOCALE } from 'app/utils/constants.js';
 import { useSelector } from 'react-redux';
 import {
     selectCountries,
     selectCurrencies, selectDefaultConsolidationRowItem,
     selectItemUnits,
     selectItemUnitsMap
-} from '../../../../app/duck/selectors.js';
-import { getOptionId, getOptionLabel } from '../../../../app/utils/options/getters.js';
+} from 'app/duck/selectors.js';
+import { getOptionId, getOptionLabel } from 'app/utils/options/getters.js';
 import Grid from '@material-ui/core/Grid';
 import ErrorMessages from '../../components/ErrorMessages.js';
 import UnitCounter from '../../classes/UnitCounter.js';
@@ -20,6 +19,7 @@ import { selectCompanyDefaultAddress, selectCurrentCompany } from 'features/home
 import { selectAllActiveProducts } from '../../../products/duck/selectors.js';
 import TextArea from '../../inputs/TextArea.js';
 import { formatQuantityWithUnit, roundToNDecimal } from '../../utils/format.js';
+import Table from 'features/shared/components/table/Table.js';
 
 const {
     tableHeaderLabels,
@@ -266,15 +266,27 @@ const RHFChinaExportTable = React.memo(function RHFChinaExportTable(
         { field: 'totalAmount', value: formatTotalAmount(totalAmount), colSpan: 2, align: 'right' }
     ]], [itemUnitsMap, quantity, totalAmount]);
 
+    const options = useMemo(() => ({
+        table: {
+            isEdit: true
+        },
+        body: {
+            onAddRow: onAddRow,
+            onCellChange: onCellChange
+        },
+        foot: {
+            pagination: false
+        }
+    }), [onAddRow, onCellChange]);
+
     return (
         <Grid container>
             { isError && <ErrorMessages error={ errMessages }/> }
-            <EditableTable
-                rows={ rows }
+            <Table
                 columns={ columns }
-                onCellChange={ onCellChange }
-                onAddRow={ onAddRow }
+                rows={ rows }
                 footer={ footer }
+                options={ options }
             />
             <TextArea
                 name={ fieldNames.marks }

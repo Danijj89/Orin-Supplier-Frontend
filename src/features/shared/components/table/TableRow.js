@@ -7,6 +7,11 @@ import { getOptionLabel } from 'app/utils/options/getters.js';
 import { LOCALE } from 'app/utils/constants.js';
 import Collapse from '@material-ui/core/Collapse';
 import { makeStyles } from '@material-ui/core/styles';
+import CustomCell from 'features/shared/components/table/cells/CustomCell.js';
+import TextFieldCell from 'features/shared/components/table/cells/TextFieldCell.js';
+import AutoCompleteCell from 'features/shared/components/table/cells/AutoCompleteCell.js';
+import CheckBoxCell from 'features/shared/components/table/cells/CheckBoxCell.js';
+import TextCell from 'features/shared/components/table/cells/TextCell.js';
 
 const useStyles = makeStyles(() => ({
     row: {
@@ -21,8 +26,29 @@ const useStyles = makeStyles(() => ({
     }
 }));
 
+function getText(row, column) {
+    if (column.format) return column.format(row);
+    const val = row[column.field];
+    if (column.type === 'number') return val;
+    if (column.type === 'date') return dateToLocaleDate(val);
+    if (column.type === 'datetime') return dateToLocaleDatetime(val);
+    if (column.type === 'option') return getOptionLabel(val, LOCALE);
+    return val || '-';
+}
+
 const TableRow = React.memo(function TableRow(
-    { row, columns, onRowClick, numColumns, collapse, hasCollapse, renderCollapse }) {
+    {
+        row,
+        columns,
+        onRowClick,
+        numColumns,
+        collapse,
+        hasCollapse,
+        renderCollapse,
+        rowIdx,
+        onCellChange,
+        isEdit
+    }) {
     const classes = useStyles();
     const [open, setOpen] = useState(false);
     const isCollapse = useMemo(
@@ -33,46 +59,114 @@ const TableRow = React.memo(function TableRow(
         () => setOpen(prev => !prev), []);
 
     const onRowClicked = useCallback(
-        row => collapse ? onCollapse() : onRowClick(row),
-        [collapse, onCollapse, onRowClick]);
+        row => {
+            if (!isEdit) {
+                if (collapse) onCollapse();
+                else onRowClick(row);
+            }
+        },
+        [collapse, onCollapse, onRowClick, isEdit]);
 
-    const getText = useCallback((column) => {
-        if (column.format) return column.format(row);
-        const val = row[column.field];
-        if (column.type === 'number') return val;
-        if (column.type === 'date') return dateToLocaleDate(val);
-        if (column.type === 'datetime') return dateToLocaleDatetime(val);
-        if (column.type === 'option') return getOptionLabel(val, LOCALE);
-        return val || '-';
-    }, [row]);
+    const renderedRow = useMemo(() => columns.map(column => {
+        if (column.hide) return null;
+        if (column.renderCell) return (
+            <CustomCell
+                key={ column.field }
+                row={ row }
+                render={ column.renderCell }
+                width={ column.width }
+                align={ column.align }
+            />
+        );
+        if (!isEdit) return (
+            <TableCell
+                key={ column.field }
+                align={ column.align }
+                width={ column.width }
+            >
+                { getText(row, column) }
+            </TableCell>
+        );
+        switch (column.editType) {
+            case 'text':
+                return (
+                    <TextFieldCell
+                        key={ column.field }
+                        rowIdx={ rowIdx }
+                        field={ column.field }
+                        value={ row[column.field] }
+                        width={ column.width }
+                        onCellChange={ onCellChange }
+                    />
+                )
+            case 'number':
+                return (
+                    <TextFieldCell
+                        key={ column.field }
+                        rowIdx={ rowIdx }
+                        field={ column.field }
+                        value={ row[column.field] }
+                        width={ column.width }
+                        onCellChange={ onCellChange }
+                        type={ 'number' }
+                    />
+                );
+            case 'dropdown':
+                return (
+                    <AutoCompleteCell
+                        key={ column.field }
+                        rowIdx={ rowIdx }
+                        field={ column.field }
+                        value={ row[column.field] }
+                        width={ column.width }
+                        onCellChange={ onCellChange }
+                        options={ column.options }
+                        getOptionLabel={ column.getOptionLabel }
+                        getOptionSelected={ column.getOptionSelected }
+                    />
+                );
+            case 'autocomplete':
+                return (
+                    <AutoCompleteCell
+                        key={ column.field }
+                        freeSolo
+                        rowIdx={ rowIdx }
+                        field={ column.field }
+                        value={ row[column.field] }
+                        width={ column.width }
+                        onCellChange={ onCellChange }
+                        options={ column.options }
+                        getOptionLabel={ column.getOptionLabel }
+                        getOptionSelected={ column.getOptionSelected }
+                    />
+                );
+            case 'checkbox':
+                return (
+                    <CheckBoxCell
+                        key={ column.field }
+                        checked={ row[column.field] }
+                        onCellChange={ onCellChange }
+                        rowIdx={ rowIdx }
+                        field={ column.field }
+                        width={ column.width }
+                    />
+                )
+            default:
+                return (
+                    <TextCell
+                        key={ column.field }
+                        align={ column.align }
+                        width={ column.width }
+                        value={ row[column.field] }
+                    />
+                )
+        }
+    }), [columns, isEdit, onCellChange, row, rowIdx]);
 
     return (
         <>
-            <MuiTableRow
-                onClick={ onRowClicked }
-                hover
-            >
-                { columns.map(column => {
-                    if (column.hide) return null;
-                    if (column.renderCell) return (
-                        <TableCell
-                            key={ column.field }
-                            width={ column.width }
-                            align={ column.align }
-                        >
-                            { column.renderCell(row) }
-                        </TableCell>
-                    );
-                    return (
-                        <TableCell
-                            key={ column.field }
-                            align={ column.align }
-                            width={ column.width }
-                        >
-                            { getText(column) }
-                        </TableCell>
-                    );
-                }) }
+            <MuiTableRow onClick={ onRowClicked } hover>
+                { renderedRow }
             </MuiTableRow>
             { isCollapse &&
             <MuiTableRow className={ classes.row }>
@@ -85,6 +179,14 @@ const TableRow = React.memo(function TableRow(
             }
         </>
     );
+}, (prev, next) => {
+    for (const [k, v] of Object.entries(prev.row)) {
+        if (v !== next.row[k]) return false;
+    }
+    for (let i = 0; i < prev.columns.length; i++) {
+        if (prev.columns[i].hide !== next.columns[i].hide) return false;
+    }
+    return true;
 });
 
 TableRow.propTypes = {
@@ -94,7 +196,10 @@ TableRow.propTypes = {
     numColumns: PropTypes.number,
     collapse: PropTypes.bool,
     hasCollapse: PropTypes.func,
-    renderCollapse: PropTypes.func
+    renderCollapse: PropTypes.func,
+    rowIdx: PropTypes.number,
+    onCellChange: PropTypes.func,
+    isEdit: PropTypes.bool
 };
 
 export default TableRow;

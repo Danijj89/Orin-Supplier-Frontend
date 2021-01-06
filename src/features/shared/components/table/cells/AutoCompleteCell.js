@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
-import TableAutoComplete from '../../inputs/TableAutoComplete.js';
-import { TableCell } from './EditableTable.js';
+import TableAutoComplete from 'features/shared/inputs/TableAutoComplete.js';
+import EditTableCell from 'features/shared/components/table/cells/EditTableCell.js';
 
 const AutoCompleteCell = React.memo(function AutoCompleteCell(
     { rowIdx, field, value, onCellChange, width, options, getOptionLabel, getOptionSelected, freeSolo }) {
@@ -11,7 +11,7 @@ const AutoCompleteCell = React.memo(function AutoCompleteCell(
     );
 
     return (
-        <TableCell width={ width }>
+        <EditTableCell width={ width }>
             <TableAutoComplete
                 freeSolo={ freeSolo }
                 value={ value }
@@ -20,7 +20,7 @@ const AutoCompleteCell = React.memo(function AutoCompleteCell(
                 getOptionSelected={ getOptionSelected }
                 onChange={ onChange }
             />
-        </TableCell>
+        </EditTableCell>
     )
 });
 

@@ -1,7 +1,6 @@
 import React, { useCallback } from 'react';
-import TableTextField from '../../inputs/TableTextField.js';
-import { TableCell } from './EditableTable.js';
-
+import TableTextField from 'features/shared/inputs/TableTextField.js';
+import EditTableCell from 'features/shared/components/table/cells/EditTableCell.js';
 
 const TextFieldCell = React.memo(function TextFieldCell({ rowIdx, field, value, onCellChange, width, type }) {
 
@@ -11,13 +10,13 @@ const TextFieldCell = React.memo(function TextFieldCell({ rowIdx, field, value, 
     );
 
     return (
-        <TableCell width={ width }>
+        <EditTableCell width={ width }>
             <TableTextField
                 type={ type }
                 value={ value }
                 onChange={ onChange }
             />
-        </TableCell>
+        </EditTableCell>
     )
 });
 

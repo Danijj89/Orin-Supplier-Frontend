@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Table as MuiTable, TableContainer } from '@material-ui/core';
 import TableHeader from './TableHeader.js';
@@ -7,14 +7,24 @@ import TableBody from './TableBody.js';
 import { getComparator, stableSort } from './utils/helpers.js';
 import TableToolbar from './TableToolbar.js';
 
-const Table = React.memo(function Table({ rows, columns, options = {}, footer }) {
-    const { table: tableOptions = {}, head: headOptions = {}, body: bodyOptions = {}, tools } = options;
-    const { dense, pagination = false, collapse = false, classes = {} } = tableOptions;
+const Table = React.memo(function Table({ rows, columns, footer, options = {}}) {
+    const {
+        table: tableOptions = {},
+        head: headOptions = {},
+        body: bodyOptions = {},
+        foot: footOptions = {},
+        tools
+    } = options;
+    const { dense, collapse = false, isEdit = false, classes = {} } = tableOptions;
     const [processedRows, setProcessedRows] = useState(rows || []);
     const [order, setOrder] = React.useState('asc');
     const [orderBy, setOrderBy] = React.useState();
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+    useEffect(() => {
+        if (isEdit) setProcessedRows(rows);
+    }, [rows, isEdit]);
 
     const onSort = useCallback((field) => {
         const isAsc = orderBy === field && order === 'asc';
@@ -46,7 +56,7 @@ const Table = React.memo(function Table({ rows, columns, options = {}, footer })
                     order={ order }
                     orderBy={ orderBy }
                     onSort={ onSort }
-                    collapse={ collapse }
+                    isEdit={ isEdit }
                     options={ headOptions }
                 />
                 <TableBody
@@ -56,19 +66,29 @@ const Table = React.memo(function Table({ rows, columns, options = {}, footer })
                     page={ page }
                     dense={ dense }
                     collapse={ collapse }
+                    isEdit={ isEdit }
                     options={ bodyOptions }
                 />
-                { pagination && <TableFooter
+                <TableFooter
                     footer={ footer }
                     numRows={ processedRows.length }
                     rowsPerPage={ rowsPerPage }
                     page={ page }
                     onPageChange={ onPageChange }
                     onRowsPerPageChange={ onRowsPerPageChange }
-                /> }
+                    isEdit={ isEdit }
+                    options={ footOptions }
+                />
             </MuiTable>
         </TableContainer>
     );
+}, (prev, next) => {
+    if (prev.columns !== next.columns) return false;
+    if (prev.rows.length !== next.rows.length) return false;
+    for (const [k, v] of Object.entries(next.rows)) {
+        if (v !== prev.rows[k]) return false;
+    }
+    return true;
 });
 
 Table.propTypes = {
@@ -81,12 +101,18 @@ Table.propTypes = {
         type: PropTypes.oneOf(['number', 'date', 'datetime', 'option']),
         format: PropTypes.func,
         align: PropTypes.oneOf(['left', 'center', 'right']),
-        width: PropTypes.number
+        width: PropTypes.number,
+        editType: PropTypes.oneOf(['text', 'number', 'dropdown', 'autocomplete', 'checkbox']),
+        options: PropTypes.array,
+        getOptionLabel: PropTypes.func,
+        getOptionSelected: PropTypes.func
     })).isRequired,
     rows: PropTypes.arrayOf(PropTypes.object).isRequired,
+    footer: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.object)),
     options: PropTypes.exact({
         table: PropTypes.exact({
             dense: PropTypes.bool,
+            isEdit: PropTypes.bool,
             pagination: PropTypes.bool,
             collapse: function (props, propName, componentName) {
                 if (typeof props[propName] != 'boolean') {
@@ -103,6 +129,7 @@ Table.propTypes = {
         }),
         head: PropTypes.object,
         body: PropTypes.object,
+        foot: PropTypes.object,
         tools: PropTypes.arrayOf(PropTypes.object)
     })
 };
