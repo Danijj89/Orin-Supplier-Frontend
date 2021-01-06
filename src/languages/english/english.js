@@ -515,14 +515,12 @@ export const ENGLISH = {
                 },
             },
             shippingPlan: {
-                shippingSplits: {
-                    labels: {
-                        crd: 'Cargo Ready',
-                        emptyDateLabel: 'No Date',
-                        newSplitButton: 'Add Split',
-                        cancelButton: 'Cancel',
-                        submitButton: 'Submit',
-                    },
+                labels: {
+                    newSplitButton: 'Add Split',
+                    cancelButton: 'Cancel',
+                    submitButton: 'Submit',
+                },
+                shippingSplit: {
                     tableHeaderLabels: {
                         ref: 'SKU',
                         description: 'Description',
@@ -530,6 +528,10 @@ export const ENGLISH = {
                         unit: 'Unit',
                         price: 'Price',
                         total: 'Total'
+                    },
+                    labels: {
+                        crd: 'Cargo Ready',
+                        emptyDateLabel: 'No Date',
                     }
                 }
             },

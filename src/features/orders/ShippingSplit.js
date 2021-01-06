@@ -46,7 +46,7 @@ const useStyles = makeStyles(theme => ({
 const {
     labels,
     tableHeaderLabels
-} = LANGUAGE.order.order.shippingPlan.shippingSplits;
+} = LANGUAGE.order.order.shippingPlan.shippingSplit;
 
 const ShippingSplit = React.memo(function ShippingSplit(
     {
