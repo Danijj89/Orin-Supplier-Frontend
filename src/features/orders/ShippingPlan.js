@@ -35,7 +35,7 @@ function validateSplits() { return true; }
 
 function createInitialCachedSplitItemsMap(splits, totalItems) {
     const itemsMap = totalItems.reduce((map, item) => {
-        map[item._id] = item;
+        map[item._id] = { ...item };
         return map;
     }, {});
     for (const split of splits) {
