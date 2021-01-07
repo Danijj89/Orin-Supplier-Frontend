@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { LANGUAGE, LOCALE } from 'app/utils/constants.js';
 import PopoverNotes from '../shared/components/PopoverNotes.js';
@@ -13,6 +13,9 @@ import FulfillmentPlanTable from 'features/orders/FulfillmentPlanTable.js';
 import StatusDropdown from 'features/shared/components/StatusDropdown.js';
 import Table from 'features/shared/components/table/Table.js';
 import ThemedButton from 'features/shared/buttons/ThemedButton.js';
+import Drawer from '@material-ui/core/Drawer';
+import InfoCard from 'features/shared/wrappers/InfoCard.js';
+import OrderProductTable from 'features/orders/OrderProductTable.js';
 
 const { ordersTableHeadersMap } = LANGUAGE.order.ordersOverview;
 
@@ -20,9 +23,15 @@ export default function OrdersTable() {
     const history = useHistory();
     const dispatch = useDispatch();
     const location = useLocation();
+    const [drawerData, setDrawerData] = useState(null);
     const orders = useSelector(selectAllActiveOrders);
     const itemUnitsMap = useSelector(selectItemUnitsMap);
     const orderStatuses = useSelector(selectOrderStatuses);
+
+    const onOpenDrawer = useCallback(
+        newDrawerData => setDrawerData(newDrawerData),
+        []);
+    const onCloseDrawer = useCallback(e => setDrawerData(null), []);
 
     const createStatusDropdownRenderer = useCallback((status) => (row) => {
         if (row.shippingSplits.length > 1) return '-';
@@ -53,12 +62,12 @@ export default function OrdersTable() {
     }, [dispatch]);
 
     const refButtonRenderer = useCallback(row =>
-        <ThemedButton
-            variant="text"
-            onClick={ () => history.push(`${ location.pathname }/${ row.id }?mode=view&tab=product`) }>
-            { row.ref }
-        </ThemedButton>,
-    [history, location.pathname]);
+            <ThemedButton
+                variant="text"
+                onClick={ () => history.push(`${ location.pathname }/${ row.id }?mode=view&tab=product`) }>
+                { row.ref }
+            </ThemedButton>,
+        [history, location.pathname]);
 
     const columns = useMemo(() => [
         {
@@ -117,11 +126,21 @@ export default function OrdersTable() {
         production: order.shippingSplits[0].production.status,
         qa: order.shippingSplits[0].qa.status,
         shippingSplits: order.shippingSplits,
+        currency: order.currency,
+        custom1: order.custom1,
+        custom2: order.custom2
     })), [orders]);
 
     const renderCollapse = useCallback(row =>
-            <FulfillmentPlanTable orderId={ row.id } shippingSplits={ row.shippingSplits }/>
-        , []);
+            <FulfillmentPlanTable
+                orderId={ row.id }
+                shippingSplits={ row.shippingSplits }
+                currency={ row.currency }
+                custom1={ row.custom1 }
+                custom2={ row.custom2 }
+                onRowClick={ onOpenDrawer }
+            />
+        , [onOpenDrawer]);
     const hasCollapse = useCallback(row => true, []);
     const tools = useMemo(() => [
         {
@@ -163,11 +182,34 @@ export default function OrdersTable() {
     }), [renderCollapse, hasCollapse, tools]);
 
     return (
-        <Table
-            columns={ columns }
-            rows={ rows }
-            options={ options }
-        />
+        <>
+            <Table
+                columns={ columns }
+                rows={ rows }
+                options={ options }
+            />
+
+            <Drawer
+                anchor={ 'right' }
+                open={ Boolean(drawerData) }
+                onClose={ onCloseDrawer }
+                transitionDuration={ 500 }
+            >
+                { drawerData && <InfoCard
+                    title={ drawerData.ref }
+                    content={
+                        <OrderProductTable
+                            items={ drawerData.items }
+                            currency={ drawerData.currency }
+                            quantity={ drawerData.quantity }
+                            total={ drawerData.total }
+                            custom1={ drawerData.custom1 }
+                            custom2={ drawerData.custom2 }
+                        />
+                    }
+                /> }
+            </Drawer>
+        </>
     )
 }
 

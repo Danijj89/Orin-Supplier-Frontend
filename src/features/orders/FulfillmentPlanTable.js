@@ -34,7 +34,8 @@ const {
     shippingPlanTableHeaders
 } = LANGUAGE.order.ordersOverview;
 
-const ShippingPlanTableRow = React.memo(function ShippingPlanTableRow({ orderId, split }) {
+const ShippingPlanTableRow = React.memo(function ShippingPlanTableRow(
+    { orderId, split, currency, custom1, custom2, onRowClick }) {
     const classes = useStyles();
     const dispatch = useDispatch();
     const itemUnitsMap = useSelector(selectItemUnitsMap);
@@ -54,8 +55,18 @@ const ShippingPlanTableRow = React.memo(function ShippingPlanTableRow({ orderId,
             })),
         [dispatch]);
 
+    const onRowClicked = useCallback(() => onRowClick({
+        ref: split.ref,
+        items: split.items,
+        currency,
+        quantity: split.quantity,
+        total: split.total,
+        custom1,
+        custom2
+    }), [currency, custom1, custom2, onRowClick, split.items, split.total, split.quantity, split.ref]);
+
     return (
-        <TableRow className={ classes.row } hover>
+        <TableRow className={ classes.row } hover onClick={ onRowClicked }>
             <TableCell>{ split.ref }</TableCell>
             <TableCell>{ formatItemsTotalQuantities(split.quantity, itemUnitsMap, LOCALE) }</TableCell>
             <TableCell>{ dateToLocaleDate(split.crd) || '-' }</TableCell>
@@ -94,7 +105,7 @@ const ShippingPlanTableRow = React.memo(function ShippingPlanTableRow({ orderId,
 });
 
 const FulfillmentPlanTable = React.memo(function FulfillmentPlanTable(
-    { orderId, shippingSplits }) {
+    { orderId, shippingSplits, currency, custom1, custom2, onRowClick }) {
     const classes = useStyles();
 
     return (
@@ -113,7 +124,15 @@ const FulfillmentPlanTable = React.memo(function FulfillmentPlanTable(
                 </TableHead>
                 <TableBody>
                     { shippingSplits.map(split =>
-                        <ShippingPlanTableRow key={ split.ref } orderId={ orderId } split={ split }/>
+                        <ShippingPlanTableRow
+                            key={ split.ref }
+                            orderId={ orderId }
+                            split={ split }
+                            currency={ currency }
+                            custom1={ custom1 }
+                            custom2={ custom2 }
+                            onRowClick={ onRowClick }
+                        />
                     ) }
                 </TableBody>
             </Table>
