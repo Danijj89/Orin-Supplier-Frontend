@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectOrderShipmentIdsField } from './duck/selectors.js';
 import Paper from '@material-ui/core/Paper';
 import { Typography } from '@material-ui/core';
-import { LANGUAGE } from '../../app/utils/constants.js';
+import { LANGUAGE } from 'app/utils/constants.js';
 import { downloadOrder } from '../documents/duck/thunks.js';
 import { READ_ANY } from '../admin/utils/actions.js';
 import ShipmentPermission from '../shared/permissions/ShipmentPermission.js';

@@ -9,7 +9,7 @@ import { selectItemUnitsMap, selectOrderStatuses } from 'app/duck/selectors.js';
 import { getOptionId } from 'app/utils/options/getters.js';
 import { SESSION_ORDER_TABLE_FILTERS } from 'app/sessionKeys.js';
 import { formatItemsTotalQuantities } from 'features/shared/utils/format.js';
-import ShippingPlanTable from 'features/orders/ShippingPlanTable.js';
+import FulfillmentPlanTable from 'features/orders/FulfillmentPlanTable.js';
 import StatusDropdown from 'features/shared/components/StatusDropdown.js';
 import Table from 'features/shared/components/table/Table.js';
 import ThemedButton from 'features/shared/buttons/ThemedButton.js';
@@ -120,7 +120,7 @@ export default function OrdersTable() {
     })), [orders]);
 
     const renderCollapse = useCallback(row =>
-            <ShippingPlanTable orderId={ row.id } shippingSplits={ row.shippingSplits }/>
+            <FulfillmentPlanTable orderId={ row.id } shippingSplits={ row.shippingSplits }/>
         , []);
     const hasCollapse = useCallback(row => true, []);
     const tools = useMemo(() => [

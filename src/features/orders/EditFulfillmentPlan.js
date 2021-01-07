@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form';
 import { getNextSplitRef } from 'features/orders/utils/helpers.js';
 import { roundToNDecimal } from 'features/shared/utils/format.js';
 import Grid from '@material-ui/core/Grid';
-import ShippingSplit from 'features/orders/ShippingSplit.js';
+import EditShippingSplit from 'features/orders/EditShippingSplit.js';
 import ThemedButton from 'features/shared/buttons/ThemedButton.js';
 import Footer from 'features/shared/components/Footer.js';
 import { LANGUAGE } from 'app/utils/constants.js';
@@ -57,7 +57,7 @@ const fieldNames = {
     shippingSplits: 'shippingSplits'
 }
 
-const ShippingPlan = React.memo(function ShippingPlan({ orderId }) {
+const EditFulfillmentPlan = React.memo(function EditFulfillmentPlan({ orderId }) {
     const classes = useStyles();
     const history = useHistory();
     const location = useLocation();
@@ -176,7 +176,7 @@ const ShippingPlan = React.memo(function ShippingPlan({ orderId }) {
                     <Grid container className={ classes.contentContainer } justify="center">
                         <Grid item xs={ 12 }>
                             { splits.map((split, idx) =>
-                                <ShippingSplit
+                                <EditShippingSplit
                                     key={ `shipping-plan-${ split.ref }-view` }
                                     split={ split }
                                     splitIdx={ idx }
@@ -213,4 +213,4 @@ const ShippingPlan = React.memo(function ShippingPlan({ orderId }) {
     );
 });
 
-export default ShippingPlan;
+export default EditFulfillmentPlan;

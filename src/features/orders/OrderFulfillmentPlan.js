@@ -6,6 +6,7 @@ import OrderPermission from 'features/shared/permissions/OrderPermission.js';
 import ThemedButton from 'features/shared/buttons/ThemedButton.js';
 import { UPDATE_ANY, UPDATE_OWN } from 'features/admin/utils/actions.js';
 import { useHistory, useLocation } from 'react-router-dom';
+import FulfillmentPlan from 'features/orders/FulfillmentPlan.js';
 
 const {
     titles,
@@ -18,8 +19,8 @@ const OrderFulfillmentPlan = React.memo(function OrderFulfillmentPlan({ order })
     const { _id: orderId } = order;
 
     const onEditFulfillment = useCallback(() =>
-        history.push(`${ location.pathname }?mode=edit`),
-    [history, location.pathname, orderId]);
+            history.push(`${ location.pathname }?mode=edit`),
+        [history, location.pathname]);
 
     const tools = useMemo(() =>
             <OrderPermission action={ [UPDATE_ANY, UPDATE_OWN] } orderId={ orderId }>
@@ -32,7 +33,7 @@ const OrderFulfillmentPlan = React.memo(function OrderFulfillmentPlan({ order })
     return (
         <InfoCard
             title={ titles.fulfillmentPlan }
-            content={ <></> }
+            content={ <FulfillmentPlan order={ order }/> }
             tools={ tools }
         />
     );

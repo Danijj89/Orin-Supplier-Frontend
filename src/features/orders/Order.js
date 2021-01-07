@@ -4,7 +4,7 @@ import { Box } from '@material-ui/core';
 import OrderDetails from './OrderDetails.js';
 import { makeStyles } from '@material-ui/core/styles';
 import queryString from 'query-string';
-import ShippingPlan from 'features/orders/ShippingPlan.js';
+import EditFulfillmentPlan from 'features/orders/EditFulfillmentPlan.js';
 import { useSelector } from 'react-redux';
 import { selectOrderById } from 'features/orders/duck/selectors.js';
 
@@ -31,7 +31,7 @@ const Order = React.memo(function Order() {
             { mode === 'view' &&
             <OrderDetails order={ order }/>
             }
-            { mode === 'edit' && <ShippingPlan orderId={ orderId }/> }
+            { mode === 'edit' && <EditFulfillmentPlan orderId={ orderId }/> }
         </Box>
     )
 });

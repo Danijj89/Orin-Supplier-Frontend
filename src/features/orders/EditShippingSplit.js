@@ -48,7 +48,7 @@ const {
     tableHeaderLabels
 } = LANGUAGE.order.order.shippingPlan.shippingSplit;
 
-const ShippingSplit = React.memo(function ShippingSplit(
+const EditShippingSplit = React.memo(function EditShippingSplit(
     {
         split,
         splitIdx,
@@ -162,7 +162,7 @@ const ShippingSplit = React.memo(function ShippingSplit(
     );
 });
 
-ShippingSplit.propTypes = {
+EditShippingSplit.propTypes = {
     split: PropTypes.object.isRequired,
     splitIdx: PropTypes.number.isRequired,
     onCrdChange: PropTypes.func.isRequired,
@@ -172,4 +172,4 @@ ShippingSplit.propTypes = {
     custom2: PropTypes.string
 };
 
-export default ShippingSplit;
+export default EditShippingSplit;

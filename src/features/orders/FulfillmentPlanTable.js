@@ -93,7 +93,7 @@ const ShippingPlanTableRow = React.memo(function ShippingPlanTableRow({ orderId,
     );
 });
 
-const ShippingPlanTable = React.memo(function ShippingPlanTable(
+const FulfillmentPlanTable = React.memo(function FulfillmentPlanTable(
     { orderId, shippingSplits }) {
     const classes = useStyles();
 
@@ -121,6 +121,6 @@ const ShippingPlanTable = React.memo(function ShippingPlanTable(
     );
 });
 
-ShippingPlanTable.propTypes = {};
+FulfillmentPlanTable.propTypes = {};
 
-export default ShippingPlanTable;
+export default FulfillmentPlanTable;

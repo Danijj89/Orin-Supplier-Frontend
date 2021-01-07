@@ -45,7 +45,16 @@ const OrderDetails = React.memo(function OrderDetails({ order }) {
                 <InfoCard
                     title={ titles.productTable }
                     tools={ <EditOrderProductsButton order={ order }/> }
-                    content={ <OrderProductTable order={ order }/> }
+                    content={
+                        <OrderProductTable
+                            items={ order.items }
+                            currency={ order.currency }
+                            quantity={ order.quantity }
+                            total={ order.total }
+                            custom1={ order.custom1 }
+                            custom2={ order.custom2 }
+                        />
+                    }
                 />
                 }
                 { tab === 'fulfillment' &&
@@ -53,7 +62,7 @@ const OrderDetails = React.memo(function OrderDetails({ order }) {
                 }
             </Paper>
         </>
-    )
+    );
 });
 
 export default OrderDetails;

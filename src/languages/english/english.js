@@ -437,6 +437,11 @@ export const ENGLISH = {
                 product: 'Products',
                 fulfillment: 'Fulfillment Page'
             },
+            subTabsLabels: {
+                products: 'Products',
+                documents: 'Documents',
+                notes: 'Notes'
+            },
             titles: {
                 details: 'Order Overview',
                 productTable: 'Products',
@@ -465,44 +470,43 @@ export const ENGLISH = {
                 submitProducts: 'Update',
                 editFulfillment: 'Manage Fulfillment Plan'
             },
-
-            orderDetails: {
-                statusInfoCard: {
-                    title: 'Order Progress',
-                    headerLabelsMap: {
-                        procurement: 'Procurement',
-                        production: 'Production',
-                        qa: 'QA',
-                    },
-                    statusLabel: 'Status',
-                    estimatedLabel: 'Estimated Completion',
-                    actualLabel: 'Actual Completion',
-                    editOrderStatusButton: {
-                        buttonLabel: 'Edit',
-                        titleLabel: 'Order Status',
-                        submitLabel: 'Update',
-                    },
-                    orderStatusDialog: {
-                        procurementTitleLabel: 'Procurement',
-                        productionTitleLabel: 'Production',
-                        qaTitleLabel: 'QA',
-                        statusLabel: 'Status',
-                        estimatedLabel: 'Estimated',
-                        actualLabel: 'Actual',
-                    },
+            orderProductTable: {
+                tableHeaderLabelsMap: {
+                    ref: 'Item Reference',
+                    description: 'Product Description',
+                    quantity: 'Quantity',
+                    unit: 'Unit',
+                    price: 'Unit Price',
+                    total: 'Amount',
                 },
-                orderProductTable: {
-                    tableHeaderLabelsMap: {
-                        ref: 'Item Reference',
-                        description: 'Product Description',
-                        quantity: 'Quantity',
-                        unit: 'Unit',
-                        price: 'Unit Price',
-                        total: 'Amount',
-                    },
-                    totalLabel: 'Total',
-                },
+                totalLabel: 'Total',
             },
+            // orderDetails: {
+            //     statusInfoCard: {
+            //         title: 'Order Progress',
+            //         headerLabelsMap: {
+            //             procurement: 'Procurement',
+            //             production: 'Production',
+            //             qa: 'QA',
+            //         },
+            //         statusLabel: 'Status',
+            //         estimatedLabel: 'Estimated Completion',
+            //         actualLabel: 'Actual Completion',
+            //         editOrderStatusButton: {
+            //             buttonLabel: 'Edit',
+            //             titleLabel: 'Order Status',
+            //             submitLabel: 'Update',
+            //         },
+            //         orderStatusDialog: {
+            //             procurementTitleLabel: 'Procurement',
+            //             productionTitleLabel: 'Production',
+            //             qaTitleLabel: 'QA',
+            //             statusLabel: 'Status',
+            //             estimatedLabel: 'Estimated',
+            //             actualLabel: 'Actual',
+            //         },
+            //     },
+            // },
             orderDocuments: {
                 buttonLabels: {
                     generateExcel: 'Generate Excel',

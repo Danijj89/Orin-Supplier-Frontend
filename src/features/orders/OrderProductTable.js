@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import PropTypes from 'prop-types';
 import Table from '../shared/components/table/Table.js';
 import { LANGUAGE, LOCALE } from 'app/utils/constants.js';
 import { useSelector } from 'react-redux';
@@ -8,11 +9,19 @@ import { selectItemUnitsMap } from 'app/duck/selectors.js';
 const {
     tableHeaderLabelsMap,
     totalLabel
-} = LANGUAGE.order.order.orderDetails.orderProductTable;
+} = LANGUAGE.order.order.orderProductTable;
 
-const OrderProductTable = React.memo(function OrderProductTable({ order }) {
+const OrderProductTable = React.memo(function OrderProductTable(
+    {
+        items,
+        currency,
+        quantity,
+        total,
+        custom1,
+        custom2,
+        className
+    }) {
     const itemUnitsMap = useSelector(selectItemUnitsMap);
-    const { custom1, custom2, items, currency, quantity, total } = order;
     const numColumns = useMemo(
         () => 6 + (custom1 ? 1 : 0) + (custom2 ? 1 : 0),
         [custom1, custom2]);
@@ -58,9 +67,12 @@ const OrderProductTable = React.memo(function OrderProductTable({ order }) {
 
     const options = useMemo(() => ({
         table: {
-            dense: true
+            dense: true,
+            classes: {
+                container: className
+            }
         }
-    }), []);
+    }), [className]);
 
     const footer = useMemo(() => [[
         { field: 'label', value: totalLabel, colSpan: numColumns - 4, align: 'right' },
@@ -82,5 +94,15 @@ const OrderProductTable = React.memo(function OrderProductTable({ order }) {
         />
     )
 });
+
+OrderProductTable.propTypes = {
+    items: PropTypes.arrayOf(PropTypes.object).isRequired,
+    currency: PropTypes.object.isRequired,
+    quantity: PropTypes.object.isRequired,
+    total: PropTypes.number.isRequired,
+    custom1: PropTypes.string,
+    custom2: PropTypes.string,
+    className: PropTypes.string
+};
 
 export default OrderProductTable;
