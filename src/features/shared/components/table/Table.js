@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Table as MuiTable, TableContainer } from '@material-ui/core';
 import TableHeader from './TableHeader.js';
@@ -6,6 +6,7 @@ import TableFooter from './TableFooter.js';
 import TableBody from './TableBody.js';
 import { getComparator, stableSort } from './utils/helpers.js';
 import TableToolbar from './TableToolbar.js';
+import useUpdatedState from 'features/shared/hooks/useUpdatedState.js';
 
 const Table = React.memo(function Table({ rows, columns, footer, options = {}}) {
     const {
@@ -16,15 +17,11 @@ const Table = React.memo(function Table({ rows, columns, footer, options = {}}) 
         tools
     } = options;
     const { dense, collapse = false, isEdit = false, classes = {} } = tableOptions;
-    const [processedRows, setProcessedRows] = useState(rows || []);
-    const [order, setOrder] = React.useState('asc');
-    const [orderBy, setOrderBy] = React.useState();
-    const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
-    useEffect(() => {
-        if (isEdit) setProcessedRows(rows);
-    }, [rows, isEdit]);
+    const [processedRows, setProcessedRows] = useUpdatedState(rows || []);
+    const [order, setOrder] = useState('asc');
+    const [orderBy, setOrderBy] = useState();
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
 
     const onSort = useCallback((field) => {
         const isAsc = orderBy === field && order === 'asc';
@@ -32,20 +29,20 @@ const Table = React.memo(function Table({ rows, columns, footer, options = {}}) 
         setOrder(newOrder);
         setOrderBy(field);
         setProcessedRows(stableSort(rows, getComparator(newOrder, field)));
-    }, [order, orderBy, rows]);
+    }, [order, orderBy, rows, setProcessedRows]);
 
     const setRows = useCallback(
         (rows) => {
             let newRows = rows;
             if (orderBy) newRows = stableSort(newRows, getComparator(order, orderBy));
             setProcessedRows(newRows);
-        }, [order, orderBy]);
+        }, [order, orderBy, setProcessedRows]);
 
-    const onPageChange = (event, newPage) => setPage(newPage);
-    const onRowsPerPageChange = (event) => {
+    const onPageChange = useCallback((event, newPage) => setPage(newPage), []);
+    const onRowsPerPageChange = useCallback(event => {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
-    };
+    }, []);
 
     return (
         <TableContainer className={ classes.container }>
@@ -114,7 +111,7 @@ Table.propTypes = {
             dense: PropTypes.bool,
             isEdit: PropTypes.bool,
             pagination: PropTypes.bool,
-            collapse: function (props, propName, componentName) {
+            collapse: function (props, propName) {
                 if (typeof props[propName] != 'boolean') {
                     if (props[propName] != null)
                         return new Error('This property must be a boolean');

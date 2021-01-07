@@ -56,9 +56,20 @@ const OrderProductTable = React.memo(function OrderProductTable({ order }) {
         total: item.total,
     })), [items]);
 
+    const options = useMemo(() => ({
+        table: {
+            dense: true
+        }
+    }), []);
+
     const footer = useMemo(() => [[
         { field: 'label', value: totalLabel, colSpan: numColumns - 4, align: 'right' },
-        { field: 'quantity', value: formatItemsTotalQuantities(quantity, itemUnitsMap, LOCALE), colSpan: 1, align: 'right' },
+        {
+            field: 'quantity',
+            value: formatItemsTotalQuantities(quantity, itemUnitsMap, LOCALE),
+            colSpan: 1,
+            align: 'right'
+        },
         { field: 'total', value: formatCurrency(total, currency), colSpan: 2, align: 'right' }
     ]], [currency, numColumns, quantity, total, itemUnitsMap]);
 
@@ -67,6 +78,7 @@ const OrderProductTable = React.memo(function OrderProductTable({ order }) {
             columns={ columns }
             rows={ rows }
             footer={ footer }
+            options={ options }
         />
     )
 });

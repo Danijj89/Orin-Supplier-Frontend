@@ -54,19 +54,19 @@ const Order = React.memo(function Order() {
                     onChange={ setTabValue }
                     className={ classes.orderTabs }
                 />
+                { tab === 'product' &&
+                <InfoCard
+                    title={ labels.productTableTitle }
+                    tools={ <EditOrderProductsButton order={ order }/> }
+                    content={ <OrderProductTable order={ order }/> }
+                /> }
+                { tab === 'fulfillment' &&
+                <InfoCard
+                    title={ labels.fulfillmentPlanTitle }
+                    content={<></> }
+                />
+                }
             </Paper>
-            { tab === 'product' &&
-            <InfoCard
-                title={ labels.productTableTitle }
-                tools={ <EditOrderProductsButton order={ order }/> }
-                content={ <OrderProductTable order={ order }/> }
-            /> }
-            { tab === 'fulfillment' &&
-            <InfoCard
-                title={ labels.fulfillmentPlanTitle }
-                content={<></> }
-            />
-            }
         </Box>
     )
 });

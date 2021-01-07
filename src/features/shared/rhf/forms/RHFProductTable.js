@@ -366,7 +366,8 @@ const RHFProductTable = React.memo(function RHFProductTable(
 
     const options = useMemo(() => ({
         table: {
-            isEdit: true
+            isEdit: true,
+            dense: true
         },
         body: {
             onAddRow: onAddRow,
