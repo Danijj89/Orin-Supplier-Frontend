@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import InfoCard from 'features/shared/wrappers/InfoCard.js';
 import usePopulatedOrder from 'features/orders/utils/hooks/usePopulatedOrder.js';
-import { useHistory, useLocation, useParams } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { useForm } from 'react-hook-form';
 import { getNextSplitRef } from 'features/orders/utils/helpers.js';
@@ -57,9 +57,8 @@ const fieldNames = {
     shippingSplits: 'shippingSplits'
 }
 
-const ShippingPlan = React.memo(function ShippingPlan() {
+const ShippingPlan = React.memo(function ShippingPlan({ orderId }) {
     const classes = useStyles();
-    const { id: orderId } = useParams();
     const history = useHistory();
     const location = useLocation();
     const dispatch = useDispatch();
@@ -90,7 +89,7 @@ const ShippingPlan = React.memo(function ShippingPlan() {
     const splits = watch(fieldNames.shippingSplits);
 
     const onCancel = useCallback(() =>
-            history.push(`${ location.pathname }?tab=shippingPlan&mode=view`),
+            history.push(`${ location.pathname }?mode=view&tab=fulfillment`),
         [history, location.pathname]);
 
     const onSubmit = useCallback(data => {

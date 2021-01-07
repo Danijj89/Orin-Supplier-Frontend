@@ -10,10 +10,9 @@ import { UPDATE_ANY, UPDATE_OWN } from '../admin/utils/actions.js';
 import OrderPermission from '../shared/permissions/OrderPermission.js';
 
 const {
-    buttonLabel,
-    dialogTitleLabel,
-    dialogSubmitLabel
-} = LANGUAGE.order.order.orderDetails.detailsInfoCard.editOrderDetailsButton;
+    buttons,
+    titles
+} = LANGUAGE.order.order;
 
 const EditOrderDetailsButton = React.memo(function EditOrderDetailsButton({ order, className }) {
     const dispatch = useDispatch();
@@ -42,13 +41,13 @@ const EditOrderDetailsButton = React.memo(function EditOrderDetailsButton({ orde
                 onClick={ onEdit }
                 className={ className }
             >
-                { buttonLabel }
+                { buttons.editDetails }
             </ThemedButton>
             <OrderDetailsDialog
                 order={ order }
                 isOpen={ isEdit }
-                titleLabel={ dialogTitleLabel }
-                submitLabel={ dialogSubmitLabel }
+                titleLabel={ titles.editDetailsDialog }
+                submitLabel={ buttons.submitDetails }
                 onCancel={ onCancel }
                 onSubmit={ onSubmit }
                 onDelete={ onDelete }

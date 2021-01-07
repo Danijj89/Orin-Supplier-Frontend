@@ -437,31 +437,36 @@ export const ENGLISH = {
                 product: 'Products',
                 fulfillment: 'Fulfillment Page'
             },
-            labels: {
-                productTableTitle: 'Products',
-                fulfillmentPlanTitle: 'Fulfillment Plan'
+            titles: {
+                details: 'Order Overview',
+                productTable: 'Products',
+                fulfillmentPlan: 'Fulfillment Plan',
+                editDetailsDialog: 'Edit Order',
+                editProductsDialog: 'Products'
             },
+            labels: {
+                orderReference: 'Order Number',
+                company: 'Seller',
+                date: 'Order Date',
+                crd: 'CRD',
+                incoterm: 'Incoterm',
+                quantity: 'Quantity',
+                clientReference: 'Client Reference',
+                client: 'Buyer',
+                author: 'Created By',
+                realCrd: 'Actual CRD',
+                paymentMethod: 'Payment Method',
+                total: 'Total',
+            },
+            buttons: {
+                editDetails: 'Edit',
+                submitDetails: 'Update',
+                editProducts: 'Edit',
+                submitProducts: 'Update',
+                editFulfillment: 'Manage Fulfillment Plan'
+            },
+
             orderDetails: {
-                detailsInfoCard: {
-                    titleLabel: 'Order Overview',
-                    orderReferenceLabel: 'Order Number',
-                    companyLabel: 'Seller',
-                    dateLabel: 'Order Date',
-                    crdLabel: 'CRD',
-                    incotermLabel: 'Incoterm',
-                    quantityLabel: 'Quantity',
-                    clientReferenceLabel: 'Client Reference',
-                    clientLabel: 'Buyer',
-                    authorLabel: 'Created By',
-                    realCrdLabel: 'Actual CRD',
-                    paymentMethodLabel: 'Payment Method',
-                    totalLabel: 'Total',
-                    editOrderDetailsButton: {
-                        buttonLabel: 'Edit',
-                        dialogTitleLabel: 'Edit Order',
-                        dialogSubmitLabel: 'Update',
-                    },
-                },
                 statusInfoCard: {
                     title: 'Order Progress',
                     headerLabelsMap: {
@@ -486,8 +491,6 @@ export const ENGLISH = {
                         actualLabel: 'Actual',
                     },
                 },
-                notesLabel: 'Notes',
-
                 orderProductTable: {
                     tableHeaderLabelsMap: {
                         ref: 'Item Reference',
@@ -498,11 +501,6 @@ export const ENGLISH = {
                         total: 'Amount',
                     },
                     totalLabel: 'Total',
-                    editOrderProductsButton: {
-                        buttonLabel: 'Edit',
-                        dialogTitleLabel: 'Products',
-                        dialogSubmitLabel: 'Update',
-                    },
                 },
             },
             orderDocuments: {
