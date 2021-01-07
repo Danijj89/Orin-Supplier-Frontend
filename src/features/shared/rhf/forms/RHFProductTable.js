@@ -349,7 +349,7 @@ const RHFProductTable = React.memo(function RHFProductTable(
             quantity: row.quantity,
             unit: row.unit,
             price: row.price,
-            total: `${ currencySymbol } ${ row.total }`,
+            total: formatCurrency(row.total, currencySymbol),
         }))
     }, [items, currency, fieldNames, ordersMapWithDefault]);
 
@@ -361,7 +361,7 @@ const RHFProductTable = React.memo(function RHFProductTable(
             colSpan: 3,
             align: 'center'
         },
-        { field: 'total', value: formatCurrency(currency, itemsData.total), colSpan: 1, align: 'right' }
+        { field: 'total', value: formatCurrency(itemsData.total, currency), colSpan: 1, align: 'right' }
     ]], [numColumns, currency, itemsData.quantity, itemsData.total, itemUnitsMap]);
 
     const options = useMemo(() => ({

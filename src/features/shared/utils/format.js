@@ -1,6 +1,6 @@
 import { LOCALE } from 'app/utils/constants.js';
 import { getCurrencySymbol } from './random.js';
-import { getOptionLabel } from 'app/utils/options/getters.js';
+import { getOptionId, getOptionLabel } from 'app/utils/options/getters.js';
 
 export function dateToLocaleDate(date) {
     if (!date) return null;
@@ -24,8 +24,6 @@ export function roundToNDecimal(num, dec) {
 }
 
 export function formatNumberWithDecimal(num, dec) {
-    console.log(num);
-    console.log(typeof num)
     return (Math.round(num * 100) / 100).toFixed(2);
 }
 
@@ -39,12 +37,14 @@ export function formatAddress(address, locale = 'en') {
         + getOptionLabel(address.country, locale);
 }
 
-export function formatCurrency(currency, value) {
-    return `${ getCurrencySymbol(currency) } ${ value }`;
+export function formatCurrency(value, currency) {
+    const currencyId = typeof currency === 'string' ? currency : getOptionId(currency);
+    return `${ getCurrencySymbol(currencyId) } ${ formatNumberWithDecimal(value, 2) }`;
 }
 
 export function formatQuantityWithUnit(quantity, unit) {
-    return `${ quantity } ${ getOptionLabel(unit, LOCALE) }`
+    const label = typeof unit === 'string' ? unit : getOptionLabel(unit, LOCALE);
+    return `${ quantity } ${ label }`
 }
 
 export function formatItemsTotalQuantities(unitObj, unitsMap, locale = 'en') {

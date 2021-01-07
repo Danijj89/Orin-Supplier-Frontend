@@ -43,7 +43,7 @@ const OrderDetails = React.memo(function OrderDetails() {
     return (
         <Grid container className={ classes.root }>
             <Grid className={ classes.detailsInfoCard } item xs={ 12 }>
-                <DetailsInfoCard />
+
             </Grid>
         </Grid>
     )

@@ -50,7 +50,7 @@ export default function DetailsInfoCard() {
         { label: authorLabel, value: createdBy.name },
         { label: realCrdLabel, value: dateToLocaleDate(order.realCrd) },
         { label: paymentMethodLabel, value: order.pay },
-        { label: totalLabel, value: formatCurrency(order.currency, total) }
+        { label: totalLabel, value: formatCurrency(total, order.currency) }
     ], [order.clientRef, order.toAdd, order.realCrd, order.pay, order.currency, total, createdBy.name]);
 
     const tools = useMemo(() => [

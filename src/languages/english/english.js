@@ -434,9 +434,12 @@ export const ENGLISH = {
         },
         order: {
             tabsLabelsMap: {
-                details: 'Order Details',
-                documents: 'Documents',
-                shippingPlan: 'Shipping Plan'
+                product: 'Products',
+                fulfillment: 'Fulfillment Page'
+            },
+            labels: {
+                productTableTitle: 'Products',
+                fulfillmentPlanTitle: 'Fulfillment Plan'
             },
             orderDetails: {
                 detailsInfoCard: {
@@ -484,7 +487,7 @@ export const ENGLISH = {
                     },
                 },
                 notesLabel: 'Notes',
-                productTableTitleLabel: 'Products',
+
                 orderProductTable: {
                     tableHeaderLabelsMap: {
                         ref: 'Item Reference',

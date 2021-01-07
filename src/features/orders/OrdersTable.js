@@ -55,7 +55,7 @@ export default function OrdersTable() {
     const refButtonRenderer = useCallback(row =>
         <ThemedButton
             variant="text"
-            onClick={ () => history.push(`${ location.pathname }/${ row.id }?tab=details`) }>
+            onClick={ () => history.push(`${ location.pathname }/${ row.id }?tab=product`) }>
             { row.ref }
         </ThemedButton>,
     [history, location.pathname]);

@@ -247,7 +247,7 @@ const RHFChinaExportTable = React.memo(function RHFChinaExportTable(
         price: item.price,
         total: formatQuantityWithUnit(
             item.total,
-            getCurrencySymbol(getOptionId(item.currency))
+            getCurrencySymbol(item.currency)
         ),
         currency: item.currency,
         coo: item.coo,
