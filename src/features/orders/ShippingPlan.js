@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import InfoCard from 'features/shared/wrappers/InfoCard.js';
 import usePopulatedOrder from 'features/orders/utils/hooks/usePopulatedOrder.js';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
@@ -13,6 +13,9 @@ import Footer from 'features/shared/components/Footer.js';
 import { LANGUAGE } from 'app/utils/constants.js';
 import { IconButton } from '@material-ui/core';
 import { Refresh as IconRefresh } from '@material-ui/icons';
+import { useDispatch } from 'react-redux';
+import { updateOrder } from 'features/orders/duck/thunks.js';
+import { prepareShippingSplits } from 'features/shared/utils/entityConversion.js';
 
 const useStyles = makeStyles(theme => ({
     infoCard: {
@@ -31,7 +34,9 @@ const {
     labels
 } = LANGUAGE.order.order.shippingPlan;
 
-function validateSplits() { return true; }
+function validateSplits(cachedSplitItemsMap) {
+    return Object.values(cachedSplitItemsMap).filter(item => item.quantity !== 0).length === 0;
+}
 
 function createInitialCachedSplitItemsMap(splits, totalItems) {
     const itemsMap = totalItems.reduce((map, item) => {
@@ -48,49 +53,53 @@ function createInitialCachedSplitItemsMap(splits, totalItems) {
     return itemsMap;
 }
 
+const fieldNames = {
+    shippingSplits: 'shippingSplits'
+}
+
 const ShippingPlan = React.memo(function ShippingPlan() {
     const classes = useStyles();
     const { id: orderId } = useParams();
     const history = useHistory();
     const location = useLocation();
+    const dispatch = useDispatch();
     const order = usePopulatedOrder(orderId);
     const { shippingSplits, custom1, custom2, items } = order;
     const title = useMemo(
         () => `${ order.ref } | ${ order.to.name }`,
         [order.ref, order.to.name]);
 
-    const initialSplits = useMemo(() => shippingSplits.map(split => ({
-        ref: split.ref,
-        crd: split.crd,
-        items: split.items,
-    })), [shippingSplits]);
-
     const [cachedSplitItemsMap, setCachedSplitItemsMap] =
-        useState(createInitialCachedSplitItemsMap(initialSplits, items));
+        useState(createInitialCachedSplitItemsMap(shippingSplits, items));
 
     const { register, getValues, setValue, watch, handleSubmit } = useForm({
         mode: 'onSubmit',
         defaultValues: {
-            splits: initialSplits
+            [fieldNames.shippingSplits]: shippingSplits
         }
     });
 
+    const mounted = useRef(false);
     useEffect(() => {
-        register({ name: 'splits' }, { validate: validateSplits })
-    }, [register]);
+        if (!mounted.current) {
+            register({ name: fieldNames.shippingSplits }, { validate: () => validateSplits(cachedSplitItemsMap) });
+            mounted.current = true;
+        }
+    }, [register, cachedSplitItemsMap]);
 
-    const splits = watch('splits');
+    const splits = watch(fieldNames.shippingSplits);
 
     const onCancel = useCallback(() =>
             history.push(`${ location.pathname }?tab=shippingPlan&mode=view`),
         [history, location.pathname]);
 
     const onSubmit = useCallback(data => {
-
-    }, []);
+        const shippingSplits = prepareShippingSplits(data.shippingSplits);
+        dispatch(updateOrder({ orderId: order._id, update: { shippingSplits } }));
+    }, [dispatch, order._id]);
 
     const onNewSplit = useCallback(() => {
-        const splits = getValues('splits');
+        const splits = getValues(fieldNames.shippingSplits);
         const newRef = getNextSplitRef(splits[splits.length - 1].ref);
         const newCachedSplitItemsMap = { ...cachedSplitItemsMap };
         const splitItems = [];
@@ -107,28 +116,28 @@ const ShippingPlan = React.memo(function ShippingPlan() {
                 crd: new Date(),
                 items: splitItems
             };
-            setValue('splits', [...splits, newSplit]);
+            setValue(fieldNames.shippingSplits, [...splits, newSplit]);
             setCachedSplitItemsMap(newCachedSplitItemsMap);
         }
     }, [getValues, setValue, cachedSplitItemsMap, setCachedSplitItemsMap]);
 
     const onReset = useCallback(
         () => {
-            setValue('splits', initialSplits);
-            setCachedSplitItemsMap(createInitialCachedSplitItemsMap(initialSplits, items));
+            setValue(fieldNames.shippingSplits, shippingSplits);
+            setCachedSplitItemsMap(createInitialCachedSplitItemsMap(shippingSplits, items));
         },
-        [setValue, initialSplits, setCachedSplitItemsMap, items]);
+        [setValue, shippingSplits, setCachedSplitItemsMap, items]);
 
     const onCrdChange = useCallback((splitIdx, newValue) => {
-        const splits = getValues('splits');
+        const splits = getValues(fieldNames.shippingSplits);
         const newSplit = { ...splits[splitIdx] };
         newSplit.crd = newValue && new Date(newValue);
-        setValue('splits', [...splits.slice(0, splitIdx), newSplit, ...splits.slice(splitIdx + 1)]);
+        setValue(fieldNames.shippingSplits, [...splits.slice(0, splitIdx), newSplit, ...splits.slice(splitIdx + 1)]);
     }, [getValues, setValue]);
 
     const onItemQuantityChange = useCallback((splitIdx, rowIdx, newValue) => {
         newValue = newValue === '' ? newValue : parseInt(newValue);
-        const splits = getValues('splits');
+        const splits = getValues(fieldNames.shippingSplits);
         const newSplit = { ...splits[splitIdx] };
         newSplit.items = [...newSplit.items];
         const item = newSplit.items[rowIdx];
@@ -139,12 +148,12 @@ const ShippingPlan = React.memo(function ShippingPlan() {
         });
         item.total = roundToNDecimal(newValue * item.price, 2);
         item.quantity = newValue;
-        setValue('splits', [...splits.slice(0, splitIdx), newSplit, ...splits.slice(splitIdx + 1)]);
+        setValue(fieldNames.shippingSplits, [...splits.slice(0, splitIdx), newSplit, ...splits.slice(splitIdx + 1)]);
 
     }, [getValues, setValue, setCachedSplitItemsMap]);
 
     const onDeleteRow = useCallback((splitIdx, rowIdx) => {
-        const splits = getValues('splits');
+        const splits = getValues(fieldNames.shippingSplits);
         const newSplit = { ...splits[splitIdx] };
         const item = newSplit.items[rowIdx];
         setCachedSplitItemsMap(prevItemsMap => {
@@ -153,9 +162,9 @@ const ShippingPlan = React.memo(function ShippingPlan() {
         });
         if (newSplit.items.length > 1) {
             newSplit.items = newSplit.items.filter((_, idx) => idx !== rowIdx);
-            setValue('splits', [...splits.slice(0, splitIdx), newSplit, ...splits.slice(splitIdx + 1)]);
+            setValue(fieldNames.shippingSplits, [...splits.slice(0, splitIdx), newSplit, ...splits.slice(splitIdx + 1)]);
         } else {
-            setValue('splits', splits.filter((_, idx) => idx !== splitIdx));
+            setValue(fieldNames.shippingSplits, splits.filter((_, idx) => idx !== splitIdx));
         }
     }, [getValues, setValue, setCachedSplitItemsMap]);
 

@@ -56,3 +56,4 @@ export const updateSplit = createAsyncThunk('orders/updateSplit',
             return rejectWithValue(err.response.data);
         }
     });
+
