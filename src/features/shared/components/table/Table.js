@@ -17,11 +17,12 @@ const Table = React.memo(function Table({ rows, columns, footer, options = {}}) 
         tools
     } = options;
     const { dense, collapse = false, isEdit = false, classes = {} } = tableOptions;
+    const { pagination = true } = footOptions;
     const [processedRows, setProcessedRows] = useUpdatedState(rows || []);
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState();
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [rowsPerPage, setRowsPerPage] = useState(pagination ? 10 : 0);
 
     const onSort = useCallback((field) => {
         const isAsc = orderBy === field && order === 'asc';

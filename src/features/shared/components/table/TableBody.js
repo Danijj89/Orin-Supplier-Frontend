@@ -34,8 +34,10 @@ const TableBody = React.memo(function TableBody(
 
     const emptyRows = useMemo(() => {
         const rowsInPage = rows.length - page * rowsPerPage;
+        const emptyRowsInPage = maxEmptyRows - rowsInPage;
+        if (rowsPerPage === 0) return emptyRowsInPage;
         return Math.min(
-            maxEmptyRows - rowsInPage,
+            emptyRowsInPage,
             rowsPerPage
         );
     }, [rowsPerPage, page, rows.length, maxEmptyRows]);

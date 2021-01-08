@@ -71,6 +71,9 @@ const OrderProductTable = React.memo(function OrderProductTable(
             classes: {
                 container: className
             }
+        },
+        foot: {
+            pagination: false
         }
     }), [className]);
 

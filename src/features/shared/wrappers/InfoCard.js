@@ -1,15 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import clsx from 'clsx';
-import { Card, Divider, Grid, Typography } from '@material-ui/core';
+import { Divider, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
+import clsx from 'clsx';
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        display: 'flex',
-        flexFlow: 'column',
-        overflow: 'auto',
-    },
     container: {
         height: '100%',
         flexFlow: 'column',
@@ -48,24 +44,22 @@ const InfoCard = React.memo(function InfoCard(
     const toolsArray = Array.isArray(tools) ? tools : [tools];
 
     return (
-        <Card className={ clsx(classes.root, className) }>
-            <Grid container className={ classes.container }>
-                <Grid item className={ classes.topPanel } xs={ 12 }>
-                    <Typography variant="subtitle1" className={ classes.title }>
-                        { title }
-                    </Typography>
-                    { tools && toolsArray.map((tool, idx) =>
-                        React.cloneElement(tool, {
-                            key: `${ title }-card-${ idx }`
-                        })
-                    ) }
-                </Grid>
-                <Divider/>
-                <Grid item className={ classes.bottomPanel } xs={ 12 }>
-                    { content }
-                </Grid>
+        <Grid container className={ clsx(classes.container, className) } component={ Paper }>
+            <Grid item className={ classes.topPanel } xs={ 12 }>
+                <Typography variant="subtitle1" className={ classes.title }>
+                    { title }
+                </Typography>
+                { tools && toolsArray.map((tool, idx) =>
+                    React.cloneElement(tool, {
+                        key: `${ title }-card-${ idx }`
+                    })
+                ) }
             </Grid>
-        </Card>
+            <Divider/>
+            <Grid item className={ classes.bottomPanel } xs={ 12 }>
+                { content }
+            </Grid>
+        </Grid>
     );
 });
 
