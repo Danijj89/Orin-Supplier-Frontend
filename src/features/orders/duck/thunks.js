@@ -57,3 +57,20 @@ export const updateSplit = createAsyncThunk('orders/updateSplit',
         }
     });
 
+export const fetchTableOrders = createAsyncThunk('orders/fetchTableOrders',
+    async (_, { rejectWithValue }) => {
+        try {
+            return OrderService.fetchOrders();
+        } catch (err) {
+            return rejectWithValue(err.response.data);
+        }
+    });
+
+export const fetchAllTableOrders = createAsyncThunk('orders/fetchAllTableOrders',
+    async (_, { rejectWithValue }) => {
+        try {
+            return OrderService.fetchAllOrders();
+        } catch (err) {
+            return rejectWithValue(err.response.data);
+        }
+    });

@@ -1,8 +1,8 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import {
-    createOrder, deleteOrder,
+    createOrder, deleteOrder, fetchAllTableOrders,
     fetchOrderById,
-    fetchOrders,
+    fetchOrders, fetchTableOrders,
     updateOrder, updateSplit
 } from './thunks.js';
 import { SESSION_NEW_ORDER } from 'app/sessionKeys.js';
@@ -107,6 +107,28 @@ const ordersSlice = createSlice({
             state.status = 'FULFILLED';
         },
         [updateSplit.rejected]: (state, action) => {
+            state.status = 'REJECTED';
+            state.error = action.payload.message;
+        },
+        [fetchTableOrders.pending]: (state) => {
+            state.status = 'PENDING';
+        },
+        [fetchTableOrders.fulfilled]: (state, action) => {
+            ordersAdapter.setAll(state, action.payload);
+            state.status = 'FULFILLED';
+        },
+        [fetchTableOrders.rejected]: (state, action) => {
+            state.status = 'REJECTED';
+            state.error = action.payload.message;
+        },
+        [fetchAllTableOrders.pending]: (state) => {
+            state.status = 'PENDING';
+        },
+        [fetchAllTableOrders.fulfilled]: (state, action) => {
+            ordersAdapter.setAll(state, action.payload);
+            state.status = 'FULFILLED';
+        },
+        [fetchAllTableOrders.rejected]: (state, action) => {
             state.status = 'REJECTED';
             state.error = action.payload.message;
         },

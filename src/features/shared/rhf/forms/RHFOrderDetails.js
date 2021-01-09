@@ -152,16 +152,10 @@ const RHFOrderDetails = React.memo(function RHFOrderDetails(
                         clientId={ client._id }
                         clientName={ client.name }
                     /> }
-                    <RHFDateField
+                    { !isEdit && <RHFDateField
                         rhfControl={ control }
                         name={ fieldNames.crd }
                         label={ formLabels.crd }
-                    />
-                    { isEdit &&
-                    <RHFDateField
-                        rhfControl={ control }
-                        name={ fieldNames.realCrd }
-                        label={ formLabels.realCrd }
                     /> }
                     <RHFAutoComplete
                         rhfControl={ control }
@@ -250,7 +244,7 @@ RHFOrderDetails.propTypes = {
         fromAdd: PropTypes.string.isRequired,
         to: PropTypes.string.isRequired,
         toAdd: PropTypes.string.isRequired,
-        crd: PropTypes.string.isRequired,
+        crd: PropTypes.string,
         incoterm: PropTypes.string.isRequired,
         pay: PropTypes.string.isRequired,
         clientRef: PropTypes.string.isRequired,
@@ -262,8 +256,7 @@ RHFOrderDetails.propTypes = {
         date: PropTypes.string,
         notes: PropTypes.string,
         autoGenerateRef: PropTypes.string,
-        archived: PropTypes.string,
-        realCrd: PropTypes.string
+        archived: PropTypes.string
     }).isRequired,
     isEdit: PropTypes.bool,
     className: PropTypes.string

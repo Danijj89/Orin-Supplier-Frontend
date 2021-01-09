@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { LANGUAGE, LOCALE } from 'app/utils/constants.js';
 import PopoverNotes from '../shared/components/PopoverNotes.js';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateSplit } from './duck/thunks.js';
+import { fetchAllTableOrders, fetchTableOrders, updateSplit } from './duck/thunks.js';
 import { selectAllActiveOrders } from './duck/selectors.js';
 import { selectItemUnitsMap, selectOrderStatuses } from 'app/duck/selectors.js';
 import { getOptionId } from 'app/utils/options/getters.js';
@@ -174,8 +174,16 @@ export default function OrdersTable() {
                     { field: 'qa', type: 'option', options: orderStatuses, label: ordersTableHeadersMap.qa },
                 ]
             }
+        },
+        {
+            id: 'orders-table-archive',
+            type: 'archive',
+            options: {
+                fetchData: () => dispatch(fetchTableOrders()),
+                fetchArchivedData: () => dispatch(fetchAllTableOrders())
+            }
         }
-    ], [orderStatuses]);
+    ], [orderStatuses, dispatch]);
 
     const options = useMemo(() => ({
         table: {

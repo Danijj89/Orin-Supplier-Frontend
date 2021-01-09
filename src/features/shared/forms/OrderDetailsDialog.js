@@ -21,7 +21,6 @@ const orderDetailsFieldNames = {
     fromAdd: 'fromAdd',
     to: 'to',
     toAdd: 'toAdd',
-    crd: 'crd',
     incoterm: 'incoterm',
     pay: 'pay',
     clientRef: 'clientRef',
@@ -30,8 +29,7 @@ const orderDetailsFieldNames = {
     pol: 'pol',
     pod: 'pod',
     carrier: 'carrier',
-    archived: 'archived',
-    realCrd: 'realCrd'
+    archived: 'archived'
 };
 
 const OrderDetailsDialog = React.memo(function OrderDetailsDialog(
@@ -73,8 +71,6 @@ const OrderDetailsDialog = React.memo(function OrderDetailsDialog(
             [orderDetailsFieldNames.to]: initialClient,
             [orderDetailsFieldNames.toAdd]: initialClientAddress,
             [orderDetailsFieldNames.incoterm]: order.incoterm,
-            [orderDetailsFieldNames.crd]: order.crd || null,
-            [orderDetailsFieldNames.realCrd]: order.realCrd || null,
             [orderDetailsFieldNames.clientRef]: order.clientRef,
             [orderDetailsFieldNames.shipAdd]: initialClientShipAddress,
             [orderDetailsFieldNames.pol]: order.pol || null,

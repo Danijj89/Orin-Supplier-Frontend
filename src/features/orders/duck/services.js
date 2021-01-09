@@ -9,6 +9,15 @@ const fetchOrders = async () => {
     return data;
 };
 
+const fetchAllOrders = async () => {
+    const configs = {
+        method: 'get',
+        url: 'orders/all'
+    };
+    const { data } = await fetchWithAuth(configs);
+    return data;
+};
+
 const createOrder = async (order) => {
     const configs = {
         method: 'post',
@@ -59,6 +68,7 @@ const deleteOrder = async (id) => {
 
 const OrderService = {
     fetchOrders,
+    fetchAllOrders,
     createOrder,
     fetchOrderById,
     updateOrder,
