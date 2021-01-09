@@ -83,9 +83,15 @@ export default function OrdersTable() {
         {
             field: 'quantity',
             headerName: ordersTableHeadersMap.quantity,
-            format: row => formatItemsTotalQuantities(row.quantity, itemUnitsMap, LOCALE)
+            format: row => formatItemsTotalQuantities(row.quantity, itemUnitsMap, LOCALE),
+            align: 'center'
         },
-        { field: 'crd', headerName: ordersTableHeadersMap.crd, type: 'date' },
+        {
+            field: 'crd',
+            headerName: ordersTableHeadersMap.crd,
+            type: 'date',
+            align: 'center'
+        },
         { field: 'toName', headerName: ordersTableHeadersMap.toName },
         {
             field: 'procurement',
@@ -111,7 +117,9 @@ export default function OrdersTable() {
         {
             field: 'notes',
             headerName: ordersTableHeadersMap.notes,
-            renderCell: notesPopoverRenderer
+            renderCell: notesPopoverRenderer,
+            align: 'center',
+            width: 50
         }
     ], [
         createStatusDropdownRenderer,

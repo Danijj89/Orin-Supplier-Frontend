@@ -1,7 +1,6 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
-import { KeyboardDatePicker } from '@material-ui/pickers';
 import { LANGUAGE } from 'app/utils/constants.js';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
@@ -52,7 +51,7 @@ const DateFilter = React.memo(function DateFilter({
             <DateField
                 value={ filter.end }
                 onChange={ createDateFilterChangeHandler('end') }
-                label={ startLabel }
+                label={ endLabel }
                 emptyLabel={ emptyLabel }
                 className={ classes.dateSelector }
             />

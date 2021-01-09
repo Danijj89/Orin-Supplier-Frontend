@@ -12,6 +12,7 @@ import TextFieldCell from 'features/shared/components/table/cells/TextFieldCell.
 import AutoCompleteCell from 'features/shared/components/table/cells/AutoCompleteCell.js';
 import CheckBoxCell from 'features/shared/components/table/cells/CheckBoxCell.js';
 import TextCell from 'features/shared/components/table/cells/TextCell.js';
+import EditTableCell from 'features/shared/components/table/cells/EditTableCell.js';
 
 const useStyles = makeStyles(() => ({
     row: {
@@ -80,13 +81,13 @@ const TableRow = React.memo(function TableRow(
             />
         );
         if (!isEdit || !column.editType) return (
-            <TableCell
+            <EditTableCell
                 key={ column.field }
                 align={ column.align }
                 width={ column.width }
             >
                 { getText(row, column) }
-            </TableCell>
+            </EditTableCell>
         );
         switch (column.editType) {
             case 'text':
