@@ -1,4 +1,5 @@
 import React, { useCallback, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { Box } from '@material-ui/core';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
@@ -7,6 +8,7 @@ import { LANGUAGE } from 'app/utils/constants.js';
 import { deleteClient, updateClient } from './duck/thunks.js';
 import { UPDATE_ANY, UPDATE_OWN } from '../admin/utils/actions.js';
 import ClientPermission from '../shared/permissions/ClientPermission.js';
+import { getClientOverviewURL } from 'features/clients/utils/urls.js';
 
 const {
     buttonLabel,
@@ -16,14 +18,18 @@ const {
 
 const EditClientButton = React.memo(function EditClientButton({ client, className }) {
     const dispatch = useDispatch();
+    const history = useHistory();
     const [isEdit, setIsEdit] = useState(false);
 
     const onEdit = () => setIsEdit(true);
     const onCancelEditDialog = () => setIsEdit(false);
 
     const createDeleteHandler = useCallback(
-        (clientId) => () => dispatch(deleteClient({ clientId })),
-        [dispatch]);
+        (clientId) => () => {
+            dispatch(deleteClient({ clientId }));
+            history.push(getClientOverviewURL());
+        },
+        [dispatch, history]);
 
     const onSubmit = (data) => {
         const { contactName, contactEmail, notes, ...update } = data;
