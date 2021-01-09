@@ -183,15 +183,15 @@ export default function OrdersTable() {
         },
         body: {
             onRowClick
-        },
-        tools
-    }), [tools, onRowClick]);
+        }
+    }), [onRowClick]);
 
     return (
         <>
             <Table
                 columns={ columns }
                 rows={ rows }
+                tools={ tools }
                 options={ options }
             />
 

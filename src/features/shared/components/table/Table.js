@@ -8,13 +8,12 @@ import { getComparator, stableSort } from './utils/helpers.js';
 import TableToolbar from './TableToolbar.js';
 import useUpdatedState from 'features/shared/hooks/useUpdatedState.js';
 
-const Table = React.memo(function Table({ rows, columns, footer, options = {}}) {
+const Table = React.memo(function Table({ rows, columns, footer, tools, options = {}}) {
     const {
         table: tableOptions = {},
         head: headOptions = {},
         body: bodyOptions = {},
         foot: footOptions = {},
-        tools
     } = options;
     const { dense, collapse = false, isEdit = false, classes = {} } = tableOptions;
     const { pagination = true } = footOptions;
@@ -107,6 +106,7 @@ Table.propTypes = {
     })).isRequired,
     rows: PropTypes.arrayOf(PropTypes.object).isRequired,
     footer: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.object)),
+    tools: PropTypes.arrayOf(PropTypes.object),
     options: PropTypes.exact({
         table: PropTypes.exact({
             dense: PropTypes.bool,
@@ -127,8 +127,7 @@ Table.propTypes = {
         }),
         head: PropTypes.object,
         body: PropTypes.object,
-        foot: PropTypes.object,
-        tools: PropTypes.arrayOf(PropTypes.object)
+        foot: PropTypes.object
     })
 };
 

@@ -7,10 +7,10 @@ const EditTableCell = withStyles((theme) => ({
         paddingTop: theme.spacing(0.5),
         paddingBottom: theme.spacing(0.5),
         '&:last-child': {
-            paddingRight: theme.spacing(0.5)
+            paddingRight: theme.spacing(1)
         },
         '&:first-child': {
-            paddingLeft: theme.spacing(0.5)
+            paddingLeft: theme.spacing(1)
         }
     }
 }))(MuiTableCell);
