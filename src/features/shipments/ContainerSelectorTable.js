@@ -92,7 +92,7 @@ const ContainerSelectorTable = React.memo(function ContainerSelectorTable(
             onCellChange: onCellChange
         },
         foot: {
-            pagination: false
+            pagination: 'none'
         }
     }), [onAddRow, onCellChange, classes.root]);
 

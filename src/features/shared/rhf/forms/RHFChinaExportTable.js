@@ -275,7 +275,7 @@ const RHFChinaExportTable = React.memo(function RHFChinaExportTable(
             onCellChange: onCellChange
         },
         foot: {
-            pagination: false
+            pagination: 'none'
         }
     }), [onAddRow, onCellChange]);
 

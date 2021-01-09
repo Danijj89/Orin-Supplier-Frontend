@@ -57,6 +57,9 @@ const ClientOrdersTable = React.memo(function ClientOrdersTable() {
     const options = useMemo(() => ({
         body: {
             onRowClick
+        },
+        foot: {
+            pagination: 'hide'
         }
     }), [onRowClick]);
 

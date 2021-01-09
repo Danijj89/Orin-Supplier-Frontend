@@ -73,7 +73,7 @@ const OrderProductTable = React.memo(function OrderProductTable(
             }
         },
         foot: {
-            pagination: false
+            pagination: 'none'
         }
     }), [className]);
 

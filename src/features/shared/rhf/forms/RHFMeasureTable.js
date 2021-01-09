@@ -329,7 +329,7 @@ const RHFMeasureTable = React.memo(function RHFMeasureTable(
             onCellChange: onCellChange
         },
         foot: {
-            pagination: false
+            pagination: 'none'
         }
     }), [onCellChange]);
 

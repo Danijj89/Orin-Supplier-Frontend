@@ -330,7 +330,7 @@ const RHFConsolidationTable = React.memo(function RHFConsolidationTable(
             onCellChange: onCellChange
         },
         foot: {
-            pagination: false
+            pagination: 'none'
         }
     }), [onAddRow, onCellChange]);
 

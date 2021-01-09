@@ -29,9 +29,21 @@ const TableFooter = React.memo(function TableFooter(
         options
     }) {
     const classes = useStyles();
-    const { pagination = true } = options;
-    const hasPagination = useMemo(() => pagination && !isEdit,
-        [pagination, isEdit]);
+    const { pagination = 'permanent', paginationOptions } = options;
+    const rowsPerPageOptions = useMemo(() => {
+        let options;
+        if (paginationOptions) options = [...paginationOptions];
+        else options = [10, 25, 50];
+        options.push({ label: paginationAllLabel, value: -1 });
+        return options;
+    }, [paginationOptions]);
+    const hasPagination = useMemo(() => {
+        if (!isEdit) {
+            if (pagination === 'permanent') return true;
+            if (pagination === 'hide') return numRows > rowsPerPage;
+        }
+        return false;
+    }, [pagination, isEdit, numRows, rowsPerPage]);
 
     return (
         <MuiTableFooter>
@@ -53,7 +65,7 @@ const TableFooter = React.memo(function TableFooter(
             <TableRow>
                 <TablePagination
                     labelRowsPerPage={ rowsPerPageLabel }
-                    rowsPerPageOptions={ [10, 25, 50, { label: paginationAllLabel, value: -1 }] }
+                    rowsPerPageOptions={ rowsPerPageOptions }
                     count={ numRows }
                     rowsPerPage={ rowsPerPage }
                     page={ page }
@@ -76,7 +88,9 @@ TableFooter.propTypes = {
     footer: PropTypes.array,
     isEdit: PropTypes.bool,
     options: PropTypes.exact({
-        pagination: PropTypes.bool
+        pagination: PropTypes.oneOf(['permanent', 'hide', 'none']),
+        paginationOptions: PropTypes.arrayOf(PropTypes.number.isRequired),
+        initialRowsPerPage: PropTypes.number
     })
 };
 

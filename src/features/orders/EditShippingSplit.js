@@ -134,7 +134,7 @@ const EditShippingSplit = React.memo(function EditShippingSplit(
             hover: false
         },
         foot: {
-            pagination: false
+            pagination: 'none'
         }
     }), [classes.table, classes.right, onCellChange]);
 

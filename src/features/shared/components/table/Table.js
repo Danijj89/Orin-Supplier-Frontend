@@ -16,13 +16,13 @@ const Table = React.memo(function Table({ rows, columns, footer, tools, options 
         foot: footOptions = {},
     } = options;
     const { dense, collapse = false, isEdit = false, classes = {} } = tableOptions;
-    const { pagination = true } = footOptions;
+    const { pagination = 'permanent', initialRowsPerPage = 10 } = footOptions;
     const tableSize = useMemo(() => dense ? 'small' : 'medium', [dense]);
     const [processedRows, setProcessedRows] = useUpdatedState(rows || []);
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState();
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(pagination ? 10 : 0);
+    const [rowsPerPage, setRowsPerPage] = useState(pagination !== 'none' ? initialRowsPerPage : 0);
 
     const onSort = useCallback((field) => {
         const isAsc = orderBy === field && order === 'asc';
@@ -112,7 +112,6 @@ Table.propTypes = {
         table: PropTypes.exact({
             dense: PropTypes.bool,
             isEdit: PropTypes.bool,
-            pagination: PropTypes.bool,
             collapse: function (props, propName) {
                 if (typeof props[propName] != 'boolean') {
                     if (props[propName] != null)

@@ -103,6 +103,9 @@ const ClientContactsTable = React.memo(function ClientContactsTable() {
         },
         body: {
             onRowClick
+        },
+        foot: {
+            pagination: 'hide'
         }
     }), [onRowClick]);
 

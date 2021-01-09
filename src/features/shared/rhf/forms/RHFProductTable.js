@@ -375,7 +375,7 @@ const RHFProductTable = React.memo(function RHFProductTable(
             hover: false
         },
         foot: {
-            pagination: false
+            pagination: 'none'
         }
     }), [onAddRow, onCellChange]);
 

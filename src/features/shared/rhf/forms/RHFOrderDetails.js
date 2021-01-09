@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useWatch } from 'react-hook-form';
-import { LANGUAGE } from '../../../../app/utils/constants.js';
+import { LANGUAGE } from 'app/utils/constants.js';
 import SideTextField from '../../inputs/SideTextField.js';
 import { formatAddress } from '../../utils/format.js';
 import FormContainer from '../../wrappers/FormContainer.js';
@@ -13,8 +13,8 @@ import RHFAutoComplete from '../inputs/RHFAutoComplete.js';
 import RHFDateField from '../inputs/RHFDateField.js';
 import Box from '@material-ui/core/Box';
 import { useSelector } from 'react-redux';
-import { selectDeliveryMethods, selectIncoterms } from '../../../../app/duck/selectors.js';
-import { getOptionLabel } from '../../../../app/utils/options/getters.js';
+import { selectDeliveryMethods, selectIncoterms } from 'app/duck/selectors.js';
+import { getOptionLabel } from 'app/utils/options/getters.js';
 import { selectAllActiveClients } from '../../../clients/duck/selectors.js';
 import { selectActiveCompanyAddresses, selectCompanyPorts } from 'features/home/duck/home/selectors.js';
 
