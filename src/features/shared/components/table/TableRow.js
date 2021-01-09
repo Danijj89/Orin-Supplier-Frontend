@@ -60,13 +60,13 @@ const TableRow = React.memo(function TableRow(
         () => setOpen(prev => !prev), []);
 
     const onRowClicked = useCallback(
-        row => {
+        () => {
             if (!isEdit) {
                 if (collapse) onCollapse();
                 else onRowClick(row);
             }
         },
-        [collapse, onCollapse, onRowClick, isEdit]);
+        [collapse, onCollapse, onRowClick, isEdit, row]);
 
     const renderedRow = useMemo(() => columns.map(column => {
         if (column.hide) return null;

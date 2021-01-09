@@ -5,6 +5,7 @@ import { KeyboardDatePicker } from '@material-ui/pickers';
 import { LANGUAGE } from 'app/utils/constants.js';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
+import DateField from 'features/shared/inputs/DateField.js';
 
 const useStyles = makeStyles((theme) => ({
     dateSelector: {
@@ -19,10 +20,10 @@ const {
 } = LANGUAGE.shared.components.table.tools.filter.filters.dateFilter;
 
 const DateFilter = React.memo(function DateFilter({
-    filterIdx,
-    filter,
-    setFilters,
-}) {
+                                                      filterIdx,
+                                                      filter,
+                                                      setFilters,
+                                                  }) {
     const classes = useStyles();
     const createDateFilterChangeHandler = useCallback(
         (valueField) => (_, value) =>
@@ -40,30 +41,20 @@ const DateFilter = React.memo(function DateFilter({
 
     return (
         <Grid container item direction="column" alignItems="center" md>
-            <Typography variant="h6">{filter.label}</Typography>
-            <KeyboardDatePicker
-                autoOk
-                format="yyyy/MM/dd"
-                value={filter.startVal}
-                onChange={createDateFilterChangeHandler('start')}
-                inputVariant="outlined"
-                emptyLabel={emptyLabel}
-                label={startLabel}
-                clearable
-                size="small"
-                className={classes.dateSelector}
+            <Typography variant="h6">{ filter.label }</Typography>
+            <DateField
+                value={ filter.start }
+                onChange={ createDateFilterChangeHandler('start') }
+                label={ startLabel }
+                emptyLabel={ emptyLabel }
+                className={ classes.dateSelector }
             />
-            <KeyboardDatePicker
-                autoOk
-                format="yyyy/MM/dd"
-                value={filter.endVal}
-                onChange={createDateFilterChangeHandler('end')}
-                inputVariant="outlined"
-                emptyLabel={emptyLabel}
-                label={endLabel}
-                clearable
-                size="small"
-                className={classes.dateSelector}
+            <DateField
+                value={ filter.end }
+                onChange={ createDateFilterChangeHandler('end') }
+                label={ startLabel }
+                emptyLabel={ emptyLabel }
+                className={ classes.dateSelector }
             />
         </Grid>
     );

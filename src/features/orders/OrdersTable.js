@@ -9,7 +9,6 @@ import { selectItemUnitsMap, selectOrderStatuses } from 'app/duck/selectors.js';
 import { getOptionId } from 'app/utils/options/getters.js';
 import { SESSION_ORDER_TABLE_FILTERS } from 'app/sessionKeys.js';
 import { formatItemsTotalQuantities } from 'features/shared/utils/format.js';
-import FulfillmentPlanTable from 'features/orders/FulfillmentPlanTable.js';
 import StatusDropdown from 'features/shared/components/StatusDropdown.js';
 import Table from 'features/shared/components/table/Table.js';
 import ThemedButton from 'features/shared/buttons/ThemedButton.js';
@@ -23,40 +22,46 @@ export default function OrdersTable() {
     const history = useHistory();
     const dispatch = useDispatch();
     const location = useLocation();
+    const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [drawerData, setDrawerData] = useState(null);
     const orders = useSelector(selectAllActiveOrders);
     const itemUnitsMap = useSelector(selectItemUnitsMap);
     const orderStatuses = useSelector(selectOrderStatuses);
 
-    const onOpenDrawer = useCallback(
-        newDrawerData => setDrawerData(newDrawerData),
+    const onRowClick = useCallback(
+        row => {
+            setDrawerData({
+                ref: row.ref,
+                items: row.items,
+                currency: row.currency,
+                quantity: row.quantity,
+                total: row.total,
+                custom1: row.custom1,
+                custom2: row.custom2
+            });
+            setIsDrawerOpen(true);
+        },
         []);
-    const onCloseDrawer = useCallback(e => setDrawerData(null), []);
 
-    const createStatusDropdownRenderer = useCallback((status) => (row) => {
-        if (row.shippingSplits.length > 1) return '-';
-        const splitId = row.shippingSplits[0]._id;
-        return (
-            <StatusDropdown
-                status={ row[status] }
-                statuses={ orderStatuses }
-                colorMap="order"
-                onStatusChange={ (newStatus) => dispatch(updateSplit({
-                    orderId: row.id,
-                    splitId,
-                    update: { [status]: { status: getOptionId(newStatus) } }
-                })) }
-            />
-        );
-    }, [dispatch, orderStatuses]);
+    const onCloseDrawer = useCallback(() => setIsDrawerOpen(false), []);
+
+    const createStatusDropdownRenderer = useCallback((status) => (row) =>
+        <StatusDropdown
+            status={ row[status] }
+            statuses={ orderStatuses }
+            colorMap="order"
+            onStatusChange={ (newStatus) => dispatch(updateSplit({
+                orderId: row.id,
+                splitId: row.splitId,
+                update: { [status]: { status: getOptionId(newStatus) } }
+            })) }
+        />, [dispatch, orderStatuses]);
 
     const notesPopoverRenderer = useCallback(row => {
-        if (row.shippingSplits.length > 1) return null;
-        const split = row.shippingSplits[0];
         return (
             <PopoverNotes
-                notes={ split.notes }
-                onSubmit={ data => dispatch(updateSplit({ orderId: row.id, splitId: split._id, update: data })) }
+                notes={ row.notes }
+                onSubmit={ data => dispatch(updateSplit({ orderId: row.id, splitId: row.splitId, update: data })) }
             />
         );
     }, [dispatch]);
@@ -115,33 +120,28 @@ export default function OrdersTable() {
         itemUnitsMap
     ]);
 
-    const rows = useMemo(() => orders.map(order => ({
-        id: order._id,
-        ref: order.ref,
-        quantity: order.quantity,
-        crd: order.crd,
-        toName: order.toAdd.name,
-        notes: order.shippingSplits[0].notes,
-        procurement: order.shippingSplits[0].procurement.status,
-        production: order.shippingSplits[0].production.status,
-        qa: order.shippingSplits[0].qa.status,
-        shippingSplits: order.shippingSplits,
-        currency: order.currency,
-        custom1: order.custom1,
-        custom2: order.custom2
-    })), [orders]);
+    const rows = useMemo(() => {
+        const result = [];
+        orders.forEach(order => order.shippingSplits.forEach(split => result.push({
+            id: order._id,
+            splitId: split._id,
+            ref: split.ref,
+            crd: split.crd,
+            toName: order.toAdd.name,
+            notes: split.notes,
+            procurement: split.procurement.status,
+            production: split.production.status,
+            qa: split.qa.status,
+            items: split.items,
+            currency: order.currency,
+            quantity: split.quantity,
+            total: split.total,
+            custom1: order.custom1,
+            custom2: order.custom2
+        })));
+        return result;
+    }, [orders]);
 
-    const renderCollapse = useCallback(row =>
-            <FulfillmentPlanTable
-                orderId={ row.id }
-                shippingSplits={ row.shippingSplits }
-                currency={ row.currency }
-                custom1={ row.custom1 }
-                custom2={ row.custom2 }
-                onRowClick={ onOpenDrawer }
-            />
-        , [onOpenDrawer]);
-    const hasCollapse = useCallback(row => true, []);
     const tools = useMemo(() => [
         {
             id: 'orders-table-filters',
@@ -171,15 +171,13 @@ export default function OrdersTable() {
 
     const options = useMemo(() => ({
         table: {
-            dense: true,
-            collapse: true
+            dense: true
         },
         body: {
-            hasCollapse,
-            renderCollapse,
+            onRowClick
         },
         tools
-    }), [renderCollapse, hasCollapse, tools]);
+    }), [tools, onRowClick]);
 
     return (
         <>
@@ -191,7 +189,7 @@ export default function OrdersTable() {
 
             <Drawer
                 anchor={ 'right' }
-                open={ Boolean(drawerData) }
+                open={ isDrawerOpen }
                 onClose={ onCloseDrawer }
                 transitionDuration={ 500 }
             >
