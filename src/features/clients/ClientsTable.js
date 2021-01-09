@@ -1,12 +1,12 @@
 import React, { useCallback, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
-import { LANGUAGE } from '../../app/utils/constants.js';
+import { LANGUAGE } from 'app/utils/constants.js';
 import Table from '../shared/components/table/Table.js';
 import { useDispatch, useSelector } from 'react-redux';
 import PopoverNotes from '../shared/components/PopoverNotes.js';
 import { updateClient } from './duck/thunks.js';
 import { selectAllActiveUserNames, selectUsersMap } from 'features/home/duck/users/selectors.js';
-import { SESSION_CLIENT_TABLE_FILTERS } from '../../app/sessionKeys.js';
+import { SESSION_CLIENT_TABLE_FILTERS } from 'app/sessionKeys.js';
 import { selectSessionActiveClients } from './duck/selectors.js';
 
 const { clientTableHeadersMap } = LANGUAGE.client.clientOverview;
@@ -19,7 +19,7 @@ const ClientsTable = React.memo(function ClientsTable() {
     const users = useSelector(selectAllActiveUserNames);
 
     const onRowClick = useCallback(
-        (row) => history.push(`/home/clients/${ row.id }?tab=addresses`),
+        row => history.push(`/home/clients/${ row.id }?tab=addresses`),
         [history]);
 
     const createNoteSubmitHandler = useCallback(
@@ -63,27 +63,42 @@ const ClientsTable = React.memo(function ClientsTable() {
             }
         }), [clients, usersMap]);
 
-    const filterOptions = useMemo(() => ({
-        sessionKey: SESSION_CLIENT_TABLE_FILTERS,
-        filters: [
-            {
-                field: 'assignedTo',
-                type: 'dropdown',
-                label: clientTableHeadersMap.assignedTo,
-                options: users
+    const tools = useMemo(() => [
+        {
+            id: 'clients-table-filters',
+            type: 'filter',
+            options: {
+                sessionKey: SESSION_CLIENT_TABLE_FILTERS,
+                filters: [
+                    {
+                        field: 'assignedTo',
+                        type: 'dropdown',
+                        label: clientTableHeadersMap.assignedTo,
+                        options: users
+                    },
+                    { field: 'lastOrder', type: 'date', label: clientTableHeadersMap.lastOrder },
+                    { field: 'salesYTD', type: 'range', label: clientTableHeadersMap.salesYTD },
+                    { field: 'orderCountYTD', type: 'range', label: clientTableHeadersMap.orderCountYTD }
+                ]
             },
-            { field: 'lastOrder', type: 'date', label: clientTableHeadersMap.lastOrder },
-            { field: 'salesYTD', type: 'range', label: clientTableHeadersMap.salesYTD },
-            { field: 'orderCountYTD', type: 'range', label: clientTableHeadersMap.orderCountYTD }
-        ]
-    }), [users]);
+        }
+    ], [users]);
+
+    const options = useMemo(() => ({
+        table: {
+            dense: true
+        },
+        body: {
+            onRowClick
+        }
+    }), [onRowClick]);
 
     return (
         <Table
             rows={ rows }
             columns={ columns }
-            onRowClick={ onRowClick }
-            filterOptions={ filterOptions }
+            tools={ tools }
+            options={ options }
         />
     );
 });

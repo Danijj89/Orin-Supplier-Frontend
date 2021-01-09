@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { selectSessionUserId } from '../../../app/duck/selectors.js';
+import { selectSessionUserId } from 'app/duck/selectors.js';
 import Permission from './Permission.js';
 import { selectClientOwnerById } from '../../clients/duck/selectors.js';
 

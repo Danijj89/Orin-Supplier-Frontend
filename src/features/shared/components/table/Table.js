@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Table as MuiTable, TableContainer } from '@material-ui/core';
 import TableHeader from './TableHeader.js';
@@ -17,6 +17,7 @@ const Table = React.memo(function Table({ rows, columns, footer, tools, options 
     } = options;
     const { dense, collapse = false, isEdit = false, classes = {} } = tableOptions;
     const { pagination = true } = footOptions;
+    const tableSize = useMemo(() => dense ? 'small' : 'medium', [dense]);
     const [processedRows, setProcessedRows] = useUpdatedState(rows || []);
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState();
@@ -47,7 +48,7 @@ const Table = React.memo(function Table({ rows, columns, footer, tools, options 
     return (
         <TableContainer className={ classes.container }>
             { tools && <TableToolbar tools={ tools } rows={ rows } setRows={ setRows }/> }
-            <MuiTable className={ classes.table } stickyHeader size={ dense && 'small' }>
+            <MuiTable className={ classes.table } stickyHeader size={ tableSize }>
                 <TableHeader
                     columns={ columns }
                     order={ order }

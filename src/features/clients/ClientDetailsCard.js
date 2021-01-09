@@ -3,7 +3,7 @@ import { Grid } from '@material-ui/core';
 import DividerDataDisplay from '../shared/wrappers/DividerDisplay.js';
 import { dateToLocaleDate } from '../shared/utils/format.js';
 import { useSelector } from 'react-redux';
-import { LANGUAGE } from '../../app/utils/constants.js';
+import { LANGUAGE } from 'app/utils/constants.js';
 import EditClientButton from './EditClientButton.js';
 import InfoCard from '../shared/wrappers/InfoCard.js';
 import { makeStyles } from '@material-ui/core/styles';
@@ -60,7 +60,7 @@ const ClientDetailsCard = React.memo(function ClientDetailsDataDisplay() {
     return (
         <InfoCard
             title={ client.name }
-            button={ <EditClientButton client={ client } /> }
+            tools={ <EditClientButton client={ client } /> }
             className={ classes.clientInfoCard }
             content={
                 <Grid container>

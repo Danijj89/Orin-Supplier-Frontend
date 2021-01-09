@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { LANGUAGE, LOCALE } from 'app/utils/constants.js';
 import PopoverNotes from '../shared/components/PopoverNotes.js';
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,13 +15,13 @@ import ThemedButton from 'features/shared/buttons/ThemedButton.js';
 import Drawer from '@material-ui/core/Drawer';
 import InfoCard from 'features/shared/wrappers/InfoCard.js';
 import OrderProductTable from 'features/orders/OrderProductTable.js';
+import { getOrderURL } from 'features/orders/utils/urls.js';
 
 const { ordersTableHeadersMap } = LANGUAGE.order.ordersOverview;
 
 export default function OrdersTable() {
     const history = useHistory();
     const dispatch = useDispatch();
-    const location = useLocation();
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [drawerData, setDrawerData] = useState(null);
     const orders = useSelector(selectAllActiveOrders);
@@ -69,10 +69,10 @@ export default function OrdersTable() {
     const refButtonRenderer = useCallback(row =>
             <ThemedButton
                 variant="text"
-                onClick={ () => history.push(`${ location.pathname }/${ row.id }?mode=view&tab=product`) }>
+                onClick={ () => history.push(getOrderURL(row.id, { tab: 'fulfillment', split: row.splitId })) }>
                 { row.ref }
             </ThemedButton>,
-        [history, location.pathname]);
+        [history]);
 
     const columns = useMemo(() => [
         {

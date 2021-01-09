@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import { LANGUAGE } from '../../app/utils/constants.js';
+import { LANGUAGE } from 'app/utils/constants.js';
 import Table from '../shared/components/table/Table.js';
 import { Box } from '@material-ui/core';
 import ContactDialog from '../shared/forms/ContactDialog.js';
@@ -97,26 +97,35 @@ const ClientContactsTable = React.memo(function ClientContactsTable() {
             default: contact.default
         })), [contacts]);
 
+    const options = useMemo(() => ({
+        table: {
+            dense: true
+        },
+        body: {
+            onRowClick
+        }
+    }), [onRowClick]);
+
     return (
         <Box>
             <Table
                 rows={ rows }
                 columns={ columns }
-                onRowClick={ onRowClick }
+                options={ options }
             />
+            { editContact &&
             <ClientPermission action={ [UPDATE_ANY, UPDATE_OWN] } clientId={ clientId }>
-                { editContact && (
-                    <ContactDialog
-                        isOpen={ isEdit }
-                        contact={ editContact }
-                        titleLabel={ editDialogTitleLabel }
-                        submitLabel={ editDialogSubmitLabel }
-                        onCancel={ onEditCancel }
-                        onSubmit={ onSubmit }
-                        onDelete={ createDeleteContactHandler(clientId, editContact) }
-                    />
-                ) }
+                <ContactDialog
+                    isOpen={ isEdit }
+                    contact={ editContact }
+                    titleLabel={ editDialogTitleLabel }
+                    submitLabel={ editDialogSubmitLabel }
+                    onCancel={ onEditCancel }
+                    onSubmit={ onSubmit }
+                    onDelete={ createDeleteContactHandler(clientId, editContact) }
+                />
             </ClientPermission>
+            }
             <ClientPermission action={ [CREATE_ANY, CREATE_OWN] } clientId={ clientId }>
                 <NewClientContactButton clientId={ clientId }/>
             </ClientPermission>
