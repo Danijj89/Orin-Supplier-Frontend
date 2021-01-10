@@ -7,7 +7,7 @@ import { fetchAllTableOrders, fetchTableOrders, updateSplit } from './duck/thunk
 import { selectAllActiveOrders } from './duck/selectors.js';
 import { selectItemUnitsMap, selectOrderStatuses } from 'app/duck/selectors.js';
 import { getOptionId } from 'app/utils/options/getters.js';
-import { SESSION_ORDER_TABLE_FILTERS } from 'app/sessionKeys.js';
+import { SESSION_ORDER_TABLE_ARCHIVE, SESSION_ORDER_TABLE_FILTERS } from 'app/sessionKeys.js';
 import { formatItemsTotalQuantities } from 'features/shared/utils/format.js';
 import StatusDropdown from 'features/shared/components/StatusDropdown.js';
 import Table from 'features/shared/components/table/Table.js';
@@ -179,6 +179,7 @@ export default function OrdersTable() {
             id: 'orders-table-archive',
             type: 'archive',
             options: {
+                sessionKey: SESSION_ORDER_TABLE_ARCHIVE,
                 fetchData: () => dispatch(fetchTableOrders()),
                 fetchArchivedData: () => dispatch(fetchAllTableOrders())
             }

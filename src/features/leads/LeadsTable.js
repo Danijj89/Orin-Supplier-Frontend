@@ -10,7 +10,7 @@ import { fetchAllTableLeads, fetchTableLeads, updateLead } from './duck/thunks.j
 import { getOptionId } from 'app/utils/options/getters.js';
 import { selectAllActiveUserNames, selectUsersMap } from 'features/home/duck/users/selectors.js';
 import PopoverNotes from '../shared/components/PopoverNotes.js';
-import { SESSION_LEAD_TABLE_FILTERS } from 'app/sessionKeys.js';
+import { SESSION_LEAD_TABLE_ARCHIVE, SESSION_LEAD_TABLE_FILTERS } from 'app/sessionKeys.js';
 
 const {
     tableHeaders
@@ -137,6 +137,7 @@ const LeadsTable = React.memo(function LeadsTable() {
             id: 'leads-table-archive',
             type: 'archive',
             options: {
+                sessionKey: SESSION_LEAD_TABLE_ARCHIVE,
                 fetchData: () => dispatch(fetchTableLeads()),
                 fetchArchivedData: () => dispatch(fetchAllTableLeads())
             }
