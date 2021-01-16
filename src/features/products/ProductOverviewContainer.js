@@ -36,7 +36,7 @@ const ProductOverviewContainer = React.memo(function ProductOverviewContainer() 
     return (
         <ProductPermission action={ [READ_ANY] }>
             <StatusHandler status={ productStatus } error={ productError }/>
-            { status === 'REJECTED' && <ErrorPage errors={ errors }/> }
+            { status === 'REJECTED' && <ErrorPage error={ errors }/> }
             { status === 'PENDING' && <Loader/> }
             { status === 'FULFILLED' && <ProductOverview/> }
         </ProductPermission>

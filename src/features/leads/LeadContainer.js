@@ -50,7 +50,7 @@ const LeadContainer = React.memo(function LeadContainer() {
     return (
         <LeadPermission action={ [READ_ANY, READ_OWN] } leadId={ leadId }>
             { !leadExists && <Redirect to={ '/home/leads' }/> }
-            { status === 'REJECTED' && <ErrorPage errors={ errors }/> }
+            { status === 'REJECTED' && <ErrorPage error={ errors }/> }
             { status === 'PENDING' && <Loader/> }
             { leadExists && status === 'FULFILLED' && <Lead/> }
         </LeadPermission>

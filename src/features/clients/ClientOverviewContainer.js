@@ -50,7 +50,7 @@ const ClientOverviewContainer = React.memo(function ClientOverviewContainer() {
     return (
         <ClientPermission action={ [READ_ANY, READ_OWN] }>
             <StatusHandler status={ clientStatus } error={ clientError }/>
-            { status === 'REJECTED' && <ErrorPage errors={ errors }/> }
+            { status === 'REJECTED' && <ErrorPage error={ errors }/> }
             { status === 'PENDING' && <Loader/> }
             { status === 'FULFILLED' && <ClientOverview/> }
         </ClientPermission>

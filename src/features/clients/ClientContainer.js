@@ -63,7 +63,7 @@ const ClientContainer = React.memo(function ClientContainer() {
         <ClientPermission action={ [READ_ANY, READ_OWN] } clientId={ clientId }>
             <StatusHandler status={ clientStatus } error={ clientError }/>
             { isClientInactive && <Redirect to={ '/home/clients' }/> }
-            { status === 'REJECTED' && <ErrorPage errors={ errors }/> }
+            { status === 'REJECTED' && <ErrorPage error={ errors }/> }
             { status === 'PENDING' && <Loader/> }
             { !isClientInactive && status === 'FULFILLED' && <Client/> }
         </ClientPermission>

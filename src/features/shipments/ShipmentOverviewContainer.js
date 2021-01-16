@@ -36,7 +36,7 @@ const ShipmentOverviewContainer = React.memo(function ShipmentOverviewContainer(
     return (
         <ShipmentPermission action={ [READ_ANY, READ_OWN] }>
             <StatusHandler status={ shipmentStatus } error={ shipmentError }/>
-            { status === 'REJECTED' && <ErrorPage errors={ errors }/> }
+            { status === 'REJECTED' && <ErrorPage error={ errors }/> }
             { status === 'PENDING' && <Loader/> }
             { status === 'FULFILLED' && <ShipmentOverview/> }
         </ShipmentPermission>

@@ -67,7 +67,7 @@ const CreateShipmentContainer = React.memo(function CreateShipmentContainer() {
     return (
         <ShipmentPermission action={ [CREATE_ANY, CREATE_OWN] }>
             { currentShipmentId && <Redirect to={ `/home/shipments/${ currentShipmentId }` }/> }
-            { status === 'REJECTED' && <ErrorPage errors={ errors }/> }
+            { status === 'REJECTED' && <ErrorPage error={ errors }/> }
             { status === 'PENDING' && <Loader/> }
             { !currentShipmentId && status === 'FULFILLED' && <CreateShipment/> }
         </ShipmentPermission>

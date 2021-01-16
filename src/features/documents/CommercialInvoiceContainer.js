@@ -91,7 +91,7 @@ const CommercialInvoiceContainer = React.memo(function CommercialInvoiceContaine
 
     return (
         <ShipmentPermission action={ [CREATE_ANY, CREATE_OWN] }>
-            { status === 'REJECTED' && <ErrorPage errors={ errors }/> }
+            { status === 'REJECTED' && <ErrorPage error={ errors }/> }
             { status === 'PENDING' && <Loader/> }
             { status === 'FULFILLED' && <CommercialInvoice/> }
         </ShipmentPermission>

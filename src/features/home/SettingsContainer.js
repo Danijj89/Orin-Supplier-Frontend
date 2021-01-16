@@ -48,7 +48,7 @@ const SettingsContainer = React.memo(function SettingsContainer() {
         <>
             <StatusHandler status={ userStatus } error={ userError }/>
             <StatusHandler status={ homeStatus } error={ homeError }/>
-            { status === 'REJECTED' && <ErrorPage errors={ errors }/> }
+            { status === 'REJECTED' && <ErrorPage error={ errors }/> }
             { status === 'PENDING' && <Loader/> }
             { status === 'FULFILLED' && <Settings/> }
         </>

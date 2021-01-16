@@ -110,8 +110,8 @@ const OrderContainer = React.memo(function OrderContainer() {
     return (
         <OrderPermission action={ [READ_ANY, READ_OWN] } orderId={ orderId }>
             <StatusHandler status={ orderStatus } error={ orderError }/>
-            { isOrderInactive && <ErrorPage errors={ [errorMessages.orderWasDeleted] }/> }
-            { status === 'REJECTED' && <ErrorPage errors={ errors }/> }
+            { isOrderInactive && <ErrorPage error={ [errorMessages.orderWasDeleted] }/> }
+            { status === 'REJECTED' && <ErrorPage error={ errors }/> }
             { status === 'PENDING' && <Loader/> }
             { !isOrderInactive && status === 'FULFILLED' && <Order/> }
         </OrderPermission>
