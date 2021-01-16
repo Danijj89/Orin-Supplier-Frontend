@@ -14,12 +14,10 @@ import { Refresh as IconRefresh } from '@material-ui/icons';
 import { useDispatch } from 'react-redux';
 import { updateOrder } from 'features/orders/duck/thunks.js';
 import { prepareShippingSplits } from 'features/shared/utils/entityConversion.js';
-import Typography from '@material-ui/core/Typography';
-import LinearProgress from '@material-ui/core/LinearProgress';
-import clsx from 'clsx';
 import _ from 'lodash';
 import ErrorSnackbar from 'features/shared/components/ErrorSnackbar.js';
 import Box from '@material-ui/core/Box';
+import FulfillmentPlanProgressBar from 'features/orders/FulfillmentPlanProgressBar.js';
 
 const useStyles = makeStyles(theme => ({
     infoCard: {
@@ -34,20 +32,6 @@ const useStyles = makeStyles(theme => ({
         display: 'block',
         marginLeft: 'auto',
         marginRight: 'auto'
-    },
-    progressBarContainer: {
-        display: 'flex',
-        alignItems: 'center'
-    },
-    progressBar: {
-        width: 280,
-        marginRight: theme.spacing(1)
-    },
-    red: {
-        color: theme.palette.danger.main
-    },
-    green: {
-        color: theme.palette.success.main
     }
 }));
 
@@ -90,8 +74,8 @@ function validateSplits(splits, totalItems) {
     }
     for (const allocationStatus of Object.values(allocationMap)) {
         const diff = allocationStatus.quantity - allocationStatus.allocated;
-        if (diff > 0) return errorMessages.itemOverflow(allocationStatus.ref);
-        if (diff < 0) return errorMessages.itemTooFew(allocationStatus.ref);
+        if (diff > 0) return errorMessages.itemTooFew(allocationStatus.ref, diff);
+        if (diff < 0) return errorMessages.itemOverflow(allocationStatus.ref, diff);
     }
     return true;
 }
@@ -122,11 +106,12 @@ const EditFulfillmentPlan = React.memo(function EditFulfillmentPlan({ orderId })
         () => Math.round((totalAllocated / totalCount) * 100),
         [totalAllocated, totalCount]);
 
-    const { register, getValues, setValue, watch, handleSubmit, errors } = useForm({
+    const { register, getValues, setValue, watch, handleSubmit, errors, clearErrors } = useForm({
         mode: 'onSubmit',
         defaultValues: {
             [fieldNames.shippingSplits]: _.cloneDeep(shippingSplits)
-        }
+        },
+        shouldUnregister: false
     });
 
     const mounted = useRef(false);
@@ -137,9 +122,14 @@ const EditFulfillmentPlan = React.memo(function EditFulfillmentPlan({ orderId })
         }
     }, [register, totalItems]);
 
+    const prevErrors = useRef(errors);
     useEffect(() => {
-        setError(Object.values(errors).map(err => err.message));
-    }, [errors]);
+        if (prevErrors.current !== errors) {
+            const errorMessages = Object.values(errors);
+            if (errorMessages.length) setError(errorMessages.map(err => err.message));
+            prevErrors.current = errors;
+        }
+    }, [errors, clearErrors]);
 
     const splits = watch(fieldNames.shippingSplits);
 
@@ -312,21 +302,18 @@ const EditFulfillmentPlan = React.memo(function EditFulfillmentPlan({ orderId })
     }, [getValues, setValue, ref]);
 
     const tools = useMemo(() => [
-        <ThemedButton
-            className={ clsx(
-                classes.progressBarContainer,
-                progress !== 100 && classes.red,
-                progress === 100 && classes.green
-            ) }
-            variant="text"
-        >
-            <LinearProgress className={ classes.progressBar } variant="determinate" value={ progress }/>
-            <Typography>{ `${ progress }%` }</Typography>
-        </ThemedButton>,
+        <FulfillmentPlanProgressBar
+            progress={ progress }
+            orderRef={ ref }
+            items={ totalItems }
+            allocationMap={ allocationMap }
+            custom1={ custom1 }
+            custom2={ custom2 }
+        />,
         <IconButton size="small" onClick={ onReset }>
             <IconRefresh color="primary"/>
         </IconButton>
-    ], [onReset, classes, progress]);
+    ], [onReset, progress, allocationMap, ref, totalItems, custom1, custom2]);
 
     return (
         <>

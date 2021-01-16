@@ -11,13 +11,13 @@ const ANCHOR_ORIGIN = {
 
 const DURATION = 5000;
 
-const ErrorSnackbar = React.memo(function ErrorSnackbar({ error = [], className }) {
+const ErrorSnackbar = React.memo(function ErrorSnackbar({ error = [] }) {
     const errors = Array.isArray(error) ? error : [error];
     const [open, setOpen] = useState(false);
 
     useEffect(() => {
         if (errors.length) setOpen(true);
-    }, [errors.length]);
+    }, [errors]);
 
     const onClose = (event, reason) => {
         if (reason === "clickaway") return;

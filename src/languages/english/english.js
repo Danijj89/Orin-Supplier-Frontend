@@ -492,11 +492,12 @@ export const ENGLISH = {
                 tableHeaderLabels: {
                     ref: 'SKU',
                     description: 'Description',
-                    quantity: 'Quantity'
+                    quantity: 'Quantity',
+                    allocated: 'Allocated'
                 },
                 errorMessages: {
-                    itemOverflow: (ref) => `Item Ref. ${ref} has too many units.`,
-                    itemTooFew: (ref) => `Item Ref. ${ref} has too little units.`,
+                    itemOverflow: (ref, diff) => `Item Ref. ${ ref } has ${ diff } more units than expected.`,
+                    itemTooFew: (ref, diff) => `Item Ref. ${ ref } has ${diff} less units than expected.`,
                     emptySplit: 'Remove empty splits.',
                     baseSplitDeletion: 'You cannot delete this base split.'
                 }
