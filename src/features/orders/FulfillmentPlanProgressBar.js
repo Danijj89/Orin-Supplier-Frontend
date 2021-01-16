@@ -64,7 +64,7 @@ const FulfillmentPlanProgressBar = React.memo(function FulfillmentPlanProgressBa
             renderCell: row =>
                 <Typography
                     variant="subtitle2"
-                    className={ clsx(row.quantity !== row.allocated && classes.red) }
+                    className={ clsx(row.quantity === row.allocated ? classes.green : classes.red) }
                 >
                     { formatQuantityWithUnit(row.allocated, row.unit) }
                 </Typography>,
