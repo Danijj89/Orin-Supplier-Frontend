@@ -63,7 +63,7 @@ const TableRow = React.memo(function TableRow(
         () => {
             if (!isEdit) {
                 if (collapse) onCollapse();
-                else onRowClick(row);
+                else if (onRowClick) onRowClick(row);
             }
         },
         [collapse, onCollapse, onRowClick, isEdit, row]);
@@ -125,6 +125,7 @@ const TableRow = React.memo(function TableRow(
                         options={ column.options }
                         getOptionLabel={ column.getOptionLabel }
                         getOptionSelected={ column.getOptionSelected }
+                        filterOptions={ column.filterOptions }
                     />
                 );
             case 'autocomplete':
@@ -140,6 +141,7 @@ const TableRow = React.memo(function TableRow(
                         options={ column.options }
                         getOptionLabel={ column.getOptionLabel }
                         getOptionSelected={ column.getOptionSelected }
+                        filterOptions={ column.filterOptions }
                     />
                 );
             case 'checkbox':

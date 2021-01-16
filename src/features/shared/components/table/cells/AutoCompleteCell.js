@@ -3,7 +3,7 @@ import TableAutoComplete from 'features/shared/inputs/TableAutoComplete.js';
 import EditTableCell from 'features/shared/components/table/cells/EditTableCell.js';
 
 const AutoCompleteCell = React.memo(function AutoCompleteCell(
-    { rowIdx, field, value, onCellChange, width, options, getOptionLabel, getOptionSelected, freeSolo }) {
+    { rowIdx, field, value, onCellChange, width, options, getOptionLabel, getOptionSelected, freeSolo, filterOptions }) {
 
     const onChange = useCallback(
         val => onCellChange(rowIdx, field, val),
@@ -18,6 +18,7 @@ const AutoCompleteCell = React.memo(function AutoCompleteCell(
                 options={ options }
                 getOptionLabel={ getOptionLabel }
                 getOptionSelected={ getOptionSelected }
+                filterOptions={ filterOptions }
                 onChange={ onChange }
             />
         </EditTableCell>

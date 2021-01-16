@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function TableAutoComplete(
-    { options, getOptionLabel, getOptionSelected, freeSolo, className, onChange, ...props }) {
+    { options, getOptionLabel, getOptionSelected, filterOptions, freeSolo, className, onChange, ...props }) {
     const classes = useStyles();
     const classNames = clsx(classes.inputRoot, className);
 
@@ -37,6 +37,7 @@ export default function TableAutoComplete(
             options={ options }
             getOptionLabel={ getOptionLabel }
             getOptionSelected={ getOptionSelected }
+            filterOptions={ filterOptions }
             renderInput={ params =>
                 <TableTextField
                     { ...params }
@@ -52,6 +53,7 @@ TableAutoComplete.propTypes = {
     onChange: PropTypes.func.isRequired,
     getOptionLabel: PropTypes.func,
     getOptionSelected: PropTypes.func,
+    filterOptions: PropTypes.func,
     freeSolo: PropTypes.bool,
     className: PropTypes.string
 };

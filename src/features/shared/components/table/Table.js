@@ -103,7 +103,8 @@ Table.propTypes = {
         editType: PropTypes.oneOf(['text', 'number', 'dropdown', 'autocomplete', 'checkbox']),
         options: PropTypes.array,
         getOptionLabel: PropTypes.func,
-        getOptionSelected: PropTypes.func
+        getOptionSelected: PropTypes.func,
+        filterOptions: PropTypes.func
     })).isRequired,
     rows: PropTypes.arrayOf(PropTypes.object).isRequired,
     footer: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.object)),

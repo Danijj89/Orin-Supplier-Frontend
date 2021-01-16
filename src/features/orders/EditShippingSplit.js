@@ -46,29 +46,32 @@ const useStyles = makeStyles(theme => ({
 const {
     labels,
     tableHeaderLabels
-} = LANGUAGE.order.order.shippingPlan.shippingSplit;
+} = LANGUAGE.order.order.editFulfillmentPlan;
 
 const EditShippingSplit = React.memo(function EditShippingSplit(
     {
         split,
         splitIdx,
+        itemOptions,
+        allocationMap,
         onCrdChange,
-        onItemQuantityChange,
+        onCellChange,
+        onAddRow,
         onDeleteRow,
         custom1,
         custom2
     }) {
     const classes = useStyles();
-    const { ref, crd, items } = split;
+    const { ref = '-', crd, items } = split;
     const splitNum = useMemo(() => splitIdx + 1, [splitIdx]);
 
     const onDateChange = useCallback(
         (_, newValue) => onCrdChange(splitIdx, newValue),
         [splitIdx, onCrdChange]);
 
-    const onCellChange = useCallback((rowIdx, key, newValue) =>
-            onItemQuantityChange(splitIdx, rowIdx, newValue),
-        [onItemQuantityChange, splitIdx]);
+    const onCellChanged = useCallback((rowIdx, key, newValue) =>
+            onCellChange(splitIdx, rowIdx, key, newValue),
+        [onCellChange, splitIdx]);
 
     const createDeleteRowHandler = useCallback(rowIdx =>
             () => onDeleteRow(splitIdx, rowIdx),
@@ -84,7 +87,16 @@ const EditShippingSplit = React.memo(function EditShippingSplit(
             width: 50,
             align: 'center'
         },
-        { field: 'ref', headerName: tableHeaderLabels.ref },
+        {
+            field: 'ref',
+            headerName: tableHeaderLabels.ref,
+            editType: 'dropdown',
+            options: itemOptions,
+            getOptionLabel: item => item.ref || item,
+            getOptionSelected: (order, value) => order.ref === value || value === '',
+            filterOptions: items => items.filter(item =>
+                allocationMap[item._id].quantity > allocationMap[item._id].allocated)
+        },
         { field: 'description', headerName: tableHeaderLabels.description },
         {
             field: 'custom1',
@@ -105,10 +117,11 @@ const EditShippingSplit = React.memo(function EditShippingSplit(
             editType: 'number',
             width: 100
         }
-    ], [custom1, custom2, createDeleteRowHandler]);
+    ], [custom1, custom2, createDeleteRowHandler, itemOptions, allocationMap]);
 
     const rows = useMemo(() => items.map((item, idx) => ({
         idx: idx,
+        _id: item._id,
         ref: item.ref,
         description: item.description,
         quantity: item.quantity,
@@ -130,13 +143,14 @@ const EditShippingSplit = React.memo(function EditShippingSplit(
         },
         body: {
             maxEmptyRows: 0,
-            onCellChange: onCellChange,
-            hover: false
+            onCellChange: onCellChanged,
+            hover: false,
+            onAddRow: onAddRow
         },
         foot: {
             pagination: 'none'
         }
-    }), [classes.table, classes.right, onCellChange]);
+    }), [classes.table, classes.right, onCellChanged, onAddRow]);
 
     return (
         <Box className={ classes.container }>
@@ -165,8 +179,11 @@ const EditShippingSplit = React.memo(function EditShippingSplit(
 EditShippingSplit.propTypes = {
     split: PropTypes.object.isRequired,
     splitIdx: PropTypes.number.isRequired,
+    itemOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
+    allocationMap: PropTypes.object.isRequired,
     onCrdChange: PropTypes.func.isRequired,
-    onItemQuantityChange: PropTypes.func.isRequired,
+    onCellChange: PropTypes.func.isRequired,
+    onAddRow: PropTypes.func.isRequired,
     onDeleteRow: PropTypes.func.isRequired,
     custom1: PropTypes.string,
     custom2: PropTypes.string

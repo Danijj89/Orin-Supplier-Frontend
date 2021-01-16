@@ -481,6 +481,28 @@ export const ENGLISH = {
                 },
                 totalLabel: 'Total',
             },
+            editFulfillmentPlan: {
+                labels: {
+                    newSplitButton: 'Add Split',
+                    cancelButton: 'Cancel',
+                    submitButton: 'Submit',
+                    crd: 'Cargo Ready',
+                    emptyDateLabel: 'No Date',
+                },
+                tableHeaderLabels: {
+                    ref: 'SKU',
+                    description: 'Description',
+                    quantity: 'Quantity'
+                },
+                errorMessages: {
+                    itemOverflow: (ref) => `Item Ref. ${ref} has too many units.`,
+                    itemTooFew: (ref) => `Item Ref. ${ref} has too little units.`
+                }
+            },
+            errorMessages: {
+                orderWasDeleted:
+                    'The order you selected is no longer existent.',
+            },
             // orderDetails: {
             //     statusInfoCard: {
             //         title: 'Order Progress',
@@ -507,43 +529,18 @@ export const ENGLISH = {
             //         },
             //     },
             // },
-            orderDocuments: {
-                buttonLabels: {
-                    generateExcel: 'Generate Excel',
-                    generatePdf: 'Generate PDF',
-                },
-                textLabels: {
-                    noOrder: 'No Orders',
-                },
-                shipmentDocumentsCard: {
-                    titleLabel: 'Shipment No:',
-                },
-            },
-            shippingPlan: {
-                labels: {
-                    newSplitButton: 'Add Split',
-                    cancelButton: 'Cancel',
-                    submitButton: 'Submit',
-                },
-                shippingSplit: {
-                    tableHeaderLabels: {
-                        ref: 'SKU',
-                        description: 'Description',
-                        quantity: 'Quantity',
-                        unit: 'Unit',
-                        price: 'Price',
-                        total: 'Total'
-                    },
-                    labels: {
-                        crd: 'Cargo Ready',
-                        emptyDateLabel: 'No Date',
-                    }
-                }
-            },
-            errorMessages: {
-                orderWasDeleted:
-                    'The order you selected is no longer existent.',
-            },
+            // orderDocuments: {
+            //     buttonLabels: {
+            //         generateExcel: 'Generate Excel',
+            //         generatePdf: 'Generate PDF',
+            //     },
+            //     textLabels: {
+            //         noOrder: 'No Orders',
+            //     },
+            //     shipmentDocumentsCard: {
+            //         titleLabel: 'Shipment No:',
+            //     },
+            // }
         },
     },
     shipment: {

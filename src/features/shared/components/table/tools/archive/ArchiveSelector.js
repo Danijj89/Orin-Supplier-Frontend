@@ -40,6 +40,7 @@ const ArchiveSelector = React.memo(function ArchivedCheckbox({ options }) {
 
 ArchiveSelector.propTypes = {
     options: PropTypes.exact({
+        sessionKey: PropTypes.string.isRequired,
         fetchData: PropTypes.func.isRequired,
         fetchArchivedData: PropTypes.func.isRequired
     }).isRequired

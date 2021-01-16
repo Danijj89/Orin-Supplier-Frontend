@@ -219,20 +219,13 @@ export const shipmentToChinaExport = (shipment) => {
 export const prepareShippingSplits = shippingSplits =>
     shippingSplits.map(split => {
         const splitData = {
-            ref: split.ref,
             crd: split.crd,
             items: split.items.map(item => ({
                 _id: item._id,
-                ref: item.ref,
-                description: item.description,
-                quantity: item.quantity,
-                unit: getOptionId(item.unit),
-                price: item.price,
-                total: item.total,
-                custom1: item.custom1,
-                custom2: item.custom2
+                quantity: item.quantity
             }))
         };
+        if (split.ref) splitData.ref = split.ref;
         if (split.realCrd) splitData.realCrd = split.realCrd;
         if (split.procurement) splitData.procurement = {
             ...split.procurement,

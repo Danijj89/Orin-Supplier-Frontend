@@ -29,28 +29,34 @@ export const selectAllOrders = createSelector(
     selectItemUnitsMap,
     selectCountriesMap,
     (orders, deliveryMethodsMap, orderStatusesMap,
-     currenciesMap, itemUnitsMap, countriesMap) => orders.map(order => ({
-        ...order,
-        fromAdd: { ...order.fromAdd, country: countriesMap[order.fromAdd.country]},
-        toAdd: { ...order.toAdd, country: countriesMap[order.toAdd.country]},
-        shipAdd: { ...order.shipAdd, country: countriesMap[order.shipAdd?.country]},
-        del: deliveryMethodsMap[order.del],
-        currency: currenciesMap[order.currency],
-        shippingSplits: order.shippingSplits.map(split => ({
-            ...split,
-            procurement: { ...split.procurement, status: orderStatusesMap[split.procurement.status] },
-            production: { ...split.production, status: orderStatusesMap[split.production.status] },
-            qa: { ...split.qa, status: orderStatusesMap[split.qa.status] },
-            items: split.items.map(item => ({
-                ...item,
-                unit: itemUnitsMap[item.unit]
-            }))
-        })),
-        items: order.items.map(item => ({
-            ...item,
-            unit: itemUnitsMap[item.unit]
-        }))
-    }))
+     currenciesMap, itemUnitsMap, countriesMap) => orders.map(order => {
+         const items = order.items.map(item => ({
+             ...item,
+             unit: itemUnitsMap[item.unit]
+         }));
+         return {
+            ...order,
+            fromAdd: { ...order.fromAdd, country: countriesMap[order.fromAdd.country]},
+            toAdd: { ...order.toAdd, country: countriesMap[order.toAdd.country]},
+            shipAdd: { ...order.shipAdd, country: countriesMap[order.shipAdd?.country]},
+            del: deliveryMethodsMap[order.del],
+            currency: currenciesMap[order.currency],
+            shippingSplits: order.shippingSplits.map(split => ({
+                ...split,
+                procurement: { ...split.procurement, status: orderStatusesMap[split.procurement.status] },
+                production: { ...split.production, status: orderStatusesMap[split.production.status] },
+                qa: { ...split.qa, status: orderStatusesMap[split.qa.status] },
+                items: split.items.map(item => {
+                    const orderItem = items.find(orderItem => orderItem._id === item._id);
+                    return {
+                        ...orderItem,
+                        ...item,
+                    };
+                })
+            })),
+            items
+        };
+    })
 );
 
 export const selectOrdersMap = createSelector(

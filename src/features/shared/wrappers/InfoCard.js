@@ -4,6 +4,7 @@ import { Divider, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import clsx from 'clsx';
+import Box from '@material-ui/core/Box';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -30,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         flexFlow: 'column',
         flex: '1 1 auto'
-    },
+    }
 }));
 
 const InfoCard = React.memo(function InfoCard(
@@ -45,15 +46,17 @@ const InfoCard = React.memo(function InfoCard(
 
     return (
         <Grid container className={ clsx(classes.container, className) } component={ Paper }>
-            <Grid item className={ classes.topPanel } xs={ 12 }>
+            <Grid className={ classes.topPanel } container item xs={ 12 }>
                 <Typography variant="subtitle1" className={ classes.title }>
                     { title }
                 </Typography>
-                { tools && toolsArray.map((tool, idx) =>
-                    React.cloneElement(tool, {
-                        key: `${ title }-card-${ idx }`
-                    })
-                ) }
+                <Grid container justify="flex-end" alignItems="center" item xs>
+                    { tools && toolsArray.map((tool, idx) =>
+                        React.cloneElement(tool, {
+                            key: `${ title }-card-${ idx }`
+                        })
+                    ) }
+                </Grid>
             </Grid>
             <Divider/>
             <Grid item className={ classes.bottomPanel } xs={ 12 }>
