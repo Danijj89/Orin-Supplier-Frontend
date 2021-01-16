@@ -4,33 +4,36 @@ import usePopulatedOrder from 'features/orders/utils/hooks/usePopulatedOrder.js'
 import { useHistory, useLocation } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { useForm } from 'react-hook-form';
-import { getNextSplitRef } from 'features/orders/utils/helpers.js';
 import { roundToNDecimal } from 'features/shared/utils/format.js';
-import Grid from '@material-ui/core/Grid';
 import EditShippingSplit from 'features/orders/EditShippingSplit.js';
 import ThemedButton from 'features/shared/buttons/ThemedButton.js';
 import Footer from 'features/shared/components/Footer.js';
 import { LANGUAGE } from 'app/utils/constants.js';
 import { IconButton } from '@material-ui/core';
 import { Refresh as IconRefresh } from '@material-ui/icons';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { updateOrder } from 'features/orders/duck/thunks.js';
 import { prepareShippingSplits } from 'features/shared/utils/entityConversion.js';
 import Typography from '@material-ui/core/Typography';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import clsx from 'clsx';
 import _ from 'lodash';
+import ErrorSnackbar from 'features/shared/components/ErrorSnackbar.js';
+import Box from '@material-ui/core/Box';
 
 const useStyles = makeStyles(theme => ({
     infoCard: {
         height: '100vh'
     },
     contentContainer: {
-        padding: theme.spacing(2),
+        padding: theme.spacing(2)
     },
     newSplitButton: {
         marginTop: theme.spacing(2),
-        marginBot: theme.spacing(2)
+        marginBot: theme.spacing(2),
+        display: 'block',
+        marginLeft: 'auto',
+        marginRight: 'auto'
     },
     progressBarContainer: {
         display: 'flex',
@@ -80,11 +83,12 @@ function validateSplits(splits, totalItems) {
         return map;
     }, {});
     for (const split of splits) {
+        if (!split.items.length) return errorMessages.emptySplit;
         for (const item of split.items) {
             allocationMap[item._id].allocated += item.quantity;
         }
     }
-    for (const allocationStatus of Object.entries(allocationMap)) {
+    for (const allocationStatus of Object.values(allocationMap)) {
         const diff = allocationStatus.quantity - allocationStatus.allocated;
         if (diff > 0) return errorMessages.itemOverflow(allocationStatus.ref);
         if (diff < 0) return errorMessages.itemTooFew(allocationStatus.ref);
@@ -102,7 +106,7 @@ const EditFulfillmentPlan = React.memo(function EditFulfillmentPlan({ orderId })
     const location = useLocation();
     const dispatch = useDispatch();
     const order = usePopulatedOrder(orderId);
-    const { shippingSplits, custom1, custom2, items: totalItems } = order;
+    const { ref, shippingSplits, custom1, custom2, items: totalItems } = order;
     const title = useMemo(
         () => `${ order.ref } | ${ order.to.name }`,
         [order.ref, order.to.name]);
@@ -112,6 +116,7 @@ const EditFulfillmentPlan = React.memo(function EditFulfillmentPlan({ orderId })
     const [allocationMap, setAllocationMap] = useState(_.cloneDeep(cachedData.allocationMap));
     const [totalAllocated, setTotalAllocated] = useState(cachedData.totalAllocated);
     const totalCount = useMemo(() => cachedData.totalCount, [cachedData.totalCount]);
+    const [error, setError] = useState([]);
 
     const progress = useMemo(
         () => Math.round((totalAllocated / totalCount) * 100),
@@ -132,6 +137,10 @@ const EditFulfillmentPlan = React.memo(function EditFulfillmentPlan({ orderId })
         }
     }, [register, totalItems]);
 
+    useEffect(() => {
+        setError(Object.values(errors).map(err => err.message));
+    }, [errors]);
+
     const splits = watch(fieldNames.shippingSplits);
 
     const onCancel = useCallback(() =>
@@ -139,9 +148,8 @@ const EditFulfillmentPlan = React.memo(function EditFulfillmentPlan({ orderId })
         [history, location.pathname]);
 
     const onSubmit = useCallback(data => {
-        console.log(data)
-        // const shippingSplits = prepareShippingSplits(data.shippingSplits);
-        // dispatch(updateOrder({ orderId: order._id, update: { shippingSplits } }));
+        const shippingSplits = prepareShippingSplits(data.shippingSplits);
+        dispatch(updateOrder({ orderId: order._id, update: { shippingSplits } }));
     }, [dispatch, order._id]);
 
     const onNewSplit = useCallback(() => {
@@ -249,7 +257,7 @@ const EditFulfillmentPlan = React.memo(function EditFulfillmentPlan({ orderId })
     const createAddRowHandler = useCallback(splitIdx => () => {
         const splits = getValues(fieldNames.shippingSplits);
         const newSplit = { ...splits[splitIdx] };
-        newSplit.items = [...newSplit.items, { _id: null, quantity: 0 }];
+        newSplit.items = [...newSplit.items, { _id: null, ref: null, quantity: 0 }];
         setValue(fieldNames.shippingSplits, [...splits.slice(0, splitIdx), newSplit, ...splits.slice(splitIdx + 1)]);
     }, [setValue, getValues]);
 
@@ -258,25 +266,50 @@ const EditFulfillmentPlan = React.memo(function EditFulfillmentPlan({ orderId })
         const newSplit = { ...splits[splitIdx] };
         const item = newSplit.items[rowIdx];
         if (item.quantity > 0) {
-            setAllocationMap(prevItemsMap => {
-                const newAllocated = prevItemsMap[item._id].allocated - item.quantity;
+            setAllocationMap(prevMap => {
+                const newAllocated = prevMap[item._id].allocated - item.quantity;
                 return {
-                    ...prevItemsMap,
+                    ...prevMap,
                     [item._id]: {
-                        ...prevItemsMap[item._id],
+                        ...prevMap[item._id],
                         allocated: newAllocated
                     }
                 };
             });
             setTotalAllocated(prevCount => prevCount - item.quantity);
         }
-        if (newSplit.items.length > 1) {
-            newSplit.items = newSplit.items.filter((_, idx) => idx !== rowIdx);
-            setValue(fieldNames.shippingSplits, [...splits.slice(0, splitIdx), newSplit, ...splits.slice(splitIdx + 1)]);
-        } else {
-            setValue(fieldNames.shippingSplits, splits.filter((_, idx) => idx !== splitIdx));
-        }
+        newSplit.items = newSplit.items.filter((_, idx) => idx !== rowIdx);
+        setValue(fieldNames.shippingSplits, [...splits.slice(0, splitIdx), newSplit, ...splits.slice(splitIdx + 1)]);
     }, [getValues, setValue]);
+
+    const createDeleteSplitHandler = useCallback(splitIdx => () => {
+        const splits = getValues(fieldNames.shippingSplits);
+        const split = splits[splitIdx];
+        if (split.ref !== ref) {
+            if (split.items.length) {
+                setAllocationMap(prevMap => {
+                    const newMap = { ...prevMap };
+                    split.items.forEach(item => {
+                        if (item._id) {
+                            prevMap[item._id] = {
+                                ...prevMap[item._id],
+                                allocated: prevMap[item._id].allocated -= item.quantity
+                            }
+                        }
+                    });
+                    return newMap;
+                });
+                setTotalAllocated(prevCount => {
+                    const removedCount = split.items.reduce((sum, item) =>
+                        sum + (item._id ? item.quantity : 0), 0);
+                    return prevCount - removedCount;
+                });
+            }
+            setValue(fieldNames.shippingSplits, splits.filter((_, idx) => idx !== splitIdx));
+        } else {
+            setError([errorMessages.baseSplitDeletion]);
+        }
+    }, [getValues, setValue, ref]);
 
     const tools = useMemo(() => [
         <ThemedButton
@@ -296,17 +329,17 @@ const EditFulfillmentPlan = React.memo(function EditFulfillmentPlan({ orderId })
     ], [onReset, classes, progress]);
 
     return (
-        <InfoCard
-            className={ classes.infoCard }
-            title={ title }
-            content={
-                <form onSubmit={ handleSubmit(onSubmit) } autoComplete="off" noValidate>
-
-                    <Grid container className={ classes.contentContainer } justify="center">
-                        <Grid item xs={ 12 }>
+        <>
+            <ErrorSnackbar error={ error }/>
+            <InfoCard
+                className={ classes.infoCard }
+                title={ title }
+                content={
+                    <form onSubmit={ handleSubmit(onSubmit) } autoComplete="off" noValidate>
+                        <Box className={ classes.contentContainer }>
                             { splits.map((split, idx) =>
                                 <EditShippingSplit
-                                    key={ `shipping-plan-${ split.ref }-view` }
+                                    key={ `shipping-plan-${ idx }-view` }
                                     split={ split }
                                     splitIdx={ idx }
                                     itemOptions={ totalItems }
@@ -315,29 +348,30 @@ const EditFulfillmentPlan = React.memo(function EditFulfillmentPlan({ orderId })
                                     onCellChange={ onCellChange }
                                     onAddRow={ createAddRowHandler(idx) }
                                     onDeleteRow={ onDeleteRow }
+                                    onDeleteSplit={ createDeleteSplitHandler(idx) }
                                     custom1={ custom1 }
                                     custom2={ custom2 }
                                 />
                             ) }
-                        </Grid>
-                        <ThemedButton
-                            variant="outlined"
-                            className={ classes.newSplitButton }
-                            onClick={ onNewSplit }
-                        >
-                            { labels.newSplitButton }
-                        </ThemedButton>
-                    </Grid>
-                    <Footer
-                        prevLabel={ labels.cancelButton }
-                        nextLabel={ labels.submitButton }
-                        onPrevClick={ onCancel }
-                        nextButtonType="submit"
-                    />
-                </form>
-            }
-            tools={ tools }
-        />
+                            <ThemedButton
+                                variant="outlined"
+                                className={ classes.newSplitButton }
+                                onClick={ onNewSplit }
+                            >
+                                { labels.newSplitButton }
+                            </ThemedButton>
+                        </Box>
+                        <Footer
+                            prevLabel={ labels.cancelButton }
+                            nextLabel={ labels.submitButton }
+                            onPrevClick={ onCancel }
+                            nextButtonType="submit"
+                        />
+                    </form>
+                }
+                tools={ tools }
+            />
+        </>
     );
 });
 

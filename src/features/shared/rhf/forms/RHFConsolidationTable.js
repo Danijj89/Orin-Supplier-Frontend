@@ -8,7 +8,7 @@ import { Add as IconAdd, Close as IconClose } from '@material-ui/icons';
 import { useWatch } from 'react-hook-form';
 import UnitCounter from '../../classes/UnitCounter.js';
 import { roundToNDecimal } from '../../utils/format.js';
-import ErrorMessages from '../../components/ErrorMessages.js';
+import ErrorSnackbar from 'features/shared/components/ErrorSnackbar.js';
 import RHFAutoComplete from '../inputs/RHFAutoComplete.js';
 import { useSelector } from 'react-redux';
 import {
@@ -338,7 +338,7 @@ const RHFConsolidationTable = React.memo(function RHFConsolidationTable(
         <Grid container className={ className }>
             { isError &&
             <Grid container item justify="center" xs={ 12 }>
-                <ErrorMessages error={ errMessages }/>
+                <ErrorSnackbar error={ errMessages }/>
             </Grid>
             }
             <Grid container item justify="flex-end" xs={ 12 }>

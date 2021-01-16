@@ -12,7 +12,7 @@ import {
 } from 'app/duck/selectors.js';
 import { getOptionId, getOptionLabel } from 'app/utils/options/getters.js';
 import Grid from '@material-ui/core/Grid';
-import ErrorMessages from '../../components/ErrorMessages.js';
+import ErrorSnackbar from 'features/shared/components/ErrorSnackbar.js';
 import UnitCounter from '../../classes/UnitCounter.js';
 import { getCurrencySymbol } from '../../utils/random.js';
 import { selectCompanyDefaultAddress, selectCurrentCompany } from 'features/home/duck/home/selectors.js';
@@ -281,7 +281,7 @@ const RHFChinaExportTable = React.memo(function RHFChinaExportTable(
 
     return (
         <Grid container>
-            { isError && <ErrorMessages error={ errMessages }/> }
+            { isError && <ErrorSnackbar error={ errMessages }/> }
             <Table
                 columns={ columns }
                 rows={ rows }

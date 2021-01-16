@@ -187,10 +187,7 @@ const TableRow = React.memo(function TableRow(
     for (const [k, v] of Object.entries(prev.row)) {
         if (v !== next.row[k]) return false;
     }
-    for (let i = 0; i < prev.columns.length; i++) {
-        if (prev.columns[i].hide !== next.columns[i].hide) return false;
-    }
-    return true;
+    return prev.columns === next.columns;
 });
 
 TableRow.propTypes = {

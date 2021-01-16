@@ -496,7 +496,9 @@ export const ENGLISH = {
                 },
                 errorMessages: {
                     itemOverflow: (ref) => `Item Ref. ${ref} has too many units.`,
-                    itemTooFew: (ref) => `Item Ref. ${ref} has too little units.`
+                    itemTooFew: (ref) => `Item Ref. ${ref} has too little units.`,
+                    emptySplit: 'Remove empty splits.',
+                    baseSplitDeletion: 'You cannot delete this base split.'
                 }
             },
             errorMessages: {

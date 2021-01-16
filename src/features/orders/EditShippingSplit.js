@@ -9,14 +9,15 @@ import Box from '@material-ui/core/Box';
 import Table from 'features/shared/components/table/Table.js';
 import DateField from 'features/shared/inputs/DateField.js';
 import DeleteIconButton from 'features/shared/buttons/DeleteIconButton.js';
+import ThemedButton from 'features/shared/buttons/ThemedButton.js';
+import { Clear as IconClear } from '@material-ui/icons';
+import Grid from '@material-ui/core/Grid';
 
 const useStyles = makeStyles(theme => ({
     container: {
-        paddingLeft: theme.spacing(4),
-        paddingRight: theme.spacing(4)
+        padding: theme.spacing(2)
     },
     splitContainer: {
-        display: 'flex',
         backgroundColor: theme.palette.backgroundSecondary.main,
     },
     left: {
@@ -58,6 +59,7 @@ const EditShippingSplit = React.memo(function EditShippingSplit(
         onCellChange,
         onAddRow,
         onDeleteRow,
+        onDeleteSplit,
         custom1,
         custom2
     }) {
@@ -93,9 +95,9 @@ const EditShippingSplit = React.memo(function EditShippingSplit(
             editType: 'dropdown',
             options: itemOptions,
             getOptionLabel: item => item.ref || item,
-            getOptionSelected: (order, value) => order.ref === value || value === '',
+            getOptionSelected: (item, value) => item.ref === value || item._id === value._id,
             filterOptions: items => items.filter(item =>
-                allocationMap[item._id].quantity > allocationMap[item._id].allocated)
+                    allocationMap[item._id].quantity > allocationMap[item._id].allocated)
         },
         { field: 'description', headerName: tableHeaderLabels.description },
         {
@@ -153,9 +155,14 @@ const EditShippingSplit = React.memo(function EditShippingSplit(
     }), [classes.table, classes.right, onCellChanged, onAddRow]);
 
     return (
-        <Box className={ classes.container }>
-            <Typography>{ ref }</Typography>
-            <Box className={ classes.splitContainer }>
+        <Grid container className={ classes.container }>
+            <Grid container item justify="space-between" alignItems="center" xs={12}>
+                <Typography>{ ref }</Typography>
+                <ThemedButton variant="text" onClick={ onDeleteSplit }>
+                    <IconClear fontSize="small"/>
+                </ThemedButton>
+            </Grid>
+            <Grid className={classes.splitContainer} container item xs={12}>
                 <Box className={ classes.left }>
                     <Avatar>{ splitNum }</Avatar>
                     <Typography>{ labels.crd }</Typography>
@@ -166,13 +173,15 @@ const EditShippingSplit = React.memo(function EditShippingSplit(
                         emptyLabel={ labels.emptyDateLabel }
                     />
                 </Box>
-                <Table
-                    rows={ rows }
-                    columns={ columns }
-                    options={ options }
-                />
-            </Box>
-        </Box>
+                <Grid item xs>
+                    <Table
+                        rows={ rows }
+                        columns={ columns }
+                        options={ options }
+                    />
+                </Grid>
+            </Grid>
+        </Grid>
     );
 });
 
@@ -185,6 +194,7 @@ EditShippingSplit.propTypes = {
     onCellChange: PropTypes.func.isRequired,
     onAddRow: PropTypes.func.isRequired,
     onDeleteRow: PropTypes.func.isRequired,
+    onDeleteSplit: PropTypes.func.isRequired,
     custom1: PropTypes.string,
     custom2: PropTypes.string
 };

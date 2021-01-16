@@ -7,7 +7,7 @@ import TableTextField from '../../inputs/TableTextField.js';
 import { Add as IconAdd, Close as IconClose } from '@material-ui/icons';
 import UnitCounter from '../../classes/UnitCounter.js';
 import { formatQuantityWithUnit, roundToNDecimal } from '../../utils/format.js';
-import ErrorMessages from '../../components/ErrorMessages.js';
+import ErrorSnackbar from 'features/shared/components/ErrorSnackbar.js';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import RHFAutoComplete from '../inputs/RHFAutoComplete.js';
@@ -337,7 +337,7 @@ const RHFMeasureTable = React.memo(function RHFMeasureTable(
         <Grid container className={ className }>
             { isError &&
             <Grid container item justify="center" xs={ 12 }>
-                <ErrorMessages error={ errMessages }/>
+                <ErrorSnackbar error={ errMessages }/>
             </Grid>
             }
             <Grid container item justify="flex-end" xs={ 12 }>
