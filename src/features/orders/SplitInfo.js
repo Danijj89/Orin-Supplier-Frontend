@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles.js';
 import { TableCell as MuiTableCell } from '@material-ui/core';
@@ -16,6 +16,9 @@ import { READ_ANY, READ_OWN } from 'features/admin/utils/actions.js';
 import EditOrderStatusButton from 'features/orders/EditOrderStatusButton.js';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
+import TextAreaCard from 'features/shared/components/TextAreaCard.js';
+import { useDispatch } from 'react-redux';
+import { updateSplit } from 'features/orders/duck/thunks.js';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -71,12 +74,17 @@ const {
 
 const SplitInfo = React.memo(function SplitInfo({ orderId, split }) {
     const classes = useStyles();
-    const { _id: splitId, procurement, production, qa } = split;
+    const dispatch = useDispatch();
+    const { _id: splitId, procurement, production, qa, notes } = split;
+
+    const onNotesSubmit = useCallback(
+        notes => dispatch(updateSplit({ orderId, splitId, update: { notes } })),
+        [dispatch, orderId, splitId]);
 
     return (
         <OrderStatusPermission action={ [READ_ANY, READ_OWN] } orderId={ orderId }>
-            <Grid className={classes.container} container>
-                <Grid container justify="space-between" item xs={12}>
+            <Grid className={ classes.container } container>
+                <Grid container justify="space-between" item xs={ 12 }>
                     <Typography variant="h6">{ titles.splitStatus }</Typography>
                     <EditOrderStatusButton
                         orderId={ orderId }
@@ -86,7 +94,7 @@ const SplitInfo = React.memo(function SplitInfo({ orderId, split }) {
                         qa={ qa }
                     />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={ 12 }>
                     <TableContainer>
                         <Table>
                             <TableHead>
@@ -120,8 +128,12 @@ const SplitInfo = React.memo(function SplitInfo({ orderId, split }) {
                         </Table>
                     </TableContainer>
                 </Grid>
-                <Grid item xs>
-
+                <Grid item xs={12}>
+                    <TextAreaCard
+                        titleLabel={ titles.notes }
+                        onSubmit={ onNotesSubmit }
+                        value={ notes }
+                    />
                 </Grid>
             </Grid>
         </OrderStatusPermission>

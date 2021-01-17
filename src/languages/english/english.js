@@ -453,6 +453,7 @@ export const ENGLISH = {
                 procurement: 'Procurement',
                 production: 'Production',
                 qa: 'QA',
+                notes: 'Notes'
             },
             labels: {
                 orderReference: 'Order Number',
@@ -521,13 +522,6 @@ export const ENGLISH = {
                 orderWasDeleted:
                     'The order you selected is no longer existent.',
             },
-            // orderDetails: {
-            //         orderStatusDialog: {
-            //
-
-            //         },
-            //     },
-            // },
             // orderDocuments: {
             //     buttonLabels: {
             //         generateExcel: 'Generate Excel',
