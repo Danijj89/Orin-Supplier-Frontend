@@ -2,7 +2,6 @@ import React, { useCallback, useMemo } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { LANGUAGE, LOCALE } from 'app/utils/constants.js';
 import Table from '../shared/components/table/Table.js';
-import UnitCounter from '../shared/classes/UnitCounter.js';
 import { useSelector } from 'react-redux';
 import { selectClientOrders } from './duck/selectors.js';
 import { selectItemUnitsMap } from 'app/duck/selectors.js';

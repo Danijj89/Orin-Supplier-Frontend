@@ -552,11 +552,15 @@ export const ENGLISH = {
             },
         },
         createShipment: {
-            newTitleLabel: 'New Shipment',
-            editTitleLabel: 'Edit',
-            companyAddressLabel: 'Shipper / Supplier',
-            clientLabel: 'Consignee / Client',
-            clientAddressLabel: 'Client Address',
+            titles: {
+                newTitle: 'New Shipment',
+                editTitle: 'Edit',
+            },
+            labels: {
+                companyAddress: 'Shipper / Supplier',
+                client: 'Consignee / Client',
+                clientAddress: 'Client Address',
+            },
             tableHeaderLabelsMap: {
                 ref: 'Sales Order',
                 clientRef: 'Client Ref',

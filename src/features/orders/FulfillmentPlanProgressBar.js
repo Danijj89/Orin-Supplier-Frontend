@@ -70,7 +70,7 @@ const FulfillmentPlanProgressBar = React.memo(function FulfillmentPlanProgressBa
                 </Typography>,
             align: 'right',
         }
-    ], [custom1, custom2, classes.red]);
+    ], [custom1, custom2, classes.red, classes.green]);
 
     const rows = useMemo(() => items.map(item => ({
         ref: item.ref,
@@ -128,6 +128,13 @@ const FulfillmentPlanProgressBar = React.memo(function FulfillmentPlanProgressBa
     );
 });
 
-FulfillmentPlanProgressBar.propTypes = {};
+FulfillmentPlanProgressBar.propTypes = {
+    progress: PropTypes.number.isRequired,
+    orderRef: PropTypes.string.isRequired,
+    items: PropTypes.arrayOf(PropTypes.object).isRequired,
+    allocationMap: PropTypes.object.isRequired,
+    custom1: PropTypes.string,
+    custom2: PropTypes.string
+};
 
 export default FulfillmentPlanProgressBar;

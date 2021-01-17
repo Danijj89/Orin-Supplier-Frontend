@@ -140,6 +140,9 @@ const SplitInfo = React.memo(function SplitInfo({ orderId, split }) {
     );
 });
 
-SplitInfo.propTypes = {};
+SplitInfo.propTypes = {
+    orderId: PropTypes.string.isRequired,
+    split: PropTypes.object.isRequired
+};
 
 export default SplitInfo;
