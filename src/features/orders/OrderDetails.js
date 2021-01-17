@@ -26,41 +26,38 @@ const OrderDetails = React.memo(function OrderDetails({ order }) {
     const classes = useStyles();
     const history = useHistory();
     const location = useLocation();
-    const { tab = 'product' } = queryString.parse(location.search);
+    const { tab = 'details' } = queryString.parse(location.search);
 
     const setTabValue = (newValue) =>
         history.push(`${ location.pathname }?mode=view&tab=${ newValue }`);
 
     return (
         <>
-            <DetailsInfoCard order={ order }/>
-            <Paper>
-                <NavTabs
-                    tabsLabelsMap={ tabsLabelsMap }
-                    tabValue={ tab }
-                    onChange={ setTabValue }
-                    className={ classes.navTabs }
-                />
-                { tab === 'product' &&
-                <InfoCard
-                    title={ titles.productTable }
-                    tools={ <EditOrderProductsButton order={ order }/> }
-                    content={
-                        <OrderProductTable
-                            items={ order.items }
-                            currency={ order.currency }
-                            quantity={ order.quantity }
-                            total={ order.total }
-                            custom1={ order.custom1 }
-                            custom2={ order.custom2 }
-                        />
-                    }
-                />
+            <NavTabs
+                tabsLabelsMap={ tabsLabelsMap }
+                tabValue={ tab }
+                onChange={ setTabValue }
+                className={ classes.navTabs }
+                component={ Paper }
+            />
+            { tab === 'details' && <DetailsInfoCard order={ order }/> }
+            { tab === 'product' &&
+            <InfoCard
+                title={ titles.productTable }
+                tools={ <EditOrderProductsButton order={ order }/> }
+                content={
+                    <OrderProductTable
+                        items={ order.items }
+                        currency={ order.currency }
+                        quantity={ order.quantity }
+                        total={ order.total }
+                        custom1={ order.custom1 }
+                        custom2={ order.custom2 }
+                    />
                 }
-                { tab === 'fulfillment' &&
-                <OrderFulfillmentPlan order={ order }/>
-                }
-            </Paper>
+            />
+            }
+            <OrderFulfillmentPlan order={ order }/>
         </>
     );
 });

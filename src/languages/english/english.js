@@ -434,8 +434,8 @@ export const ENGLISH = {
         },
         order: {
             tabsLabelsMap: {
-                product: 'Products',
-                fulfillment: 'Fulfillment Page'
+                details: 'Details',
+                product: 'Products'
             },
             subTabsLabels: {
                 products: 'Products',

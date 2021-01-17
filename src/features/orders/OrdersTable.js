@@ -69,7 +69,7 @@ export default function OrdersTable() {
     const refButtonRenderer = useCallback(row =>
             <ThemedButton
                 variant="text"
-                onClick={ () => history.push(getOrderURL(row.id, { tab: 'fulfillment', split: row.splitId })) }>
+                onClick={ () => history.push(getOrderURL(row.id, { split: row.splitId })) }>
                 { row.ref }
             </ThemedButton>,
         [history]);

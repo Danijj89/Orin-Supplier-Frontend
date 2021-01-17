@@ -11,7 +11,8 @@ const NavTabs = React.memo(function NavTabs(
         orientation,
         tabComponent = 'span',
         className,
-        tabClassName
+        tabClassName,
+        component
     }) {
 
     const onTabChange = useCallback((event, newValue) => onChange(newValue), [onChange]);
@@ -25,6 +26,7 @@ const NavTabs = React.memo(function NavTabs(
             className={ className }
             variant={ variant }
             orientation={ orientation }
+            component={ component }
         >
             { Object.entries(tabsLabelsMap).map(([value, label]) =>
                 <Tab
@@ -47,7 +49,8 @@ NavTabs.propTypes = {
     orientation: PropTypes.string,
     tabComponent: PropTypes.string,
     tabClassName: PropTypes.string,
-    className: PropTypes.string
+    className: PropTypes.string,
+    component: PropTypes.any
 };
 
 export default NavTabs;
