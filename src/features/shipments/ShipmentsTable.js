@@ -3,12 +3,12 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectAllShipments } from './duck/selectors.js';
 import Table from '../shared/components/table/Table.js';
-import { LANGUAGE } from '../../app/utils/constants.js';
-import { getOptionId } from '../../app/utils/options/getters.js';
+import { LANGUAGE } from 'app/utils/constants.js';
+import { getOptionId } from 'app/utils/options/getters.js';
 import StatusDropdown from '../shared/components/StatusDropdown.js';
-import { selectDeliveryMethods, selectShipmentStatuses } from '../../app/duck/selectors.js';
+import { selectDeliveryMethods, selectShipmentStatuses } from 'app/duck/selectors.js';
 import { updateShipment } from './duck/thunks.js';
-import { SESSION_SHIPMENT_TABLE_FILTERS } from '../../app/sessionKeys.js';
+import { SESSION_SHIPMENT_TABLE_FILTERS } from 'app/sessionKeys.js';
 
 const { tableHeadersMap } = LANGUAGE.shipment.overview.shipmentsTable;
 
@@ -96,15 +96,15 @@ const ShipmentsTable = React.memo(function ShipmentsTable() {
         },
         body: {
             onRowClick
-        },
-        tools
-    }), [tools, onRowClick]);
+        }
+    }), [onRowClick]);
 
     return (
         <Table
             columns={ columns }
             rows={ rows }
             options={ options }
+            tools={ tools }
         />
     )
 });

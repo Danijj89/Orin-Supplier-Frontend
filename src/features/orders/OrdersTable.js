@@ -203,7 +203,6 @@ export default function OrdersTable() {
                 tools={ tools }
                 options={ options }
             />
-
             <Drawer
                 anchor={ 'right' }
                 open={ isDrawerOpen }

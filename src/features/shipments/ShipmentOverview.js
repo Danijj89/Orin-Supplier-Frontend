@@ -2,7 +2,7 @@ import React from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { Paper } from '@material-ui/core';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
-import { LANGUAGE } from '../../app/utils/constants.js';
+import { LANGUAGE } from 'app/utils/constants.js';
 import ShipmentsTable from './ShipmentsTable.js';
 import { makeStyles } from '@material-ui/core/styles';
 import { CREATE_ANY, CREATE_OWN } from '../admin/utils/actions.js';
