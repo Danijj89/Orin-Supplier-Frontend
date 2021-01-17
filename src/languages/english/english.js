@@ -440,14 +440,19 @@ export const ENGLISH = {
             subTabsLabels: {
                 products: 'Products',
                 documents: 'Documents',
-                notes: 'Notes'
+                status: 'Status & Notes'
             },
             titles: {
                 details: 'Order Overview',
                 productTable: 'Products',
                 fulfillmentPlan: 'Fulfillment Plan',
                 editDetailsDialog: 'Edit Order',
-                editProductsDialog: 'Products'
+                editProductsDialog: 'Products',
+                splitStatus: 'Order Progress',
+                editSplitStatusDialog: 'Order Status',
+                procurement: 'Procurement',
+                production: 'Production',
+                qa: 'QA',
             },
             labels: {
                 orderReference: 'Order Number',
@@ -462,13 +467,23 @@ export const ENGLISH = {
                 realCrd: 'Actual CRD',
                 paymentMethod: 'Payment Method',
                 total: 'Total',
+                status: 'Status',
+                estimated: 'Estimated Completion',
+                actual: 'Actual Completion'
+            },
+            tableHeaderLabels: {
+                procurement: 'Procurement',
+                production: 'Production',
+                qa: 'QA',
             },
             buttons: {
                 editDetails: 'Edit',
                 submitDetails: 'Update',
                 editProducts: 'Edit',
                 submitProducts: 'Update',
-                editFulfillment: 'Manage Fulfillment Plan'
+                editFulfillment: 'Manage Fulfillment Plan',
+                editSplitStatus: 'Edit',
+                submitSplitStatus: 'Update'
             },
             orderProductTable: {
                 tableHeaderLabelsMap: {
@@ -497,7 +512,7 @@ export const ENGLISH = {
                 },
                 errorMessages: {
                     itemOverflow: (ref, diff) => `Item Ref. ${ ref } has ${ diff } more units than expected.`,
-                    itemTooFew: (ref, diff) => `Item Ref. ${ ref } has ${diff} less units than expected.`,
+                    itemTooFew: (ref, diff) => `Item Ref. ${ ref } has ${ diff } less units than expected.`,
                     emptySplit: 'Remove empty splits.',
                     baseSplitDeletion: 'You cannot delete this base split.'
                 }
@@ -507,28 +522,9 @@ export const ENGLISH = {
                     'The order you selected is no longer existent.',
             },
             // orderDetails: {
-            //     statusInfoCard: {
-            //         title: 'Order Progress',
-            //         headerLabelsMap: {
-            //             procurement: 'Procurement',
-            //             production: 'Production',
-            //             qa: 'QA',
-            //         },
-            //         statusLabel: 'Status',
-            //         estimatedLabel: 'Estimated Completion',
-            //         actualLabel: 'Actual Completion',
-            //         editOrderStatusButton: {
-            //             buttonLabel: 'Edit',
-            //             titleLabel: 'Order Status',
-            //             submitLabel: 'Update',
-            //         },
             //         orderStatusDialog: {
-            //             procurementTitleLabel: 'Procurement',
-            //             productionTitleLabel: 'Production',
-            //             qaTitleLabel: 'QA',
-            //             statusLabel: 'Status',
-            //             estimatedLabel: 'Estimated',
-            //             actualLabel: 'Actual',
+            //
+
             //         },
             //     },
             // },

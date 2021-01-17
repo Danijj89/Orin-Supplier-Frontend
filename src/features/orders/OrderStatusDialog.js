@@ -4,17 +4,17 @@ import { useForm } from 'react-hook-form';
 import { makeStyles } from '@material-ui/core/styles';
 import { Grid, Typography } from '@material-ui/core';
 import FormContainer from '../shared/wrappers/FormContainer.js';
-import { LANGUAGE, LOCALE } from '../../app/utils/constants.js';
+import { LANGUAGE, LOCALE } from 'app/utils/constants.js';
 import PropTypes from 'prop-types';
 import RHFAutoComplete from '../shared/rhf/inputs/RHFAutoComplete.js';
 import OrderStatusListItem from './OrderStatusListItem.js';
 import RHFDateField from '../shared/rhf/inputs/RHFDateField.js';
 import { useSelector } from 'react-redux';
-import { selectOrderStatuses } from '../../app/duck/selectors.js';
+import { selectOrderStatuses } from 'app/duck/selectors.js';
 import {
     getOptionId,
     getOptionLabel,
-} from '../../app/utils/options/getters.js';
+} from 'app/utils/options/getters.js';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -35,24 +35,21 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const {
-    procurementTitleLabel,
-    productionTitleLabel,
-    qaTitleLabel,
-    statusLabel,
-    estimatedLabel,
-    actualLabel,
-} = LANGUAGE.order.order.orderDetails.statusInfoCard.orderStatusDialog;
+    titles,
+    labels
+} = LANGUAGE.order.order;
 
-const OrderStatusDialog = React.memo(function OrderStatusDialog({
-    isOpen,
-    onSubmit,
-    onCancel,
-    submitLabel,
-    procurement,
-    production,
-    qa,
-    titleLabel,
-}) {
+const OrderStatusDialog = React.memo(function OrderStatusDialog(
+    {
+        isOpen,
+        onSubmit,
+        onCancel,
+        submitLabel,
+        procurement,
+        production,
+        qa,
+        titleLabel,
+    }) {
     const classes = useStyles();
     const orderStatusOptions = useSelector(selectOrderStatuses);
 
@@ -69,41 +66,55 @@ const OrderStatusDialog = React.memo(function OrderStatusDialog({
             procurementStatus: procurement.status,
             productionStatus: production.status,
             qaStatus: qa.status,
-            procurementEstimated: procurement.estimated,
-            productionEstimated: production.estimated,
-            qaEstimated: qa.estimated,
-            procurementActual: procurement.actual,
-            productionActual: production.actual,
-            qaActual: qa.actual,
+            procurementEstimated: procurement.estimated || null,
+            productionEstimated: production.estimated || null,
+            qaEstimated: qa.estimated || null,
+            procurementActual: procurement.actual || null,
+            productionActual: production.actual || null,
+            qaActual: qa.actual || null,
         });
     }, [reset, procurement, production, qa]);
 
     useEffect(() => {
-        if (procurementStatus === 'Completed')
+        console.log(getOptionId(qaStatus) === 'Completed')
+        if (getOptionId(procurementStatus) === 'Completed')
             setValue('procurementActual', new Date());
-        else if (productionStatus === 'Completed')
+        else if (getOptionId(productionStatus) === 'Completed')
             setValue('productionActual', new Date());
-        else if (qaStatus === 'Completed') setValue('qaActual', new Date());
+        else if (getOptionId(qaStatus) === 'Completed')
+            setValue('qaActual', new Date().toString());
     }, [setValue, procurementStatus, productionStatus, qaStatus]);
 
     const onFormSubmit = useCallback(
         (data) => {
+            if (data.procurementEstimated)
+                data.procurementEstimated = data.procurementEstimated.toString();
+            if (data.procurementActual)
+                data.procurementActual = data.procurementActual.toString();
+            if (data.productionEstimated)
+                data.productionEstimated = data.productionEstimated.toString();
+            if (data.productionActual)
+                data.productionActual = data.productionActual.toString();
+            if (data.qaEstimated)
+                data.qaEstimated = data.qaEstimated.toString();
+            if (data.qaActual)
+                data.qaActual = data.qaActual.toString();
             const update = {
                 procurement: {
                     status: getOptionId(data.procurementStatus),
-                    estimated: data.procurementEstimated?.toString(),
-                    actual: data.procurementActual?.toString(),
+                    estimated: data.procurementEstimated,
+                    actual: data.procurementActual
                 },
                 production: {
-                    status: getOptionId(data.procurementStatus),
-                    estimated: data.productionEstimated?.toString(),
-                    actual: data.productionActual?.toString(),
+                    status: getOptionId(data.productionStatus),
+                    estimated: data.productionEstimated,
+                    actual: data.productionActual
                 },
                 qa: {
-                    status: getOptionId(data.procurementStatus),
-                    estimated: data.qaEstimated?.toString(),
-                    actual: data.qaActual?.toString(),
-                },
+                    status: getOptionId(data.qaStatus),
+                    estimated: data.qaEstimated,
+                    actual: data.qaActual
+                }
             };
             onSubmit(update);
         },
@@ -111,122 +122,122 @@ const OrderStatusDialog = React.memo(function OrderStatusDialog({
     );
 
     const renderOption = useCallback(
-        (option) => <OrderStatusListItem option={option} />,
+        (option) => <OrderStatusListItem option={ option }/>,
         []
     );
 
     return (
         <FormDialog
-            isOpen={isOpen}
-            titleLabel={titleLabel}
-            submitLabel={submitLabel}
-            onCancel={onCancel}
-            onSubmit={handleSubmit(onFormSubmit)}
+            isOpen={ isOpen }
+            titleLabel={ titleLabel }
+            submitLabel={ submitLabel }
+            onCancel={ onCancel }
+            onSubmit={ handleSubmit(onFormSubmit) }
         >
-            <Grid container className={classes.container}>
-                <Grid item xs={12} md={6} lg={4}>
-                    <FormContainer className={classes.formContainer}>
-                        <Typography variant="h6" className={classes.stepHeader}>
-                            {procurementTitleLabel}
+            <Grid container className={ classes.container }>
+                <Grid item xs={ 12 } md={ 6 } lg={ 4 }>
+                    <FormContainer className={ classes.formContainer }>
+                        <Typography variant="h6" className={ classes.stepHeader }>
+                            { titles.procurement }
                         </Typography>
                         <RHFAutoComplete
-                            rhfControl={control}
+                            rhfControl={ control }
                             name="procurementStatus"
-                            label={statusLabel}
-                            options={orderStatusOptions}
-                            getOptionLabel={(option) =>
+                            label={ labels.status }
+                            options={ orderStatusOptions }
+                            getOptionLabel={ (option) =>
                                 getOptionLabel(option, LOCALE)
                             }
-                            getOptionSelected={(option, value) =>
+                            getOptionSelected={ (option, value) =>
                                 option.id === value.id
                             }
                             required
-                            error={!!errors.procurementStatus}
-                            className={classes.input}
-                            renderOption={renderOption}
+                            error={ !!errors.procurementStatus }
+                            className={ classes.input }
+                            renderOption={ renderOption }
                         />
                         <RHFDateField
-                            rhfControl={control}
+                            rhfControl={ control }
                             name="procurementEstimated"
-                            label={estimatedLabel}
-                            className={classes.input}
+                            label={ labels.estimated }
+                            className={ classes.input }
                         />
                         <RHFDateField
-                            rhfControl={control}
+                            rhfControl={ control }
                             name="procurementActual"
-                            label={actualLabel}
-                            className={classes.input}
+                            label={ labels.actual }
+                            className={ classes.input }
                         />
                     </FormContainer>
                 </Grid>
-                {/* <Divider orientation="vertical" flexItem /> */}
-                <Grid item xs={12} md={6} lg={4}>
-                    <FormContainer className={classes.formContainer}>
-                        <Typography variant="h6" className={classes.stepHeader}>
-                            {productionTitleLabel}
+                {/* <Divider orientation="vertical" flexItem /> */ }
+                <Grid item xs={ 12 } md={ 6 } lg={ 4 }>
+                    <FormContainer className={ classes.formContainer }>
+                        <Typography variant="h6" className={ classes.stepHeader }>
+                            { titles.production }
                         </Typography>
                         <RHFAutoComplete
-                            rhfControl={control}
+                            rhfControl={ control }
                             name="productionStatus"
-                            label={statusLabel}
-                            options={orderStatusOptions}
-                            getOptionLabel={(option) =>
+                            label={ labels.status }
+                            options={ orderStatusOptions }
+                            getOptionLabel={ (option) =>
                                 getOptionLabel(option, LOCALE)
                             }
-                            getOptionSelected={(option, value) =>
+                            getOptionSelected={ (option, value) =>
                                 option.id === value.id
                             }
                             required
-                            error={!!errors.productionStatus}
-                            className={classes.input}
-                            renderOption={renderOption}
+                            error={ !!errors.productionStatus }
+                            className={ classes.input }
+                            renderOption={ renderOption }
                         />
                         <RHFDateField
-                            rhfControl={control}
+                            rhfControl={ control }
                             name="productionEstimated"
-                            label={estimatedLabel}
-                            className={classes.input}
+                            label={ labels.estimated }
+                            className={ classes.input }
                         />
                         <RHFDateField
-                            rhfControl={control}
+                            rhfControl={ control }
                             name="productionActual"
-                            label={actualLabel}
-                            className={classes.input}
+                            label={ labels.actual }
+                            className={ classes.input }
                         />
                     </FormContainer>
                 </Grid>
-                <Grid item xs={12} md={6} lg={4}>
-                    <FormContainer className={classes.formContainer}>
-                        <Typography variant="h6" className={classes.stepHeader}>
-                            {qaTitleLabel}
+                <Grid item xs={ 12 } md={ 6 } lg={ 4 }>
+                    <FormContainer className={ classes.formContainer }>
+                        <Typography variant="h6" className={ classes.stepHeader }>
+                            { titles.qa }
                         </Typography>
                         <RHFAutoComplete
-                            rhfControl={control}
+                            rhfControl={ control }
                             name="qaStatus"
-                            label={statusLabel}
-                            options={orderStatusOptions}
-                            getOptionLabel={(option) =>
+                            label={ labels.status }
+                            options={ orderStatusOptions }
+                            getOptionLabel={ (option) =>
                                 getOptionLabel(option, LOCALE)
                             }
-                            getOptionSelected={(option, value) =>
+                            getOptionSelected={ (option, value) =>
                                 option.id === value.id
                             }
                             required
-                            error={!!errors.qaStatus}
-                            className={classes.input}
-                            renderOption={renderOption}
+                            error={ !!errors.qaStatus }
+                            className={ classes.input }
+                            renderOption={ renderOption }
                         />
                         <RHFDateField
-                            rhfControl={control}
+                            rhfControl={ control }
                             name="qaEstimated"
-                            label={estimatedLabel}
-                            className={classes.input}
+                            label={ labels.estimated }
+                            className={ classes.input }
                         />
                         <RHFDateField
-                            rhfControl={control}
+                            rhfControl={ control }
                             name="qaActual"
-                            label={actualLabel}
-                            className={classes.input}
+                            label={ labels.actual }
+                            className={ classes.input }
                         />
                     </FormContainer>
                 </Grid>

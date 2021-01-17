@@ -10,12 +10,13 @@ const useStyles = makeStyles(theme => ({
     container: {
         paddingTop: theme.spacing(4),
         paddingBottom: theme.spacing(4),
-        paddingRight: theme.spacing(4)
+        paddingRight: theme.spacing(4),
+        minHeight: '40vh'
     }
 }));
 
 const FulfillmentPlan = React.memo(function FulfillmentPlan({ order }) {
-    const { shippingSplits, currency, custom1, custom2 } = order;
+    const { _id: orderId, shippingSplits, currency, custom1, custom2 } = order;
     const classes = useStyles();
     const history = useHistory();
     const location = useLocation();
@@ -41,6 +42,7 @@ const FulfillmentPlan = React.memo(function FulfillmentPlan({ order }) {
             </Grid>
             <Grid item xs>
                 <Split
+                    orderId={ orderId }
                     split={ activeSplit }
                     currency={ currency }
                     custom1={ custom1 }

@@ -5,12 +5,13 @@ import { LANGUAGE } from 'app/utils/constants.js';
 import { useHistory, useLocation } from 'react-router-dom';
 import queryString from 'query-string';
 import OrderProductTable from 'features/orders/OrderProductTable.js';
+import SplitInfo from 'features/orders/SplitInfo.js';
 
 const {
     subTabsLabels
 } = LANGUAGE.order.order;
 
-const Split = React.memo(function Split({ split, currency, custom1, custom2 }) {
+const Split = React.memo(function Split({ orderId, split, currency, custom1, custom2 }) {
     const { items, quantity, total } = split;
     const history = useHistory();
     const location = useLocation();
@@ -39,12 +40,19 @@ const Split = React.memo(function Split({ split, currency, custom1, custom2 }) {
                 custom2={ custom2 }
             />
             }
+            { subTab === 'status' &&
+            <SplitInfo orderId={ orderId } split={ split }/>
+            }
         </>
     );
 });
 
 Split.propTypes = {
-    split: PropTypes.object.isRequired
+    orderId: PropTypes.string.isRequired,
+    split: PropTypes.object.isRequired,
+    currency: PropTypes.object.isRequired,
+    custom1: PropTypes.string,
+    custom2: PropTypes.string
 };
 
 export default Split;
