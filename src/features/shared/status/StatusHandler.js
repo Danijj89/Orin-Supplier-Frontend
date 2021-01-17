@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import Alert from '@material-ui/lab/Alert';
 import Snackbar from '@material-ui/core/Snackbar';
@@ -29,9 +29,11 @@ const ANCHOR_ORIGIN = {
 
 const DURATION = 5000;
 
-const StatusHandler = React.memo(function StatusHandler({ status, error }) {
+const StatusHandler = React.memo(function StatusHandler({ status, error, showSuccess }) {
     const classes = useStyles();
     const [open, setOpen] = useState(false);
+    const showSuccessSnackBar = useMemo(() => showSuccess && status === 'FULFILLED',
+        [showSuccess, status]);
 
     const onClose = (event, reason) => {
         if (reason === "clickaway") return;
@@ -44,7 +46,7 @@ const StatusHandler = React.memo(function StatusHandler({ status, error }) {
 
     return (
         <>
-            { status === 'FULFILLED' &&
+            { showSuccessSnackBar &&
             <Snackbar
                 anchorOrigin={ ANCHOR_ORIGIN }
                 TransitionComponent={ SlideTransition }
@@ -78,7 +80,8 @@ const StatusHandler = React.memo(function StatusHandler({ status, error }) {
 
 StatusHandler.propTypes = {
     status: PropTypes.string.isRequired,
-    error: PropTypes.string
+    error: PropTypes.string,
+    showSuccess: PropTypes.bool
 };
 
 export default StatusHandler;

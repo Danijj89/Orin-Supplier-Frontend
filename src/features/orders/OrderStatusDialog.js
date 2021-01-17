@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import FormDialog from '../shared/wrappers/FormDialog.js';
 import { useForm } from 'react-hook-form';
 import { makeStyles } from '@material-ui/core/styles';
@@ -75,14 +75,27 @@ const OrderStatusDialog = React.memo(function OrderStatusDialog(
         });
     }, [reset, procurement, production, qa]);
 
+    const prevProcurementStatus = useRef(getOptionId(procurementStatus));
+    const prevProductionStatus = useRef(getOptionId(productionStatus));
+    const prevQaStatus = useRef(qaStatus);
     useEffect(() => {
-        console.log(getOptionId(qaStatus) === 'Completed')
-        if (getOptionId(procurementStatus) === 'Completed')
-            setValue('procurementActual', new Date());
-        else if (getOptionId(productionStatus) === 'Completed')
-            setValue('productionActual', new Date());
-        else if (getOptionId(qaStatus) === 'Completed')
-            setValue('qaActual', new Date().toString());
+        const currProcurementStatus = getOptionId(procurementStatus);
+        if (prevProcurementStatus !== currProcurementStatus) {
+            if (currProcurementStatus === 'Completed') setValue('procurementActual', new Date());
+            prevProcurementStatus.current = currProcurementStatus;
+        }
+
+        const currProductionStatus = getOptionId(productionStatus);
+        if (prevProductionStatus !== currProductionStatus) {
+            if (currProductionStatus === 'Completed') setValue('productionActual', new Date());
+            prevProductionStatus.current = currProductionStatus;
+        }
+
+        const currQaStatus = getOptionId(qaStatus);
+        if (prevQaStatus !== currQaStatus) {
+            if (currQaStatus === 'Completed') setValue('qaActual', new Date());
+            prevQaStatus.current = currQaStatus;
+        }
     }, [setValue, procurementStatus, productionStatus, qaStatus]);
 
     const onFormSubmit = useCallback(
