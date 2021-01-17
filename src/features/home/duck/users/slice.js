@@ -20,6 +20,9 @@ const usersSlice = createSlice({
             state.dataStatus = 'IDLE';
             state.status = 'IDLE';
             state.error = null;
+        },
+        resetUserStatus: state => {
+            state.status = 'IDLE';
         }
     },
     extraReducers: {
@@ -61,6 +64,6 @@ const usersSlice = createSlice({
     }
 });
 
-export const { cleanUserState } = usersSlice.actions;
+export const { cleanUserState, resetUserStatus } = usersSlice.actions;
 
 export default usersSlice.reducer;

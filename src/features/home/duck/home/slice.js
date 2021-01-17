@@ -24,6 +24,9 @@ const homeSlice = createSlice({
             state.dataStatus = 'IDLE';
             state.status = 'IDLE';
             state.error = null;
+        },
+        resetHomeStatus: state => {
+            state.status = 'IDLE';
         }
     },
     extraReducers: {
@@ -129,6 +132,6 @@ const homeSlice = createSlice({
     }
 });
 
-export const { cleanHomeState } = homeSlice.actions;
+export const { cleanHomeState, resetHomeStatus } = homeSlice.actions;
 
 export default homeSlice.reducer;

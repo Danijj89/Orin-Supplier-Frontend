@@ -6,8 +6,8 @@ import AddressCard from '../shared/components/AddressCard.js';
 import AddressDialog from '../shared/forms/AddressDialog.js';
 import NewLeadAddressButton from './NewLeadAddressButton.js';
 import { deleteLeadAddress, updateLeadAddress, updateLeadDefaultAddress } from './duck/thunks.js';
-import { LANGUAGE } from '../../app/utils/constants.js';
-import { getOptionId } from '../../app/utils/options/getters.js';
+import { LANGUAGE } from 'app/utils/constants.js';
+import { getOptionId } from 'app/utils/options/getters.js';
 import { CREATE_ANY, CREATE_OWN, UPDATE_ANY, UPDATE_OWN } from '../admin/utils/actions.js';
 import LeadPermission from '../shared/permissions/LeadPermission.js';
 
@@ -73,18 +73,18 @@ const LeadAddresses = React.memo(function LeadAddresses({ leadId }) {
                         />
                     </Grid>
                 ) }
+                { editAddress &&
                 <LeadPermission action={ [UPDATE_ANY, UPDATE_OWN] } leadId={ leadId }>
-                    { editAddress && (
-                        <AddressDialog
-                            isOpen={ isEditOpen }
-                            address={ editAddress }
-                            titleLabel={ editDialogTitleLabel }
-                            submitLabel={ editDialogSubmitLabel }
-                            onCancel={ onEditCancel }
-                            onSubmit={ onSubmit }
-                        />
-                    ) }
+                    <AddressDialog
+                        isOpen={ isEditOpen }
+                        address={ editAddress }
+                        titleLabel={ editDialogTitleLabel }
+                        submitLabel={ editDialogSubmitLabel }
+                        onCancel={ onEditCancel }
+                        onSubmit={ onSubmit }
+                    />
                 </LeadPermission>
+                }
             </Grid>
         </Grid>
     );

@@ -73,21 +73,33 @@ export default function ProductTable() {
         hsc: product.hsc,
     })), [products]);
 
-    const filterOptions = useMemo(() => ({
-        sessionKey: SESSION_PRODUCT_TABLE_FILTERS,
-        filters: [
-            { field: 'lastOrder', type: 'date', label: tableHeadersMap.lastOrder },
-            { field: 'salesYTD', type: 'range', label: tableHeadersMap.salesYTD }
-        ]
-    }), []);
+    const tools = useMemo(() => [
+        {
+            id: 'products-table-filters',
+            type: 'filter',
+            options: {
+                sessionKey: SESSION_PRODUCT_TABLE_FILTERS,
+                filters: [
+                    { field: 'lastOrder', type: 'date', label: tableHeadersMap.lastOrder },
+                    { field: 'salesYTD', type: 'range', label: tableHeadersMap.salesYTD }
+                ]
+            }
+        }
+    ], []);
+
+    const options = useMemo(() => ({
+        body: {
+            onRowClick
+        }
+    }), [onRowClick]);
 
     return (
         <>
             <Table
                 columns={ columns }
                 rows={ rows }
-                onRowClick={ onRowClick }
-                filterOptions={ filterOptions }
+                tools={ tools }
+                options={ options }
             />
             { product && (
                 <ProductPermission action={ UPDATE_ANY }>

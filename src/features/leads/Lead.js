@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import Paper from '@material-ui/core/Paper';
 import NavTabs from '../shared/components/NavTabs.js';
-import { LANGUAGE } from '../../app/utils/constants.js';
+import { LANGUAGE } from 'app/utils/constants.js';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 import queryString from 'query-string';
 import LeadDetails from './LeadDetails.js';

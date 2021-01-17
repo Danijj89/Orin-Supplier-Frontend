@@ -183,7 +183,6 @@ const OrderStatusDialog = React.memo(function OrderStatusDialog(
                         />
                     </FormContainer>
                 </Grid>
-                {/* <Divider orientation="vertical" flexItem /> */ }
                 <Grid item xs={ 12 } md={ 6 } lg={ 4 }>
                     <FormContainer className={ classes.formContainer }>
                         <Typography variant="h6" className={ classes.stepHeader }>

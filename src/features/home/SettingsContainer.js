@@ -7,8 +7,8 @@ import Loader from '../shared/components/Loader.js';
 import { selectUserDataStatus, selectUserError, selectUserStatus } from 'features/home/duck/users/selectors.js';
 import { fetchUsers } from 'features/home/duck/users/thunks.js';
 import Settings from './Settings.js';
-import { cleanHomeState } from 'features/home/duck/home/slice.js';
-import { cleanUserState } from 'features/home/duck/users/slice.js';
+import { cleanHomeState, resetHomeStatus } from 'features/home/duck/home/slice.js';
+import { cleanUserState, resetUserStatus } from 'features/home/duck/users/slice.js';
 import { fetchCurrentCompany } from 'features/home/duck/home/thunks.js';
 import StatusHandler from 'features/shared/status/StatusHandler.js';
 
@@ -25,6 +25,13 @@ const SettingsContainer = React.memo(function SettingsContainer() {
 
     const userStatus = useSelector(selectUserStatus);
     const homeStatus = useSelector(selectHomeStatus);
+
+    useEffect(() => {
+        return () => {
+            if (userStatus === 'FULFILLED') dispatch(resetUserStatus());
+            if (homeStatus === 'FULFILLED') dispatch(resetHomeStatus());
+        }
+    }, [dispatch, userStatus, homeStatus]);
 
     const fetched = useRef(false);
     useEffect(() => {
@@ -46,8 +53,8 @@ const SettingsContainer = React.memo(function SettingsContainer() {
 
     return (
         <>
-            <StatusHandler status={ userStatus } error={ userError }/>
-            <StatusHandler status={ homeStatus } error={ homeError }/>
+            <StatusHandler status={ userStatus } error={ userError } showSuccess/>
+            <StatusHandler status={ homeStatus } error={ homeError } showSuccess/>
             { status === 'REJECTED' && <ErrorPage error={ errors }/> }
             { status === 'PENDING' && <Loader/> }
             { status === 'FULFILLED' && <Settings/> }
