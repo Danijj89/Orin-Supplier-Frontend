@@ -91,6 +91,15 @@ const Roles = React.memo(function Roles() {
             _id: role._id
         })), [roles]);
 
+    const options = useMemo(() => ({
+        table: {
+            dense: false
+        },
+        body: {
+            onRowClick
+        }
+    }), [onRowClick]);
+
     return (
         <Paper>
             <Grid container>
@@ -101,7 +110,7 @@ const Roles = React.memo(function Roles() {
                     <Table
                         rows={ rows }
                         columns={ columns }
-                        onRowClick={ onRowClick }
+                        options={ options }
                     />
                 </Grid>
                 { role &&

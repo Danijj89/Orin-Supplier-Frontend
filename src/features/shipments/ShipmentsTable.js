@@ -74,22 +74,37 @@ const ShipmentsTable = React.memo(function ShipmentsTable() {
         containerQ: getContainerQuantityString(shipment.containerQ)
     })), [shipments]);
 
-    const filterOptions = useMemo(() => ({
-        sessionKey: SESSION_SHIPMENT_TABLE_FILTERS,
-        filters: [
-            { field: 'consignee', type: 'text', label: tableHeadersMap.consignee },
-            { field: 'crd', type: 'date', label: tableHeadersMap.crd },
-            { field: 'status', type: 'option', options: shipmentStatusOptions, label: tableHeadersMap.status },
-            { field: 'del', type: 'option', options: deliveryMethodOptions, label: tableHeadersMap.del }
-        ]
-    }), [shipmentStatusOptions, deliveryMethodOptions]);
+    const tools = useMemo(() => [
+        {
+            id: 'shipments-table-filters',
+            type: 'filter',
+            options: {
+                sessionKey: SESSION_SHIPMENT_TABLE_FILTERS,
+                filters: [
+                    { field: 'consignee', type: 'text', label: tableHeadersMap.consignee },
+                    { field: 'crd', type: 'date', label: tableHeadersMap.crd },
+                    { field: 'status', type: 'option', options: shipmentStatusOptions, label: tableHeadersMap.status },
+                    { field: 'del', type: 'option', options: deliveryMethodOptions, label: tableHeadersMap.del }
+                ]
+            }
+        }
+    ], [deliveryMethodOptions, shipmentStatusOptions]);
+
+    const options = useMemo(() => ({
+        table: {
+            dense: false
+        },
+        body: {
+            onRowClick
+        },
+        tools
+    }), [tools, onRowClick]);
 
     return (
         <Table
             columns={ columns }
             rows={ rows }
-            onRowClick={ onRowClick }
-            filterOptions={ filterOptions }
+            options={ options }
         />
     )
 });

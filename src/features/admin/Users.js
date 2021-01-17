@@ -60,6 +60,15 @@ const Users = React.memo(function Users() {
         }));
     }, [companiesMap, companyId]);
 
+    const options = useMemo(() => ({
+        table: {
+            dense: false
+        },
+        body: {
+            onRowClick
+        }
+    }), [onRowClick]);
+
     return (
         <Paper>
             <NewUserButton/>
@@ -79,7 +88,7 @@ const Users = React.memo(function Users() {
             <Table
                 rows={ rows }
                 columns={ columns }
-                onRowClick={ onRowClick }
+                options={ options }
             />
             { user &&
             <AdminUserDialog
