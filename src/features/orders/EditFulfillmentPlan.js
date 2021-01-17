@@ -134,7 +134,7 @@ const EditFulfillmentPlan = React.memo(function EditFulfillmentPlan({ orderId })
     const splits = watch(fieldNames.shippingSplits);
 
     const onCancel = useCallback(() =>
-            history.push(`${ location.pathname }?mode=view&tab=fulfillment`),
+            history.push(`${ location.pathname }?mode=view&tab=details`),
         [history, location.pathname]);
 
     const onSubmit = useCallback(data => {
