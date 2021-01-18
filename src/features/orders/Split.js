@@ -6,10 +6,17 @@ import { useHistory, useLocation } from 'react-router-dom';
 import queryString from 'query-string';
 import OrderProductTable from 'features/orders/OrderProductTable.js';
 import SplitInfo from 'features/orders/SplitInfo.js';
+import { makeStyles } from '@material-ui/core/styles';
 
 const {
     subTabsLabels
 } = LANGUAGE.order.order;
+
+const useStyles = makeStyles((theme) => ({
+    navTabs: {
+        marginBottom: theme.spacing(3)
+    },
+}));
 
 const Split = React.memo(function Split({ orderId, split, currency, custom1, custom2 }) {
     const { items, quantity, total } = split;
@@ -17,6 +24,7 @@ const Split = React.memo(function Split({ orderId, split, currency, custom1, cus
     const location = useLocation();
     const parsed = queryString.parse(location.search);
     const { subTab = 'products' } = parsed;
+    const classes = useStyles();
 
     const setTabValue = useCallback(newValue => {
         parsed.subTab = newValue;
@@ -29,6 +37,7 @@ const Split = React.memo(function Split({ orderId, split, currency, custom1, cus
                 tabsLabelsMap={ subTabsLabels }
                 tabValue={ subTab }
                 onChange={ setTabValue }
+                className={ classes.navTabs }
             />
             { subTab === 'products' &&
             <OrderProductTable

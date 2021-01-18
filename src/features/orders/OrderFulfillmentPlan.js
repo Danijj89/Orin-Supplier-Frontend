@@ -13,7 +13,8 @@ const {
     buttons
 } = LANGUAGE.order.order;
 
-const OrderFulfillmentPlan = React.memo(function OrderFulfillmentPlan({ order }) {
+
+const OrderFulfillmentPlan = React.memo(function OrderFulfillmentPlan({ order, className, }) {
     const history = useHistory();
     const location = useLocation();
     const { _id: orderId } = order;
@@ -33,6 +34,7 @@ const OrderFulfillmentPlan = React.memo(function OrderFulfillmentPlan({ order })
     return (
         <InfoCard
             title={ titles.fulfillmentPlan }
+            className={ className }
             content={ <FulfillmentPlan order={ order }/> }
             tools={ tools }
         />

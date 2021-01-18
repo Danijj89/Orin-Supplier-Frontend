@@ -14,6 +14,9 @@ import queryString from 'query-string';
 const useStyles = makeStyles((theme) => ({
     navTabs: {
         marginBottom: theme.spacing(1)
+    },
+    fulfillmentTable: {
+        marginTop: theme.spacing(3)
     }
 }));
 
@@ -57,7 +60,7 @@ const OrderDetails = React.memo(function OrderDetails({ order }) {
                 }
             />
             }
-            <OrderFulfillmentPlan order={ order }/>
+            <OrderFulfillmentPlan className={classes.fulfillmentTable} order={ order }/>
         </>
     );
 });

@@ -29,6 +29,13 @@ const useStyles = makeStyles((theme) => ({
         fontWeight: 'bold',
         color: theme.palette.grey.main,
         fontSize: '1rem'
+    },
+    notes: {
+        marginTop: theme.spacing(5)
+    },
+    editStatusButton: {
+        marginRight: theme.spacing(1),
+        marginBottom: theme.spacing(1)
     }
 }));
 
@@ -89,6 +96,7 @@ const SplitInfo = React.memo(function SplitInfo({ orderId, split }) {
                     <EditOrderStatusButton
                         orderId={ orderId }
                         splitId={ splitId }
+                        className={ classes.editStatusButton }
                         procurement={ procurement }
                         production={ production }
                         qa={ qa }
@@ -131,6 +139,7 @@ const SplitInfo = React.memo(function SplitInfo({ orderId, split }) {
                 <Grid item xs={12}>
                     <TextAreaCard
                         titleLabel={ titles.notes }
+                        className={ classes.notes }
                         onSubmit={ onNotesSubmit }
                         value={ notes }
                     />

@@ -41,6 +41,9 @@ const useStyles = makeStyles(theme => ({
     },
     datePicker: {
         maxWidth: 160
+    },
+    splitNumber: {
+        backgroundColor: theme.palette.primary.main
     }
 }))
 
@@ -164,7 +167,7 @@ const EditShippingSplit = React.memo(function EditShippingSplit(
             </Grid>
             <Grid className={classes.splitContainer} container item xs={12}>
                 <Box className={ classes.left }>
-                    <Avatar>{ splitNum }</Avatar>
+                    <Avatar className={ classes.splitNumber}>{ splitNum }</Avatar>
                     <Typography>{ labels.crd }</Typography>
                     <DateField
                         onChange={ onDateChange }
