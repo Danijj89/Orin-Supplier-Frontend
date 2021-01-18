@@ -561,10 +561,10 @@ export const ENGLISH = {
                 client: 'Consignee / Client',
                 clientAddress: 'Client Address',
             },
-            tableHeaderLabelsMap: {
+            tableHeaderLabels: {
                 ref: 'Sales Order',
                 clientRef: 'Client Ref',
-                totalQ: 'Quantity',
+                quantity: 'Quantity',
                 crd: 'Cargo Ready',
                 del: 'Shipping Mode',
                 production: 'Production',

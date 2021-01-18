@@ -33,7 +33,7 @@ const ErrorSnackbar = React.memo(function ErrorSnackbar({ error = [] }) {
             onClose={ onClose }
         >
             <Alert onClose={ onClose } severity="error">
-                { error }
+                { errors }
             </Alert>
         </Snackbar>
     )

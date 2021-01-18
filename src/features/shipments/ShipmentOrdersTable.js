@@ -7,12 +7,12 @@ import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { useHistory, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
-import { selectShipmentOrders } from './duck/selectors.js';
 import { selectItemUnitsMap } from '../../app/duck/selectors.js';
 import { getOptionLabel } from '../../app/utils/options/getters.js';
 import { CREATE_ANY, CREATE_OWN, READ_ANY, READ_OWN } from '../admin/utils/actions.js';
 import OrderPermission from '../shared/permissions/OrderPermission.js';
 import ShipmentPermission from '../shared/permissions/ShipmentPermission.js';
+import { selectShipmentOrders } from 'features/shipments/utils/selectors.js';
 
 const useStyles = makeStyles((theme) => ({
     button: {
