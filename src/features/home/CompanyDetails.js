@@ -60,7 +60,7 @@ const CompanyDetails = React.memo(function CompanyDetails() {
             <InfoCard
                 className={ classes.topCard }
                 title={ companyLegalAddress.name }
-                button={ <EditCompanyInfoButton /> }
+                tools={ <EditCompanyInfoButton /> }
                 content={
                     <Grid container>
                         <Grid container item xs={ 6 }>

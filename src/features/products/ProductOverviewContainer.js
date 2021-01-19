@@ -10,6 +10,7 @@ import { cleanProductState } from './duck/slice.js';
 import { READ_ANY } from '../admin/utils/actions.js';
 import ProductPermission from '../shared/permissions/ProductPermission.js';
 import StatusHandler from 'features/shared/status/StatusHandler.js';
+import { resetProductStatus } from 'features/products/duck/slice.js';
 
 const ProductOverviewContainer = React.memo(function ProductOverviewContainer() {
     const dispatch = useDispatch();
@@ -20,6 +21,12 @@ const ProductOverviewContainer = React.memo(function ProductOverviewContainer() 
     const errors = getErrors(productError);
 
     const productStatus = useSelector(selectProductStatus);
+
+    useEffect(() => {
+        return () => {
+            if (productStatus === 'FULFILLED') dispatch(resetProductStatus());
+        }
+    }, [dispatch, productStatus]);
 
     useEffect(() => {
         if (productDataStatus === 'IDLE') dispatch(fetchProducts());
@@ -35,8 +42,8 @@ const ProductOverviewContainer = React.memo(function ProductOverviewContainer() 
 
     return (
         <ProductPermission action={ [READ_ANY] }>
-            <StatusHandler status={ productStatus } error={ productError }/>
-            { status === 'REJECTED' && <ErrorPage errors={ errors }/> }
+            <StatusHandler status={ productStatus } error={ productError } showSuccess/>
+            { status === 'REJECTED' && <ErrorPage error={ errors }/> }
             { status === 'PENDING' && <Loader/> }
             { status === 'FULFILLED' && <ProductOverview/> }
         </ProductPermission>

@@ -30,6 +30,9 @@ const leadsSlice = createSlice({
             state.status = 'IDLE';
             state.error = null;
             state.currencLeadId = null;
+        },
+        resetLeadStatus: state => {
+            state.status = 'IDLE';
         }
     },
     extraReducers: {
@@ -180,6 +183,6 @@ const leadsSlice = createSlice({
     }
 });
 
-export const { cleanLeadState } = leadsSlice.actions;
+export const { cleanLeadState, resetLeadStatus } = leadsSlice.actions;
 
 export default leadsSlice.reducer;

@@ -10,7 +10,6 @@ import Grid from '@material-ui/core/Grid';
 import TextArea from '../inputs/TextArea.js';
 import { makeStyles } from '@material-ui/core/styles';
 import ThemedButton from '../buttons/ThemedButton.js';
-import Box from '@material-ui/core/Box';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -57,56 +56,56 @@ const PopoverNotes = React.memo(function PopoverNotes({ notes, onSubmit }) {
     };
 
     return (
-        <Box onClick={(e) => e.stopPropagation()}>
-            {notes && (
-                <ThemedButton variant="text" onClick={handleClick}>
-                    <IconChatFull />
+        <>
+            { notes && (
+                <ThemedButton variant="text" onClick={ handleClick }>
+                    <IconChatFull/>
                 </ThemedButton>
-            )}
-            {!notes && (
-                <ThemedButton variant="text" onClick={handleClick}>
-                    <IconChatEmpty />
+            ) }
+            { !notes && (
+                <ThemedButton variant="text" onClick={ handleClick }>
+                    <IconChatEmpty/>
                 </ThemedButton>
-            )}
+            ) }
             <Popover
-                open={Boolean(anchorEl)}
-                anchorEl={anchorEl}
-                onClose={onCancel}
-                anchorOrigin={{
+                open={ Boolean(anchorEl) }
+                anchorEl={ anchorEl }
+                onClose={ onCancel }
+                anchorOrigin={ {
                     vertical: 'bottom',
                     horizontal: 'left',
-                }}
-                transformOrigin={{
+                } }
+                transformOrigin={ {
                     vertical: 'top',
                     horizontal: 'right',
-                }}
+                } }
             >
-                <form onSubmit={handleSubmit(onFromSubmit)} autoComplete="off">
+                <form onSubmit={ handleSubmit(onFromSubmit) } autoComplete="off">
                     <Grid
                         container
-                        onClick={(e) => e.stopPropagation()}
-                        className={classes.container}
+                        onClick={ (e) => e.stopPropagation() }
+                        className={ classes.container }
                     >
                         <Grid container item>
                             <TextArea
                                 name="notes"
-                                inputRef={register}
+                                inputRef={ register }
                                 autoFocus
-                                rowsMax={8}
-                                rows={4}
+                                rowsMax={ 8 }
+                                rows={ 4 }
                             />
                         </Grid>
                         <Grid container item justify="flex-end">
                             <ThemedButton
-                                onClick={onCancel}
+                                onClick={ onCancel }
                                 variant="outlined"
-                                className={classes.cancelButton}
+                                className={ classes.cancelButton }
                             >
                                 Cancel
                             </ThemedButton>
                             <ThemedButton
                                 type="submit"
-                                className={classes.updateButton}
+                                className={ classes.updateButton }
                             >
                                 Update
                             </ThemedButton>
@@ -114,7 +113,7 @@ const PopoverNotes = React.memo(function PopoverNotes({ notes, onSubmit }) {
                     </Grid>
                 </form>
             </Popover>
-        </Box>
+        </>
     );
 });
 

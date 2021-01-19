@@ -23,7 +23,7 @@ const RHFDateField = React.memo(function RHFDateField(
                 <KeyboardDatePicker
                     { ...props }
                     autoOk
-                    format="dd/MM/yyyy"
+                    format="MM/dd/yyyy"
                     TextFieldComponent={ params =>
                         <SideTextField
                             { ...params }

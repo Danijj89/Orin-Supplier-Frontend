@@ -170,7 +170,6 @@ export const selectDefaultConsolidationRowItem = createSelector(
         coo: props?.countryOfOrigin, // country of origin
         fdc: null, // final destination country
         dop: '', // domestic origin of product (city/region)
-
         package: 0,
         pUnit: packageUnits[0],
         netW: 0, // net weight

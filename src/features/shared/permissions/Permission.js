@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { selectAppGrants, selectSessionUser } from '../../../app/duck/selectors.js';
+import { selectAppGrants, selectSessionUser } from 'app/duck/selectors.js';
 import {
     CREATE_ANY,
     CREATE_OWN,
-    DELETE_ANY, DELETE_OWN,
+    DELETE_ANY,
+    DELETE_OWN,
     READ_ANY,
     READ_OWN,
     UPDATE_ANY,

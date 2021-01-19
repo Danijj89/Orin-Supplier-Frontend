@@ -30,7 +30,7 @@ const AccountDetails = React.memo(function AccountDetails() {
         <UserPermission action={ READ_OWN } userId={ user._id }>
             <InfoCard
                 title={ titleLabel }
-                button={ <EditAccountInfoButton user={ user }/> }
+                tools={ <EditAccountInfoButton user={ user }/> }
                 content={
                     <>
                         <TextWithLabel label={ nameLabel } text={ user.name }/>

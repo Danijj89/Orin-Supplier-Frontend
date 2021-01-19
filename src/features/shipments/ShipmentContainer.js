@@ -54,7 +54,7 @@ const ShipmentContainer = React.memo(function ShipmentContainer() {
     return (
         <ShipmentPermission action={ [READ_ANY, READ_OWN] } shipmentId={ shipmentId }>
             <StatusHandler status={ shipmentStatus } error={ shipmentError }/>
-            { status === 'REJECTED' && <ErrorPage errors={ errors }/> }
+            { status === 'REJECTED' && <ErrorPage error={ errors }/> }
             { status === 'PENDING' && <Loader/> }
             { status === 'FULFILLED' && <Shipment/> }
         </ShipmentPermission>

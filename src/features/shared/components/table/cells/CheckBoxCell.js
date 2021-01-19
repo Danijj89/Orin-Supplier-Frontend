@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import Checkbox from '@material-ui/core/Checkbox';
-import { TableCell } from './EditableTable.js';
+import EditTableCell from 'features/shared/components/table/cells/EditTableCell.js';
 
 const CheckBoxCell = React.memo(function CheckBoxCell(
     { checked, onCellChange, rowIdx, field, width }) {
@@ -12,13 +12,13 @@ const CheckBoxCell = React.memo(function CheckBoxCell(
     );
 
     return (
-        <TableCell width={ width } align="center">
+        <EditTableCell width={ width } align="center">
             <Checkbox
                 color="primary"
                 checked={ checked }
                 onChange={ onChange }
             />
-        </TableCell>
+        </EditTableCell>
 
     )
 });

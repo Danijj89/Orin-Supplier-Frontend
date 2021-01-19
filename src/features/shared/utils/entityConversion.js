@@ -215,3 +215,30 @@ export const shipmentToChinaExport = (shipment) => {
         marks: shipment.marks
     };
 }
+
+export const prepareShippingSplits = shippingSplits =>
+    shippingSplits.map(split => {
+        const splitData = {
+            crd: split.crd,
+            items: split.items.map(item => ({
+                _id: item._id,
+                quantity: item.quantity
+            }))
+        };
+        if (split.ref) splitData.ref = split.ref;
+        if (split.realCrd) splitData.realCrd = split.realCrd;
+        if (split.procurement) splitData.procurement = {
+            ...split.procurement,
+            status: getOptionId(split.procurement.status)
+        };
+        if (split.production) splitData.production = {
+            ...split.production,
+            status: getOptionId(split.production.status)
+        };
+        if (split.qa) splitData.qa = {
+            ...split.qa,
+            status: getOptionId(split.qa.status)
+        };
+        if (split._id) splitData._id = split._id;
+        return splitData;
+    });

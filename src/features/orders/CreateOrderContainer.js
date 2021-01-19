@@ -60,7 +60,7 @@ export default function CreateOrderContainer() {
     return (
         <OrderPermission action={ [CREATE_ANY, CREATE_OWN] }>
             { currentOrderId && <Redirect to={ `/home/orders/${ currentOrderId }` }/> }
-            { status === 'REJECTED' && <ErrorPage errors={ errors }/> }
+            { status === 'REJECTED' && <ErrorPage error={ errors }/> }
             { status === 'PENDING' && <Loader/> }
             { !currentOrderId && status === 'FULFILLED' && <CreateOrder/> }
         </OrderPermission>

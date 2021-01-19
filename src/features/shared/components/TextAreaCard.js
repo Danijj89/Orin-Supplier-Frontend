@@ -57,7 +57,7 @@ const TextAreaCard = React.memo(function TextAreaCard({ titleLabel, value, class
 
     return (
         <Card className={ clsx(classes.container, className) }>
-            <Typography variant = "h5" className={classes.title}> { titleLabel }</Typography>
+            <Typography variant = "h7" className={classes.title}> { titleLabel }</Typography>
             <Divider/>
             { !isEdit &&
             <Typography onClick={ onDisplayClick } className={ classes.display }>

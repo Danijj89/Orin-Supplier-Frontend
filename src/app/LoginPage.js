@@ -4,7 +4,7 @@ import logo from '../images/orinlogo.png';
 import { LANGUAGE } from './utils/constants.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { Grid, CardMedia, Typography, TextField } from '@material-ui/core';
-import ErrorMessages from '../features/shared/components/ErrorMessages.js';
+import ErrorSnackbar from 'features/shared/components/ErrorSnackbar.js';
 import ThemedButton from '../features/shared/buttons/ThemedButton.js';
 import { useForm } from 'react-hook-form';
 import { makeStyles } from '@material-ui/core/styles';
@@ -123,7 +123,7 @@ export default function LoginPage() {
                 <CardMedia className={ classes.logo } component="img" src={ logo } alt="Logo"/>
                 <Typography variant="h3">{ title }</Typography>
                 <form className={ classes.form } onSubmit={ handleSubmit(onSignInClick) } autoComplete="off">
-                    { isError && <ErrorMessages error={ allErrors }/> }
+                    { isError && <ErrorSnackbar error={ allErrors }/> }
                     <TextField
                         name="email"
                         type="email"

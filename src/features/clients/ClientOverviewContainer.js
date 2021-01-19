@@ -52,11 +52,11 @@ const ClientOverviewContainer = React.memo(function ClientOverviewContainer() {
     }, [dispatch, errors.length]);
 
     return (
-        <ClientPermission action={[READ_ANY, READ_OWN]}>
-            <StatusHandler status={clientStatus} error={clientError} />
-            {status === 'REJECTED' && <ErrorPage errors={errors} />}
-            {status === 'PENDING' && <Loader />}
-            {status === 'FULFILLED' && <ClientOverview />}
+        <ClientPermission action={ [READ_ANY, READ_OWN] }>
+            <StatusHandler status={ clientStatus } error={ clientError }/>
+            { status === 'REJECTED' && <ErrorPage error={ errors }/> }
+            { status === 'PENDING' && <Loader/> }
+            { status === 'FULFILLED' && <ClientOverview/> }
         </ClientPermission>
     );
 });

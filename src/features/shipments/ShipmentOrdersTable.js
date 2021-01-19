@@ -80,6 +80,12 @@ const ShipmentOrdersTable = React.memo(function ShipmentOrdersTable() {
         });
     }, [orders, itemUnitsMap]);
 
+    const options = useMemo(() => ({
+        body: {
+            onRowClick
+        }
+    }), [onRowClick]);
+
     return (
         <>
             <ShipmentPermission action={ [CREATE_ANY, CREATE_OWN] } shipmentId={ shipmentId }>
@@ -88,7 +94,7 @@ const ShipmentOrdersTable = React.memo(function ShipmentOrdersTable() {
                 </ThemedButton>
             </ShipmentPermission>
             <OrderPermission action={ [READ_ANY, READ_OWN] }>
-                <Table columns={ columns } rows={ rows } onRowClick={ onRowClick }/>
+                <Table columns={ columns } rows={ rows } options={ options }/>
             </OrderPermission>
         </>
     )

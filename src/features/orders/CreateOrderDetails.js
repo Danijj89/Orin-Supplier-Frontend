@@ -3,7 +3,7 @@ import RHFOrderDetails from '../shared/rhf/forms/RHFOrderDetails.js';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import Footer from '../shared/components/Footer.js';
-import { LANGUAGE } from '../../app/utils/constants.js';
+import { LANGUAGE } from 'app/utils/constants.js';
 import { cleanNewOrder } from './duck/slice.js';
 import { useHistory } from 'react-router-dom';
 

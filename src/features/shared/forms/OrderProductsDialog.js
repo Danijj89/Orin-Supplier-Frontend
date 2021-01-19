@@ -9,8 +9,6 @@ const productTableFieldNames = {
     custom2: 'custom2',
     currency: 'currency',
     items: 'items',
-    quantity: 'totalQ',
-    total: 'totalA',
     marks: 'marks'
 };
 
@@ -34,8 +32,6 @@ const OrderProductsDialog = React.memo(function OrderProductsDialog(
             register({ name: productTableFieldNames.items }, { validate: validateItems });
             register({ name: productTableFieldNames.custom1 });
             register({ name: productTableFieldNames.custom2 });
-            register({ name: productTableFieldNames.quantity });
-            register({ name: productTableFieldNames.total });
         }
         mounted.current = true;
     }, [register]);
@@ -45,8 +41,6 @@ const OrderProductsDialog = React.memo(function OrderProductsDialog(
             [productTableFieldNames.custom1]: order.custom1,
             [productTableFieldNames.custom2]: order.custom2,
             [productTableFieldNames.items]: order.items,
-            [productTableFieldNames.quantity]: order.totalQ,
-            [productTableFieldNames.total]: order.totalA,
             [productTableFieldNames.currency]: order.currency
         });
     }, [reset, order]);

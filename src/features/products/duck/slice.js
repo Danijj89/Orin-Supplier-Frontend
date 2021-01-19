@@ -20,6 +20,9 @@ const productsSlice = createSlice({
             state.dataStatus = 'IDLE';
             state.status = 'IDLE';
             state.error = null;
+        },
+        resetProductStatus: state => {
+            state.status = 'IDLE';
         }
     },
     extraReducers: {
@@ -71,6 +74,6 @@ const productsSlice = createSlice({
     }
 });
 
-export const { cleanProductState } = productsSlice.actions;
+export const { cleanProductState, resetProductStatus } = productsSlice.actions;
 
 export default productsSlice.reducer;

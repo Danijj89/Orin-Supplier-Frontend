@@ -82,7 +82,7 @@ const AdminContainer = React.memo(function AdminContainer() {
             <StatusHandler status={ permissionStatus } error={ permissionError }/>
             <StatusHandler status={ roleStatus } error={ roleError }/>
             <StatusHandler status={ companyStatus } error={ companyError }/>
-            { status === 'REJECTED' && <ErrorPage errors={ errors }/> }
+            { status === 'REJECTED' && <ErrorPage error={ errors }/> }
             { status === 'PENDING' && <Loader/> }
             { status === 'FULFILLED' && <Admin/> }
         </PermissionPermission>

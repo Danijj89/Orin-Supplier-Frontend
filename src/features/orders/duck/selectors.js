@@ -1,19 +1,12 @@
 import { ordersAdapter } from './slice.js';
 import { createSelector } from '@reduxjs/toolkit';
-import { selectCompanyDefaultAddress, selectCurrentCompany } from 'features/home/duck/home/selectors.js';
 import {
     selectCountriesMap,
-    selectCurrencies,
     selectCurrenciesMap,
-    selectSessionUserId,
-    selectDefaultRowItem,
-    selectDeliveryMethods,
     selectDeliveryMethodsMap,
-    selectItemUnits,
     selectItemUnitsMap,
     selectOrderStatusesMap
-} from '../../../app/duck/selectors.js';
-import { getOptionId } from '../../../app/utils/options/getters.js';
+} from 'app/duck/selectors.js';
 
 
 export const {
@@ -36,21 +29,34 @@ export const selectAllOrders = createSelector(
     selectItemUnitsMap,
     selectCountriesMap,
     (orders, deliveryMethodsMap, orderStatusesMap,
-     currenciesMap, itemUnitsMap, countriesMap) => orders.map(order => ({
-        ...order,
-        fromAdd: { ...order.fromAdd, country: countriesMap[order.fromAdd.country]},
-        toAdd: { ...order.toAdd, country: countriesMap[order.toAdd.country]},
-        shipAdd: { ...order.shipAdd, country: countriesMap[order.shipAdd?.country]},
-        del: deliveryMethodsMap[order.del],
-        currency: currenciesMap[order.currency],
-        procurement: { ...order.procurement, status: orderStatusesMap[order.procurement.status] },
-        production: { ...order.production, status: orderStatusesMap[order.production.status] },
-        qa: { ...order.qa, status: orderStatusesMap[order.qa.status] },
-        items: order.items.map(item => ({
-            ...item,
-            unit: itemUnitsMap[item.unit]
-        }))
-    }))
+     currenciesMap, itemUnitsMap, countriesMap) => orders.map(order => {
+         const items = order.items.map(item => ({
+             ...item,
+             unit: itemUnitsMap[item.unit]
+         }));
+         return {
+            ...order,
+            fromAdd: { ...order.fromAdd, country: countriesMap[order.fromAdd.country]},
+            toAdd: { ...order.toAdd, country: countriesMap[order.toAdd.country]},
+            shipAdd: { ...order.shipAdd, country: countriesMap[order.shipAdd?.country]},
+            del: deliveryMethodsMap[order.del],
+            currency: currenciesMap[order.currency],
+            shippingSplits: order.shippingSplits.map(split => ({
+                ...split,
+                procurement: { ...split.procurement, status: orderStatusesMap[split.procurement.status] },
+                production: { ...split.production, status: orderStatusesMap[split.production.status] },
+                qa: { ...split.qa, status: orderStatusesMap[split.qa.status] },
+                items: split.items.map(item => {
+                    const orderItem = items.find(orderItem => orderItem._id === item._id);
+                    return {
+                        ...orderItem,
+                        ...item,
+                    };
+                })
+            })),
+            items
+        };
+    })
 );
 
 export const selectOrdersMap = createSelector(
@@ -89,29 +95,6 @@ export const selectActiveOrdersMap = createSelector(
         map[order._id] = order;
         return map;
     }, {})
-);
-
-export const selectNewOrder = createSelector(
-    selectCurrentCompany,
-    selectCompanyDefaultAddress,
-    selectDeliveryMethods,
-    selectCurrencies,
-    selectItemUnits,
-    selectSessionUserId,
-    selectDefaultRowItem,
-    (company, companyDefaultAddress, deliveryMethods, currencies, itemUnits, userId, defaultRowItem) => ({
-        from: company._id,
-        fromAdd: companyDefaultAddress,
-        date: Date.now(),
-        del: deliveryMethods[0],
-        currency: company.currency || currencies[0] ,
-        totalQ: { [getOptionId(itemUnits[0])]: 0 },
-        totalA: 0,
-        createdBy: userId,
-        saveItems: false,
-        autoGenerateRef: false,
-        items: [defaultRowItem]
-    })
 );
 
 

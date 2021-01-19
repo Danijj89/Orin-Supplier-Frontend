@@ -27,6 +27,7 @@ import { fetchCurrentCompany } from 'features/home/duck/home/thunks.js';
 import { READ_ANY, READ_OWN } from '../admin/utils/actions.js';
 import OrderPermission from '../shared/permissions/OrderPermission.js';
 import StatusHandler from 'features/shared/status/StatusHandler.js';
+import { resetOrderStatus } from 'features/orders/duck/slice.js';
 
 const {
     errorMessages
@@ -72,6 +73,12 @@ const OrderContainer = React.memo(function OrderContainer() {
     const isOrderInactive = useMemo(() => order?.active === false
         || (!order && orderDataStatus === 'FULFILLED'), [order, orderDataStatus]);
 
+    useEffect(() => {
+        return () => {
+            if (orderStatus === 'FULFILLED') dispatch(resetOrderStatus());
+        }
+    }, [dispatch, orderStatus]);
+
     const fetched = useRef(false);
     useEffect(() => {
         if (!fetched.current) {
@@ -109,9 +116,9 @@ const OrderContainer = React.memo(function OrderContainer() {
 
     return (
         <OrderPermission action={ [READ_ANY, READ_OWN] } orderId={ orderId }>
-            <StatusHandler status={ orderStatus } error={ orderError }/>
-            { isOrderInactive && <ErrorPage errors={ [errorMessages.orderWasDeleted] }/> }
-            { status === 'REJECTED' && <ErrorPage errors={ errors }/> }
+            <StatusHandler status={ orderStatus } error={ orderError } showSuccess/>
+            { isOrderInactive && <ErrorPage error={ [errorMessages.orderWasDeleted] }/> }
+            { status === 'REJECTED' && <ErrorPage error={ errors }/> }
             { status === 'PENDING' && <Loader/> }
             { !isOrderInactive && status === 'FULFILLED' && <Order/> }
         </OrderPermission>

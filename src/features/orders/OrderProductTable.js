@@ -1,25 +1,27 @@
 import React, { useMemo } from 'react';
+import PropTypes from 'prop-types';
 import Table from '../shared/components/table/Table.js';
-import { LANGUAGE, LOCALE } from '../../app/utils/constants.js';
-import UnitCounter from '../shared/classes/UnitCounter.js';
-import { getCurrencySymbol } from '../shared/utils/random.js';
-import { useParams } from 'react-router-dom';
+import { LANGUAGE, LOCALE } from 'app/utils/constants.js';
 import { useSelector } from 'react-redux';
-import { selectOrderById } from './duck/selectors.js';
-import { getOptionLabel } from '../../app/utils/options/getters.js';
-import { formatQuantityWithUnit } from '../shared/utils/format.js';
-import { selectItemUnitsMap } from '../../app/duck/selectors.js';
+import { formatCurrency, formatItemsTotalQuantities, formatQuantityWithUnit } from '../shared/utils/format.js';
+import { selectItemUnitsMap } from 'app/duck/selectors.js';
 
 const {
     tableHeaderLabelsMap,
     totalLabel
-} = LANGUAGE.order.order.orderDetails.orderProductTable;
+} = LANGUAGE.order.order.orderProductTable;
 
-const OrderProductTable = React.memo(function OrderProductTable() {
-    const { id: orderId } = useParams();
-    const order = useSelector(state => selectOrderById(state, { orderId }));
+const OrderProductTable = React.memo(function OrderProductTable(
+    {
+        items,
+        currency,
+        quantity,
+        total,
+        custom1,
+        custom2,
+        className
+    }) {
     const itemUnitsMap = useSelector(selectItemUnitsMap);
-    const { custom1, custom2, items, currency, totalQ, totalA } = order;
     const numColumns = useMemo(
         () => 6 + (custom1 ? 1 : 0) + (custom2 ? 1 : 0),
         [custom1, custom2]);
@@ -29,30 +31,81 @@ const OrderProductTable = React.memo(function OrderProductTable() {
         { field: 'description', headerName: tableHeaderLabelsMap.description },
         { field: 'custom1', headerName: custom1, hide: !custom1 },
         { field: 'custom2', headerName: custom2, hide: !custom2 },
-        { field: 'quantity', headerName: tableHeaderLabelsMap.quantity, type: 'number', align: 'right' },
-        { field: 'price', headerName: tableHeaderLabelsMap.price, type: 'number', align: 'right' },
-        { field: 'total', headerName: tableHeaderLabelsMap.total, type: 'number', align: 'right' },
-    ], [custom1, custom2]);
+        {
+            field: 'quantity',
+            headerName: tableHeaderLabelsMap.quantity,
+            type: 'number',
+            align: 'right',
+            format: row => formatQuantityWithUnit(row.quantity, row.unit)
+        },
+        {
+            field: 'price',
+            headerName: tableHeaderLabelsMap.price,
+            type: 'number',
+            align: 'right',
+            format: row => formatCurrency(row.price, currency)
+        },
+        {
+            field: 'total',
+            headerName: tableHeaderLabelsMap.total,
+            type: 'number',
+            align: 'right',
+            format: row => formatCurrency(row.total, currency)
+        },
+    ], [custom1, custom2, currency]);
 
     const rows = useMemo(() => items.map(item => ({
         ref: item.ref,
         description: item.description,
         custom1: item.custom1,
         custom2: item.custom2,
-        quantity: formatQuantityWithUnit(item.quantity, getOptionLabel(item.unit, LOCALE)),
-        price: formatQuantityWithUnit(item.price, getCurrencySymbol(currency)),
-        total: formatQuantityWithUnit(item.total, getCurrencySymbol(currency)),
-    })), [items, currency]);
+        quantity: item.quantity,
+        unit: item.unit,
+        price: item.price,
+        total: item.total,
+    })), [items]);
+
+    const options = useMemo(() => ({
+        table: {
+            dense: true,
+            classes: {
+                container: className
+            }
+        },
+        foot: {
+            pagination: 'none'
+        }
+    }), [className]);
 
     const footer = useMemo(() => [[
         { field: 'label', value: totalLabel, colSpan: numColumns - 4, align: 'right' },
-        { field: 'totalQ', value: UnitCounter.stringRep(totalQ, itemUnitsMap, LOCALE), colSpan: 1, align: 'right' },
-        { field: 'totalA', value: `${ getCurrencySymbol(currency) } ${ totalA }`, colSpan: 2, align: 'right' }
-    ]], [currency, numColumns, totalQ, totalA, itemUnitsMap]);
+        {
+            field: 'quantity',
+            value: formatItemsTotalQuantities(quantity, itemUnitsMap, LOCALE),
+            colSpan: 1,
+            align: 'right'
+        },
+        { field: 'total', value: formatCurrency(total, currency), colSpan: 2, align: 'right' }
+    ]], [currency, numColumns, quantity, total, itemUnitsMap]);
 
     return (
-        <Table columns={columns} rows={rows} footer={footer}/>
+        <Table
+            columns={ columns }
+            rows={ rows }
+            footer={ footer }
+            options={ options }
+        />
     )
 });
+
+OrderProductTable.propTypes = {
+    items: PropTypes.arrayOf(PropTypes.object).isRequired,
+    currency: PropTypes.object.isRequired,
+    quantity: PropTypes.object.isRequired,
+    total: PropTypes.number.isRequired,
+    custom1: PropTypes.string,
+    custom2: PropTypes.string,
+    className: PropTypes.string
+};
 
 export default OrderProductTable;

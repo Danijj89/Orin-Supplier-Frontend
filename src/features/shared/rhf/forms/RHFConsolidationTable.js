@@ -1,15 +1,14 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
-import EditableTable from '../../components/editable_table/EditableTable.js';
 import DeleteIconButton from '../../buttons/DeleteIconButton.js';
-import { LANGUAGE, LOCALE } from '../../../../app/utils/constants.js';
+import { LANGUAGE, LOCALE } from 'app/utils/constants.js';
 import TableTextField from '../../inputs/TableTextField.js';
 import { Grid, IconButton } from '@material-ui/core';
 import { Add as IconAdd, Close as IconClose } from '@material-ui/icons';
 import { useWatch } from 'react-hook-form';
 import UnitCounter from '../../classes/UnitCounter.js';
 import { roundToNDecimal } from '../../utils/format.js';
-import ErrorMessages from '../../components/ErrorMessages.js';
+import ErrorSnackbar from 'features/shared/components/ErrorSnackbar.js';
 import RHFAutoComplete from '../inputs/RHFAutoComplete.js';
 import { useSelector } from 'react-redux';
 import {
@@ -17,8 +16,9 @@ import {
     selectMeasurementUnits,
     selectPackageUnits, selectPackageUnitsMap,
     selectWeightUnits
-} from '../../../../app/duck/selectors.js';
-import { getOptionLabel } from '../../../../app/utils/options/getters.js';
+} from 'app/duck/selectors.js';
+import { getOptionLabel } from 'app/utils/options/getters.js';
+import Table from 'features/shared/components/table/Table.js';
 
 const {
     formLabels,
@@ -317,14 +317,28 @@ const RHFConsolidationTable = React.memo(function RHFConsolidationTable(
         grossWeight,
         dimension,
         weightUnit,
-        measurementUnit
+        measurementUnit,
+        packageUnitsMap
     ]);
+
+    const options = useMemo(() => ({
+        table: {
+            isEdit: true
+        },
+        body: {
+            onAddRow: onAddRow,
+            onCellChange: onCellChange
+        },
+        foot: {
+            pagination: 'none'
+        }
+    }), [onAddRow, onCellChange]);
 
     return (
         <Grid container className={ className }>
             { isError &&
             <Grid container item justify="center" xs={ 12 }>
-                <ErrorMessages error={ errMessages }/>
+                <ErrorSnackbar error={ errMessages }/>
             </Grid>
             }
             <Grid container item justify="flex-end" xs={ 12 }>
@@ -350,12 +364,11 @@ const RHFConsolidationTable = React.memo(function RHFConsolidationTable(
                 />
             </Grid>
             <Grid item xs={ 12 }>
-                <EditableTable
-                    rows={ rows }
+                <Table
                     columns={ columns }
-                    onCellChange={ onCellChange }
-                    onAddRow={ onAddRow }
+                    rows={ rows }
                     footer={ footer }
+                    options={ options }
                 />
             </Grid>
         </Grid>

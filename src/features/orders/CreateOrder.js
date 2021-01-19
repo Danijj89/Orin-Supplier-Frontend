@@ -2,15 +2,12 @@ import React from 'react';
 import DocumentStepper from '../shared/DocumentStepper.js';
 import { Box, Paper, Divider, Typography } from '@material-ui/core';
 import { Redirect, useLocation } from 'react-router-dom';
-import { LANGUAGE } from '../../app/utils/constants.js';
+import { LANGUAGE } from 'app/utils/constants.js';
 import { makeStyles } from '@material-ui/core/styles';
 import queryString from 'query-string';
 import CreateOrderDetails from './CreateOrderDetails.js';
 import CreateOrderProducts from './CreateOrderProducts.js';
-import useSessionStorage from '../shared/hooks/useSessionStorage.js';
-import { SESSION_NEW_ORDER } from '../../app/sessionKeys.js';
-import { useSelector } from 'react-redux';
-import { selectNewOrder } from './duck/selectors.js';
+import useSessionOrder from 'features/orders/utils/hooks/useSessionOrder.js';
 
 const useStyles = makeStyles((theme) => ({
     orderRoot: {
@@ -43,9 +40,7 @@ const CreateOrder = React.memo(function CreateOrder() {
     const classes = useStyles();
     const location = useLocation();
     const { step } = queryString.parse(location.search);
-
-    const newOrder = useSelector(selectNewOrder);
-    const [order, setOrder] = useSessionStorage(SESSION_NEW_ORDER, newOrder);
+    const [order, setOrder] = useSessionOrder();
 
     return (
         <Box className={ classes.orderRoot }>

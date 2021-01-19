@@ -86,14 +86,24 @@ const ShipmentDocumentTable = React.memo(function ShipmentDocumentTable(
         fileName: doc.fileName
     })), [documents, usersMap]);
 
+    const options = useMemo(() => ({
+        table: {
+            dense: false,
+            classes: {
+                container: className
+            }
+        },
+        body: {
+            maxEmptyRows
+        }
+    }), [maxEmptyRows, className]);
+
     return (
         <ShipmentPermission action={ [READ_ANY, READ_OWN] } shipmentId={ shipmentId }>
             <Table
                 rows={ rows }
                 columns={ columns }
-                dense
-                maxEmptyRows={ maxEmptyRows }
-                className={ className }
+                options={ options }
             />
         </ShipmentPermission>
     );

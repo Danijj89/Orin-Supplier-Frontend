@@ -10,7 +10,7 @@ import { fetchAllTableLeads, fetchTableLeads, updateLead } from './duck/thunks.j
 import { getOptionId } from 'app/utils/options/getters.js';
 import { selectAllActiveUserNames, selectUsersMap } from 'features/home/duck/users/selectors.js';
 import PopoverNotes from '../shared/components/PopoverNotes.js';
-import { SESSION_LEAD_TABLE_FILTERS } from 'app/sessionKeys.js';
+import { SESSION_LEAD_TABLE_ARCHIVE, SESSION_LEAD_TABLE_FILTERS } from 'app/sessionKeys.js';
 
 const {
     tableHeaders
@@ -26,9 +26,7 @@ const LeadsTable = React.memo(function LeadsTable() {
     const usersName = useSelector(selectAllActiveUserNames);
 
     const onRowClick = useCallback(
-        (params) => {
-            history.push(`/home/leads/${ params.id }?tab=details`);
-        },
+        (row) => history.push(`/home/leads/${ row.id }?tab=details`),
         [history]);
 
     const createSalesStatusChangeHandler = useCallback(
@@ -53,7 +51,6 @@ const LeadsTable = React.memo(function LeadsTable() {
         [dispatch]);
 
     const columns = [
-        { field: 'id', hide: true },
         { field: 'name', headerName: tableHeaders.name },
         { field: 'contactName', headerName: tableHeaders.contactName },
         { field: 'contactEmail', headerName: tableHeaders.contactEmail },
@@ -66,7 +63,9 @@ const LeadsTable = React.memo(function LeadsTable() {
                     statuses={ salesStatusOptions }
                     colorMap="salesStatus"
                     onStatusChange={ createSalesStatusChangeHandler(params.id) }
-                />
+                />,
+            align: 'center',
+            width: 140
         },
         {
             field: 'leadType',
@@ -77,7 +76,9 @@ const LeadsTable = React.memo(function LeadsTable() {
                     statuses={ leadTypeOptions }
                     colorMap="leadType"
                     onStatusChange={ createLeadTypeChangeHandler(params.id) }
-                />
+                />,
+            align: 'center',
+            width: 140
         },
         { field: 'source', headerName: tableHeaders.source },
         { field: 'quotation', headerName: tableHeaders.quotation, type: 'date' },
@@ -136,19 +137,28 @@ const LeadsTable = React.memo(function LeadsTable() {
             id: 'leads-table-archive',
             type: 'archive',
             options: {
+                sessionKey: SESSION_LEAD_TABLE_ARCHIVE,
                 fetchData: () => dispatch(fetchTableLeads()),
                 fetchArchivedData: () => dispatch(fetchAllTableLeads())
             }
         }
     ], [dispatch, leadTypeOptions, salesStatusOptions, usersName]);
 
+    const options = useMemo(() => ({
+        table: {
+            dense: true
+        },
+        body: {
+            onRowClick
+        }
+    }), [onRowClick]);
+
     return (
         <Table
-            rows={ rows }
             columns={ columns }
-            onRowClick={ onRowClick }
+            rows={ rows }
             tools={ tools }
-            dense
+            options={ options }
         />
     )
 });

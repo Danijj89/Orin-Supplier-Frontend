@@ -332,8 +332,8 @@ export const ENGLISH = {
                     clientRef: 'Client Reference',
                     crd: 'Original Cargo Ready',
                     realCrd: 'Actual Cargo Ready',
-                    totalQ: 'Quantity',
-                    totalA: 'Total',
+                    quantity: 'Quantity',
+                    total: 'Total',
                     del: 'Mode',
                 },
             },
@@ -439,7 +439,7 @@ export const ENGLISH = {
             newOrderButtonLabel: 'New Order',
             ordersTableHeadersMap: {
                 ref: 'Purchase Order',
-                totalQ: 'Quantity',
+                quantity: 'Quantity',
                 crd: 'Cargo Ready',
                 toName: 'Client',
                 procurement: 'Procurement',
@@ -447,6 +447,15 @@ export const ENGLISH = {
                 qa: 'QA',
                 notes: 'Notes',
             },
+            shippingPlanTableHeaders: {
+                ref: 'Purchase Order',
+                quantity: 'Quantity',
+                crd: 'Cargo Ready',
+                procurement: 'Procurement',
+                production: 'Production',
+                qa: 'QA',
+                notes: 'Notes',
+            }
         },
         createOrder: {
             stepLabelsMap: {
@@ -465,89 +474,106 @@ export const ENGLISH = {
         },
         order: {
             tabsLabelsMap: {
-                details: 'Order Details',
+                details: 'Details',
+                product: 'Products'
+            },
+            subTabsLabels: {
+                products: 'Products',
                 documents: 'Documents',
+                status: 'Status & Notes'
             },
-            orderDetails: {
-                detailsInfoCard: {
-                    titleLabel: 'Order Overview',
-                    orderReferenceLabel: 'Order Number',
-                    companyLabel: 'Seller',
-                    dateLabel: 'Order Date',
-                    crdLabel: 'CRD',
-                    incotermLabel: 'Incoterm',
-                    quantityLabel: 'Quantity',
-                    clientReferenceLabel: 'Client Reference',
-                    clientLabel: 'Buyer',
-                    authorLabel: 'Created By',
-                    realCrdLabel: 'Actual CRD',
-                    paymentMethodLabel: 'Payment Method',
-                    totalLabel: 'Total',
-                    editOrderDetailsButton: {
-                        buttonLabel: 'Edit',
-                        dialogTitleLabel: 'Edit Order',
-                        dialogSubmitLabel: 'Update',
-                    },
-                },
-                statusInfoCard: {
-                    title: 'Order Progress',
-                    headerLabelsMap: {
-                        procurement: 'Procurement',
-                        production: 'Production',
-                        qa: 'QA',
-                    },
-                    statusLabel: 'Status',
-                    estimatedLabel: 'Estimated Completion',
-                    actualLabel: 'Actual Completion',
-                    editOrderStatusButton: {
-                        buttonLabel: 'Edit',
-                        titleLabel: 'Order Status',
-                        submitLabel: 'Update',
-                    },
-                    orderStatusDialog: {
-                        procurementTitleLabel: 'Procurement',
-                        productionTitleLabel: 'Production',
-                        qaTitleLabel: 'QA',
-                        statusLabel: 'Status',
-                        estimatedLabel: 'Estimated',
-                        actualLabel: 'Actual',
-                    },
-                },
-                notesLabel: 'Notes',
-                productTableTitleLabel: 'Products',
-                orderProductTable: {
-                    tableHeaderLabelsMap: {
-                        ref: 'Item Reference',
-                        description: 'Product Description',
-                        quantity: 'Quantity',
-                        unit: 'Unit',
-                        price: 'Unit Price',
-                        total: 'Amount',
-                    },
-                    totalLabel: 'Total',
-                    editOrderProductsButton: {
-                        buttonLabel: 'Edit',
-                        dialogTitleLabel: 'Products',
-                        dialogSubmitLabel: 'Update',
-                    },
-                },
+            titles: {
+                details: 'Order Overview',
+                productTable: 'Products',
+                fulfillmentPlan: 'Fulfillment Plan',
+                editDetailsDialog: 'Edit Order',
+                editProductsDialog: 'Products',
+                splitStatus: 'Order Progress',
+                editSplitStatusDialog: 'Order Status',
+                procurement: 'Procurement',
+                production: 'Production',
+                qa: 'QA',
+                notes: 'Notes'
             },
-            orderDocuments: {
-                buttonLabels: {
-                    generateExcel: 'Generate Excel',
-                    generatePdf: 'Generate PDF',
+            labels: {
+                orderReference: 'Order Number',
+                company: 'Seller',
+                date: 'Order Date',
+                crd: 'CRD',
+                incoterm: 'Incoterm',
+                quantity: 'Quantity',
+                clientReference: 'Client Reference',
+                client: 'Buyer',
+                author: 'Created By',
+                realCrd: 'Actual CRD',
+                paymentMethod: 'Payment Method',
+                total: 'Total',
+                status: 'Status',
+                estimated: 'Estimated Completion',
+                actual: 'Actual Completion'
+            },
+            tableHeaderLabels: {
+                procurement: 'Procurement',
+                production: 'Production',
+                qa: 'QA',
+            },
+            buttons: {
+                editDetails: 'Edit',
+                submitDetails: 'Update',
+                editProducts: 'Edit',
+                submitProducts: 'Update',
+                editFulfillment: 'Manage Fulfillment Plan',
+                editSplitStatus: 'Edit',
+                submitSplitStatus: 'Update'
+            },
+            orderProductTable: {
+                tableHeaderLabelsMap: {
+                    ref: 'Item Reference',
+                    description: 'Product Description',
+                    quantity: 'Quantity',
+                    unit: 'Unit',
+                    price: 'Unit Price',
+                    total: 'Amount',
                 },
-                textLabels: {
-                    noOrder: 'No Orders',
+                totalLabel: 'Total',
+            },
+            editFulfillmentPlan: {
+                labels: {
+                    newSplitButton: 'Add Split',
+                    cancelButton: 'Cancel',
+                    submitButton: 'Submit',
+                    crd: 'Cargo Ready',
+                    emptyDateLabel: 'No Date',
                 },
-                shipmentDocumentsCard: {
-                    titleLabel: 'Shipment No:',
+                tableHeaderLabels: {
+                    ref: 'SKU',
+                    description: 'Description',
+                    quantity: 'Quantity',
+                    allocated: 'Allocated'
                 },
+                errorMessages: {
+                    itemOverflow: (ref, diff) => `Item Ref. ${ ref } has ${ diff } more units than expected.`,
+                    itemTooFew: (ref, diff) => `Item Ref. ${ ref } has ${ diff } less units than expected.`,
+                    emptySplit: 'Remove empty splits.',
+                    baseSplitDeletion: 'You cannot delete this base split.'
+                }
             },
             errorMessages: {
                 orderWasDeleted:
                     'The order you selected is no longer existent.',
             },
+            // orderDocuments: {
+            //     buttonLabels: {
+            //         generateExcel: 'Generate Excel',
+            //         generatePdf: 'Generate PDF',
+            //     },
+            //     textLabels: {
+            //         noOrder: 'No Orders',
+            //     },
+            //     shipmentDocumentsCard: {
+            //         titleLabel: 'Shipment No:',
+            //     },
+            // }
         },
     },
     shipment: {

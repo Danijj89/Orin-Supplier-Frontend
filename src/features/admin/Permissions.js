@@ -16,7 +16,7 @@ const Permissions = React.memo(function Permissions() {
 
     const columns = useMemo(() => [
         { field: '_id', headerName: tableHeaderLabels._id },
-        { field: 'resource', headerName: tableHeaderLabels.resource},
+        { field: 'resource', headerName: tableHeaderLabels.resource },
         { field: 'action', headerName: tableHeaderLabels.action },
         { field: 'attributes', headerName: tableHeaderLabels.attributes }
     ], []);
@@ -28,11 +28,17 @@ const Permissions = React.memo(function Permissions() {
         attributes: permission.attributes
     })), [permissions]);
 
+    const options = useMemo(() => ({
+        table: {
+            dense: false
+        }
+    }), []);
+
     return (
         <Paper>
             <Grid container>
-                <NewPermissionButton />
-                <Table rows={rows} columns={columns} dense/>
+                <NewPermissionButton/>
+                <Table rows={ rows } columns={ columns } options={ options }/>
             </Grid>
         </Paper>
     );

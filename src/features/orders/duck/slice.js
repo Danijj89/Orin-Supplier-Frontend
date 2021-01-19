@@ -1,9 +1,9 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import {
-    createOrder, deleteOrder,
+    createOrder, deleteOrder, fetchAllTableOrders,
     fetchOrderById,
-    fetchOrders,
-    updateOrder, updateOrderStatus
+    fetchOrders, fetchTableOrders,
+    updateOrder, updateSplit
 } from './thunks.js';
 import { SESSION_NEW_ORDER } from 'app/sessionKeys.js';
 
@@ -33,6 +33,9 @@ const ordersSlice = createSlice({
             state.error = null;
             state.status = 'IDLE';
             state.dataStatus = 'IDLE';
+        },
+        resetOrderStatus: (state) => {
+            state.status = 'IDLE';
         }
     },
     extraReducers: {
@@ -94,28 +97,49 @@ const ordersSlice = createSlice({
             state.status = 'REJECTED';
             state.error = action.payload.message;
         },
-        [updateOrderStatus.pending]: (state, action) => {
+        [updateSplit.pending]: (state) => {
             state.status = 'PENDING';
         },
-        [updateOrderStatus.fulfilled]: (state, action) => {
-            const { orderId, update } = action.payload;
-            const { procurement, production, qa } = state.entities[orderId];
-            const changes = {};
-            if (update.procurement) changes.procurement = { ...procurement, ...update.procurement };
-            if (update.production) changes.production = { ...production, ...update.production };
-            if (update.qa) changes.qa = { ...qa, ...update.qa };
-            ordersAdapter.updateOne(state, { id: orderId, changes });
+        [updateSplit.fulfilled]: (state, action) => {
+            const { orderId, splitId, update } = action.payload;
+            const newSplits = state.entities[orderId].shippingSplits.map(split => {
+                if (split._id === splitId) return { ...split, ...update };
+                return split;
+            });
+            ordersAdapter.updateOne(state, { id: orderId, changes: { shippingSplits: newSplits } });
             state.status = 'FULFILLED';
         },
-        [updateOrderStatus.rejected]: (state, action) => {
+        [updateSplit.rejected]: (state, action) => {
             state.status = 'REJECTED';
             state.error = action.payload.message;
-        }
+        },
+        [fetchTableOrders.pending]: (state) => {
+            state.status = 'PENDING';
+        },
+        [fetchTableOrders.fulfilled]: (state, action) => {
+            ordersAdapter.setAll(state, action.payload);
+            state.status = 'FULFILLED';
+        },
+        [fetchTableOrders.rejected]: (state, action) => {
+            state.status = 'REJECTED';
+            state.error = action.payload.message;
+        },
+        [fetchAllTableOrders.pending]: (state) => {
+            state.status = 'PENDING';
+        },
+        [fetchAllTableOrders.fulfilled]: (state, action) => {
+            ordersAdapter.setAll(state, action.payload);
+            state.status = 'FULFILLED';
+        },
+        [fetchAllTableOrders.rejected]: (state, action) => {
+            state.status = 'REJECTED';
+            state.error = action.payload.message;
+        },
     }
 });
 
 export const {
-    cleanNewOrder, cleanOrderState, cleanCurrentOrderId
+    cleanNewOrder, cleanOrderState, cleanCurrentOrderId, resetOrderStatus
 } = ordersSlice.actions;
 
 export default ordersSlice.reducer;

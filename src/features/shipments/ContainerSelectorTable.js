@@ -1,12 +1,11 @@
 import React, { useCallback, useMemo } from 'react';
-import { LANGUAGE, LOCALE } from '../../app/utils/constants.js';
+import { LANGUAGE, LOCALE } from 'app/utils/constants.js';
 import { useSelector } from 'react-redux';
-import { selectContainerTypes, selectDefaultContainerRowItem } from '../../app/duck/selectors.js';
-import { getOptionLabel } from '../../app/utils/options/getters.js';
-import EditableTable from '../shared/components/editable_table/EditableTable.js';
+import { selectContainerTypes, selectDefaultContainerRowItem } from 'app/duck/selectors.js';
+import { getOptionLabel } from 'app/utils/options/getters.js';
 import { makeStyles } from '@material-ui/core/styles';
-import clsx from 'clsx';
 import DeleteIconButton from '../shared/buttons/DeleteIconButton.js';
+import Table from 'features/shared/components/table/Table.js';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -81,13 +80,27 @@ const ContainerSelectorTable = React.memo(function ContainerSelectorTable(
         quantity: container.quantity
     })), [containers]);
 
+    const options = useMemo(() => ({
+        table: {
+            isEdit: true,
+            classes: {
+                container: classes.root
+            }
+        },
+        body: {
+            onAddRow: onAddRow,
+            onCellChange: onCellChange
+        },
+        foot: {
+            pagination: 'none'
+        }
+    }), [onAddRow, onCellChange, classes.root]);
+
     return (
-        <EditableTable
-            rows={ rows }
-            columns={ columns }
-            onCellChange={ onCellChange }
-            className={ clsx(classes.root, className) }
-            onAddRow={ onAddRow }
+        <Table
+            columns={columns}
+            rows={rows}
+            options={options}
         />
     )
 });

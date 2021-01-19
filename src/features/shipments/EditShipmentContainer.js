@@ -90,7 +90,7 @@ const EditShipmentContainer = React.memo(function EditShipmentContainer() {
     return (
         <ShipmentPermission action={ [UPDATE_ANY, UPDATE_OWN] } shipmentId={ shipmentId }>
             <StatusHandler status={ shipmentStatus } error={ shipmentError }/>
-            { status === 'REJECTED' && <ErrorPage errors={ errors }/> }
+            { status === 'REJECTED' && <ErrorPage error={ errors }/> }
             { status === 'PENDING' && <Loader/> }
             { status === 'FULFILLED' && <EditShipment/> }
         </ShipmentPermission>

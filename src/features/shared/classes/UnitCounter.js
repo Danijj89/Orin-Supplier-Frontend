@@ -1,10 +1,10 @@
 import { getOptionLabel } from '../../../app/utils/options/getters.js';
 
 export default class UnitCounter {
-    data;
+    _data;
 
     constructor(initialData) {
-        this.data = initialData;
+        this._data = initialData;
     }
 
     addUnit(unit, amount) {

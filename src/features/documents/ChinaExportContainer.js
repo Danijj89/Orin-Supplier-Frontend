@@ -74,7 +74,7 @@ const ChinaExportContainer = React.memo(function ChinaExportContainer() {
 
     return (
         <ShipmentPermission action={ [CREATE_ANY, CREATE_OWN] }>
-            { status === 'REJECTED' && <ErrorPage errors={ errors }/> }
+            { status === 'REJECTED' && <ErrorPage error={ errors }/> }
             { status === 'PENDING' && <Loader/> }
             { status === 'FULFILLED' && <ChinaExport/> }
         </ShipmentPermission>

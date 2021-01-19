@@ -2,15 +2,14 @@ import React, { useCallback, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Grid, IconButton } from '@material-ui/core';
 import { useWatch } from 'react-hook-form';
-import { LANGUAGE, LOCALE } from '../../../../app/utils/constants.js';
-import EditableTable from '../../components/editable_table/EditableTable.js';
+import { LANGUAGE, LOCALE } from 'app/utils/constants.js';
 import DeleteIconButton from '../../buttons/DeleteIconButton.js';
 import TableTextField from '../../inputs/TableTextField.js';
 import { Add as IconAdd, Close as IconClose } from '@material-ui/icons';
 import { getCurrencySymbol } from '../../utils/random.js';
 import UnitCounter from '../../classes/UnitCounter.js';
-import { roundToNDecimal } from '../../utils/format.js';
-import ErrorMessages from '../../components/ErrorMessages.js';
+import { formatCurrency, roundToNDecimal } from '../../utils/format.js';
+import ErrorSnackbar from 'features/shared/components/ErrorSnackbar.js';
 import TextArea from '../../inputs/TextArea.js';
 import RHFCheckBox from '../inputs/RHFCheckBox.js';
 import RHFAutoComplete from '../inputs/RHFAutoComplete.js';
@@ -18,12 +17,14 @@ import { useSelector } from 'react-redux';
 import {
     selectCurrencies,
     selectDefaultRowItem,
-    selectItemUnits,
-    selectItemUnitsMap
-} from '../../../../app/duck/selectors.js';
-import { getOptionId, getOptionLabel } from '../../../../app/utils/options/getters.js';
+    selectItemUnits, selectItemUnitsMap,
+} from 'app/duck/selectors.js';
+import { getOptionId, getOptionLabel } from 'app/utils/options/getters.js';
 import { selectAllActiveProducts } from '../../../products/duck/selectors.js';
 import { selectActiveOrdersMap } from '../../../orders/duck/selectors.js';
+import useItemsData from 'features/shared/hooks/useItemsData.js';
+import { formatItemsTotalQuantities } from 'features/shared/utils/format.js';
+import Table from 'features/shared/components/table/Table.js';
 
 const {
     formLabels,
@@ -79,14 +80,8 @@ const RHFProductTable = React.memo(function RHFProductTable(
         control,
         name: fieldNames.currency
     });
-    const quantity = useWatch({
-        control,
-        name: fieldNames.quantity
-    });
-    const total = useWatch({
-        control,
-        name: fieldNames.total
-    });
+
+    const [itemsData, setItemsData] = useItemsData(items);
 
     const ordersMapWithDefault = useMemo(
         () => {
@@ -133,13 +128,25 @@ const RHFProductTable = React.memo(function RHFProductTable(
         [setValue, getValues, fieldNames, defaultRowItem]);
 
     const onDeleteRow = useCallback(
-        idx => () => setValue(fieldNames.items, getValues(fieldNames.items).filter((_, i) => i !== idx)),
-        [getValues, setValue, fieldNames]);
+        idx => () => {
+            const items = getValues(fieldNames.items);
+            const { quantity, unit, total } = items[idx];
+            setValue(fieldNames.items, items.filter((_, i) => i !== idx));
+            setItemsData(prevData => {
+                const newTotalQuantity = new UnitCounter(prevData.quantity);
+                newTotalQuantity.subtractUnit(getOptionId(unit), quantity);
+                return {
+                    ...prevData,
+                    total: roundToNDecimal(prevData.total - total, 2),
+                    quantity: newTotalQuantity.data
+                };
+            });
+        },
+        [getValues, setValue, fieldNames, setItemsData]);
 
     const onCellChange = useCallback((rowIdx, key, newValue) => {
         const items = getValues(fieldNames.items);
         const newItem = { ...items[rowIdx] };
-        let newTotalQ;
         let diff;
         switch (key) {
             case 'order':
@@ -165,25 +172,38 @@ const RHFProductTable = React.memo(function RHFProductTable(
             case 'quantity':
                 newValue = newValue === '' ? newValue : parseInt(newValue);
                 diff = newValue - newItem.quantity;
-                newTotalQ = new UnitCounter(getValues(fieldNames.quantity));
-                newTotalQ.addUnit(getOptionId(newItem.unit), diff);
-                setValue(fieldNames.quantity, newTotalQ.data);
-                setValue(fieldNames.total, roundToNDecimal(getValues(fieldNames.total) + (newItem.price * diff), 2));
+                setItemsData(prevData => {
+                    const newTotalQ = new UnitCounter(prevData.quantity);
+                    newTotalQ.addUnit(getOptionId(newItem.unit), diff);
+                    return {
+                        ...prevData,
+                        total: roundToNDecimal(prevData.total + (newItem.price * diff), 2),
+                        quantity: newTotalQ.data
+                    };
+                });
                 newItem.total = roundToNDecimal(newValue * newItem.price, 2);
                 newItem.quantity = newValue;
                 break;
             case 'unit':
                 const prevUnit = getOptionId(newItem.unit);
-                newTotalQ = new UnitCounter(getValues(fieldNames.quantity));
-                newTotalQ.subtractUnit(prevUnit, newItem.quantity);
-                newTotalQ.addUnit(getOptionId(newValue), newItem.quantity);
-                setValue(fieldNames.quantity, newTotalQ.data);
+                setItemsData(prevData => {
+                    const newTotalQ = new UnitCounter(prevData.quantity);
+                    newTotalQ.subtractUnit(prevUnit, newItem.quantity);
+                    newTotalQ.addUnit(getOptionId(newValue), newItem.quantity);
+                    return {
+                        ...prevData,
+                        quantity: newTotalQ.data,
+                    };
+                });
                 newItem.unit = newValue;
                 break;
             case 'price':
                 newValue = newValue === '' ? newValue : roundToNDecimal(newValue, 2);
                 diff = newValue - newItem.price;
-                setValue(fieldNames.total, roundToNDecimal(getValues(fieldNames.total) + (newItem.quantity * diff), 2));
+                setItemsData(prevData => ({
+                    ...prevData,
+                    total: roundToNDecimal(prevData.total + (newItem.quantity * diff), 2)
+                }));
                 newItem.total = roundToNDecimal(newValue * newItem.quantity, 2);
                 newItem.price = newValue;
                 break;
@@ -197,7 +217,7 @@ const RHFProductTable = React.memo(function RHFProductTable(
                 newItem[key] = newValue;
         }
         setValue(fieldNames.items, [...items.slice(0, rowIdx), newItem, ...items.slice(rowIdx + 1)])
-    }, [setValue, getValues, fieldNames]);
+    }, [setValue, getValues, fieldNames, setItemsData]);
 
     const columns = useMemo(() => ([
         { field: 'id', hide: true },
@@ -212,7 +232,7 @@ const RHFProductTable = React.memo(function RHFProductTable(
             field: 'order',
             hide: !isShipment,
             headerName: tableHeaderLabels.order,
-            type: 'dropdown',
+            editType: 'dropdown',
             options: Object.values(ordersMapWithDefault),
             getOptionLabel: order => order.ref,
             getOptionSelected: (order, value) => order._id === value._id,
@@ -221,14 +241,14 @@ const RHFProductTable = React.memo(function RHFProductTable(
         {
             field: 'ref',
             headerName: tableHeaderLabels.ref,
-            type: 'autocomplete',
+            editType: 'autocomplete',
             options: products,
             getOptionLabel: product => product.sku || product
         },
         {
             field: 'description',
             headerName: tableHeaderLabels.description,
-            type: 'text'
+            editType: 'text'
         },
         {
             field: 'custom1',
@@ -243,7 +263,7 @@ const RHFProductTable = React.memo(function RHFProductTable(
                             </IconButton>
                     } }
                 />,
-            type: 'text',
+            editType: 'text',
             hide: custom1 == null,
             width: 160
         },
@@ -260,7 +280,7 @@ const RHFProductTable = React.memo(function RHFProductTable(
                             </IconButton>
                     } }
                 />,
-            type: 'text',
+            editType: 'text',
             hide: custom2 == null,
             width: 160
         },
@@ -276,13 +296,13 @@ const RHFProductTable = React.memo(function RHFProductTable(
         {
             field: 'quantity',
             headerName: tableHeaderLabels.quantity,
-            type: 'number',
+            editType: 'number',
             width: 120
         },
         {
             field: 'unit',
             headerName: tableHeaderLabels.unit,
-            type: 'dropdown',
+            editType: 'dropdown',
             options: itemUnitOptions,
             getOptionLabel: option => getOptionLabel(option, LOCALE),
             getOptionSelected: (option, value) => option.id === value.id,
@@ -291,7 +311,7 @@ const RHFProductTable = React.memo(function RHFProductTable(
         {
             field: 'price',
             headerName: tableHeaderLabels.price,
-            type: 'number',
+            editType: 'number',
             width: 120
         },
         {
@@ -314,35 +334,56 @@ const RHFProductTable = React.memo(function RHFProductTable(
         itemUnitOptions
     ]);
 
-    const currencySymbol = useMemo(() => getCurrencySymbol(currency), [currency]);
-
     // make sure custom column field names are the same as the item
     // field names
-    const rows = items.map((row, index) => ({
-        id: row._id,
-        idx: index,
-        order: ordersMapWithDefault[row.order] || ordersMapWithDefault['0'],
-        ref: row.ref,
-        description: row.description,
-        custom1: row[fieldNames.custom1],
-        custom2: row[fieldNames.custom2],
-        quantity: row.quantity,
-        unit: row.unit,
-        price: row.price,
-        total: `${ currencySymbol } ${ row.total }`,
-    }));
+    const rows = useMemo(() => {
+        const currencySymbol = getCurrencySymbol(currency);
+        return items.map((row, index) => ({
+            id: row._id,
+            idx: index,
+            order: ordersMapWithDefault[row.order] || ordersMapWithDefault['0'],
+            ref: row.ref,
+            description: row.description,
+            custom1: row[fieldNames.custom1],
+            custom2: row[fieldNames.custom2],
+            quantity: row.quantity,
+            unit: row.unit,
+            price: row.price,
+            total: formatCurrency(row.total, currencySymbol),
+        }))
+    }, [items, currency, fieldNames, ordersMapWithDefault]);
 
     const footer = useMemo(() => [[
         { field: 'label', value: totalLabel, colSpan: numColumns - 4, align: 'right' },
-        { field: 'quantity', value: UnitCounter.stringRep(quantity, itemUnitsMap), colSpan: 3, align: 'center' },
-        { field: 'total', value: `${ currencySymbol } ${ total }`, colSpan: 1, align: 'right' }
-    ]], [numColumns, total, quantity, currencySymbol, itemUnitsMap]);
+        {
+            field: 'quantity',
+            value: formatItemsTotalQuantities(itemsData.quantity, itemUnitsMap, LOCALE),
+            colSpan: 3,
+            align: 'center'
+        },
+        { field: 'total', value: formatCurrency(itemsData.total, currency), colSpan: 1, align: 'right' }
+    ]], [numColumns, currency, itemsData.quantity, itemsData.total, itemUnitsMap]);
+
+    const options = useMemo(() => ({
+        table: {
+            isEdit: true,
+            dense: true
+        },
+        body: {
+            onAddRow: onAddRow,
+            onCellChange: onCellChange,
+            hover: false
+        },
+        foot: {
+            pagination: 'none'
+        }
+    }), [onAddRow, onCellChange]);
 
     return (
         <Grid container className={ className }>
             { isError &&
             <Grid container item justify="center" xs={ 12 }>
-                <ErrorMessages error={ errMessages }/>
+                <ErrorSnackbar error={ errMessages }/>
             </Grid>
             }
             <Grid container item justify="flex-end" xs={ 12 }>
@@ -364,12 +405,11 @@ const RHFProductTable = React.memo(function RHFProductTable(
                 /> }
             </Grid>
             <Grid item xs={ 12 }>
-                <EditableTable
-                    columns={ columns }
-                    rows={ rows }
-                    footer={ footer }
-                    onAddRow={ onAddRow }
-                    onCellChange={ onCellChange }
+                <Table
+                    columns={columns}
+                    rows={rows}
+                    footer={footer}
+                    options={options}
                 />
             </Grid>
             <Grid container item xs={ 12 }>
@@ -396,8 +436,6 @@ RHFProductTable.propTypes = {
         custom2: PropTypes.string.isRequired,
         currency: PropTypes.string.isRequired,
         items: PropTypes.string.isRequired,
-        quantity: PropTypes.string.isRequired,
-        total: PropTypes.string.isRequired,
         marks: PropTypes.string.isRequired,
         saveItems: PropTypes.string
     }).isRequired,

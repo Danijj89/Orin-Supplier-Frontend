@@ -9,6 +9,15 @@ const fetchOrders = async () => {
     return data;
 };
 
+const fetchAllOrders = async () => {
+    const configs = {
+        method: 'get',
+        url: 'orders/all'
+    };
+    const { data } = await fetchWithAuth(configs);
+    return data;
+};
+
 const createOrder = async (order) => {
     const configs = {
         method: 'post',
@@ -22,7 +31,7 @@ const createOrder = async (order) => {
 const fetchOrderById = async (id) => {
     const configs = {
         method: 'get',
-        url: `/orders/${id}`
+        url: `/orders/${ id }`
     };
     const { data } = await fetchWithAuth(configs);
     return data;
@@ -31,17 +40,17 @@ const fetchOrderById = async (id) => {
 const updateOrder = async (id, update) => {
     const configs = {
         method: 'put',
-        url: `/orders/${id}`,
+        url: `/orders/${ id }`,
         data: update
     };
     const { data } = await fetchWithAuth(configs);
     return data;
 };
 
-const updateOrderStatus = async (orderId, update) => {
+const updateSplit = async (orderId, splitId, update) => {
     const configs = {
         method: 'put',
-        url: `/orders/${orderId}/status`,
+        url: `/orders/${ orderId }/splits/${ splitId }`,
         data: update
     };
     const { data } = await fetchWithAuth(configs);
@@ -51,7 +60,7 @@ const updateOrderStatus = async (orderId, update) => {
 const deleteOrder = async (id) => {
     const configs = {
         method: 'delete',
-        url: `/orders/${id}`
+        url: `/orders/${ id }`
     };
     const { data } = await fetchWithAuth(configs);
     return data;
@@ -59,11 +68,12 @@ const deleteOrder = async (id) => {
 
 const OrderService = {
     fetchOrders,
+    fetchAllOrders,
     createOrder,
     fetchOrderById,
     updateOrder,
     deleteOrder,
-    updateOrderStatus
+    updateSplit
 };
 
 export default OrderService;

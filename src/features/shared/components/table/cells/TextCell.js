@@ -1,15 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Typography } from '@material-ui/core';
-import { TableCell } from './EditableTable.js';
+import EditTableCell from 'features/shared/components/table/cells/EditTableCell.js';
+
 
 const TextCell = React.memo(function TextCell({ value, width, align }) {
     return (
-        <TableCell align={ align } width={ width }>
+        <EditTableCell align={ align } width={ width }>
             <Typography>
                 { typeof value === 'number' ? value : (value || '-') }
             </Typography>
-        </TableCell>
+        </EditTableCell>
     )
 });
 

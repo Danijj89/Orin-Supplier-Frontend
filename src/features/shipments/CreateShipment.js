@@ -24,7 +24,7 @@ import {
     selectSessionUser
 } from '../../app/duck/selectors.js';
 import { createShipment, updateShipmentShell } from './duck/thunks.js';
-import ErrorMessages from '../shared/components/ErrorMessages.js';
+import ErrorSnackbar from 'features/shared/components/ErrorSnackbar.js';
 import {
     selectEditShipmentShellById,
     selectOrderToShipmentItemsQuantityMap,
@@ -253,7 +253,7 @@ const CreateShipment = React.memo(function CreateShipment() {
                             variant="h5">{ isEdit ? editTitleLabel : newTitleLabel }</Typography>
                 <Divider/>
                 <Paper>
-                    { errs.length > 0 && <ErrorMessages error={ errs }/> }
+                    { errs.length > 0 && <ErrorSnackbar error={ errs }/> }
                     <FormContainer>
                         <RHFAutoComplete
                             rhfControl={ control }

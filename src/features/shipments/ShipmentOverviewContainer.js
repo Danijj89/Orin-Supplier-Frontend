@@ -10,6 +10,7 @@ import { cleanShipmentState } from './duck/slice.js';
 import { READ_ANY, READ_OWN } from '../admin/utils/actions.js';
 import ShipmentPermission from '../shared/permissions/ShipmentPermission.js';
 import StatusHandler from 'features/shared/status/StatusHandler.js';
+import { resetShipmentStatus } from 'features/shipments/duck/slice.js';
 
 const ShipmentOverviewContainer = React.memo(function ShipmentOverviewContainer() {
     const dispatch = useDispatch();
@@ -20,6 +21,12 @@ const ShipmentOverviewContainer = React.memo(function ShipmentOverviewContainer(
     const errors = getErrors(shipmentError);
 
     const shipmentStatus = useSelector(selectShipmentStatus);
+
+    useEffect(() => {
+        return () => {
+            if (shipmentStatus === 'FULFILLED') dispatch(resetShipmentStatus());
+        }
+    }, [dispatch, shipmentStatus]);
 
     useEffect(() => {
         if (shipmentDataStatus === 'IDLE') dispatch(fetchShipments());
@@ -36,7 +43,7 @@ const ShipmentOverviewContainer = React.memo(function ShipmentOverviewContainer(
     return (
         <ShipmentPermission action={ [READ_ANY, READ_OWN] }>
             <StatusHandler status={ shipmentStatus } error={ shipmentError }/>
-            { status === 'REJECTED' && <ErrorPage errors={ errors }/> }
+            { status === 'REJECTED' && <ErrorPage error={ errors }/> }
             { status === 'PENDING' && <Loader/> }
             { status === 'FULFILLED' && <ShipmentOverview/> }
         </ShipmentPermission>

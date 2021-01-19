@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useWatch } from 'react-hook-form';
-import { LANGUAGE } from '../../../../app/utils/constants.js';
+import { LANGUAGE } from 'app/utils/constants.js';
 import SideTextField from '../../inputs/SideTextField.js';
 import { formatAddress } from '../../utils/format.js';
 import FormContainer from '../../wrappers/FormContainer.js';
@@ -13,8 +13,8 @@ import RHFAutoComplete from '../inputs/RHFAutoComplete.js';
 import RHFDateField from '../inputs/RHFDateField.js';
 import Box from '@material-ui/core/Box';
 import { useSelector } from 'react-redux';
-import { selectDeliveryMethods, selectIncoterms } from '../../../../app/duck/selectors.js';
-import { getOptionLabel } from '../../../../app/utils/options/getters.js';
+import { selectDeliveryMethods, selectIncoterms } from 'app/duck/selectors.js';
+import { getOptionLabel } from 'app/utils/options/getters.js';
 import { selectAllActiveClients } from '../../../clients/duck/selectors.js';
 import { selectActiveCompanyAddresses, selectCompanyPorts } from 'features/home/duck/home/selectors.js';
 
@@ -81,8 +81,6 @@ const RHFOrderDetails = React.memo(function RHFOrderDetails(
     const isRefDisabled = useMemo(
         () => isEdit || Boolean(autoGenerateRef),
         [isEdit, autoGenerateRef]);
-
-    console.log(!!errors[fieldNames.toAdd]);
 
     return (
         <Grid container justify="center" className={ className }>
@@ -154,16 +152,10 @@ const RHFOrderDetails = React.memo(function RHFOrderDetails(
                         clientId={ client._id }
                         clientName={ client.name }
                     /> }
-                    <RHFDateField
+                    { !isEdit && <RHFDateField
                         rhfControl={ control }
                         name={ fieldNames.crd }
                         label={ formLabels.crd }
-                    />
-                    { isEdit &&
-                    <RHFDateField
-                        rhfControl={ control }
-                        name={ fieldNames.realCrd }
-                        label={ formLabels.realCrd }
                     /> }
                     <RHFAutoComplete
                         rhfControl={ control }
@@ -252,7 +244,7 @@ RHFOrderDetails.propTypes = {
         fromAdd: PropTypes.string.isRequired,
         to: PropTypes.string.isRequired,
         toAdd: PropTypes.string.isRequired,
-        crd: PropTypes.string.isRequired,
+        crd: PropTypes.string,
         incoterm: PropTypes.string.isRequired,
         pay: PropTypes.string.isRequired,
         clientRef: PropTypes.string.isRequired,
@@ -264,8 +256,7 @@ RHFOrderDetails.propTypes = {
         date: PropTypes.string,
         notes: PropTypes.string,
         autoGenerateRef: PropTypes.string,
-        archived: PropTypes.string,
-        realCrd: PropTypes.string
+        archived: PropTypes.string
     }).isRequired,
     isEdit: PropTypes.bool,
     className: PropTypes.string

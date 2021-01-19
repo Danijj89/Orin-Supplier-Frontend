@@ -22,11 +22,17 @@ const Resources = React.memo(function Resources() {
         _id: resource._id,
     })), [resources]);
 
+    const options = useMemo(() => ({
+        table: {
+            dense: false
+        }
+    }), []);
+
     return (
         <Paper>
             <Grid container>
-                <NewResourceButton />
-                <Table rows={rows} columns={columns} dense/>
+                <NewResourceButton/>
+                <Table rows={ rows } columns={ columns } options={ options }/>
             </Grid>
         </Paper>
     );

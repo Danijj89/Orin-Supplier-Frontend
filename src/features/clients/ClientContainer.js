@@ -17,6 +17,7 @@ import { cleanOrderState } from '../orders/duck/slice.js';
 import { READ_ANY, READ_OWN } from '../admin/utils/actions.js';
 import ClientPermission from '../shared/permissions/ClientPermission.js';
 import StatusHandler from 'features/shared/status/StatusHandler.js';
+import { resetClientStatus } from 'features/clients/duck/slice.js';
 
 const ClientContainer = React.memo(function ClientContainer() {
     const dispatch = useDispatch();
@@ -38,6 +39,12 @@ const ClientContainer = React.memo(function ClientContainer() {
     const isClientInactive = useMemo(
         () => client?.active === false || (!client && clientDataStatus === 'FULFILLED'),
         [client, clientDataStatus]);
+
+    useEffect(() => {
+        return () => {
+            if (clientStatus === 'FULFILLED') dispatch(resetClientStatus());
+        }
+    }, [dispatch, clientStatus]);
 
     const fetched = useRef(false);
     useEffect(() => {
@@ -61,9 +68,9 @@ const ClientContainer = React.memo(function ClientContainer() {
 
     return (
         <ClientPermission action={ [READ_ANY, READ_OWN] } clientId={ clientId }>
-            <StatusHandler status={ clientStatus } error={ clientError }/>
+            <StatusHandler status={ clientStatus } error={ clientError } showSuccess/>
             { isClientInactive && <Redirect to={ '/home/clients' }/> }
-            { status === 'REJECTED' && <ErrorPage errors={ errors }/> }
+            { status === 'REJECTED' && <ErrorPage error={ errors }/> }
             { status === 'PENDING' && <Loader/> }
             { !isClientInactive && status === 'FULFILLED' && <Client/> }
         </ClientPermission>

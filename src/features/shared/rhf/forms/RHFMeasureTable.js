@@ -2,13 +2,12 @@ import React, { useCallback, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useWatch } from 'react-hook-form';
 import { Grid, IconButton } from '@material-ui/core';
-import { LANGUAGE } from '../../../../app/utils/constants.js';
-import EditableTable from '../../components/editable_table/EditableTable.js';
+import { LANGUAGE } from 'app/utils/constants.js';
 import TableTextField from '../../inputs/TableTextField.js';
 import { Add as IconAdd, Close as IconClose } from '@material-ui/icons';
 import UnitCounter from '../../classes/UnitCounter.js';
 import { formatQuantityWithUnit, roundToNDecimal } from '../../utils/format.js';
-import ErrorMessages from '../../components/ErrorMessages.js';
+import ErrorSnackbar from 'features/shared/components/ErrorSnackbar.js';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import RHFAutoComplete from '../inputs/RHFAutoComplete.js';
@@ -18,8 +17,9 @@ import {
     selectPackageUnits,
     selectPackageUnitsMap,
     selectWeightUnits
-} from '../../../../app/duck/selectors.js';
-import { getOptionId, getOptionLabel } from '../../../../app/utils/options/getters.js';
+} from 'app/duck/selectors.js';
+import { getOptionId, getOptionLabel } from 'app/utils/options/getters.js';
+import Table from 'features/shared/components/table/Table.js';
 
 const useStyles = makeStyles((theme) => ({
     marks: {
@@ -321,11 +321,23 @@ const RHFMeasureTable = React.memo(function RHFMeasureTable(
         packageUnitsMap
     ]);
 
+    const options = useMemo(() => ({
+        table: {
+            isEdit: true
+        },
+        body: {
+            onCellChange: onCellChange
+        },
+        foot: {
+            pagination: 'none'
+        }
+    }), [onCellChange]);
+
     return (
         <Grid container className={ className }>
             { isError &&
             <Grid container item justify="center" xs={ 12 }>
-                <ErrorMessages error={ errMessages }/>
+                <ErrorSnackbar error={ errMessages }/>
             </Grid>
             }
             <Grid container item justify="flex-end" xs={ 12 }>
@@ -351,11 +363,11 @@ const RHFMeasureTable = React.memo(function RHFMeasureTable(
                 />
             </Grid>
             <Grid item xs={ 12 }>
-                <EditableTable
-                    rows={ rows }
-                    columns={ columns }
-                    onCellChange={ onCellChange }
-                    footer={ footer }
+                <Table
+                    columns={columns}
+                    rows={rows}
+                    footer={footer}
+                    options={options}
                 />
             </Grid>
             <Grid container item xs={ 12 } className={ classes.marks }>

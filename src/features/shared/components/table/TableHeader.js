@@ -1,11 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import TableRow from '@material-ui/core/TableRow';
 import TableHead from '@material-ui/core/TableHead';
 import TableCell from '@material-ui/core/TableCell';
 import { TableSortLabel } from '@material-ui/core';
 
+
 const TableHeader = React.memo(function TableHeader(
-    { columns, orderBy, order, onSort }) {
+    { columns, orderBy, order, onSort, isEdit, options }) {
 
     return (
         <TableHead>
@@ -20,6 +22,13 @@ const TableHeader = React.memo(function TableHeader(
                                     align={ column.align }
                                 >
                                     { column.renderHeader() }
+                                </TableCell>
+                            );
+                        }
+                        if (isEdit) {
+                            return (
+                                <TableCell key={ column.field } width={ column.width } align={ column.align }>
+                                    { column.headerName }
                                 </TableCell>
                             );
                         }
@@ -38,12 +47,21 @@ const TableHeader = React.memo(function TableHeader(
                                     { column.headerName }
                                 </TableSortLabel>
                             </TableCell>
-                        )
+                        );
                     }
                 ) }
             </TableRow>
         </TableHead>
     )
 });
+
+TableHeader.propTypes = {
+    columns: PropTypes.array.isRequired,
+    onSort: PropTypes.func.isRequired,
+    orderBy: PropTypes.string,
+    order: PropTypes.string,
+    isEdit: PropTypes.bool,
+    options: PropTypes.exact({})
+};
 
 export default TableHeader;

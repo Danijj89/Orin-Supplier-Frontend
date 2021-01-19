@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectLeadById, selectLeadDataStatus, selectLeadError } from './duck/selectors.js';
+import { selectLeadById, selectLeadDataStatus, selectLeadError, selectLeadStatus } from './duck/selectors.js';
 import { determineStatus, getErrors } from '../shared/utils/state.js';
 import ErrorPage from '../shared/components/ErrorPage.js';
 import Loader from '../shared/components/Loader.js';
@@ -13,6 +13,8 @@ import { cleanUserState } from 'features/home/duck/users/slice.js';
 import { useParams, Redirect } from 'react-router-dom';
 import { READ_ANY, READ_OWN } from '../admin/utils/actions.js';
 import LeadPermission from '../shared/permissions/LeadPermission.js';
+import StatusHandler from 'features/shared/status/StatusHandler.js';
+import { resetLeadStatus } from 'features/leads/duck/slice.js';
 
 const LeadContainer = React.memo(function LeadContainer() {
     const dispatch = useDispatch();
@@ -28,6 +30,14 @@ const LeadContainer = React.memo(function LeadContainer() {
 
     const lead = useSelector(state => selectLeadById(state, { leadId }));
     const leadExists = useMemo(() => Boolean(lead) && leadDataStatus === 'FULFILLED', [leadDataStatus, lead]);
+
+    const leadStatus = useSelector(selectLeadStatus);
+
+    useEffect(() => {
+        return () => {
+            if (leadStatus === 'FULFILLED') dispatch(resetLeadStatus());
+        }
+    }, [dispatch, leadStatus]);
 
     const fetched = useRef(false);
     useEffect(() => {
@@ -49,8 +59,9 @@ const LeadContainer = React.memo(function LeadContainer() {
 
     return (
         <LeadPermission action={ [READ_ANY, READ_OWN] } leadId={ leadId }>
+            <StatusHandler status={ leadStatus } error={ leadError } showSuccess/>
             { !leadExists && <Redirect to={ '/home/leads' }/> }
-            { status === 'REJECTED' && <ErrorPage errors={ errors }/> }
+            { status === 'REJECTED' && <ErrorPage error={ errors }/> }
             { status === 'PENDING' && <Loader/> }
             { leadExists && status === 'FULFILLED' && <Lead/> }
         </LeadPermission>

@@ -2,19 +2,18 @@ import React, { useState } from 'react';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { Box } from '@material-ui/core';
 import OrderProductsDialog from '../shared/forms/OrderProductsDialog.js';
-import { LANGUAGE } from '../../app/utils/constants.js';
+import { LANGUAGE } from 'app/utils/constants.js';
 import { useDispatch } from 'react-redux';
 import { updateOrder } from './duck/thunks.js';
 import { productTableItemsToOrderItems } from '../shared/utils/entityConversion.js';
-import { getOptionId } from '../../app/utils/options/getters.js';
+import { getOptionId } from 'app/utils/options/getters.js';
 import { UPDATE_ANY, UPDATE_OWN } from '../admin/utils/actions.js';
 import OrderPermission from '../shared/permissions/OrderPermission.js';
 
 const {
-    buttonLabel,
-    dialogTitleLabel,
-    dialogSubmitLabel
-} = LANGUAGE.order.order.orderDetails.orderProductTable.editOrderProductsButton;
+    buttons,
+    titles
+} = LANGUAGE.order.order;
 
 const EditOrderProductsButton = React.memo(function EditOrderProductsButton({ order, className }) {
     const dispatch = useDispatch();
@@ -36,13 +35,13 @@ const EditOrderProductsButton = React.memo(function EditOrderProductsButton({ or
                 <ThemedButton
                     onClick={ onEdit }
                 >
-                    { buttonLabel }
+                    { buttons.editProducts }
                 </ThemedButton>
                 <OrderProductsDialog
                     order={ order }
                     isOpen={ isEdit }
-                    titleLabel={ dialogTitleLabel }
-                    submitLabel={ dialogSubmitLabel }
+                    titleLabel={ titles.editProductsDialog }
+                    submitLabel={ buttons.submitProducts }
                     onCancel={ onCancel }
                     onSubmit={ onSubmit }
                 />

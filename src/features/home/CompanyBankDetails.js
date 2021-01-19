@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Box, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { LANGUAGE } from '../../app/utils/constants.js';
@@ -70,12 +70,18 @@ const CompanyBankDetails = React.memo(function CompanyBankDetails() {
         detail: bankDetail.detail
     }));
 
+    const options = useMemo(() => ({
+        body: {
+            onRowClick
+        }
+    }), [onRowClick]);
+
     return (
         <Box>
             <Typography className={ classes.title } variant="h5">
                 { titleLabel }
             </Typography>
-            <Table rows={ rows } columns={ columns } onRowClick={ onRowClick }/>
+            <Table rows={ rows } columns={ columns } options={ options }/>
             { editBankDetail &&
             <CompanyPermission action={ [UPDATE_ANY, UPDATE_OWN] } companyId={ companyId }>
                 <BankDetailDialog

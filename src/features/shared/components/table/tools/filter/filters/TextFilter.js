@@ -4,12 +4,20 @@ import TextField from '@material-ui/core/TextField';
 import { Typography } from '@material-ui/core';
 import { LANGUAGE } from 'app/utils/constants.js';
 import Grid from '@material-ui/core/Grid';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+    selector: {
+        marginTop: theme.spacing(2),
+    },
+}));
 
 const {
     searchTermLabel
 } = LANGUAGE.shared.components.table.tools.filter.filters.textFilter;
 
 const TextFilter = React.memo(function TextFilter({ filterIdx, filter, setFilters }) {
+    const classes = useStyles();
 
     const onTextChange = useCallback(
         (e) => {
@@ -35,6 +43,9 @@ const TextFilter = React.memo(function TextFilter({ filterIdx, filter, setFilter
                 label={ searchTermLabel }
                 value={ filter.value }
                 onChange={ onTextChange }
+                variant="outlined"
+                size="small"
+                className={ classes.selector }
             />
         </Grid>
     );

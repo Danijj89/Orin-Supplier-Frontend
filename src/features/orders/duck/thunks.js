@@ -47,11 +47,29 @@ export const deleteOrder = createAsyncThunk('orders/deleteOrder',
         }
     });
 
-export const updateOrderStatus = createAsyncThunk('orders/updateOrderStatus',
-    async ({ orderId, update }, { rejectWithValue }) => {
+export const updateSplit = createAsyncThunk('orders/updateSplit',
+    async ({ orderId, splitId, update }, { rejectWithValue }) => {
         try {
-            await OrderService.updateOrderStatus(orderId, update);
-            return { orderId, update };
+            await OrderService.updateSplit(orderId, splitId, update);
+            return { orderId, splitId, update };
+        } catch (err) {
+            return rejectWithValue(err.response.data);
+        }
+    });
+
+export const fetchTableOrders = createAsyncThunk('orders/fetchTableOrders',
+    async (_, { rejectWithValue }) => {
+        try {
+            return OrderService.fetchOrders();
+        } catch (err) {
+            return rejectWithValue(err.response.data);
+        }
+    });
+
+export const fetchAllTableOrders = createAsyncThunk('orders/fetchAllTableOrders',
+    async (_, { rejectWithValue }) => {
+        try {
+            return OrderService.fetchAllOrders();
         } catch (err) {
             return rejectWithValue(err.response.data);
         }

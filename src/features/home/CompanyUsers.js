@@ -44,7 +44,7 @@ const CompanyUsers = React.memo(function CompanyUsers() {
         <UserPermission action={ READ_ANY }>
             <InfoCard
                 title={ titleLabel }
-                button={
+                tools={
                     <UserPermission action={ CREATE_ANY }>
                         <ThemedButton variant="text">
                             { inviteButtonLabel }
