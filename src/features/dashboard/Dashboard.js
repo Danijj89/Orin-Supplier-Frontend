@@ -87,8 +87,8 @@ const Dashboard = React.memo(function Dashboard() {
     const completedOrders = useSelector(selectCompletedCount);
     const newClients = useSelector(selectNewClients);
     const totClients = useSelector(selectTotClients);
-    const crdPerf = useSelector(selectCrdPerf);
-    const crdDiff = useSelector(selectCrdDiff);
+    // const crdPerf = useSelector(selectCrdPerf);
+    // const crdDiff = useSelector(selectCrdDiff);
 
     const orderMetrics = [
         {
@@ -144,11 +144,13 @@ const Dashboard = React.memo(function Dashboard() {
     const crdMetrics = [
         {
             metricId: crdStats.crdOT,
-            value: (crdPerf.toFixed(2) * 100).toString() + '%',
+            value: 10,
+            // value: (crdPerf.toFixed(2) * 100).toString() + '%',
         },
         {
             metricId: crdStats.crdDiff,
-            value: crdDiff,
+            value: 5,
+            // value: crdDiff,
         },
     ];
 
@@ -166,7 +168,7 @@ const Dashboard = React.memo(function Dashboard() {
     };
 
     const orderRev = {
-        labels: Object.keys(orderRevData.labels).reverse(),
+        labels: Object.values(orderRevData.labels).reverse(),
         datasets: [
             {
                 label: orderRevenueGraph.cny,
@@ -227,25 +229,25 @@ const Dashboard = React.memo(function Dashboard() {
             </Grid>
 
             <Grid container item>
-                <Grid xs={12} md={4} item>
+                <Grid xs={12} md={6} item>
                     <MetricCard
                         titleLabel={leads.title}
                         metrics={leadsMetrics}
                     />
                 </Grid>
 
-                <Grid xs={12} md={4} item>
+                <Grid xs={12} md={6} item>
                     <MetricCard
                         titleLabel={clients.title}
                         metrics={clientMetrics}
                     />
                 </Grid>
-                <Grid xs={12} md={4} item>
+                {/* <Grid xs={12} md={4} item>
                     <MetricCard
                         titleLabel={crdStats.title}
                         metrics={crdMetrics}
                     />
-                </Grid>
+                </Grid> */}
             </Grid>
         </Grid>
     );
