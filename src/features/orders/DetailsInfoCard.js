@@ -30,12 +30,11 @@ const DetailsInfoCard = React.memo(function DetailsInfoCard({ order }) {
     ], [order.ref, order.fromAdd, order.date, order.incoterm, quantity, itemUnitsMap]);
 
     const rightData = useMemo(() => [
-        { label: labels.clientReference, value: order.clientRef },
         { label: labels.client, value: formatAddress(order.toAdd) },
         { label: labels.author, value: createdBy.name },
         { label: labels.paymentMethod, value: order.pay },
         { label: labels.total, value: formatCurrency(total, order.currency) }
-    ], [order.clientRef, order.toAdd, order.pay, order.currency, total, createdBy.name]);
+    ], [order.toAdd, order.pay, order.currency, total, createdBy.name]);
 
     const tools = useMemo(() => [
         <EditOrderDetailsButton order={ order }/>

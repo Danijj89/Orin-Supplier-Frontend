@@ -462,7 +462,6 @@ export const ENGLISH = {
                 crd: 'CRD',
                 incoterm: 'Incoterm',
                 quantity: 'Quantity',
-                clientReference: 'Client Reference',
                 client: 'Buyer',
                 author: 'Created By',
                 realCrd: 'Actual CRD',
