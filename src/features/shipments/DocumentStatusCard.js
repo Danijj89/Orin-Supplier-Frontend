@@ -20,9 +20,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const {
-    titleLabel,
+    titles,
     labels
-} = LANGUAGE.shipment.shipment.documentStatusCard;
+} = LANGUAGE.shipment.shipment;
 
 const DocumentStatusCard = React.memo(function DocumentStatusCard() {
     const classes = useStyles();
@@ -41,7 +41,7 @@ const DocumentStatusCard = React.memo(function DocumentStatusCard() {
         shipment.released
     ]);
 
-    const content = useCallback(
+    const content = useMemo(
         () =>
             <Grid container>
                 <Grid container item md={7}>
@@ -52,9 +52,9 @@ const DocumentStatusCard = React.memo(function DocumentStatusCard() {
 
     return (
         <InfoCard
-            title={ titleLabel }
+            title={ titles.documentStatus }
             className={ classes.root }
-            content={ content() }
+            content={ content }
         />
     )
 });

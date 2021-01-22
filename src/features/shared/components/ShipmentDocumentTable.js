@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Table from './table/Table.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectShipmentDocuments } from '../../shipments/duck/selectors.js';
-import { LANGUAGE } from '../../../app/utils/constants.js';
+import { LANGUAGE } from 'app/utils/constants.js';
 import { GetApp as IconDownload } from '@material-ui/icons';
 import { IconButton } from '@material-ui/core';
 import { selectUsersMap } from 'features/home/duck/users/selectors.js';

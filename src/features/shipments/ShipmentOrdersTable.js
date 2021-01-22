@@ -1,18 +1,18 @@
 import React, { useCallback, useMemo } from 'react';
 import Table from '../shared/components/table/Table.js';
 import OrderStatusDisplay from '../orders/OrderStatusDisplay.js';
-import UnitCounter from '../shared/classes/UnitCounter.js';
-import { LANGUAGE, LOCALE } from '../../app/utils/constants.js';
+import { LANGUAGE, LOCALE } from 'app/utils/constants.js';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { useHistory, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
-import { selectItemUnitsMap } from '../../app/duck/selectors.js';
-import { getOptionLabel } from '../../app/utils/options/getters.js';
+import { selectItemUnitsMap } from 'app/duck/selectors.js';
 import { CREATE_ANY, CREATE_OWN, READ_ANY, READ_OWN } from '../admin/utils/actions.js';
 import OrderPermission from '../shared/permissions/OrderPermission.js';
 import ShipmentPermission from '../shared/permissions/ShipmentPermission.js';
 import { selectShipmentOrders } from 'features/shipments/utils/selectors.js';
+import { formatItemsTotalQuantities } from 'features/shared/utils/format.js';
+import { getOrderURL } from 'features/orders/utils/urls.js';
 
 const useStyles = makeStyles((theme) => ({
     button: {
@@ -21,9 +21,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const {
-    tableHeaderLabelsMap,
-    editOrdersButtonLabel
-} = LANGUAGE.shipment.shipment.shipmentOrdersTable;
+    tableHeaderLabels,
+    buttons
+} = LANGUAGE.shipment.shipment;
 
 const ShipmentOrdersTable = React.memo(function ShipmentOrdersTable() {
     const classes = useStyles();
@@ -36,53 +36,67 @@ const ShipmentOrdersTable = React.memo(function ShipmentOrdersTable() {
         () => history.push(`/home/shipments/shell?id=${ shipmentId }`),
         [history, shipmentId]);
     const onRowClick = useCallback(
-        (params) => history.push(`/home/orders/${ params.id }`),
+        row => history.push(getOrderURL(row.orderId, { split: row.splitId })),
         [history]);
 
     const columns = useMemo(() => [
-        { field: 'id', hide: true },
-        { field: 'ref', headerName: tableHeaderLabelsMap.ref },
-        { field: 'clientRef', headerName: tableHeaderLabelsMap.clientRef },
-        { field: 'totalQ', headerName: tableHeaderLabelsMap.totalQ },
-        { field: 'crd', headerName: tableHeaderLabelsMap.crd, type: 'date' },
-        { field: 'del', headerName: tableHeaderLabelsMap.del, align: 'center' },
+        { field: 'ref', headerName: tableHeaderLabels.ref },
+        { field: 'clientRef', headerName: tableHeaderLabels.clientRef },
+        {
+            field: 'quantity',
+            headerName: tableHeaderLabels.quantity,
+            format: row => formatItemsTotalQuantities(row.quantity, itemUnitsMap, LOCALE)
+        },
+        { field: 'crd', headerName: tableHeaderLabels.crd, type: 'date' },
+        {
+            field: 'del',
+            headerName: tableHeaderLabels.del,
+            align: 'center',
+            type: 'option'
+        },
         {
             field: 'production',
-            headerName: tableHeaderLabelsMap.production,
+            headerName: tableHeaderLabels.production,
             renderCell: (params) =>
                 <OrderStatusDisplay status={ params.production }/>,
             align: 'center'
         },
         {
             field: 'qa',
-            headerName: tableHeaderLabelsMap.qa,
+            headerName: tableHeaderLabels.qa,
             renderCell: (params) =>
                 <OrderStatusDisplay status={ params.qa }/>,
             align: 'center'
         },
-        { field: 'notes', headerName: tableHeaderLabelsMap.notes },
-    ], []);
+        { field: 'notes', headerName: tableHeaderLabels.notes },
+    ], [itemUnitsMap]);
 
     const rows = useMemo(() => {
         if (!orders) return [];
-        return orders.map(order => {
-            return ({
-                id: order._id,
-                ref: order.ref,
-                clientRef: order.clientRef,
-                totalQ: UnitCounter.stringRep(order.totalQ, itemUnitsMap, LOCALE),
-                crd: order.crd,
-                del: getOptionLabel(order.del, LOCALE),
-                production: order.production.status,
-                qa: order.qa.status,
-                notes: order.notes
+        return orders.map(({ _id: orderId, split, del }) => ({
+                orderId,
+                splitId: split._id,
+                ref: split.ref,
+                clientRef: split.clientRef,
+                quantity: split.quantity,
+                crd: split.crd,
+                del,
+                production: split.production.status,
+                qa: split.qa.status,
+                notes: split.notes
             })
-        });
-    }, [orders, itemUnitsMap]);
+        );
+    }, [orders]);
 
     const options = useMemo(() => ({
+        table: {
+            dense: true
+        },
         body: {
             onRowClick
+        },
+        foot: {
+            pagination: 'hide'
         }
     }), [onRowClick]);
 
@@ -90,7 +104,7 @@ const ShipmentOrdersTable = React.memo(function ShipmentOrdersTable() {
         <>
             <ShipmentPermission action={ [CREATE_ANY, CREATE_OWN] } shipmentId={ shipmentId }>
                 <ThemedButton variant="outlined" onClick={ onEditOrders } className={ classes.button }>
-                    { editOrdersButtonLabel }
+                    { buttons.editShipmentOrders }
                 </ThemedButton>
             </ShipmentPermission>
             <OrderPermission action={ [READ_ANY, READ_OWN] }>

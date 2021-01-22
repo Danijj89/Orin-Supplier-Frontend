@@ -581,10 +581,41 @@ export const ENGLISH = {
             },
         },
         shipment: {
-            editShipmentButtonLabel: 'Edit Shipment Information',
-            tabsLabelsMap: {
+            tabLabels: {
                 orders: 'Orders Included',
                 documents: 'Documents',
+            },
+            buttons: {
+                editShipment: 'Edit Shipment Information',
+                editShipmentOrders: 'Edit Included Orders'
+            },
+            titles: {
+                shipmentInfo: 'Shipment Information',
+                documentStatus: 'Document Status'
+            },
+            labels: {
+                status: 'Status',
+                crd: 'Cargo Ready',
+                del: 'Mode',
+                carrier: 'Forwarder',
+                pol: 'Port of Loading',
+                pod: 'Port of Destination',
+                etd: 'ETD',
+                eta: 'ETA',
+                docCutOff: 'Doc Cut Off',
+                bol: 'Bill of Landing No',
+                bolType: 'Bill Release Type',
+                released: 'Released',
+            },
+            tableHeaderLabels: {
+                ref: 'Sales Order',
+                clientRef: 'Client Ref',
+                quantity: 'Quantity',
+                crd: 'Cargo Ready',
+                del: 'Shipping Mode',
+                production: 'Production',
+                qa: 'QA',
+                notes: 'Notes',
             },
             documentButton: {
                 buttonLabel: 'Generate Document',
@@ -593,19 +624,6 @@ export const ENGLISH = {
                 formLabels: {
                     document: 'Document',
                 },
-            },
-            shipmentOrdersTable: {
-                tableHeaderLabelsMap: {
-                    ref: 'Sales Order',
-                    clientRef: 'Client Ref',
-                    totalQ: 'Quantity',
-                    crd: 'Cargo Ready',
-                    del: 'Shipping Mode',
-                    production: 'Production',
-                    qa: 'QA',
-                    notes: 'Notes',
-                },
-                editOrdersButtonLabel: 'Edit Included Orders',
             },
             shipmentDocumentTable: {
                 tableHeaderLabelsMap: {
@@ -618,28 +636,9 @@ export const ENGLISH = {
                 },
                 deleteMessage: 'Are you sure you want to delete this document?',
             },
-            shipmentInfoCard: {
-                titleLabel: 'Shipment Information',
-                labels: {
-                    status: 'Status',
-                    crd: 'Cargo Ready',
-                    del: 'Mode',
-                    carrier: 'Forwarder',
-                    pol: 'Port of Loading',
-                    pod: 'Port of Destination',
-                    etd: 'ETD',
-                    eta: 'ETA',
-                },
-            },
-            documentStatusCard: {
-                titleLabel: 'Document Status',
-                labels: {
-                    docCutOff: 'Doc Cut Off',
-                    bol: 'Bill of Landing No',
-                    bolType: 'Bill Release Type',
-                    released: 'Released',
-                },
-            },
+            errorMessages: {
+                shipmentNonExistent: 'This shipment doesn\'t exists.'
+            }
         },
         editShipment: {
             titleLabel: 'Shipment Information',

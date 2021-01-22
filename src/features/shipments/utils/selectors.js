@@ -45,12 +45,12 @@ export const selectSplitsToShippedQuantityMap = createSelector(
 export const selectShipmentOrders = createSelector(
     selectShipmentById,
     selectActiveOrdersMap,
-    (shipment, ordersMap) => {
-        if (!shipment || Object.keys(ordersMap).length === 0) return [];
-        const shipmentOrdersMap = shipment.items.reduce((map, item) => {
-            if (item.order && !map.hasOwnProperty(item.order)) map[item.order] = ordersMap[item.order];
-            return map;
-        }, {});
-        return Object.values(shipmentOrdersMap);
-    }
+    (shipment, ordersMap) => shipment.items.reduce((arr, item) => {
+        if (item.order && item.split && !arr.find(order => order.split._id === item.split)) {
+            const order = { ...ordersMap[item.order] };
+            order.split = order.shippingSplits.find(split => split._id === item.split);
+            arr.push(order);
+        }
+        return arr;
+    }, [])
 );
