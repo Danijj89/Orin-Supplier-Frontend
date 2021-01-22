@@ -104,8 +104,8 @@ const CreateShipment = React.memo(function CreateShipment() {
     const companyDefaultAddress = useSelector(selectCompanyDefaultAddress);
 
     const shipment = useSelector(state => selectEditShipmentShellById(state, { shipmentId }));
-    const initialShipmentSplits = useSelector(state => selectShipmentOrders(state, { shipmentId }));
-    const initialSplitsIds = useMemo(() => initialShipmentSplits?.map(split => split._id), [initialShipmentSplits]);
+    const shipmentOrders = useSelector(state => selectShipmentOrders(state, { shipmentId }));
+    const initialSplitsIds = useMemo(() => shipmentOrders?.map(order => order.split._id), [shipmentOrders]);
 
     const { register, control, errors, watch, setValue, getValues, handleSubmit } = useForm({
         mode: 'onSubmit',
