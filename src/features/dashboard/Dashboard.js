@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Typography } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import { Grid } from '@material-ui/core';
@@ -7,20 +7,7 @@ import MetricCard from './MetricsCard';
 import { Bar, Line } from 'react-chartjs-2';
 import { LANGUAGE } from '../../app/utils/constants.js';
 import {
-    selectNewOrders,
-    selectInProdOrders,
-    selectInQAOrders,
-    selectInProcOrders,
-    selectOrderCountData,
-    selectOrderRevData,
-    selectWithException,
-    selectNewLeadsCount,
-    selectWIPLeadsCount,
-    selectCompletedCount,
-    selectNewClients,
-    selectTotClients,
-    selectCrdDiff,
-    selectCrdPerf,
+    selectDashboardData,
 } from './duck/selectors';
 
 const {
@@ -30,7 +17,7 @@ const {
     orderRevenueGraph,
     leads,
     clients,
-    crdStats,
+    // crdStats,
 } = LANGUAGE.dashboard;
 
 const optionsOrderCount = {
@@ -75,91 +62,79 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Dashboard = React.memo(function Dashboard() {
-    const newOrders = useSelector(selectNewOrders);
-    const inProc = useSelector(selectInProcOrders);
-    const inProd = useSelector(selectInProdOrders);
-    const inQA = useSelector(selectInQAOrders);
-    const withException = useSelector(selectWithException);
-    const orderCountData = useSelector(selectOrderCountData);
-    const orderRevData = useSelector(selectOrderRevData);
-    const newLeads = useSelector(selectNewLeadsCount);
-    const wipLeads = useSelector(selectWIPLeadsCount);
-    const completedOrders = useSelector(selectCompletedCount);
-    const newClients = useSelector(selectNewClients);
-    const totClients = useSelector(selectTotClients);
-    // const crdPerf = useSelector(selectCrdPerf);
-    // const crdDiff = useSelector(selectCrdDiff);
+    const classes = useStyles();
+    const dashboardData = useSelector(selectDashboardData);
 
-    const orderMetrics = [
+    const orderMetrics = useMemo(() => [
         {
             metricId: ordersStats.new,
-            value: newOrders,
+            value: dashboardData.newOrders,
         },
         {
             metricId: ordersStats.inProcurement,
-            value: inProc,
+            value: dashboardData.inProc,
         },
         {
             metricId: ordersStats.inProduction,
-            value: inProd,
+            value: dashboardData.inProd,
         },
         {
             metricId: ordersStats.inQA,
-            value: inQA,
+            value: dashboardData.inQA,
         },
-    ];
+    ]);
 
     const orderAccentCompleted = {
         metricId: ordersStats.completed,
-        value: completedOrders,
+        value: dashboardData.completedOrders,
     };
 
-    const leadsMetrics = [
+    const leadsMetrics = useMemo(() => [
         {
             metricId: leads.newLeads,
-            value: newLeads,
+            value: dashboardData.newLeads,
         },
         {
             metricId: leads.wipLeads,
-            value: wipLeads,
+            value: dashboardData.wipLeads,
         },
-    ];
+    ]);
 
-    const clientMetrics = [
+    const clientMetrics = useMemo(() => [
         {
             metricId: clients.newClients,
-            value: newClients,
+            value: dashboardData.newClients,
         },
         {
             metricId: clients.totClients,
-            value: totClients,
+            value: dashboardData.totClients,
         },
-    ];
+    ]);
 
     const exceptionMetric = {
         metricId: ordersStats.exception,
-        value: withException,
+        value: dashboardData.withException,
     };
 
-    const crdMetrics = [
-        {
-            metricId: crdStats.crdOT,
-            value: 10,
-            // value: (crdPerf.toFixed(2) * 100).toString() + '%',
-        },
-        {
-            metricId: crdStats.crdDiff,
-            value: 5,
-            // value: crdDiff,
-        },
-    ];
+    // const crdMetrics = [
+    //     {
+    //         metricId: crdStats.crdOT,
+    //         value: 10,
+    //         // value: (crdPerf.toFixed(2) * 100).toString() + '%',
+    //     },
+    //     {
+    //         metricId: crdStats.crdDiff,
+    //         value: 5,
+    //         // value: crdDiff,
+    //     },
+    // ];
 
     const orderCounts = {
-        labels: Object.keys(orderCountData).reverse(),
+        labels: Object.keys(dashboardData.newOrdersByDay).reverse(),
         datasets: [
             {
                 label: orderCountGraph.title,
-                data: Object.values(orderCountData).reverse(),
+                data: Object.values(dashboardData.newOrdersByDay).reverse(),
                 fill: false,
                 backgroundColor: 'rgb(16, 156, 241)',
                 borderColor: 'rgba(16, 156, 241, 0.2)',
@@ -168,30 +143,30 @@ const Dashboard = React.memo(function Dashboard() {
     };
 
     const orderRev = {
-        labels: Object.values(orderRevData.labels).reverse(),
+        labels: Object.values(dashboardData.revenueByDay.labels).reverse(),
         datasets: [
             {
                 label: orderRevenueGraph.cny,
-                data: Object.values(orderRevData.cny).reverse(),
+                data: Object.values(dashboardData.revenueByDay.cny).reverse(),
                 fill: false,
                 backgroundColor: 'rgb(255, 99, 132)',
             },
             {
                 label: orderRevenueGraph.eur,
-                data: Object.values(orderRevData.eur).reverse(),
+                data: Object.values(dashboardData.revenueByDay.eur).reverse(),
                 fill: false,
                 backgroundColor: 'rgb(54, 162, 235)',
             },
             {
                 label: orderRevenueGraph.usd,
-                data: Object.values(orderRevData.usd).reverse(),
+                data: Object.values(dashboardData.revenueByDay.usd).reverse(),
                 fill: false,
                 backgroundColor: 'rgb(75, 192, 192)',
             },
         ],
     };
 
-    const classes = useStyles();
+    
     return (
         <Grid container direction="column">
             <Grid item>
