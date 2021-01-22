@@ -197,7 +197,7 @@ const CreateShipment = React.memo(function CreateShipment() {
             else history.push('/home/shipments');
         }, [history, shipmentId, isEdit]);
 
-    const onSubmit = (data) => {
+    const onSubmit = useCallback(data => {
         const actualData = {
             ...data,
             sellerAdd: addressToDocAddress(data.sellerAdd),
@@ -210,7 +210,7 @@ const CreateShipment = React.memo(function CreateShipment() {
             actualData.createdBy = userId;
             dispatch(createShipment({ shipment: actualData }));
         }
-    };
+    }, [dispatch, companyId, isEdit, shipmentId, userId]);
 
     const columns = useMemo(() => [
         {

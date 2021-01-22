@@ -1,6 +1,7 @@
 import { shipmentsAdapter } from './slice.js';
 import { createSelector } from '@reduxjs/toolkit';
 import {
+    selectBillOfLandingTypesMap,
     selectCountriesMap,
     selectCurrenciesMap,
     selectDeliveryMethodsMap,
@@ -37,9 +38,10 @@ export const selectAllShipments = createSelector(
     selectPackageUnitsMap,
     selectShipmentStatusesMap,
     selectDocumentTypesMap,
+    selectBillOfLandingTypesMap,
     (shipments, countriesMap, deliveryMethodsMap, currenciesMap,
      measurementUnitsMap, weightUnitsMap, itemUnitsMap, packageUnitsMap,
-     shipmentStatusesMap, documentTypesMap) => shipments.map(shipment => ({
+     shipmentStatusesMap, documentTypesMap, billOfLandingTypesMap) => shipments.map(shipment => ({
         ...shipment,
         sellerAdd: { ...shipment.sellerAdd, country: countriesMap[shipment.sellerAdd.country] },
         consigneeAdd: { ...shipment.consigneeAdd, country: countriesMap[shipment.consigneeAdd.country] },
@@ -50,6 +52,7 @@ export const selectAllShipments = createSelector(
         weightUnit: weightUnitsMap[shipment.weightUnit],
         status: shipmentStatusesMap[shipment.status],
         coo: countriesMap[shipment.coo],
+        bolType: billOfLandingTypesMap[shipment.bolType],
         items: shipment.items.map(item => ({
             ...item,
             unit: itemUnitsMap[item.unit],

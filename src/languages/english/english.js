@@ -641,53 +641,53 @@ export const ENGLISH = {
             }
         },
         editShipment: {
-            titleLabel: 'Shipment Information',
-            cancelButtonLabel: 'Back',
-            deleteMessage: 'Are you sure you want to delete this shipment?',
-            tabsLabelsMap: {
+            tabLabels: {
                 shipment: 'Shipment',
                 products: 'Products',
                 measures: 'Measures',
             },
-            shipmentInfo: {
-                partiesTitleLabel: 'Parties',
-                orderInfoTitleLabel: 'Order Information',
-                shippingTitleLabel: 'Shipping Information',
-                formLabels: {
-                    sellerAdd: 'Shipper',
-                    consigneeAdd: 'Consignee',
-                    shipAdd: 'Ship To',
-                    crd: 'Cargo Ready Date',
-                    incoterm: 'Incoterm',
-                    clientRef: 'Client Order Ref.',
-                    payRefs: 'Payment References',
-                    bolType: 'Bill of Landing Type',
-                    coo: 'Country of Manufacture',
-                    clientRefs: 'Client References',
-                    del: 'Delivery Method',
-                    pol: 'Port of Loading',
-                    pod: 'Port of Discharge',
-                    carrier: 'Freight Forwarder',
-                    eta: 'ETA',
-                    etd: 'ETD',
-                },
-                submitButtonLabel: 'Update',
-                cancelButtonLabel: 'Cancel',
-                errorMessages: {
-                    missingSellerAdd: 'You must select a seller address.',
-                    missingConsigneeAdd: 'You must select a consignee address.',
-                },
-                containerSelectorButton: {
-                    titleLabel: 'Select Containers',
-                    submitLabel: 'Update',
-                    buttonLabel: 'Choose Containers',
-                    containerSelectorTable: {
-                        tableHeaders: {
-                            type: 'Container Type',
-                            quantity: 'Quantity',
-                        },
-                    },
-                },
+            titles: {
+                shipment: 'Shipment Information',
+                parties: 'Parties',
+                orderInfo: 'Order Information',
+                shipping: 'Shipping Information',
+                containers: 'Select Containers',
+            },
+            buttons: {
+                back: 'Back',
+                submit: 'Update',
+                cancel: 'Cancel',
+                containersSubmit: 'Update',
+                containers: 'Choose Containers',
+            },
+            formLabels: {
+                sellerAdd: 'Shipper',
+                consigneeAdd: 'Consignee',
+                shipAdd: 'Ship To',
+                crd: 'Cargo Ready Date',
+                incoterm: 'Incoterm',
+                clientRef: 'Client Order Ref.',
+                payRefs: 'Payment References',
+                bolType: 'Bill of Landing Type',
+                coo: 'Country of Manufacture',
+                clientRefs: 'Client References',
+                del: 'Delivery Method',
+                pol: 'Port of Loading',
+                pod: 'Port of Discharge',
+                carrier: 'Freight Forwarder',
+                eta: 'ETA',
+                etd: 'ETD',
+            },
+            tableHeaderLabels: {
+                type: 'Container Type',
+                quantity: 'Quantity',
+            },
+            messages: {
+                deleteShipment: 'Are you sure you want to delete this shipment?'
+            },
+            errorMessages: {
+                missingSellerAdd: 'You must select a seller address.',
+                missingConsigneeAdd: 'You must select a consignee address.',
             },
             productTable: {
                 cancelButtonLabel: 'Cancel',
