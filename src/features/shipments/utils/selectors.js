@@ -57,3 +57,14 @@ export const selectShipmentOrders = createSelector(
         }, [])
     }
 );
+
+export const selectAllSplitsReferenceMap = createSelector(
+    selectAllActiveAndUnarchivedOrders,
+    orders =>
+        orders.reduce((map, order) => {
+            order.shippingSplits.forEach(split => {
+                map[split._id] = { orderId: order._id, splitId: split._id, ref: split.ref };
+            });
+            return map;
+        }, {})
+);

@@ -689,10 +689,6 @@ export const ENGLISH = {
                 missingSellerAdd: 'You must select a seller address.',
                 missingConsigneeAdd: 'You must select a consignee address.',
             },
-            productTable: {
-                cancelButtonLabel: 'Cancel',
-                submitButtonLabel: 'Submit',
-            },
             measureTable: {
                 cancelButtonLabel: 'Cancel',
                 submitButtonLabel: 'Submit',
