@@ -32,7 +32,7 @@ export default function TableTextField({ type, className, ...props }) {
             type={ type }
             className={ classNames }
             InputProps={ { ...props.InputProps, disableUnderline: true } }
-            // value={ !props.inputRef && props.value == null ? '' : props.value }
+            value={ !props.inputRef && props.value == null ? '' : props.value }
         />
     )
 }
