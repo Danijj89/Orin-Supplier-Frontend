@@ -91,7 +91,6 @@ const PackingListProducts = React.memo(function PackingListProducts(
         <form onSubmit={ handleSubmit(onSubmit) } autoComplete="off">
             <Typography variant="h5">{ titleLabel }</Typography>
             <RHFMeasureTable
-                rhfRegister={ register }
                 rhfControl={ control }
                 rhfGetValues={ getValues }
                 rhfSetValue={ setValue }

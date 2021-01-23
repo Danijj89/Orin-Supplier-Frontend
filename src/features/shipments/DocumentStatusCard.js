@@ -1,6 +1,6 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import InfoCard from '../shared/wrappers/InfoCard.js';
-import { LANGUAGE, LOCALE } from '../../app/utils/constants.js';
+import { LANGUAGE, LOCALE } from 'app/utils/constants.js';
 import { Grid } from '@material-ui/core';
 import DividerDataDisplay from '../shared/wrappers/DividerDisplay.js';
 import { makeStyles } from '@material-ui/core/styles';

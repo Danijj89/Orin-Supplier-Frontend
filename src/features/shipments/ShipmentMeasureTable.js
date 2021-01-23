@@ -82,7 +82,6 @@ const ShipmentMeasureTable = React.memo(function ShipmentMeasureTable({
         <Paper>
             <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
                 <RHFMeasureTable
-                    rhfRegister={register}
                     rhfControl={control}
                     rhfGetValues={getValues}
                     rhfSetValue={setValue}

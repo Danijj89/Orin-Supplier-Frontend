@@ -7,7 +7,6 @@ import {
     selectItemUnitsMap,
     selectOrderStatusesMap
 } from 'app/duck/selectors.js';
-import { selectAllShipments } from 'features/shipments/duck/selectors.js';
 
 
 export const {

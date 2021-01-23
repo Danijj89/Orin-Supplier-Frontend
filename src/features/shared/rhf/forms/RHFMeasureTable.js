@@ -52,7 +52,6 @@ export const validateItemMeasures = (items) => {
 
 const RHFMeasureTable = React.memo(function RHFMeasureTable(
     {
-        rhfRegister: register,
         rhfControl: control,
         rhfGetValues: getValues,
         rhfSetValue: setValue,
@@ -274,13 +273,12 @@ const RHFMeasureTable = React.memo(function RHFMeasureTable(
             width: 100
         }
     ]), [
-        register,
         custom1,
         custom2,
         fieldNames,
         onAddColumn,
-        onDeleteColumn,
-        packageUnitOptions
+        packageUnitOptions,
+        createRenderColumn
     ]);
 
     const rows = useMemo(() => items.map((row, index) => ({
@@ -391,7 +389,6 @@ const RHFMeasureTable = React.memo(function RHFMeasureTable(
 });
 
 RHFMeasureTable.propTypes = {
-    rhfRegister: PropTypes.func.isRequired,
     rhfControl: PropTypes.object.isRequired,
     rhfGetValues: PropTypes.func.isRequired,
     rhfSetValue: PropTypes.func.isRequired,
