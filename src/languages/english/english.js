@@ -503,6 +503,7 @@ export const ENGLISH = {
                     submitButton: 'Submit',
                     crd: 'Cargo Ready',
                     emptyDateLabel: 'No Date',
+                    clientRef: 'Client Reference'
                 },
                 tableHeaderLabels: {
                     ref: 'SKU',
