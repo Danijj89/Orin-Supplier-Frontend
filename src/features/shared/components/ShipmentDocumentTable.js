@@ -33,7 +33,6 @@ const ShipmentDocumentTable = React.memo(function ShipmentDocumentTable(
         [dispatch, shipmentId]);
 
     const columns = useMemo(() => [
-        { field: 'id', hide: true },
         {
             field: 'delete',
             renderCell: params =>

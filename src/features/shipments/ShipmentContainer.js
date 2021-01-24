@@ -44,8 +44,8 @@ const ShipmentContainer = React.memo(function ShipmentContainer() {
         [shipmentDataStatus, shipment]);
 
     useEffect(() => {
-        return () => {
-            if (shipmentStatus === 'FULFILLED') dispatch(resetShipmentStatus());
+        if (shipmentStatus === 'FULFILLED') {
+            dispatch(resetShipmentStatus());
         }
     }, [dispatch, shipmentStatus]);
 
@@ -70,11 +70,11 @@ const ShipmentContainer = React.memo(function ShipmentContainer() {
 
     return (
         <ShipmentPermission action={ [READ_ANY, READ_OWN] } shipmentId={ shipmentId }>
-            <StatusHandler status={ shipmentStatus } error={ shipmentError }/>
+            <StatusHandler status={ shipmentStatus } error={ shipmentError } showSuccess/>
             { shipmentMissing && <ErrorPage error={ errorMessages.shipmentNonExistent }/> }
             { status === 'REJECTED' && <ErrorPage error={ errors }/> }
             { status === 'PENDING' && <Loader/> }
-            { shipment && status === 'FULFILLED' && <Shipment/> }
+            { status === 'FULFILLED' && <Shipment/> }
         </ShipmentPermission>
     )
 });

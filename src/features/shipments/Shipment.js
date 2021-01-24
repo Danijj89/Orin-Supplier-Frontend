@@ -46,8 +46,7 @@ const Shipment = React.memo(function Shipment() {
     const history = useHistory();
     const { id: shipmentId } = useParams();
     const location = useLocation();
-    const { tab } = queryString.parse(location.search);
-    const tabValue = tab || 'orders';
+    const { tab = 'orders' } = queryString.parse(location.search);
 
     const onTabChange = useCallback(
         (newValue) => history.push(`${ location.pathname }?tab=${ newValue }`),
@@ -77,12 +76,12 @@ const Shipment = React.memo(function Shipment() {
                 <Card>
                     <NavTabs
                         tabsLabelsMap={ tabLabels }
-                        tabValue={ tabValue }
+                        tabValue={ tab }
                         onChange={ onTabChange }
                         className={ classes.navTabs }
                     />
-                    { tabValue === 'orders' && <ShipmentOrdersTable/> }
-                    { tabValue === 'documents' && <ShipmentDocumentTable shipmentId={ shipmentId }/> }
+                    { tab === 'orders' && <ShipmentOrdersTable/> }
+                    { tab === 'documents' && <ShipmentDocumentTable shipmentId={ shipmentId }/> }
                 </Card>
             </Grid>
         </Grid>
