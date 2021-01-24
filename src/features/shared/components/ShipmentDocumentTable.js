@@ -88,13 +88,17 @@ const ShipmentDocumentTable = React.memo(function ShipmentDocumentTable(
 
     const options = useMemo(() => ({
         table: {
-            dense: false,
+            dense: true,
             classes: {
                 container: className
             }
         },
         body: {
-            maxEmptyRows
+            maxEmptyRows,
+            hover: false
+        },
+        foot: {
+            pagination: 'hide'
         }
     }), [maxEmptyRows, className]);
 
