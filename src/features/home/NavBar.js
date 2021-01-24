@@ -40,6 +40,7 @@ import ClientPermission from '../shared/permissions/ClientPermission.js';
 import ShipmentPermission from '../shared/permissions/ShipmentPermission.js';
 import ProductPermission from '../shared/permissions/ProductPermission.js';
 import PermissionPermission from '../shared/permissions/PermissionPermission.js';
+import DashboardPermission from '../shared/permissions/DashboardPermission.js';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -160,7 +161,7 @@ const NavBar = React.memo(function NavBar() {
                     </MenuItem>
                 </OrderPermission>
             </div>
-            <ClientPermission action={[READ_ANY, READ_OWN]}>
+            <DashboardPermission action={[READ_ANY]}>
                 <MenuItem
                     onClick={() => onTabClick('dashboard', '/home/dashboard')}
                 >
@@ -169,7 +170,7 @@ const NavBar = React.memo(function NavBar() {
                     </IconButton>
                     {tabsLabelsMap.dashboard}
                 </MenuItem>
-            </ClientPermission>
+            </DashboardPermission>
             <ClientPermission action={[READ_ANY, READ_OWN]}>
                 <MenuItem
                     onClick={() => onTabClick('clients', '/home/clients')}
@@ -264,7 +265,7 @@ const NavBar = React.memo(function NavBar() {
                                 </ListItemText>
                             </ListItem>
                         </OrderPermission>
-                        <ClientPermission action={[READ_ANY, READ_OWN]}>
+                        <DashboardPermission action={[READ_ANY, READ_OWN]}>
                             <ListItem
                                 button
                                 component="a"
@@ -283,7 +284,7 @@ const NavBar = React.memo(function NavBar() {
                                     </span>
                                 </ListItemText>
                             </ListItem>
-                        </ClientPermission>
+                        </DashboardPermission>
                         <ClientPermission action={[READ_ANY, READ_OWN]}>
                             <ListItem
                                 button

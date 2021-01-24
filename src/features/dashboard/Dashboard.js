@@ -82,7 +82,7 @@ const Dashboard = React.memo(function Dashboard() {
             metricId: ordersStats.inQA,
             value: dashboardData.inQA,
         },
-    ]);
+    ], [ dashboardData.newOrders, dashboardData.inProc, dashboardData.inProd, dashboardData.inQA ]);
 
     const orderAccentCompleted = {
         metricId: ordersStats.completed,
@@ -98,7 +98,7 @@ const Dashboard = React.memo(function Dashboard() {
             metricId: leads.wipLeads,
             value: dashboardData.wipLeads,
         },
-    ]);
+    ], [ dashboardData.newLeads,dashboardData.wipLeads ]);
 
     const clientMetrics = useMemo(() => [
         {
@@ -109,7 +109,7 @@ const Dashboard = React.memo(function Dashboard() {
             metricId: clients.totClients,
             value: dashboardData.totClients,
         },
-    ]);
+    ], [ dashboardData.newClients, dashboardData.totClients ]);
 
     const exceptionMetric = {
         metricId: ordersStats.exception,
