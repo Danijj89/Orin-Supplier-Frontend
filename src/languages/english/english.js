@@ -459,7 +459,7 @@ export const ENGLISH = {
                 orderReference: 'Order Number',
                 company: 'Seller',
                 date: 'Order Date',
-                crd: 'CRD',
+                crd: 'Cargo Ready',
                 incoterm: 'Incoterm',
                 quantity: 'Quantity',
                 client: 'Buyer',

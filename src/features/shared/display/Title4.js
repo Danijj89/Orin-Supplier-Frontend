@@ -10,19 +10,19 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const Title6 = React.memo(function Title6({ title, bold, className }) {
+const Title4 = React.memo(function Title4({ title, bold, className }) {
     const classes = useStyles({ bold });
     return (
-        <Typography className={ clsx(classes.root, className) } variant="h6">
+        <Typography className={ clsx(classes.root, className) } variant="subtitle1">
             { title }
         </Typography>
     );
 });
 
-Title6.propTypes = {
+Title4.propTypes = {
     title: PropTypes.string.isRequired,
     bold: PropTypes.bool,
     className: PropTypes.string
 };
 
-export default Title6;
+export default Title4;

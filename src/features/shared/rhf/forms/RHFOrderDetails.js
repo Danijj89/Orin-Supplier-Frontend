@@ -248,7 +248,7 @@ RHFOrderDetails.propTypes = {
         crd: PropTypes.string,
         incoterm: PropTypes.string.isRequired,
         pay: PropTypes.string.isRequired,
-        clientRef: PropTypes.string.isRequired,
+        clientRef: PropTypes.string,
         shipAdd: PropTypes.string.isRequired,
         del: PropTypes.string.isRequired,
         pol: PropTypes.string.isRequired,

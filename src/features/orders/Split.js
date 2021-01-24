@@ -1,13 +1,15 @@
 import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import NavTabs from 'features/shared/components/NavTabs.js';
-import { LANGUAGE } from 'app/utils/constants.js';
+import { LANGUAGE, LOCALE } from 'app/utils/constants.js';
 import { useHistory, useLocation } from 'react-router-dom';
 import queryString from 'query-string';
 import OrderProductTable from 'features/orders/OrderProductTable.js';
 import SplitInfo from 'features/orders/SplitInfo.js';
 import { makeStyles } from '@material-ui/core/styles';
-import Title6 from 'features/shared/display/Title6.js';
+import Title4 from 'features/shared/display/Title4.js';
+import { dateToLocaleDate } from 'features/shared/utils/format.js';
+import Box from '@material-ui/core/Box';
 
 const {
     subTabsLabels,
@@ -18,10 +20,14 @@ const useStyles = makeStyles((theme) => ({
     navTabs: {
         marginBottom: theme.spacing(3)
     },
+    info: {
+        display: 'flex',
+        justifyContent: 'space-between'
+    }
 }));
 
 const Split = React.memo(function Split({ orderId, split, currency, custom1, custom2 }) {
-    const { clientRef = '-', items, quantity, total } = split;
+    const { clientRef = '-', crd, items, quantity, total } = split;
     const history = useHistory();
     const location = useLocation();
     const parsed = queryString.parse(location.search);
@@ -33,7 +39,8 @@ const Split = React.memo(function Split({ orderId, split, currency, custom1, cus
         history.push(`${ location.pathname }?${ queryString.stringify(parsed) }`)
     }, [history, location.pathname, parsed]);
 
-    const clientRefTitle = useMemo(() => `${ labels.clientRef }: ${ clientRef }`, [clientRef]);
+    const clientRefInfo = useMemo(() => `${ labels.clientRef }: ${ clientRef }`, [clientRef]);
+    const crdInfo = useMemo(() => `${ labels.crd }: ${ dateToLocaleDate(crd, LOCALE) }`, [crd]);
 
     return (
         <>
@@ -45,7 +52,10 @@ const Split = React.memo(function Split({ orderId, split, currency, custom1, cus
             />
             { subTab === 'products' &&
             <>
-                <Title6 title={ clientRefTitle }/>
+                <Box className={ classes.info }>
+                    <Title4 title={ clientRefInfo }/>
+                    <Title4 title={ crdInfo }/>
+                </Box>
                 <OrderProductTable
                     items={ items }
                     currency={ currency }

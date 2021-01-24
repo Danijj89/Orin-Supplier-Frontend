@@ -70,7 +70,7 @@ const EditShippingSplit = React.memo(function EditShippingSplit(
         custom2
     }) {
     const classes = useStyles();
-    const { ref = '-', crd, clientRef = '', items } = split;
+    const { ref = '-', crd = null, clientRef = '', items } = split;
     const splitNum = useMemo(() => splitIdx + 1, [splitIdx]);
 
     const onDateChange = useCallback(
