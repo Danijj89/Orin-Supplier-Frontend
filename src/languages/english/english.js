@@ -469,7 +469,8 @@ export const ENGLISH = {
                 total: 'Total',
                 status: 'Status',
                 estimated: 'Estimated Completion',
-                actual: 'Actual Completion'
+                actual: 'Actual Completion',
+                clientRef: 'Client Ref'
             },
             tableHeaderLabels: {
                 procurement: 'Procurement',

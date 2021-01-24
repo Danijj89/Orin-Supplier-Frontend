@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import NavTabs from 'features/shared/components/NavTabs.js';
 import { LANGUAGE } from 'app/utils/constants.js';
@@ -7,9 +7,11 @@ import queryString from 'query-string';
 import OrderProductTable from 'features/orders/OrderProductTable.js';
 import SplitInfo from 'features/orders/SplitInfo.js';
 import { makeStyles } from '@material-ui/core/styles';
+import Title6 from 'features/shared/display/Title6.js';
 
 const {
-    subTabsLabels
+    subTabsLabels,
+    labels
 } = LANGUAGE.order.order;
 
 const useStyles = makeStyles((theme) => ({
@@ -19,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Split = React.memo(function Split({ orderId, split, currency, custom1, custom2 }) {
-    const { items, quantity, total } = split;
+    const { clientRef = '-', items, quantity, total } = split;
     const history = useHistory();
     const location = useLocation();
     const parsed = queryString.parse(location.search);
@@ -31,6 +33,8 @@ const Split = React.memo(function Split({ orderId, split, currency, custom1, cus
         history.push(`${ location.pathname }?${ queryString.stringify(parsed) }`)
     }, [history, location.pathname, parsed]);
 
+    const clientRefTitle = useMemo(() => `${ labels.clientRef }: ${ clientRef }`, [clientRef]);
+
     return (
         <>
             <NavTabs
@@ -40,14 +44,17 @@ const Split = React.memo(function Split({ orderId, split, currency, custom1, cus
                 className={ classes.navTabs }
             />
             { subTab === 'products' &&
-            <OrderProductTable
-                items={ items }
-                currency={ currency }
-                quantity={ quantity }
-                total={ total }
-                custom1={ custom1 }
-                custom2={ custom2 }
-            />
+            <>
+                <Title6 title={ clientRefTitle }/>
+                <OrderProductTable
+                    items={ items }
+                    currency={ currency }
+                    quantity={ quantity }
+                    total={ total }
+                    custom1={ custom1 }
+                    custom2={ custom2 }
+                />
+            </>
             }
             { subTab === 'status' &&
             <SplitInfo orderId={ orderId } split={ split }/>
