@@ -1,6 +1,6 @@
 import { LOCALE } from 'app/utils/constants.js';
 import { getCurrencySymbol } from './random.js';
-import { getOptionId, getOptionLabel } from 'app/utils/options/getters.js';
+import { getOptionId, getOptionLabel, getOptionSymbol } from 'app/utils/options/getters.js';
 
 export function dateToLocaleDate(date) {
     if (!date) return null;
@@ -51,6 +51,14 @@ export function formatItemsTotalQuantities(unitObj, unitsMap, locale = 'en') {
     let entries = Object.entries(unitObj);
     if (entries.length > 1) entries = entries.filter(([_, quantity]) => quantity !== 0);
     return entries.map(([unit, quantity]) => `${ quantity } ${ getOptionLabel(unitsMap[unit], locale) }`)
+        .join(' + ');
+}
+
+export function formatCurrencyTotalAmount(obj, currencyMap) {
+    let entries = Object.entries(obj);
+    if (entries.length > 1) entries = entries.filter(([_, quantity]) => quantity !== 0);
+    return entries.map(([currency, quantity]) =>
+        `${ getOptionSymbol(currencyMap[currency]) } ${ formatNumberWithDecimal(quantity, 2) }`)
         .join(' + ');
 }
 

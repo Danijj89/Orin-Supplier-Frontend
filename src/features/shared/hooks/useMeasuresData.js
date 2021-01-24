@@ -10,7 +10,7 @@ export default function useMeasuresData(items) {
     items.forEach(item => {
         const { package: packageQ, pUnit, netW, grossW, dim } = item;
         const unitId = getOptionId(pUnit);
-        if (totalPackages.hasOwnProperty(pUnit)) totalPackages[pUnit] += packageQ;
+        if (totalPackages.hasOwnProperty(unitId)) totalPackages[unitId] += packageQ;
         else totalPackages[unitId] = packageQ;
         netWeight += netW;
         grossWeight += grossW;

@@ -7,7 +7,7 @@ import { selectPopulatedShipmentById } from '../shipments/duck/selectors.js';
 import { shipmentToChinaExport } from '../shared/utils/entityConversion.js';
 import ChinaExportDetails from './ChinaExportDetails.js';
 import useSessionStorage from '../shared/hooks/useSessionStorage.js';
-import { SESSION_NEW_DOCUMENT } from '../../app/sessionKeys.js';
+import { SESSION_NEW_DOCUMENT } from 'app/sessionKeys.js';
 import ChinaExportDetailsOptional from './ChinaExportDetailsOptional.js';
 import ChinaExportProducts from './ChinaExportProducts.js';
 
