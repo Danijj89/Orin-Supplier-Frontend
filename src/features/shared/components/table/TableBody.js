@@ -25,7 +25,7 @@ const TableBody = React.memo(function TableBody(
         maxEmptyRows = 5,
         hover = true
     } = options;
-    const rowHeight = useMemo(() => dense ? 61 : 69, [dense]);
+    const rowHeight = useMemo(() => dense ? 39 : 59, [dense]);
     const numColumns = useMemo(
         () => columns.reduce((acc, col) => {
             if (!col.hide) acc += 1;
@@ -69,7 +69,7 @@ const TableBody = React.memo(function TableBody(
                     hover={ hover }
                 />
             ) }
-            { !isEdit && emptyRows > 0 && (
+            { emptyRows > 0 && (
                 <MuiTableRow style={ { height: rowHeight * emptyRows } }>
                     <TableCell colSpan={ numColumns }/>
                 </MuiTableRow>

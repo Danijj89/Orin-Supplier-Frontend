@@ -88,6 +88,7 @@ const ContainerSelectorTable = React.memo(function ContainerSelectorTable(
             }
         },
         body: {
+            maxEmptyRows: 0,
             onAddRow: onAddRow,
             onCellChange: onCellChange
         },

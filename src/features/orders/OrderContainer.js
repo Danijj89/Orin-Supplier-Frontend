@@ -74,7 +74,7 @@ const OrderContainer = React.memo(function OrderContainer() {
         || (!order && orderDataStatus === 'FULFILLED'), [order, orderDataStatus]);
 
     useEffect(() => {
-        if (orderStatus === 'FULFILLED') dispatch(resetOrderStatus());
+        if (orderStatus === 'FULFILLED') return () => dispatch(resetOrderStatus());
     }, [dispatch, orderStatus]);
 
     const fetched = useRef(false);

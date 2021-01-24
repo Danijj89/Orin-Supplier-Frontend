@@ -289,6 +289,7 @@ const RHFChinaExportTable = React.memo(function RHFChinaExportTable(
             isEdit: true
         },
         body: {
+            maxEmptyRows: 0,
             onAddRow: onAddRow,
             onCellChange: onCellChange,
             hover: false

@@ -154,10 +154,10 @@ const EditShippingSplit = React.memo(function EditShippingSplit(
             }
         },
         body: {
-            maxEmptyRows: 0,
+            maxEmptyRows: 3,
             onCellChange: onCellChanged,
             hover: false,
-            onAddRow: onAddRow
+            onAddRow: onAddRow,
         },
         foot: {
             pagination: 'none'

@@ -335,6 +335,7 @@ const RHFMeasureTable = React.memo(function RHFMeasureTable(
             dense: true
         },
         body: {
+            maxEmptyRows: 0,
             onCellChange: onCellChange,
             hover: false
         },

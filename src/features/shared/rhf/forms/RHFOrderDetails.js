@@ -168,11 +168,12 @@ const RHFOrderDetails = React.memo(function RHFOrderDetails(
                         name={ fieldNames.pay }
                         inputRef={ register }
                     />
+                    { !isEdit &&
                     <SideTextField
                         label={ formLabels.clientRef }
                         name={ fieldNames.clientRef }
                         inputRef={ register }
-                    />
+                    /> }
                     { !isEdit &&
                     <SideTextField
                         label={ formLabels.notes }

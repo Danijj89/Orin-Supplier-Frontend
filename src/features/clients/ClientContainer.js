@@ -41,7 +41,7 @@ const ClientContainer = React.memo(function ClientContainer() {
         [client, clientDataStatus]);
 
     useEffect(() => {
-        if (clientStatus === 'FULFILLED') dispatch(resetClientStatus());
+        if (clientStatus === 'FULFILLED') return () => dispatch(resetClientStatus());
     }, [dispatch, clientStatus]);
 
     const fetched = useRef(false);
