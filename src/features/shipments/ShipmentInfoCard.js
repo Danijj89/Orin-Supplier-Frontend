@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo } from 'react';
 import InfoCard from '../shared/wrappers/InfoCard.js';
-import { LANGUAGE, LOCALE } from '../../app/utils/constants.js';
+import { LANGUAGE, LOCALE } from 'app/utils/constants.js';
 import { dateToLocaleDate } from '../shared/utils/format.js';
 import { Grid } from '@material-ui/core';
 import DividerDataDisplay from '../shared/wrappers/DividerDisplay.js';
@@ -8,9 +8,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectShipmentById } from './duck/selectors.js';
-import { getOptionId, getOptionLabel } from '../../app/utils/options/getters.js';
+import { getOptionId, getOptionLabel } from 'app/utils/options/getters.js';
 import StatusDropdown from '../shared/components/StatusDropdown.js';
-import { selectShipmentStatuses } from '../../app/duck/selectors.js';
+import { selectShipmentStatuses } from 'app/duck/selectors.js';
 import { updateShipment } from './duck/thunks.js';
 
 const useStyles = makeStyles((theme) => ({
@@ -25,9 +25,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const {
-    titleLabel,
+    titles,
     labels
-} = LANGUAGE.shipment.shipment.shipmentInfoCard;
+} = LANGUAGE.shipment.shipment;
 
 const ShipmentInfoCard = React.memo(function ShipmentInfoCard() {
     const classes = useStyles();
@@ -90,7 +90,7 @@ const ShipmentInfoCard = React.memo(function ShipmentInfoCard() {
 
     return (
         <InfoCard
-            title={ titleLabel }
+            title={ titles.shipmentInfo }
             className={ classes.root }
             content={ content() }
         />

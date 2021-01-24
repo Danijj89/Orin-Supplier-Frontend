@@ -3,13 +3,13 @@ import RHFProductTable, { validateItems } from '../shared/rhf/forms/RHFProductTa
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import Footer from '../shared/components/Footer.js';
-import { LANGUAGE } from '../../app/utils/constants.js';
+import { LANGUAGE } from 'app/utils/constants.js';
 import { Typography } from '@material-ui/core';
 import { addressToDocAddress, tableItemsToItems } from '../shared/utils/entityConversion.js';
 import { createDocument } from '../shipments/duck/thunks.js';
-import { selectSessionUserCompanyId, selectSessionUserId } from '../../app/duck/selectors.js';
+import { selectSessionUserCompanyId, selectSessionUserId } from 'app/duck/selectors.js';
 import { useHistory } from 'react-router-dom';
-import { getOptionId } from '../../app/utils/options/getters.js';
+import { getOptionId } from 'app/utils/options/getters.js';
 
 const {
     titleLabel,
@@ -22,8 +22,6 @@ const productsFieldNames = {
     custom2: 'ciCustom2',
     currency: 'currency',
     items: 'items',
-    quantity: 'quantity',
-    total: 'total',
     marks: 'marks'
 };
 
@@ -47,8 +45,6 @@ const CommercialInvoiceProducts = React.memo(function CommercialInvoiceProducts(
         defaultValues: {
             [productsFieldNames.currency]: commercialInvoice.currency,
             [productsFieldNames.items]: commercialInvoice.items,
-            [productsFieldNames.quantity]: commercialInvoice.quantity,
-            [productsFieldNames.total]: commercialInvoice.total,
             [productsFieldNames.custom1]: commercialInvoice.custom1,
             [productsFieldNames.custom2]: commercialInvoice.custom2,
             [productsFieldNames.marks]: commercialInvoice.marks
@@ -59,8 +55,6 @@ const CommercialInvoiceProducts = React.memo(function CommercialInvoiceProducts(
         register({ name: productsFieldNames.items }, { validate: validateItems });
         register({ name: productsFieldNames.custom1 });
         register({ name: productsFieldNames.custom2 });
-        register({ name: productsFieldNames.quantity });
-        register({ name: productsFieldNames.total });
     }, [register]);
 
     const onPrevClick = () => {

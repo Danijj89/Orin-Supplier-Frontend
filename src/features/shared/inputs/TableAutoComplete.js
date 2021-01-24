@@ -19,8 +19,18 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function TableAutoComplete(
-    { options, getOptionLabel, getOptionSelected, filterOptions, freeSolo, className, onChange, ...props }) {
+const TableAutoComplete = React.memo(function TableAutoComplete(
+    {
+        options,
+        getOptionLabel,
+        getOptionSelected,
+        filterOptions,
+        freeSolo,
+        className,
+        onChange,
+        ...props
+    }
+) {
     const classes = useStyles();
     const classNames = clsx(classes.inputRoot, className);
 
@@ -45,8 +55,8 @@ export default function TableAutoComplete(
             }
             onChange={ (_, data) => onChange(data) }
         />
-    )
-}
+    );
+});
 
 TableAutoComplete.propTypes = {
     options: PropTypes.array.isRequired,
@@ -57,3 +67,6 @@ TableAutoComplete.propTypes = {
     freeSolo: PropTypes.bool,
     className: PropTypes.string
 };
+
+export default TableAutoComplete;
+

@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { SESSION_NEW_DOCUMENT } from '../../../app/sessionKeys.js';
+import { SESSION_NEW_DOCUMENT } from 'app/sessionKeys.js';
 import { downloadShipmentDocument } from './thunks.js';
 
 const initialState = {

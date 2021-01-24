@@ -1,12 +1,13 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import InfoCard from '../shared/wrappers/InfoCard.js';
-import { LANGUAGE } from '../../app/utils/constants.js';
+import { LANGUAGE, LOCALE } from 'app/utils/constants.js';
 import { Grid } from '@material-ui/core';
 import DividerDataDisplay from '../shared/wrappers/DividerDisplay.js';
 import { makeStyles } from '@material-ui/core/styles';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectShipmentById } from './duck/selectors.js';
+import { getOptionLabel } from 'app/utils/options/getters.js';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -20,9 +21,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const {
-    titleLabel,
+    titles,
     labels
-} = LANGUAGE.shipment.shipment.documentStatusCard;
+} = LANGUAGE.shipment.shipment;
 
 const DocumentStatusCard = React.memo(function DocumentStatusCard() {
     const classes = useStyles();
@@ -32,7 +33,7 @@ const DocumentStatusCard = React.memo(function DocumentStatusCard() {
     const data = useMemo(() => [
         { label: labels.docCutOff, value: shipment.docCutOff },
         { label: labels.bol, value: shipment.bol },
-        { label: labels.bolType, value: shipment.bolType },
+        { label: labels.bolType, value: getOptionLabel(shipment.bolType, LOCALE) },
         { label: labels.released, value: shipment.released }
     ], [
         shipment.docCutOff,
@@ -41,7 +42,7 @@ const DocumentStatusCard = React.memo(function DocumentStatusCard() {
         shipment.released
     ]);
 
-    const content = useCallback(
+    const content = useMemo(
         () =>
             <Grid container>
                 <Grid container item md={7}>
@@ -52,9 +53,9 @@ const DocumentStatusCard = React.memo(function DocumentStatusCard() {
 
     return (
         <InfoCard
-            title={ titleLabel }
+            title={ titles.documentStatus }
             className={ classes.root }
-            content={ content() }
+            content={ content }
         />
     )
 });

@@ -3,14 +3,14 @@ import RHFChinaExportTable, { validateChinaExportItems } from '../shared/rhf/for
 import Footer from '../shared/components/Footer.js';
 import { useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { LANGUAGE } from '../../app/utils/constants.js';
+import { LANGUAGE } from 'app/utils/constants.js';
 import { Typography } from '@material-ui/core';
-import { getAddressName } from '../../app/utils/models/getters.js';
-import { getOptionId } from '../../app/utils/options/getters.js';
+import { getAddressName } from 'app/utils/models/getters.js';
+import { getOptionId } from 'app/utils/options/getters.js';
 import { consolidationTableItemsToConsolidationItems } from '../shared/utils/entityConversion.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { createDocument } from '../shipments/duck/thunks.js';
-import { selectSessionUserCompanyId, selectSessionUserId } from '../../app/duck/selectors.js';
+import { selectSessionUserCompanyId, selectSessionUserId } from 'app/duck/selectors.js';
 
 const {
     titleLabel,
@@ -20,8 +20,6 @@ const {
 
 const fieldNames = {
     coItems: 'coItems',
-    quantity: 'quantity',
-    totalAmount: 'totalAmount',
     marks: 'marks'
 };
 
@@ -38,16 +36,12 @@ const ChinaExportProducts = React.memo(function ChinaExportProducts(
         mode: 'onSubmit',
         defaultValues: {
             [fieldNames.coItems]: chinaExport.coItems,
-            [fieldNames.quantity]: chinaExport.quantity,
-            [fieldNames.totalAmount]: chinaExport.totalAmount,
             [fieldNames.marks]: chinaExport.marks
         }
     });
 
     useEffect(() => {
         register({ name: fieldNames.coItems }, { validate: validateChinaExportItems });
-        register({ name: fieldNames.quantity });
-        register({ name: fieldNames.totalAmount });
     }, [register]);
 
     const onPrevClick = () => {

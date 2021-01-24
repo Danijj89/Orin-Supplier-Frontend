@@ -2,16 +2,16 @@ import React, { useEffect } from 'react';
 import RHFMeasureTable, { validateItemMeasures } from '../shared/rhf/forms/RHFMeasureTable.js';
 import { useForm } from 'react-hook-form';
 import Footer from '../shared/components/Footer.js';
-import { LANGUAGE } from '../../app/utils/constants.js';
+import { LANGUAGE } from 'app/utils/constants.js';
 import Typography from '@material-ui/core/Typography';
 import { useDispatch, useSelector } from 'react-redux';
 import {
     addressToDocAddress, tableItemsToItems
 } from '../shared/utils/entityConversion.js';
-import { selectSessionUserCompanyId, selectSessionUserId } from '../../app/duck/selectors.js';
+import { selectSessionUserCompanyId, selectSessionUserId } from 'app/duck/selectors.js';
 import { createDocument } from '../shipments/duck/thunks.js';
 import { useHistory } from 'react-router-dom';
-import { getOptionId } from '../../app/utils/options/getters.js';
+import { getOptionId } from 'app/utils/options/getters.js';
 
 const {
     titleLabel,
@@ -22,10 +22,6 @@ const {
 const fieldNames = {
     custom1: 'plCustom1',
     custom2: 'plCustom2',
-    package: 'package',
-    netWeight: 'netWeight',
-    grossWeight: 'grossWeight',
-    dimension: 'dimension',
     weightUnit: 'weightUnit',
     measurementUnit: 'measurementUnit',
     items: 'items',
@@ -47,10 +43,6 @@ const PackingListProducts = React.memo(function PackingListProducts(
             [fieldNames.items]: packingList.items,
             [fieldNames.measurementUnit]: packingList.measurementUnit,
             [fieldNames.weightUnit]: packingList.weightUnit,
-            [fieldNames.package]: packingList.package,
-            [fieldNames.netWeight]: packingList.netWeight,
-            [fieldNames.grossWeight]: packingList.grossWeight,
-            [fieldNames.dimension]: packingList.dimension,
             [fieldNames.custom1]: packingList.custom1,
             [fieldNames.custom2]: packingList.custom2,
             [fieldNames.marks]: packingList.marks
@@ -61,10 +53,6 @@ const PackingListProducts = React.memo(function PackingListProducts(
         register({ name: fieldNames.items }, { validate: validateItemMeasures });
         register({ name: fieldNames.custom1 });
         register({ name: fieldNames.custom2 });
-        register({ name: fieldNames.package });
-        register({ name: fieldNames.netWeight });
-        register({ name: fieldNames.grossWeight });
-        register({ name: fieldNames.dimension });
     }, [register]);
 
     const onPrevClick = () => {
@@ -91,7 +79,6 @@ const PackingListProducts = React.memo(function PackingListProducts(
         <form onSubmit={ handleSubmit(onSubmit) } autoComplete="off">
             <Typography variant="h5">{ titleLabel }</Typography>
             <RHFMeasureTable
-                rhfRegister={ register }
                 rhfControl={ control }
                 rhfGetValues={ getValues }
                 rhfSetValue={ setValue }

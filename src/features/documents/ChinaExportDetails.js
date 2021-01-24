@@ -2,7 +2,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import Grid from '@material-ui/core/Grid';
 import Footer from '../shared/components/Footer.js';
-import { LANGUAGE, LOCALE } from '../../app/utils/constants.js';
+import { LANGUAGE, LOCALE } from 'app/utils/constants.js';
 import Typography from '@material-ui/core/Typography';
 import { useHistory } from 'react-router-dom';
 import FormContainer from '../shared/wrappers/FormContainer.js';
@@ -20,8 +20,8 @@ import {
     selectExemptionTypes,
     selectIncoterms,
     selectSupervisionMethods,
-} from '../../app/duck/selectors.js';
-import { getOptionLabel } from '../../app/utils/options/getters.js';
+} from 'app/duck/selectors.js';
+import { getOptionLabel } from 'app/utils/options/getters.js';
 import { makeStyles } from '@material-ui/core/styles';
 
 const {

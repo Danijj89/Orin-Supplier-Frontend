@@ -1,11 +1,7 @@
 import { shipmentsAdapter } from './slice.js';
 import { createSelector } from '@reduxjs/toolkit';
 import {
-    selectAllActiveAndUnarchivedOrders,
-    selectAllActiveOrders,
-    selectOrdersMap
-} from '../../orders/duck/selectors.js';
-import {
+    selectBillOfLandingTypesMap,
     selectCountriesMap,
     selectCurrenciesMap,
     selectDeliveryMethodsMap,
@@ -15,10 +11,10 @@ import {
     selectPackageUnitsMap,
     selectShipmentStatusesMap,
     selectWeightUnitsMap
-} from '../../../app/duck/selectors.js';
+} from 'app/duck/selectors.js';
 import { selectCompanyAddresses, selectCurrentCompany } from 'features/home/duck/home/selectors.js';
-import { selectAllActiveClients, selectClientsMap } from '../../clients/duck/selectors.js';
-import { getOptionId } from '../../../app/utils/options/getters.js';
+import { selectClientsMap } from '../../clients/duck/selectors.js';
+import { getOptionId } from 'app/utils/options/getters.js';
 
 export const {
     selectAll,
@@ -42,9 +38,10 @@ export const selectAllShipments = createSelector(
     selectPackageUnitsMap,
     selectShipmentStatusesMap,
     selectDocumentTypesMap,
+    selectBillOfLandingTypesMap,
     (shipments, countriesMap, deliveryMethodsMap, currenciesMap,
      measurementUnitsMap, weightUnitsMap, itemUnitsMap, packageUnitsMap,
-     shipmentStatusesMap, documentTypesMap) => shipments.map(shipment => ({
+     shipmentStatusesMap, documentTypesMap, billOfLandingTypesMap) => shipments.map(shipment => ({
         ...shipment,
         sellerAdd: { ...shipment.sellerAdd, country: countriesMap[shipment.sellerAdd.country] },
         consigneeAdd: { ...shipment.consigneeAdd, country: countriesMap[shipment.consigneeAdd.country] },
@@ -55,6 +52,7 @@ export const selectAllShipments = createSelector(
         weightUnit: weightUnitsMap[shipment.weightUnit],
         status: shipmentStatusesMap[shipment.status],
         coo: countriesMap[shipment.coo],
+        bolType: billOfLandingTypesMap[shipment.bolType],
         items: shipment.items.map(item => ({
             ...item,
             unit: itemUnitsMap[item.unit],
@@ -90,19 +88,6 @@ export const selectShipmentOwnerById = createSelector(
     shipment => shipment?.createdBy
 );
 
-export const selectShipmentOrders = createSelector(
-    selectShipmentById,
-    selectOrdersMap,
-    (shipment, ordersMap) => {
-        if (!shipment || Object.keys(ordersMap).length === 0) return [];
-        const shipmentOrdersMap = shipment.items.reduce((map, item) => {
-            if (item.order && !map.hasOwnProperty(item.order)) map[item.order] = ordersMap[item.order];
-            return map;
-        }, {});
-        return Object.values(shipmentOrdersMap);
-    }
-);
-
 export const selectShipmentDocuments = createSelector(
     selectShipmentById,
     shipment => shipment.documents
@@ -120,24 +105,6 @@ export const selectShipmentSalesContractRefs = createSelector(
     documents => documents
         .filter(doc => getOptionId(doc.type) === 'SC')
         .map(doc => doc.ref)
-);
-
-export const selectOrderToShipmentItemsQuantityMap = createSelector(
-    selectAllActiveOrders,
-    selectAllShipments,
-    (orders, shipments) => {
-        const resultMap = orders.reduce((map, order) => {
-            map[order._id] = [];
-            return map;
-        }, {});
-        shipments.forEach(shipment =>
-            shipment.items.forEach(item => {
-                if (item.order && resultMap.hasOwnProperty(item.order))
-                    resultMap[item.order].push({ shipment: shipment._id, quantity: item.quantity });
-            })
-        );
-        return resultMap;
-    }
 );
 
 export const selectEditShipmentShellById = createSelector(
@@ -171,23 +138,5 @@ export const selectPopulatedShipmentById = createSelector(
             consigneeAdd: consignee.addresses.find(a => a._id === shipment.consigneeAdd.addressId),
             shipAdd: consignee.addresses.find(a => a._id === shipment.shipAdd?.addressId),
         };
-    }
-);
-
-
-export const selectShipmentShellClientIdToActiveOrdersMap = createSelector(
-    selectAllActiveAndUnarchivedOrders,
-    selectAllActiveClients,
-    (orders, clients) => {
-        const clientsToOrdersMap = clients.reduce((map, client) => {
-            map[client._id] = [];
-            return map;
-        }, {});
-        orders.forEach(order => {
-            const enhancedOrder = { ...order, selected: false };
-            if (clientsToOrdersMap.hasOwnProperty(enhancedOrder.to))
-                clientsToOrdersMap[enhancedOrder.to].push(enhancedOrder);
-        });
-        return clientsToOrdersMap;
     }
 );

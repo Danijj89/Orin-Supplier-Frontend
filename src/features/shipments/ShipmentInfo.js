@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -8,7 +8,7 @@ import {
 import { Grid } from '@material-ui/core';
 import { formatAddress } from '../shared/utils/format.js';
 import InfoCard from '../shared/wrappers/InfoCard.js';
-import { LANGUAGE, LOCALE } from '../../app/utils/constants.js';
+import { LANGUAGE, LOCALE } from 'app/utils/constants.js';
 import SideTextField from '../shared/inputs/SideTextField.js';
 import { updateShipment } from './duck/thunks.js';
 import { addressToDocAddress } from '../shared/utils/entityConversion.js';
@@ -22,24 +22,21 @@ import {
     selectCountries,
     selectDeliveryMethods,
     selectIncoterms,
-} from '../../app/duck/selectors.js';
+} from 'app/duck/selectors.js';
 import {
     getOptionId,
     getOptionLabel,
-} from '../../app/utils/options/getters.js';
+} from 'app/utils/options/getters.js';
 import { selectClientActiveAddresses } from '../clients/duck/selectors.js';
 import ContainerSelectorButton from './ContainersInfoDialog.js';
 import Footer from '../shared/components/Footer.js';
 
 const {
-    partiesTitleLabel,
-    orderInfoTitleLabel,
-    shippingTitleLabel,
+    titles,
     formLabels,
-    submitButtonLabel,
-    cancelButtonLabel,
-    errorMessages,
-} = LANGUAGE.shipment.editShipment.shipmentInfo;
+    buttons,
+    errorMessages
+} = LANGUAGE.shipment.editShipment;
 
 const useStyles = makeStyles((theme) => ({
     shipmentCards: {
@@ -88,7 +85,7 @@ const ShipmentInfo = React.memo(function ShipmentInfo({ onCancel }) {
         },
     });
 
-    const onSubmit = (data) => {
+    const onSubmit = useCallback(data => {
         data.sellerAdd = addressToDocAddress(data.sellerAdd);
         data.consigneeAdd = addressToDocAddress(data.consigneeAdd);
         if (data.shipAdd) data.shipAdd = addressToDocAddress(data.shipAdd);
@@ -96,193 +93,195 @@ const ShipmentInfo = React.memo(function ShipmentInfo({ onCancel }) {
         if (data.bolType) data.bolType = getOptionId(data.bolType);
         if (data.coo) data.coo = getOptionId(data.coo);
         dispatch(updateShipment({ shipmentId, update: data }));
-    };
+    }, [dispatch, shipmentId]);
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
-            <InfoCard
-                title={partiesTitleLabel}
-                className={classes.shipmentCards}
-                content={
-                    <Grid container>
-                        <Grid item xs={4}>
-                            <RHFAutoComplete
-                                rhfControl={control}
-                                name="sellerAdd"
-                                label={formLabels.sellerAdd}
-                                options={sellerAddresses}
-                                getOptionLabel={(address) =>
-                                    formatAddress(address)
-                                }
-                                getOptionSelected={(option, value) =>
-                                    option._id === value._id || !value.active
-                                }
-                                error={!!errors.sellerAdd}
-                                required={errorMessages.missingSellerAdd}
-                                rows={6}
-                                rowsMax={8}
-                            />
-                        </Grid>
-                        <Grid item xs={4}>
-                            <RHFAutoComplete
-                                rhfControl={control}
-                                name="consigneeAdd"
-                                label={formLabels.consigneeAdd}
-                                options={consigneeAddresses}
-                                getOptionLabel={(address) =>
-                                    formatAddress(address)
-                                }
-                                getOptionSelected={(option, value) =>
-                                    option._id === value._id || !value.active
-                                }
-                                error={!!errors.consigneeAdd}
-                                required={errorMessages.missingConsigneeAdd}
-                                rows={6}
-                                rowsMax={8}
-                            />
-                        </Grid>
-                        <Grid item xs={4}>
-                            <RHFAutoComplete
-                                rhfControl={control}
-                                name="shipAdd"
-                                label={formLabels.shipAdd}
-                                options={consigneeAddresses}
-                                getOptionLabel={(address) =>
-                                    formatAddress(address)
-                                }
-                                getOptionSelected={(option, value) =>
-                                    option._id === value._id || !value.active
-                                }
-                                rows={6}
-                                rowsMax={8}
-                            />
-                        </Grid>
-                    </Grid>
-                }
+        <>
+            <ContainerSelectorButton
+                shipmentId={ shipmentId }
+                containerQ={ shipment.containerQ }
             />
-            <InfoCard
-                className={classes.shipmentCards}
-                title={orderInfoTitleLabel}
-                content={
-                    <Grid container>
-                        <Grid container item justify="flex-end" xs={6}>
-                            <RHFDateField
-                                rhfControl={control}
-                                name="crd"
-                                label={formLabels.crd}
-                            />
-                            <RHFAutoComplete
-                                rhfControl={control}
-                                name="incoterm"
-                                label={formLabels.incoterm}
-                                options={incotermOptions}
-                            />
-                            <SideTextField
-                                label={formLabels.clientRefs}
-                                name="clientRefs"
-                                inputRef={register}
-                            />
+            <form onSubmit={ handleSubmit(onSubmit) } autoComplete="off">
+                <InfoCard
+                    title={ titles.parties }
+                    className={ classes.shipmentCards }
+                    content={
+                        <Grid container>
+                            <Grid item xs={ 4 }>
+                                <RHFAutoComplete
+                                    rhfControl={ control }
+                                    name="sellerAdd"
+                                    label={ formLabels.sellerAdd }
+                                    options={ sellerAddresses }
+                                    getOptionLabel={ (address) =>
+                                        formatAddress(address)
+                                    }
+                                    getOptionSelected={ (option, value) =>
+                                        option._id === value._id || !value.active
+                                    }
+                                    error={ !!errors.sellerAdd }
+                                    required={ errorMessages.missingSellerAdd }
+                                    rows={ 6 }
+                                    rowsMax={ 8 }
+                                />
+                            </Grid>
+                            <Grid item xs={ 4 }>
+                                <RHFAutoComplete
+                                    rhfControl={ control }
+                                    name="consigneeAdd"
+                                    label={ formLabels.consigneeAdd }
+                                    options={ consigneeAddresses }
+                                    getOptionLabel={ (address) =>
+                                        formatAddress(address)
+                                    }
+                                    getOptionSelected={ (option, value) =>
+                                        option._id === value._id || !value.active
+                                    }
+                                    error={ !!errors.consigneeAdd }
+                                    required={ errorMessages.missingConsigneeAdd }
+                                    rows={ 6 }
+                                    rowsMax={ 8 }
+                                />
+                            </Grid>
+                            <Grid item xs={ 4 }>
+                                <RHFAutoComplete
+                                    rhfControl={ control }
+                                    name="shipAdd"
+                                    label={ formLabels.shipAdd }
+                                    options={ consigneeAddresses }
+                                    getOptionLabel={ (address) =>
+                                        formatAddress(address)
+                                    }
+                                    getOptionSelected={ (option, value) =>
+                                        option._id === value._id || !value.active
+                                    }
+                                    rows={ 6 }
+                                    rowsMax={ 8 }
+                                />
+                            </Grid>
                         </Grid>
-                        <Grid container item justify="flex-end" xs={6}>
-                            <RHFAutoComplete
-                                rhfControl={control}
-                                name="bolType"
-                                label={formLabels.bolType}
-                                options={billOfLandingTypeOptions}
-                                getOptionLabel={(option) =>
-                                    getOptionLabel(option)
-                                }
-                                getOptionSelected={(option, value) =>
-                                    option.id === value.id
-                                }
-                            />
-                            <SideTextField
-                                label={formLabels.payRefs}
-                                name="payRefs"
-                                inputRef={register}
-                            />
-                            <RHFAutoComplete
-                                rhfControl={control}
-                                name="coo"
-                                label={formLabels.coo}
-                                options={countryOptions}
-                                getOptionLabel={(option) =>
-                                    getOptionLabel(option, LOCALE)
-                                }
-                                getOptionSelected={(option, value) =>
-                                    option.id === value.id
-                                }
-                            />
+                    }
+                />
+                <InfoCard
+                    className={ classes.shipmentCards }
+                    title={ titles.orderInfo }
+                    content={
+                        <Grid container>
+                            <Grid container item justify="flex-end" xs={ 6 }>
+                                <RHFDateField
+                                    rhfControl={ control }
+                                    name="crd"
+                                    label={ formLabels.crd }
+                                />
+                                <RHFAutoComplete
+                                    rhfControl={ control }
+                                    name="incoterm"
+                                    label={ formLabels.incoterm }
+                                    options={ incotermOptions }
+                                />
+                                <SideTextField
+                                    label={ formLabels.clientRefs }
+                                    name="clientRefs"
+                                    inputRef={ register }
+                                />
+                            </Grid>
+                            <Grid container item justify="flex-end" xs={ 6 }>
+                                <RHFAutoComplete
+                                    rhfControl={ control }
+                                    name="bolType"
+                                    label={ formLabels.bolType }
+                                    options={ billOfLandingTypeOptions }
+                                    getOptionLabel={ (option) =>
+                                        getOptionLabel(option)
+                                    }
+                                    getOptionSelected={ (option, value) =>
+                                        option.id === value.id
+                                    }
+                                />
+                                <SideTextField
+                                    label={ formLabels.payRefs }
+                                    name="payRefs"
+                                    inputRef={ register }
+                                />
+                                <RHFAutoComplete
+                                    rhfControl={ control }
+                                    name="coo"
+                                    label={ formLabels.coo }
+                                    options={ countryOptions }
+                                    getOptionLabel={ (option) =>
+                                        getOptionLabel(option, LOCALE)
+                                    }
+                                    getOptionSelected={ (option, value) =>
+                                        option.id === value.id
+                                    }
+                                />
+                            </Grid>
                         </Grid>
-                    </Grid>
-                }
-            />
-            <InfoCard
-                className={classes.shipmentCards}
-                title={shippingTitleLabel}
-                content={
-                    <Grid container>
-                        <Grid container item justify="flex-end" xs={6}>
-                            <RHFAutoComplete
-                                rhfControl={control}
-                                name="del"
-                                label={formLabels.del}
-                                options={deliveryMethodOptions}
-                                getOptionLabel={(option) =>
-                                    getOptionLabel(option, LOCALE)
-                                }
-                                getOptionSelected={(option, value) =>
-                                    option.id === value.id
-                                }
-                            />
-                            <RHFAutoComplete
-                                rhfControl={control}
-                                freeSolo
-                                autoSelect
-                                name="pol"
-                                label={formLabels.pol}
-                                options={ports}
-                            />
-                            <RHFAutoComplete
-                                rhfControl={control}
-                                freeSolo
-                                autoSelect
-                                name="pod"
-                                label={formLabels.pod}
-                                options={ports}
-                            />
+                    }
+                />
+                <InfoCard
+                    className={ classes.shipmentCards }
+                    title={ titles.shipping }
+                    content={
+                        <Grid container>
+                            <Grid container item justify="flex-end" xs={ 6 }>
+                                <RHFAutoComplete
+                                    rhfControl={ control }
+                                    name="del"
+                                    label={ formLabels.del }
+                                    options={ deliveryMethodOptions }
+                                    getOptionLabel={ (option) =>
+                                        getOptionLabel(option, LOCALE)
+                                    }
+                                    getOptionSelected={ (option, value) =>
+                                        option.id === value.id
+                                    }
+                                />
+                                <RHFAutoComplete
+                                    rhfControl={ control }
+                                    freeSolo
+                                    autoSelect
+                                    name="pol"
+                                    label={ formLabels.pol }
+                                    options={ ports }
+                                />
+                                <RHFAutoComplete
+                                    rhfControl={ control }
+                                    freeSolo
+                                    autoSelect
+                                    name="pod"
+                                    label={ formLabels.pod }
+                                    options={ ports }
+                                />
+                            </Grid>
+                            <Grid container item justify="flex-end" xs={ 6 }>
+                                <SideTextField
+                                    label={ formLabels.carrier }
+                                    name="carrier"
+                                    inputRef={ register }
+                                />
+                                <RHFDateField
+                                    rhfControl={ control }
+                                    name="etd"
+                                    label={ formLabels.etd }
+                                />
+                                <RHFDateField
+                                    rhfControl={ control }
+                                    name="eta"
+                                    label={ formLabels.eta }
+                                />
+                            </Grid>
                         </Grid>
-                        <Grid container item justify="flex-end" xs={6}>
-                            <ContainerSelectorButton
-                                shipmentId={shipmentId}
-                                containerQ={shipment.containerQ}
-                            />
-                            <SideTextField
-                                label={formLabels.carrier}
-                                name="carrier"
-                                inputRef={register}
-                            />
-                            <RHFDateField
-                                rhfControl={control}
-                                name="etd"
-                                label={formLabels.etd}
-                            />
-                            <RHFDateField
-                                rhfControl={control}
-                                name="eta"
-                                label={formLabels.eta}
-                            />
-                        </Grid>
-                    </Grid>
-                }
-            />
-            <Footer
-                prevLabel={cancelButtonLabel}
-                nextLabel={submitButtonLabel}
-                onPrevClick={onCancel}
-                nextButtonType="submit"
-            />
-        </form>
+                    }
+                />
+                <Footer
+                    prevLabel={ buttons.cancel }
+                    nextLabel={ buttons.submit }
+                    onPrevClick={ onCancel }
+                    nextButtonType="submit"
+                />
+            </form>
+        </>
     );
 });
 

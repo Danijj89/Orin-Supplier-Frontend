@@ -2,7 +2,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 import Paper from '@material-ui/core/Paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectAllCompanies, selectCompaniesMap } from './duck/companies/selectors.js';
-import { LANGUAGE } from '../../app/utils/constants.js';
+import { LANGUAGE } from 'app/utils/constants.js';
 import Table from '../shared/components/table/Table.js';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import SideTextField from '../shared/inputs/SideTextField.js';
@@ -29,10 +29,11 @@ const Users = React.memo(function Users() {
             option.addresses.find(address => address.legal).name,
         []);
 
-    const onRowClick = (params) => {
+    const onRowClick = useCallback(params => {
         setUser(params.user);
         setIsEdit(true);
-    };
+    }, []);
+
     const onEditCancel = () => {
         setUser(null);
         setIsEdit(false);

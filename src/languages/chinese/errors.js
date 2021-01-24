@@ -12,8 +12,6 @@ export const CHINESE_ERRORS = {
     WRONG_REQUEST_DATA: '无法完成任务. 有错误信息.',
     DUPLICATE_PRODUCT_SKU: '无法完成任务. 有同号的sku已经存在.',
     SHIPMENT_CURRENCY_MISMATCH: '无法生成新的运输. 您选的订单有不同的货币.',
-    SHIPMENT_SHIP_ADDRESS_MISMATCH:
-        '无法生成新的运输. 您选的订单有不同的发货地址.',
     SHIPMENT_EXCESSIVE_CUSTOM_COLUMNS:
         '无法生成新的运输. 您选的订单有不同的自动column.',
     UNSUPPORTED_OPERATION: '无法完成任务.',

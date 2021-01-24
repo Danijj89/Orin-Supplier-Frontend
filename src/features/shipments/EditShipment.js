@@ -25,10 +25,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const {
-    titleLabel,
-    cancelButtonLabel,
-    tabsLabelsMap,
-    deleteMessage,
+    titles,
+    buttons,
+    tabLabels,
+    messages,
 } = LANGUAGE.shipment.editShipment;
 
 const EditShipment = React.memo(function EditShipment() {
@@ -45,7 +45,7 @@ const EditShipment = React.memo(function EditShipment() {
         [history, location.pathname]
     );
 
-    const onCancel = useCallback(
+    const onBack = useCallback(
         () => history.push(`/home/shipments/${ shipmentId }`),
         [history, shipmentId]
     );
@@ -59,38 +59,38 @@ const EditShipment = React.memo(function EditShipment() {
         <Box className={ classes.container }>
             <ThemedButton
                 variant="text"
-                onClick={ onCancel }
+                onClick={ onBack }
                 className={ classes.newContact }
             >
-                { cancelButtonLabel }
+                { buttons.back }
             </ThemedButton>
             <Card>
                 <Grid container item justify="space-between">
                     <Typography className={ classes.title } variant="h5">
-                        { titleLabel }
+                        { titles.shipment }
                     </Typography>
                     <ShipmentPermission action={ [DELETE_ANY, DELETE_OWN] } shipmentId={shipmentId}>
                         <DeleteButton
                             onDelete={ onDelete }
-                            deleteMessage={ deleteMessage }
+                            deleteMessage={ messages.deleteShipment }
                         />
                     </ShipmentPermission>
                 </Grid>
                 <NavTabs
-                    tabsLabelsMap={ tabsLabelsMap }
+                    tabsLabelsMap={ tabLabels }
                     tabValue={ tabValue }
                     onChange={ onTabChange }
                 />
             </Card>
             <Box>
                 { tabValue === 'shipment' && (
-                    <ShipmentInfo onCancel={ onCancel }/>
+                    <ShipmentInfo onCancel={ onBack }/>
                 ) }
                 { tabValue === 'products' && (
-                    <ShipmentProductTable onCancel={ onCancel }/>
+                    <ShipmentProductTable onCancel={ onBack }/>
                 ) }
                 { tabValue === 'measures' && (
-                    <ShipmentMeasureTable onCancel={ onCancel }/>
+                    <ShipmentMeasureTable onCancel={ onBack }/>
                 ) }
             </Box>
         </Box>

@@ -6,7 +6,7 @@ import { LANGUAGE, LOCALE } from 'app/utils/constants.js';
 import { useSelector } from 'react-redux';
 import {
     selectCountries,
-    selectCurrencies, selectDefaultConsolidationRowItem,
+    selectCurrencies, selectCurrenciesMap, selectDefaultConsolidationRowItem,
     selectItemUnits,
     selectItemUnitsMap
 } from 'app/duck/selectors.js';
@@ -18,8 +18,13 @@ import { getCurrencySymbol } from '../../utils/random.js';
 import { selectCompanyDefaultAddress, selectCurrentCompany } from 'features/home/duck/home/selectors.js';
 import { selectAllActiveProducts } from '../../../products/duck/selectors.js';
 import TextArea from '../../inputs/TextArea.js';
-import { formatQuantityWithUnit, roundToNDecimal } from '../../utils/format.js';
+import {
+    formatCurrency, formatCurrencyTotalAmount,
+    formatItemsTotalQuantities, formatNumberWithDecimal,
+    roundToNDecimal
+} from '../../utils/format.js';
 import Table from 'features/shared/components/table/Table.js';
+import useExportData from 'features/shared/hooks/useExportData.js';
 
 const {
     tableHeaderLabels,
@@ -61,6 +66,7 @@ const RHFChinaExportTable = React.memo(function RHFChinaExportTable(
     const itemUnitOptions = useSelector(selectItemUnits);
     const currencyOptions = useSelector(selectCurrencies);
     const countryOptions = useSelector(selectCountries);
+    const currenciesMap = useSelector(selectCurrenciesMap);
     const itemUnitsMap = useSelector(selectItemUnitsMap);
     const products = useSelector(selectAllActiveProducts);
     const defaultConsolidationRowItem = useSelector(state =>
@@ -74,18 +80,9 @@ const RHFChinaExportTable = React.memo(function RHFChinaExportTable(
         name: fieldNames.coItems
     });
 
-    const quantity = useWatch({
-        control,
-        name: fieldNames.quantity
-    });
-
-    const totalAmount = useWatch({
-        control,
-        name: fieldNames.totalAmount
-    });
-
     const errMessages = useMemo(() => Object.values(errors).map(err => err.message), [errors]);
     const isError = useMemo(() => errMessages.length > 0, [errMessages]);
+    const [exportData, setExportData] = useExportData(coItems);
 
     const onAddRow = useCallback(
         () => {
@@ -101,8 +98,6 @@ const RHFChinaExportTable = React.memo(function RHFChinaExportTable(
         (rowIdx, key, newValue) => {
             const items = getValues(fieldNames.coItems);
             const newItem = { ...items[rowIdx] };
-            let newQuantity;
-            let newTotalAmount;
             let diff;
             switch (key) {
                 case 'hsc':
@@ -119,40 +114,60 @@ const RHFChinaExportTable = React.memo(function RHFChinaExportTable(
                 case 'quantity':
                     newValue = newValue === '' ? newValue : parseInt(newValue);
                     diff = newValue - newItem.quantity;
-                    newQuantity = new UnitCounter(getValues(fieldNames.quantity));
-                    newQuantity.addUnit(getOptionId(newItem.unit), diff);
-                    setValue(fieldNames.quantity, newQuantity.data);
-
-                    newTotalAmount = new UnitCounter(getValues(fieldNames.totalAmount));
-                    newTotalAmount.addUnit(getOptionId(newItem.currency), roundToNDecimal(newItem.price * diff, 2));
-                    setValue(fieldNames.totalAmount, newTotalAmount.data);
+                    setExportData(prevData => {
+                        const newQuantity = new UnitCounter(prevData.quantity);
+                        const newTotalAmount = new UnitCounter(prevData.totalAmount);
+                        newQuantity.addUnit(getOptionId(newItem.unit), diff);
+                        newTotalAmount.addUnit(getOptionId(newItem.currency),
+                            roundToNDecimal(newItem.price * diff, 2));
+                        return {
+                            quantity: newQuantity.data,
+                            totalAmount: newTotalAmount.data
+                        };
+                    });
                     newItem.total = roundToNDecimal(newValue * newItem.price, 2);
                     newItem.quantity = newValue;
                     break;
                 case 'unit':
                     const prevUnit = getOptionId(newItem.unit);
-                    newQuantity = new UnitCounter(getValues(fieldNames.quantity));
-                    newQuantity.subtractUnit(prevUnit, newItem.quantity);
-                    newQuantity.addUnit(getOptionId(newValue), newItem.quantity);
-                    setValue(fieldNames.quantity, newQuantity.data);
+                    setExportData(prevData => {
+                        const newQuantity = new UnitCounter(prevData.quantity);
+                        newQuantity.subtractUnit(prevUnit, newItem.quantity);
+                        newQuantity.addUnit(getOptionId(newValue), newItem.quantity);
+                        return {
+                            ...prevData,
+                            quantity: newQuantity.data
+                        };
+                    });
                     newItem.unit = newValue;
                     break;
                 case 'price':
                     newValue = newValue === '' ? newValue : roundToNDecimal(newValue, 2);
                     diff = newValue - newItem.price;
-                    newTotalAmount = new UnitCounter(getValues(fieldNames.totalAmount));
-                    newTotalAmount.addUnit(getOptionId(newItem.currency), roundToNDecimal(newItem.quantity * diff, 2));
-                    setValue(fieldNames.totalAmount, newTotalAmount.data);
+                    setExportData(prevData => {
+                        const newTotalAmount = new UnitCounter(prevData.totalAmount);
+                        newTotalAmount.addUnit(getOptionId(newItem.currency),
+                            roundToNDecimal(newItem.quantity * diff, 2));
+                        return {
+                            ...prevData,
+                            totalAmount: newTotalAmount.data
+                        };
+                    });
                     newItem.total = roundToNDecimal(newValue * newItem.quantity, 2);
                     newItem.price = newValue;
                     break;
                 case 'currency':
                     const prevCurrency = getOptionId(newItem.currency);
                     diff = newItem.quantity * newItem.price;
-                    newTotalAmount = new UnitCounter(getValues(fieldNames.totalAmount));
-                    newTotalAmount.subtractUnit(prevCurrency, roundToNDecimal(diff, 2));
-                    newTotalAmount.addUnit(getOptionId(newValue), roundToNDecimal(diff, 2));
-                    setValue(fieldNames.totalAmount, newTotalAmount.data);
+                    setExportData(prevData => {
+                        const newTotalAmount = new UnitCounter(prevData.totalAmount);
+                        newTotalAmount.subtractUnit(prevCurrency, roundToNDecimal(diff, 2));
+                        newTotalAmount.addUnit(getOptionId(newValue), roundToNDecimal(diff, 2));
+                        return {
+                            ...prevData,
+                            totalAmount: newTotalAmount.data
+                        };
+                    });
                     newItem.currency = newValue;
                     break;
                 default:
@@ -160,7 +175,7 @@ const RHFChinaExportTable = React.memo(function RHFChinaExportTable(
             }
             setValue(fieldNames.coItems, [...items.slice(0, rowIdx), newItem, ...items.slice(rowIdx + 1)])
         },
-        [getValues, setValue, fieldNames]);
+        [getValues, setValue, fieldNames, setExportData]);
 
     const columns = useMemo(() => [
         {
@@ -172,7 +187,7 @@ const RHFChinaExportTable = React.memo(function RHFChinaExportTable(
         {
             field: 'hsc',
             headerName: tableHeaderLabels.hsc,
-            type: 'autocomplete',
+            editType: 'autocomplete',
             options: products,
             getOptionLabel: product => product.hsc || product,
             width: 140
@@ -180,12 +195,12 @@ const RHFChinaExportTable = React.memo(function RHFChinaExportTable(
         {
             field: 'localD',
             headerName: tableHeaderLabels.localD,
-            type: 'text'
+            editType: 'text'
         },
         {
             field: 'coo',
             headerName: tableHeaderLabels.coo,
-            type: 'dropdown',
+            editType: 'dropdown',
             options: countryOptions,
             getOptionLabel: option => getOptionLabel(option, LOCALE),
             getOptionSelected: (option, value) => option.id === value.id
@@ -193,7 +208,7 @@ const RHFChinaExportTable = React.memo(function RHFChinaExportTable(
         {
             field: 'fdc',
             headerName: tableHeaderLabels.fdc,
-            type: 'dropdown',
+            editType: 'dropdown',
             options: countryOptions,
             getOptionLabel: option => getOptionLabel(option, LOCALE),
             getOptionSelected: (option, value) => option.id === value.id
@@ -201,17 +216,17 @@ const RHFChinaExportTable = React.memo(function RHFChinaExportTable(
         {
             field: 'dop',
             headerName: tableHeaderLabels.dop,
-            type: 'text'
+            editType: 'text'
         },
         {
             field: 'quantity',
             headerName: tableHeaderLabels.quantity,
-            type: 'number'
+            editType: 'number'
         },
         {
             field: 'unit',
             headerName: tableHeaderLabels.unit,
-            type: 'dropdown',
+            editType: 'dropdown',
             options: itemUnitOptions,
             getOptionLabel: option => getOptionLabel(option, LOCALE),
             getOptionSelected: (option, value) => option.id === value.id
@@ -219,12 +234,12 @@ const RHFChinaExportTable = React.memo(function RHFChinaExportTable(
         {
             field: 'price',
             headerName: tableHeaderLabels.price,
-            type: 'number'
+            editType: 'number',
         },
         {
             field: 'currency',
             headerName: tableHeaderLabels.currency,
-            type: 'dropdown',
+            editType: 'dropdown',
             options: currencyOptions,
             getOptionLabel: option => getOptionLabel(option, LOCALE),
             getOptionSelected: (option, value) => option.id === value.id,
@@ -234,7 +249,8 @@ const RHFChinaExportTable = React.memo(function RHFChinaExportTable(
             field: 'total',
             headerName: tableHeaderLabels.total,
             align: 'right',
-            width: 120
+            width: 120,
+            format: row => formatCurrency(row.total, row.currency)
         }
     ], [countryOptions, currencyOptions, itemUnitOptions, onDeleteRow, products]);
 
@@ -245,10 +261,7 @@ const RHFChinaExportTable = React.memo(function RHFChinaExportTable(
         quantity: item.quantity,
         unit: item.unit,
         price: item.price,
-        total: formatQuantityWithUnit(
-            item.total,
-            getCurrencySymbol(item.currency)
-        ),
+        total: item.total,
         currency: item.currency,
         coo: item.coo,
         fdc: item.fdc,
@@ -259,12 +272,17 @@ const RHFChinaExportTable = React.memo(function RHFChinaExportTable(
         { field: 'label', value: totalLabel, colSpan: 6, align: 'right' },
         {
             field: 'quantity',
-            value: UnitCounter.stringRep(quantity, itemUnitsMap, LOCALE),
+            value: formatItemsTotalQuantities(exportData.quantity, itemUnitsMap, LOCALE),
             colSpan: 3,
             align: 'center'
         },
-        { field: 'totalAmount', value: formatTotalAmount(totalAmount), colSpan: 2, align: 'right' }
-    ]], [itemUnitsMap, quantity, totalAmount]);
+        {
+            field: 'totalAmount',
+            value: formatCurrencyTotalAmount(exportData.totalAmount, currenciesMap),
+            colSpan: 2,
+            align: 'right'
+        }
+    ]], [itemUnitsMap, exportData, currenciesMap]);
 
     const options = useMemo(() => ({
         table: {
@@ -272,7 +290,8 @@ const RHFChinaExportTable = React.memo(function RHFChinaExportTable(
         },
         body: {
             onAddRow: onAddRow,
-            onCellChange: onCellChange
+            onCellChange: onCellChange,
+            hover: false
         },
         foot: {
             pagination: 'none'
@@ -307,8 +326,6 @@ RHFChinaExportTable.propTypes = {
     rhfErrors: PropTypes.object.isRequired,
     fieldNames: PropTypes.exact({
         coItems: PropTypes.string.isRequired,
-        quantity: PropTypes.string.isRequired,
-        totalAmount: PropTypes.string.isRequired,
         marks: PropTypes.string.isRequired
     }).isRequired
 };

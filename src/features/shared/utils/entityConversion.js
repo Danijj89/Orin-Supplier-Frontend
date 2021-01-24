@@ -36,6 +36,7 @@ export const tableItemsToItems = (tableItems) =>
     tableItems.map(item => {
         const temp = {
             order: item.order || null,
+            split: item.split || null,
             ref: item.ref,
             description: item.description,
             localD: item.localD,

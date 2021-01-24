@@ -1,8 +1,12 @@
 
-export function getOptionId(method) {
-    return method?.id;
+export function getOptionId(option) {
+    return option?.id;
 }
 
-export function getOptionLabel(method, locale = 'en') {
-    return method?.label[locale];
+export function getOptionLabel(option, locale = 'en') {
+    return option?.label[locale];
+}
+
+export function getOptionSymbol(option) {
+    return option.symbol;
 }

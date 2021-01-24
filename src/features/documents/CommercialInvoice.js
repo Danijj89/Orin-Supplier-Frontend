@@ -4,7 +4,7 @@ import { Paper } from '@material-ui/core';
 import CommercialInvoiceDetails from './CommercialInvoiceDetails.js';
 import { useSelector } from 'react-redux';
 import useSessionStorage from '../shared/hooks/useSessionStorage.js';
-import { SESSION_NEW_DOCUMENT } from '../../app/sessionKeys.js';
+import { SESSION_NEW_DOCUMENT } from 'app/sessionKeys.js';
 import {
     shipmentToCommercialInvoice
 } from '../shared/utils/entityConversion.js';

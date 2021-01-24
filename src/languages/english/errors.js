@@ -11,7 +11,6 @@ export const ENGLISH_ERRORS = {
     WRONG_REQUEST_DATA: 'Unable to perform operation. Wrong data.',
     DUPLICATE_PRODUCT_SKU: 'Unable to perform the update. The given SKU already exists.',
     SHIPMENT_CURRENCY_MISMATCH: 'Unable to create a shipment. Chosen orders have different currencies.',
-    SHIPMENT_SHIP_ADDRESS_MISMATCH: 'Unable to create a shipment. Chosen orders have different shipping addresses.',
     SHIPMENT_EXCESSIVE_CUSTOM_COLUMNS: 'Unable to create a shipment. Chosen orders have too many different custom columns.',
     UNSUPPORTED_OPERATION: 'The operation attempted is not supported.',
     NO_PERMISSION: 'You don\'t have the permissions to perform this operation',

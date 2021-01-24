@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { Grid } from '@material-ui/core';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
-import { LANGUAGE } from '../../app/utils/constants.js';
+import { LANGUAGE } from 'app/utils/constants.js';
 import NavTabs from '../shared/components/NavTabs.js';
 import ShipmentOrdersTable from './ShipmentOrdersTable.js';
 import { makeStyles } from '@material-ui/core/styles';
@@ -14,11 +14,6 @@ import queryString from 'query-string';
 import Card from '@material-ui/core/Card';
 import { UPDATE_ANY, UPDATE_OWN } from '../admin/utils/actions.js';
 import ShipmentPermission from '../shared/permissions/ShipmentPermission.js';
-
-const {
-    editShipmentButtonLabel,
-    tabsLabelsMap
-} = LANGUAGE.shipment.shipment;
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -41,14 +36,17 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
+const {
+    buttons,
+    tabLabels
+} = LANGUAGE.shipment.shipment;
 
 const Shipment = React.memo(function Shipment() {
     const classes = useStyles();
     const history = useHistory();
     const { id: shipmentId } = useParams();
     const location = useLocation();
-    const { tab } = queryString.parse(location.search);
-    const tabValue = tab || 'orders';
+    const { tab = 'orders' } = queryString.parse(location.search);
 
     const onTabChange = useCallback(
         (newValue) => history.push(`${ location.pathname }?tab=${ newValue }`),
@@ -69,7 +67,7 @@ const Shipment = React.memo(function Shipment() {
             <Grid container item xs={ 12 } className={ classes.shipmentActions }>
                 <ShipmentPermission action={ [UPDATE_ANY, UPDATE_OWN] } shipmentId={ shipmentId }>
                     <ThemedButton className={ classes.editShipmentButton } onClick={ onEditShipmentInfo }>
-                        { editShipmentButtonLabel }
+                        { buttons.editShipment }
                     </ThemedButton>
                 </ShipmentPermission>
                 <DocumentButton/>
@@ -77,13 +75,13 @@ const Shipment = React.memo(function Shipment() {
             <Grid item xs={ 12 }>
                 <Card>
                     <NavTabs
-                        tabsLabelsMap={ tabsLabelsMap }
-                        tabValue={ tabValue }
+                        tabsLabelsMap={ tabLabels }
+                        tabValue={ tab }
                         onChange={ onTabChange }
                         className={ classes.navTabs }
                     />
-                    { tabValue === 'orders' && <ShipmentOrdersTable/> }
-                    { tabValue === 'documents' && <ShipmentDocumentTable shipmentId={ shipmentId }/> }
+                    { tab === 'orders' && <ShipmentOrdersTable/> }
+                    { tab === 'documents' && <ShipmentDocumentTable shipmentId={ shipmentId }/> }
                 </Card>
             </Grid>
         </Grid>
@@ -91,3 +89,6 @@ const Shipment = React.memo(function Shipment() {
 });
 
 export default Shipment;
+
+
+

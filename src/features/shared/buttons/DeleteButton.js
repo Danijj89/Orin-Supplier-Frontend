@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Box, Button, IconButton } from '@material-ui/core';
 import { Delete as IconDelete } from '@material-ui/icons';
-import { LANGUAGE } from '../../../app/utils/constants.js';
+import { LANGUAGE } from 'app/utils/constants.js';
 import { makeStyles } from '@material-ui/core/styles';
 import FormDialog from '../wrappers/FormDialog.js';
 import clsx from 'clsx';
@@ -32,6 +32,7 @@ const DeleteButton = React.memo(function DeleteButton(
     const onCancel = () => setIsDialogOpen(false);
 
     const onConfirm = (event) => {
+        event.preventDefault();
         event.stopPropagation();
         onDelete(event);
         setIsDialogOpen(false);

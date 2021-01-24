@@ -462,7 +462,6 @@ export const ENGLISH = {
                 crd: 'CRD',
                 incoterm: 'Incoterm',
                 quantity: 'Quantity',
-                clientReference: 'Client Reference',
                 client: 'Buyer',
                 author: 'Created By',
                 realCrd: 'Actual CRD',
@@ -552,15 +551,19 @@ export const ENGLISH = {
             },
         },
         createShipment: {
-            newTitleLabel: 'New Shipment',
-            editTitleLabel: 'Edit',
-            companyAddressLabel: 'Shipper / Supplier',
-            clientLabel: 'Consignee / Client',
-            clientAddressLabel: 'Client Address',
-            tableHeaderLabelsMap: {
+            titles: {
+                newTitle: 'New Shipment',
+                editTitle: 'Edit',
+            },
+            labels: {
+                companyAddress: 'Shipper / Supplier',
+                client: 'Consignee / Client',
+                clientAddress: 'Client Address',
+            },
+            tableHeaderLabels: {
                 ref: 'Sales Order',
                 clientRef: 'Client Ref',
-                totalQ: 'Quantity',
+                quantity: 'Quantity',
                 crd: 'Cargo Ready',
                 del: 'Shipping Mode',
                 production: 'Production',
@@ -578,10 +581,41 @@ export const ENGLISH = {
             },
         },
         shipment: {
-            editShipmentButtonLabel: 'Edit Shipment Information',
-            tabsLabelsMap: {
+            tabLabels: {
                 orders: 'Orders Included',
                 documents: 'Documents',
+            },
+            buttons: {
+                editShipment: 'Edit Shipment Information',
+                editShipmentOrders: 'Edit Included Orders'
+            },
+            titles: {
+                shipmentInfo: 'Shipment Information',
+                documentStatus: 'Document Status'
+            },
+            labels: {
+                status: 'Status',
+                crd: 'Cargo Ready',
+                del: 'Mode',
+                carrier: 'Forwarder',
+                pol: 'Port of Loading',
+                pod: 'Port of Destination',
+                etd: 'ETD',
+                eta: 'ETA',
+                docCutOff: 'Doc Cut Off',
+                bol: 'Bill of Landing No',
+                bolType: 'Bill Release Type',
+                released: 'Released',
+            },
+            tableHeaderLabels: {
+                ref: 'Sales Order',
+                clientRef: 'Client Ref',
+                quantity: 'Quantity',
+                crd: 'Cargo Ready',
+                del: 'Shipping Mode',
+                production: 'Production',
+                qa: 'QA',
+                notes: 'Notes',
             },
             documentButton: {
                 buttonLabel: 'Generate Document',
@@ -590,19 +624,6 @@ export const ENGLISH = {
                 formLabels: {
                     document: 'Document',
                 },
-            },
-            shipmentOrdersTable: {
-                tableHeaderLabelsMap: {
-                    ref: 'Sales Order',
-                    clientRef: 'Client Ref',
-                    totalQ: 'Quantity',
-                    crd: 'Cargo Ready',
-                    del: 'Shipping Mode',
-                    production: 'Production',
-                    qa: 'QA',
-                    notes: 'Notes',
-                },
-                editOrdersButtonLabel: 'Edit Included Orders',
             },
             shipmentDocumentTable: {
                 tableHeaderLabelsMap: {
@@ -615,81 +636,58 @@ export const ENGLISH = {
                 },
                 deleteMessage: 'Are you sure you want to delete this document?',
             },
-            shipmentInfoCard: {
-                titleLabel: 'Shipment Information',
-                labels: {
-                    status: 'Status',
-                    crd: 'Cargo Ready',
-                    del: 'Mode',
-                    carrier: 'Forwarder',
-                    pol: 'Port of Loading',
-                    pod: 'Port of Destination',
-                    etd: 'ETD',
-                    eta: 'ETA',
-                },
-            },
-            documentStatusCard: {
-                titleLabel: 'Document Status',
-                labels: {
-                    docCutOff: 'Doc Cut Off',
-                    bol: 'Bill of Landing No',
-                    bolType: 'Bill Release Type',
-                    released: 'Released',
-                },
-            },
+            errorMessages: {
+                shipmentNonExistent: 'This shipment doesn\'t exists.'
+            }
         },
         editShipment: {
-            titleLabel: 'Shipment Information',
-            cancelButtonLabel: 'Back',
-            deleteMessage: 'Are you sure you want to delete this shipment?',
-            tabsLabelsMap: {
+            tabLabels: {
                 shipment: 'Shipment',
                 products: 'Products',
                 measures: 'Measures',
             },
-            shipmentInfo: {
-                partiesTitleLabel: 'Parties',
-                orderInfoTitleLabel: 'Order Information',
-                shippingTitleLabel: 'Shipping Information',
-                formLabels: {
-                    sellerAdd: 'Shipper',
-                    consigneeAdd: 'Consignee',
-                    shipAdd: 'Ship To',
-                    crd: 'Cargo Ready Date',
-                    incoterm: 'Incoterm',
-                    clientRef: 'Client Order Ref.',
-                    payRefs: 'Payment References',
-                    bolType: 'Bill of Landing Type',
-                    coo: 'Country of Manufacture',
-                    clientRefs: 'Client References',
-                    del: 'Delivery Method',
-                    pol: 'Port of Loading',
-                    pod: 'Port of Discharge',
-                    carrier: 'Freight Forwarder',
-                    eta: 'ETA',
-                    etd: 'ETD',
-                },
-                submitButtonLabel: 'Update',
-                cancelButtonLabel: 'Cancel',
-                errorMessages: {
-                    missingSellerAdd: 'You must select a seller address.',
-                    missingConsigneeAdd: 'You must select a consignee address.',
-                },
-                containerSelectorButton: {
-                    titleLabel: 'Select Containers',
-                    submitLabel: 'Update',
-                    buttonLabel: 'Choose Containers',
-                    containerSelectorTable: {
-                        tableHeaders: {
-                            type: 'Container Type',
-                            quantity: 'Quantity',
-                        },
-                    },
-                },
+            titles: {
+                shipment: 'Shipment Information',
+                parties: 'Parties',
+                orderInfo: 'Order Information',
+                shipping: 'Shipping Information',
+                containers: 'Select Containers',
             },
-            productTable: {
-                cancelButtonLabel: 'Cancel',
-                submitButtonLabel: 'Submit',
+            buttons: {
+                back: 'Back',
+                submit: 'Update',
+                cancel: 'Cancel',
+                containersSubmit: 'Update',
+                containers: 'Choose Containers',
+            },
+            formLabels: {
+                sellerAdd: 'Shipper',
+                consigneeAdd: 'Consignee',
+                shipAdd: 'Ship To',
+                crd: 'Cargo Ready Date',
+                incoterm: 'Incoterm',
+                clientRef: 'Client Order Ref.',
+                payRefs: 'Payment References',
+                bolType: 'Bill of Landing Type',
+                coo: 'Country of Manufacture',
+                clientRefs: 'Client References',
+                del: 'Delivery Method',
+                pol: 'Port of Loading',
+                pod: 'Port of Discharge',
+                carrier: 'Freight Forwarder',
+                eta: 'ETA',
+                etd: 'ETD',
+            },
+            tableHeaderLabels: {
+                type: 'Container Type',
+                quantity: 'Quantity',
+            },
+            messages: {
+                deleteShipment: 'Are you sure you want to delete this shipment?'
+            },
+            errorMessages: {
+                missingSellerAdd: 'You must select a seller address.',
+                missingConsigneeAdd: 'You must select a consignee address.',
             },
             measureTable: {
                 cancelButtonLabel: 'Cancel',

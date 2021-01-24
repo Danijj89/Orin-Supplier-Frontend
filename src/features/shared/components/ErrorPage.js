@@ -41,7 +41,10 @@ const ErrorPage = React.memo(function ErrorPage({ error = [], className }) {
 });
 
 ErrorPage.propTypes = {
-    error: PropTypes.array.isRequired,
+    error: PropTypes.oneOfType([
+        PropTypes.arrayOf(PropTypes.string),
+        PropTypes.string
+    ]),
     className: PropTypes.string
 };
 

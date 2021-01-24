@@ -16,3 +16,7 @@ export function getItemsData(items) {
         total: roundToNDecimal(totalAmount, 2)
     };
 }
+
+export function getQuantityTotalCount(quantity) {
+    return Object.values(quantity).reduce((acc, amount) => acc + amount, 0);
+}

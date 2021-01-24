@@ -1,11 +1,11 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import Table from '../shared/components/table/Table.js';
-import { LANGUAGE } from '../../app/utils/constants.js';
+import { LANGUAGE } from 'app/utils/constants.js';
 import ProductDialog from '../shared/forms/ProductDialog.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteProduct, updateProduct } from './duck/thunks.js';
 import { selectActiveProductsMap, selectAllActiveProducts } from './duck/selectors.js';
-import { SESSION_PRODUCT_TABLE_FILTERS } from '../../app/sessionKeys.js';
+import { SESSION_PRODUCT_TABLE_FILTERS } from 'app/sessionKeys.js';
 import { UPDATE_ANY } from '../admin/utils/actions.js';
 import ProductPermission from '../shared/permissions/ProductPermission.js';
 
@@ -22,10 +22,10 @@ export default function ProductTable() {
     const [isEdit, setIsEdit] = useState(false);
     const [product, setProduct] = useState(null);
 
-    const onRowClick = (params) => {
+    const onRowClick = useCallback(params => {
         setProduct(productsMap[params.id]);
         setIsEdit(true);
-    };
+    }, [productsMap]);
     const onEditCancel = () => setIsEdit(false);
     const onEditSubmit = (data) => {
         const { _id: productId, autoGenerateRef, ...update } = data;

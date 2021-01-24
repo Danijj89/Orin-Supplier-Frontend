@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import RHFProductTable, { validateItems } from '../shared/rhf/forms/RHFProductTable.js';
 import Footer from '../shared/components/Footer.js';
 import { useForm } from 'react-hook-form';
@@ -37,7 +37,6 @@ const CreateOrderProducts = React.memo(function CreateOrderProducts({ order, set
             [productTableFieldNames.custom2]: order.custom2,
             [productTableFieldNames.marks]: order.marks,
             [productTableFieldNames.saveItems]: order.saveItems,
-            createdBy: order.createdBy
         }
     });
 
@@ -52,7 +51,7 @@ const CreateOrderProducts = React.memo(function CreateOrderProducts({ order, set
         history.push('/home/orders/new?step=details');
     };
 
-    const onSubmit = (data) => {
+    const onSubmit = useCallback(data => {
         const actualData = { ...order, ...data };
         actualData.fromAdd = addressToDocAddress(actualData.fromAdd);
         actualData.toAdd = addressToDocAddress(actualData.toAdd);
@@ -61,8 +60,9 @@ const CreateOrderProducts = React.memo(function CreateOrderProducts({ order, set
         actualData.currency = getOptionId(actualData.currency);
         actualData.to = actualData.to._id;
         actualData.items = productTableItemsToOrderItems(actualData.items);
+        actualData.createdBy = order.createdBy
         dispatch(createOrder({ data: actualData }));
-    };
+    }, [dispatch, order]);
 
     return (
         <form onSubmit={ handleSubmit(onSubmit) }>
