@@ -43,10 +43,6 @@ const PackingListProducts = React.memo(function PackingListProducts(
             [fieldNames.items]: packingList.items,
             [fieldNames.measurementUnit]: packingList.measurementUnit,
             [fieldNames.weightUnit]: packingList.weightUnit,
-            [fieldNames.package]: packingList.package,
-            [fieldNames.netWeight]: packingList.netWeight,
-            [fieldNames.grossWeight]: packingList.grossWeight,
-            [fieldNames.dimension]: packingList.dimension,
             [fieldNames.custom1]: packingList.custom1,
             [fieldNames.custom2]: packingList.custom2,
             [fieldNames.marks]: packingList.marks

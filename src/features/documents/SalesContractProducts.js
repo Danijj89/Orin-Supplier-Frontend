@@ -22,8 +22,6 @@ const fieldNames = {
     custom2: 'ciCustom2',
     currency: 'currency',
     items: 'items',
-    quantity: 'quantity',
-    total: 'total',
     marks: 'marks'
 };
 
@@ -41,8 +39,6 @@ const SalesContractProducts = React.memo(function SalesContractProducts(
         defaultValues: {
             [fieldNames.currency]: salesContract.currency,
             [fieldNames.items]: salesContract.items,
-            [fieldNames.quantity]: salesContract.quantity,
-            [fieldNames.total]: salesContract.total,
             [fieldNames.custom1]: salesContract.custom1,
             [fieldNames.custom2]: salesContract.custom2,
             [fieldNames.marks]: salesContract.marks
@@ -53,8 +49,6 @@ const SalesContractProducts = React.memo(function SalesContractProducts(
         register({ name: fieldNames.items }, { validate: validateItems });
         register({ name: fieldNames.custom1 });
         register({ name: fieldNames.custom2 });
-        register({ name: fieldNames.quantity });
-        register({ name: fieldNames.total });
     }, [register]);
 
     const onPrevClick = () => {
