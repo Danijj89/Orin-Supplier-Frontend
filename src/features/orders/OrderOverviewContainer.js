@@ -22,9 +22,7 @@ const OrderOverviewContainer = React.memo(function OrderOverviewContainer() {
     const orderStatus = useSelector(selectOrderStatus);
 
     useEffect(() => {
-        return () => {
-            if (orderStatus === 'FULFILLED') dispatch(resetOrderStatus());
-        }
+        if (orderStatus === 'FULFILLED') dispatch(resetOrderStatus());
     }, [dispatch, orderStatus]);
 
     const fetched = useRef(false);

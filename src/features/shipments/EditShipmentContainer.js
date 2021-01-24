@@ -58,9 +58,7 @@ const EditShipmentContainer = React.memo(function EditShipmentContainer() {
     const shipmentStatus = useSelector(selectShipmentStatus);
 
     useEffect(() => {
-        return () => {
-            if (shipmentStatus === 'FULFILLED') dispatch(resetShipmentStatus());
-        }
+        if (shipmentStatus === 'FULFILLED') dispatch(resetShipmentStatus());
     }, [dispatch, shipmentStatus]);
 
     const fetched = useRef(false);
