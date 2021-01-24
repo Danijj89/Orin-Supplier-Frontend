@@ -11,7 +11,7 @@ export const ENGLISH = {
             imageSubText:
                 'Seamlessly accept client orders and generate professional and compliant export documentation',
             errorMessages: {
-                emailRequired: 'You need to insert an email',
+                emailRequired: 'You need to insert a valid email',
                 passwordRequired: 'You need to insert a password',
                 emailOrPasswordWrong:
                     'Email or Password does not match any existing one',
