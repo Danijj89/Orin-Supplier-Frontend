@@ -1,5 +1,4 @@
 import React from 'react';
-import Typography from '@material-ui/core/Typography';
 import FormContainer from '../shared/wrappers/FormContainer.js';
 import RHFCheckBox from '../shared/rhf/inputs/RHFCheckBox.js';
 import SideTextField from '../shared/inputs/SideTextField.js';
@@ -17,6 +16,7 @@ import Footer from '../shared/components/Footer.js';
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import Divider from '@material-ui/core/Divider';
+import Title5 from 'features/shared/display/Title5.js';
 
 const {
     titleLabel,
@@ -87,8 +87,8 @@ const PackingListDetails = React.memo(function PackingListDetails(
     return (
         <form onSubmit={ handleSubmit(onNextClick) } autoComplete="off">
             <Grid container justify="center">
-                <Grid item xs={12}>
-                    <Typography className={ classes.title } variant="h5">{ titleLabel }</Typography>
+                <Grid item xs={ 12 }>
+                    <Title5 className={ classes.title } title={ titleLabel }/>
                 </Grid>
                 <Grid item>
                     <FormContainer>

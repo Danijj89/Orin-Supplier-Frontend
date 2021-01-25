@@ -1,17 +1,18 @@
 import React, { useCallback, useState } from 'react';
-import { Paper, Box, Typography, Grid } from '@material-ui/core';
+import { Paper, Box, Grid } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import AddressDialog from '../shared/forms/AddressDialog.js';
 import { makeStyles } from '@material-ui/core/styles';
 import AddressCard from '../shared/components/AddressCard.js';
 import { deleteClientAddress, updateAddress, updateDefaultClientAddress } from './duck/thunks.js';
-import { LANGUAGE } from '../../app/utils/constants.js';
+import { LANGUAGE } from 'app/utils/constants.js';
 import NewClientAddressButton from '../shared/buttons/NewClientAddressButton.js';
 import { useParams } from 'react-router-dom';
 import { selectActiveClientById } from './duck/selectors.js';
-import { getOptionId } from '../../app/utils/options/getters.js';
+import { getOptionId } from 'app/utils/options/getters.js';
 import { CREATE_ANY, CREATE_OWN, UPDATE_ANY, UPDATE_OWN } from '../admin/utils/actions.js';
 import ClientPermission from '../shared/permissions/ClientPermission.js';
+import Title5 from 'features/shared/display/Title5.js';
 
 const useStyles = makeStyles((theme) => ({
     cards: {
@@ -70,9 +71,7 @@ const ClientAddressCards = React.memo(function ClientAddressCards() {
 
     return (
         <Paper>
-            <Typography className={ classes.addressTitle } variant="h5">
-                { addressesTableTitleLabel }
-            </Typography>
+            <Title5 className={ classes.addressTitle } title={ addressesTableTitleLabel }/>
             <Box className={ classes.cards }>
                 <Grid container>
                     { client.addresses.map((address) => (

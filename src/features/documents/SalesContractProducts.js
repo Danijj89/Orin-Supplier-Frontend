@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { Typography } from '@material-ui/core';
 import RHFProductTable, { validateItems } from '../shared/rhf/forms/RHFProductTable.js';
 import Footer from '../shared/components/Footer.js';
 import { LANGUAGE } from 'app/utils/constants.js';
@@ -10,6 +9,7 @@ import { addressToDocAddress, tableItemsToItems } from '../shared/utils/entityCo
 import { createDocument } from '../shipments/duck/thunks.js';
 import { selectSessionUserCompanyId, selectSessionUserId } from 'app/duck/selectors.js';
 import { getOptionId } from 'app/utils/options/getters.js';
+import Title5 from 'features/shared/display/Title5.js';
 
 const {
     titleLabel,
@@ -72,7 +72,7 @@ const SalesContractProducts = React.memo(function SalesContractProducts(
 
     return (
         <form onSubmit={ handleSubmit(onSubmit) } autoComplete="off">
-            <Typography variant="h5">{ titleLabel }</Typography>
+            <Title5 title={ titleLabel }/>
             <RHFProductTable
                 rhfRegister={ register }
                 rhfErrors={ errors }

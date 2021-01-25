@@ -14,6 +14,7 @@ import { selectAppError, selectAppStatus, selectSessionUser } from './duck/selec
 import { SESSION_USER } from './sessionKeys.js';
 import { cleanAppState } from './duck/slice.js';
 import { resetAppStatus } from 'app/duck/slice.js';
+import Title3 from 'features/shared/display/Title3.js';
 
 const {
     title,
@@ -130,7 +131,7 @@ export default function LoginPage() {
         <Grid container className={ classes.container }>
             <Grid item xs={ 5 } className={ classes.leftPanel }>
                 <CardMedia className={ classes.logo } component="img" src={ logo } alt="Logo"/>
-                <Typography variant="h3">{ title }</Typography>
+                <Title3 title={ title }/>
                 <form className={ classes.form } onSubmit={ handleSubmit(onSignInClick) } autoComplete="off" noValidate>
                     { isError && <ErrorSnackbar error={ errMessages }/> }
                     <TextField

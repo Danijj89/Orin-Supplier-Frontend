@@ -33,7 +33,7 @@ import {
 import { addressToDocAddress } from '../shared/utils/entityConversion.js';
 import RHFAutoComplete from '../shared/rhf/inputs/RHFAutoComplete.js';
 import queryString from 'query-string';
-import Title1 from 'features/shared/display/Title1.js';
+import Title5 from 'features/shared/display/Title5.js';
 import { getQuantityTotalCount } from 'features/shared/utils/reducers.js';
 import {
     selectClientsSplitsMap,
@@ -284,7 +284,7 @@ const CreateShipment = React.memo(function CreateShipment() {
     return (
         <>
             <Paper className={ classes.container }>
-                <Title1 title={ title } className={ classes.newShipmentLabel }/>
+                <Title5 title={ title } className={ classes.newShipmentLabel }/>
                 { errs.length > 0 && <ErrorSnackbar error={ errs }/> }
                 <FormContainer>
                     <RHFAutoComplete

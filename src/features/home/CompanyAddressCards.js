@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
-import { Box, Typography, Grid } from '@material-ui/core';
-import { LANGUAGE } from '../../app/utils/constants.js';
+import { Box, Grid } from '@material-ui/core';
+import { LANGUAGE } from 'app/utils/constants.js';
 import { useDispatch, useSelector } from 'react-redux';
 import AddressDialog from '../shared/forms/AddressDialog.js';
 import NewCompanyAddressButton from './NewCompanyAddressButton.js';
@@ -8,8 +8,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import { deleteAddress, updateAddress, updateDefaultAddress } from 'features/home/duck/home/thunks.js';
 import AddressCard from '../shared/components/AddressCard.js';
 import { selectActiveCompanyAddresses } from 'features/home/duck/home/selectors.js';
-import { getOptionId } from '../../app/utils/options/getters.js';
-import { selectSessionUserCompanyId } from '../../app/duck/selectors.js';
+import { getOptionId } from 'app/utils/options/getters.js';
+import { selectSessionUserCompanyId } from 'app/duck/selectors.js';
+import Title5 from 'features/shared/display/Title5.js';
 
 const useStyles = makeStyles((theme) => ({
     addressTitle: {
@@ -64,9 +65,7 @@ const CompanyAddressCards = React.memo(function CompanyAddressCards() {
 
     return (
         <Box>
-            <Typography className={ classes.addressTitle } variant="h5">
-                { addressesTableTitleLabel }
-            </Typography>
+            <Title5 className={classes.addressTitle} title={ addressesTableTitleLabel }/>
             <Grid container>
                 { companyAddresses.map((address) =>
                     <Grid item xs={ 12 } sm={ 6 } lg={ 4 } key={ address._id }>

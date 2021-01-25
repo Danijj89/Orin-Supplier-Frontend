@@ -9,10 +9,10 @@ import { useSelector } from 'react-redux';
 import { selectCompanyPorts } from 'features/home/duck/home/selectors.js';
 import { selectDeliveryMethods } from 'app/duck/selectors.js';
 import { selectShipmentSalesContractRefs } from '../shipments/duck/selectors.js';
-import Typography from '@material-ui/core/Typography';
 import Footer from '../shared/components/Footer.js';
 import { useHistory } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
+import Title5 from 'features/shared/display/Title5.js';
 
 const {
     titleLabel,
@@ -61,7 +61,7 @@ const ChinaExportDetailsOptional = React.memo(function ChinaExportDetailsOptiona
 
     return (
         <form onSubmit={ handleSubmit(onNextClick) } autoComplete="off">
-            <Typography variant="h5">{ titleLabel }</Typography>
+            <Title5 title={ titleLabel }/>
             <Grid container justify="center">
                 <FormContainer>
                     <RHFAutoComplete

@@ -7,7 +7,7 @@ import queryString from 'query-string';
 import OrderProductTable from 'features/orders/OrderProductTable.js';
 import SplitInfo from 'features/orders/SplitInfo.js';
 import { makeStyles } from '@material-ui/core/styles';
-import Title4 from 'features/shared/display/Title4.js';
+import Title7 from 'features/shared/display/Title7.js';
 import { dateToLocaleDate } from 'features/shared/utils/format.js';
 import Box from '@material-ui/core/Box';
 import SplitDocuments from 'features/orders/SplitDocuments.js';
@@ -54,8 +54,8 @@ const Split = React.memo(function Split({ orderId, split, currency, custom1, cus
             { subTab === 'products' &&
             <>
                 <Box className={ classes.info }>
-                    <Title4 title={ clientRefInfo }/>
-                    <Title4 title={ crdInfo }/>
+                    <Title7 title={ clientRefInfo }/>
+                    <Title7 title={ crdInfo }/>
                 </Box>
                 <OrderProductTable
                     items={ items }

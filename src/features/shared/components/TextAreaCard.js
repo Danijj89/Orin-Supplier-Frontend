@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Card, Typography, Divider } from '@material-ui/core';
+import { Card, Divider } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import TextArea from '../inputs/TextArea.js';
 import FormDialog from '../wrappers/FormDialog.js';
-import { LANGUAGE } from '../../../app/utils/constants.js';
+import { LANGUAGE } from 'app/utils/constants.js';
+import Title6 from 'features/shared/display/Title6.js';
+import Title7 from 'features/shared/display/Title7.js';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -56,14 +58,12 @@ const TextAreaCard = React.memo(function TextAreaCard({ titleLabel, value, class
     };
 
     return (
-        <Card className={ clsx(classes.container, className) }>
-            <Typography variant = "h7" className={classes.title}> { titleLabel }</Typography>
-            <Divider/>
-            { !isEdit &&
-            <Typography onClick={ onDisplayClick } className={ classes.display }>
-                { value }
-            </Typography>
-            }
+        <>
+            <Card className={ clsx(classes.container, className) } onClick={ onDisplayClick }>
+                <Title6 className={ classes.title } title={ titleLabel }/>
+                <Divider/>
+                <Title7 className={ classes.display } title={ value }/>
+            </Card>
             { isEdit &&
             <FormDialog
                 isOpen={ isEdit }
@@ -71,7 +71,6 @@ const TextAreaCard = React.memo(function TextAreaCard({ titleLabel, value, class
                 onCancel={ () => setIsEdit(false) }
                 titleLabel={ titleLabel }
                 submitLabel={ submitLabel }
-                
             >
                 <TextArea
                     onChange={ e => setVal(e.target.value) }
@@ -79,11 +78,11 @@ const TextAreaCard = React.memo(function TextAreaCard({ titleLabel, value, class
                     rows={ 4 }
                     rowsMax={ 8 }
                     autoFocus
-                    className={classes.dialog}
+                    className={ classes.dialog }
                 />
             </FormDialog>
             }
-        </Card>
+        </>
     )
 });
 
