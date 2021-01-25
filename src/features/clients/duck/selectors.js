@@ -1,11 +1,6 @@
 import { clientsAdapter } from './slice.js';
 import { createSelector } from '@reduxjs/toolkit';
-import {
-    selectAppGrants,
-    selectCountriesMap,
-    selectSessionUser,
-} from '../../../app/duck/selectors.js';
-import { selectAllActiveOrders } from '../../orders/duck/selectors.js';
+import { selectAppGrants, selectCountriesMap, selectSessionUser, } from 'app/duck/selectors.js';
 import { CLIENT_RESOURCE, isOwnClient } from '../../shared/permissions/ClientPermission.js';
 import { AccessControl } from 'accesscontrol';
 
@@ -96,12 +91,6 @@ export const selectClientActiveAddresses = createSelector(
 export const selectClientActiveContacts = createSelector(
     selectActiveClientById,
     client => client.contacts
-);
-
-export const selectClientOrders = createSelector(
-    selectAllActiveOrders,
-    (state, { clientId }) => clientId,
-    (orders, clientId) => orders.filter(order => order.to === clientId)
 );
 
 export const selectSessionActiveClients = createSelector(

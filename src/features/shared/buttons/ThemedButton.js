@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { Button } from '@material-ui/core';
@@ -44,11 +44,16 @@ const ThemedButton = React.memo(function ThemedButton(
         className
     );
 
+    const onClicked = useCallback(e => {
+        e.stopPropagation();
+        onClick && onClick(e);
+    }, [onClick]);
+
     return (
         <Button
             className={ classNames }
             variant={ variant }
-            onClick={ onClick }
+            onClick={ onClicked }
             type={ type }
             disabled={ disabled }
             startIcon={ startIcon }

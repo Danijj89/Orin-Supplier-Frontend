@@ -66,7 +66,7 @@ export const deleteShipment = createAsyncThunk('shipments/deleteShipment',
     });
 
 export const deleteDocument = createAsyncThunk('shipments/deleteDocument',
-    async ({ shipmentId, documentId }, {rejectWithValue}) => {
+    async ({ shipmentId, documentId }, { rejectWithValue }) => {
         try {
             await ShipmentService.deleteDocument(shipmentId, documentId);
             return { shipmentId, documentId };

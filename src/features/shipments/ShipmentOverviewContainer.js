@@ -23,9 +23,7 @@ const ShipmentOverviewContainer = React.memo(function ShipmentOverviewContainer(
     const shipmentStatus = useSelector(selectShipmentStatus);
 
     useEffect(() => {
-        return () => {
-            if (shipmentStatus === 'FULFILLED') dispatch(resetShipmentStatus());
-        }
+        if (shipmentStatus === 'FULFILLED') dispatch(resetShipmentStatus());
     }, [dispatch, shipmentStatus]);
 
     useEffect(() => {

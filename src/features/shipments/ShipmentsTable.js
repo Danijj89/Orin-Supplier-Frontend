@@ -92,7 +92,7 @@ const ShipmentsTable = React.memo(function ShipmentsTable() {
 
     const options = useMemo(() => ({
         table: {
-            dense: false
+            dense: true
         },
         body: {
             onRowClick

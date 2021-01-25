@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { selectPopulatedShipmentById } from '../shipments/duck/selectors.js';
 import { shipmentToSalesContract } from '../shared/utils/entityConversion.js';
 import useSessionStorage from '../shared/hooks/useSessionStorage.js';
-import { SESSION_NEW_DOCUMENT } from '../../app/sessionKeys.js';
+import { SESSION_NEW_DOCUMENT } from 'app/sessionKeys.js';
 import SalesContractDetails from './SalesContractDetails.js';
 import SalesContractProducts from './SalesContractProducts.js';
 

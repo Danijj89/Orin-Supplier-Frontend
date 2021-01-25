@@ -6,7 +6,7 @@ import SideTextField from '../shared/inputs/SideTextField.js';
 import Grid from '@material-ui/core/Grid';
 import RHFAutoComplete from '../shared/rhf/inputs/RHFAutoComplete.js';
 import { formatAddress } from '../shared/utils/format.js';
-import { LANGUAGE } from '../../app/utils/constants.js';
+import { LANGUAGE } from 'app/utils/constants.js';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { selectActiveCompanyAddresses, selectCompanyPorts } from 'features/home/duck/home/selectors.js';

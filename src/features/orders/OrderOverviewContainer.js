@@ -6,7 +6,7 @@ import Loader from '../shared/components/Loader.js';
 import OrderOverview from './OrderOverview.js';
 import { fetchOrders } from './duck/thunks.js';
 import ErrorPage from '../shared/components/ErrorPage.js';
-import { cleanOrderState } from './duck/slice.js';
+import { cleanOrderState, resetOrderStatus } from './duck/slice.js';
 import { READ_ANY, READ_OWN } from '../admin/utils/actions.js';
 import OrderPermission from '../shared/permissions/OrderPermission.js';
 import StatusHandler from 'features/shared/status/StatusHandler.js';
@@ -20,6 +20,10 @@ const OrderOverviewContainer = React.memo(function OrderOverviewContainer() {
     const errors = getErrors(orderError);
 
     const orderStatus = useSelector(selectOrderStatus);
+
+    useEffect(() => {
+        if (orderStatus === 'FULFILLED') dispatch(resetOrderStatus());
+    }, [dispatch, orderStatus]);
 
     const fetched = useRef(false);
     useEffect(() => {
@@ -39,7 +43,7 @@ const OrderOverviewContainer = React.memo(function OrderOverviewContainer() {
 
     return (
         <OrderPermission action={ [READ_ANY, READ_OWN] }>
-            <StatusHandler status={ orderStatus } error={ orderError }/>
+            <StatusHandler status={ orderStatus } error={ orderError } showSuccess/>
             { status === 'REJECTED' && <ErrorPage error={ errors }/> }
             { status === 'PENDING' && <Loader/> }
             { status === 'FULFILLED' && <OrderOverview/> }

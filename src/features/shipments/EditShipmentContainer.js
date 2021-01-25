@@ -29,6 +29,7 @@ import { UPDATE_ANY, UPDATE_OWN } from '../admin/utils/actions.js';
 import { useParams } from 'react-router-dom';
 import ShipmentPermission from '../shared/permissions/ShipmentPermission.js';
 import StatusHandler from 'features/shared/status/StatusHandler.js';
+import { resetShipmentStatus } from 'features/shipments/duck/slice.js';
 
 const EditShipmentContainer = React.memo(function EditShipmentContainer() {
     const dispatch = useDispatch();
@@ -55,6 +56,10 @@ const EditShipmentContainer = React.memo(function EditShipmentContainer() {
     const errors = getErrors(homeError, shipmentError, clientError, productError, orderError);
 
     const shipmentStatus = useSelector(selectShipmentStatus);
+
+    useEffect(() => {
+        if (shipmentStatus === 'FULFILLED') dispatch(resetShipmentStatus());
+    }, [dispatch, shipmentStatus]);
 
     const fetched = useRef(false);
     useEffect(() => {
@@ -89,7 +94,7 @@ const EditShipmentContainer = React.memo(function EditShipmentContainer() {
 
     return (
         <ShipmentPermission action={ [UPDATE_ANY, UPDATE_OWN] } shipmentId={ shipmentId }>
-            <StatusHandler status={ shipmentStatus } error={ shipmentError }/>
+            <StatusHandler status={ shipmentStatus } error={ shipmentError } showSuccess/>
             { status === 'REJECTED' && <ErrorPage error={ errors }/> }
             { status === 'PENDING' && <Loader/> }
             { status === 'FULFILLED' && <EditShipment/> }

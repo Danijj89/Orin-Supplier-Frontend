@@ -5,7 +5,7 @@ import queryString from 'query-string';
 import { useSelector } from 'react-redux';
 import { selectPopulatedShipmentById } from '../shipments/duck/selectors.js';
 import useSessionStorage from '../shared/hooks/useSessionStorage.js';
-import { SESSION_NEW_DOCUMENT } from '../../app/sessionKeys.js';
+import { SESSION_NEW_DOCUMENT } from 'app/sessionKeys.js';
 import PackingListDetails from './PackingListDetails.js';
 import { shipmentToPackingList } from '../shared/utils/entityConversion.js';
 import PackingListProducts from './PackingListProducts.js';

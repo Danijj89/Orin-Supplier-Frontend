@@ -6,7 +6,6 @@ import { LANGUAGE, LOCALE } from 'app/utils/constants.js';
 import DeleteIconButton from '../../buttons/DeleteIconButton.js';
 import TableTextField from '../../inputs/TableTextField.js';
 import { Add as IconAdd, Close as IconClose } from '@material-ui/icons';
-import { getCurrencySymbol } from '../../utils/random.js';
 import UnitCounter from '../../classes/UnitCounter.js';
 import { formatCurrency, roundToNDecimal } from '../../utils/format.js';
 import ErrorSnackbar from 'features/shared/components/ErrorSnackbar.js';
@@ -21,10 +20,10 @@ import {
 } from 'app/duck/selectors.js';
 import { getOptionId, getOptionLabel } from 'app/utils/options/getters.js';
 import { selectAllActiveProducts } from '../../../products/duck/selectors.js';
-import { selectActiveOrdersMap } from '../../../orders/duck/selectors.js';
 import useItemsData from 'features/shared/hooks/useItemsData.js';
 import { formatItemsTotalQuantities } from 'features/shared/utils/format.js';
 import Table from 'features/shared/components/table/Table.js';
+import { selectAllSplitsReferenceMap } from 'features/shipments/utils/selectors.js';
 
 const {
     formLabels,
@@ -62,7 +61,7 @@ const RHFProductTable = React.memo(function RHFProductTable(
     const itemUnitOptions = useSelector(selectItemUnits);
     const itemUnitsMap = useSelector(selectItemUnitsMap);
     const products = useSelector(selectAllActiveProducts);
-    const ordersMap = useSelector(selectActiveOrdersMap);
+    const ordersMap = useSelector(selectAllSplitsReferenceMap);
 
     const custom1 = useWatch({
         control,
@@ -86,7 +85,7 @@ const RHFProductTable = React.memo(function RHFProductTable(
     const ordersMapWithDefault = useMemo(
         () => {
             const temp = { ...ordersMap };
-            temp['0'] = { _id: 0, ref: notInOrderLabel };
+            temp['0'] = { orderId: 0, splitId: 0, ref: notInOrderLabel };
             return temp;
         },
         [ordersMap]);
@@ -94,11 +93,12 @@ const RHFProductTable = React.memo(function RHFProductTable(
     const errMessages = useMemo(() => Object.values(errors).map(err => err.message), [errors]);
     const isError = useMemo(() => errMessages.length > 0, [errMessages]);
 
-    const initialNumColumns = 8
-        + (typeof custom1 === 'string' ? 1 : 0)
-        + (typeof custom2 === 'string' ? 1 : 0)
-        - (typeof custom1 === 'string' && typeof custom2 === 'string' ? 1 : 0);
-    const [numColumns, setNumColumns] = useState(initialNumColumns);
+    const initialColumns = useMemo(() => {
+        const custom1 = getValues(fieldNames.custom1);
+        const custom2 = getValues(fieldNames.custom2);
+        return 8 + (custom1 ? 1 : 0) + (custom2 ? 1 : 0) - (custom1 && custom2 ? 1 : 0);
+    }, [getValues, fieldNames]);
+    const [numColumns, setNumColumns] = useState(initialColumns);
 
     const onAddColumn = useCallback(() => {
         if (getValues(fieldNames.custom1) == null) {
@@ -110,14 +110,14 @@ const RHFProductTable = React.memo(function RHFProductTable(
         }
     }, [setValue, getValues, fieldNames]);
 
-    const onDeleteColumn = useCallback(name => {
-        if (name === fieldNames.custom1) setNumColumns(prev => prev - 1);
-        setValue(name, null);
+    const onDeleteColumn = useCallback(column => {
+        if (column === fieldNames.custom1) setNumColumns(prev => prev - 1);
+        setValue(column, null);
         setValue(
             fieldNames.items,
             getValues(fieldNames.items).map(item => {
                 const newItem = { ...item };
-                newItem[name] = '';
+                newItem[column] = '';
                 return newItem;
             })
         );
@@ -149,8 +149,9 @@ const RHFProductTable = React.memo(function RHFProductTable(
         const newItem = { ...items[rowIdx] };
         let diff;
         switch (key) {
-            case 'order':
-                newItem.order = newValue._id;
+            case 'split':
+                newItem.order = newValue.orderId;
+                newItem.split = newValue.splitId;
                 break;
             case 'ref':
                 if (newValue._id) {
@@ -219,8 +220,19 @@ const RHFProductTable = React.memo(function RHFProductTable(
         setValue(fieldNames.items, [...items.slice(0, rowIdx), newItem, ...items.slice(rowIdx + 1)])
     }, [setValue, getValues, fieldNames, setItemsData]);
 
+    const createRenderColumn = useCallback((column, value) => () =>
+        <TableTextField
+            value={ value }
+            onChange={ e => setValue(column, e.target.value) }
+            InputProps={ {
+                endAdornment:
+                    <IconButton size="small" onClick={ () => onDeleteColumn(column) }>
+                        <IconClose fontSize="small"/>
+                    </IconButton>
+            } }
+        />, [setValue, onDeleteColumn]);
+
     const columns = useMemo(() => ([
-        { field: 'id', hide: true },
         {
             field: 'delete',
             renderCell: params =>
@@ -229,13 +241,13 @@ const RHFProductTable = React.memo(function RHFProductTable(
             align: 'center'
         },
         {
-            field: 'order',
+            field: 'split',
             hide: !isShipment,
             headerName: tableHeaderLabels.order,
             editType: 'dropdown',
             options: Object.values(ordersMapWithDefault),
             getOptionLabel: order => order.ref,
-            getOptionSelected: (order, value) => order._id === value._id,
+            getOptionSelected: (order, value) => order.splitId === value.splitId,
             width: 140
         },
         {
@@ -252,34 +264,14 @@ const RHFProductTable = React.memo(function RHFProductTable(
         },
         {
             field: 'custom1',
-            renderHeader: () =>
-                <TableTextField
-                    name={ fieldNames.custom1 }
-                    inputRef={ register({ required: errorMessages.missingCustomColumnName }) }
-                    InputProps={ {
-                        endAdornment:
-                            <IconButton size="small" onClick={ () => onDeleteColumn(fieldNames.custom1) }>
-                                <IconClose fontSize="small"/>
-                            </IconButton>
-                    } }
-                />,
+            renderHeader: createRenderColumn(fieldNames.custom1, custom1),
             editType: 'text',
             hide: custom1 == null,
             width: 160
         },
         {
             field: 'custom2',
-            renderHeader: () =>
-                <TableTextField
-                    name={ fieldNames.custom2 }
-                    inputRef={ register({ required: errorMessages.missingCustomColumnName }) }
-                    InputProps={ {
-                        endAdornment:
-                            <IconButton size="small" onClick={ () => onDeleteColumn(fieldNames.custom2) }>
-                                <IconClose fontSize="small"/>
-                            </IconButton>
-                    } }
-                />,
+            renderHeader: createRenderColumn(fieldNames.custom2, custom2),
             editType: 'text',
             hide: custom2 == null,
             width: 160
@@ -318,40 +310,38 @@ const RHFProductTable = React.memo(function RHFProductTable(
             field: 'total',
             headerName: tableHeaderLabels.total,
             align: 'right',
-            width: 200
+            width: 200,
+            format: row => formatCurrency(row.total, currency)
         }
     ]), [
-        register,
-        custom1,
-        custom2,
         onAddColumn,
-        onDeleteColumn,
         products,
         onDeleteRow,
         fieldNames,
         isShipment,
         ordersMapWithDefault,
-        itemUnitOptions
+        itemUnitOptions,
+        currency,
+        createRenderColumn,
+        custom1,
+        custom2
     ]);
 
     // make sure custom column field names are the same as the item
     // field names
-    const rows = useMemo(() => {
-        const currencySymbol = getCurrencySymbol(currency);
-        return items.map((row, index) => ({
-            id: row._id,
-            idx: index,
-            order: ordersMapWithDefault[row.order] || ordersMapWithDefault['0'],
-            ref: row.ref,
-            description: row.description,
-            custom1: row[fieldNames.custom1],
-            custom2: row[fieldNames.custom2],
-            quantity: row.quantity,
-            unit: row.unit,
-            price: row.price,
-            total: formatCurrency(row.total, currencySymbol),
-        }))
-    }, [items, currency, fieldNames, ordersMapWithDefault]);
+    const rows = useMemo(() => items.map((row, index) => ({
+        id: row._id,
+        idx: index,
+        split: ordersMapWithDefault[row.split] || ordersMapWithDefault['0'],
+        ref: row.ref,
+        description: row.description,
+        custom1: row[fieldNames.custom1],
+        custom2: row[fieldNames.custom2],
+        quantity: row.quantity,
+        unit: row.unit,
+        price: row.price,
+        total: row.total,
+    })), [items, fieldNames, ordersMapWithDefault]);
 
     const footer = useMemo(() => [[
         { field: 'label', value: totalLabel, colSpan: numColumns - 4, align: 'right' },
@@ -406,10 +396,10 @@ const RHFProductTable = React.memo(function RHFProductTable(
             </Grid>
             <Grid item xs={ 12 }>
                 <Table
-                    columns={columns}
-                    rows={rows}
-                    footer={footer}
-                    options={options}
+                    columns={ columns }
+                    rows={ rows }
+                    footer={ footer }
+                    options={ options }
                 />
             </Grid>
             <Grid container item xs={ 12 }>

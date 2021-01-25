@@ -102,10 +102,7 @@ const Home = React.memo(function Home() {
                     </Route>
                     <Route
                         exact
-                        path={[
-                            `${match.url}/orders/:id`,
-                            `${match.url}/orders/:id/details`,
-                        ]}
+                        path={ `${ match.url }/orders/:id` }
                         isPrivate
                     >
                         <Suspense>

@@ -15,11 +15,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const {
-    tableHeaders
-} = LANGUAGE.shipment.editShipment.shipmentInfo.containerSelectorButton.containerSelectorTable;
+    tableHeaderLabels
+} = LANGUAGE.shipment.editShipment;
 
 const ContainerSelectorTable = React.memo(function ContainerSelectorTable(
-    { containers, setContainers, className }) {
+    { containers, setContainers }) {
     const classes = useStyles();
     const containerTypeOptions = useSelector(selectContainerTypes);
     const defaultContainerRowItem = useSelector(selectDefaultContainerRowItem);
@@ -59,8 +59,8 @@ const ContainerSelectorTable = React.memo(function ContainerSelectorTable(
         },
         {
             field: 'type',
-            headerName: tableHeaders.type,
-            type: 'autocomplete',
+            headerName: tableHeaderLabels.type,
+            editType: 'autocomplete',
             options: containerTypeOptions,
             getOptionLabel: type => typeof type === 'string'
                 ? type
@@ -68,8 +68,8 @@ const ContainerSelectorTable = React.memo(function ContainerSelectorTable(
         },
         {
             field: 'quantity',
-            headerName: tableHeaders.quantity,
-            type: 'number',
+            headerName: tableHeaderLabels.quantity,
+            editType: 'number',
             width: 50
         }
     ], [containerTypeOptions, onDeleteRow]);

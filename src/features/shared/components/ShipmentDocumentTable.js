@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Table from './table/Table.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectShipmentDocuments } from '../../shipments/duck/selectors.js';
-import { LANGUAGE } from '../../../app/utils/constants.js';
+import { LANGUAGE } from 'app/utils/constants.js';
 import { GetApp as IconDownload } from '@material-ui/icons';
 import { IconButton } from '@material-ui/core';
 import { selectUsersMap } from 'features/home/duck/users/selectors.js';
@@ -33,7 +33,6 @@ const ShipmentDocumentTable = React.memo(function ShipmentDocumentTable(
         [dispatch, shipmentId]);
 
     const columns = useMemo(() => [
-        { field: 'id', hide: true },
         {
             field: 'delete',
             renderCell: params =>
@@ -88,13 +87,17 @@ const ShipmentDocumentTable = React.memo(function ShipmentDocumentTable(
 
     const options = useMemo(() => ({
         table: {
-            dense: false,
+            dense: true,
             classes: {
                 container: className
             }
         },
         body: {
-            maxEmptyRows
+            maxEmptyRows,
+            hover: false
+        },
+        foot: {
+            pagination: 'hide'
         }
     }), [maxEmptyRows, className]);
 

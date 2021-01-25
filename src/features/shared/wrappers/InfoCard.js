@@ -4,7 +4,6 @@ import { Divider, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import clsx from 'clsx';
-import Box from '@material-ui/core/Box';
 
 const useStyles = makeStyles((theme) => ({
     container: {

@@ -97,18 +97,24 @@ export const selectActiveOrdersMap = createSelector(
     }, {})
 );
 
+export const selectAllActiveSplits = createSelector(
+    selectAllActiveOrders,
+    orders => orders.reduce((arr, order) => {
+        arr.push(...order.shippingSplits);
+        return arr;
+    }, [])
+);
 
+export const selectActiveSplitsMap = createSelector(
+    selectAllActiveSplits,
+    splits => splits.reduce((map, split) => {
+        map[split._id] = split;
+        return map;
+    }, {})
+);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+export const selectClientOrders = createSelector(
+    selectAllActiveOrders,
+    (state, { clientId }) => clientId,
+    (orders, clientId) => orders.filter(order => order.to === clientId)
+);
