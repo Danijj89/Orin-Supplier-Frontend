@@ -10,7 +10,7 @@ export const ENGLISH_ERRORS = {
     PASSWORD_MISMATCH: 'Passwords don\'t match.',
     WRONG_REQUEST_DATA: 'Unable to perform operation. Wrong data.',
     DUPLICATE_PRODUCT_SKU: 'Unable to perform the update. The given SKU already exists.',
-    SHIPMENT_CURRENCY_MISMATCH: 'Unable to create a shipment. Chosen orders have different currencies.',
+    CURRENCY_MISMATCH: 'Unable to create a shipment. Chosen orders have different currencies.',
     SHIPMENT_EXCESSIVE_CUSTOM_COLUMNS: 'Unable to create a shipment. Chosen orders have too many different custom columns.',
     UNSUPPORTED_OPERATION: 'The operation attempted is not supported.',
     NO_PERMISSION: 'You don\'t have the permissions to perform this operation',

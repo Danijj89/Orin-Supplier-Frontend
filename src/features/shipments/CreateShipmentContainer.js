@@ -8,7 +8,12 @@ import { fetchClients } from '../clients/duck/thunks.js';
 import { selectClientDataStatus, selectClientError } from '../clients/duck/selectors.js';
 import { selectOrderDataStatus, selectOrderError } from '../orders/duck/selectors.js';
 import { fetchOrders } from '../orders/duck/thunks.js';
-import { selectCurrentShipmentId, selectShipmentDataStatus, selectShipmentError } from './duck/selectors.js';
+import {
+    selectCurrentShipmentId,
+    selectShipmentDataStatus,
+    selectShipmentError,
+    selectShipmentStatus
+} from './duck/selectors.js';
 import { Redirect } from 'react-router-dom';
 import { fetchShipments } from './duck/thunks.js';
 import { cleanHomeState } from 'features/home/duck/home/slice.js';
@@ -18,6 +23,8 @@ import ErrorPage from '../shared/components/ErrorPage.js';
 import { fetchCurrentCompany } from 'features/home/duck/home/thunks.js';
 import { CREATE_ANY, CREATE_OWN } from '../admin/utils/actions.js';
 import ShipmentPermission from '../shared/permissions/ShipmentPermission.js';
+import StatusHandler from 'features/shared/status/StatusHandler.js';
+import { resetShipmentStatus } from 'features/shipments/duck/slice.js';
 
 const CreateShipmentContainer = React.memo(function CreateShipmentContainer() {
     const dispatch = useDispatch();
@@ -35,6 +42,12 @@ const CreateShipmentContainer = React.memo(function CreateShipmentContainer() {
     const errors = getErrors(homeError, clientError, orderError, shipmentError);
 
     const currentShipmentId = useSelector(selectCurrentShipmentId);
+
+    const shipmentStatus = useSelector(selectShipmentStatus);
+
+    useEffect(() => {
+        if (shipmentStatus === 'FULFILLED') return () => dispatch(resetShipmentStatus());
+    }, [dispatch, shipmentStatus]);
 
     const fetched = useRef(false);
     useEffect(() => {
@@ -66,6 +79,7 @@ const CreateShipmentContainer = React.memo(function CreateShipmentContainer() {
 
     return (
         <ShipmentPermission action={ [CREATE_ANY, CREATE_OWN] }>
+            <StatusHandler status={ shipmentStatus } error={ shipmentError } showSuccess/>
             { currentShipmentId && <Redirect to={ `/home/shipments/${ currentShipmentId }` }/> }
             { status === 'REJECTED' && <ErrorPage error={ errors }/> }
             { status === 'PENDING' && <Loader/> }
