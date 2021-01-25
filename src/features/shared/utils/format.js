@@ -62,3 +62,7 @@ export function formatCurrencyTotalAmount(obj, currencyMap) {
         .join(' + ');
 }
 
+export function getFulfilledPercentage(fulfilledCount, totalCount) {
+    return `${ roundToNDecimal(fulfilledCount / totalCount * 100, 2) }%`;
+}
+

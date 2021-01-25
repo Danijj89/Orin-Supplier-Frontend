@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Paper } from '@material-ui/core';
 import DetailsInfoCard from './DetailsInfoCard.js';
 import { LANGUAGE } from 'app/utils/constants.js';
@@ -10,6 +10,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import NavTabs from 'features/shared/components/NavTabs.js';
 import OrderFulfillmentPlan from 'features/orders/OrderFulfillmentPlan.js';
 import queryString from 'query-string';
+import { getOrderURL } from 'features/orders/utils/urls.js';
 
 const useStyles = makeStyles((theme) => ({
     navTabs: {
@@ -29,10 +30,11 @@ const OrderDetails = React.memo(function OrderDetails({ order }) {
     const classes = useStyles();
     const history = useHistory();
     const location = useLocation();
-    const { tab = 'details' } = queryString.parse(location.search);
+    const { tab = 'details', mode = 'view', split, subTab } = queryString.parse(location.search);
 
-    const setTabValue = (newValue) =>
-        history.push(`${ location.pathname }?mode=view&tab=${ newValue }`);
+    const setTabValue = useCallback(newValue =>
+        history.push(getOrderURL(order._id, { mode, tab: newValue, split, subTab })),
+        [history, mode, split, subTab, order._id]);
 
     return (
         <>
@@ -60,7 +62,7 @@ const OrderDetails = React.memo(function OrderDetails({ order }) {
                 }
             />
             }
-            <OrderFulfillmentPlan className={classes.fulfillmentTable} order={ order }/>
+            <OrderFulfillmentPlan className={ classes.fulfillmentTable } order={ order }/>
         </>
     );
 });

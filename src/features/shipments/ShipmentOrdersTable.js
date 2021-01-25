@@ -3,16 +3,17 @@ import Table from '../shared/components/table/Table.js';
 import OrderStatusDisplay from '../orders/OrderStatusDisplay.js';
 import { LANGUAGE, LOCALE } from 'app/utils/constants.js';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import { selectItemUnitsMap } from 'app/duck/selectors.js';
 import { CREATE_ANY, CREATE_OWN, READ_ANY, READ_OWN } from '../admin/utils/actions.js';
 import OrderPermission from '../shared/permissions/OrderPermission.js';
 import ShipmentPermission from '../shared/permissions/ShipmentPermission.js';
-import { selectShipmentOrders } from 'features/shipments/utils/selectors.js';
-import { formatItemsTotalQuantities } from 'features/shared/utils/format.js';
+import { selectShipmentOrders, selectSplitsToShippedQuantityMap } from 'features/shipments/utils/selectors.js';
+import { formatItemsTotalQuantities, getFulfilledPercentage } from 'features/shared/utils/format.js';
 import { getOrderURL } from 'features/orders/utils/urls.js';
+import { getQuantityTotalCount } from 'features/shared/utils/reducers.js';
 
 const useStyles = makeStyles((theme) => ({
     button: {
@@ -25,12 +26,14 @@ const {
     buttons
 } = LANGUAGE.shipment.shipment;
 
-const ShipmentOrdersTable = React.memo(function ShipmentOrdersTable() {
+const ShipmentOrdersTable = React.memo(function ShipmentOrdersTable({ shipmentId }) {
     const classes = useStyles();
     const history = useHistory();
-    const { id: shipmentId } = useParams();
+    const splitsShippedQuantityMap = useSelector(selectSplitsToShippedQuantityMap);
     const orders = useSelector(state => selectShipmentOrders(state, { shipmentId }));
     const itemUnitsMap = useSelector(selectItemUnitsMap);
+
+    console.log(orders)
 
     const onEditOrders = useCallback(
         () => history.push(`/home/shipments/shell?id=${ shipmentId }`),
@@ -68,8 +71,16 @@ const ShipmentOrdersTable = React.memo(function ShipmentOrdersTable() {
                 <OrderStatusDisplay status={ params.qa }/>,
             align: 'center'
         },
-        { field: 'notes', headerName: tableHeaderLabels.notes },
-    ], [itemUnitsMap]);
+        {
+            field: 'fulfilled',
+            headerName: tableHeaderLabels.fulfilled,
+            align: 'center',
+            format: row => getFulfilledPercentage(
+                splitsShippedQuantityMap[row.splitId],
+                getQuantityTotalCount(row.quantity)
+            )
+        },
+    ], [itemUnitsMap, splitsShippedQuantityMap]);
 
     const rows = useMemo(() => {
         if (!orders) return [];
@@ -82,8 +93,7 @@ const ShipmentOrdersTable = React.memo(function ShipmentOrdersTable() {
                 crd: split.crd,
                 del,
                 production: split.production.status,
-                qa: split.qa.status,
-                notes: split.notes
+                qa: split.qa.status
             })
         );
     }, [orders]);
@@ -91,6 +101,9 @@ const ShipmentOrdersTable = React.memo(function ShipmentOrdersTable() {
     const options = useMemo(() => ({
         table: {
             dense: true
+        },
+        head: {
+            sort: false
         },
         body: {
             onRowClick

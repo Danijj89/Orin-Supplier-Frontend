@@ -40,6 +40,7 @@ import {
     selectShipmentOrders,
     selectSplitsToShippedQuantityMap
 } from 'features/shipments/utils/selectors.js';
+import { getFulfilledPercentage } from 'features/shared/utils/format.js';
 
 const useStyles = makeStyles((theme) => ({
     chipContainer: {
@@ -80,10 +81,6 @@ const fieldNames = {
     consigneeAdd: 'consigneeAdd',
     splitIds: 'splitIds'
 };
-
-function getFulfilledPercentage(fulfilledCount, totalCount) {
-    return `${ roundToNDecimal(fulfilledCount / totalCount * 100, 2) }%`;
-}
 
 const CreateShipment = React.memo(function CreateShipment() {
     const classes = useStyles();

@@ -609,7 +609,7 @@ export const ENGLISH = {
                 del: 'Shipping Mode',
                 production: 'Production',
                 qa: 'QA',
-                notes: 'Notes',
+                fulfilled: 'Fulfilled %',
             },
             documentButton: {
                 buttonLabel: 'Generate Document',
