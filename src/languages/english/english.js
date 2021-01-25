@@ -453,7 +453,8 @@ export const ENGLISH = {
                 procurement: 'Procurement',
                 production: 'Production',
                 qa: 'QA',
-                notes: 'Notes'
+                notes: 'Notes',
+                documentCard: 'Shipment No:',
             },
             labels: {
                 orderReference: 'Order Number',
@@ -470,7 +471,8 @@ export const ENGLISH = {
                 status: 'Status',
                 estimated: 'Estimated Completion',
                 actual: 'Actual Completion',
-                clientRef: 'Client Ref'
+                clientRef: 'Client Ref',
+                noOrder: 'No Orders',
             },
             tableHeaderLabels: {
                 procurement: 'Procurement',
@@ -484,7 +486,9 @@ export const ENGLISH = {
                 submitProducts: 'Update',
                 editFulfillment: 'Manage Fulfillment Plan',
                 editSplitStatus: 'Edit',
-                submitSplitStatus: 'Update'
+                submitSplitStatus: 'Update',
+                generateExcel: 'Generate Excel',
+                generatePdf: 'Generate PDF',
             },
             orderProductTable: {
                 tableHeaderLabelsMap: {
@@ -523,18 +527,6 @@ export const ENGLISH = {
                 orderWasDeleted:
                     'The order you selected is no longer existent.',
             },
-            // orderDocuments: {
-            //     buttonLabels: {
-            //         generateExcel: 'Generate Excel',
-            //         generatePdf: 'Generate PDF',
-            //     },
-            //     textLabels: {
-            //         noOrder: 'No Orders',
-            //     },
-            //     shipmentDocumentsCard: {
-            //         titleLabel: 'Shipment No:',
-            //     },
-            // }
         },
     },
     shipment: {

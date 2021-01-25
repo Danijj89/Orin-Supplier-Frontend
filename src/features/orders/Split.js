@@ -10,6 +10,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Title4 from 'features/shared/display/Title4.js';
 import { dateToLocaleDate } from 'features/shared/utils/format.js';
 import Box from '@material-ui/core/Box';
+import SplitDocuments from 'features/orders/SplitDocuments.js';
 
 const {
     subTabsLabels,
@@ -27,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Split = React.memo(function Split({ orderId, split, currency, custom1, custom2 }) {
-    const { clientRef = '-', crd, items, quantity, total } = split;
+    const { _id: splitId, clientRef = '-', crd, items, quantity, total } = split;
     const history = useHistory();
     const location = useLocation();
     const parsed = queryString.parse(location.search);
@@ -65,6 +66,9 @@ const Split = React.memo(function Split({ orderId, split, currency, custom1, cus
                     custom2={ custom2 }
                 />
             </>
+            }
+            { subTab === 'documents' &&
+            <SplitDocuments orderId={ orderId } splitId={ splitId }/>
             }
             { subTab === 'status' &&
             <SplitInfo orderId={ orderId } split={ split }/>

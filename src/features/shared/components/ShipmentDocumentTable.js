@@ -5,13 +5,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectShipmentDocuments } from '../../shipments/duck/selectors.js';
 import { LANGUAGE } from 'app/utils/constants.js';
 import { GetApp as IconDownload } from '@material-ui/icons';
-import { IconButton } from '@material-ui/core';
 import { selectUsersMap } from 'features/home/duck/users/selectors.js';
 import { downloadShipmentDocument } from '../../documents/duck/thunks.js';
 import DeleteButton from '../buttons/DeleteButton.js';
 import { deleteDocument } from '../../shipments/duck/thunks.js';
 import { DELETE_ANY, DELETE_OWN, READ_ANY, READ_OWN } from '../../admin/utils/actions.js';
 import ShipmentPermission from '../permissions/ShipmentPermission.js';
+import ThemedButton from 'features/shared/buttons/ThemedButton.js';
 
 const {
     tableHeaderLabelsMap,
@@ -52,12 +52,12 @@ const ShipmentDocumentTable = React.memo(function ShipmentDocumentTable(
             field: 'excel',
             headerName: tableHeaderLabelsMap.excel,
             renderCell: (params) =>
-                <IconButton
+                <ThemedButton
                     onClick={ () => onDownload(params.id, 'xlsx') }
-                    size="small"
+                    variant="text"
                 >
                     <IconDownload/>
-                </IconButton>,
+                </ThemedButton>,
             align: 'center',
             width: 50
         },
@@ -65,12 +65,12 @@ const ShipmentDocumentTable = React.memo(function ShipmentDocumentTable(
             field: 'pdf',
             headerName: tableHeaderLabelsMap.pdf,
             renderCell: (params) =>
-                <IconButton
+                <ThemedButton
                     onClick={ () => onDownload(params.id, 'pdf') }
-                    size="small"
+                    variant="text"
                 >
-                    <IconDownload/>
-                </IconButton>,
+                    <IconDownload />
+                </ThemedButton>,
             align: 'center',
             width: 50
         }
@@ -91,6 +91,9 @@ const ShipmentDocumentTable = React.memo(function ShipmentDocumentTable(
             classes: {
                 container: className
             }
+        },
+        head: {
+            sort: false
         },
         body: {
             maxEmptyRows,

@@ -19,7 +19,11 @@ export const selectOrderDataStatus = state => state.orders.dataStatus;
 export const selectOrderStatus = state => state.orders.status;
 export const selectOrderError = state => state.orders.error;
 export const selectCurrentOrderId = state => state.orders.currentOrderId;
-export const selectOrderShipmentIdsField = (state, id) => state.orders.entities[id]?.shipmentIds;
+export const selectOrderShipmentIdsField = (state, { orderId, splitId }) => {
+    const split = state.orders.entities[orderId].shippingSplits.find(split => split._id === splitId);
+    if (split) return split.shipmentIds;
+    return [];
+};
 
 export const selectAllOrders = createSelector(
     selectAll,
@@ -30,15 +34,15 @@ export const selectAllOrders = createSelector(
     selectCountriesMap,
     (orders, deliveryMethodsMap, orderStatusesMap,
      currenciesMap, itemUnitsMap, countriesMap) => orders.map(order => {
-         const items = order.items.map(item => ({
-             ...item,
-             unit: itemUnitsMap[item.unit]
-         }));
-         return {
+        const items = order.items.map(item => ({
+            ...item,
+            unit: itemUnitsMap[item.unit]
+        }));
+        return {
             ...order,
-            fromAdd: { ...order.fromAdd, country: countriesMap[order.fromAdd.country]},
-            toAdd: { ...order.toAdd, country: countriesMap[order.toAdd.country]},
-            shipAdd: { ...order.shipAdd, country: countriesMap[order.shipAdd?.country]},
+            fromAdd: { ...order.fromAdd, country: countriesMap[order.fromAdd.country] },
+            toAdd: { ...order.toAdd, country: countriesMap[order.toAdd.country] },
+            shipAdd: { ...order.shipAdd, country: countriesMap[order.shipAdd?.country] },
             del: deliveryMethodsMap[order.del],
             currency: currenciesMap[order.currency],
             shippingSplits: order.shippingSplits.map(split => ({

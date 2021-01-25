@@ -40,7 +40,7 @@ const FulfillmentPlan = React.memo(function FulfillmentPlan({ order }) {
                     onSplitChange={ onSplitChange }
                 />
             </Grid>
-            <Grid item xs>
+            <Grid item xs={ 9 }>
                 <Split
                     orderId={ orderId }
                     split={ activeSplit }

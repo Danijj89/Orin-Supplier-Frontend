@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Box, Button, IconButton } from '@material-ui/core';
+import { Box, Button } from '@material-ui/core';
 import { Delete as IconDelete } from '@material-ui/icons';
 import { LANGUAGE } from 'app/utils/constants.js';
 import { makeStyles } from '@material-ui/core/styles';
@@ -15,13 +15,15 @@ const {
 const useStyles = makeStyles((theme) => ({
     button: {
         minWidth: 50,
-        color: theme.palette.danger.main,
+        color: props => props.variant === 'text'
+            ? theme.palette.danger.main
+            : theme.palette.grey.main,
     },
 }));
 
 const DeleteButton = React.memo(function DeleteButton(
     { onDelete, deleteMessage, variant = 'text', className }) {
-    const classes = useStyles();
+    const classes = useStyles({ variant });
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 
     const onDialogOpen = (e) => {
@@ -40,7 +42,6 @@ const DeleteButton = React.memo(function DeleteButton(
 
     return (
         <Box>
-            { variant === 'text' &&
             <Button
                 onClick={ onDialogOpen }
                 size="small"
@@ -48,12 +49,9 @@ const DeleteButton = React.memo(function DeleteButton(
                 className={ clsx(classes.button, className) }
                 type="button"
             >
-                { deleteButtonLabel }
-            </Button> }
-            { variant === 'icon' &&
-            <IconButton onClick={ onDialogOpen }>
-                <IconDelete/>
-            </IconButton> }
+                { variant === 'text' && deleteButtonLabel }
+                { variant === 'icon' && <IconDelete /> }
+            </Button>
             <FormDialog
                 isOpen={ isDialogOpen }
                 titleLabel={ deleteMessage }
@@ -68,7 +66,7 @@ const DeleteButton = React.memo(function DeleteButton(
 DeleteButton.propTypes = {
     onDelete: PropTypes.func.isRequired,
     deleteMessage: PropTypes.string.isRequired,
-    variant: PropTypes.oneOf(['variant', 'icon']),
+    variant: PropTypes.oneOf(['text', 'icon']),
     className: PropTypes.string,
 };
 
