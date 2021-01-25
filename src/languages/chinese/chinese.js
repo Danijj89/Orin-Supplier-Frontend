@@ -43,6 +43,7 @@ export const CHINESE = {
             title: '销售线索',
             newLeads: '新线索',
             wipLeads: '销售中',
+            blockedLeads: '无法成交',
             closedLeads: '近7天赢得',
         },
         clients: {

@@ -89,10 +89,20 @@ const Dashboard = React.memo(function Dashboard() {
         value: dashboardData.completedOrders,
     };
 
+    const orderExceptionMetric = {
+        metricId: ordersStats.exception,
+        value: dashboardData.withException,
+    };
+
+    const leadsExceptionMetric = {
+        metricId: leads.blockedLeads,
+        value: dashboardData.blockedLeads,
+    };
+
     const leadsMetrics = useMemo(() => [
         {
             metricId: leads.newLeads,
-            value: dashboardData.newLeads,
+            value: dashboardData.newLeadsCount,
         },
         {
             metricId: leads.wipLeads,
@@ -111,10 +121,7 @@ const Dashboard = React.memo(function Dashboard() {
         },
     ], [ dashboardData.newClients, dashboardData.totClients ]);
 
-    const exceptionMetric = {
-        metricId: ordersStats.exception,
-        value: dashboardData.withException,
-    };
+    
 
     // const crdMetrics = [
     //     {
@@ -180,7 +187,7 @@ const Dashboard = React.memo(function Dashboard() {
                     titleLabel={ordersStats.title}
                     metrics={orderMetrics}
                     accentMetric={orderAccentCompleted}
-                    dangerMetric={exceptionMetric}
+                    dangerMetric={orderExceptionMetric}
                 />
             </Grid>
 
@@ -208,6 +215,7 @@ const Dashboard = React.memo(function Dashboard() {
                     <MetricCard
                         titleLabel={leads.title}
                         metrics={leadsMetrics}
+                        dangerMetric={leadsExceptionMetric}
                     />
                 </Grid>
 

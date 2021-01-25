@@ -44,6 +44,7 @@ export const ENGLISH = {
             title: 'Leads',
             newLeads: 'New Leads',
             wipLeads: 'Working Leads',
+            blockedLeads: 'Blocked Leads',
             closedLeads: 'Closed leads last 7 days',
         },
         clients: {
