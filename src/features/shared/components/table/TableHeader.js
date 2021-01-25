@@ -9,6 +9,8 @@ import { TableSortLabel } from '@material-ui/core';
 const TableHeader = React.memo(function TableHeader(
     { columns, orderBy, order, onSort, isEdit, options }) {
 
+    const { sort = true } = options;
+
     return (
         <TableHead>
             <TableRow>
@@ -39,13 +41,14 @@ const TableHeader = React.memo(function TableHeader(
                                 align={ column.align }
                                 sortDirection={ orderBy === column.field ? order : false }
                             >
-                                <TableSortLabel
+                                { sort && <TableSortLabel
                                     active={ orderBy === column.field }
                                     direction={ orderBy === column.field ? order : 'asc' }
                                     onClick={ () => onSort(column.field) }
                                 >
                                     { column.headerName }
-                                </TableSortLabel>
+                                </TableSortLabel> }
+                                { !sort && column.headerName }
                             </TableCell>
                         );
                     }
@@ -61,7 +64,9 @@ TableHeader.propTypes = {
     orderBy: PropTypes.string,
     order: PropTypes.string,
     isEdit: PropTypes.bool,
-    options: PropTypes.exact({})
+    options: PropTypes.exact({
+        sort: PropTypes.bool
+    })
 };
 
 export default TableHeader;

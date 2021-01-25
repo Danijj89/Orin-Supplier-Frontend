@@ -1,16 +1,15 @@
 import React, { useCallback, useMemo } from 'react';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
-import ShipmentDocumentsCard from './ShipmentDocumentsCard.js';
 import { makeStyles } from '@material-ui/core/styles';
-import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectOrderShipmentIdsField } from './duck/selectors.js';
-import Paper from '@material-ui/core/Paper';
 import { Typography } from '@material-ui/core';
 import { LANGUAGE } from 'app/utils/constants.js';
 import { downloadOrder } from '../documents/duck/thunks.js';
 import { READ_ANY } from '../admin/utils/actions.js';
 import ShipmentPermission from '../shared/permissions/ShipmentPermission.js';
+import Box from '@material-ui/core/Box';
+import ShipmentDocumentsCard from 'features/orders/ShipmentDocumentsCard.js';
 
 const useStyles = makeStyles((theme) => ({
     shipmentCards: {
@@ -27,14 +26,13 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const { buttonLabels, textLabels } = LANGUAGE.order.order.orderDocuments;
+const { buttons, labels } = LANGUAGE.order.order;
 
-const OrderDocuments = React.memo(function OrderDocuments() {
+const SplitDocuments = React.memo(function SplitDocuments({ orderId, splitId }) {
     const classes = useStyles();
     const dispatch = useDispatch();
-    const { id: orderId } = useParams();
     const orderShipmentIds = useSelector((state) =>
-        selectOrderShipmentIdsField(state, orderId)
+        selectOrderShipmentIdsField(state, { orderId, splitId })
     );
 
     const createGenerateDocumentHandler = useCallback(
@@ -43,7 +41,7 @@ const OrderDocuments = React.memo(function OrderDocuments() {
     );
 
     const isOrderInShipment = useMemo(() => orderShipmentIds.length > 0, [
-        orderShipmentIds.length,
+        orderShipmentIds,
     ]);
 
     return (
@@ -53,30 +51,32 @@ const OrderDocuments = React.memo(function OrderDocuments() {
                 onClick={ createGenerateDocumentHandler('xlsx') }
                 className={ classes.orderDocsActions }
             >
-                { buttonLabels.generateExcel }
+                { buttons.generateExcel }
             </ThemedButton>
             <ThemedButton
                 variant="outlined"
                 onClick={ createGenerateDocumentHandler('pdf') }
                 className={ classes.orderDocsActions }
             >
-                { buttonLabels.generatePdf }
+                { buttons.generatePdf }
             </ThemedButton>
-            <Paper className={ classes.orderDocsCard }>
+            <Box className={ classes.orderDocsCard }>
                 { isOrderInShipment &&
-                orderShipmentIds.map((id) => (
+                orderShipmentIds.map((shipmentId) => (
                     <ShipmentDocumentsCard
                         className={ classes.shipmentCards }
-                        key={ id }
-                        shipmentId={ id }
+                        key={ `shipment-document-card-${ shipmentId }` }
+                        shipmentId={ shipmentId }
                     />
                 )) }
                 { !isOrderInShipment && (
-                    <Typography variant="h6">{ textLabels.noOrder }</Typography>
+                    <Typography variant="h6">{ labels.noOrder }</Typography>
                 ) }
-            </Paper>
+            </Box>
         </ShipmentPermission>
     );
 });
 
-export default OrderDocuments;
+export default SplitDocuments;
+
+

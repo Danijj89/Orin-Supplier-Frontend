@@ -33,13 +33,14 @@ import {
 import { addressToDocAddress } from '../shared/utils/entityConversion.js';
 import RHFAutoComplete from '../shared/rhf/inputs/RHFAutoComplete.js';
 import queryString from 'query-string';
-import Title1 from 'features/shared/display/Title1.js';
+import Title5 from 'features/shared/display/Title5.js';
 import { getQuantityTotalCount } from 'features/shared/utils/reducers.js';
 import {
     selectClientsSplitsMap,
     selectShipmentOrders,
     selectSplitsToShippedQuantityMap
 } from 'features/shipments/utils/selectors.js';
+import { getFulfilledPercentage } from 'features/shared/utils/format.js';
 
 const useStyles = makeStyles((theme) => ({
     chipContainer: {
@@ -80,10 +81,6 @@ const fieldNames = {
     consigneeAdd: 'consigneeAdd',
     splitIds: 'splitIds'
 };
-
-function getFulfilledPercentage(fulfilledCount, totalCount) {
-    return `${ roundToNDecimal(fulfilledCount / totalCount * 100, 2) }%`;
-}
 
 const CreateShipment = React.memo(function CreateShipment() {
     const classes = useStyles();
@@ -284,7 +281,7 @@ const CreateShipment = React.memo(function CreateShipment() {
     return (
         <>
             <Paper className={ classes.container }>
-                <Title1 title={ title } className={ classes.newShipmentLabel }/>
+                <Title5 title={ title } className={ classes.newShipmentLabel }/>
                 { errs.length > 0 && <ErrorSnackbar error={ errs }/> }
                 <FormContainer>
                     <RHFAutoComplete

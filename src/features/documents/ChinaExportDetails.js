@@ -3,7 +3,6 @@ import { useForm } from 'react-hook-form';
 import Grid from '@material-ui/core/Grid';
 import Footer from '../shared/components/Footer.js';
 import { LANGUAGE, LOCALE } from 'app/utils/constants.js';
-import Typography from '@material-ui/core/Typography';
 import { useHistory } from 'react-router-dom';
 import FormContainer from '../shared/wrappers/FormContainer.js';
 import RHFCheckBox from '../shared/rhf/inputs/RHFCheckBox.js';
@@ -23,6 +22,7 @@ import {
 } from 'app/duck/selectors.js';
 import { getOptionLabel } from 'app/utils/options/getters.js';
 import { makeStyles } from '@material-ui/core/styles';
+import Title5 from 'features/shared/display/Title5.js';
 
 const {
     titleLabel,
@@ -64,11 +64,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ChinaExportDetails = React.memo(function ChinaExportDetails({
-    chinaExport,
-    setChinaExport,
-    shipmentId,
-    consigneeId,
-}) {
+                                                                      chinaExport,
+                                                                      setChinaExport,
+                                                                      shipmentId,
+                                                                      consigneeId,
+                                                                  }) {
     const history = useHistory();
     const classes = useStyles();
     const companyAddresses = useSelector(selectActiveCompanyAddresses);
@@ -107,106 +107,104 @@ const ChinaExportDetails = React.memo(function ChinaExportDetails({
 
     const autoGenerateRef = watch(fieldNames.autoGenerateRef);
 
-    const onPrevClick = () => history.push(`/home/shipments/${shipmentId}`);
+    const onPrevClick = () => history.push(`/home/shipments/${ shipmentId }`);
 
     const onNextClick = (data) => {
         setChinaExport((prev) => ({ ...prev, ...data }));
         history.push(
-            `/home/documents/ce/new?step=optional&shipment=${shipmentId}`
+            `/home/documents/ce/new?step=optional&shipment=${ shipmentId }`
         );
     };
 
     return (
         <form
-            onSubmit={handleSubmit(onNextClick)}
+            onSubmit={ handleSubmit(onNextClick) }
             autoComplete="off"
             noValidate
         >
-            <Grid container className={classes.root} justify="center">
-                <Grid item xs={12}>
-                    <Typography className={classes.title} variant="h5">
-                        {titleLabel}
-                    </Typography>
+            <Grid container className={ classes.root } justify="center">
+                <Grid item xs={ 12 }>
+                    <Title5 className={ classes.title } title={ titleLabel }/>
                 </Grid>
                 <Grid item>
                     <FormContainer>
                         <RHFCheckBox
-                            name={fieldNames.autoGenerateRef}
-                            label={formLabels.autoGenerateRef}
-                            rhfControl={control}
+                            name={ fieldNames.autoGenerateRef }
+                            label={ formLabels.autoGenerateRef }
+                            rhfControl={ control }
                         />
                         <SideTextField
-                            name={fieldNames.ref}
-                            label={formLabels.ref}
-                            inputRef={register({ required: !autoGenerateRef })}
-                            error={!!errors[fieldNames.ref]}
-                            required={!autoGenerateRef}
-                            disabled={autoGenerateRef}
+                            name={ fieldNames.ref }
+                            label={ formLabels.ref }
+                            inputRef={ register({ required: !autoGenerateRef }) }
+                            error={ !!errors[fieldNames.ref] }
+                            required={ !autoGenerateRef }
+                            disabled={ autoGenerateRef }
                         />
                         <RHFAutoComplete
-                            rhfControl={control}
-                            name={fieldNames.sName}
-                            label={formLabels.sName}
-                            options={companyAddresses}
-                            error={!!errors[fieldNames.sName]}
-                            getOptionLabel={(option) => option.name}
-                            getOptionSelected={(option, value) =>
+                            rhfControl={ control }
+                            name={ fieldNames.sName }
+                            label={ formLabels.sName }
+                            options={ companyAddresses }
+                            error={ !!errors[fieldNames.sName] }
+                            getOptionLabel={ (option) => option.name }
+                            getOptionSelected={ (option, value) =>
                                 option._id === value._id
                             }
                             required
                         />
                         <SideTextField
-                            name={fieldNames.sTaxCode}
-                            label={formLabels.sTaxCode}
-                            inputRef={register({ required: true })}
-                            error={!!errors[fieldNames.sTaxCode]}
+                            name={ fieldNames.sTaxCode }
+                            label={ formLabels.sTaxCode }
+                            inputRef={ register({ required: true }) }
+                            error={ !!errors[fieldNames.sTaxCode] }
                             required
                         />
                         <RHFAutoComplete
-                            rhfControl={control}
-                            name={fieldNames.mName}
-                            label={formLabels.mName}
-                            options={companyAddresses}
-                            error={!!errors[fieldNames.mName]}
-                            getOptionLabel={(option) => option.name}
-                            getOptionSelected={(option, value) =>
+                            rhfControl={ control }
+                            name={ fieldNames.mName }
+                            label={ formLabels.mName }
+                            options={ companyAddresses }
+                            error={ !!errors[fieldNames.mName] }
+                            getOptionLabel={ (option) => option.name }
+                            getOptionSelected={ (option, value) =>
                                 option._id === value._id
                             }
                             required
                         />
                         <SideTextField
-                            name={fieldNames.mTaxCode}
-                            label={formLabels.mTaxCode}
-                            inputRef={register({ required: true })}
-                            error={!!errors[fieldNames.mTaxCode]}
+                            name={ fieldNames.mTaxCode }
+                            label={ formLabels.mTaxCode }
+                            inputRef={ register({ required: true }) }
+                            error={ !!errors[fieldNames.mTaxCode] }
                             required
                         />
                         <RHFAutoComplete
-                            rhfControl={control}
-                            name={fieldNames.cName}
-                            label={formLabels.cName}
-                            options={consigneeAddresses}
-                            error={!!errors[fieldNames.cName]}
-                            getOptionLabel={(option) => option.name}
-                            getOptionSelected={(option, value) =>
+                            rhfControl={ control }
+                            name={ fieldNames.cName }
+                            label={ formLabels.cName }
+                            options={ consigneeAddresses }
+                            error={ !!errors[fieldNames.cName] }
+                            getOptionLabel={ (option) => option.name }
+                            getOptionSelected={ (option, value) =>
                                 option._id === value._id
                             }
                             required
                         />
                         <RHFAutoComplete
-                            rhfControl={control}
-                            name={fieldNames.supervision}
-                            label={formLabels.supervision}
-                            options={supervisionMethodOptions}
-                            error={!!errors[fieldNames.supervision]}
+                            rhfControl={ control }
+                            name={ fieldNames.supervision }
+                            label={ formLabels.supervision }
+                            options={ supervisionMethodOptions }
+                            error={ !!errors[fieldNames.supervision] }
                             required
                         />
                         <RHFAutoComplete
-                            rhfControl={control}
-                            name={fieldNames.exemption}
-                            label={formLabels.exemption}
-                            options={exemptionTypeOptions}
-                            error={!!errors[fieldNames.exemption]}
+                            rhfControl={ control }
+                            name={ fieldNames.exemption }
+                            label={ formLabels.exemption }
+                            options={ exemptionTypeOptions }
+                            error={ !!errors[fieldNames.exemption] }
                             required
                         />
                     </FormContainer>
@@ -214,99 +212,99 @@ const ChinaExportDetails = React.memo(function ChinaExportDetails({
                 <Grid item>
                     <FormContainer>
                         <RHFAutoComplete
-                            rhfControl={control}
-                            name={fieldNames.tradingCountry}
-                            label={formLabels.tradingCountry}
-                            options={countryOptions}
-                            getOptionLabel={(option) =>
+                            rhfControl={ control }
+                            name={ fieldNames.tradingCountry }
+                            label={ formLabels.tradingCountry }
+                            options={ countryOptions }
+                            getOptionLabel={ (option) =>
                                 getOptionLabel(option, LOCALE)
                             }
-                            getOptionSelected={(option, value) =>
+                            getOptionSelected={ (option, value) =>
                                 option.id === value.id
                             }
-                            error={!!errors[fieldNames.tradingCountry]}
+                            error={ !!errors[fieldNames.tradingCountry] }
                             required
                         />
                         <RHFAutoComplete
-                            rhfControl={control}
-                            name={fieldNames.destCountry}
-                            label={formLabels.destCountry}
-                            options={countryOptions}
-                            getOptionLabel={(option) =>
+                            rhfControl={ control }
+                            name={ fieldNames.destCountry }
+                            label={ formLabels.destCountry }
+                            options={ countryOptions }
+                            getOptionLabel={ (option) =>
                                 getOptionLabel(option, LOCALE)
                             }
-                            getOptionSelected={(option, value) =>
+                            getOptionSelected={ (option, value) =>
                                 option.id === value.id
                             }
-                            error={!!errors[fieldNames.destCountry]}
+                            error={ !!errors[fieldNames.destCountry] }
                             required
                         />
                         <RHFAutoComplete
-                            rhfControl={control}
-                            name={fieldNames.pol}
-                            label={formLabels.pol}
-                            options={companyPorts}
-                            error={!!errors[fieldNames.pol]}
+                            rhfControl={ control }
+                            name={ fieldNames.pol }
+                            label={ formLabels.pol }
+                            options={ companyPorts }
+                            error={ !!errors[fieldNames.pol] }
                             required
                             freeSolo
                             autoSelect
                         />
                         <RHFAutoComplete
-                            rhfControl={control}
-                            name={fieldNames.pod}
-                            label={formLabels.pod}
-                            options={companyPorts}
-                            error={!!errors[fieldNames.pod]}
+                            rhfControl={ control }
+                            name={ fieldNames.pod }
+                            label={ formLabels.pod }
+                            options={ companyPorts }
+                            error={ !!errors[fieldNames.pod] }
                             required
                             freeSolo
                             autoSelect
                         />
                         <SideTextField
-                            name={fieldNames.packageTypes}
-                            label={formLabels.packageTypes}
-                            inputRef={register({ required: true })}
-                            error={!!errors[fieldNames.packageTypes]}
+                            name={ fieldNames.packageTypes }
+                            label={ formLabels.packageTypes }
+                            inputRef={ register({ required: true }) }
+                            error={ !!errors[fieldNames.packageTypes] }
                             required
                         />
                         <SideTextField
-                            name={fieldNames.packageUnits}
-                            label={formLabels.packageUnits}
+                            name={ fieldNames.packageUnits }
+                            label={ formLabels.packageUnits }
                             type="number"
-                            inputRef={register({ required: true })}
-                            error={!!errors[fieldNames.packageUnits]}
+                            inputRef={ register({ required: true }) }
+                            error={ !!errors[fieldNames.packageUnits] }
                             required
                         />
                         <SideTextField
-                            name={fieldNames.grossWeight}
-                            label={formLabels.grossWeight}
+                            name={ fieldNames.grossWeight }
+                            label={ formLabels.grossWeight }
                             type="number"
-                            inputRef={register({ required: true })}
-                            error={!!errors[fieldNames.grossWeight]}
+                            inputRef={ register({ required: true }) }
+                            error={ !!errors[fieldNames.grossWeight] }
                             required
                         />
                         <SideTextField
-                            name={fieldNames.netWeight}
-                            label={formLabels.netWeight}
+                            name={ fieldNames.netWeight }
+                            label={ formLabels.netWeight }
                             type="number"
-                            inputRef={register({ required: true })}
-                            error={!!errors[fieldNames.netWeight]}
+                            inputRef={ register({ required: true }) }
+                            error={ !!errors[fieldNames.netWeight] }
                             required
                         />
                         <RHFAutoComplete
-                            rhfControl={control}
-                            name={fieldNames.incoterm}
-                            label={formLabels.incoterm}
-                            options={incotermOptions}
-                            error={!!errors[fieldNames.incoterm]}
+                            rhfControl={ control }
+                            name={ fieldNames.incoterm }
+                            label={ formLabels.incoterm }
+                            options={ incotermOptions }
+                            error={ !!errors[fieldNames.incoterm] }
                             required
                         />
                     </FormContainer>
                 </Grid>
             </Grid>
             <Footer
-                prevLabel={prevButtonLabel}
-                nextLabel={nextButtonLabel}
-                onPrevClick={onPrevClick}
+                prevLabel={ prevButtonLabel }
+                nextLabel={ nextButtonLabel }
+                onPrevClick={ onPrevClick }
                 nextButtonType="submit"
             />
         </form>

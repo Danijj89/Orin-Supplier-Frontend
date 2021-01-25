@@ -11,7 +11,7 @@ export const ENGLISH = {
             imageSubText:
                 'Seamlessly accept client orders and generate professional and compliant export documentation',
             errorMessages: {
-                emailRequired: 'You need to insert an email',
+                emailRequired: 'You need to insert a valid email',
                 passwordRequired: 'You need to insert a password',
                 emailOrPasswordWrong:
                     'Email or Password does not match any existing one',
@@ -494,13 +494,14 @@ export const ENGLISH = {
                 procurement: 'Procurement',
                 production: 'Production',
                 qa: 'QA',
-                notes: 'Notes'
+                notes: 'Notes',
+                documentCard: 'Shipment No:',
             },
             labels: {
                 orderReference: 'Order Number',
                 company: 'Seller',
                 date: 'Order Date',
-                crd: 'CRD',
+                crd: 'Cargo Ready',
                 incoterm: 'Incoterm',
                 quantity: 'Quantity',
                 client: 'Buyer',
@@ -510,7 +511,9 @@ export const ENGLISH = {
                 total: 'Total',
                 status: 'Status',
                 estimated: 'Estimated Completion',
-                actual: 'Actual Completion'
+                actual: 'Actual Completion',
+                clientRef: 'Client Ref',
+                noOrder: 'No Orders',
             },
             tableHeaderLabels: {
                 procurement: 'Procurement',
@@ -524,7 +527,9 @@ export const ENGLISH = {
                 submitProducts: 'Update',
                 editFulfillment: 'Manage Fulfillment Plan',
                 editSplitStatus: 'Edit',
-                submitSplitStatus: 'Update'
+                submitSplitStatus: 'Update',
+                generateExcel: 'Generate Excel',
+                generatePdf: 'Generate PDF',
             },
             orderProductTable: {
                 tableHeaderLabelsMap: {
@@ -544,6 +549,7 @@ export const ENGLISH = {
                     submitButton: 'Submit',
                     crd: 'Cargo Ready',
                     emptyDateLabel: 'No Date',
+                    clientRef: 'Client Reference'
                 },
                 tableHeaderLabels: {
                     ref: 'SKU',
@@ -562,18 +568,6 @@ export const ENGLISH = {
                 orderWasDeleted:
                     'The order you selected is no longer existent.',
             },
-            // orderDocuments: {
-            //     buttonLabels: {
-            //         generateExcel: 'Generate Excel',
-            //         generatePdf: 'Generate PDF',
-            //     },
-            //     textLabels: {
-            //         noOrder: 'No Orders',
-            //     },
-            //     shipmentDocumentsCard: {
-            //         titleLabel: 'Shipment No:',
-            //     },
-            // }
         },
     },
     shipment: {
@@ -656,7 +650,7 @@ export const ENGLISH = {
                 del: 'Shipping Mode',
                 production: 'Production',
                 qa: 'QA',
-                notes: 'Notes',
+                fulfilled: 'Fulfilled %',
             },
             documentButton: {
                 buttonLabel: 'Generate Document',

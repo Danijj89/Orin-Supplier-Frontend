@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
 import logo from '../images/orinlogo.png';
 import { LANGUAGE } from './utils/constants.js';
@@ -10,9 +10,11 @@ import { useForm } from 'react-hook-form';
 import { makeStyles } from '@material-ui/core/styles';
 import loginImg from '../images/login.png';
 import { signIn } from './duck/thunks.js';
-import { selectAppError, selectSessionUser } from './duck/selectors.js';
+import { selectAppError, selectAppStatus, selectSessionUser } from './duck/selectors.js';
 import { SESSION_USER } from './sessionKeys.js';
 import { cleanAppState } from './duck/slice.js';
+import { resetAppStatus } from 'app/duck/slice.js';
+import Title3 from 'features/shared/display/Title3.js';
 
 const {
     title,
@@ -91,8 +93,13 @@ export default function LoginPage() {
     const classes = useStyles();
     const history = useHistory();
     const dispatch = useDispatch();
+    const appStatus = useSelector(selectAppStatus);
     const appError = useSelector(selectAppError);
     const user = useSelector(selectSessionUser);
+
+    useEffect(() => {
+        if (appStatus === 'REJECTED' || appStatus === 'FULFILLED') return () => dispatch(resetAppStatus());
+    }, [dispatch, appStatus]);
 
     useEffect(() => {
         const sessionUser = sessionStorage.getItem(SESSION_USER);
@@ -108,74 +115,81 @@ export default function LoginPage() {
         },
     });
 
-    const onSignInClick = async (credentials) => {
+    const onSignInClick = useCallback(async (credentials) => {
         dispatch(signIn({ credentials }));
-    };
+    }, [dispatch]);
 
-    const isError = Object.keys(errors).length > 0 || appError;
-    const allErrors = Object.values(errors)
-        .map((err) => err.message)
-        .concat([appError]);
+    const errMessages = useMemo(() => {
+        const errs = Object.values(errors).map(err => err.message);
+        if (appError) errs.push(appError);
+        return errs;
+    }, [appError, errors]);
+
+    const isError = useMemo(() => errMessages.length > 0, [errMessages]);
 
     return (
         <Grid container className={ classes.container }>
             <Grid item xs={ 5 } className={ classes.leftPanel }>
                 <CardMedia className={ classes.logo } component="img" src={ logo } alt="Logo"/>
-                <Typography variant="h3">{ title }</Typography>
-                <form className={ classes.form } onSubmit={ handleSubmit(onSignInClick) } autoComplete="off">
-                    { isError && <ErrorSnackbar error={ allErrors }/> }
+                <Title3 title={ title }/>
+                <form className={ classes.form } onSubmit={ handleSubmit(onSignInClick) } autoComplete="off" noValidate>
+                    { isError && <ErrorSnackbar error={ errMessages }/> }
                     <TextField
                         name="email"
                         type="email"
-                        error={!!errors.email}
-                        inputRef={register({
+                        error={ !!errors.email }
+                        inputRef={ register({
                             required: errorMessages.emailRequired,
-                        })}
-                        className={classes.field}
-                        label={emailLabel}
+                            pattern: {
+                                value: /.*@.*\..*/,
+                                message: errorMessages.emailRequired
+                            }
+                        }) }
+                        className={ classes.field }
+                        label={ emailLabel }
                         autoFocus
                         fullWidth
                     />
                     <TextField
                         name="password"
                         type="password"
-                        error={!!errors.password}
-                        inputRef={register({
+                        error={ !!errors.password }
+                        inputRef={ register({
                             required: errorMessages.passwordRequired,
-                        })}
-                        className={classes.field}
-                        label={passwordLabel}
+                        }) }
+                        className={ classes.field }
+                        label={ passwordLabel }
                         fullWidth
                         autoComplete="on"
                     />
                     <ThemedButton
                         type="submit"
                         variant="contained"
-                        styles={classes.button}
+                        styles={ classes.button }
                     >
-                        {signInButton}
+                        { signInButton }
                     </ThemedButton>
                 </form>
-                <Typography component="span">{footerText}&nbsp;</Typography>
-                <Typography className={classes.footerTextTwo} component="span">
-                    {signUpText}
+                <Typography component="span">{ footerText }&nbsp;</Typography>
+                <Typography className={ classes.footerTextTwo } component="span">
+                    { signUpText }
                 </Typography>
             </Grid>
-            <Grid className={classes.rightPanel} item xs={12} sm={7}>
+            <Grid className={ classes.rightPanel } item xs={ 12 } sm={ 7 }>
                 <CardMedia
                     component="img"
-                    src={loginImg}
+                    src={ loginImg }
                     alt="Office"
-                    className={classes.loginImage}
+                    className={ classes.loginImage }
                 />
-                <Typography className={classes.loginImageTitle} variant="h4">
-                    {imageTitle}
+                <Typography className={ classes.loginImageTitle } variant="h4">
+                    { imageTitle }
                 </Typography>
                 <Typography
-                    className={classes.loginImageSubTitle}
+                    className={ classes.loginImageSubTitle }
                     variant="subtitle2"
                 >
-                    {imageSubText}
+                    { imageSubText }
                 </Typography>
             </Grid>
         </Grid>

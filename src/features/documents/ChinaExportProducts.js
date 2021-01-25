@@ -4,13 +4,13 @@ import Footer from '../shared/components/Footer.js';
 import { useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { LANGUAGE } from 'app/utils/constants.js';
-import { Typography } from '@material-ui/core';
 import { getAddressName } from 'app/utils/models/getters.js';
 import { getOptionId } from 'app/utils/options/getters.js';
 import { consolidationTableItemsToConsolidationItems } from '../shared/utils/entityConversion.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { createDocument } from '../shipments/duck/thunks.js';
 import { selectSessionUserCompanyId, selectSessionUserId } from 'app/duck/selectors.js';
+import Title5 from 'features/shared/display/Title5.js';
 
 const {
     titleLabel,
@@ -67,7 +67,7 @@ const ChinaExportProducts = React.memo(function ChinaExportProducts(
 
     return (
         <form onSubmit={ handleSubmit(onSubmit) } autoComplete="off" noValidate>
-            <Typography variant="h5">{ titleLabel }</Typography>
+            <Title5 title={ titleLabel }/>
             <RHFChinaExportTable
                 rhfRegister={ register }
                 rhfControl={ control }

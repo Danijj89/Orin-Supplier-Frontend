@@ -19,6 +19,10 @@ const appSlice = createSlice({
             state.error = null;
             state.user = null;
             state.appData = null;
+        },
+        resetAppStatus: state => {
+            state.status = 'IDLE';
+            state.error = null;
         }
     },
     extraReducers: {
@@ -41,6 +45,6 @@ const appSlice = createSlice({
     }
 });
 
-export const { cleanAppState } = appSlice.actions;
+export const { cleanAppState, resetAppStatus } = appSlice.actions;
 
 export default appSlice.reducer;

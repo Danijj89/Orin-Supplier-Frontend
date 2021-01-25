@@ -34,7 +34,7 @@ const LeadContainer = React.memo(function LeadContainer() {
     const leadStatus = useSelector(selectLeadStatus);
 
     useEffect(() => {
-        if (leadStatus === 'FULFILLED') dispatch(resetLeadStatus());
+        if (leadStatus === 'FULFILLED') return () => dispatch(resetLeadStatus());
     }, [dispatch, leadStatus]);
 
     const fetched = useRef(false);

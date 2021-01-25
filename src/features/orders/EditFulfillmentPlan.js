@@ -143,7 +143,7 @@ const EditFulfillmentPlan = React.memo(function EditFulfillmentPlan({ orderId })
     }, [dispatch, order._id]);
 
     const onNewSplit = useCallback(() => {
-        const newSplit = { crd: new Date(), items: [] };
+        const newSplit = { crd: null, items: [] };
         if (totalCount > totalAllocated) {
             const splitItems = [];
             for (const item of totalItems) {
@@ -189,7 +189,20 @@ const EditFulfillmentPlan = React.memo(function EditFulfillmentPlan({ orderId })
         const splits = getValues(fieldNames.shippingSplits);
         const newSplit = { ...splits[splitIdx] };
         newSplit.crd = newValue && new Date(newValue);
-        setValue(fieldNames.shippingSplits, [...splits.slice(0, splitIdx), newSplit, ...splits.slice(splitIdx + 1)]);
+        setValue(
+            fieldNames.shippingSplits,
+            [...splits.slice(0, splitIdx), newSplit, ...splits.slice(splitIdx + 1)]
+        );
+    }, [getValues, setValue]);
+
+    const onClientRefChange = useCallback((splitIdx, newValue) => {
+        const splits = getValues(fieldNames.shippingSplits);
+        const newSplit = { ...splits[splitIdx] };
+        newSplit.clientRef = newValue;
+        setValue(
+            fieldNames.shippingSplits,
+            [...splits.slice(0, splitIdx), newSplit, ...splits.slice(splitIdx + 1)]
+        );
     }, [getValues, setValue]);
 
     const onCellChange = useCallback((splitIdx, rowIdx, key, newValue) => {
@@ -332,6 +345,7 @@ const EditFulfillmentPlan = React.memo(function EditFulfillmentPlan({ orderId })
                                     itemOptions={ totalItems }
                                     allocationMap={ allocationMap }
                                     onCrdChange={ onCrdChange }
+                                    onClientRefChange={ onClientRefChange }
                                     onCellChange={ onCellChange }
                                     onAddRow={ createAddRowHandler(idx) }
                                     onDeleteRow={ onDeleteRow }

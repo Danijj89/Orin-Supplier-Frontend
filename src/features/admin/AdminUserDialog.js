@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import SideTextField from '../shared/inputs/SideTextField.js';
 import RHFAutoComplete from '../shared/rhf/inputs/RHFAutoComplete.js';
-import { getCompanyLegalName } from '../../app/utils/models/getters.js';
+import { getCompanyLegalName } from 'app/utils/models/getters.js';
 import Paper from '@material-ui/core/Paper';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -11,12 +11,12 @@ import Checkbox from '@material-ui/core/Checkbox';
 import ListItemText from '@material-ui/core/ListItemText';
 import FormDialog from '../shared/wrappers/FormDialog.js';
 import { useForm } from 'react-hook-form';
-import { LANGUAGE } from '../../app/utils/constants.js';
+import { LANGUAGE } from 'app/utils/constants.js';
 import { useSelector } from 'react-redux';
 import { selectAllCompanies } from './duck/companies/selectors.js';
 import makeStyles from '@material-ui/core/styles/makeStyles.js';
 import { selectAllRoleIds } from './duck/roles/selectors.js';
-import { Typography } from '@material-ui/core';
+import Title6 from 'features/shared/display/Title6.js';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -142,7 +142,7 @@ const AdminUserDialog = React.memo(function AdminUserDialog(
                 required={ !isEdit }
             /> }
             <Paper className={ classes.paper }>
-                <Typography variant="h6">{ formLabels.roles }</Typography>
+                <Title6 title={ formLabels.roles }/>
                 <List dense component="div" role="list">
                     { roleIds.map((role) =>
                         <ListItem key={ role } role="listitem" button onClick={ onSelect(role) }>

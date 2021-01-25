@@ -69,7 +69,8 @@ export default function OrdersTable() {
     const refButtonRenderer = useCallback(row =>
             <ThemedButton
                 variant="text"
-                onClick={ () => history.push(getOrderURL(row.id, { split: row.splitId })) }>
+                onClick={ () => history.push(getOrderURL(row.id, { split: row.splitId })) }
+            >
                 { row.ref }
             </ThemedButton>,
         [history]);
@@ -98,21 +99,21 @@ export default function OrdersTable() {
             headerName: ordersTableHeadersMap.procurement,
             renderCell: createStatusDropdownRenderer('procurement'),
             align: 'center',
-            width: 140
+            width: 160
         },
         {
             field: 'production',
             headerName: ordersTableHeadersMap.production,
             renderCell: createStatusDropdownRenderer('production'),
             align: 'center',
-            width: 140
+            width: 160
         },
         {
             field: 'qa',
             headerName: ordersTableHeadersMap.qa,
             renderCell: createStatusDropdownRenderer('qa'),
             align: 'center',
-            width: 140
+            width: 160
         },
         {
             field: 'notes',

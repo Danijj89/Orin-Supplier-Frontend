@@ -227,7 +227,7 @@ export const prepareShippingSplits = shippingSplits =>
             }))
         };
         if (split.ref) splitData.ref = split.ref;
-        if (split.realCrd) splitData.realCrd = split.realCrd;
+        if (split.clientRef) splitData.clientRef = split.clientRef;
         if (split.procurement) splitData.procurement = {
             ...split.procurement,
             status: getOptionId(split.procurement.status)

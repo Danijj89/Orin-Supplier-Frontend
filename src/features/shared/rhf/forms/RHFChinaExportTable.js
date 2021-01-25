@@ -14,13 +14,12 @@ import { getOptionId, getOptionLabel } from 'app/utils/options/getters.js';
 import Grid from '@material-ui/core/Grid';
 import ErrorSnackbar from 'features/shared/components/ErrorSnackbar.js';
 import UnitCounter from '../../classes/UnitCounter.js';
-import { getCurrencySymbol } from '../../utils/random.js';
 import { selectCompanyDefaultAddress, selectCurrentCompany } from 'features/home/duck/home/selectors.js';
 import { selectAllActiveProducts } from '../../../products/duck/selectors.js';
 import TextArea from '../../inputs/TextArea.js';
 import {
     formatCurrency, formatCurrencyTotalAmount,
-    formatItemsTotalQuantities, formatNumberWithDecimal,
+    formatItemsTotalQuantities,
     roundToNDecimal
 } from '../../utils/format.js';
 import Table from 'features/shared/components/table/Table.js';
@@ -41,14 +40,6 @@ export function validateChinaExportItems(items) {
             return errorMessages.missingItemInfo;
     }
     return true;
-}
-
-function formatTotalAmount(totalAmount) {
-    const entries = Object.entries(totalAmount);
-    if (entries.length === 1) return `${ roundToNDecimal(entries[0][1], 2) } ${ getCurrencySymbol(entries[0][0]) }`;
-    return entries.filter(([_, amount]) => amount !== 0)
-        .map(([unit, amount]) => `${ roundToNDecimal(amount, 2) } ${ getCurrencySymbol(unit) }`)
-        .join(' + ');
 }
 
 const RHFChinaExportTable = React.memo(function RHFChinaExportTable(
@@ -289,6 +280,7 @@ const RHFChinaExportTable = React.memo(function RHFChinaExportTable(
             isEdit: true
         },
         body: {
+            maxEmptyRows: 0,
             onAddRow: onAddRow,
             onCellChange: onCellChange,
             hover: false

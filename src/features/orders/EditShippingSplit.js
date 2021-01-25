@@ -12,6 +12,7 @@ import DeleteIconButton from 'features/shared/buttons/DeleteIconButton.js';
 import ThemedButton from 'features/shared/buttons/ThemedButton.js';
 import { Clear as IconClear } from '@material-ui/icons';
 import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
 
 const useStyles = makeStyles(theme => ({
     container: {
@@ -39,8 +40,9 @@ const useStyles = makeStyles(theme => ({
     table: {
         backgroundColor: theme.palette.backgroundPrimary.main
     },
-    datePicker: {
-        maxWidth: 160
+    field: {
+        maxWidth: 160,
+        marginTop: theme.spacing(2)
     },
     splitNumber: {
         backgroundColor: theme.palette.primary.main
@@ -59,6 +61,7 @@ const EditShippingSplit = React.memo(function EditShippingSplit(
         itemOptions,
         allocationMap,
         onCrdChange,
+        onClientRefChange,
         onCellChange,
         onAddRow,
         onDeleteRow,
@@ -67,12 +70,16 @@ const EditShippingSplit = React.memo(function EditShippingSplit(
         custom2
     }) {
     const classes = useStyles();
-    const { ref = '-', crd, items } = split;
+    const { ref = '-', crd = null, clientRef = '', items } = split;
     const splitNum = useMemo(() => splitIdx + 1, [splitIdx]);
 
     const onDateChange = useCallback(
         (_, newValue) => onCrdChange(splitIdx, newValue),
         [splitIdx, onCrdChange]);
+
+    const onClientRefChanged = useCallback(
+        e => onClientRefChange(splitIdx, e.target.value),
+        [onClientRefChange, splitIdx]);
 
     const onCellChanged = useCallback((rowIdx, key, newValue) =>
             onCellChange(splitIdx, rowIdx, key, newValue),
@@ -100,7 +107,7 @@ const EditShippingSplit = React.memo(function EditShippingSplit(
             getOptionLabel: item => item.ref || item,
             getOptionSelected: (item, value) => item.ref === value || item._id === value._id,
             filterOptions: items => items.filter(item =>
-                    allocationMap[item._id].quantity > allocationMap[item._id].allocated)
+                allocationMap[item._id].quantity > allocationMap[item._id].allocated)
         },
         { field: 'description', headerName: tableHeaderLabels.description },
         {
@@ -147,10 +154,10 @@ const EditShippingSplit = React.memo(function EditShippingSplit(
             }
         },
         body: {
-            maxEmptyRows: 0,
+            maxEmptyRows: 3,
             onCellChange: onCellChanged,
             hover: false,
-            onAddRow: onAddRow
+            onAddRow: onAddRow,
         },
         foot: {
             pagination: 'none'
@@ -159,21 +166,29 @@ const EditShippingSplit = React.memo(function EditShippingSplit(
 
     return (
         <Grid container className={ classes.container }>
-            <Grid container item justify="space-between" alignItems="center" xs={12}>
+            <Grid container item justify="space-between" alignItems="center" xs={ 12 }>
                 <Typography>{ ref }</Typography>
                 <ThemedButton variant="text" onClick={ onDeleteSplit }>
                     <IconClear fontSize="small"/>
                 </ThemedButton>
             </Grid>
-            <Grid className={classes.splitContainer} container item xs={12}>
+            <Grid className={ classes.splitContainer } container item xs={ 12 }>
                 <Box className={ classes.left }>
-                    <Avatar className={ classes.splitNumber}>{ splitNum }</Avatar>
-                    <Typography>{ labels.crd }</Typography>
+                    <Avatar className={ classes.splitNumber }>{ splitNum }</Avatar>
                     <DateField
                         onChange={ onDateChange }
                         value={ crd }
-                        className={ classes.datePicker }
+                        className={ classes.field }
                         emptyLabel={ labels.emptyDateLabel }
+                        label={ labels.crd }
+                    />
+                    <TextField
+                        label={ labels.clientRef }
+                        value={ clientRef }
+                        onChange={ onClientRefChanged }
+                        variant="outlined"
+                        size="small"
+                        className={ classes.field }
                     />
                 </Box>
                 <Grid item xs>
@@ -194,6 +209,7 @@ EditShippingSplit.propTypes = {
     itemOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
     allocationMap: PropTypes.object.isRequired,
     onCrdChange: PropTypes.func.isRequired,
+    onClientRefChange: PropTypes.func.isRequired,
     onCellChange: PropTypes.func.isRequired,
     onAddRow: PropTypes.func.isRequired,
     onDeleteRow: PropTypes.func.isRequired,

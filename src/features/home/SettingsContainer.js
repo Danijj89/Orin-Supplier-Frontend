@@ -27,8 +27,10 @@ const SettingsContainer = React.memo(function SettingsContainer() {
     const homeStatus = useSelector(selectHomeStatus);
 
     useEffect(() => {
-        if (userStatus === 'FULFILLED') dispatch(resetUserStatus());
-        if (homeStatus === 'FULFILLED') dispatch(resetHomeStatus());
+        return () => {
+            if (userStatus === 'FULFILLED') dispatch(resetUserStatus());
+            if (homeStatus === 'FULFILLED') dispatch(resetHomeStatus());
+        }
     }, [dispatch, userStatus, homeStatus]);
 
     const fetched = useRef(false);

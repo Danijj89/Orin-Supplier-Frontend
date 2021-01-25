@@ -2,18 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Typography } from '@material-ui/core';
 
-const Title1 = React.memo(function Title1({ title, className }) {
+const Title6 = React.memo(function Title6({ title, className }) {
 
     return (
-        <Typography className={ className } variant="h5">
+        <Typography className={ className } variant="h6">
             { title }
         </Typography>
     );
 });
 
-Title1.propTypes = {
+Title6.propTypes = {
     title: PropTypes.string.isRequired,
     className: PropTypes.string
 };
 
-export default Title1;
+export default Title6;

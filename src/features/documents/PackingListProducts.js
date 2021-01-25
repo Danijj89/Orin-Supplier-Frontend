@@ -3,7 +3,6 @@ import RHFMeasureTable, { validateItemMeasures } from '../shared/rhf/forms/RHFMe
 import { useForm } from 'react-hook-form';
 import Footer from '../shared/components/Footer.js';
 import { LANGUAGE } from 'app/utils/constants.js';
-import Typography from '@material-ui/core/Typography';
 import { useDispatch, useSelector } from 'react-redux';
 import {
     addressToDocAddress, tableItemsToItems
@@ -12,6 +11,7 @@ import { selectSessionUserCompanyId, selectSessionUserId } from 'app/duck/select
 import { createDocument } from '../shipments/duck/thunks.js';
 import { useHistory } from 'react-router-dom';
 import { getOptionId } from 'app/utils/options/getters.js';
+import Title5 from 'features/shared/display/Title5.js';
 
 const {
     titleLabel,
@@ -77,7 +77,7 @@ const PackingListProducts = React.memo(function PackingListProducts(
 
     return (
         <form onSubmit={ handleSubmit(onSubmit) } autoComplete="off">
-            <Typography variant="h5">{ titleLabel }</Typography>
+            <Title5 title={ titleLabel }/>
             <RHFMeasureTable
                 rhfControl={ control }
                 rhfGetValues={ getValues }

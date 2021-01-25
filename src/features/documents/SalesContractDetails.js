@@ -1,5 +1,4 @@
 import React from 'react';
-import Typography from '@material-ui/core/Typography';
 import { LANGUAGE } from 'app/utils/constants.js';
 import FormContainer from '../shared/wrappers/FormContainer.js';
 import RHFCheckBox from '../shared/rhf/inputs/RHFCheckBox.js';
@@ -21,6 +20,7 @@ import Divider from '@material-ui/core/Divider';
 import Footer from '../shared/components/Footer.js';
 import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
+import Title5 from 'features/shared/display/Title5.js';
 
 const {
     titleLabel,
@@ -57,10 +57,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SalesContractDetails = React.memo(function SalesContractDetails({
-    salesContract,
-    setSalesContract,
-    shipmentId,
-}) {
+                                                                          salesContract,
+                                                                          setSalesContract,
+                                                                          shipmentId,
+                                                                      }) {
     const history = useHistory();
     const companyAddresses = useSelector(selectActiveCompanyAddresses);
     const consigneeAddresses = useSelector((state) =>
@@ -92,156 +92,154 @@ const SalesContractDetails = React.memo(function SalesContractDetails({
 
     const autoGenerateRef = watch(fieldNames.autoGenerateRef);
 
-    const onPrevClick = () => history.push(`/home/shipments/${shipmentId}`);
+    const onPrevClick = () => history.push(`/home/shipments/${ shipmentId }`);
 
     const onNextClick = (data) => {
         setSalesContract((prev) => ({ ...prev, ...data }));
         history.push(
-            `/home/documents/sc/new?step=products&shipment=${shipmentId}`
+            `/home/documents/sc/new?step=products&shipment=${ shipmentId }`
         );
     };
 
     return (
         <form
-            onSubmit={handleSubmit(onNextClick)}
+            onSubmit={ handleSubmit(onNextClick) }
             autoComplete="off"
-            className={classes.root}
+            className={ classes.root }
         >
             <Grid container justify="center">
-                <Grid item xs={12}>
-                    <Typography className={classes.title} variant="h5">
-                        {titleLabel}
-                    </Typography>
+                <Grid item xs={ 12 }>
+                    <Title5 className={ classes.title } title={ titleLabel }/>
                 </Grid>
                 <Grid item>
                     <FormContainer>
                         <RHFCheckBox
-                            name={fieldNames.autoGenerateRef}
-                            label={formLabels.autoGenerateRef}
-                            rhfControl={control}
+                            name={ fieldNames.autoGenerateRef }
+                            label={ formLabels.autoGenerateRef }
+                            rhfControl={ control }
                         />
                         <SideTextField
-                            name={fieldNames.ref}
-                            label={formLabels.ref}
-                            inputRef={register({ required: !autoGenerateRef })}
-                            error={!!errors[fieldNames.ref]}
-                            required={!autoGenerateRef}
-                            disabled={autoGenerateRef}
+                            name={ fieldNames.ref }
+                            label={ formLabels.ref }
+                            inputRef={ register({ required: !autoGenerateRef }) }
+                            error={ !!errors[fieldNames.ref] }
+                            required={ !autoGenerateRef }
+                            disabled={ autoGenerateRef }
                         />
                         <RHFAutoComplete
-                            rhfControl={control}
-                            name={fieldNames.sellerAdd}
-                            label={formLabels.sellerAdd}
-                            options={companyAddresses}
-                            error={!!errors[fieldNames.sellerAdd]}
-                            getOptionLabel={formatAddress}
-                            getOptionSelected={(option, value) =>
+                            rhfControl={ control }
+                            name={ fieldNames.sellerAdd }
+                            label={ formLabels.sellerAdd }
+                            options={ companyAddresses }
+                            error={ !!errors[fieldNames.sellerAdd] }
+                            getOptionLabel={ formatAddress }
+                            getOptionSelected={ (option, value) =>
                                 option._id === value._id || !value.active
                             }
-                            rowsMax={8}
+                            rowsMax={ 8 }
                             required
                         />
                         <SideTextField
-                            label={formLabels.consignee}
-                            value={salesContract.consignee.name}
+                            label={ formLabels.consignee }
+                            value={ salesContract.consignee.name }
                             disabled
                         />
                         <RHFAutoComplete
-                            rhfControl={control}
-                            name={fieldNames.consigneeAdd}
-                            label={formLabels.consigneeAdd}
-                            options={consigneeAddresses}
-                            error={!!errors[fieldNames.consigneeAdd]}
-                            getOptionLabel={formatAddress}
-                            getOptionSelected={(option, value) =>
+                            rhfControl={ control }
+                            name={ fieldNames.consigneeAdd }
+                            label={ formLabels.consigneeAdd }
+                            options={ consigneeAddresses }
+                            error={ !!errors[fieldNames.consigneeAdd] }
+                            getOptionLabel={ formatAddress }
+                            getOptionSelected={ (option, value) =>
                                 option._id === value._id || !value.active
                             }
-                            rowsMax={8}
+                            rowsMax={ 8 }
                             required
                         />
                         <RHFDateField
-                            rhfControl={control}
-                            name={fieldNames.date}
-                            label={formLabels.date}
-                            error={!!errors[fieldNames.date]}
+                            rhfControl={ control }
+                            name={ fieldNames.date }
+                            label={ formLabels.date }
+                            error={ !!errors[fieldNames.date] }
                             required
                         />
                     </FormContainer>
                 </Grid>
                 <Grid item>
                     <Box
-                        component={Divider}
-                        display={{ xs: 'none', lg: 'block' }}
+                        component={ Divider }
+                        display={ { xs: 'none', lg: 'block' } }
                         orientation="vertical"
                     />
                 </Grid>
                 <Grid item>
                     <FormContainer>
                         <RHFAutoComplete
-                            rhfControl={control}
-                            name={fieldNames.bankDetails}
-                            label={formLabels.bankDetails}
-                            options={companyBankDetails}
-                            getOptionLabel={(option) => option.detail}
-                            getOptionSelected={(option, value) =>
+                            rhfControl={ control }
+                            name={ fieldNames.bankDetails }
+                            label={ formLabels.bankDetails }
+                            options={ companyBankDetails }
+                            getOptionLabel={ (option) => option.detail }
+                            getOptionSelected={ (option, value) =>
                                 option._id === value._id || !value.active
                             }
-                            rows={4}
-                            rowsMax={8}
+                            rows={ 4 }
+                            rowsMax={ 8 }
                         />
                         <SideTextField
-                            name={fieldNames.termsOfPayment}
-                            label={formLabels.termsOfPayment}
-                            inputRef={register}
-                            rowsMax={8}
+                            name={ fieldNames.termsOfPayment }
+                            label={ formLabels.termsOfPayment }
+                            inputRef={ register }
+                            rowsMax={ 8 }
                         />
                         <SideTextField
-                            name={fieldNames.timeOfShipment}
-                            label={formLabels.timeOfShipment}
-                            inputRef={register}
-                            rowsMax={8}
+                            name={ fieldNames.timeOfShipment }
+                            label={ formLabels.timeOfShipment }
+                            inputRef={ register }
+                            rowsMax={ 8 }
                         />
                         <SideTextField
-                            name={fieldNames.insurance}
-                            label={formLabels.insurance}
-                            inputRef={register}
-                            rowsMax={8}
+                            name={ fieldNames.insurance }
+                            label={ formLabels.insurance }
+                            inputRef={ register }
+                            rowsMax={ 8 }
                         />
                         <SideTextField
-                            name={fieldNames.customText}
-                            label={formLabels.customText}
-                            inputRef={register}
-                            rowsMax={8}
+                            name={ fieldNames.customText }
+                            label={ formLabels.customText }
+                            inputRef={ register }
+                            rowsMax={ 8 }
                         />
                         <RHFAutoComplete
-                            rhfControl={control}
-                            name={fieldNames.pol}
-                            label={formLabels.pol}
-                            options={companyPorts}
+                            rhfControl={ control }
+                            name={ fieldNames.pol }
+                            label={ formLabels.pol }
+                            options={ companyPorts }
                             freeSolo
                             autoSelect
                         />
                         <RHFAutoComplete
-                            rhfControl={control}
-                            name={fieldNames.pod}
-                            label={formLabels.pod}
-                            options={companyPorts}
+                            rhfControl={ control }
+                            name={ fieldNames.pod }
+                            label={ formLabels.pod }
+                            options={ companyPorts }
                             freeSolo
                             autoSelect
                         />
                         <SideTextField
-                            label={formLabels.notes}
-                            name={fieldNames.notes}
-                            inputRef={register}
-                            rowsMax={8}
+                            label={ formLabels.notes }
+                            name={ fieldNames.notes }
+                            inputRef={ register }
+                            rowsMax={ 8 }
                         />
                     </FormContainer>
                 </Grid>
             </Grid>
             <Footer
-                prevLabel={prevButtonLabel}
-                nextLabel={nextButtonLabel}
-                onPrevClick={onPrevClick}
+                prevLabel={ prevButtonLabel }
+                nextLabel={ nextButtonLabel }
+                onPrevClick={ onPrevClick }
                 nextButtonType="submit"
             />
         </form>

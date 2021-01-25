@@ -14,11 +14,11 @@ import { LANGUAGE } from 'app/utils/constants.js';
 import OrderStatusPermission from 'features/shared/permissions/OrderStatusPermission.js';
 import { READ_ANY, READ_OWN } from 'features/admin/utils/actions.js';
 import EditOrderStatusButton from 'features/orders/EditOrderStatusButton.js';
-import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import TextAreaCard from 'features/shared/components/TextAreaCard.js';
 import { useDispatch } from 'react-redux';
 import { updateSplit } from 'features/orders/duck/thunks.js';
+import Title6 from 'features/shared/display/Title6.js';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -92,7 +92,7 @@ const SplitInfo = React.memo(function SplitInfo({ orderId, split }) {
         <OrderStatusPermission action={ [READ_ANY, READ_OWN] } orderId={ orderId }>
             <Grid className={ classes.container } container>
                 <Grid container justify="space-between" item xs={ 12 }>
-                    <Typography variant="h6">{ titles.splitStatus }</Typography>
+                    <Title6 title={titles.splitStatus} />
                     <EditOrderStatusButton
                         orderId={ orderId }
                         splitId={ splitId }

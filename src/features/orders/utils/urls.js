@@ -5,7 +5,7 @@ export const getOrderURL = (orderId, options = {}) => {
     const queryString = [];
     queryString.push(options.mode ? `mode=${options.mode}` : 'mode=view');
     queryString.push(options.tab ? `tab=${options.tab}` : 'tab=details');
-    queryString.push(options.split ? `split=${options.split}` : '');
-    queryString.push(options.subTab ? `subTab=${options.subTab}` : '');
+    if (options.split) queryString.push(`split=${options.split}`);
+    if (options.subTab) queryString.push(`subTab=${options.subTab}`);
     return url.concat('?', queryString.join('&'));
 };

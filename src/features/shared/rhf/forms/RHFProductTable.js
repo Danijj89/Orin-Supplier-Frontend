@@ -360,6 +360,7 @@ const RHFProductTable = React.memo(function RHFProductTable(
             dense: true
         },
         body: {
+            maxEmptyRows: 0,
             onAddRow: onAddRow,
             onCellChange: onCellChange,
             hover: false

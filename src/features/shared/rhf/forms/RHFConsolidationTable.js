@@ -326,6 +326,7 @@ const RHFConsolidationTable = React.memo(function RHFConsolidationTable(
             isEdit: true
         },
         body: {
+            maxEmptyRows: 0,
             onAddRow: onAddRow,
             onCellChange: onCellChange
         },

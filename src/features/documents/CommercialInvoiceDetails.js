@@ -1,5 +1,5 @@
 import React from 'react';
-import { LANGUAGE } from '../../app/utils/constants.js';
+import { LANGUAGE } from 'app/utils/constants.js';
 import FormContainer from '../shared/wrappers/FormContainer.js';
 import { useForm } from 'react-hook-form';
 import SideTextField from '../shared/inputs/SideTextField.js';
@@ -7,7 +7,6 @@ import { formatAddress } from '../shared/utils/format.js';
 import RHFCheckBox from '../shared/rhf/inputs/RHFCheckBox.js';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import RHFAutoComplete from '../shared/rhf/inputs/RHFAutoComplete.js';
 import { useSelector } from 'react-redux';
@@ -17,9 +16,10 @@ import Footer from '../shared/components/Footer.js';
 import { useHistory } from 'react-router-dom';
 import RHFDateField from '../shared/rhf/inputs/RHFDateField.js';
 import { makeStyles } from '@material-ui/core/styles';
-import { selectCountries, selectIncoterms } from '../../app/duck/selectors.js';
-import { getOptionLabel } from '../../app/utils/options/getters.js';
+import { selectCountries, selectIncoterms } from 'app/duck/selectors.js';
+import { getOptionLabel } from 'app/utils/options/getters.js';
 import { selectShipmentSalesContractRefs } from '../shipments/duck/selectors.js';
+import Title5 from 'features/shared/display/Title5.js';
 
 
 const {
@@ -71,7 +71,7 @@ const CommercialInvoiceDetails = React.memo(function CommercialInvoiceDetails(
     const companyPorts = useSelector(selectCompanyPorts);
     const countryOptions = useSelector(selectCountries);
     const salesContracts = useSelector(
-        state => selectShipmentSalesContractRefs(state, {shipmentId}));
+        state => selectShipmentSalesContractRefs(state, { shipmentId }));
     const initialSalesContract = salesContracts.length ? salesContracts[0] : null;
 
 
@@ -108,7 +108,7 @@ const CommercialInvoiceDetails = React.memo(function CommercialInvoiceDetails(
         <form onSubmit={ handleSubmit(onNextClick) } autoComplete="off">
             <Grid container className={ classes.root } justify="center">
                 <Grid item xs={ 12 }>
-                    <Typography className={ classes.title } variant="h5">{ titleLabel }</Typography>
+                    <Title5 className={ classes.title } title={ titleLabel }/>
                 </Grid>
                 <Grid item>
                     <FormContainer>
