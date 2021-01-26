@@ -84,20 +84,26 @@ const Dashboard = React.memo(function Dashboard() {
         },
     ], [ dashboardData.newOrders, dashboardData.inProc, dashboardData.inProd, dashboardData.inQA ]);
 
-    const orderAccentCompleted = {
-        metricId: ordersStats.completed,
-        value: dashboardData.completedOrders,
-    };
+    const orderAccentCompleted = useMemo(() => { 
+        return {
+            metricId: ordersStats.completed,
+            value: dashboardData.completedOrders,
+        } 
+    }, [dashboardData.completedOrders] ); 
 
-    const orderExceptionMetric = {
+    const orderExceptionMetric = useMemo(() => {
+        return {
         metricId: ordersStats.exception,
         value: dashboardData.withException,
-    };
+    }
+    }, [dashboardData.withException] );
 
-    const leadsExceptionMetric = {
+    const leadsExceptionMetric = useMemo(() => {
+        return {
         metricId: leads.blockedLeads,
         value: dashboardData.blockedLeads,
-    };
+    }
+    }, [dashboardData.blockedLeads] );
 
     const leadsMetrics = useMemo(() => [
         {
