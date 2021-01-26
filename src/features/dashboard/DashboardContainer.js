@@ -10,6 +10,9 @@ import {
 import { determineStatus, getErrors } from '../shared/utils/state.js';
 import { cleanDashboardState } from './duck/slice.js';
 import { fetchDashboardData } from './duck/thunks.js';
+import DashboardPermission from '../shared/permissions/DashboardPermission.js';
+import { READ_ANY } from '../admin/utils/actions.js';
+
 
 const DashboardContainer = React.memo(function HomeContainer() {
     const dispatch = useDispatch();
@@ -37,11 +40,11 @@ const DashboardContainer = React.memo(function HomeContainer() {
     }, [dispatch, errors.length]);
 
     return (
-        <>
+        <DashboardPermission action={ [READ_ANY,] }>
             {status === 'REJECTED' && <ErrorPage errors={errors} />}
             {status === 'PENDING' && <Loader />}
             {status === 'FULFILLED' && <Dashboard />}
-        </>
+        </DashboardPermission>
     );
 });
 

@@ -1,7 +1,10 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import TableRow from './TableRow.js';
-import { TableRow as MuiTableRow, TableBody as MuiTableBody } from '@material-ui/core';
+import {
+    TableRow as MuiTableRow,
+    TableBody as MuiTableBody,
+} from '@material-ui/core';
 import TableCell from '@material-ui/core/TableCell';
 import AddRowButtonRow from 'features/shared/components/table/AddRowButtonRow.js';
 
@@ -27,10 +30,13 @@ const TableBody = React.memo(function TableBody(
     } = options;
     const rowHeight = useMemo(() => dense ? 39 : 59, [dense]);
     const numColumns = useMemo(
-        () => columns.reduce((acc, col) => {
-            if (!col.hide) acc += 1;
-            return acc;
-        }, 0), [columns]);
+        () =>
+            columns.reduce((acc, col) => {
+                if (!col.hide) acc += 1;
+                return acc;
+            }, 0),
+        [columns]
+    );
 
     const emptyRows = useMemo(() => {
         const rowsInPage = rows.length - page * rowsPerPage;
@@ -76,7 +82,7 @@ const TableBody = React.memo(function TableBody(
             ) }
             { showAddRowButton && <AddRowButtonRow numColumns={ numColumns } onAddRow={ onAddRow }/> }
         </MuiTableBody>
-    )
+    );
 });
 
 TableBody.propTypes = {

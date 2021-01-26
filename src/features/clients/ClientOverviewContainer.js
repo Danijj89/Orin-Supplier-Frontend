@@ -1,11 +1,18 @@
 import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectClientDataStatus, selectClientError, selectClientStatus } from './duck/selectors.js';
+import {
+    selectClientDataStatus,
+    selectClientError,
+    selectClientStatus,
+} from './duck/selectors.js';
 import { determineStatus, getErrors } from '../shared/utils/state.js';
 import ErrorPage from '../shared/components/ErrorPage.js';
 import Loader from '../shared/components/Loader.js';
 import { fetchClients } from './duck/thunks.js';
-import { selectUserDataStatus, selectUserError } from 'features/home/duck/users/selectors.js';
+import {
+    selectUserDataStatus,
+    selectUserError,
+} from 'features/home/duck/users/selectors.js';
 import { fetchUsers } from 'features/home/duck/users/thunks.js';
 import ClientOverview from './ClientOverview.js';
 import { cleanUserState } from 'features/home/duck/users/slice.js';
@@ -21,10 +28,7 @@ const ClientOverviewContainer = React.memo(function ClientOverviewContainer() {
     const userDataStatus = useSelector(selectUserDataStatus);
     const userError = useSelector(selectUserError);
 
-    const status = determineStatus(
-        clientDataStatus,
-        userDataStatus
-    );
+    const status = determineStatus(clientDataStatus, userDataStatus);
     const errors = getErrors(clientError, userError);
 
     const clientStatus = useSelector(selectClientStatus);
@@ -44,7 +48,7 @@ const ClientOverviewContainer = React.memo(function ClientOverviewContainer() {
                 dispatch(cleanUserState());
                 dispatch(cleanClientState());
             }
-        }
+        };
     }, [dispatch, errors.length]);
 
     return (
