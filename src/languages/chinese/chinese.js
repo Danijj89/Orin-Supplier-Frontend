@@ -17,6 +17,46 @@ export const CHINESE = {
             },
         },
     },
+    dashboard: {
+        dashboard: {
+            title: '仪表板',
+        },
+        ordersStats: {
+            new: '新订单',
+            inProcurement: '采购中',
+            inProduction: '生产中',
+            inQA: '验检中',
+            exception: '意外',
+            completed: '7天内完毕',
+            title: '订单总结',
+        },
+        orderCountGraph: {
+            title: '订单量',
+        },
+        orderRevenueGraph: {
+            title: '订单金额',
+            cny: '人民币',
+            eur: '欧元',
+            usd: '美金',
+        },
+        leads: {
+            title: '销售线索',
+            newLeads: '新线索',
+            wipLeads: '销售中',
+            blockedLeads: '无法成交',
+            closedLeads: '近7天赢得',
+        },
+        clients: {
+            title: '客户',
+            newClients: '新客户',
+            totClients: '总客户',
+        },
+        crdStats: {
+            title: '交货日期',
+            crdOT: '按时率',
+            crdDiff: '平均日差',
+        },
+    },
     home: {
         navbar: {
             tabsLabelsMap: {
@@ -26,6 +66,7 @@ export const CHINESE = {
                 clients: '客户',
                 products: '产品',
                 settings: '设置',
+                dashboard: '数据',
             },
             helloMessageLabel: '您好',
         },
