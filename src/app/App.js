@@ -8,6 +8,9 @@ import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import appTheme from './themes/theme.js';
 import NotFound from '../features/shared/components/NotFound.js';
 import HomeContainer from '../features/home/HomeContainer.js';
+import LandingPage from "./landingPage/LandingPage.js";
+import "./landingPage/style.css"
+import "tailwindcss/dist/base.css"
 
 export default function App() {
 
@@ -15,7 +18,10 @@ export default function App() {
         <MuiThemeProvider theme={ appTheme }>
             <MuiPickersUtilsProvider utils={ DateFnsUtils }>
                 <Switch>
-                    <Route exact path={ ['/', '/login'] }>
+                    <Route exact path="/">
+                        <LandingPage />
+                    </Route>
+                    <Route path= "/login">
                         <LoginPage/>
                     </Route>
                     <Route path='/home'>
