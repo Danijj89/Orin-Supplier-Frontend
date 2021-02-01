@@ -6,7 +6,7 @@ import { css } from "styled-components/macro"; //eslint-disable-line
 
 import useAnimatedNavToggler from "../../helpers/useAnimatedNavToggler.js";
 
-import logo from "../../images/logo.svg";
+import logo from "../../../../images/orinlogo.png";
 import { ReactComponent as MenuIcon } from "feather-icons/dist/icons/menu.svg";
 import { ReactComponent as CloseIcon } from "feather-icons/dist/icons/x.svg";
 
@@ -37,7 +37,11 @@ export const LogoLink = styled(NavLink)`
   ${tw`flex items-center font-black border-b-0 text-2xl! ml-0!`};
 
   img {
-    ${tw`w-10 mr-3`}
+    ${tw`w-32 mr-3`}
+  }
+
+  p {
+    ${tw`w-16 mt-2`}
   }
 `;
 
@@ -72,14 +76,14 @@ export default ({ roundedHeaderButton = false, logoLink, links, className, colla
    */
   const defaultLinks = [
     <NavLinks key={1}>
-      <NavLink href="/#">About</NavLink>
-      <NavLink href="/#">Blog</NavLink>
-      <NavLink href="/#">Pricing</NavLink>
-      <NavLink href="/#">Contact Us</NavLink>
+      <NavLink href="#benefits">核心优势</NavLink>
+      <NavLink href="#product">软件产品</NavLink>
+      <NavLink href="#company">关于欧领</NavLink>
+      <NavLink href="#contact-form">联系我们</NavLink>
       <NavLink href="/login" tw="lg:ml-12!">
-        Login
+        登入
       </NavLink>
-      <PrimaryLink css={roundedHeaderButton && tw`rounded-full`}href="/#">Sign Up</PrimaryLink>
+      <PrimaryLink css={roundedHeaderButton && tw`rounded-full`}href="/#">注册</PrimaryLink>
     </NavLinks>
   ];
 
@@ -89,7 +93,7 @@ export default ({ roundedHeaderButton = false, logoLink, links, className, colla
   const defaultLogoLink = (
     <LogoLink href="/">
       <img src={logo} alt="logo" />
-      Treact
+      <p>欧领</p>
     </LogoLink>
   );
 

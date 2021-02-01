@@ -44,12 +44,12 @@ export default ({
   subheading = "Our Expertise",
   heading = (
     <>
-      Designed & Developed by <span tw="text-primary-500">Professionals.</span>
+      为外贸和高效率团队打造的<span tw="text-primary-500">订单和客户管理系统(CRM)</span>
     </>
   ),
-  description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-  primaryButtonText = "Learn More",
-  primaryButtonUrl = "https://timerse.com",
+  description = "在一个全球化经济环境里、总会有成本更低的国家来进行生产。 供应商们需要把握好每个销售线索、提高内部流程效率、和数字化信息为客户们提供更良好的服务和透明度。 欧领平台能帮助我们的客户前往互联网贸易时代、 带来更多出口，更少付出",
+  primaryButtonText = "获取3个月免费试用",
+  primaryButtonUrl = "#contact-form",
   imageSrc = TeamIllustrationSrc,
   buttonRounded = true,
   imageRounded = true,
@@ -71,7 +71,7 @@ export default ({
         </ImageColumn>
         <TextColumn textOnLeft={textOnLeft}>
           <TextContent>
-            <Subheading>{subheading}</Subheading>
+            <Subheading><a href="#product" id="product">{subheading}</a></Subheading>
             <Heading>{heading}</Heading>
             <Description>{description}</Description>
             <PrimaryButton buttonRounded={buttonRounded} as="a" href={primaryButtonUrl}>

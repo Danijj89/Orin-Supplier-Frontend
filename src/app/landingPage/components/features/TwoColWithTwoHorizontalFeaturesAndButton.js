@@ -8,6 +8,7 @@ import TeamIllustrationSrc from "../../images/team-illustration-2.svg";
 import { ReactComponent as SvgDotPattern } from "../../images/dot-pattern.svg";
 import { ReactComponent as BriefcaseIcon } from "feather-icons/dist/icons/briefcase.svg";
 import { ReactComponent as MoneyIcon } from "feather-icons/dist/icons/dollar-sign.svg";
+import SupportersLogoStripImage from "images/supporters.png";
 
 const Container = tw.div`relative`;
 const TwoColumn = tw.div`flex flex-col md:flex-row justify-between max-w-screen-xl mx-auto py-20 md:py-24 items-center`;
@@ -36,23 +37,33 @@ const Heading = tw(
 )`mt-4 font-black text-left text-3xl sm:text-4xl lg:text-5xl text-center md:text-left leading-tight`;
 const Description = tw.p`mt-8 text-center md:text-left text-sm md:text-base lg:text-lg font-medium leading-relaxed text-secondary-100`;
 
-const Features = tw.div`mx-auto md:mx-0 flex flex-col lg:flex-row max-w-xs lg:max-w-none`;
-const Feature = tw.div`mt-10 lg:mt-8 flex items-center md:items-start flex-col md:mr-8 last:mr-0`;
+// const Features = tw.div`mx-auto md:mx-0 flex flex-col lg:flex-row max-w-xs lg:max-w-none`;
+// const Feature = tw.div`mt-10 lg:mt-8 flex items-center md:items-start flex-col md:mr-8 last:mr-0`;
 
-const FeatureHeadingContainer = tw.div`flex items-center`;
-const FeatureIconContainer = styled.div`
-  ${tw`mx-auto inline-block border border-primary-500 text-primary-500 text-center rounded p-2 flex-shrink-0`}
-  ${props => [
-    props.iconRoundedFull && tw`rounded-full`,
-    props.iconFilled && tw`border-0 bg-primary-500 text-gray-100`
-  ]}
-  svg {
-    ${tw`w-5 h-5`}
+const CustomersLogoStrip = styled.div`
+  ${tw`mt-6 lg:mt-10`}
+  p {
+    ${tw`uppercase text-sm lg:text-xs tracking-wider font-bold text-gray-500`}
+  }
+  img {
+    ${tw`w-full lg:pr-4 xl:pr-16 opacity-75`}
   }
 `;
-const FeatureHeading = tw.div`ml-3 font-bold text-xl`;
 
-const FeatureDescription = tw.div`mt-4 text-center md:text-left text-gray-600 leading-relaxed`;
+// const FeatureHeadingContainer = tw.div`flex items-center`;
+// const FeatureIconContainer = styled.div`
+//   ${tw`mx-auto inline-block border border-primary-500 text-primary-500 text-center rounded p-2 flex-shrink-0`}
+//   ${props => [
+//     props.iconRoundedFull && tw`rounded-full`,
+//     props.iconFilled && tw`border-0 bg-primary-500 text-gray-100`
+//   ]}
+//   svg {
+//     ${tw`w-5 h-5`}
+//   }
+// `;
+// const FeatureHeading = tw.div`ml-3 font-bold text-xl`;
+
+// const FeatureDescription = tw.div`mt-4 text-center md:text-left text-gray-600 leading-relaxed`;
 
 const PrimaryButton = styled(PrimaryButtonBase)(props => [
   tw`mt-12 text-sm inline-block mx-auto md:mx-0`,
@@ -66,9 +77,9 @@ export default ({
       Designed & Developed by <span tw="text-primary-500">Professionals.</span>
     </>
   ),
-  description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-  primaryButtonText = "Learn More",
-  primaryButtonUrl = "https://timerse.com",
+  description = "欧领（Orin Limited）作为一个WEB平台，志在为客户简化国际贸易。我们的愿景是自动化繁琐的手工操作并格式化贸易数据为我们的客户创建新的业务商机。",
+  primaryButtonText = "关注我们",
+  primaryButtonUrl = "https://www.linkedin.com/company/orin-trade",
   imageSrc = TeamIllustrationSrc,
   buttonRounded = true,
   imageRounded = true,
@@ -113,26 +124,12 @@ export default ({
         </ImageColumn>
         <TextColumn textOnLeft={textOnLeft}>
           <TextContent>
-            <Subheading>{subheading}</Subheading>
+            <Subheading><a href="#company" id="company">{subheading}</a></Subheading>
             <Heading>{heading}</Heading>
             <Description>{description}</Description>
-            <Features>
-              {features.map((feature, index) => (
-                <Feature key={index}>
-                  <FeatureHeadingContainer>
-                    <FeatureIconContainer
-                      iconFilled={iconFilled}
-                      iconRoundedFull={iconRoundedFull}
-                      css={feature.iconContainerCss || iconContainerCss}
-                    >
-                      {<feature.Icon />}
-                    </FeatureIconContainer>
-                    <FeatureHeading>{feature.title}</FeatureHeading>
-                  </FeatureHeadingContainer>
-                  <FeatureDescription>{feature.description}</FeatureDescription>
-                </Feature>
-              ))}
-            </Features>
+            <CustomersLogoStrip>
+              <img src={SupportersLogoStripImage} alt="Our Customers" />
+            </CustomersLogoStrip>
 
             <PrimaryButton buttonRounded={buttonRounded} as="a" href={primaryButtonUrl}>
               {primaryButtonText}

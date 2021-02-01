@@ -7,15 +7,11 @@ import { SectionHeading, Subheading as SubheadingBase } from "../misc/Headings.j
 import { SectionDescription } from "../misc/Typography.js";
 
 import defaultCardImage from "../../images/shield-icon.svg";
-
 import { ReactComponent as SvgDecoratorBlob3 } from "../../images/svg-decorator-blob-3.svg";
-
-import SupportIconImage from "../../images/support-icon.svg";
 import ShieldIconImage from "../../images/shield-icon.svg";
-import CustomizeIconImage from "../../images/customize-icon.svg";
 import FastIconImage from "../../images/fast-icon.svg";
 import ReliableIconImage from "../../images/reliable-icon.svg";
-import SimpleIconImage from "../../images/simple-icon.svg";
+
 
 const Container = tw.div`relative`;
 
@@ -58,7 +54,7 @@ const DecoratorBlob = styled(SvgDecoratorBlob3)`
   ${tw`pointer-events-none absolute right-0 bottom-0 w-64 opacity-25 transform translate-x-32 translate-y-48 `}
 `;
 
-export default ({ cards = null, heading = "Amazing Features", subheading = "Features", description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." }) => {
+export default ({ cards = null, heading = "Amazing Features", subheading = "Features", description = "我们的系统能单独使用或者辅助现有的ERP、马上为您带来价值。" }) => {
   /*
    * This componets has an array of object denoting the cards defined below. Each object in the cards array can have the key (Change it according to your need, you can also add more objects to have more cards in this feature component) or you can directly pass this using the cards prop:
    *  1) imageSrc - the image shown at the top of the card
@@ -70,14 +66,18 @@ export default ({ cards = null, heading = "Amazing Features", subheading = "Feat
   const defaultCards = [
     {
       imageSrc: ShieldIconImage,
-      title: "Secure",
-      description: "We strictly only deal with vendors that provide top notch security."
+      title: "赢得28%更多客户",
+      description: "轻松管理管理销售线索和客户信息、 用智能软件提升赢取更多的业务的把握。"
     },
-    { imageSrc: SupportIconImage, title: "24/7 Support" },
-    { imageSrc: CustomizeIconImage, title: "Customizable" },
-    { imageSrc: ReliableIconImage, title: "Reliable" },
-    { imageSrc: FastIconImage, title: "Fast" },
-    { imageSrc: SimpleIconImage, title: "Easy" }
+    { imageSrc: FastIconImage,
+      title: "简化外贸单证 10倍",
+      description: "易如反掌的管理订单、一次输入数据并轻松生成所有出口文件。" },
+    { imageSrc: ReliableIconImage,
+      title: "优化内部订单管理",
+      description: "信息集中、一目了然。为对内部门和对外客户提高透明的订单状态。" },
+    // { imageSrc: ReliableIconImage, title: "Reliable" },
+    // { imageSrc: FastIconImage, title: "Fast" },
+    // { imageSrc: SimpleIconImage, title: "Easy" }
   ];
 
   if (!cards) cards = defaultCards;
@@ -85,7 +85,7 @@ export default ({ cards = null, heading = "Amazing Features", subheading = "Feat
   return (
     <Container>
       <ThreeColumnContainer>
-        {subheading && <Subheading>{subheading}</Subheading>}
+        {subheading && <Subheading><a href="#benefits" id="benefits">{subheading}</a></Subheading>}
         <Heading>{heading}</Heading>
         {description && <Description>{description}</Description>}
         <VerticalSpacer />

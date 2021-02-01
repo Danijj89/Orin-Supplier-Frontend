@@ -2,12 +2,12 @@ import React, {useState} from "react";
 import tw from "twin.macro";
 import styled from "styled-components";
 import { css } from "styled-components/macro"; //eslint-disable-line
-import { SectionHeading, Subheading as SubheadingBase } from "components/misc/Headings.js";
-import { SectionDescription } from "components/misc/Typography.js";
-import { PrimaryButton as PrimaryButtonBase } from "components/misc/Buttons.js";
-import { Container, ContentWithPaddingXl } from "components/misc/Layouts.js";
-import { ReactComponent as SvgDecoratorBlob1 } from "images/svg-decorator-blob-6.svg";
-import { ReactComponent as SvgDecoratorBlob2 } from "images/svg-decorator-blob-7.svg";
+import { SectionHeading, Subheading as SubheadingBase } from "../misc/Headings.js";
+import { SectionDescription } from "../misc/Typography.js";
+import { PrimaryButton as PrimaryButtonBase } from "../misc/Buttons.js";
+import { Container, ContentWithPaddingXl } from "../misc/Layouts.js";
+import { ReactComponent as SvgDecoratorBlob1 } from "../../images/svg-decorator-blob-6.svg";
+import { ReactComponent as SvgDecoratorBlob2 } from "../../images/svg-decorator-blob-7.svg";
 
 const HeaderContainer = tw.div`w-full flex flex-col items-center`;
 const Subheading = tw(SubheadingBase)`mb-4`;

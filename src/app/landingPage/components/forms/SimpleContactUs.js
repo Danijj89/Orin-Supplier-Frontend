@@ -1,9 +1,10 @@
 import React from "react";
 import styled from "styled-components";
+import { useDispatch } from 'react-redux';
 import tw from "twin.macro";
 import { css } from "styled-components/macro"; //eslint-disable-line
-import {ReactComponent as SvgDotPatternIcon} from "../../images/dot-pattern.svg"
-
+import {ReactComponent as SvgDotPatternIcon} from "../../images/dot-pattern.svg";
+import { sendContactInfo } from 'app/landingPage/duck/thunks.js';
 const Container = tw.div`relative`;
 const Content = tw.div`max-w-screen-xl mx-auto py-20 lg:py-24`;
 
@@ -29,39 +30,61 @@ const Column = tw.div`sm:w-5/12 flex flex-col`;
 const InputContainer = tw.div`relative py-5 mt-6`;
 const Label = tw.label`absolute top-0 left-0 tracking-wide font-semibold text-sm`;
 const Input = tw.input``;
-const TextArea = tw.textarea`h-24 sm:h-full resize-none`;
 const SubmitButton = tw.button`w-full sm:w-32 mt-6 py-3 bg-gray-100 text-primary-500 rounded-full font-bold tracking-wide shadow-lg uppercase text-sm transition duration-300 transform focus:outline-none focus:shadow-outline hover:bg-gray-300 hover:text-primary-700 hocus:-translate-y-px hocus:shadow-xl`;
 
 const SvgDotPattern1 = tw(SvgDotPatternIcon)`absolute bottom-0 right-0 transform translate-y-1/2 translate-x-1/2 -z-10 opacity-50 text-primary-500 fill-current w-24`
 
 export default () => {
+  const dispatch = useDispatch();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const { nameInput, emailInput, phonewechatInput, companyInput } = e.target.elements;
+    let contact = {
+      name: nameInput.value,
+      email: emailInput.value,
+      phonewechat: phonewechatInput.value,
+      company: companyInput.value,
+    };
+
+  
+    let result = await dispatch(sendContactInfo({contact}));
+    if (result.payload.status === 200) {
+        alert("我们收到了您的信息、我们会尽快联系您！");
+    } else {
+        alert("好像有问题、请联系我们的客户主管： Mirko mirko@orintrade.com, 微信/电话: 15217951858");
+    }
+  };
   return (
     <Container>
       <Content>
         <FormContainer>
           <div tw="mx-auto max-w-4xl">
-            <h2>Organize an Event</h2>
-            <form action="#">
+            <a href="#contact-form" id="contact-form"><h2>获取3个月免费试用</h2></a>
+            <form onSubmit={handleSubmit}>
               <TwoColumn>
                 <Column>
                   <InputContainer>
-                    <Label htmlFor="name-input">Your Name</Label>
-                    <Input id="name-input" type="text" name="name" placeholder="E.g. John Doe" />
+                    <Label htmlFor="name-input">姓名*</Label>
+                    <Input id="nameInput" type="text" name="name" placeholder="例如： 刘意如" />
                   </InputContainer>
                   <InputContainer>
-                    <Label htmlFor="email-input">Your Email Address</Label>
-                    <Input id="email-input" type="email" name="email" placeholder="E.g. john@mail.com" />
+                    <Label htmlFor="email-input">邮件*</Label>
+                    <Input required id="emailInput" type="email" name="email" placeholder="例如： 29080990@qq.com" />
                   </InputContainer>
                 </Column>
                 <Column>
-                  <InputContainer tw="flex-1">
-                    <Label htmlFor="name-input">Your Message</Label>
-                    <TextArea id="message-input" name="message" placeholder="E.g. Details about your event"/>
+                  <InputContainer>
+                    <Label htmlFor="phonewechat-input">电话/微信</Label>
+                    <Input id="phonewechatInput" type="text" name="name" placeholder="例如： 15217951888" />
+                  </InputContainer>
+                  <InputContainer>
+                    <Label htmlFor="company-input">公司</Label>
+                    <Input id="companyInput" type="text" name="email" placeholder="例如： 深圳美一天科技有限公司" />
                   </InputContainer>
                 </Column>
               </TwoColumn>
 
-              <SubmitButton type="submit" value="Submit">Submit</SubmitButton>
+              <SubmitButton type="submit" value="Submit">发送</SubmitButton>
             </form>
           </div>
           <SvgDotPattern1 />

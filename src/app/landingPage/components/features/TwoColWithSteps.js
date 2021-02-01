@@ -59,16 +59,16 @@ export default ({
 
   const defaultSteps = [
     {
-      heading: "Register",
-      description: "Create an account with us using Google or Facebook."
+      heading: "订单管理",
+      description: "接单， 分单， 发货， 各个节点系统帮您管理。"
     },
     {
-      heading: "Download",
-      description: "Browse and Download the template that you like from the marketplace."
+      heading: "客户管理",
+      description: "从销售线索到成为客户、每一个机会都不错过。."
     },
     {
-      heading: "Run",
-      description: "Follow the instructions to setup and customize the template to your needs."
+      heading: "单证管理",
+      description: "清单， 装箱单， 合同、 再也不需要手动操作。"
     }
   ];
 

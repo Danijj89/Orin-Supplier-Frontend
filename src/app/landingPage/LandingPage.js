@@ -7,16 +7,14 @@ import Features from "./components/features/ThreeColWithSideImage.js";
 import MainFeature from "./components/features/TwoColWithButton.js";
 import MainFeature2 from "./components/features/TwoColWithTwoHorizontalFeaturesAndButton.js";
 import FeatureWithSteps from "./components/features/TwoColWithSteps.js";
-import Pricing from "./components/pricing/ThreePlans.js";
-import Testimonial from "./components/testimonials/TwoColumnWithImageAndRating.js";
-import FAQ from "./components/faqs/SingleCol.js";
-import GetStarted from "./components/cta/GetStarted";
+// import Pricing from "./components/pricing/TwoPlansWithDurationSwitcher.js";
+// import Testimonial from "./components/testimonials/TwoColumnWithImageAndRating.js";
+// import FAQ from "./components/faqs/SingleCol.js";
+import ContactUs from "./components/forms/SimpleContactUs";
 import Footer from "./components/footers/FiveColumnWithBackground.js";
-import heroScreenshotImageSrc from "./images/hero-screenshot-1.png";
-import macHeroScreenshotImageSrc from "./images/hero-screenshot-2.png";
-import prototypeIllustrationImageSrc from "./images/prototype-illustration.svg";
-import { ReactComponent as BriefcaseIcon } from "feather-icons/dist/icons/briefcase.svg";
-import { ReactComponent as MoneyIcon } from "feather-icons/dist/icons/dollar-sign.svg";
+import order from "../../images/orders.png";
+import dashboard from "../../images/dashboard.png";
+import controlTower from "../../images/control_tower.svg";
 
 export default () => {
   const Subheading = tw.span`uppercase tracking-widest font-bold text-primary-500`;
@@ -26,56 +24,45 @@ export default () => {
     <AnimationRevealPage>
       <Hero roundedHeaderButton={true} />
       <Features
-        subheading={<Subheading>Features</Subheading>}
+        subheading={<Subheading>核心优势</Subheading>}
         heading={
           <>
-            We have Amazing <HighlightedText>Service.</HighlightedText>
+            已下载就能开始使用 <HighlightedText>无需繁琐的设置。</HighlightedText>
           </>
         }
       />
       <MainFeature
-        subheading={<Subheading>Quality Work</Subheading>}
-        imageSrc={heroScreenshotImageSrc}
+        subheading={<Subheading>高效率外贸团队</Subheading>}
+        imageSrc={order}
         imageBorder={true}
         imageDecoratorBlob={true}
       />
       <FeatureWithSteps
-        subheading={<Subheading>STEPS</Subheading>}
+        subheading={<Subheading>外贸管理功能</Subheading>}
         heading={
           <>
-            Easy to <HighlightedText>Get Started.</HighlightedText>
+            今天就能 <HighlightedText>开始使用</HighlightedText>
           </>
         }
         textOnLeft={false}
-        imageSrc={macHeroScreenshotImageSrc}
+        imageSrc={dashboard}
         imageDecoratorBlob={true}
         decoratorBlobCss={tw`xl:w-40 xl:h-40 opacity-15 -translate-x-1/2 left-1/2`}
       />
       <MainFeature2
-        subheading={<Subheading>VALUES</Subheading>}
+        subheading={<Subheading>关于欧领</Subheading>}
         heading={
           <>
-            We Always Abide by Our <HighlightedText>Principles.</HighlightedText>
+            我们的愿景是简化国际贸易，为进出口商带来更多 <HighlightedText>商机.</HighlightedText>
           </>
         }
-        imageSrc={prototypeIllustrationImageSrc}
+        imageSrc={controlTower}
         showDecoratorBlob={false}
-        features={[
-          {
-            Icon: MoneyIcon,
-            title: "Affordable",
-            description: "We promise to offer you the best rate we can - at par with the industry standard.",
-            iconContainerCss: tw`bg-green-300 text-green-800`
-          },
-          {
-            Icon: BriefcaseIcon,
-            title: "Professionalism",
-            description: "We assure you that our templates are designed and created by professional designers.",
-            iconContainerCss: tw`bg-red-300 text-red-800`
-          }
-        ]}
       />
-      <Pricing
+      {/* <Pricing 
+        heading={<>Flexible <HighlightedText>Plans</HighlightedText></>}
+      /> */}
+      {/* <Pricing
         subheading={<Subheading>Pricing</Subheading>}
         heading={
           <>
@@ -106,8 +93,8 @@ export default () => {
             features: ["90 Templates", "27 Landing Pages", "37 Internal Pages", "Personal Assistance"]
           }
         ]}
-      />
-      <Testimonial
+      /> */}
+      {/* <Testimonial
         subheading={<Subheading>Testimonials</Subheading>}
         heading={
           <>
@@ -136,8 +123,8 @@ export default () => {
             customerTitle: "Founder, EventsNYC"
           }
         ]}
-      />
-      <FAQ
+      /> */}
+      {/* <FAQ
         subheading={<Subheading>FAQS</Subheading>}
         heading={
           <>
@@ -176,8 +163,8 @@ export default () => {
               "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
           }
         ]}
-      />
-      <GetStarted/>
+      /> */}
+      <ContactUs/>
       <Footer />
     </AnimationRevealPage>
   );
