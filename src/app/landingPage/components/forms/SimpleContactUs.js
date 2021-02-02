@@ -1,10 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import { useDispatch } from 'react-redux';
 import tw from "twin.macro";
 import { css } from "styled-components/macro"; //eslint-disable-line
 import {ReactComponent as SvgDotPatternIcon} from "../../images/dot-pattern.svg";
-import { sendContactInfo } from 'app/landingPage/duck/thunks.js';
+import LandingPageService from "features/api/LandingPageService.js";
 const Container = tw.div`relative`;
 const Content = tw.div`max-w-screen-xl mx-auto py-20 lg:py-24`;
 
@@ -35,7 +34,6 @@ const SubmitButton = tw.button`w-full sm:w-32 mt-6 py-3 bg-gray-100 text-primary
 const SvgDotPattern1 = tw(SvgDotPatternIcon)`absolute bottom-0 right-0 transform translate-y-1/2 translate-x-1/2 -z-10 opacity-50 text-primary-500 fill-current w-24`
 
 export default () => {
-  const dispatch = useDispatch();
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { nameInput, emailInput, phonewechatInput, companyInput } = e.target.elements;
@@ -47,8 +45,8 @@ export default () => {
     };
 
   
-    let result = await dispatch(sendContactInfo({contact}));
-    if (result.payload.status === 200) {
+    let result = await LandingPageService.sendContactInfo(contact);
+    if (result.status === 200) {
         alert("我们收到了您的信息、我们会尽快联系您！");
     } else {
         alert("好像有问题、请联系我们的客户主管： Mirko mirko@orintrade.com, 微信/电话: 15217951858");

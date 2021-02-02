@@ -1,4 +1,9 @@
-import React from "react";
+import React, { useEffect }  from "react";
+import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { SESSION_USER } from 'app/sessionKeys.js';
+import { cleanAppState } from 'app/duck/slice.js';
+import { selectSessionUser } from 'app/duck/selectors.js';
 import tw from "twin.macro";
 import { css } from "styled-components/macro"; //eslint-disable-line
 import AnimationRevealPage from "./helpers/AnimationRevealPage.js";
@@ -17,8 +22,18 @@ import dashboard from "../../images/dashboard.png";
 import controlTower from "../../images/control_tower.svg";
 
 export default () => {
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const user = useSelector(selectSessionUser);
   const Subheading = tw.span`uppercase tracking-widest font-bold text-primary-500`;
   const HighlightedText = tw.span`text-primary-500`;
+  
+
+  useEffect(() => {
+        const sessionUser = sessionStorage.getItem(SESSION_USER);
+        if (user && sessionUser) history.push('/home/orders');
+        else dispatch(cleanAppState());
+    }, [history, user]);
 
   return (
     <AnimationRevealPage>

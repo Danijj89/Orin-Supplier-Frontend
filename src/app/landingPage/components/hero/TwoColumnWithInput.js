@@ -4,7 +4,8 @@ import tw from "twin.macro";
 import { useDispatch } from 'react-redux';
 //eslint-disable-next-line
 import { css } from "styled-components/macro";
-import { sendContactInfo } from 'app/landingPage/duck/thunks.js';
+import LandingPageService from "features/api/LandingPageService.js";
+
 import Header from "../headers/light.js";
 import { ReactComponent as SvgDecoratorBlob1 } from "../../images/svg-decorator-blob-1.svg";
 import DesignIllustration from "../../../../images/export.svg";
@@ -45,7 +46,6 @@ const DecoratorBlob1 = styled(SvgDecoratorBlob1)`
 // `;
 
 export default ({ roundedHeaderButton }) => {
-  const dispatch = useDispatch();
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { emailInputOnly} = e.target.elements;
@@ -54,8 +54,8 @@ export default ({ roundedHeaderButton }) => {
     };
 
   
-    let result = await dispatch(sendContactInfo({contact}));
-    if (result.payload.status === 200) {
+    let result = await LandingPageService.sendContactInfo(contact);
+    if (result.status === 200) {
         alert("我们收到了您的信息、我们会尽快联系您！");
     } else {
         alert("好像有问题、请联系我们的客户主管： Mirko mirko@orintrade.com, 微信/电话: 15217951858");

@@ -103,7 +103,7 @@ export default function LoginPage() {
 
     useEffect(() => {
         const sessionUser = sessionStorage.getItem(SESSION_USER);
-        if (user && sessionUser) history.push('/home/settings?tab=account');
+        if (user && sessionUser) history.push('/home/orders');
         else dispatch(cleanAppState());
     }, [history, dispatch, user]);
 
