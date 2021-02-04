@@ -513,7 +513,7 @@ export const ENGLISH = {
                 estimated: 'Estimated Completion',
                 actual: 'Actual Completion',
                 clientRef: 'Client Ref',
-                noOrder: 'No Orders',
+                noOrder: 'Order not in any shipment',
             },
             tableHeaderLabels: {
                 procurement: 'Procurement',

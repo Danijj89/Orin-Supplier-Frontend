@@ -8,7 +8,7 @@ import { LANGUAGE } from 'app/utils/constants.js';
 import { downloadOrder } from '../documents/duck/thunks.js';
 import { READ_ANY } from '../admin/utils/actions.js';
 import ShipmentPermission from '../shared/permissions/ShipmentPermission.js';
-import Box from '@material-ui/core/Box';
+import {Box, Divider, Grid} from '@material-ui/core';
 import ShipmentDocumentsCard from 'features/orders/ShipmentDocumentsCard.js';
 
 const useStyles = makeStyles((theme) => ({
@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
         marginTop: theme.spacing(1),
     },
     orderDocsCard: {
-        padding: theme.spacing(1),
+        marginTop: theme.spacing(2),
     },
     orderDocsActions: {
         marginRight: theme.spacing(1),
@@ -46,21 +46,30 @@ const SplitDocuments = React.memo(function SplitDocuments({ orderId, splitId }) 
 
     return (
         <ShipmentPermission action={ [READ_ANY] }>
+            <Grid container direction="row" justify="space-between">
+            <Grid item>
+             <Typography variant="h6">Order Documents</Typography>
+             </Grid>
+             <Grid item>
             <ThemedButton
-                variant="outlined"
+                variant="text"
                 onClick={ createGenerateDocumentHandler('xlsx') }
                 className={ classes.orderDocsActions }
             >
                 { buttons.generateExcel }
             </ThemedButton>
             <ThemedButton
-                variant="outlined"
+                variant="text"
                 onClick={ createGenerateDocumentHandler('pdf') }
                 className={ classes.orderDocsActions }
             >
                 { buttons.generatePdf }
             </ThemedButton>
+            </Grid>
+            </Grid >
+            <Divider variant="middle" />
             <Box className={ classes.orderDocsCard }>
+                <Typography variant="h6">Shipment Documents</Typography>
                 { isOrderInShipment &&
                 orderShipmentIds.map((shipmentId) => (
                     <ShipmentDocumentsCard
@@ -70,7 +79,7 @@ const SplitDocuments = React.memo(function SplitDocuments({ orderId, splitId }) 
                     />
                 )) }
                 { !isOrderInShipment && (
-                    <Typography variant="h6">{ labels.noOrder }</Typography>
+                    <Typography variant="subtitle1">{ labels.noOrder }</Typography>
                 ) }
             </Box>
         </ShipmentPermission>

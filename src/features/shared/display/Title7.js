@@ -13,7 +13,7 @@ const useStyles = makeStyles(theme => ({
 const Title7 = React.memo(function Title7({ title, bold, className }) {
     const classes = useStyles({ bold });
     return (
-        <Typography className={ clsx(classes.root, className) } variant="subtitle1">
+        <Typography style={{ fontWeight: 600 }} className={ clsx(classes.root, className) } variant="subtitle2">
             { title }
         </Typography>
     );

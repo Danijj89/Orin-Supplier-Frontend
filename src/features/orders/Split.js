@@ -23,7 +23,8 @@ const useStyles = makeStyles((theme) => ({
     },
     info: {
         display: 'flex',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        marginBottom: theme.spacing(3),
     }
 }));
 
@@ -41,7 +42,7 @@ const Split = React.memo(function Split({ orderId, split, currency, custom1, cus
     }, [history, location.pathname, parsed]);
 
     const clientRefInfo = useMemo(() => `${ labels.clientRef }: ${ clientRef }`, [clientRef]);
-    const crdInfo = useMemo(() => `${ labels.crd }: ${ dateToLocaleDate(crd, LOCALE) }`, [crd]);
+    const crdInfo = useMemo(() => `${ labels.crd }: ${ crd?dateToLocaleDate(crd, LOCALE) : "-" }`, [crd]);
 
     return (
         <>

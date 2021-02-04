@@ -6,12 +6,23 @@ import { useHistory, useLocation, useParams } from 'react-router-dom';
 import queryString from 'query-string';
 import LeadDetails from './LeadDetails.js';
 import LeadAddresses from './LeadAddresses.js';
+import { makeStyles } from '@material-ui/core/styles';
 
 const {
     tabsLabelsMap
 } = LANGUAGE.lead.lead;
 
+const useStyles = makeStyles((theme) => ({
+    container: {
+        margin: theme.spacing(2),
+    },
+    navTabs: {
+        marginBottom: theme.spacing(2),
+    },
+}));
+
 const Lead = React.memo(function Lead() {
+    const classes = useStyles();
     const history = useHistory();
     const location = useLocation();
     const { id: leadId } = useParams();
@@ -23,7 +34,7 @@ const Lead = React.memo(function Lead() {
         [history, leadId]);
 
     return (
-        <Paper>
+        <Paper className={classes.container}>
             <NavTabs
                 tabsLabelsMap={ tabsLabelsMap }
                 tabValue={ tabValue }
