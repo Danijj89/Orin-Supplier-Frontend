@@ -33,8 +33,6 @@ const ShipmentOrdersTable = React.memo(function ShipmentOrdersTable({ shipmentId
     const orders = useSelector(state => selectShipmentOrders(state, { shipmentId }));
     const itemUnitsMap = useSelector(selectItemUnitsMap);
 
-    console.log(orders)
-
     const onEditOrders = useCallback(
         () => history.push(`/home/shipments/shell?id=${ shipmentId }`),
         [history, shipmentId]);

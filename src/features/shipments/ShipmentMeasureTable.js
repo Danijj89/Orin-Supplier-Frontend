@@ -71,7 +71,6 @@ const ShipmentMeasureTable = React.memo(function ShipmentMeasureTable({
     }, [register]);
 
     const onSubmit = useCallback(data => {
-        console.log(data)
         data.items = tableItemsToItems(data.items);
         data.weightUnit = getOptionId(data.weightUnit);
         data.measurementUnit = getOptionId(data.measurementUnit);
