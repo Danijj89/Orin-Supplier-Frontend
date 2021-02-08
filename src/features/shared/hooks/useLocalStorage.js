@@ -1,15 +1,15 @@
 import { useState, useEffect } from 'react';
 
-export default function useSessionStorage(key, initialValue) {
+export default function useLocalStorage(key, initialValue) {
     const [value, setValue] = useState(() => {
-        const jsonValue = sessionStorage.getItem(key);
+        const jsonValue = localStorage.getItem(key);
         if (jsonValue != null) return JSON.parse(jsonValue);
         if (typeof initialValue === 'function') return initialValue();
         else return initialValue;
     });
 
     useEffect(() => {
-        sessionStorage.setItem(key, JSON.stringify(value));
+        localStorage.setItem(key, JSON.stringify(value));
     }, [key, value]);
 
     return [value, setValue];

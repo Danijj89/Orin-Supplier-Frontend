@@ -24,7 +24,7 @@ const ordersSlice = createSlice({
     initialState,
     reducers: {
         cleanNewOrder: (state, action) => {
-            sessionStorage.removeItem(SESSION_NEW_ORDER);
+            localStorage.removeItem(SESSION_NEW_ORDER);
         },
         cleanCurrentOrderId: (state, action) => {
             state.currentOrderId = null;

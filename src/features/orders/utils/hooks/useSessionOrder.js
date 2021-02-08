@@ -1,4 +1,4 @@
-import useSessionStorage from 'features/shared/hooks/useSessionStorage.js';
+import useLocalStorage from 'features/shared/hooks/useLocalStorage.js';
 import { SESSION_NEW_ORDER } from 'app/sessionKeys.js';
 import { useSelector } from 'react-redux';
 import { selectCompanyDefaultAddress, selectCurrentCompany } from 'features/home/duck/home/selectors.js';
@@ -30,5 +30,5 @@ export default function useSessionOrder() {
         items: [defaultRowItem]
     };
 
-    return useSessionStorage(SESSION_NEW_ORDER, initialOrder);
+    return useLocalStorage(SESSION_NEW_ORDER, initialOrder);
 }

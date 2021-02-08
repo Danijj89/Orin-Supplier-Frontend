@@ -1,4 +1,4 @@
-import { AXIOS_REQUEST_CONFIG } from '../../app/utils/constants.js';
+import { AXIOS_REQUEST_CONFIG } from 'app/utils/constants.js';
 import axios from 'axios';
 
 const signIn = async (data) => {

@@ -3,8 +3,8 @@ import { SESSION_APP_DATA, SESSION_COOKIE, SESSION_USER } from '../sessionKeys.j
 import { signIn } from './thunks.js';
 
 const initialState = {
-    user: JSON.parse(sessionStorage.getItem(SESSION_USER)),
-    appData: JSON.parse(sessionStorage.getItem(SESSION_APP_DATA)),
+    user: JSON.parse(localStorage.getItem(SESSION_USER)),
+    appData: JSON.parse(localStorage.getItem(SESSION_APP_DATA)),
     ac: null,
     status: 'IDLE',
     error: null,
@@ -30,12 +30,15 @@ const appSlice = createSlice({
             state.status = 'PENDING';
         },
         [signIn.fulfilled]: (state, action) => {
-            const { user, expires, appData } = action.payload;
+            const { company, roles, appData } = action.payload;
+            const user = JSON.parse(localStorage.getItem('_authing_user'));
+            user.company = company;
+            user.roles = roles;
             state.user = user;
             state.appData = appData;
-            sessionStorage.setItem(SESSION_COOKIE, JSON.stringify(new Date(Date.now() + expires)));
-            sessionStorage.setItem(SESSION_USER, JSON.stringify(user));
-            sessionStorage.setItem(SESSION_APP_DATA, JSON.stringify(appData));
+            localStorage.setItem(SESSION_COOKIE, JSON.stringify(new Date(user.tokenExpiredAt)));
+            localStorage.setItem(SESSION_USER, JSON.stringify(user));
+            localStorage.setItem(SESSION_APP_DATA, JSON.stringify(appData));
             state.status = 'FULFILLED';
         },
         [signIn.rejected]: (state, action) => {

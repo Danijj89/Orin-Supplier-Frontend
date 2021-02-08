@@ -5,7 +5,7 @@ import queryString from 'query-string';
 import { useSelector } from 'react-redux';
 import { selectPopulatedShipmentById } from '../shipments/duck/selectors.js';
 import { shipmentToSalesContract } from '../shared/utils/entityConversion.js';
-import useSessionStorage from '../shared/hooks/useSessionStorage.js';
+import useLocalStorage from 'features/shared/hooks/useLocalStorage.js';
 import { SESSION_NEW_DOCUMENT } from 'app/sessionKeys.js';
 import SalesContractDetails from './SalesContractDetails.js';
 import SalesContractProducts from './SalesContractProducts.js';
@@ -15,7 +15,7 @@ const SalesContract = React.memo(function SalesContract() {
     const { shipment: shipmentId, step } = queryString.parse(location.search);
     const shipment = useSelector(state => selectPopulatedShipmentById(state, { shipmentId }));
     const initialSC = shipmentToSalesContract(shipment);
-    const [salesContract, setSalesContract] = useSessionStorage(SESSION_NEW_DOCUMENT, initialSC);
+    const [salesContract, setSalesContract] = useLocalStorage(SESSION_NEW_DOCUMENT, initialSC);
 
     return (
         <Paper>

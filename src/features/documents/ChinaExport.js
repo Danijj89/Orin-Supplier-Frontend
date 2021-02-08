@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { selectPopulatedShipmentById } from '../shipments/duck/selectors.js';
 import { shipmentToChinaExport } from '../shared/utils/entityConversion.js';
 import ChinaExportDetails from './ChinaExportDetails.js';
-import useSessionStorage from '../shared/hooks/useSessionStorage.js';
+import useLocalStorage from 'features/shared/hooks/useLocalStorage.js';
 import { SESSION_NEW_DOCUMENT } from 'app/sessionKeys.js';
 import ChinaExportDetailsOptional from './ChinaExportDetailsOptional.js';
 import ChinaExportProducts from './ChinaExportProducts.js';
@@ -16,7 +16,7 @@ const ChinaExport = React.memo(function ChinaExport() {
     const { shipment: shipmentId, step } = queryString.parse(location.search);
     const shipment = useSelector(state => selectPopulatedShipmentById(state, { shipmentId }));
     const initialCE = shipmentToChinaExport(shipment);
-    const [chinaExport, setChinaExport] = useSessionStorage(SESSION_NEW_DOCUMENT, initialCE);
+    const [chinaExport, setChinaExport] = useLocalStorage(SESSION_NEW_DOCUMENT, initialCE);
 
     return (
         <Paper>

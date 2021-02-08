@@ -1,7 +1,6 @@
 export const ENGLISH_ERRORS = {
     LOGIN_REQUIRED: 'You need to login.',
     LOGIN_FAILURE: 'Invalid email or password.',
-    USER_NOT_ACTIVE: 'This user has been deactivated.',
     MISSING_DATA: 'Unable to perform operation. Missing required data.',
     CONFIRM_PASSWORD_MISMATCH: 'Password and confirm password don\'t match.',
     DELETE_COMPANY_DEFAULT_ADDRESS: 'Unable to delete company address. Given address is the default address.',

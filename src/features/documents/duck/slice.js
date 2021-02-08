@@ -12,7 +12,7 @@ const documentsSlice = createSlice({
     initialState,
     reducers: {
         cleanNewDocument: (state, action) => {
-            sessionStorage.removeItem(SESSION_NEW_DOCUMENT);
+            localStorage.removeItem(SESSION_NEW_DOCUMENT);
         },
         cleanDocumentState: (state, action) => {
             state.status = 'IDLE';

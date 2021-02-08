@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { Checkbox, FormControlLabel } from '@material-ui/core';
 import { LANGUAGE } from 'app/utils/constants.js';
-import useSessionStorage from 'features/shared/hooks/useSessionStorage.js';
+import useLocalStorage from 'features/shared/hooks/useLocalStorage.js';
 
 const {
     includeLabel
@@ -10,7 +10,7 @@ const {
 
 const ArchiveSelector = React.memo(function ArchivedCheckbox({ options }) {
     const { sessionKey, fetchData, fetchArchivedData } = options;
-    const [includeArchived, setIncludeArchived] = useSessionStorage(sessionKey, false);
+    const [includeArchived, setIncludeArchived] = useLocalStorage(sessionKey, false);
     const onChange = useCallback(
         (e) => {
             const { checked } = e.target;

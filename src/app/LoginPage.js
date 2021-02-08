@@ -15,6 +15,7 @@ import { SESSION_USER } from './sessionKeys.js';
 import { cleanAppState } from './duck/slice.js';
 import { resetAppStatus } from 'app/duck/slice.js';
 import Title3 from 'features/shared/display/Title3.js';
+import { AuthenticationClient } from 'authing-js-sdk';
 
 const {
     title,
@@ -97,15 +98,27 @@ export default function LoginPage() {
     const appError = useSelector(selectAppError);
     const user = useSelector(selectSessionUser);
 
+    const onAuthError = (code, message, data) => {
+        console.log(code, message, data)
+    }
+
+    const authing = new AuthenticationClient({
+        appId: process.env.NODE_ENV
+            ? process.env.REACT_APP_DEV_AUTHING_APP_ID
+            : process.env.REACT_APP_DEV_AUTHING_APP_ID,
+        appDomain: process.env.REACT_APP_DEV_AUTHING_APP_DOMAIN,
+        onError: onAuthError
+    });
+
     useEffect(() => {
         if (appStatus === 'REJECTED' || appStatus === 'FULFILLED') return () => dispatch(resetAppStatus());
     }, [dispatch, appStatus]);
 
-    useEffect(() => {
-        const sessionUser = sessionStorage.getItem(SESSION_USER);
-        if (user && sessionUser) history.push('/home/settings?tab=account');
-        else dispatch(cleanAppState());
-    }, [history, dispatch, user]);
+    // useEffect(() => {
+    //     const sessionUser = localStorage.getItem(SESSION_USER);
+    //     if (user && sessionUser) history.push('/home/settings?tab=account');
+    //     else dispatch(cleanAppState());
+    // }, [history, dispatch, user]);
 
     const { register, errors, handleSubmit } = useForm({
         mode: 'onSubmit',
@@ -115,9 +128,12 @@ export default function LoginPage() {
         },
     });
 
-    const onSignInClick = useCallback(async (credentials) => {
-        dispatch(signIn({ credentials }));
-    }, [dispatch]);
+    const onSignInClick = useCallback(async ({ email, password }) => {
+        const { id: userId, token, tokenExpiredAt } = await authing.loginByEmail(email, password);
+        const sessionData = { userId, token, tokenExpiredAt };
+        dispatch(signIn({ sessionData }));
+        history.push('/home')
+    }, [dispatch, authing, history]);
 
     const errMessages = useMemo(() => {
         const errs = Object.values(errors).map(err => err.message);

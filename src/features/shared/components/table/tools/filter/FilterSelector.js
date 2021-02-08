@@ -11,7 +11,7 @@ import ThemedButton from '../../../../buttons/ThemedButton.js';
 import Popover from '@material-ui/core/Popover';
 import DateFilter from './filters/DateFilter.js';
 import OptionFilter from './filters/OptionFilter.js';
-import useSessionStorage from '../../../../hooks/useSessionStorage.js';
+import useLocalStorage from 'features/shared/hooks/useLocalStorage.js';
 import TextFilter from './filters/TextFilter.js';
 import { LANGUAGE } from 'app/utils/constants.js';
 import DropdownFilter from './filters/DropdownFilter.js';
@@ -47,7 +47,7 @@ const FilterSelector = React.memo(function FilterSelector({
         () => prepareFilters(initialFilters),
         [initialFilters]
     );
-    const [filters, setFilters] = useSessionStorage(
+    const [filters, setFilters] = useLocalStorage(
         sessionKey,
         preparedFilters
     );

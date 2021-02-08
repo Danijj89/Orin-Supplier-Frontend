@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom';
 import queryString from 'query-string';
 import { useSelector } from 'react-redux';
 import { selectPopulatedShipmentById } from '../shipments/duck/selectors.js';
-import useSessionStorage from '../shared/hooks/useSessionStorage.js';
+import useLocalStorage from 'features/shared/hooks/useLocalStorage.js';
 import { SESSION_NEW_DOCUMENT } from 'app/sessionKeys.js';
 import PackingListDetails from './PackingListDetails.js';
 import { shipmentToPackingList } from '../shared/utils/entityConversion.js';
@@ -16,7 +16,7 @@ const PackingList = React.memo(function PackingList() {
     const { shipment: shipmentId, step } = queryString.parse(location.search);
     const shipment = useSelector(state => selectPopulatedShipmentById(state, { shipmentId }));
     const initialPL = shipmentToPackingList(shipment);
-    const [packingList, setPackingList] = useSessionStorage(SESSION_NEW_DOCUMENT, initialPL);
+    const [packingList, setPackingList] = useLocalStorage(SESSION_NEW_DOCUMENT, initialPL);
 
     return (
         <Paper>

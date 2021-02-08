@@ -79,25 +79,25 @@ const Home = React.memo(function Home() {
             container
             direction="column"
             justify="flex-start"
-            className={classes.root}
+            className={ classes.root }
         >
             <Grid item>
-                <NavBar />
+                <NavBar/>
             </Grid>
-            <Grid item className={classes.content}>
+            <Grid item className={ classes.content }>
                 <Switch>
                     <Route
                         exact
-                        path={[`${match.path}`, `${match.path}/orders`]}
+                        path={ [`${ match.path }`, `${ match.path }/orders`] }
                         isPrivate
                     >
                         <Suspense>
-                            <OrderOverviewContainer />
+                            <OrderOverviewContainer/>
                         </Suspense>
                     </Route>
-                    <Route exact path={`${match.url}/orders/new`} isPrivate>
+                    <Route exact path={ `${ match.url }/orders/new` } isPrivate>
                         <Suspense>
-                            <CreateOrderContainer />
+                            <CreateOrderContainer/>
                         </Suspense>
                     </Route>
                     <Route
@@ -106,115 +106,115 @@ const Home = React.memo(function Home() {
                         isPrivate
                     >
                         <Suspense>
-                            <OrderContainer />
+                            <OrderContainer/>
                         </Suspense>
                     </Route>
-                    <Route exact path={`${match.path}/settings`} isPrivate>
+                    <Route exact path={ `${ match.path }/settings` } isPrivate>
                         <Suspense>
-                            <SettingsContainer />
+                            <SettingsContainer/>
                         </Suspense>
                     </Route>
-                    <Route exact path={`${match.url}/clients/:id`} isPrivate>
+                    <Route exact path={ `${ match.url }/clients/:id` } isPrivate>
                         <Suspense>
-                            <ClientContainer />
+                            <ClientContainer/>
                         </Suspense>
                     </Route>
-                    <Route exact path={`${match.url}/clients`} isPrivate>
+                    <Route exact path={ `${ match.url }/clients` } isPrivate>
                         <Suspense>
-                            <ClientOverviewContainer />
+                            <ClientOverviewContainer/>
                         </Suspense>
                     </Route>
-                    <Route exact path={`${match.url}/products`} isPrivate>
+                    <Route exact path={ `${ match.url }/products` } isPrivate>
                         <Suspense>
-                            <ProductOverviewContainer />
+                            <ProductOverviewContainer/>
                         </Suspense>
                     </Route>
-                    <Route exact path={`${match.url}/leads`} isPrivate>
+                    <Route exact path={ `${ match.url }/leads` } isPrivate>
                         <Suspense>
-                            <LeadOverviewContainer />
+                            <LeadOverviewContainer/>
                         </Suspense>
                     </Route>
-                    <Route exact path={`${match.url}/leads/:id`} isPrivate>
+                    <Route exact path={ `${ match.url }/leads/:id` } isPrivate>
                         <Suspense>
-                            <LeadContainer />
+                            <LeadContainer/>
                         </Suspense>
                     </Route>
-                    <Route exact path={`${match.url}/shipments`} isPrivate>
+                    <Route exact path={ `${ match.url }/shipments` } isPrivate>
                         <Suspense>
-                            <ShipmentOverviewContainer />
-                        </Suspense>
-                    </Route>
-                    <Route
-                        exact
-                        path={`${match.url}/shipments/:id/edit`}
-                        isPrivate
-                    >
-                        <Suspense>
-                            <EditShipmentContainer />
+                            <ShipmentOverviewContainer/>
                         </Suspense>
                     </Route>
                     <Route
                         exact
-                        path={[`${match.url}/shipments/shell`]}
+                        path={ `${ match.url }/shipments/:id/edit` }
                         isPrivate
                     >
                         <Suspense>
-                            <CreateShipmentContainer />
-                        </Suspense>
-                    </Route>
-                    <Route exact path={`${match.url}/shipments/:id`} isPrivate>
-                        <Suspense>
-                            <ShipmentContainer />
+                            <EditShipmentContainer/>
                         </Suspense>
                     </Route>
                     <Route
                         exact
-                        path={`${match.url}/documents/ci/new`}
+                        path={ [`${ match.url }/shipments/shell`] }
                         isPrivate
                     >
                         <Suspense>
-                            <CommercialInvoiceContainer />
+                            <CreateShipmentContainer/>
+                        </Suspense>
+                    </Route>
+                    <Route exact path={ `${ match.url }/shipments/:id` } isPrivate>
+                        <Suspense>
+                            <ShipmentContainer/>
                         </Suspense>
                     </Route>
                     <Route
                         exact
-                        path={`${match.url}/documents/pl/new`}
+                        path={ `${ match.url }/documents/ci/new` }
                         isPrivate
                     >
                         <Suspense>
-                            <PackingListContainer />
+                            <CommercialInvoiceContainer/>
                         </Suspense>
                     </Route>
                     <Route
                         exact
-                        path={`${match.url}/documents/sc/new`}
+                        path={ `${ match.url }/documents/pl/new` }
                         isPrivate
                     >
                         <Suspense>
-                            <SalesContractContainer />
+                            <PackingListContainer/>
                         </Suspense>
                     </Route>
                     <Route
                         exact
-                        path={`${match.url}/documents/ce/new`}
+                        path={ `${ match.url }/documents/sc/new` }
                         isPrivate
                     >
                         <Suspense>
-                            <ChinaExportContainer />
+                            <SalesContractContainer/>
                         </Suspense>
                     </Route>
-                    <Route exact path={`${match.url}/admin`} isPrivate>
+                    <Route
+                        exact
+                        path={ `${ match.url }/documents/ce/new` }
+                        isPrivate
+                    >
                         <Suspense>
-                            <AdminContainer />
+                            <ChinaExportContainer/>
                         </Suspense>
                     </Route>
-                    <Route exact path={`${match.url}/dashboard`} isPrivate>
+                    <Route exact path={ `${ match.url }/admin` } isPrivate>
                         <Suspense>
-                            <DashboardContainer />
+                            <AdminContainer/>
+                        </Suspense>
+                    </Route>
+                    <Route exact path={ `${ match.url }/dashboard` } isPrivate>
+                        <Suspense>
+                            <DashboardContainer/>
                         </Suspense>
                     </Route>
                     <Route>
-                        <Redirect to={'/not_found'} />
+                        <Redirect to={ '/not_found' }/>
                     </Route>
                 </Switch>
             </Grid>

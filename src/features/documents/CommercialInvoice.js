@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { Paper } from '@material-ui/core';
 import CommercialInvoiceDetails from './CommercialInvoiceDetails.js';
 import { useSelector } from 'react-redux';
-import useSessionStorage from '../shared/hooks/useSessionStorage.js';
+import useLocalStorage from 'features/shared/hooks/useLocalStorage.js';
 import { SESSION_NEW_DOCUMENT } from 'app/sessionKeys.js';
 import {
     shipmentToCommercialInvoice
@@ -17,7 +17,7 @@ const CommercialInvoice = React.memo(function CommercialInvoice() {
     const { shipment: shipmentId, step } = queryString.parse(location.search);
     const shipment = useSelector(state => selectPopulatedShipmentById(state, { shipmentId }));
     const initialCI = shipmentToCommercialInvoice(shipment);
-    const [commercialInvoice, setCommercialInvoice] = useSessionStorage(SESSION_NEW_DOCUMENT, initialCI);
+    const [commercialInvoice, setCommercialInvoice] = useLocalStorage(SESSION_NEW_DOCUMENT, initialCI);
 
     return (
         <Paper>
