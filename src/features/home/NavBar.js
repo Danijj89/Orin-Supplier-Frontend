@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import logo from '../../images/orinlogo.png';
-import { LANGUAGE } from '../../app/utils/constants.js';
+import { LANGUAGE } from 'app/utils/constants.js';
 import {
     CardMedia,
     List,
@@ -22,7 +22,8 @@ import {
     LocalOfferOutlined as IconTag,
     AddCircleOutlineOutlined as IconPlus,
     SupervisorAccount as IconAdmin,
-    Dashboard as DashboardIcon,
+    Dashboard as IconDashboard,
+    ExitToApp as IconSignOut
 } from '@material-ui/icons';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MoreIcon from '@material-ui/icons/MoreVert';
@@ -32,7 +33,7 @@ import { fetchClients } from '../clients/duck/thunks.js';
 import { fetchShipments } from '../shipments/duck/thunks.js';
 import { fetchProducts } from '../products/duck/thunks.js';
 import { fetchDashboardData } from '../dashboard/duck/thunks.js';
-import { selectSessionUserName } from '../../app/duck/selectors.js';
+import { selectSessionUserName } from 'app/duck/selectors.js';
 import { READ_ANY, READ_OWN } from '../admin/utils/actions.js';
 import OrderPermission from '../shared/permissions/OrderPermission.js';
 import LeadPermission from '../shared/permissions/LeadPermission.js';
@@ -41,6 +42,7 @@ import ShipmentPermission from '../shared/permissions/ShipmentPermission.js';
 import ProductPermission from '../shared/permissions/ProductPermission.js';
 import PermissionPermission from '../shared/permissions/PermissionPermission.js';
 import DashboardPermission from '../shared/permissions/DashboardPermission.js';
+import { AuthenticationClient } from 'authing-js-sdk';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -101,6 +103,14 @@ const NavBar = React.memo(function NavBar() {
     const currentTab = location.pathname.split('/')[2];
     const userName = useSelector(selectSessionUserName);
 
+    const authing = useMemo(() => new AuthenticationClient({
+        appId: process.env.NODE_ENV
+            ? process.env.REACT_APP_DEV_AUTHING_APP_ID
+            : process.env.REACT_APP_DEV_AUTHING_APP_ID,
+        appDomain: process.env.REACT_APP_DEV_AUTHING_APP_DOMAIN,
+        onError: (code, message, data) => console.log(code, message, data)
+    }), []);
+
     const onTabClick = (tabName, href) => {
         if (tabName === currentTab) {
             switch (tabName) {
@@ -125,107 +135,128 @@ const NavBar = React.memo(function NavBar() {
         history.push(href);
     };
 
-    const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+    const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
+    const [userMenuAnchorEl, setUserMenuAnchorEl] = useState(null);
 
-    const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+    const handleMobileMenuClose = useCallback(
+        () => setMobileMoreAnchorEl(null)
+        , []);
 
-    const handleMobileMenuClose = () => {
-        setMobileMoreAnchorEl(null);
-    };
+    const handleMobileMenuOpen = useCallback(e =>
+            setMobileMoreAnchorEl(e.currentTarget)
+        , []);
 
-    const handleMobileMenuOpen = (event) => {
-        setMobileMoreAnchorEl(event.currentTarget);
-    };
+    const onUserMenuOpen = useCallback(e =>
+            setUserMenuAnchorEl(e.currentTarget),
+        []);
 
-    const mobileMenuId = 'primary-search-account-menu-mobile';
+    const onUserMenuClose = useCallback(
+        () => setUserMenuAnchorEl(null),
+        []);
+
+    const onSignOut = useCallback(async () => {
+            await authing.logout();
+            localStorage.clear();
+            history.push('/login');
+        },
+        [history, authing]);
+
     const renderMobileMenu = (
         <Menu
-            anchorEl={mobileMoreAnchorEl}
-            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-            id={mobileMenuId}
+            anchorEl={ mobileMoreAnchorEl }
+            anchorOrigin={ { vertical: 'top', horizontal: 'right' } }
+            id="mobile-user-navbar-menu"
             keepMounted
-            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-            open={isMobileMenuOpen}
-            onClose={handleMobileMenuClose}
+            transformOrigin={ { vertical: 'top', horizontal: 'right' } }
+            open={ Boolean(mobileMoreAnchorEl) }
+            onClose={ handleMobileMenuClose }
         >
-            {/* The div here is to avoid ref forward error */}
+            {/* The div here is to avoid ref forward error */ }
             <div>
-                <OrderPermission action={[READ_ANY, READ_OWN]}>
+                <OrderPermission action={ [READ_ANY, READ_OWN] }>
                     <MenuItem
-                        onClick={() => onTabClick('orders', '/home/orders')}
+                        onClick={ () => onTabClick('orders', '/home/orders') }
                     >
                         <IconButton color="inherit">
-                            <IconViewStream />
+                            <IconViewStream/>
                         </IconButton>
-                        {tabsLabelsMap.orders}
+                        { tabsLabelsMap.orders }
                     </MenuItem>
                 </OrderPermission>
             </div>
-            <DashboardPermission action={[READ_ANY]}>
+            <DashboardPermission action={ [READ_ANY] }>
                 <MenuItem
-                    onClick={() => onTabClick('dashboard', '/home/dashboard')}
+                    onClick={ () => onTabClick('dashboard', '/home/dashboard') }
                 >
                     <IconButton color="inherit">
-                        <DashboardIcon />
+                        <IconDashboard/>
                     </IconButton>
-                    {tabsLabelsMap.dashboard}
+                    { tabsLabelsMap.dashboard }
                 </MenuItem>
             </DashboardPermission>
-            <ClientPermission action={[READ_ANY, READ_OWN]}>
+            <ClientPermission action={ [READ_ANY, READ_OWN] }>
                 <MenuItem
-                    onClick={() => onTabClick('clients', '/home/clients')}
+                    onClick={ () => onTabClick('clients', '/home/clients') }
                 >
                     <IconButton color="inherit">
-                        <IconPeople />
+                        <IconPeople/>
                     </IconButton>
-                    {tabsLabelsMap.clients}
+                    { tabsLabelsMap.clients }
                 </MenuItem>
             </ClientPermission>
-            <LeadPermission action={[READ_ANY, READ_OWN]}>
-                <MenuItem onClick={() => onTabClick('leads', '/home/leads')}>
+            <LeadPermission action={ [READ_ANY, READ_OWN] }>
+                <MenuItem onClick={ () => onTabClick('leads', '/home/leads') }>
                     <IconButton color="inherit">
-                        <IconPlus />
+                        <IconPlus/>
                     </IconButton>
-                    {tabsLabelsMap.leads}
+                    { tabsLabelsMap.leads }
                 </MenuItem>
             </LeadPermission>
-            <ShipmentPermission action={[READ_ANY, READ_OWN]}>
+            <ShipmentPermission action={ [READ_ANY, READ_OWN] }>
                 <MenuItem
-                    onClick={() => onTabClick('shipments', '/home/shipments')}
+                    onClick={ () => onTabClick('shipments', '/home/shipments') }
                 >
                     <IconButton color="inherit">
-                        <IconBoat />
+                        <IconBoat/>
                     </IconButton>
-                    {tabsLabelsMap.shipments}
+                    { tabsLabelsMap.shipments }
                 </MenuItem>
             </ShipmentPermission>
-            <ProductPermission action={[READ_ANY]}>
+            <ProductPermission action={ [READ_ANY] }>
                 <MenuItem
-                    onClick={() => onTabClick('products', '/home/products')}
+                    onClick={ () => onTabClick('products', '/home/products') }
                 >
                     <IconButton color="inherit">
-                        <IconTag />
+                        <IconTag/>
                     </IconButton>
-                    {tabsLabelsMap.products}
+                    { tabsLabelsMap.products }
                 </MenuItem>
             </ProductPermission>
-            <PermissionPermission action={READ_ANY}>
-                <MenuItem onClick={() => onTabClick('admin', '/home/admin')}>
+            <PermissionPermission action={ READ_ANY }>
+                <MenuItem onClick={ () => onTabClick('admin', '/home/admin') }>
                     <IconButton color="inherit">
-                        <IconAdmin />
+                        <IconAdmin/>
                     </IconButton>
-                    {tabsLabelsMap.admin}
+                    { tabsLabelsMap.admin }
                 </MenuItem>
             </PermissionPermission>
             <MenuItem
-                onClick={() =>
+                onClick={ () =>
                     onTabClick('settings', '/home/settings?tab=account')
                 }
             >
                 <IconButton color="inherit">
-                    <AccountCircle />
+                    <AccountCircle/>
                 </IconButton>
-                {tabsLabelsMap.settings}
+                { tabsLabelsMap.settings }
+            </MenuItem>
+            <MenuItem
+                onClick={ onSignOut }
+            >
+                <IconButton color="inherit">
+                    <IconSignOut/>
+                </IconButton>
+                { tabsLabelsMap.signOut }
             </MenuItem>
         </Menu>
     );
@@ -235,187 +266,214 @@ const NavBar = React.memo(function NavBar() {
             <AppBar
                 position="static"
                 color="secondary"
-                className={classes.root}
+                className={ classes.root }
             >
                 <Toolbar>
                     <CardMedia
                         component="img"
-                        src={logo}
+                        src={ logo }
                         alt="Logo"
-                        className={classes.logo}
+                        className={ classes.logo }
                     />
-                    <List className={classes.menu}>
-                        <OrderPermission action={[READ_ANY, READ_OWN]}>
+                    <List className={ classes.menu }>
+                        <OrderPermission action={ [READ_ANY, READ_OWN] }>
                             <ListItem
                                 button
                                 component="a"
-                                onClick={() =>
+                                onClick={ () =>
                                     onTabClick('orders', '/home/orders')
                                 }
-                                selected={currentTab === 'orders'}
-                                classes={{
+                                selected={ currentTab === 'orders' }
+                                classes={ {
                                     root: classes.menuButtons,
                                     selected: classes.selected,
-                                }}
+                                } }
                             >
                                 <ListItemText>
-                                    <span className={classes.tabsText}>
-                                        {tabsLabelsMap.orders}
+                                    <span className={ classes.tabsText }>
+                                        { tabsLabelsMap.orders }
                                     </span>
                                 </ListItemText>
                             </ListItem>
                         </OrderPermission>
-                        <DashboardPermission action={[READ_ANY, READ_OWN]}>
+                        <DashboardPermission action={ [READ_ANY, READ_OWN] }>
                             <ListItem
                                 button
                                 component="a"
-                                onClick={() =>
+                                onClick={ () =>
                                     onTabClick('dashboard', '/home/dashboard')
                                 }
-                                classes={{
+                                classes={ {
                                     root: classes.menuButtons,
                                     selected: classes.selected,
-                                }}
-                                selected={currentTab === 'dashboard'}
+                                } }
+                                selected={ currentTab === 'dashboard' }
                             >
                                 <ListItemText>
-                                    <span className={classes.tabsText}>
-                                        {tabsLabelsMap.dashboard}
+                                    <span className={ classes.tabsText }>
+                                        { tabsLabelsMap.dashboard }
                                     </span>
                                 </ListItemText>
                             </ListItem>
                         </DashboardPermission>
-                        <ClientPermission action={[READ_ANY, READ_OWN]}>
+                        <ClientPermission action={ [READ_ANY, READ_OWN] }>
                             <ListItem
                                 button
                                 component="a"
-                                onClick={() =>
+                                onClick={ () =>
                                     onTabClick('clients', '/home/clients')
                                 }
-                                classes={{
+                                classes={ {
                                     root: classes.menuButtons,
                                     selected: classes.selected,
-                                }}
-                                selected={currentTab === 'clients'}
+                                } }
+                                selected={ currentTab === 'clients' }
                             >
                                 <ListItemText>
-                                    <span className={classes.tabsText}>
-                                        {tabsLabelsMap.clients}
+                                    <span className={ classes.tabsText }>
+                                        { tabsLabelsMap.clients }
                                     </span>
                                 </ListItemText>
                             </ListItem>
                         </ClientPermission>
-                        <LeadPermission action={[READ_ANY, READ_OWN]}>
+                        <LeadPermission action={ [READ_ANY, READ_OWN] }>
                             <ListItem
                                 button
                                 component="a"
-                                onClick={() =>
+                                onClick={ () =>
                                     onTabClick('leads', '/home/leads')
                                 }
-                                classes={{
+                                classes={ {
                                     root: classes.menuButtons,
                                     selected: classes.selected,
-                                }}
-                                selected={currentTab === 'leads'}
+                                } }
+                                selected={ currentTab === 'leads' }
                             >
                                 <ListItemText>
-                                    <span className={classes.tabsText}>
-                                        {tabsLabelsMap.leads}
+                                    <span className={ classes.tabsText }>
+                                        { tabsLabelsMap.leads }
                                     </span>
                                 </ListItemText>
                             </ListItem>
                         </LeadPermission>
-                        <ShipmentPermission action={[READ_ANY, READ_OWN]}>
+                        <ShipmentPermission action={ [READ_ANY, READ_OWN] }>
                             <ListItem
                                 button
                                 component="a"
-                                onClick={() =>
+                                onClick={ () =>
                                     onTabClick('shipments', '/home/shipments')
                                 }
-                                classes={{
+                                classes={ {
                                     root: classes.menuButtons,
                                     selected: classes.selected,
-                                }}
-                                selected={currentTab === 'shipments'}
+                                } }
+                                selected={ currentTab === 'shipments' }
                             >
                                 <ListItemText>
-                                    <span className={classes.tabsText}>
-                                        {tabsLabelsMap.shipments}
+                                    <span className={ classes.tabsText }>
+                                        { tabsLabelsMap.shipments }
                                     </span>
                                 </ListItemText>
                             </ListItem>
                         </ShipmentPermission>
-                        <ProductPermission action={[READ_ANY]}>
+                        <ProductPermission action={ [READ_ANY] }>
                             <ListItem
                                 button
                                 component="a"
-                                onClick={() =>
+                                onClick={ () =>
                                     onTabClick('products', '/home/products')
                                 }
-                                classes={{
+                                classes={ {
                                     root: classes.menuButtons,
                                     selected: classes.selected,
-                                }}
-                                selected={currentTab === 'products'}
+                                } }
+                                selected={ currentTab === 'products' }
                             >
                                 <ListItemText>
-                                    <span className={classes.tabsText}>
-                                        {tabsLabelsMap.products}
+                                    <span className={ classes.tabsText }>
+                                        { tabsLabelsMap.products }
                                     </span>
                                 </ListItemText>
                             </ListItem>
                         </ProductPermission>
-                        <PermissionPermission action={READ_ANY}>
+                        <PermissionPermission action={ READ_ANY }>
                             <ListItem
                                 button
                                 component="a"
-                                onClick={() =>
+                                onClick={ () =>
                                     onTabClick('admin', '/home/admin')
                                 }
-                                classes={{
+                                classes={ {
                                     root: classes.menuButtons,
                                     selected: classes.selected,
-                                }}
-                                selected={currentTab === 'admin'}
+                                } }
+                                selected={ currentTab === 'admin' }
                             >
                                 <ListItemText>
-                                    <span className={classes.tabsText}>
-                                        {tabsLabelsMap.admin}
+                                    <span className={ classes.tabsText }>
+                                        { tabsLabelsMap.admin }
                                     </span>
                                 </ListItemText>
                             </ListItem>
                         </PermissionPermission>
                     </List>
-                    <div className={classes.grow} />
+                    <div className={ classes.grow }/>
                     <Typography variant="subtitle1">
-                        {`${helloMessageLabel}, ${userName}`}
+                        { `${ helloMessageLabel }, ${ userName }` }
                     </Typography>
 
-                    <div className={classes.sectionDesktop}>
+                    <Menu
+                        anchorEl={ userMenuAnchorEl }
+                        anchorOrigin={ { vertical: 'top', horizontal: 'right' } }
+                        id="user-navbar-menu"
+                        keepMounted
+                        transformOrigin={ { vertical: 'top', horizontal: 'right' } }
+                        open={ Boolean(userMenuAnchorEl) }
+                        onClose={ onUserMenuClose }
+                    >
+                        {/* The div here is to avoid ref forward error */ }
+                        <div>
+                            <MenuItem
+                                onClick={ () =>
+                                    onTabClick('settings', '/home/settings?tab=account')
+                                }
+                            >
+                                <IconButton color="inherit">
+                                    <AccountCircle/>
+                                </IconButton>
+                                { tabsLabelsMap.settings }
+                            </MenuItem>
+                        </div>
+                        <MenuItem
+                            onClick={ onSignOut }
+                        >
+                            <IconButton color="inherit">
+                                <IconSignOut/>
+                            </IconButton>
+                            { tabsLabelsMap.signOut }
+                        </MenuItem>
+                    </Menu>
+
+                    <div className={ classes.sectionDesktop }>
                         <IconButton
                             edge="end"
-                            onClick={() =>
-                                onTabClick(
-                                    'settings',
-                                    '/home/settings?tab=account'
-                                )
-                            }
+                            onClick={ onUserMenuOpen }
                             color="inherit"
                         >
-                            <AccountCircle />
+                            <AccountCircle/>
                         </IconButton>
                     </div>
-                    <div className={classes.sectionMobile}>
+                    <div className={ classes.sectionMobile }>
                         <IconButton
-                            onClick={handleMobileMenuOpen}
+                            onClick={ handleMobileMenuOpen }
                             color="inherit"
                         >
-                            <MoreIcon />
+                            <MoreIcon/>
                         </IconButton>
                     </div>
                 </Toolbar>
             </AppBar>
-            {renderMobileMenu}
+            { renderMobileMenu }
         </>
     );
 });

@@ -98,27 +98,23 @@ export default function LoginPage() {
     const appError = useSelector(selectAppError);
     const user = useSelector(selectSessionUser);
 
-    const onAuthError = (code, message, data) => {
-        console.log(code, message, data)
-    }
-
-    const authing = new AuthenticationClient({
+    const authing = useMemo(() => new AuthenticationClient({
         appId: process.env.NODE_ENV
             ? process.env.REACT_APP_DEV_AUTHING_APP_ID
             : process.env.REACT_APP_DEV_AUTHING_APP_ID,
         appDomain: process.env.REACT_APP_DEV_AUTHING_APP_DOMAIN,
-        onError: onAuthError
-    });
+        onError: (code, message, data) => console.log(code, message, data)
+    }), []);
 
     useEffect(() => {
         if (appStatus === 'REJECTED' || appStatus === 'FULFILLED') return () => dispatch(resetAppStatus());
     }, [dispatch, appStatus]);
 
-    // useEffect(() => {
-    //     const sessionUser = localStorage.getItem(SESSION_USER);
-    //     if (user && sessionUser) history.push('/home/settings?tab=account');
-    //     else dispatch(cleanAppState());
-    // }, [history, dispatch, user]);
+    useEffect(() => {
+        const sessionUser = localStorage.getItem(SESSION_USER);
+        if (user && sessionUser) history.push('/home');
+        else dispatch(cleanAppState());
+    }, [history, dispatch, user]);
 
     const { register, errors, handleSubmit } = useForm({
         mode: 'onSubmit',
@@ -132,8 +128,7 @@ export default function LoginPage() {
         const { id: userId, token, tokenExpiredAt } = await authing.loginByEmail(email, password);
         const sessionData = { userId, token, tokenExpiredAt };
         dispatch(signIn({ sessionData }));
-        history.push('/home')
-    }, [dispatch, authing, history]);
+    }, [dispatch, authing]);
 
     const errMessages = useMemo(() => {
         const errs = Object.values(errors).map(err => err.message);

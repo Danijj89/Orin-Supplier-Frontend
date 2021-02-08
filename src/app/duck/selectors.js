@@ -9,7 +9,7 @@ function getOptionsMap(options) {
     }, {});
 }
 
-export const selectSessionUserId = state => state.app.user._id;
+export const selectSessionUserId = state => state.app.user.id;
 export const selectAppStatus = state => state.app.status;
 export const selectAppError = state => state.app.error;
 export const selectSessionUserCompanyId = state => state.app.user?.company;

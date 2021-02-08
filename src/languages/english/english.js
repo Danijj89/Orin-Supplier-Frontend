@@ -191,6 +191,7 @@ export const ENGLISH = {
                 admin: 'Admin',
                 settings: 'Settings',
                 dashboard: 'Dashboard',
+                signOut: 'Sign Out'
             },
             helloMessageLabel: 'Hello',
         },

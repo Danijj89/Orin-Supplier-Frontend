@@ -5,7 +5,6 @@ import { signIn } from './thunks.js';
 const initialState = {
     user: JSON.parse(localStorage.getItem(SESSION_USER)),
     appData: JSON.parse(localStorage.getItem(SESSION_APP_DATA)),
-    ac: null,
     status: 'IDLE',
     error: null,
 };

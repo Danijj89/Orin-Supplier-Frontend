@@ -6,7 +6,7 @@ import ResetPasswordButton from 'features/home/ResetPasswordButton.js';
 import InfoCard from 'features/shared/wrappers/InfoCard.js';
 import EditAccountInfoButton from 'features/home/EditAccountInfoButton.js';
 import { makeStyles } from '@material-ui/core/styles';
-import { selectCurrentUser, selectSessionUser } from 'app/duck/selectors.js';
+import { selectCurrentUser } from 'app/duck/selectors.js';
 import { READ_OWN } from 'features/admin/utils/actions.js';
 import UserPermission from 'features/shared/permissions/UserPermission.js';
 
@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
 
 const AccountDetails = React.memo(function AccountDetails() {
     const classes = useStyles();
-    const user = useSelector(selectSessionUser);
+    const user = useSelector(selectCurrentUser);
 
     return (
         <UserPermission action={ READ_OWN } userId={ user._id }>
