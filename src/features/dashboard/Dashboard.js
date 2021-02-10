@@ -114,7 +114,7 @@ const Dashboard = React.memo(function Dashboard() {
             metricId: leads.wipLeads,
             value: dashboardData.wipLeads,
         },
-    ], [ dashboardData.newLeads,dashboardData.wipLeads ]);
+    ], [ dashboardData.newLeadsCount ,dashboardData.wipLeads ]);
 
     const clientMetrics = useMemo(() => [
         {

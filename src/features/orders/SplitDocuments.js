@@ -36,7 +36,7 @@ const SplitDocuments = React.memo(function SplitDocuments({ orderId, splitId, it
     );
     const createGenerateDocumentHandler = useCallback(
         (ext) => () => dispatch(downloadOrder({ orderId, ext, splitId, items })),
-        [dispatch, orderId, splitId]
+        [dispatch, orderId, splitId, items]
     );
 
     const isOrderInShipment = useMemo(() => orderShipmentIds.length > 0, [

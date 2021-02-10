@@ -7,7 +7,6 @@ import { useForm } from 'react-hook-form';
 import {
     formatAddress,
     formatItemsTotalQuantities,
-    roundToNDecimal
 } from '../shared/utils/format.js';
 import { useDispatch, useSelector } from 'react-redux';
 import {
