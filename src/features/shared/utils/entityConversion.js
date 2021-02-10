@@ -1,4 +1,4 @@
-import { getOptionId } from '../../../app/utils/options/getters.js';
+import { getOptionId } from 'app/utils/options/getters.js';
 
 export const addressToDocAddress = (address) => (
     {
@@ -113,7 +113,7 @@ export const shipmentToCommercialInvoice = (shipment) => ({
     sellerAdd: shipment.sellerAdd,
     consignee: shipment.consignee,
     consigneeAdd: shipment.consigneeAdd,
-    crd: shipment.crd,
+    crd: shipment.crd || new Date(),
     coo: shipment.coo,
     incoterm: shipment.incoterm,
     clientRefs: shipment.clientRefs,

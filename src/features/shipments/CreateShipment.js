@@ -91,7 +91,7 @@ const CreateShipment = React.memo(function CreateShipment() {
     const isEdit = useMemo(() => Boolean(shipmentId), [shipmentId]);
     const title = useMemo(() => isEdit ? titles.editTitle : titles.newTitle, [isEdit]);
 
-    const { _id: userId, company: companyId } = useSelector(selectSessionUser);
+    const { id: userId, company: companyId } = useSelector(selectSessionUser);
     const companyAddresses = useSelector(selectActiveCompanyAddresses);
     const clientsSplitsMap = useSelector(selectClientsSplitsMap);
     const splitsShippedQuantityMap = useSelector(selectSplitsToShippedQuantityMap);

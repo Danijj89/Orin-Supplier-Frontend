@@ -24,6 +24,7 @@ const RHFDateField = React.memo(function RHFDateField(
                     { ...props }
                     autoOk
                     format="MM/dd/yyyy"
+                    emptyLabel=""
                     TextFieldComponent={ params =>
                         <SideTextField
                             { ...params }

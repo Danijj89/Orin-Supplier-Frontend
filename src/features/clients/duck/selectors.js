@@ -97,7 +97,7 @@ export const selectSessionActiveClients = createSelector(
     selectAllActiveClients,
     selectSessionUser,
     selectAppGrants,
-    (clients, { _id: sessionUserId, roles }, grants) => {
+    (clients, { id: sessionUserId, roles }, grants) => {
         const ac = new AccessControl(grants);
         if (ac.can(roles).readAny(CLIENT_RESOURCE).granted) return clients;
         else if (ac.can(roles).readOwn(CLIENT_RESOURCE).granted)
