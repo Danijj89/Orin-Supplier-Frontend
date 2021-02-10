@@ -28,16 +28,15 @@ const useStyles = makeStyles((theme) => ({
 
 const { buttons, labels } = LANGUAGE.order.order;
 
-const SplitDocuments = React.memo(function SplitDocuments({ orderId, splitId }) {
+const SplitDocuments = React.memo(function SplitDocuments({ orderId, splitId, items }) {
     const classes = useStyles();
     const dispatch = useDispatch();
     const orderShipmentIds = useSelector((state) =>
         selectOrderShipmentIdsField(state, { orderId, splitId })
     );
-
     const createGenerateDocumentHandler = useCallback(
-        (ext) => () => dispatch(downloadOrder({ orderId, ext })),
-        [dispatch, orderId]
+        (ext) => () => dispatch(downloadOrder({ orderId, ext, splitId, items })),
+        [dispatch, orderId, splitId]
     );
 
     const isOrderInShipment = useMemo(() => orderShipmentIds.length > 0, [

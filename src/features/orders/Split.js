@@ -69,7 +69,7 @@ const Split = React.memo(function Split({ orderId, split, currency, custom1, cus
             </>
             }
             { subTab === 'documents' &&
-            <SplitDocuments orderId={ orderId } splitId={ splitId }/>
+            <SplitDocuments orderId={ orderId } splitId={ splitId } items = {items}/>
             }
             { subTab === 'status' &&
             <SplitInfo orderId={ orderId } split={ split }/>

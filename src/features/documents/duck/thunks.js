@@ -25,9 +25,9 @@ export const downloadShipmentDocument = createAsyncThunk('documents/downloadShip
     });
 
 export const downloadOrder = createAsyncThunk('documents/downloadOrder',
-    async ({ orderId, ext }, { rejectWithValue }) => {
+    async ({ orderId, ext, splitId, items }, { rejectWithValue }) => {
         try {
-            const { headers, data } = await DocumentService.downloadOrder(orderId, ext);
+            const { headers, data } = await DocumentService.downloadOrder(orderId, ext, splitId, items);
             downloadFile(data, getFilenameFromHeader(headers['content-disposition']));
         } catch (err) {
             return rejectWithValue(err.response.data);

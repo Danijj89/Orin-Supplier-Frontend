@@ -14,13 +14,15 @@ const downloadShipmentDocument = async (shipmentId, documentId, ext) => {
     return await fetchWithAuth(configs);
 };
 
-const downloadOrder = async (orderId, ext) => {
+const downloadOrder = async (orderId, ext, splitId, items) => {
     const configs = {
         method: 'get',
         url: 'documents/order',
         params: {
             order: orderId,
-            ext
+            ext, 
+            splitId,
+            items,
         },
         responseType: 'blob'
     };
