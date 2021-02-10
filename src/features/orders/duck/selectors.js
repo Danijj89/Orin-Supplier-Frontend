@@ -21,8 +21,7 @@ export const selectOrderError = state => state.orders.error;
 export const selectCurrentOrderId = state => state.orders.currentOrderId;
 export const selectOrderShipmentIdsField = (state, { orderId, splitId }) => {
     const split = state.orders.entities[orderId].shippingSplits.find(split => split._id === splitId);
-    if (split) return split.shipmentIds;
-    return [];
+    return split?.shipmentIds || [];
 };
 
 export const selectAllOrders = createSelector(
