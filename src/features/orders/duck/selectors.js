@@ -55,6 +55,7 @@ export const selectAllOrders = createSelector(
                     return {
                         ...orderItem,
                         ...item,
+                        total: item.quantity * orderItem.price
                     };
                 })
             })),
