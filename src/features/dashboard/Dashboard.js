@@ -201,16 +201,16 @@ const Dashboard = React.memo(function Dashboard() {
                 <Grid xs={12} md={6} item className={classes.graph}>
                     <Line
                         data={orderCounts}
-                        width={50}
-                        height={30}
+                        width={40}
+                        height={15}
                         options={optionsOrderCount}
                     />
                 </Grid>
                 <Grid xs={12} md={6} item className={classes.graph}>
                     <Bar
                         data={orderRev}
-                        width={50}
-                        height={30}
+                        width={40}
+                        height={15}
                         options={optionsRevGraph}
                     />
                 </Grid>

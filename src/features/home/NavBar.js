@@ -173,18 +173,7 @@ const NavBar = React.memo(function NavBar() {
         >
             {/* The div here is to avoid ref forward error */ }
             <div>
-                <OrderPermission action={ [READ_ANY, READ_OWN] }>
-                    <MenuItem
-                        onClick={ () => onTabClick('orders', '/home/orders') }
-                    >
-                        <IconButton color="inherit">
-                            <IconViewStream/>
-                        </IconButton>
-                        { tabsLabelsMap.orders }
-                    </MenuItem>
-                </OrderPermission>
-            </div>
-            <DashboardPermission action={ [READ_ANY] }>
+                <DashboardPermission action={ [READ_ANY] }>
                 <MenuItem
                     onClick={ () => onTabClick('dashboard', '/home/dashboard') }
                 >
@@ -194,6 +183,18 @@ const NavBar = React.memo(function NavBar() {
                     { tabsLabelsMap.dashboard }
                 </MenuItem>
             </DashboardPermission>
+            </div>
+            <OrderPermission action={ [READ_ANY, READ_OWN] }>
+                    <MenuItem
+                        onClick={ () => onTabClick('orders', '/home/orders') }
+                    >
+                        <IconButton color="inherit">
+                            <IconViewStream/>
+                        </IconButton>
+                        { tabsLabelsMap.orders }
+                    </MenuItem>
+                </OrderPermission>
+            
             <ClientPermission action={ [READ_ANY, READ_OWN] }>
                 <MenuItem
                     onClick={ () => onTabClick('clients', '/home/clients') }
@@ -276,26 +277,6 @@ const NavBar = React.memo(function NavBar() {
                         className={ classes.logo }
                     />
                     <List className={ classes.menu }>
-                        <OrderPermission action={ [READ_ANY, READ_OWN] }>
-                            <ListItem
-                                button
-                                component="a"
-                                onClick={ () =>
-                                    onTabClick('orders', '/home/orders')
-                                }
-                                selected={ currentTab === 'orders' }
-                                classes={ {
-                                    root: classes.menuButtons,
-                                    selected: classes.selected,
-                                } }
-                            >
-                                <ListItemText>
-                                    <span className={ classes.tabsText }>
-                                        { tabsLabelsMap.orders }
-                                    </span>
-                                </ListItemText>
-                            </ListItem>
-                        </OrderPermission>
                         <DashboardPermission action={ [READ_ANY, READ_OWN] }>
                             <ListItem
                                 button
@@ -316,6 +297,26 @@ const NavBar = React.memo(function NavBar() {
                                 </ListItemText>
                             </ListItem>
                         </DashboardPermission>
+                        <OrderPermission action={ [READ_ANY, READ_OWN] }>
+                            <ListItem
+                                button
+                                component="a"
+                                onClick={ () =>
+                                    onTabClick('orders', '/home/orders')
+                                }
+                                selected={ currentTab === 'orders' }
+                                classes={ {
+                                    root: classes.menuButtons,
+                                    selected: classes.selected,
+                                } }
+                            >
+                                <ListItemText>
+                                    <span className={ classes.tabsText }>
+                                        { tabsLabelsMap.orders }
+                                    </span>
+                                </ListItemText>
+                            </ListItem>
+                        </OrderPermission>
                         <ClientPermission action={ [READ_ANY, READ_OWN] }>
                             <ListItem
                                 button

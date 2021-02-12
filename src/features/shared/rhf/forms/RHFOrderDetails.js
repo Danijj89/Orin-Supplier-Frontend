@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
     },
     shipping: {
         padding: theme.spacing(2)
-    }
+    },
 }));
 
 const {
@@ -85,7 +85,7 @@ const RHFOrderDetails = React.memo(function RHFOrderDetails(
     return (
         <Grid container justify="center" className={ className }>
             <Grid item className={ classes.details }>
-                { !isEdit && <Typography variant="h5">{ detailsTitleLabel }</Typography> }
+                { !isEdit && <Typography align="center" variant="h5">{ detailsTitleLabel }</Typography> }
                 <FormContainer>
                     { isEdit &&
                     <RHFCheckBox
@@ -188,7 +188,7 @@ const RHFOrderDetails = React.memo(function RHFOrderDetails(
                 <Box component={ Divider } display={ { xs: 'none', lg: 'block' } } orientation="vertical"/>
             </Grid>
             <Grid item className={ classes.shipping }>
-                { !isEdit && <Typography variant="h5">{ shippingInfoTitleLabel }</Typography> }
+                { !isEdit && <Typography align="center" variant="h5">{ shippingInfoTitleLabel }</Typography> }
                 <FormContainer>
                     <RHFAutoComplete
                         rhfControl={ control }

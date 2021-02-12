@@ -17,22 +17,23 @@ import { prepareShippingSplits } from 'features/shared/utils/entityConversion.js
 import _ from 'lodash';
 import ErrorSnackbar from 'features/shared/components/ErrorSnackbar.js';
 import Box from '@material-ui/core/Box';
+import Grid from '@material-ui/core/Grid';
 import FulfillmentPlanProgressBar from 'features/orders/FulfillmentPlanProgressBar.js';
 
 const useStyles = makeStyles(theme => ({
-    infoCard: {
-        height: '100vh'
-    },
-    contentContainer: {
-        padding: theme.spacing(2)
-    },
+    // infoCard: {
+    //     height: '100vh'
+    // },
+    // contentContainer: {
+    //     padding: theme.spacing(2)
+    // },
     newSplitButton: {
         marginTop: theme.spacing(2),
-        marginBot: theme.spacing(2),
+        marginBottom: theme.spacing(10),
         display: 'block',
         marginLeft: 'auto',
         marginRight: 'auto'
-    }
+    },
 }));
 
 const {
@@ -331,6 +332,7 @@ const EditFulfillmentPlan = React.memo(function EditFulfillmentPlan({ orderId })
     return (
         <>
             <ErrorSnackbar error={ error }/>
+            <Grid container>
             <InfoCard
                 className={ classes.infoCard }
                 title={ title }
@@ -362,16 +364,18 @@ const EditFulfillmentPlan = React.memo(function EditFulfillmentPlan({ orderId })
                                 { labels.newSplitButton }
                             </ThemedButton>
                         </Box>
-                        <Footer
-                            prevLabel={ labels.cancelButton }
-                            nextLabel={ labels.submitButton }
-                            onPrevClick={ onCancel }
-                            nextButtonType="submit"
-                        />
+                        
                     </form>
                 }
                 tools={ tools }
             />
+            <Footer
+                prevLabel={ labels.cancelButton }
+                nextLabel={ labels.submitButton }
+                onPrevClick={ onCancel }
+                nextButtonType="submit"
+            />
+            </Grid>
         </>
     );
 });

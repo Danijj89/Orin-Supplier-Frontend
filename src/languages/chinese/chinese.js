@@ -16,6 +16,15 @@ export const CHINESE = {
                 emailOrPasswordWrong: '邮件或密码不符合',
             },
         },
+        register: {
+            formLabels: {
+                firstName: '名',
+                lastName: '姓',
+                email: '邮件',
+                password: '密码',
+                confirmPassword: '确认密码'
+            }
+        }
     },
     dashboard: {
         dashboard: {
@@ -57,6 +66,119 @@ export const CHINESE = {
             crdDiff: '平均日差',
         },
     },
+    admin: {
+        admin: {
+            tabsLabelsMap: {
+                resources: 'Resources',
+                permissions: 'Permissions',
+                roles: 'Roles',
+                users: 'Users',
+                companies: 'Companies',
+            },
+            permissions: {
+                newPermissionButton: {
+                    buttonLabel: 'New Permission',
+                    dialogTitle: 'Permission Info',
+                    dialogSubmit: 'Create',
+                    formLabels: {
+                        _id: 'Permission Name',
+                        resource: 'Resource',
+                        action: 'Action',
+                        attributes: 'Attributes',
+                    },
+                },
+                tableHeaderLabels: {
+                    _id: 'Name',
+                    resource: 'Resource',
+                    action: 'Action',
+                    attributes: 'Attributes',
+                },
+            },
+            resources: {
+                newResourceButton: {
+                    buttonLabel: 'New Resource',
+                    dialogTitle: 'Resource Info',
+                    dialogSubmit: 'Create',
+                    formLabels: {
+                        _id: 'Resource Name',
+                    },
+                },
+                tableHeaderLabels: {
+                    _id: 'Name',
+                },
+            },
+            roles: {
+                newRoleButton: {
+                    buttonLabel: 'New Role',
+                    dialogTitle: 'Role Info',
+                    dialogSubmit: 'Create',
+                    formLabels: {
+                        _id: 'Role Name',
+                        company: 'Company',
+                    },
+                },
+                tableHeaderLabels: {
+                    _id: 'Role Name',
+                },
+                dialogTitleLabel: 'Role Permissions',
+                dialogSubmitLabel: 'Update',
+            },
+            users: {
+                companyLabel: 'Company',
+                dialogTitleLabel: 'User Roles',
+                dialogSubmitLabel: 'Update',
+                tableHeaderLabels: {
+                    name: 'Name',
+                    email: 'Email',
+                    roles: 'Roles',
+                },
+                newUserButton: {
+                    buttonLabel: 'New User',
+                    dialogTitleLabel: 'New User',
+                    dialogSubmitLabel: 'Create',
+                },
+            },
+            companies: {
+                tableHeaderLabels: {
+                    name: 'Name',
+                    industries: 'Industries',
+                    city: 'City',
+                },
+                newCompanyButton: {
+                    buttonLabel: 'New Company',
+                    dialogTitleLabel: 'Company Info',
+                    dialogSubmitLabel: 'Create',
+                },
+            },
+            adminUserDialog: {
+                formLabels: {
+                    name: 'Name',
+                    email: 'Email',
+                    password: 'Password',
+                    confirmPassword: 'Confirm Password',
+                    company: 'Company',
+                    roles: 'Roles',
+                },
+            },
+            adminCompanyDialog: {
+                formLabels: {
+                    type: 'Type',
+                    name: 'Name',
+                    address: 'Address',
+                    address2: 'Address 2',
+                    city: 'City',
+                    administrative: 'State',
+                    country: 'Country',
+                    zip: 'Zip Code',
+                    phone: 'Phone',
+                    email: 'Email',
+                    taxNumber: 'Tax Number',
+                    currency: 'Default Currency',
+                    industries: 'Industries',
+                },
+            },
+        },
+    },
     home: {
         navbar: {
             tabsLabelsMap: {
@@ -65,8 +187,10 @@ export const CHINESE = {
                 leads: '线索',
                 clients: '客户',
                 products: '产品',
+                admin: 'Admin',
                 settings: '设置',
                 dashboard: '数据',
+                signOut: '推出登入',
             },
             helloMessageLabel: '您好',
         },
@@ -332,6 +456,15 @@ export const CHINESE = {
                 qa: '验检',
                 notes: '备注',
             },
+            shippingPlanTableHeaders: {
+                ref: '销售订单',
+                quantity: '数量',
+                crd: '交货日期',
+                procurement: '采购',
+                production: '生产',
+                qa: '验检',
+                notes: '备注',
+            }
         },
         createOrder: {
             stepLabelsMap: {
@@ -352,82 +485,91 @@ export const CHINESE = {
             tabsLabelsMap: {
                 details: '订单详情',
                 documents: '单证',
+            },subTabsLabels: {
+                products: '产品',
+                documents: '单证',
+                status: '状态和备注'
             },
-            orderDetails: {
-                detailsInfoCard: {
-                    titleLabel: '订单详情',
-                    orderReferenceLabel: '订单号',
-                    companyLabel: '卖家',
-                    dateLabel: '订单日期',
-                    crdLabel: '货好日期',
-                    incotermLabel: '贸易条款',
-                    quantityLabel: '数量',
-                    clientReferenceLabel: '客户编号',
-                    clientLabel: '买家',
-                    authorLabel: '创作人',
-                    realCrdLabel: '时间货好日期',
-                    paymentMethodLabel: '付款模式',
-                    totalLabel: '总',
-                    editOrderDetailsButton: {
-                        buttonLabel: '编辑',
-                        dialogTitleLabel: '编辑订单',
-                        dialogSubmitLabel: '确定',
-                    },
-                },
-                statusInfoCard: {
-                    title: '订单进度',
-                    headerLabelsMap: {
-                        procurement: '采购',
-                        production: '生产',
-                        qa: '验检',
-                    },
-                    statusLabel: '状态',
-                    estimatedLabel: '预计生产完毕',
-                    actualLabel: '实际生产完毕',
-                    editOrderStatusButton: {
-                        buttonLabel: '编辑',
-                        titleLabel: '订单状态',
-                        submitLabel: '确定',
-                    },
-                    orderStatusDialog: {
-                        procurementTitleLabel: '采购',
-                        productionTitleLabel: '生产',
-                        qaTitleLabel: '验检',
-                        statusLabel: '状态',
-                        estimatedLabel: '预计',
-                        actualLabel: '实际',
-                    },
-                },
-                notesLabel: '备注',
-                productTableTitleLabel: '产品',
-                orderProductTable: {
-                    tableHeaderLabelsMap: {
-                        ref: '长跑编号',
-                        description: '产品描述',
-                        quantity: '数量',
-                        unit: '单位',
-                        price: '单价',
-                        total: '金额',
-                    },
-                    totalLabel: '总',
-                    editOrderProductsButton: {
-                        buttonLabel: '编辑',
-                        dialogTitleLabel: '产品',
-                        dialogSubmitLabel: '确定',
-                    },
-                },
+            titles: {
+                details: '订单详情',
+                productTable: '产品',
+                fulfillmentPlan: '交货表',
+                editDetailsDialog: '编辑订单',
+                editProductsDialog: '产品',
+                splitStatus: '订单进度',
+                editSplitStatusDialog: '订单状态',
+                procurement: '采购',
+                production: '生产',
+                qa: '验检',
+                notes: '备注',
+                documentCard: '运输 No:',
             },
-            orderDocuments: {
-                buttonLabels: {
-                    generateExcel: '生成 Excel',
-                    generatePdf: '生成 PDF',
+            labels: {
+                orderReference: '订单号码',
+                company: '卖家',
+                date: '订单日期',
+                crd: '货好日期',
+                incoterm: '贸易条款',
+                quantity: '数量',
+                client: '买家',
+                author: '制造者',
+                realCrd: '实际货好日期',
+                paymentMethod: '付款模式',
+                total: '总',
+                status: '状态',
+                estimated: '预计完毕',
+                actual: '实际完毕',
+                clientRef: '客户编号',
+                noOrder: '订单没未安排运输',
+            },
+            tableHeaderLabels: {
+                procurement: '采购',
+                production: '生产',
+                qa: '验检',
+            },
+            buttons: {
+                editDetails: '编辑',
+                submitDetails: '更新',
+                editProducts: '编辑',
+                submitProducts: '更新',
+                editFulfillment: '编辑交货表',
+                editSplitStatus: '编辑',
+                submitSplitStatus: '更新',
+                generateExcel: '生成 Excel',
+                generatePdf: '验检 PDF',
+            },
+            orderProductTable: {
+                tableHeaderLabelsMap: {
+                    ref: '产品编号',
+                    description: '产品描述',
+                    quantity: '数量',
+                    unit: '单位',
+                    price: '单价',
+                    total: '总额',
                 },
-                textLabels: {
-                    noOrder: '无订单文件',
+                totalLabel: '总：',
+            },
+            editFulfillmentPlan: {
+                labels: {
+                    newSplitButton: '添加分批',
+                    cancelButton: '取消',
+                    submitButton: '确定',
+                    crd: '交货日期',
+                    emptyDateLabel: '没日期',
+                    clientRef: '客户编号'
                 },
-                shipmentDocumentsCard: {
-                    titleLabel: '运输号码:',
+                tableHeaderLabels: {
+                    ref: 'SKU',
+                    description: '描述',
+                    quantity: '数量',
+                    allocated: '已安排'
                 },
+                errorMessages: {
+                    itemOverflow: (ref, diff) => `产品编号 ${ ref } 有输入 ${ diff } 过多的数量.`,
+                    itemTooFew: (ref, diff) => `产品编号 ${ ref } 有缺少 ${ diff } 的数量.`,
+                    emptySplit: '请删除空的分批.',
+                    baseSplitDeletion: '不能删除原始订单.'
+                }
             },
             errorMessages: {
                 orderWasDeleted: '您选的订单已不存在.',
@@ -436,159 +578,157 @@ export const CHINESE = {
     },
     shipment: {
         overview: {
-            newShipmentButtonLabel: '新运输',
+            newShipmentButtonLabel: 'New Shipment',
             shipmentsTable: {
                 tableHeadersMap: {
-                    ref: '运输编号',
-                    consignee: '收货人',
-                    crd: '货好日期',
-                    status: '状态',
-                    pod: '目的港',
-                    del: '运输模式',
-                    containerQ: '货柜',
+                    ref: 'Shipment ID',
+                    consignee: 'Consignee',
+                    crd: 'Cargo Ready',
+                    status: 'Status',
+                    pod: 'Destination Port',
+                    del: 'Mode',
+                    containerQ: 'Containers',
                 },
             },
         },
         createShipment: {
-            newTitleLabel: '新运输',
-            editTitleLabel: '编辑',
-            companyAddressLabel: '卖家 / Shipper',
-            clientLabel: '买家 / Consignee',
-            clientAddressLabel: '买家地址',
-            tableHeaderLabelsMap: {
+            titles: {
+                newTitle: '新运输',
+                editTitle: '编辑',
+            },
+            labels: {
+                companyAddress: 'Shipper / 卖家',
+                client: 'Consignee / 买家',
+                clientAddress: '买家地址',
+            },
+            tableHeaderLabels: {
                 ref: '销售订单',
                 clientRef: '客户编号',
-                totalQ: '数量',
-                crd: '货好时间',
+                quantity: '数量',
+                crd: '货好日期',
                 del: '运输模式',
                 production: '生产',
                 qa: '验检',
                 notes: '备注',
-                fulfilled: '% 已发货',
+                fulfilled: '% 已出货',
             },
             prevButtonLabel: '取消',
             nextButtonLabel: '确定',
             errorMessages: {
-                missingSupplierAddress: '请选择卖家地址.',
+                missingSupplierAddress: '请填写卖家地址.',
                 missingConsignee: '请选择买家.',
-                missingConsigneeAddress: '请选择买家地址',
-                atLeastOneOrder: '必须选择一个订单',
+                missingConsigneeAddress: '请填写买家地址.',
+                atLeastOneOrder: '必须选择起码一个订单.',
             },
         },
         shipment: {
-            editShipmentButtonLabel: '编辑运输信息',
-            tabsLabelsMap: {
-                orders: '在内订单',
+            tabLabels: {
+                orders: '运输订单',
                 documents: '单证',
             },
+            buttons: {
+                editShipment: '编辑运输信息',
+                editShipmentOrders: '改变已包括的订单'
+            },
+            titles: {
+                shipmentInfo: '运输信息',
+                documentStatus: '单证状态'
+            },
+            labels: {
+                status: '状态',
+                crd: '货好日期',
+                del: '运输模式',
+                carrier: '运输代理',
+                pol: '起运港',
+                pod: '目的港',
+                etd: '预计出发',
+                eta: '预计到达',
+                docCutOff: '单证截日',
+                bol: '提单好吗',
+                bolType: '提单放行类型',
+                released: '提单放行',
+            },
+            tableHeaderLabels: {
+                ref: '销售订单',
+                clientRef: '客户编号',
+                quantity: '数量',
+                crd: '交货日期',
+                del: '运输模式',
+                production: 'Produc生产tion',
+                qa: '验检',
+                fulfilled: '已出货 %',
+            },
             documentButton: {
-                buttonLabel: '创造单证',
-                dialogTitleLabel: '请选择需要生成的单证',
+                buttonLabel: '生成单证',
+                dialogTitleLabel: '请选想生成的单证',
                 submitButtonLabel: '继续',
                 formLabels: {
                     document: '单证',
                 },
             },
-            shipmentOrdersTable: {
-                tableHeaderLabelsMap: {
-                    ref: '订单号',
-                    clientRef: '客户编号',
-                    totalQ: '数量',
-                    crd: '货好时间',
-                    del: '运输模式',
-                    production: '生产',
-                    qa: '验检',
-                    notes: '备注',
-                },
-                editOrdersButtonLabel: '编辑在内订单',
-            },
             shipmentDocumentTable: {
                 tableHeaderLabelsMap: {
-                    ref: '单证号码',
-                    type: '单证类型',
-                    createdAt: '创制日期',
-                    createdBy: '创制人',
+                    ref: '单证 No.',
+                    type: '单证种类',
+                    createdAt: '生成时间',
+                    createdBy: '制造者',
                     excel: '下载 Excel',
                     pdf: '下载 PDF',
                 },
-                deleteMessage: '您确定要上次这个文件?',
+                deleteMessage: '您确认要删除这个文件吗?',
             },
-            shipmentInfoCard: {
-                titleLabel: '运输信息',
-                labels: {
-                    status: '状态',
-                    crd: '货好日期',
-                    del: '运输模式',
-                    carrier: '运输代理',
-                    pol: '起运港',
-                    pod: '目的港',
-                    etd: '预计出发',
-                    eta: '预计到达',
-                },
-            },
-            documentStatusCard: {
-                titleLabel: '单证状态',
-                labels: {
-                    docCutOff: '单证截日',
-                    bol: '提单号码',
-                    bolType: '提单放行模式',
-                    released: '放行状态',
-                },
-            },
+            errorMessages: {
+                shipmentNonExistent: '这个运输已不存在.'
+            }
         },
         editShipment: {
-            titleLabel: '运输信息',
-            cancelButtonLabel: '回上一页',
-            deleteMessage: '您确定要删除这个运输吗？',
-            tabsLabelsMap: {
+            tabLabels: {
                 shipment: '运输',
                 products: '产品',
-                measures: '装箱',
+                measures: '尺寸',
             },
-            successMessage: '更新成功',
-            shipmentInfo: {
-                partiesTitleLabel: '参与方',
-                orderInfoTitleLabel: '订单详情',
-                shippingTitleLabel: '运输详情',
-                formLabels: {
-                    sellerAdd: 'Shipper',
-                    consigneeAdd: 'Consignee',
-                    shipAdd: 'Ship To',
-                    crd: '货好日期',
-                    incoterm: '贸易条款',
-                    clientRef: '客户编号',
-                    payRefs: '付款编号',
-                    bolType: '提单类型',
-                    coo: '制造国',
-                    clientRefs: '客户编号',
-                    del: '运输模式',
-                    pol: '起运港',
-                    pod: '目的港',
-                    carrier: '货运代理',
-                    eta: '预计出发',
-                    etd: '预计到达',
-                },
-                submitButtonLabel: '确定',
-                cancelButtonLabel: '取消',
-                errorMessages: {
-                    missingSellerAdd: '必须选择卖家地址',
-                    missingConsigneeAdd: '必须选择买家地址',
-                },
-                containerSelectorButton: {
-                    titleLabel: '选择货柜',
-                    submitLabel: '确定',
-                    buttonLabel: '选择货柜',
-                    containerSelectorTable: {
-                        tableHeaders: {
-                            type: '选择类型',
-                            quantity: '数量',
-                        },
-                    },
-                },
+            titles: {
+                shipment: '运输信息',
+                parties: '参与方',
+                orderInfo: '订单信息',
+                shipping: '运输信息',
+                containers: '货柜类型',
             },
-            productTable: {
-                cancelButtonLabel: '取消',
-                submitButtonLabel: '确定',
+            buttons: {
+                back: '回上一页',
+                submit: '确定',
+                cancel: '取消',
+                containersSubmit: '确定',
+                containers: '请选择货柜类型',
+            },
+            formLabels: {
+                sellerAdd: '卖方',
+                consigneeAdd: '买方',
+                shipAdd: '发货地址',
+                crd: '交货日期',
+                incoterm: '贸易条款',
+                clientRef: '客户订单号.',
+                payRefs: '付款编号',
+                bolType: '提单类型',
+                coo: '制造国家',
+                clientRefs: '客户其他编号',
+                del: '运输模式',
+                pol: '起运港',
+                pod: '目的港',
+                carrier: '货代',
+                eta: '预计出发',
+                etd: '预计到达',
+            },
+            tableHeaderLabels: {
+                type: '货柜类型',
+                quantity: '数量',
+            },
+            messages: {
+                deleteShipment: '您确定要删除这个货柜吗?'
+            },
+            errorMessages: {
+                missingSellerAdd: '必须选择卖方地址.',
+                missingConsigneeAdd: '必须选择买方地址.',
             },
             measureTable: {
                 cancelButtonLabel: '取消',
@@ -917,21 +1057,28 @@ export const CHINESE = {
             table: {
                 paginationAllLabel: '全部',
                 rowsPerPageLabel: '每页行数',
-                filterSelector: {
-                    filterPopoverButtonLabel: '筛选',
-                    clearButtonLabel: '清楚所有筛选',
-                    saveButtonLabel: '保存',
-                    dateFilter: {
-                        emptyLabel: '选择起止日期...',
-                        startLabel: '起',
-                        endLabel: '止',
+                tools: {
+                    filter: {
+                        filterPopoverButtonLabel: '筛选',
+                        clearButtonLabel: '清除赛选',
+                        saveButtonLabel: '保存',
+                        filters: {
+                            dateFilter: {
+                                emptyLabel: '请选日期...',
+                                startLabel: '开始',
+                                endLabel: '结束',
+                            },
+                            textFilter: {
+                                searchTermLabel: '搜索文字',
+                            },
+                            rangeFilter: {
+                                minLabel: '最低',
+                                maxLabel: '最高',
+                            },
+                        },
                     },
-                    textFilter: {
-                        searchTermLabel: '请输入关键词',
-                    },
-                    rangeFilter: {
-                        minLabel: '最低',
-                        maxLabel: '最高',
+                    archive: {
+                        includeLabel: '包括已存档的订单?',
                     },
                 },
             },
@@ -1008,6 +1155,11 @@ export const CHINESE = {
                 'In Progress': '进行中',
                 Completed: '完毕',
                 Exception: '意外',
+            },
+        },
+        status: {
+            statusHandler: {
+                successMessage: '操作成功!',
             },
         },
     },

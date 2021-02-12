@@ -12,6 +12,11 @@ import ListItemText from '@material-ui/core/ListItemText';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 
+const successColor = 'rgb(30, 174, 155, 0.8)';
+const warningColor = 'rgb(30, 174, 155, 0.8)';
+const dangerColor = 'rgb(244, 91, 105, 0.8)';
+const primaryColor = 'rgb(16, 156, 241, 0.8)';
+
 const SHIPMENT_COLOR_MAP = {
     Unbooked: {
         background: '#F1F1F1',
@@ -22,19 +27,19 @@ const SHIPMENT_COLOR_MAP = {
         color: 'white'
     },
     'Space Released': {
-        background: '#109CF1',
+        background: primaryColor,
         color: 'white'
     },
     Shipped: {
-        background: '#1EAE9B',
+        background: successColor,
         color: 'white'
     },
     Archived: {
-        background: '#FFBA08',
+        background: warningColor,
         color: 'white'
     },
     Delayed: {
-        background: '#F45B69',
+        background: dangerColor,
         color: 'white'
     }
 };
@@ -45,15 +50,15 @@ const ORDER_COLOR_MAP = {
         color: 'black'
     },
     'In Progress': {
-        background: '#109CF1',
+        background: primaryColor,
         color: 'white'
     },
     Completed: {
-        background: '#2ED47A',
+        background: successColor,
         color: 'white'
     },
     Exception: {
-        background: '#F7685B',
+        background: dangerColor,
         color: 'white'
     }
 };
@@ -64,49 +69,49 @@ const SALES_STATUS_COLOR_MAP = {
         color: 'black'
     },
     2: {
-        background: '#109CF1',
+        background: primaryColor,
         color: 'white'
     },
     3: {
-        background: '#2ED47A',
+        background: successColor,
         color: 'white'
     },
     4: {
-        background: '#F7685B',
+        background: dangerColor,
         color: 'white'
     },
     5: {
-        background: '#FFBA08',
+        background: warningColor,
         color: 'white'
     }
 };
 
 const LEAD_TYPE_COLOR_MAP = {
     1: {
-        background: '#109CF1',
+        background: primaryColor,
         color: 'white'
     },
     2: {
-        background: '#FFBA08',
+        background: warningColor,
         color: 'white'
     },
     3: {
-        background: '#F7685B',
+        background: dangerColor,
         color: 'white'
     },
 }
 
 const LEAD_POTENTIAL_COLOR_MAP = {
     1: {
-        background: '#109CF1',
+        background: primaryColor,
         color: 'white'
     },
     2: {
-        background: '#FFBA08',
+        background: warningColor,
         color: 'white'
     },
     3: {
-        background: '#F7685B',
+        background: dangerColor,
         color: 'white'
     },
 }

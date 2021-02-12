@@ -7,11 +7,13 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
     container: {
         position: 'fixed',
+        left: 0,
         bottom: 0,
         backgroundColor: theme.palette.grey.main,
         paddingTop: theme.spacing(1),
         paddingBottom: theme.spacing(1),
-        width: '100%'
+        width: '100vw',
+        zIndex: 999,
     },
     cancelButton: {
         color: theme.palette.danger.light,
