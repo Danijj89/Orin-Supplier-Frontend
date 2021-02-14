@@ -1,8 +1,7 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useCallback, useEffect, useState } from 'react';
 import logo from '../images/orinlogo.png';
 import { LANGUAGE } from './utils/constants.js';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Grid, CardMedia, Typography, TextField } from '@material-ui/core';
 import ErrorSnackbar from 'features/shared/components/ErrorSnackbar.js';
 import ThemedButton from '../features/shared/buttons/ThemedButton.js';
@@ -10,12 +9,7 @@ import { useForm } from 'react-hook-form';
 import { makeStyles } from '@material-ui/core/styles';
 import loginImg from '../images/login.png';
 import { signIn } from './duck/thunks.js';
-import { selectAppError, selectAppStatus, selectSessionUser } from './duck/selectors.js';
-import { SESSION_USER } from './sessionKeys.js';
-import { cleanAppState } from './duck/slice.js';
-import { resetAppStatus } from 'app/duck/slice.js';
 import Title3 from 'features/shared/display/Title3.js';
-import { AuthenticationClient } from 'authing-js-sdk';
 
 const {
     title,
@@ -90,31 +84,10 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function LoginPage() {
+const LoginPage = React.memo(function LoginPage() {
     const classes = useStyles();
-    const history = useHistory();
     const dispatch = useDispatch();
-    const appStatus = useSelector(selectAppStatus);
-    const appError = useSelector(selectAppError);
-    const user = useSelector(selectSessionUser);
-
-    const authing = useMemo(() => new AuthenticationClient({
-        appId: process.env.NODE_ENV
-            ? process.env.REACT_APP_DEV_AUTHING_APP_ID
-            : process.env.REACT_APP_DEV_AUTHING_APP_ID,
-        appDomain: process.env.REACT_APP_DEV_AUTHING_APP_DOMAIN,
-        onError: (code, message, data) => console.log(code, message, data)
-    }), []);
-
-    useEffect(() => {
-        if (appStatus === 'REJECTED' || appStatus === 'FULFILLED') return () => dispatch(resetAppStatus());
-    }, [dispatch, appStatus]);
-
-    useEffect(() => {
-        const sessionUser = localStorage.getItem(SESSION_USER);
-        if (user && sessionUser) history.push('/home');
-        else dispatch(cleanAppState());
-    }, [history, dispatch, user]);
+    const [errMessages, setErrMessages] = useState([]);
 
     const { register, errors, handleSubmit } = useForm({
         mode: 'onSubmit',
@@ -124,19 +97,13 @@ export default function LoginPage() {
         },
     });
 
-    const onSignInClick = useCallback(async ({ email, password }) => {
-        const { id: userId, token, tokenExpiredAt } = await authing.loginByEmail(email, password);
-        const sessionData = { userId, token, tokenExpiredAt };
-        dispatch(signIn({ sessionData }));
-    }, [dispatch, authing]);
+    useEffect(() => {
+        setErrMessages(Object.values(errors).map(err => err.message));
+    }, [errors])
 
-    const errMessages = useMemo(() => {
-        const errs = Object.values(errors).map(err => err.message);
-        if (appError) errs.push(appError);
-        return errs;
-    }, [appError, errors]);
-
-    const isError = useMemo(() => errMessages.length > 0, [errMessages]);
+    const onSignInClick = useCallback(async ({ email, password }) =>
+            dispatch(signIn({ email, password })),
+        [dispatch]);
 
     return (
         <Grid container className={ classes.container }>
@@ -144,7 +111,7 @@ export default function LoginPage() {
                 <CardMedia className={ classes.logo } component="img" src={ logo } alt="Logo"/>
                 <Title3 title={ title }/>
                 <form className={ classes.form } onSubmit={ handleSubmit(onSignInClick) } autoComplete="off" noValidate>
-                    { isError && <ErrorSnackbar error={ errMessages }/> }
+                    <ErrorSnackbar error={ errMessages }/>
                     <TextField
                         name="email"
                         type="email"
@@ -205,4 +172,6 @@ export default function LoginPage() {
             </Grid>
         </Grid>
     );
-}
+});
+
+export default LoginPage;

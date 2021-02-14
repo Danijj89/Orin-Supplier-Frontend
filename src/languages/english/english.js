@@ -15,6 +15,7 @@ export const ENGLISH = {
                 passwordRequired: 'You need to insert a password',
                 emailOrPasswordWrong:
                     'Email or Password does not match any existing one',
+                unverifiedEmail: 'You need to verify your email first'
             },
         },
         register: {
