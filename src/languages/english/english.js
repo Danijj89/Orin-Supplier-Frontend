@@ -270,9 +270,32 @@ export const ENGLISH = {
         },
         companyUsers: {
             titleLabel: 'Colleagues preferences',
-            inviteButtonLabel: 'invite new',
             inactivateUserButtonLabel: 'Inactivate',
         },
+        newUserButton: {
+            formLabels: {
+                name: 'Name',
+                email: 'Email',
+                password: 'Password',
+                confirmPassword: 'Confirm Password',
+                role: 'Role'
+            },
+            titles: {
+                newUser: 'New User',
+                rolePicker: 'Roles'
+            },
+            buttons: {
+                newUser: 'Invite New',
+                newUserSubmit: 'invite'
+            },
+            errorMessages: {
+                missingName: 'New user name is required.',
+                missingEmail: 'New user email is required.',
+                missingPassword: 'New user password is required.',
+                confirmPasswordMismatch: 'The confirm password doesn\'t match the password.',
+                missingRole: 'New user role is required.'
+            }
+        }
     },
     client: {
         clientOverview: {

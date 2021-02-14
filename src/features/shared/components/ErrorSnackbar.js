@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import Alert from '@material-ui/lab/Alert';
 import Snackbar from '@material-ui/core/Snackbar';
@@ -24,6 +24,8 @@ const ErrorSnackbar = React.memo(function ErrorSnackbar({ error = [] }) {
         setOpen(false);
     };
 
+    const errorMessage = useMemo(() => errors.join(' '), [errors]);
+
     return (
         <Snackbar
             anchorOrigin={ ANCHOR_ORIGIN }
@@ -33,7 +35,7 @@ const ErrorSnackbar = React.memo(function ErrorSnackbar({ error = [] }) {
             onClose={ onClose }
         >
             <Alert onClose={ onClose } severity="error">
-                { errors }
+                { errorMessage }
             </Alert>
         </Snackbar>
     )

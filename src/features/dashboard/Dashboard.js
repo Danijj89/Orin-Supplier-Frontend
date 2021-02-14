@@ -5,7 +5,7 @@ import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import MetricCard from './MetricsCard';
 import { Bar, Line } from 'react-chartjs-2';
-import { LANGUAGE } from '../../app/utils/constants.js';
+import { LANGUAGE } from 'app/utils/constants.js';
 import {
     selectDashboardData,
 } from './duck/selectors';
@@ -114,7 +114,7 @@ const Dashboard = React.memo(function Dashboard() {
             metricId: leads.wipLeads,
             value: dashboardData.wipLeads,
         },
-    ], [ dashboardData.newLeads,dashboardData.wipLeads ]);
+    ], [ dashboardData.wipLeads, dashboardData.newLeadsCount ]);
 
     const clientMetrics = useMemo(() => [
         {

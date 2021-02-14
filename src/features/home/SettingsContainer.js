@@ -11,6 +11,9 @@ import { cleanHomeState, resetHomeStatus } from 'features/home/duck/home/slice.j
 import { cleanUserState, resetUserStatus } from 'features/home/duck/users/slice.js';
 import { fetchCurrentCompany } from 'features/home/duck/home/thunks.js';
 import StatusHandler from 'features/shared/status/StatusHandler.js';
+import { selectRoleDataStatus, selectRoleError } from 'features/admin/duck/roles/selectors.js';
+import { fetchRoles } from 'features/admin/duck/roles/thunks.js';
+import { cleanRoleState } from 'features/admin/duck/roles/slice.js';
 
 const SettingsContainer = React.memo(function SettingsContainer() {
     const dispatch = useDispatch();
@@ -19,9 +22,11 @@ const SettingsContainer = React.memo(function SettingsContainer() {
     const homeError = useSelector(selectHomeError);
     const userDataStatus = useSelector(selectUserDataStatus);
     const userError = useSelector(selectUserError);
+    const roleDataStatus = useSelector(selectRoleDataStatus);
+    const roleError = useSelector(selectRoleError);
 
-    const status = determineStatus(homeDataStatus, userDataStatus);
-    const errors = getErrors(homeError, userError);
+    const status = determineStatus(homeDataStatus, userDataStatus, roleDataStatus);
+    const errors = getErrors(homeError, userError, roleError);
 
     const userStatus = useSelector(selectUserStatus);
     const homeStatus = useSelector(selectHomeStatus);
@@ -38,15 +43,17 @@ const SettingsContainer = React.memo(function SettingsContainer() {
         if (!fetched.current) {
             if (homeDataStatus === 'IDLE') dispatch(fetchCurrentCompany());
             if (userDataStatus === 'IDLE') dispatch(fetchUsers());
+            if (roleDataStatus === 'IDLE') dispatch(fetchRoles());
             fetched.current = true;
         }
-    }, [dispatch, homeDataStatus, userDataStatus]);
+    }, [dispatch, homeDataStatus, userDataStatus, roleDataStatus]);
 
     useEffect(() => {
         return () => {
             if (errors.length > 0) {
                 dispatch(cleanHomeState());
                 dispatch(cleanUserState());
+                dispatch(cleanRoleState());
             }
         }
     }, [dispatch, errors.length]);

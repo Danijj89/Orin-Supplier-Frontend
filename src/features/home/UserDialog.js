@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import FormDialog from '../wrappers/FormDialog.js';
-import { LANGUAGE } from '../../../app/utils/constants.js';
+import FormDialog from 'features/shared/wrappers/FormDialog.js';
+import { LANGUAGE } from 'app/utils/constants.js';
 import PropTypes from 'prop-types';
-import SideTextField from '../inputs/SideTextField.js';
+import SideTextField from 'features/shared/inputs/SideTextField.js';
 
 const { nameLabel, emailLabel } = LANGUAGE.shared.forms.userDialog;
 
 const UserDialog = React.memo(function UserDialog(
-    { user, isOpen, titleLabel, submitLabel, onSubmit, onCancel, className }) {
+    { user, isOpen, titleLabel, submitLabel, onSubmit, onCancel, className, edit }) {
 
     const { register, errors, handleSubmit, reset } = useForm({
         mode: 'onSubmit'
@@ -18,7 +18,7 @@ const UserDialog = React.memo(function UserDialog(
         reset({
             _id: user?._id,
             name: user?.name,
-            email: user?.email
+            email: user?.email,
         });
     }, [reset, user]);
 
@@ -38,6 +38,13 @@ const UserDialog = React.memo(function UserDialog(
                 error={ !!errors.name }
                 required
                 autoFocus
+            />
+            <SideTextField
+                label={ emailLabel }
+                name="email"
+                inputRef={ register({ required: true }) }
+                required
+                error={ !!errors.email }
             />
             <SideTextField
                 label={ emailLabel }

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import ThemedButton from 'features/shared/buttons/ThemedButton.js';
-import UserDialog from 'features/shared/forms/UserDialog.js';
+import UserDialog from 'features/home/UserDialog.js';
 import { Box } from '@material-ui/core';
 import { LANGUAGE } from 'app/utils/constants.js';
 import { useDispatch } from 'react-redux';

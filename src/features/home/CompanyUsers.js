@@ -1,5 +1,4 @@
 import React, { useCallback } from 'react';
-import { Add as IconAdd } from '@material-ui/icons';
 import { LANGUAGE } from 'app/utils/constants.js';
 import ThemedButton from 'features/shared/buttons/ThemedButton.js';
 import InfoCard from 'features/shared/wrappers/InfoCard.js';
@@ -15,6 +14,7 @@ import Box from '@material-ui/core/Box';
 import Divider from '@material-ui/core/Divider';
 import { selectSessionUserId } from 'app/duck/selectors.js';
 import { inactivateUser } from 'features/home/duck/users/thunks.js';
+import NewUserButton from 'features/home/NewUserButton.js';
 
 const useStyles = makeStyles((theme) => ({
     list: {
@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const { titleLabel, inviteButtonLabel, inactivateUserButtonLabel } = LANGUAGE.home.companyUsers;
+const { titleLabel, inactivateUserButtonLabel } = LANGUAGE.home.companyUsers;
 
 const CompanyUsers = React.memo(function CompanyUsers() {
     const classes = useStyles();
@@ -46,10 +46,7 @@ const CompanyUsers = React.memo(function CompanyUsers() {
                 title={ titleLabel }
                 tools={
                     <UserPermission action={ CREATE_ANY }>
-                        <ThemedButton variant="text">
-                            { inviteButtonLabel }
-                            <IconAdd/>
-                        </ThemedButton>
+                        <NewUserButton />
                     </UserPermission>
                 }
                 content={
