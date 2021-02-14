@@ -266,7 +266,7 @@ export const ENGLISH = {
             dialogSubmitLabel: 'Reset',
             passwordLabel: 'Old Password',
             newPasswordLabel: 'New Password',
-            confirmPasswordLabel: 'Confirm Password',
+            confirmPasswordLabel: 'Confirm Password'
         },
         companyUsers: {
             titleLabel: 'Colleagues preferences',
@@ -905,9 +905,17 @@ export const ENGLISH = {
                 nameLabel: 'Your Name'
             },
             resetPasswordDialog: {
-                passwordLabel: 'Old Password',
-                newPasswordLabel: 'New Password',
-                confirmPasswordLabel: 'Confirm Password',
+                formLabels: {
+                    newPassword: 'New Password',
+                    confirmNewPassword: 'Confirm New Password',
+                    code: 'Reset Code',
+                },
+                buttons: {
+                    resetCode: 'Send Code'
+                },
+                errorMessages: {
+                    confirmPasswordMismatch: 'The confirm password doesn\'t match the password.'
+                }
             },
             companyDialog: {
                 taxNumberLabel: 'Tax Number',

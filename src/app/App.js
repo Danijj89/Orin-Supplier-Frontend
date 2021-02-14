@@ -7,7 +7,7 @@ import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import appTheme from './themes/theme.js';
 import NotFound from '../features/shared/components/NotFound.js';
 import HomeContainer from '../features/home/HomeContainer.js';
-import LoginContainer from 'app/utils/LoginContainer.js';
+import LoginContainer from 'app/LoginContainer.js';
 
 export default function App() {
 
