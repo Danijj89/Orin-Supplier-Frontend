@@ -3,12 +3,14 @@ import FormDialog from 'features/shared/wrappers/FormDialog.js';
 import SideTextField from 'features/shared/inputs/SideTextField.js';
 import { LANGUAGE } from 'app/utils/constants.js';
 import { useForm } from 'react-hook-form';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectAllRoleIds } from 'features/admin/duck/roles/selectors.js';
 import ThemedButton from 'features/shared/buttons/ThemedButton.js';
 import { Add as IconAdd } from '@material-ui/icons';
 import ErrorSnackbar from 'features/shared/components/ErrorSnackbar.js';
 import ListPicker from 'features/home/ListPicker.js';
+import { createUser } from 'features/home/duck/users/thunks.js';
+import { selectSessionUserCompanyId } from 'app/duck/selectors.js';
 
 const {
     formLabels,
@@ -18,8 +20,11 @@ const {
 } = LANGUAGE.home.newUserButton;
 
 const NewUserButton = React.memo(function NewUserDialog() {
-    const [isOpen, setIsOpen] = useState(false);
+    const dispatch = useDispatch();
     const roleIds = useSelector(selectAllRoleIds);
+    const sessionCompanyId = useSelector(selectSessionUserCompanyId);
+    const [isOpen, setIsOpen] = useState(false);
+
 
     const { register, errors, handleSubmit, watch, getValues, setValue } = useForm({
         mode: 'onSubmit',
@@ -30,7 +35,7 @@ const NewUserButton = React.memo(function NewUserDialog() {
 
     useEffect(() => {
         register({ name: 'roles' }, { validate: roles => roles.length > 0 || errorMessages.missingRole });
-    });
+    }, [register]);
 
     const chosenRoles = watch('roles');
 
@@ -47,8 +52,10 @@ const NewUserButton = React.memo(function NewUserDialog() {
     const onCancel = useCallback(() => setIsOpen(false), []);
 
     const onSubmit = useCallback(data => {
-
-    }, []);
+        data.company = sessionCompanyId;
+        dispatch(createUser({ data }));
+        setIsOpen(false);
+    }, [dispatch, sessionCompanyId]);
 
     const errMessages = useMemo(
         () => Object.values(errors).map(error => error.message),

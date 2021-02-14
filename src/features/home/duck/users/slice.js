@@ -1,5 +1,5 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import { fetchUsers, inactivateUser, updateUser } from 'features/home/duck/users/thunks.js';
+import { createUser, fetchUsers, inactivateUser, updateUser } from 'features/home/duck/users/thunks.js';
 
 export const usersAdapter = createEntityAdapter({
     selectId: user => user._id,
@@ -58,6 +58,17 @@ const usersSlice = createSlice({
             state.status = 'FULFILLED';
         },
         [inactivateUser.rejected]: (state, action) => {
+            state.status = 'REJECTED';
+            state.error = action.payload.message;
+        },
+        [createUser.pending]: (state) => {
+            state.status = 'PENDING';
+        },
+        [createUser.fulfilled]: (state, action) => {
+            usersAdapter.upsertOne(state, action.payload);
+            state.status = 'FULFILLED';
+        },
+        [createUser.rejected]: (state, action) => {
             state.status = 'REJECTED';
             state.error = action.payload.message;
         }
