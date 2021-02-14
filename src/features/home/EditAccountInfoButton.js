@@ -22,8 +22,7 @@ const EditAccountInfoButton = React.memo(function EditAccountInfoButton({ user, 
     const onCancelEditDialog = () => setIsEdit(false);
 
     const onSubmitEditDialog = (data) => {
-        const { _id: userId, ...update } = data;
-        dispatch(updateUser({ userId, update }));
+        dispatch(updateUser({ userId: user._id, update: data }));
         setIsEdit(false);
     };
 

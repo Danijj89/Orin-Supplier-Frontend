@@ -206,7 +206,6 @@ export const ENGLISH = {
         accountDetails: {
             titleLabel: 'Account preferences',
             nameLabel: 'Your Name',
-            emailLabel: 'Email',
             editButtonLabel: 'Edit',
             dialogTitleLabel: 'Account',
             dialogSubmitLabel: 'Update',
@@ -903,8 +902,7 @@ export const ENGLISH = {
         },
         forms: {
             userDialog: {
-                nameLabel: 'Your Name',
-                emailLabel: 'Email',
+                nameLabel: 'Your Name'
             },
             resetPasswordDialog: {
                 passwordLabel: 'Old Password',

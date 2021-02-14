@@ -5,7 +5,7 @@ import { LANGUAGE } from 'app/utils/constants.js';
 import PropTypes from 'prop-types';
 import SideTextField from 'features/shared/inputs/SideTextField.js';
 
-const { nameLabel, emailLabel } = LANGUAGE.shared.forms.userDialog;
+const { nameLabel } = LANGUAGE.shared.forms.userDialog;
 
 const UserDialog = React.memo(function UserDialog(
     { user, isOpen, titleLabel, submitLabel, onSubmit, onCancel, className, edit }) {
@@ -16,9 +16,7 @@ const UserDialog = React.memo(function UserDialog(
 
     useEffect(() => {
         reset({
-            _id: user?._id,
             name: user?.name,
-            email: user?.email,
         });
     }, [reset, user]);
 
@@ -38,20 +36,6 @@ const UserDialog = React.memo(function UserDialog(
                 error={ !!errors.name }
                 required
                 autoFocus
-            />
-            <SideTextField
-                label={ emailLabel }
-                name="email"
-                inputRef={ register({ required: true }) }
-                required
-                error={ !!errors.email }
-            />
-            <SideTextField
-                label={ emailLabel }
-                name="email"
-                inputRef={ register({ required: true }) }
-                required
-                error={ !!errors.email }
             />
         </FormDialog>
     )

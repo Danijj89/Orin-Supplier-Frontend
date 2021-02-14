@@ -30,13 +30,14 @@ const appSlice = createSlice({
         },
         [signIn.fulfilled]: (state, action) => {
             const { company, roles, appData } = action.payload;
-            const user = JSON.parse(localStorage.getItem('_authing_user'));
-            user.company = company;
-            user.roles = roles;
-            state.user = user;
+            const { id, ...rest } = JSON.parse(localStorage.getItem('_authing_user'));
+            rest.company = company;
+            rest.roles = roles;
+            rest._id = id;
+            state.user = rest;
             state.appData = appData;
-            localStorage.setItem(SESSION_COOKIE, JSON.stringify(new Date(user.tokenExpiredAt)));
-            localStorage.setItem(SESSION_USER, JSON.stringify(user));
+            localStorage.setItem(SESSION_COOKIE, JSON.stringify(new Date(rest.tokenExpiredAt)));
+            localStorage.setItem(SESSION_USER, JSON.stringify(rest));
             localStorage.setItem(SESSION_APP_DATA, JSON.stringify(appData));
             state.status = 'FULFILLED';
         },
