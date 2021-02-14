@@ -7,8 +7,18 @@ import ErrorSnackbar from 'features/shared/components/ErrorSnackbar.js';
 import { cleanAppState } from 'app/duck/slice.js';
 import { SESSION_USER } from 'app/sessionKeys.js';
 import { useHistory } from 'react-router-dom';
+import Backdrop from '@material-ui/core/Backdrop';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles(theme => ({
+    loader: {
+        zIndex: theme.zIndex.drawer + 1,
+        color: theme.palette.backgroundPrimary.main
+    }
+}));
 
 const LoginContainer = React.memo(function LoginContainer() {
+    const classes = useStyles();
     const dispatch = useDispatch();
     const history = useHistory();
     const user = useSelector(selectSessionUser);
@@ -35,14 +45,13 @@ const LoginContainer = React.memo(function LoginContainer() {
         }
     }, [dispatch, errors.length])
 
-    let page;
-    if (appStatus === 'PENDING') page = <Loader />
-    else page = <LoginPage />
-
     return (
         <>
             <ErrorSnackbar error={ errors }/>
-            { page }
+            <LoginPage/>
+            <Backdrop className={ classes.loader } open={ appStatus === 'PENDING' }>
+                <Loader/>
+            </Backdrop>
         </>
     );
 });
