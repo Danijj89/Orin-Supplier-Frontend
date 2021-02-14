@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { SESSION_APP_DATA, SESSION_COOKIE, SESSION_USER } from '../sessionKeys.js';
-import { signIn } from './thunks.js';
+import { signIn, signOut } from './thunks.js';
 
 const initialState = {
     user: JSON.parse(localStorage.getItem(SESSION_USER)),
@@ -41,6 +41,21 @@ const appSlice = createSlice({
             state.status = 'FULFILLED';
         },
         [signIn.rejected]: (state, action) => {
+            state.status = 'REJECTED';
+            state.error = action.payload.message;
+        },
+        [signOut.pending]: (state) => {
+            state.status = 'PENDING';
+        },
+        [signOut.fulfilled]: (state) => {
+            localStorage.clear();
+            state.status = 'IDLE';
+            state.error = null;
+            state.user = null;
+            state.appData = null;
+            state.status = 'FULFILLED';
+        },
+        [signOut.rejected]: (state, action) => {
             state.status = 'REJECTED';
             state.error = action.payload.message;
         }
