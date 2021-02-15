@@ -271,6 +271,7 @@ export const ENGLISH = {
         companyUsers: {
             titleLabel: 'Colleagues preferences',
             inactivateUserButtonLabel: 'Inactivate',
+            activateUserButtonLabel: 'Reactivate'
         },
         newUserButton: {
             formLabels: {
