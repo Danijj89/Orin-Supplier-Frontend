@@ -13,6 +13,7 @@ import SearchBar from 'features/shared/components/SearchBar.js';
 import { selectAllActiveOrders } from 'features/orders/duck/selectors.js';
 import { getOrderURL } from 'features/orders/utils/urls.js';
 import Box from '@material-ui/core/Box';
+import { selectClientsMap } from 'features/clients/duck/selectors.js';
 
 const { newOrderButtonLabel } = LANGUAGE.order.ordersOverview;
 
@@ -32,6 +33,7 @@ const OrderOverview = React.memo(function OrderOverview() {
     const dispatch = useDispatch();
     const history = useHistory();
     const orders = useSelector(selectAllActiveOrders);
+    const clients = useSelector(selectClientsMap);
 
     const onNewOrderClick = () => {
         dispatch(cleanNewOrder());
@@ -40,19 +42,20 @@ const OrderOverview = React.memo(function OrderOverview() {
 
     const getUrl = useCallback(order => getOrderURL(order._id), []);
 
+    const getOptionLabel = useCallback(
+        order => `${order.ref} - ${clients[order.to]?.name}`,
+        [clients]);
+
     return (
         <OrderPermission action={ [CREATE_ANY, CREATE_OWN] }>
             <Paper className={ classes.container }>
                 <Box className={ classes.topRow }>
-                    <ThemedButton
-                        className={ classes.newOrder }
-                        onClick={ onNewOrderClick }
-                    >
+                    <ThemedButton onClick={ onNewOrderClick }>
                         { newOrderButtonLabel }
                     </ThemedButton>
                     <SearchBar
                         options={ orders }
-                        getOptionLabel={ order => order.ref }
+                        getOptionLabel={ getOptionLabel }
                         getOptionSelected={ (order, value) => order._id === value._id }
                         getUrl={ getUrl }
                     />

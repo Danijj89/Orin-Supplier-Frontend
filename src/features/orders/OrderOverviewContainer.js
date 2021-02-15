@@ -10,14 +10,20 @@ import { cleanOrderState, resetOrderStatus } from './duck/slice.js';
 import { READ_ANY, READ_OWN } from '../admin/utils/actions.js';
 import OrderPermission from '../shared/permissions/OrderPermission.js';
 import StatusHandler from 'features/shared/status/StatusHandler.js';
+import { selectClientDataStatus } from 'features/clients/duck/selectors.js';
+import { fetchClients } from 'features/clients/duck/thunks.js';
+import { cleanClientState } from 'features/clients/duck/slice.js';
 
 const OrderOverviewContainer = React.memo(function OrderOverviewContainer() {
     const dispatch = useDispatch();
 
     const orderDataStatus = useSelector(selectOrderDataStatus);
     const orderError = useSelector(selectOrderError);
-    const status = determineStatus(orderDataStatus);
-    const errors = getErrors(orderError);
+    const clientDataStatus = useSelector(selectClientDataStatus);
+    const clientError = useSelector(selectClientDataStatus);
+
+    const status = determineStatus(orderDataStatus, clientDataStatus);
+    const errors = getErrors(orderError, clientError);
 
     const orderStatus = useSelector(selectOrderStatus);
 
@@ -29,14 +35,16 @@ const OrderOverviewContainer = React.memo(function OrderOverviewContainer() {
     useEffect(() => {
         if (!fetched.current) {
             if (orderDataStatus === 'IDLE') dispatch(fetchOrders());
+            if (clientDataStatus === 'IDLE') dispatch(fetchClients());
             fetched.current = true;
         }
-    }, [dispatch, orderDataStatus]);
+    }, [dispatch, orderDataStatus, clientDataStatus]);
 
     useEffect(() => {
         return () => {
             if (errors.length > 0) {
                 dispatch(cleanOrderState());
+                dispatch(cleanClientState());
             }
         }
     }, [dispatch, errors.length]);

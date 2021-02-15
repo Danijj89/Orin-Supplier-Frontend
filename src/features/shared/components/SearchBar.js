@@ -10,8 +10,8 @@ import clsx from 'clsx';
 
 const useStyles = makeStyles(theme => ({
     root: {
-        minWidth: 200,
-        maxWidth: 320,
+        minWidth: 320,
+        maxWidth: 480,
         backgroundColor: theme.palette.backgroundPrimary.main,
         borderWidth: 1,
         borderStyle: 'solid',
@@ -51,13 +51,12 @@ const SearchBar = React.memo(function SearchBar({ options, getOptionLabel, getOp
             renderInput={ (params) => (
                 <TextField
                     { ...params }
-                    // variant="outlined"
                     InputProps={ {
                         ...params.InputProps,
                         disableUnderline: true,
                         endAdornment:
-                            <IconButton size="small">
-                                <IconSearch onClick={ onSubmit }/>
+                            <IconButton onClick={ onSubmit } size="small">
+                                <IconSearch />
                             </IconButton>,
                         className: clsx(classes.root, className),
                     } }

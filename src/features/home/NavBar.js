@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import logo from '../../images/orinlogo.png';
 import { LANGUAGE } from 'app/utils/constants.js';
