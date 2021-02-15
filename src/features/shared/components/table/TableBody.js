@@ -25,7 +25,7 @@ const TableBody = React.memo(function TableBody(
         onRowClick,
         hasCollapse,
         renderCollapse,
-        maxEmptyRows = 5,
+        maxEmptyRows = 10,
         hover = true
     } = options;
     const rowHeight = useMemo(() => dense ? 39 : 59, [dense]);
