@@ -4,7 +4,7 @@ import { selectAppError, selectAppStatus, selectSessionUser } from 'app/duck/sel
 import Loader from 'features/shared/components/Loader.js';
 import LoginPage from 'app/LoginPage.js';
 import ErrorSnackbar from 'features/shared/components/ErrorSnackbar.js';
-import { cleanAppState } from 'app/duck/slice.js';
+import { cleanAppState, resetAppStatus } from 'app/duck/slice.js';
 import { SESSION_USER } from 'app/sessionKeys.js';
 import { useHistory } from 'react-router-dom';
 import Backdrop from '@material-ui/core/Backdrop';
@@ -28,7 +28,6 @@ const LoginContainer = React.memo(function LoginContainer() {
 
     useEffect(() => {
         if (appError) setErrors([appError]);
-        else setErrors([]);
     }, [appError])
 
     useEffect(() => {
@@ -40,7 +39,7 @@ const LoginContainer = React.memo(function LoginContainer() {
     useEffect(() => {
         return () => {
             if (errors.length > 0) {
-                dispatch(cleanAppState());
+                dispatch(resetAppStatus());
             }
         }
     }, [dispatch, errors.length])

@@ -13,7 +13,7 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import Box from '@material-ui/core/Box';
 import Divider from '@material-ui/core/Divider';
 import { selectSessionUserId } from 'app/duck/selectors.js';
-import { inactivateUser } from 'features/home/duck/users/thunks.js';
+import { updateUserStatus } from 'features/home/duck/users/thunks.js';
 import NewUserButton from 'features/home/NewUserButton.js';
 
 const useStyles = makeStyles((theme) => ({
@@ -38,7 +38,7 @@ const CompanyUsers = React.memo(function CompanyUsers() {
         (user) => user.active && user._id !== sessionUserId, [sessionUserId]);
 
     const createInactivateHandler = useCallback(
-        (userId) => () => dispatch(inactivateUser({ userId })), [dispatch]);
+        (userId) => () => dispatch(updateUserStatus({ userId, update: { active: false } })), [dispatch]);
 
     return (
         <UserPermission action={ READ_ANY }>

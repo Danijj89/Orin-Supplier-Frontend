@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import Home from './Home.js';
 import { selectAppError, selectAppStatus, selectSessionUserCompanyId } from 'app/duck/selectors.js';
-import { Redirect, useHistory } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import ErrorSnackbar from 'features/shared/components/ErrorSnackbar.js';
 import Loader from 'features/shared/components/Loader.js';
 import Backdrop from '@material-ui/core/Backdrop';
@@ -17,7 +17,6 @@ const useStyles = makeStyles(theme => ({
 
 const HomeContainer = React.memo(function HomeContainer() {
     const classes = useStyles();
-    const history = useHistory();
     const companyId = useSelector(selectSessionUserCompanyId);
 
     const appStatus = useSelector(selectAppStatus);
@@ -29,10 +28,6 @@ const HomeContainer = React.memo(function HomeContainer() {
         if (appError) setErrors([appError]);
         else setErrors([]);
     }, [appError])
-
-    useEffect(() => {
-        if (!companyId) history.push('/login');
-    }, [history, companyId]);
 
     return (
         <>

@@ -30,11 +30,11 @@ export const fetchUsers = createAsyncThunk('users/fetchUsers',
         }
     });
 
-export const inactivateUser = createAsyncThunk('users/inactivateUser',
-    async ({ userId }, { rejectWithValue }) => {
+export const updateUserStatus = createAsyncThunk('users/inactivateUser',
+    async ({ userId, update }, { rejectWithValue }) => {
         try {
-            await UserService.inactivateUser(userId);
-            return { userId };
+            await UserService.updateUserStatus(userId, update);
+            return { userId, update };
         } catch (err) {
             return rejectWithValue(err.response.data);
         }
