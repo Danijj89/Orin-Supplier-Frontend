@@ -5,7 +5,6 @@ import FilterSelector from './tools/filter/FilterSelector.js';
 import ArchiveSelector from 'features/shared/components/table/tools/archive/ArchiveSelector.js';
 
 const TableToolbar = React.memo(function TableToolbar({ tools, rows, setRows }) {
-
     const renderedTools = useMemo(() => tools.map(tool => {
         const { id, type, options } = tool;
         switch (type) {

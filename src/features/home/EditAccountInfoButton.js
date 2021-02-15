@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import ThemedButton from 'features/shared/buttons/ThemedButton.js';
-import UserDialog from 'features/shared/forms/UserDialog.js';
+import UserDialog from 'features/home/UserDialog.js';
 import { Box } from '@material-ui/core';
 import { LANGUAGE } from 'app/utils/constants.js';
 import { useDispatch } from 'react-redux';
@@ -22,8 +22,7 @@ const EditAccountInfoButton = React.memo(function EditAccountInfoButton({ user, 
     const onCancelEditDialog = () => setIsEdit(false);
 
     const onSubmitEditDialog = (data) => {
-        const { _id: userId, ...update } = data;
-        dispatch(updateUser({ userId, update }));
+        dispatch(updateUser({ userId: user._id, update: data }));
         setIsEdit(false);
     };
 

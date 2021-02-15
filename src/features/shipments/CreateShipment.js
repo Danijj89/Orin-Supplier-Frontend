@@ -6,7 +6,7 @@ import FormContainer from '../shared/wrappers/FormContainer.js';
 import { useForm } from 'react-hook-form';
 import {
     formatAddress,
-    formatItemsTotalQuantities,
+    formatItemsTotalQuantities
 } from '../shared/utils/format.js';
 import { useDispatch, useSelector } from 'react-redux';
 import {

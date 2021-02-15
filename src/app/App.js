@@ -1,6 +1,5 @@
 import React from 'react';
 import { Switch } from 'react-router-dom';
-import LoginPage from './LoginPage.js';
 import Route from '../features/shared/components/AppRoute.js';
 import { MuiThemeProvider, } from '@material-ui/core';
 import DateFnsUtils from '@date-io/date-fns';
@@ -8,6 +7,7 @@ import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import appTheme from './themes/theme.js';
 import NotFound from '../features/shared/components/NotFound.js';
 import HomeContainer from '../features/home/HomeContainer.js';
+import LoginContainer from 'app/LoginContainer.js';
 
 export default function App() {
 
@@ -16,7 +16,7 @@ export default function App() {
             <MuiPickersUtilsProvider utils={ DateFnsUtils }>
                 <Switch>
                     <Route exact path={ ['/', '/login'] }>
-                        <LoginPage/>
+                        <LoginContainer />
                     </Route>
                     <Route path='/home'>
                         <HomeContainer/>

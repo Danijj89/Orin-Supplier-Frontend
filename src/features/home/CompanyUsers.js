@@ -1,5 +1,4 @@
 import React, { useCallback } from 'react';
-import { Add as IconAdd } from '@material-ui/icons';
 import { LANGUAGE } from 'app/utils/constants.js';
 import ThemedButton from 'features/shared/buttons/ThemedButton.js';
 import InfoCard from 'features/shared/wrappers/InfoCard.js';
@@ -14,19 +13,29 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import Box from '@material-ui/core/Box';
 import Divider from '@material-ui/core/Divider';
 import { selectSessionUserId } from 'app/duck/selectors.js';
-import { inactivateUser } from 'features/home/duck/users/thunks.js';
+import { updateUserStatus } from 'features/home/duck/users/thunks.js';
+import NewUserButton from 'features/home/NewUserButton.js';
+import clsx from 'clsx';
 
 const useStyles = makeStyles((theme) => ({
     list: {
         minHeight: 500,
+        maxHeight: '90wh',
         padding: 0,
+        overflow: 'auto'
     },
     listItem: {
         padding: theme.spacing(2),
     },
+    button: {
+        minWidth: 120
+    },
+    disabled: {
+        color: theme.palette.grey.main
+    }
 }));
 
-const { titleLabel, inviteButtonLabel, inactivateUserButtonLabel } = LANGUAGE.home.companyUsers;
+const { titleLabel, inactivateUserButtonLabel, activateUserButtonLabel } = LANGUAGE.home.companyUsers;
 
 const CompanyUsers = React.memo(function CompanyUsers() {
     const classes = useStyles();
@@ -34,11 +43,13 @@ const CompanyUsers = React.memo(function CompanyUsers() {
     const users = useSelector(selectAllUsers);
     const sessionUserId = useSelector(selectSessionUserId);
 
-    const isActiveAndNotSessionUser = useCallback(
-        (user) => user.active && user._id !== sessionUserId, [sessionUserId]);
+    const isNotUserSession = useCallback(
+        (user) => user._id !== sessionUserId, [sessionUserId]);
 
-    const createInactivateHandler = useCallback(
-        (userId) => () => dispatch(inactivateUser({ userId })), [dispatch]);
+    const createChangeUserStatusHandler = useCallback(
+        (userId, active) => () =>
+            dispatch(updateUserStatus({ userId, update: { active: !active } })),
+        [dispatch]);
 
     return (
         <UserPermission action={ READ_ANY }>
@@ -46,24 +57,29 @@ const CompanyUsers = React.memo(function CompanyUsers() {
                 title={ titleLabel }
                 tools={
                     <UserPermission action={ CREATE_ANY }>
-                        <ThemedButton variant="text">
-                            { inviteButtonLabel }
-                            <IconAdd/>
-                        </ThemedButton>
+                        <NewUserButton/>
                     </UserPermission>
                 }
                 content={
                     <List className={ classes.list }>
                         { users.map((user) => (
                             <Box key={ `company-users-table-user-${ user._id }` }>
-                                <ListItem
-                                    className={ classes.listItem } disabled={ !user.active }>
-                                    <ListItemText primary={ user.name }/>
-                                    { isActiveAndNotSessionUser(user) &&
+                                <ListItem className={ classes.listItem }>
+                                    <ListItemText
+                                        primary={ user.name }
+                                        className={clsx(!user.active && classes.disabled )}
+                                    />
+                                    { isNotUserSession(user) &&
                                     <UserPermission action={ DELETE_ANY }>
                                         <ListItemSecondaryAction>
-                                            <ThemedButton onClick={ createInactivateHandler(user._id) }>
-                                                { inactivateUserButtonLabel }
+                                            <ThemedButton
+                                                onClick={ createChangeUserStatusHandler(user._id, user.active) }
+                                                className={ classes.button }
+                                            >
+                                                { user.active
+                                                    ? inactivateUserButtonLabel
+                                                    : activateUserButtonLabel
+                                                }
                                             </ThemedButton>
                                         </ListItemSecondaryAction>
                                     </UserPermission>

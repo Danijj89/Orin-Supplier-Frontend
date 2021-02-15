@@ -15,6 +15,7 @@ export const ENGLISH = {
                 passwordRequired: 'You need to insert a password',
                 emailOrPasswordWrong:
                     'Email or Password does not match any existing one',
+                unverifiedEmail: 'You need to verify your email first'
             },
         },
         register: {
@@ -205,7 +206,6 @@ export const ENGLISH = {
         accountDetails: {
             titleLabel: 'Account preferences',
             nameLabel: 'Your Name',
-            emailLabel: 'Email',
             editButtonLabel: 'Edit',
             dialogTitleLabel: 'Account',
             dialogSubmitLabel: 'Update',
@@ -266,13 +266,37 @@ export const ENGLISH = {
             dialogSubmitLabel: 'Reset',
             passwordLabel: 'Old Password',
             newPasswordLabel: 'New Password',
-            confirmPasswordLabel: 'Confirm Password',
+            confirmPasswordLabel: 'Confirm Password'
         },
         companyUsers: {
             titleLabel: 'Colleagues preferences',
-            inviteButtonLabel: 'invite new',
             inactivateUserButtonLabel: 'Inactivate',
+            activateUserButtonLabel: 'Reactivate'
         },
+        newUserButton: {
+            formLabels: {
+                name: 'Name',
+                email: 'Email',
+                password: 'Password',
+                confirmPassword: 'Confirm Password',
+                role: 'Role'
+            },
+            titles: {
+                newUser: 'New User',
+                rolePicker: 'Roles'
+            },
+            buttons: {
+                newUser: 'Invite New',
+                newUserSubmit: 'invite'
+            },
+            errorMessages: {
+                missingName: 'New user name is required.',
+                missingEmail: 'New user email is required.',
+                missingPassword: 'New user password is required.',
+                confirmPasswordMismatch: 'The confirm password doesn\'t match the password.',
+                missingRole: 'New user role is required.'
+            }
+        }
     },
     client: {
         clientOverview: {
@@ -879,13 +903,20 @@ export const ENGLISH = {
         },
         forms: {
             userDialog: {
-                nameLabel: 'Your Name',
-                emailLabel: 'Email',
+                nameLabel: 'Your Name'
             },
             resetPasswordDialog: {
-                passwordLabel: 'Old Password',
-                newPasswordLabel: 'New Password',
-                confirmPasswordLabel: 'Confirm Password',
+                formLabels: {
+                    newPassword: 'New Password',
+                    confirmNewPassword: 'Confirm New Password',
+                    code: 'Reset Code',
+                },
+                buttons: {
+                    resetCode: 'Send Code'
+                },
+                errorMessages: {
+                    confirmPasswordMismatch: 'The confirm password doesn\'t match the password.'
+                }
             },
             companyDialog: {
                 taxNumberLabel: 'Tax Number',

@@ -189,7 +189,7 @@ export default function OrdersTable() {
 
     const options = useMemo(() => ({
         table: {
-            dense: true
+            dense: true,
         },
         body: {
             onRowClick

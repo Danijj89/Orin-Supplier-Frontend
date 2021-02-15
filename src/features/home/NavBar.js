@@ -43,6 +43,7 @@ import ProductPermission from '../shared/permissions/ProductPermission.js';
 import PermissionPermission from '../shared/permissions/PermissionPermission.js';
 import DashboardPermission from '../shared/permissions/DashboardPermission.js';
 import { AuthenticationClient } from 'authing-js-sdk';
+import { signOut } from 'app/duck/thunks.js';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -103,14 +104,6 @@ const NavBar = React.memo(function NavBar() {
     const currentTab = location.pathname.split('/')[2];
     const userName = useSelector(selectSessionUserName);
 
-    const authing = useMemo(() => new AuthenticationClient({
-        appId: process.env.NODE_ENV
-            ? process.env.REACT_APP_DEV_AUTHING_APP_ID
-            : process.env.REACT_APP_DEV_AUTHING_APP_ID,
-        appDomain: process.env.REACT_APP_DEV_AUTHING_APP_DOMAIN,
-        onError: (code, message, data) => console.log(code, message, data)
-    }), []);
-
     const onTabClick = (tabName, href) => {
         if (tabName === currentTab) {
             switch (tabName) {
@@ -154,12 +147,7 @@ const NavBar = React.memo(function NavBar() {
         () => setUserMenuAnchorEl(null),
         []);
 
-    const onSignOut = useCallback(async () => {
-            await authing.logout();
-            localStorage.clear();
-            history.push('/login');
-        },
-        [history, authing]);
+    const onSignOut = useCallback(() => dispatch(signOut()), [dispatch]);
 
     const renderMobileMenu = (
         <Menu

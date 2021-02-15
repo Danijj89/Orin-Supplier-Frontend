@@ -1,5 +1,11 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import { fetchUsers, inactivateUser, updateUser } from 'features/home/duck/users/thunks.js';
+import {
+    createUser,
+    fetchUsers,
+    resetPassword,
+    sendResetCode,
+    updateUser, updateUserStatus
+} from 'features/home/duck/users/thunks.js';
 
 export const usersAdapter = createEntityAdapter({
     selectId: user => user._id,
@@ -49,15 +55,46 @@ const usersSlice = createSlice({
             state.status = 'REJECTED';
             state.error = action.payload.message;
         },
-        [inactivateUser.pending]: (state) => {
+        [updateUserStatus.pending]: (state) => {
             state.status = 'PENDING';
         },
-        [inactivateUser.fulfilled]: (state, action) => {
-            const { userId: id } = action.payload;
-            usersAdapter.updateOne(state, { id, changes: { active: false } });
+        [updateUserStatus.fulfilled]: (state, action) => {
+            const { userId: id, update } = action.payload;
+            usersAdapter.updateOne(state, { id, changes: { active: update.active } });
             state.status = 'FULFILLED';
         },
-        [inactivateUser.rejected]: (state, action) => {
+        [updateUserStatus.rejected]: (state, action) => {
+            state.status = 'REJECTED';
+            state.error = action.payload.message;
+        },
+        [createUser.pending]: (state) => {
+            state.status = 'PENDING';
+        },
+        [createUser.fulfilled]: (state, action) => {
+            usersAdapter.upsertOne(state, action.payload);
+            state.status = 'FULFILLED';
+        },
+        [createUser.rejected]: (state, action) => {
+            state.status = 'REJECTED';
+            state.error = action.payload.message;
+        },
+        [sendResetCode.pending]: (state) => {
+            state.status = 'PENDING';
+        },
+        [sendResetCode.fulfilled]: (state) => {
+            state.status = 'FULFILLED';
+        },
+        [sendResetCode.rejected]: (state, action) => {
+            state.status = 'REJECTED';
+            state.error = action.payload.message;
+        },
+        [resetPassword.pending]: (state) => {
+            state.status = 'PENDING';
+        },
+        [resetPassword.fulfilled]: (state) => {
+            state.status = 'FULFILLED';
+        },
+        [resetPassword.rejected]: (state, action) => {
             state.status = 'REJECTED';
             state.error = action.payload.message;
         }

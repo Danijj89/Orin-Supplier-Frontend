@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { SESSION_APP_DATA, SESSION_COOKIE, SESSION_USER } from '../sessionKeys.js';
-import { signIn } from './thunks.js';
+import { signIn, signOut } from './thunks.js';
 
 const initialState = {
     user: JSON.parse(localStorage.getItem(SESSION_USER)),
@@ -30,17 +30,33 @@ const appSlice = createSlice({
         },
         [signIn.fulfilled]: (state, action) => {
             const { company, roles, appData } = action.payload;
-            const user = JSON.parse(localStorage.getItem('_authing_user'));
-            user.company = company;
-            user.roles = roles;
-            state.user = user;
+            const { id, ...rest } = JSON.parse(localStorage.getItem('_authing_user'));
+            rest.company = company;
+            rest.roles = roles;
+            rest._id = id;
+            state.user = rest;
             state.appData = appData;
-            localStorage.setItem(SESSION_COOKIE, JSON.stringify(new Date(user.tokenExpiredAt)));
-            localStorage.setItem(SESSION_USER, JSON.stringify(user));
+            localStorage.setItem(SESSION_COOKIE, JSON.stringify(new Date(rest.tokenExpiredAt)));
+            localStorage.setItem(SESSION_USER, JSON.stringify(rest));
             localStorage.setItem(SESSION_APP_DATA, JSON.stringify(appData));
             state.status = 'FULFILLED';
         },
         [signIn.rejected]: (state, action) => {
+            state.status = 'REJECTED';
+            state.error = action.payload.message;
+        },
+        [signOut.pending]: (state) => {
+            state.status = 'PENDING';
+        },
+        [signOut.fulfilled]: (state) => {
+            localStorage.clear();
+            state.status = 'IDLE';
+            state.error = null;
+            state.user = null;
+            state.appData = null;
+            state.status = 'FULFILLED';
+        },
+        [signOut.rejected]: (state, action) => {
             state.status = 'REJECTED';
             state.error = action.payload.message;
         }

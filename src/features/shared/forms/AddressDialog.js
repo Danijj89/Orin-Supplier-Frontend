@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { LANGUAGE } from '../../../app/utils/constants.js';
+import { LANGUAGE } from 'app/utils/constants.js';
 import { useForm } from 'react-hook-form';
 import FormDialog from '../wrappers/FormDialog.js';
 import SideTextField from '../inputs/SideTextField.js';
 import RHFAutoComplete from '../rhf/inputs/RHFAutoComplete.js';
 import { useSelector } from 'react-redux';
-import { selectCountries } from '../../../app/duck/selectors.js';
-import { getOptionLabel } from '../../../app/utils/options/getters.js';
+import { selectCountries } from 'app/duck/selectors.js';
+import { getOptionLabel } from 'app/utils/options/getters.js';
 
 const {
     typeLabel,

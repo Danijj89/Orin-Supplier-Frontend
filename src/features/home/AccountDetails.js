@@ -10,7 +10,7 @@ import { selectCurrentUser } from 'app/duck/selectors.js';
 import { READ_OWN } from 'features/admin/utils/actions.js';
 import UserPermission from 'features/shared/permissions/UserPermission.js';
 
-const { titleLabel, nameLabel, emailLabel } = LANGUAGE.home.accountDetails;
+const { titleLabel, nameLabel } = LANGUAGE.home.accountDetails;
 
 const useStyles = makeStyles((theme) => ({
     resetPwdButton: {
@@ -34,7 +34,6 @@ const AccountDetails = React.memo(function AccountDetails() {
                 content={
                     <>
                         <TextWithLabel label={ nameLabel } text={ user.name }/>
-                        <TextWithLabel label={ emailLabel } text={ user.email }/>
                         <ResetPasswordButton
                             className={ classes.resetPwdButton }
                             userId={ user._id }

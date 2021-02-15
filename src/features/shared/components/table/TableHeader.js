@@ -5,10 +5,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TableCell from '@material-ui/core/TableCell';
 import { TableSortLabel } from '@material-ui/core';
 
-
 const TableHeader = React.memo(function TableHeader(
     { columns, orderBy, order, onSort, isEdit, options }) {
-
     const { sort = true } = options;
 
     return (
