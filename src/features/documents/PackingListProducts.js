@@ -12,12 +12,20 @@ import { createDocument } from '../shipments/duck/thunks.js';
 import { useHistory } from 'react-router-dom';
 import { getOptionId } from 'app/utils/options/getters.js';
 import Title5 from 'features/shared/display/Title5.js';
+import { makeStyles } from '@material-ui/core/styles';
+
 
 const {
     titleLabel,
     prevButtonLabel,
     nextButtonLabel
 } = LANGUAGE.documents.pl.products;
+
+const useStyles = makeStyles((theme) => ({
+    title: {
+        padding: theme.spacing(2),
+    }
+}));
 
 const fieldNames = {
     custom1: 'plCustom1',
@@ -33,6 +41,7 @@ const DOCUMENT_TYPE = 'PL';
 const PackingListProducts = React.memo(function PackingListProducts(
     { packingList, setPackingList, shipmentId }) {
     const dispatch = useDispatch();
+    const classes = useStyles();
     const history = useHistory();
     const companyId = useSelector(selectSessionUserCompanyId);
     const userId = useSelector(selectSessionUserId);
@@ -77,7 +86,7 @@ const PackingListProducts = React.memo(function PackingListProducts(
 
     return (
         <form onSubmit={ handleSubmit(onSubmit) } autoComplete="off">
-            <Title5 title={ titleLabel }/>
+            <Title5 className={classes.title} title={ titleLabel }/>
             <RHFMeasureTable
                 rhfControl={ control }
                 rhfGetValues={ getValues }

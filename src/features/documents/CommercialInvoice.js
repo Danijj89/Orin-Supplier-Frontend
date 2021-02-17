@@ -11,16 +11,25 @@ import {
 import queryString from 'query-string';
 import { selectPopulatedShipmentById } from '../shipments/duck/selectors.js';
 import CommercialInvoiceProducts from './CommercialInvoiceProducts.js';
+import { makeStyles } from '@material-ui/core/styles';
+
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+        marginTop: theme.spacing(2),
+    }
+}));
 
 const CommercialInvoice = React.memo(function CommercialInvoice() {
     const location = useLocation();
+    const classes = useStyles();
     const { shipment: shipmentId, step } = queryString.parse(location.search);
     const shipment = useSelector(state => selectPopulatedShipmentById(state, { shipmentId }));
     const initialCI = shipmentToCommercialInvoice(shipment);
     const [commercialInvoice, setCommercialInvoice] = useLocalStorage(SESSION_NEW_DOCUMENT, initialCI);
 
     return (
-        <Paper>
+        <Paper className={classes.root}>
             { step === 'details' &&
             <CommercialInvoiceDetails
                 commercialInvoice={ commercialInvoice }

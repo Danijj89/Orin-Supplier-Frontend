@@ -11,7 +11,7 @@ const AddRowButtonRow = React.memo(function AddRowButtonRow({ numColumns, onAddR
     return (
         <TableRow>
             <EditTableCell colSpan={ numColumns }>
-                <ThemedButton onClick={ onAddRow } variant="outlined">
+                <ThemedButton onClick={ onAddRow } variant="outlined" size="small">
                     { addRowButtonLabel }
                 </ThemedButton>
             </EditTableCell>

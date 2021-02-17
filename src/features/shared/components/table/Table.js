@@ -68,6 +68,7 @@ const Table = React.memo(function Table({ rows, columns, footer, tools, options 
                     options={ bodyOptions }
                 />
                 <TableFooter
+                    className={classes.footer}
                     footer={ footer }
                     numRows={ processedRows.length }
                     rowsPerPage={ rowsPerPage }

@@ -29,6 +29,9 @@ const useStyles = makeStyles((theme) => ({
     marksLabel: {
         fontWeight: 'bold',
         marginRight: theme.spacing(2)
+    },
+    options: {
+        marginBottom: theme.spacing(2),
     }
 }));
 
@@ -332,7 +335,7 @@ const RHFMeasureTable = React.memo(function RHFMeasureTable(
     const options = useMemo(() => ({
         table: {
             isEdit: true,
-            dense: true
+            dense: true,
         },
         body: {
             maxEmptyRows: 0,
@@ -347,12 +350,13 @@ const RHFMeasureTable = React.memo(function RHFMeasureTable(
     return (
         <Grid container className={ className }>
             { isError &&
-            <Grid container item justify="center" xs={ 12 }>
+            <Grid container  item justify="center" xs={ 12 }>
                 <ErrorSnackbar error={ errMessages }/>
             </Grid>
             }
             <Grid container item justify="flex-end" xs={ 12 }>
                 <RHFAutoComplete
+                    className={classes.options}
                     rhfControl={ control }
                     name={ fieldNames.weightUnit }
                     label={ formLabels.weightUnit }
@@ -363,6 +367,7 @@ const RHFMeasureTable = React.memo(function RHFMeasureTable(
                     required={ errorMessages.missingWeightUnit }
                 />
                 <RHFAutoComplete
+                    className={classes.options}
                     rhfControl={ control }
                     name={ fieldNames.measurementUnit }
                     label={ formLabels.measurementUnit }

@@ -9,17 +9,25 @@ import { SESSION_NEW_DOCUMENT } from 'app/sessionKeys.js';
 import PackingListDetails from './PackingListDetails.js';
 import { shipmentToPackingList } from '../shared/utils/entityConversion.js';
 import PackingListProducts from './PackingListProducts.js';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+        marginTop: theme.spacing(2),
+    }
+}));
 
 const PackingList = React.memo(function PackingList() {
 
     const location = useLocation();
+    const classes = useStyles();
     const { shipment: shipmentId, step } = queryString.parse(location.search);
     const shipment = useSelector(state => selectPopulatedShipmentById(state, { shipmentId }));
     const initialPL = shipmentToPackingList(shipment);
     const [packingList, setPackingList] = useLocalStorage(SESSION_NEW_DOCUMENT, initialPL);
 
     return (
-        <Paper>
+        <Paper className={classes.root}>
             { step === 'details' &&
             <PackingListDetails
                 packingList={ packingList }

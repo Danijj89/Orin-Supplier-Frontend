@@ -10,6 +10,7 @@ import { selectSessionUserCompanyId, selectSessionUserId } from 'app/duck/select
 import { useHistory } from 'react-router-dom';
 import { getOptionId } from 'app/utils/options/getters.js';
 import Title5 from 'features/shared/display/Title5.js';
+import { makeStyles } from '@material-ui/core/styles';
 
 const {
     titleLabel,
@@ -25,6 +26,12 @@ const productsFieldNames = {
     marks: 'marks'
 };
 
+const useStyles = makeStyles((theme) => ({
+    title: {
+        padding: theme.spacing(2),
+    }
+}));
+
 const DOCUMENT_TYPE = 'CI';
 
 const CommercialInvoiceProducts = React.memo(function CommercialInvoiceProducts(
@@ -36,6 +43,7 @@ const CommercialInvoiceProducts = React.memo(function CommercialInvoiceProducts(
 ) {
     const dispatch = useDispatch();
     const history = useHistory();
+    const classes = useStyles();
 
     const companyId = useSelector(selectSessionUserCompanyId);
     const userId = useSelector(selectSessionUserId);
@@ -78,7 +86,7 @@ const CommercialInvoiceProducts = React.memo(function CommercialInvoiceProducts(
 
     return (
         <form onSubmit={ handleSubmit(onSubmit) } autoComplete="off">
-            <Title5 title={ titleLabel }/>
+            <Title5 className={classes.title} title={ titleLabel }/>
             <RHFProductTable
                 rhfRegister={ register }
                 rhfErrors={ errors }

@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
         borderWidth: 1,
         borderStyle: 'solid',
         borderRadius: 8,
-        borderColor: theme.palette.tertiary['400'],
+        borderColor: theme.palette.grey.light,
         backgroundColor: 'white',
         paddingLeft: theme.spacing(1),
         paddingRight: theme.spacing(1),

@@ -11,8 +11,8 @@ const useStyles = makeStyles((theme) => ({
     footerCell: {
         fontWeight: 'bold',
         fontSize: '1rem',
-        color: theme.palette.black.main
-    }
+        color: theme.palette.black.main,
+    },
 }));
 
 const { paginationAllLabel, rowsPerPageLabel } = LANGUAGE.shared.components.table;
@@ -46,7 +46,7 @@ const TableFooter = React.memo(function TableFooter(
     }, [pagination, isEdit, numRows, rowsPerPage]);
 
     return (
-        <MuiTableFooter>
+        <MuiTableFooter >
             { footer && footer.map((row, i) =>
                 <TableRow key={ i }>
                     { row.map(cell =>

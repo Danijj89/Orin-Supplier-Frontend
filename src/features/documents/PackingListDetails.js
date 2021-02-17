@@ -39,6 +39,11 @@ const fieldNames = {
 };
 
 const useStyles = makeStyles((theme) => ({
+    root: {
+        marginTop: theme.spacing(1),
+        padding: theme.spacing(1),
+        paddingBottom: theme.spacing(6),
+    },
     title: {
         padding: theme.spacing(2),
     }
@@ -86,7 +91,7 @@ const PackingListDetails = React.memo(function PackingListDetails(
 
     return (
         <form onSubmit={ handleSubmit(onNextClick) } autoComplete="off">
-            <Grid container justify="center">
+            <Grid container className={ classes.root } justify="center">
                 <Grid item xs={ 12 }>
                     <Title5 className={ classes.title } title={ titleLabel }/>
                 </Grid>

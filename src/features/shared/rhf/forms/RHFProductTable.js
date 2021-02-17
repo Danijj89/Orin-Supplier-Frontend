@@ -24,6 +24,8 @@ import useItemsData from 'features/shared/hooks/useItemsData.js';
 import { formatItemsTotalQuantities } from 'features/shared/utils/format.js';
 import Table from 'features/shared/components/table/Table.js';
 import { selectAllSplitsReferenceMap } from 'features/shipments/utils/selectors.js';
+import { makeStyles } from '@material-ui/core/styles';
+
 
 const {
     formLabels,
@@ -33,6 +35,15 @@ const {
     notInOrderLabel,
     marksPlaceholderLabel
 } = LANGUAGE.shared.rhf.forms.productTable;
+
+const useStyles = makeStyles((theme) => ({
+    marks: {
+        padding: theme.spacing(2),
+    },
+    currency: {
+        marginBottom: theme.spacing(2),
+    }
+}));
 
 export const validateItems = (items) => {
     if (!items.length) return errorMessages.missingItems;
@@ -55,7 +66,7 @@ const RHFProductTable = React.memo(function RHFProductTable(
         isShipment,
         className
     }) {
-
+    const classes = useStyles();
     const defaultRowItem = useSelector(selectDefaultRowItem);
     const currencyOptions = useSelector(selectCurrencies);
     const itemUnitOptions = useSelector(selectItemUnits);
@@ -379,6 +390,7 @@ const RHFProductTable = React.memo(function RHFProductTable(
             }
             <Grid container item justify="flex-end" xs={ 12 }>
                 <RHFAutoComplete
+                    className={classes.currency}
                     rhfControl={ control }
                     name={ fieldNames.currency }
                     label={ formLabels.currency }
@@ -403,7 +415,7 @@ const RHFProductTable = React.memo(function RHFProductTable(
                     options={ options }
                 />
             </Grid>
-            <Grid container item xs={ 12 }>
+            <Grid className={classes.marks} container item xs={ 12 }>
                 <TextArea
                     name={ fieldNames.marks }
                     inputRef={ register }
