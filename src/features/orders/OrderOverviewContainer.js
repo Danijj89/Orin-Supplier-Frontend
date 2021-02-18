@@ -10,7 +10,7 @@ import { cleanOrderState, resetOrderStatus } from './duck/slice.js';
 import { READ_ANY, READ_OWN } from '../admin/utils/actions.js';
 import OrderPermission from '../shared/permissions/OrderPermission.js';
 import StatusHandler from 'features/shared/status/StatusHandler.js';
-import { selectClientDataStatus } from 'features/clients/duck/selectors.js';
+import { selectClientDataStatus, selectClientError } from 'features/clients/duck/selectors.js';
 import { fetchClients } from 'features/clients/duck/thunks.js';
 import { cleanClientState } from 'features/clients/duck/slice.js';
 
@@ -20,7 +20,7 @@ const OrderOverviewContainer = React.memo(function OrderOverviewContainer() {
     const orderDataStatus = useSelector(selectOrderDataStatus);
     const orderError = useSelector(selectOrderError);
     const clientDataStatus = useSelector(selectClientDataStatus);
-    const clientError = useSelector(selectClientDataStatus);
+    const clientError = useSelector(selectClientError);
 
     const status = determineStatus(orderDataStatus, clientDataStatus);
     const errors = getErrors(orderError, clientError);
