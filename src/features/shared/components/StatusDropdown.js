@@ -12,10 +12,10 @@ import ListItemText from '@material-ui/core/ListItemText';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 
-const successColor = 'rgb(30, 174, 155, 0.8)';
-const warningColor = 'rgb(30, 174, 155, 0.8)';
-const dangerColor = 'rgb(244, 91, 105, 0.8)';
-const primaryColor = 'rgb(16, 156, 241, 0.8)';
+const successColor = 'rgb(30, 174, 155, 0.9)';
+const warningColor = 'rgb(248, 187, 77)';
+const dangerColor = 'rgb(244, 91, 105, 0.9)';
+const primaryColor = 'rgb(16, 156, 241, 0.75)';
 
 const SHIPMENT_COLOR_MAP = {
     Unbooked: {

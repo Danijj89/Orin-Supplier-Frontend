@@ -61,7 +61,7 @@ export const CHINESE = {
             totClients: '总客户',
         },
         crdStats: {
-            title: '交货日期',
+            title: '货好日期',
             crdOT: '按时率',
             crdDiff: '平均日差',
         },
@@ -182,12 +182,12 @@ export const CHINESE = {
     home: {
         navbar: {
             tabsLabelsMap: {
-                orders: '订单',
+            orders: '订单',
                 shipments: '运输',
                 leads: '线索',
                 clients: '客户',
                 products: '产品',
-                admin: 'Admin',
+                admin: '管理',
                 settings: '设置',
                 dashboard: '数据',
                 signOut: '推出登入',
@@ -268,9 +268,33 @@ export const CHINESE = {
         },
         companyUsers: {
             titleLabel: '公司人员设置',
-            inviteButtonLabel: '添加',
-            nameLabel: '姓名',
+            inactivateUserButtonLabel: '取消账户',
+            activateUserButtonLabel: '激活账户'
         },
+        newUserButton: {
+            formLabels: {
+                name: '姓名',
+                email: '邮件',
+                password: '密码',
+                confirmPassword: '确定密码',
+                role: '职位'
+            },
+            titles: {
+                newUser: '新用户',
+                rolePicker: '职位'
+            },
+            buttons: {
+                newUser: '要求新用户',
+                newUserSubmit: '要求'
+            },
+            errorMessages: {
+                missingName: '请填写新用户姓名.',
+                missingEmail: '请填写新用户邮件.',
+                missingPassword: '请填写新用户首次密码.',
+                confirmPasswordMismatch: '密码和确认密内容值不符合.',
+                missingRole: '请填写新用户职位.'
+            }
+        }
     },
     client: {
         clientOverview: {
@@ -459,7 +483,7 @@ export const CHINESE = {
             shippingPlanTableHeaders: {
                 ref: '销售订单',
                 quantity: '数量',
-                crd: '交货日期',
+                crd: '货好日期',
                 procurement: '采购',
                 production: '生产',
                 qa: '验检',
@@ -554,7 +578,7 @@ export const CHINESE = {
                     newSplitButton: '添加分批',
                     cancelButton: '取消',
                     submitButton: '确定',
-                    crd: '交货日期',
+                    crd: '货好日期',
                     emptyDateLabel: '没日期',
                     clientRef: '客户编号'
                 },
@@ -578,16 +602,16 @@ export const CHINESE = {
     },
     shipment: {
         overview: {
-            newShipmentButtonLabel: 'New Shipment',
+            newShipmentButtonLabel: '新运输',
             shipmentsTable: {
                 tableHeadersMap: {
-                    ref: 'Shipment ID',
-                    consignee: 'Consignee',
-                    crd: 'Cargo Ready',
-                    status: 'Status',
-                    pod: 'Destination Port',
-                    del: 'Mode',
-                    containerQ: 'Containers',
+                    ref: '运输编号',
+                    consignee: '收货人',
+                    crd: '货好日期',
+                    status: '状态',
+                    pod: '目的港',
+                    del: '运输模式',
+                    containerQ: '货柜',
                 },
             },
         },
@@ -644,7 +668,7 @@ export const CHINESE = {
                 etd: '预计出发',
                 eta: '预计到达',
                 docCutOff: '单证截日',
-                bol: '提单好吗',
+                bol: '提单号码',
                 bolType: '提单放行类型',
                 released: '提单放行',
             },
@@ -652,9 +676,9 @@ export const CHINESE = {
                 ref: '销售订单',
                 clientRef: '客户编号',
                 quantity: '数量',
-                crd: '交货日期',
+                crd: '货好日期',
                 del: '运输模式',
-                production: 'Produc生产tion',
+                production: '生产',
                 qa: '验检',
                 fulfilled: '已出货 %',
             },
@@ -705,7 +729,7 @@ export const CHINESE = {
                 sellerAdd: '卖方',
                 consigneeAdd: '买方',
                 shipAdd: '发货地址',
-                crd: '交货日期',
+                crd: '货好日期',
                 incoterm: '贸易条款',
                 clientRef: '客户订单号.',
                 payRefs: '付款编号',
@@ -716,8 +740,8 @@ export const CHINESE = {
                 pol: '起运港',
                 pod: '目的港',
                 carrier: '货代',
-                eta: '预计出发',
-                etd: '预计到达',
+                eta: '预计到达',
+                etd: '预计出发',
             },
             tableHeaderLabels: {
                 type: '货柜类型',
@@ -879,9 +903,17 @@ export const CHINESE = {
                 emailLabel: '邮件',
             },
             resetPasswordDialog: {
-                passwordLabel: '就密码',
-                newPasswordLabel: '新密码',
-                confirmPasswordLabel: '确定密码',
+                formLabels: {
+                    newPassword: '新密码',
+                    confirmNewPassword: '确认新密码',
+                    code: '一次性密码',
+                },
+                buttons: {
+                    resetCode: '发送一次性密码'
+                },
+                errorMessages: {
+                    confirmPasswordMismatch: '密码和确认密码内容不符合.'
+                }
             },
             companyDialog: {
                 taxNumberLabel: '企业号',
@@ -950,7 +982,7 @@ export const CHINESE = {
                         to: '买家',
                         toAdd: '买家地址',
                         crd: '货好日期',
-                        realCrd: '时间货好日期',
+                        realCrd: '实际货好日期',
                         incoterm: '贸易条款',
                         pay: '付款模式',
                         clientRef: '客户编号',

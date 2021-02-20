@@ -35,7 +35,6 @@ const ShipmentInfoCard = React.memo(function ShipmentInfoCard() {
     const { id: shipmentId } = useParams();
     const shipment = useSelector(state => selectShipmentById(state, { shipmentId }));
     const shipmentStatusOptions = useSelector(selectShipmentStatuses);
-
     const onStatusChange = useCallback(
         (newStatus) => dispatch(updateShipment(
             { shipmentId, update: { status: getOptionId(newStatus) } }
@@ -67,8 +66,8 @@ const ShipmentInfoCard = React.memo(function ShipmentInfoCard() {
     const rightData = useMemo(() => [
         { label: labels.pol, value: shipment.pol },
         { label: labels.pod, value: shipment.pod },
-        { label: labels.etd, value: shipment.etd },
-        { label: labels.eta, value: shipment.eta }
+        { label: labels.etd, value: dateToLocaleDate(shipment.etd) },
+        { label: labels.eta, value: dateToLocaleDate(shipment.eta) }
     ], [
         shipment.pol,
         shipment.pod,
