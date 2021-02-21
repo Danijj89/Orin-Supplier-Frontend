@@ -21,12 +21,6 @@ import Grid from '@material-ui/core/Grid';
 import FulfillmentPlanProgressBar from 'features/orders/FulfillmentPlanProgressBar.js';
 
 const useStyles = makeStyles(theme => ({
-    // infoCard: {
-    //     height: '100vh'
-    // },
-    // contentContainer: {
-    //     padding: theme.spacing(2)
-    // },
     newSplitButton: {
         marginTop: theme.spacing(2),
         marginBottom: theme.spacing(10),
@@ -333,48 +327,46 @@ const EditFulfillmentPlan = React.memo(function EditFulfillmentPlan({ orderId })
         <>
             <ErrorSnackbar error={ error }/>
             <Grid container>
-            <InfoCard
-                className={ classes.infoCard }
-                title={ title }
-                content={
-                    <form onSubmit={ handleSubmit(onSubmit) } autoComplete="off" noValidate>
-                        <Box className={ classes.contentContainer }>
-                            { splits.map((split, idx) =>
-                                <EditShippingSplit
-                                    key={ `shipping-plan-${ idx }-view` }
-                                    split={ split }
-                                    splitIdx={ idx }
-                                    itemOptions={ totalItems }
-                                    allocationMap={ allocationMap }
-                                    onCrdChange={ onCrdChange }
-                                    onClientRefChange={ onClientRefChange }
-                                    onCellChange={ onCellChange }
-                                    onAddRow={ createAddRowHandler(idx) }
-                                    onDeleteRow={ onDeleteRow }
-                                    onDeleteSplit={ createDeleteSplitHandler(idx) }
-                                    custom1={ custom1 }
-                                    custom2={ custom2 }
-                                />
-                            ) }
-                            <ThemedButton
-                                variant="outlined"
-                                className={ classes.newSplitButton }
-                                onClick={ onNewSplit }
-                            >
-                                { labels.newSplitButton }
-                            </ThemedButton>
-                        </Box>
-                        
-                    </form>
-                }
-                tools={ tools }
-            />
-            <Footer
-                prevLabel={ labels.cancelButton }
-                nextLabel={ labels.submitButton }
-                onPrevClick={ onCancel }
-                nextButtonType="submit"
-            />
+                <InfoCard
+                    title={ title }
+                    content={
+                        <form onSubmit={ handleSubmit(onSubmit) } autoComplete="off" noValidate>
+                            <Box>
+                                { splits.map((split, idx) =>
+                                    <EditShippingSplit
+                                        key={ `shipping-plan-${ idx }-view` }
+                                        split={ split }
+                                        splitIdx={ idx }
+                                        itemOptions={ totalItems }
+                                        allocationMap={ allocationMap }
+                                        onCrdChange={ onCrdChange }
+                                        onClientRefChange={ onClientRefChange }
+                                        onCellChange={ onCellChange }
+                                        onAddRow={ createAddRowHandler(idx) }
+                                        onDeleteRow={ onDeleteRow }
+                                        onDeleteSplit={ createDeleteSplitHandler(idx) }
+                                        custom1={ custom1 }
+                                        custom2={ custom2 }
+                                    />
+                                ) }
+                                <ThemedButton
+                                    variant="outlined"
+                                    className={ classes.newSplitButton }
+                                    onClick={ onNewSplit }
+                                >
+                                    { labels.newSplitButton }
+                                </ThemedButton>
+                            </Box>
+                            <Footer
+                                prevLabel={ labels.cancelButton }
+                                nextLabel={ labels.submitButton }
+                                onPrevClick={ onCancel }
+                                nextButtonType="submit"
+                            />
+                        </form>
+                    }
+                    tools={ tools }
+                />
             </Grid>
         </>
     );
