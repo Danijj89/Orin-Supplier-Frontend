@@ -11,7 +11,7 @@ import { READ_ANY, READ_OWN } from '../admin/utils/actions.js';
 import ShipmentPermission from '../shared/permissions/ShipmentPermission.js';
 import StatusHandler from 'features/shared/status/StatusHandler.js';
 import { resetShipmentStatus } from 'features/shipments/duck/slice.js';
-import { selectClientDataStatus } from 'features/clients/duck/selectors.js';
+import { selectClientDataStatus, selectClientError } from 'features/clients/duck/selectors.js';
 import { fetchClients } from 'features/clients/duck/thunks.js';
 import { cleanClientState } from 'features/clients/duck/slice.js';
 
@@ -21,7 +21,7 @@ const ShipmentOverviewContainer = React.memo(function ShipmentOverviewContainer(
     const shipmentDataStatus = useSelector(selectShipmentDataStatus);
     const shipmentError = useSelector(selectShipmentError);
     const clientDataStatus = useSelector(selectClientDataStatus);
-    const clientError = useSelector(selectClientDataStatus);
+    const clientError = useSelector(selectClientError);
 
     const status = determineStatus(shipmentDataStatus, clientDataStatus);
     const errors = getErrors(shipmentError, clientError);
