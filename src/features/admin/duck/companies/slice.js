@@ -65,9 +65,9 @@ const companiesSlice = createSlice({
             state.status = 'PENDING';
         },
         [updateUserRoles.fulfilled]: (state, action) => {
-            const { companyId, userId, update: roles } = action.payload;
+            const { companyId, userId, update } = action.payload;
             const users = [...state.entities[companyId].users];
-            users.find(user => user._id === userId).roles = roles;
+            users.find(user => user._id === userId).roles = update.roles;
             companiesAdapter.updateOne(state, { id: companyId, changes: { users }});
             state.status = 'FULFILLED';
         },
