@@ -43,6 +43,14 @@ const useStyles = makeStyles((theme) => ({
         marginTop: theme.spacing(3),
         marginBottom: theme.spacing(2),
     },
+    lastShipmentCard: {
+        marginBottom: theme.spacing(10),
+    },
+    containerButton: {
+        marginTop: theme.spacing(1),
+        marginRight: theme.spacing(1),
+        marginBottom: theme.spacing(1),
+    }
 }));
 
 const ShipmentInfo = React.memo(function ShipmentInfo({ onCancel }) {
@@ -97,10 +105,7 @@ const ShipmentInfo = React.memo(function ShipmentInfo({ onCancel }) {
 
     return (
         <>
-            <ContainerSelectorButton
-                shipmentId={ shipmentId }
-                containerQ={ shipment.containerQ }
-            />
+            
             <form onSubmit={ handleSubmit(onSubmit) } autoComplete="off">
                 <InfoCard
                     title={ titles.parties }
@@ -219,8 +224,17 @@ const ShipmentInfo = React.memo(function ShipmentInfo({ onCancel }) {
                         </Grid>
                     }
                 />
+                <Grid container justify="flex-end">
+                    <Grid item>
+                        <ContainerSelectorButton
+                        shipmentId={ shipmentId }
+                        containerQ={ shipment.containerQ }
+                        className={ classes.containerButton }
+                        />
+                    </Grid>
+                </Grid>
                 <InfoCard
-                    className={ classes.shipmentCards }
+                    className={ classes.lastShipmentCard }
                     title={ titles.shipping }
                     content={
                         <Grid container>

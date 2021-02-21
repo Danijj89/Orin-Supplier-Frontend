@@ -42,7 +42,7 @@ const ContainerSelectorButton = React.memo(function ContainerSelectorButton({ sh
 
     return (
         <Box className={ className }>
-            <ThemedButton onClick={ onButtonClick }>
+            <ThemedButton variant="outlined" onClick={ onButtonClick }>
                 { buttons.containers }
             </ThemedButton>
             <FormDialog
