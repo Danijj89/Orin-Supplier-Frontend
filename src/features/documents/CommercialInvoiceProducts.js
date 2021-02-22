@@ -11,6 +11,7 @@ import { useHistory } from 'react-router-dom';
 import { getOptionId } from 'app/utils/options/getters.js';
 import Title5 from 'features/shared/display/Title5.js';
 import { makeStyles } from '@material-ui/core/styles';
+import { getDocumentUrl } from 'features/documents/utils/urls.js';
 
 const {
     titleLabel,
@@ -69,7 +70,12 @@ const CommercialInvoiceProducts = React.memo(function CommercialInvoiceProducts(
 
     const onPrevClick = () => {
         setCommercialInvoice(prev => ({ ...prev, ...getValues() }));
-        history.push(`/home/documents/ci/new?step=details&shipment=${ shipmentId }`);
+        const urlOptions = {
+            edit: isEdit,
+            step: 'details'
+        };
+        if (isEdit) urlOptions.document = documentId;
+        history.push(getDocumentUrl('CI', shipmentId, urlOptions));
     };
 
     const onSubmit = (productData) => {
@@ -107,7 +113,7 @@ const CommercialInvoiceProducts = React.memo(function CommercialInvoiceProducts(
                 nextButtonType="submit"
             />
         </form>
-    )
+    );
 });
 
 export default CommercialInvoiceProducts;

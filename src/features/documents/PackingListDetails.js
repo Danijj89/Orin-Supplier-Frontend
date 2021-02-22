@@ -17,6 +17,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import Divider from '@material-ui/core/Divider';
 import Title5 from 'features/shared/display/Title5.js';
+import { getDocumentUrl } from 'features/documents/utils/urls.js';
 
 const {
     titleLabel,
@@ -50,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const PackingListDetails = React.memo(function PackingListDetails(
-    { packingList, setPackingList, shipmentId }) {
+    { packingList, setPackingList, shipmentId, documentId, isEdit }) {
     const classes = useStyles();
     const history = useHistory();
     const companyAddresses = useSelector(selectActiveCompanyAddresses);
@@ -86,7 +87,12 @@ const PackingListDetails = React.memo(function PackingListDetails(
 
     const onNextClick = (data) => {
         setPackingList(prev => ({ ...prev, ...data }));
-        history.push(`/home/documents/pl/new?step=products&shipment=${ shipmentId }`);
+        const urlOptions = {
+            edit: isEdit,
+            step: 'products'
+        };
+        if (isEdit) urlOptions.document = documentId;
+        history.push(getDocumentUrl('PL', shipmentId, urlOptions));
     };
 
     return (

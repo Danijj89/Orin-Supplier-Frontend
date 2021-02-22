@@ -70,6 +70,8 @@ export const selectAllShipments = createSelector(
                     doc.sellerAdd = { ...document.sellerAdd, country: countriesMap[document.sellerAdd.country] };
                 if (document.consigneeAdd)
                     doc.consigneeAdd = { ...document.consigneeAdd, country: countriesMap[document.consigneeAdd.country] };
+                if (document.shipAdd)
+                    doc.shipAdd = { ...shipment.shipAdd, country: countriesMap[shipment.shipAdd?.country] };
                 if (document.coo) doc.coo = countriesMap[document.coo];
                 if (document.items) doc.items = doc.items.map(item => {
                     const temp = {
@@ -83,6 +85,8 @@ export const selectAllShipments = createSelector(
                     return temp;
                 })
                 if (document.currency) doc.currency = currenciesMap[shipment.currency];
+                if (document.measurementUnit) doc.measurementUnit = measurementUnitsMap[shipment.measurementUnit];
+                if (document.weightUnit) doc.weightUnit = weightUnitsMap[shipment.weightUnit];
                 return doc;
             }
         )

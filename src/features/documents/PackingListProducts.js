@@ -8,11 +8,12 @@ import {
     addressToDocAddress, tableItemsToItems
 } from '../shared/utils/entityConversion.js';
 import { selectSessionUserCompanyId, selectSessionUserId } from 'app/duck/selectors.js';
-import { createDocument } from '../shipments/duck/thunks.js';
+import { createDocument, updateDocument } from '../shipments/duck/thunks.js';
 import { useHistory } from 'react-router-dom';
 import { getOptionId } from 'app/utils/options/getters.js';
 import Title5 from 'features/shared/display/Title5.js';
 import { makeStyles } from '@material-ui/core/styles';
+import { getDocumentUrl } from 'features/documents/utils/urls.js';
 
 
 const {
@@ -39,7 +40,7 @@ const fieldNames = {
 const DOCUMENT_TYPE = 'PL';
 
 const PackingListProducts = React.memo(function PackingListProducts(
-    { packingList, setPackingList, shipmentId }) {
+    { packingList, setPackingList, shipmentId, documentId, isEdit }) {
     const dispatch = useDispatch();
     const classes = useStyles();
     const history = useHistory();
@@ -66,7 +67,12 @@ const PackingListProducts = React.memo(function PackingListProducts(
 
     const onPrevClick = () => {
         setPackingList(prev => ({ ...prev, ...getValues() }));
-        history.push(`/home/documents/pl/new?step=details&shipment=${ shipmentId }`);
+        const urlOptions = {
+            edit: isEdit,
+            step: 'details'
+        };
+        if (isEdit) urlOptions.document = documentId;
+        history.push(getDocumentUrl('PL', shipmentId, urlOptions));
     };
 
     const onSubmit = (data) => {
@@ -80,7 +86,8 @@ const PackingListProducts = React.memo(function PackingListProducts(
         document.measurementUnit = getOptionId(document.measurementUnit);
         document.createdBy = userId;
         document.items = tableItemsToItems(document.items);
-        dispatch(createDocument({ shipmentId, document }));
+        if (isEdit) dispatch(updateDocument({ shipmentId, documentId, update: document }));
+        else dispatch(createDocument({ shipmentId, document }));
         history.push(`/home/shipments/${ shipmentId }?tab=documents`);
     };
 
@@ -101,7 +108,7 @@ const PackingListProducts = React.memo(function PackingListProducts(
                 nextButtonType="submit"
             />
         </form>
-    )
+    );
 });
 
 export default PackingListProducts;

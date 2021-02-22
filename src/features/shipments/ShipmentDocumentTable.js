@@ -17,6 +17,7 @@ import Drawer from '@material-ui/core/Drawer';
 import DocumentPreview from 'features/shipments/DocumentPreview.js';
 import InfoCard from 'features/shared/wrappers/InfoCard.js';
 import { getDocumentUrl } from 'features/documents/utils/urls.js';
+import { getOptionId } from 'app/utils/options/getters.js';
 
 const {
     documentTableHeaders,
@@ -36,7 +37,7 @@ const ShipmentDocumentTable = React.memo(function ShipmentDocumentTable(
     const onCloseDrawer = useCallback(() => setIsDrawerOpen(false), []);
 
     const onEditDocument = useCallback(
-        () => history.push(getDocumentUrl('CI', shipmentId, { document: drawerData._id })),
+        () => history.push(getDocumentUrl(getOptionId(drawerData.type), shipmentId, { document: drawerData._id })),
         [history, shipmentId, drawerData]);
 
     const onRowClick = useCallback(row => {

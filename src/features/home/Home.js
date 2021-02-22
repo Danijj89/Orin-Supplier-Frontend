@@ -178,7 +178,7 @@ const Home = React.memo(function Home() {
                     </Route>
                     <Route
                         exact
-                        path={ `${ match.url }/documents/pl/new` }
+                        path={ [`${ match.url }/documents/pl/new`, `${ match.url }/documents/pl/edit`] }
                         isPrivate
                     >
                         <Suspense>
@@ -187,7 +187,7 @@ const Home = React.memo(function Home() {
                     </Route>
                     <Route
                         exact
-                        path={ `${ match.url }/documents/sc/new` }
+                        path={ [`${ match.url }/documents/sc/new`, `${ match.url }/documents/sc/edit`] }
                         isPrivate
                     >
                         <Suspense>

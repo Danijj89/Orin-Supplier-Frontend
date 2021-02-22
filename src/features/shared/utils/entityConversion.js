@@ -139,50 +139,39 @@ export const shipmentToCommercialInvoice = (shipment, documentId) => {
         initialDoc.notes = null;
     }
     return initialDoc;
-}
+};
 
-export const documentToCommercialInvoice = document => ({
-    ref: document.ref,
-    sellerAdd: document.sellerAdd._id,
-    consignee: document.consignee._id,
-    consigneeAdd: document.consigneeAdd._id,
-    crd: document.crd || new Date(),
-    coo: document.coo,
-    incoterm: document.incoterm,
-    clientRefs: document.clientRefs,
-    payRefs: document.payRefs,
-    scRef: document.scRef,
-    pol: document.pol || null,
-    pod: document.pod || null,
-    notes: document.notes,
-    currency: document.currency,
-    items: document.items,
-    quantity: document.quantity,
-    total: document.total,
-    custom1: document.ciCustom1,
-    custom2: document.ciCustom2
-})
-
-export const shipmentToPackingList = (shipment) => ({
-    autoGenerateRef: true,
-    ref: null,
-    sellerAdd: shipment.sellerAdd,
-    consignee: shipment.consignee,
-    consigneeAdd: shipment.consigneeAdd,
-    shipAdd: shipment.shipAdd,
-    pol: shipment.pol,
-    pod: shipment.pod,
-    notes: null,
-    items: shipment.items,
-    measurementUnit: shipment.measurementUnit,
-    weightUnit: shipment.weightUnit,
-    package: shipment.package,
-    netWeight: shipment.netWeight,
-    grossWeight: shipment.grossWeight,
-    dimension: shipment.dimension,
-    custom1: shipment.plCustom1,
-    custom2: shipment.plCustom2
-});
+export const shipmentToPackingList = (shipment, documentId) => {
+    let source = shipment;
+    if (documentId) source = shipment.documents.find(doc => doc._id === documentId);
+    const initialDoc = {
+        sellerAdd: source.sellerAdd,
+        consignee: shipment.consignee,
+        consigneeAdd: source.consigneeAdd,
+        shipAdd: source.shipAdd,
+        pol: source.pol,
+        pod: source.pod,
+        items: shipment.items,
+        measurementUnit: shipment.measurementUnit,
+        weightUnit: shipment.weightUnit,
+        package: shipment.package,
+        netWeight: shipment.netWeight,
+        grossWeight: shipment.grossWeight,
+        dimension: shipment.dimension,
+        custom1: shipment.plCustom1,
+        custom2: shipment.plCustom2
+    };
+    if (documentId) {
+        initialDoc.autoGenerateRef = false;
+        initialDoc.ref = source.ref;
+        initialDoc.notes = source.notes;
+    } else {
+        initialDoc.autoGenerateRef = true;
+        initialDoc.ref = null;
+        initialDoc.notes = null;
+    }
+    return initialDoc;
+};
 
 export const shipmentToSalesContract = (shipment) => ({
     autoGenerateRef: true,

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import Paper from '@material-ui/core/Paper';
 import { useLocation } from 'react-router-dom';
 import queryString from 'query-string';
@@ -21,24 +21,29 @@ const PackingList = React.memo(function PackingList() {
 
     const location = useLocation();
     const classes = useStyles();
-    const { shipment: shipmentId, step } = queryString.parse(location.search);
+    const { shipment: shipmentId, step, document: documentId } = queryString.parse(location.search);
     const shipment = useSelector(state => selectPopulatedShipmentById(state, { shipmentId }));
-    const initialPL = shipmentToPackingList(shipment);
+    const initialPL = shipmentToPackingList(shipment, documentId);
     const [packingList, setPackingList] = useLocalStorage(SESSION_NEW_DOCUMENT, initialPL);
+    const isEdit = useMemo(() => Boolean(documentId), [documentId]);
 
     return (
-        <Paper className={classes.root}>
+        <Paper className={ classes.root }>
             { step === 'details' &&
             <PackingListDetails
                 packingList={ packingList }
                 setPackingList={ setPackingList }
                 shipmentId={ shipmentId }
+                documentId={ documentId }
+                isEdit={ isEdit }
             /> }
             { step === 'products' &&
             <PackingListProducts
                 packingList={ packingList }
                 setPackingList={ setPackingList }
                 shipmentId={ shipmentId }
+                documentId={ documentId }
+                isEdit={ isEdit }
             /> }
         </Paper>
     )
