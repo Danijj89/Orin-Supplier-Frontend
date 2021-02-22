@@ -107,28 +107,60 @@ export const consolidationTableItemsToConsolidationItems = (items) =>
         return temp;
     });
 
-export const shipmentToCommercialInvoice = (shipment) => ({
-    autoGenerateRef: true,
-    ref: null,
-    sellerAdd: shipment.sellerAdd,
-    consignee: shipment.consignee,
-    consigneeAdd: shipment.consigneeAdd,
-    crd: shipment.crd || new Date(),
-    coo: shipment.coo,
-    incoterm: shipment.incoterm,
-    clientRefs: shipment.clientRefs,
-    payRefs: shipment.payRefs,
-    scRef: shipment.scRef,
-    pol: shipment.pol || null,
-    pod: shipment.pod || null,
-    notes: null,
-    currency: shipment.currency,
-    items: shipment.items,
-    quantity: shipment.quantity,
-    total: shipment.total,
-    custom1: shipment.ciCustom1,
-    custom2: shipment.ciCustom2
-});
+export const shipmentToCommercialInvoice = (shipment, documentId) => {
+    let source = shipment;
+    if (documentId) source = shipment.documents.find(doc => doc._id === documentId);
+    const initialDoc = {
+        sellerAdd: source.sellerAdd,
+        consignee: shipment.consignee,
+        consigneeAdd: source.consigneeAdd,
+        crd: source.crd || new Date(),
+        coo: source.coo,
+        incoterm: source.incoterm,
+        clientRefs: source.clientRefs,
+        payRefs: source.payRefs,
+        scRef: source.scRef,
+        pol: source.pol || null,
+        pod: source.pod || null,
+        currency: source.currency,
+        items: source.items,
+        quantity: source.quantity,
+        total: source.total,
+        custom1: source.ciCustom1,
+        custom2: source.ciCustom2
+    };
+    if (documentId) {
+        initialDoc.ref = source.ref;
+        initialDoc.notes = source.notes;
+    } else {
+        initialDoc.autoGenerateRef = true;
+        initialDoc.ref = null;
+        initialDoc.notes = null;
+    }
+    return initialDoc;
+}
+
+export const documentToCommercialInvoice = document => ({
+    ref: document.ref,
+    sellerAdd: document.sellerAdd._id,
+    consignee: document.consignee._id,
+    consigneeAdd: document.consigneeAdd._id,
+    crd: document.crd || new Date(),
+    coo: document.coo,
+    incoterm: document.incoterm,
+    clientRefs: document.clientRefs,
+    payRefs: document.payRefs,
+    scRef: document.scRef,
+    pol: document.pol || null,
+    pod: document.pod || null,
+    notes: document.notes,
+    currency: document.currency,
+    items: document.items,
+    quantity: document.quantity,
+    total: document.total,
+    custom1: document.ciCustom1,
+    custom2: document.ciCustom2
+})
 
 export const shipmentToPackingList = (shipment) => ({
     autoGenerateRef: true,

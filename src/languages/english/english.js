@@ -656,7 +656,8 @@ export const ENGLISH = {
             },
             buttons: {
                 editShipment: 'Edit Shipment Information',
-                editShipmentOrders: 'Edit Included Orders'
+                editShipmentOrders: 'Edit Included Orders',
+                editDocument: 'Edit'
             },
             titles: {
                 shipmentInfo: 'Shipment Information',
@@ -686,6 +687,14 @@ export const ENGLISH = {
                 qa: 'QA',
                 fulfilled: 'Fulfilled %',
             },
+            documentTableHeaders: {
+                ref: 'Document No.',
+                type: 'Document Type',
+                createdAt: 'Created At',
+                createdBy: 'Created By',
+                excel: 'Download Excel',
+                pdf: 'Download PDF',
+            },
             documentButton: {
                 buttonLabel: 'Generate Document',
                 dialogTitleLabel: 'Choose a Document to Generate',
@@ -694,16 +703,8 @@ export const ENGLISH = {
                     document: 'Document',
                 },
             },
-            shipmentDocumentTable: {
-                tableHeaderLabelsMap: {
-                    ref: 'Document No.',
-                    type: 'Document Type',
-                    createdAt: 'Created At',
-                    createdBy: 'Created By',
-                    excel: 'Download Excel',
-                    pdf: 'Download PDF',
-                },
-                deleteMessage: 'Are you sure you want to delete this document?',
+            messages: {
+                documentDeleteMessage: 'Are you sure you want to delete this document?',
             },
             errorMessages: {
                 shipmentNonExistent: 'This shipment doesn\'t exists.'

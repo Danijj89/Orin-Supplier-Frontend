@@ -7,7 +7,7 @@ import { LANGUAGE } from 'app/utils/constants.js';
 import { useSelector } from 'react-redux';
 import { selectShipmentById } from '../shipments/duck/selectors.js';
 import Grid from '@material-ui/core/Grid';
-import ShipmentDocumentTable from '../shared/components/ShipmentDocumentTable.js';
+import ShipmentDocumentTable from 'features/shipments/ShipmentDocumentTable.js';
 import { makeStyles } from '@material-ui/core/styles';
 
 const {

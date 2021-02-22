@@ -9,7 +9,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import ShipmentInfoCard from './ShipmentInfoCard.js';
 import DocumentStatusCard from './DocumentStatusCard.js';
 import DocumentButton from './DocumentButton.js';
-import ShipmentDocumentTable from '../shared/components/ShipmentDocumentTable.js';
+import ShipmentDocumentTable from 'features/shipments/ShipmentDocumentTable.js';
 import queryString from 'query-string';
 import Card from '@material-ui/core/Card';
 import { UPDATE_ANY, UPDATE_OWN } from '../admin/utils/actions.js';

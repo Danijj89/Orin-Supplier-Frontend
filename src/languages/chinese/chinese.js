@@ -652,7 +652,8 @@ export const CHINESE = {
             },
             buttons: {
                 editShipment: '编辑运输信息',
-                editShipmentOrders: '改变已包括的订单'
+                editShipmentOrders: '改变已包括的订单',
+                editDocument: '编辑'
             },
             titles: {
                 shipmentInfo: '运输信息',
@@ -682,6 +683,14 @@ export const CHINESE = {
                 qa: '验检',
                 fulfilled: '已出货 %',
             },
+            documentTableHeaders: {
+                ref: '单证 No.',
+                type: '单证种类',
+                createdAt: '生成时间',
+                createdBy: '制造者',
+                excel: '下载 Excel',
+                pdf: '下载 PDF',
+            },
             documentButton: {
                 buttonLabel: '生成单证',
                 dialogTitleLabel: '请选想生成的单证',
@@ -690,16 +699,8 @@ export const CHINESE = {
                     document: '单证',
                 },
             },
-            shipmentDocumentTable: {
-                tableHeaderLabelsMap: {
-                    ref: '单证 No.',
-                    type: '单证种类',
-                    createdAt: '生成时间',
-                    createdBy: '制造者',
-                    excel: '下载 Excel',
-                    pdf: '下载 PDF',
-                },
-                deleteMessage: '您确认要删除这个文件吗?',
+            messages: {
+                documentDeleteMessage: '您确认要删除这个文件吗?',
             },
             errorMessages: {
                 shipmentNonExistent: '这个运输已不存在.'

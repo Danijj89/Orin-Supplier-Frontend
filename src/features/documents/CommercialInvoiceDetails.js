@@ -73,7 +73,7 @@ const CommercialInvoiceDetails = React.memo(function CommercialInvoiceDetails(
     const salesContracts = useSelector(
         state => selectShipmentSalesContractRefs(state, { shipmentId }));
     const initialSalesContract = salesContracts.length ? salesContracts[0] : null;
-
+    console.log(commercialInvoice)
 
     const { register, control, errors, watch, handleSubmit } = useForm({
         mode: 'onSubmit',

@@ -2,14 +2,14 @@ import React, { useCallback, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import FormDialog from '../shared/wrappers/FormDialog.js';
-import { LANGUAGE, LOCALE } from '../../app/utils/constants.js';
+import { LANGUAGE, LOCALE } from 'app/utils/constants.js';
 import { useForm } from 'react-hook-form';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { cleanNewDocument } from '../documents/duck/slice.js';
 import RHFAutoComplete from '../shared/rhf/inputs/RHFAutoComplete.js';
-import { selectDocumentTypes } from '../../app/duck/selectors.js';
-import { getOptionLabel } from '../../app/utils/options/getters.js';
+import { selectDocumentTypes } from 'app/duck/selectors.js';
+import { getOptionLabel } from 'app/utils/options/getters.js';
 import { CREATE_ANY, CREATE_OWN } from '../admin/utils/actions.js';
 import ShipmentPermission from '../shared/permissions/ShipmentPermission.js';
 

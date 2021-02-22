@@ -23,9 +23,9 @@ const useStyles = makeStyles((theme) => ({
 const CommercialInvoice = React.memo(function CommercialInvoice() {
     const location = useLocation();
     const classes = useStyles();
-    const { shipment: shipmentId, step } = queryString.parse(location.search);
+    const { shipment: shipmentId, step, document: documentId } = queryString.parse(location.search);
     const shipment = useSelector(state => selectPopulatedShipmentById(state, { shipmentId }));
-    const initialCI = shipmentToCommercialInvoice(shipment);
+    const initialCI = shipmentToCommercialInvoice(shipment, documentId);
     const [commercialInvoice, setCommercialInvoice] = useLocalStorage(SESSION_NEW_DOCUMENT, initialCI);
 
     return (

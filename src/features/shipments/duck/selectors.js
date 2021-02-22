@@ -61,10 +61,18 @@ export const selectAllShipments = createSelector(
             fdc: countriesMap[item.fdc],
             dop: countriesMap[item.dop]
         })),
-        documents: shipment.documents.map(document => ({
-                ...document,
-                type: documentTypesMap[document.type]
-            })
+        documents: shipment.documents.map(document => {
+                const doc = {
+                    ...document,
+                    type: documentTypesMap[document.type]
+                };
+                if (document.sellerAdd)
+                    doc.sellerAdd = { ...document.sellerAdd, country: countriesMap[document.sellerAdd.country] };
+                if (document.consigneeAdd)
+                    doc.consigneeAdd = { ...document.consigneeAdd, country: countriesMap[document.consigneeAdd.country] };
+                if (document.coo) doc.coo = countriesMap[document.coo];
+                return doc;
+            }
         )
     }))
 );
