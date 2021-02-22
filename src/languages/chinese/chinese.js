@@ -715,6 +715,7 @@ export const CHINESE = {
                 orderInfo: '订单信息',
                 shipping: '运输信息',
                 containers: '货柜类型',
+                documentStatus: 'Document Status'
             },
             buttons: {
                 back: '回上一页',
@@ -731,7 +732,6 @@ export const CHINESE = {
                 incoterm: '贸易条款',
                 clientRef: '客户订单号.',
                 payRefs: '付款编号',
-                bolType: '提单类型',
                 coo: '制造国家',
                 clientRefs: '客户其他编号',
                 del: '运输模式',
@@ -740,6 +740,10 @@ export const CHINESE = {
                 carrier: '货代',
                 eta: '预计到达',
                 etd: '预计出发',
+                docCutOff: 'Doc. Cut Off',
+                bol: 'Bill of Landing',
+                bolType: '提单类型',
+                released: 'Released',
             },
             tableHeaderLabels: {
                 type: '货柜类型',

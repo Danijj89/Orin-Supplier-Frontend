@@ -18,7 +18,7 @@ const ContainerSelectorButton = React.memo(function ContainerSelectorButton({ sh
     const defaultContainerRowItem = useSelector(selectDefaultContainerRowItem);
     const initialContainers = useMemo(
         () => containerQ || [defaultContainerRowItem],
-    [containerQ, defaultContainerRowItem]);
+        [containerQ, defaultContainerRowItem]);
 
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [containers, setContainers] = useState(initialContainers);
@@ -41,8 +41,8 @@ const ContainerSelectorButton = React.memo(function ContainerSelectorButton({ sh
     };
 
     return (
-        <Box className={ className }>
-            <ThemedButton variant="outlined" onClick={ onButtonClick }>
+        <>
+            <ThemedButton variant="outlined" onClick={ onButtonClick } className={ className }>
                 { buttons.containers }
             </ThemedButton>
             <FormDialog
@@ -57,7 +57,7 @@ const ContainerSelectorButton = React.memo(function ContainerSelectorButton({ sh
                     setContainers={ setContainers }
                 />
             </FormDialog>
-        </Box>
+        </>
     )
 });
 

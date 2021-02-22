@@ -719,6 +719,7 @@ export const ENGLISH = {
                 orderInfo: 'Order Information',
                 shipping: 'Shipping Information',
                 containers: 'Select Containers',
+                documentStatus: 'Document Status'
             },
             buttons: {
                 back: 'Back',
@@ -735,7 +736,6 @@ export const ENGLISH = {
                 incoterm: 'Incoterm',
                 clientRef: 'Client Order Ref.',
                 payRefs: 'Payment References',
-                bolType: 'Bill of Landing Type',
                 coo: 'Country of Manufacture',
                 clientRefs: 'Client References',
                 del: 'Delivery Method',
@@ -744,6 +744,10 @@ export const ENGLISH = {
                 carrier: 'Freight Forwarder',
                 eta: 'ETA',
                 etd: 'ETD',
+                docCutOff: 'Doc. Cut Off',
+                bol: 'Bill of Landing',
+                bolType: 'Bill of Landing Type',
+                released: 'Released',
             },
             tableHeaderLabels: {
                 type: 'Container Type',
