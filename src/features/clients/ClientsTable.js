@@ -33,7 +33,6 @@ const ClientsTable = React.memo(function ClientsTable() {
         { field: 'contactName', headerName: clientTableHeadersMap.contactName },
         { field: 'contactEmail', headerName: clientTableHeadersMap.contactEmail },
         { field: 'lastOrder', headerName: clientTableHeadersMap.lastOrder, type: 'date' },
-        { field: 'salesYTD', headerName: clientTableHeadersMap.salesYTD, type: 'number' },
         { field: 'orderCountYTD', headerName: clientTableHeadersMap.orderCountYTD, type: 'number' },
         { field: 'assignedTo', headerName: clientTableHeadersMap.assignedTo },
         {
@@ -56,7 +55,6 @@ const ClientsTable = React.memo(function ClientsTable() {
                 contactName: defaultContact?.name,
                 contactEmail: defaultContact?.email,
                 lastOrder: client.lastOrder,
-                salesYTD: client.salesYTD,
                 orderCountYTD: client.orderCountYTD,
                 assignedTo: usersMap[client.assignedTo]?.name,
                 notes: client.notes
@@ -77,7 +75,6 @@ const ClientsTable = React.memo(function ClientsTable() {
                         options: users
                     },
                     { field: 'lastOrder', type: 'date', label: clientTableHeadersMap.lastOrder },
-                    { field: 'salesYTD', type: 'range', label: clientTableHeadersMap.salesYTD },
                     { field: 'orderCountYTD', type: 'range', label: clientTableHeadersMap.orderCountYTD }
                 ]
             },
