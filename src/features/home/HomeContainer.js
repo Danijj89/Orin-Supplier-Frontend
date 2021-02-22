@@ -31,12 +31,12 @@ const HomeContainer = React.memo(function HomeContainer() {
 
     return (
         <>
-            <ErrorSnackbar error={errors} />
+            <ErrorSnackbar error={ errors }/>
             <Backdrop className={ classes.loader } open={ appStatus === 'PENDING' }>
                 <Loader/>
             </Backdrop>
-            { companyId && <Home /> }
-            { !companyId && <Redirect to={ '/login' }/>}
+            { companyId && <Home/> }
+            { !companyId && <Redirect to={ '/login' }/> }
         </>
     );
 });

@@ -27,8 +27,11 @@ const LoginContainer = React.memo(function LoginContainer() {
     const [errors, setErrors] = useState(appError ? [appError] : []);
 
     useEffect(() => {
-        if (appError) setErrors([appError]);
-    }, [appError])
+        if (appError) {
+            setErrors([appError]);
+            dispatch(resetAppStatus());
+        }
+    }, [appError, dispatch])
 
     useEffect(() => {
         const sessionUser = localStorage.getItem(SESSION_USER);

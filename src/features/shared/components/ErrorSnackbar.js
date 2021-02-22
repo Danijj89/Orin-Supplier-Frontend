@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import Alert from '@material-ui/lab/Alert';
 import Snackbar from '@material-ui/core/Snackbar';
@@ -12,19 +12,25 @@ const ANCHOR_ORIGIN = {
 const DURATION = 5000;
 
 const ErrorSnackbar = React.memo(function ErrorSnackbar({ error = [] }) {
-    const errors = Array.isArray(error) ? error : [error];
+    const [errors, setErrors] = useState( Array.isArray(error) ? error.join(' ') : [error].join(' '))
     const [open, setOpen] = useState(false);
 
     useEffect(() => {
-        if (errors.length) setOpen(true);
+        setErrors(Array.isArray(error) ? error.join(' ') : [error].join(' '));
+    }, [error]);
+
+    const prevError = useRef('');
+    useEffect(() => {
+        if (errors && errors !== prevError.current) {
+            setOpen(true);
+            prevError.current = errors;
+        }
     }, [errors]);
 
     const onClose = (event, reason) => {
         if (reason === "clickaway") return;
         setOpen(false);
     };
-
-    const errorMessage = useMemo(() => errors.join(' '), [errors]);
 
     return (
         <Snackbar
@@ -35,7 +41,7 @@ const ErrorSnackbar = React.memo(function ErrorSnackbar({ error = [] }) {
             onClose={ onClose }
         >
             <Alert onClose={ onClose } severity="error">
-                { errorMessage }
+                { errors }
             </Alert>
         </Snackbar>
     )
@@ -45,8 +51,7 @@ ErrorSnackbar.propTypes = {
     error: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.array
-    ]).isRequired,
-    className: PropTypes.string
+    ]).isRequired
 };
 
 export default ErrorSnackbar;
