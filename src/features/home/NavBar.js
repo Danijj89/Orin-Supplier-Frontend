@@ -43,6 +43,11 @@ import ProductPermission from '../shared/permissions/ProductPermission.js';
 import PermissionPermission from '../shared/permissions/PermissionPermission.js';
 import DashboardPermission from '../shared/permissions/DashboardPermission.js';
 import { signOut } from 'app/duck/thunks.js';
+import {initGA, PageView, Event} from 'app/utils/helpers'
+
+initGA();
+PageView();
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -201,8 +206,11 @@ const NavBar = React.memo(function NavBar() {
                 </MenuItem>
             </LeadPermission>
             <ShipmentPermission action={ [READ_ANY, READ_OWN] }>
-                <MenuItem
-                    onClick={ () => onTabClick('shipments', '/home/shipments') }
+                <MenuItem 
+                    onClick={ () => { 
+                        onTabClick('shipments', '/home/shipments');
+                        Event("NAV", "Clicked Shipment", "MOBILE_NAV");
+                 }}
                 >
                     <IconButton color="inherit">
                         <IconBoat/>

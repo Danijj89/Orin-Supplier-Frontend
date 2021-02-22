@@ -29,7 +29,7 @@ const EditOrderStatusButton = React.memo(function EditOrderStatusButton(
     return (
         <OrderStatusPermission action={ [UPDATE_ANY, UPDATE_OWN] } orderId={ orderId }>
             <Box className={ className }>
-                <ThemedButton onClick={ onEdit }>
+                <ThemedButton size = "small" onClick={ onEdit }>
                     { buttons.editSplitStatus }
                 </ThemedButton>
                 <OrderStatusDialog

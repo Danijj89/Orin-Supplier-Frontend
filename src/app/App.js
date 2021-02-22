@@ -8,6 +8,10 @@ import appTheme from './themes/theme.js';
 import NotFound from '../features/shared/components/NotFound.js';
 import HomeContainer from '../features/home/HomeContainer.js';
 import LoginContainer from 'app/LoginContainer.js';
+import {initGA, PageView} from 'app/utils/helpers'
+
+initGA();
+PageView();
 
 export default function App() {
 

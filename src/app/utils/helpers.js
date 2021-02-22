@@ -1,3 +1,5 @@
+import ReactGA from "react-ga";
+
 export function getCurrentLocale() {
     const locales = navigator.languages === undefined ? [navigator.language] : navigator.languages;
     for (const locale of locales) {
@@ -6,3 +8,21 @@ export function getCurrentLocale() {
     }
     return 'en';
 }
+
+export const initGA = () => {        
+   console.log('initialized');
+   ReactGA.initialize('UA-45960652-4'); 
+}
+
+export const PageView = () => {  
+    ReactGA.pageview(window.location.pathname +  
+                     window.location.search); 
+}
+
+export const Event = (category, action, label) => {
+  ReactGA.event({
+    category: category,
+    action: action,
+    label: label
+  });
+};

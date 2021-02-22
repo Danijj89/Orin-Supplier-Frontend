@@ -7,9 +7,9 @@ import { LOCALE } from '../../app/utils/constants.js';
 
 export const orderStatusColors = {
     'Not Started': '#818E9B',
-    'In Progress': '#109CF1',
-    Completed: '#2ED47A',
-    Exception: '#F7685B',
+    'In Progress': 'rgb(16, 156, 241, 0.75)',
+    Completed: 'rgb(30, 174, 155, 0.9)',
+    Exception: 'rgb(244, 91, 105, 0.9)',
 };
 
 const useStyles = makeStyles((theme) => ({

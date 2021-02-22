@@ -749,7 +749,7 @@ export const CHINESE = {
                 quantity: '数量',
             },
             messages: {
-                deleteShipment: '您确定要删除这个货柜吗?'
+                deleteShipment: '您确定要删除这个运输吗?'
             },
             errorMessages: {
                 missingSellerAdd: '必须选择卖方地址.',
