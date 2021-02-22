@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Paper } from '@material-ui/core';
 import CommercialInvoiceDetails from './CommercialInvoiceDetails.js';
@@ -28,19 +28,25 @@ const CommercialInvoice = React.memo(function CommercialInvoice() {
     const initialCI = shipmentToCommercialInvoice(shipment, documentId);
     const [commercialInvoice, setCommercialInvoice] = useLocalStorage(SESSION_NEW_DOCUMENT, initialCI);
 
+    const isEdit = useMemo(() => Boolean(documentId), [documentId]);
+
     return (
-        <Paper className={classes.root}>
+        <Paper className={ classes.root }>
             { step === 'details' &&
             <CommercialInvoiceDetails
                 commercialInvoice={ commercialInvoice }
                 setCommercialInvoice={ setCommercialInvoice }
                 shipmentId={ shipmentId }
+                documentId={ documentId }
+                isEdit={ isEdit }
             /> }
             { step === 'products' &&
             <CommercialInvoiceProducts
                 commercialInvoice={ commercialInvoice }
                 setCommercialInvoice={ setCommercialInvoice }
                 shipmentId={ shipmentId }
+                documentId={ documentId }
+                isEdit={ isEdit }
             /> }
         </Paper>
     )

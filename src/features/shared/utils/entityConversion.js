@@ -130,6 +130,7 @@ export const shipmentToCommercialInvoice = (shipment, documentId) => {
         custom2: source.ciCustom2
     };
     if (documentId) {
+        initialDoc.autoGenerateRef = false;
         initialDoc.ref = source.ref;
         initialDoc.notes = source.notes;
     } else {

@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Footer from '../shared/components/Footer.js';
 import { LANGUAGE } from 'app/utils/constants.js';
 import { addressToDocAddress, tableItemsToItems } from '../shared/utils/entityConversion.js';
-import { createDocument } from '../shipments/duck/thunks.js';
+import { createDocument, updateDocument } from '../shipments/duck/thunks.js';
 import { selectSessionUserCompanyId, selectSessionUserId } from 'app/duck/selectors.js';
 import { useHistory } from 'react-router-dom';
 import { getOptionId } from 'app/utils/options/getters.js';
@@ -38,7 +38,9 @@ const CommercialInvoiceProducts = React.memo(function CommercialInvoiceProducts(
     {
         commercialInvoice,
         setCommercialInvoice,
-        shipmentId
+        shipmentId,
+        documentId,
+        isEdit
     }
 ) {
     const dispatch = useDispatch();
@@ -80,7 +82,8 @@ const CommercialInvoiceProducts = React.memo(function CommercialInvoiceProducts(
         document.createdBy = userId;
         document.items = tableItemsToItems(document.items);
         document.coo = getOptionId(document.coo);
-        dispatch(createDocument({ shipmentId, document }));
+        if (isEdit) dispatch(updateDocument({ shipmentId, documentId, update: document }));
+        else dispatch(createDocument({ shipmentId, document }));
         history.push(`/home/shipments/${ shipmentId }?tab=documents`);
     };
 

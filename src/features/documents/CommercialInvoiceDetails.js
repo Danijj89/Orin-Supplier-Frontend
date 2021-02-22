@@ -20,6 +20,7 @@ import { selectCountries, selectIncoterms } from 'app/duck/selectors.js';
 import { getOptionLabel } from 'app/utils/options/getters.js';
 import { selectShipmentSalesContractRefs } from '../shipments/duck/selectors.js';
 import Title5 from 'features/shared/display/Title5.js';
+import { getDocumentUrl } from 'features/documents/utils/urls.js';
 
 
 const {
@@ -60,7 +61,9 @@ const CommercialInvoiceDetails = React.memo(function CommercialInvoiceDetails(
     {
         commercialInvoice,
         setCommercialInvoice,
-        shipmentId
+        shipmentId,
+        documentId,
+        isEdit
     }) {
     const classes = useStyles();
     const history = useHistory();
@@ -73,7 +76,6 @@ const CommercialInvoiceDetails = React.memo(function CommercialInvoiceDetails(
     const salesContracts = useSelector(
         state => selectShipmentSalesContractRefs(state, { shipmentId }));
     const initialSalesContract = salesContracts.length ? salesContracts[0] : null;
-    console.log(commercialInvoice)
 
     const { register, control, errors, watch, handleSubmit } = useForm({
         mode: 'onSubmit',
@@ -101,7 +103,12 @@ const CommercialInvoiceDetails = React.memo(function CommercialInvoiceDetails(
 
     const onNextClick = (data) => {
         setCommercialInvoice(prev => ({ ...prev, ...data }));
-        history.push(`/home/documents/ci/new?step=products&shipment=${ shipmentId }`);
+        const urlOptions = {
+            edit: isEdit,
+            step: 'products'
+        };
+        if (isEdit) urlOptions.document = documentId;
+        history.push(getDocumentUrl('CI', shipmentId, urlOptions));
     };
 
     return (
@@ -116,6 +123,7 @@ const CommercialInvoiceDetails = React.memo(function CommercialInvoiceDetails(
                             name={ fieldNames.autoGenerateRef }
                             label={ formLabels.autoGenerateRef }
                             rhfControl={ control }
+                            disabled={ isEdit }
                         />
                         <SideTextField
                             name={ fieldNames.ref }
@@ -123,7 +131,7 @@ const CommercialInvoiceDetails = React.memo(function CommercialInvoiceDetails(
                             inputRef={ register }
                             error={ !!errors[fieldNames.ref] }
                             required={ !autoGenerateRef }
-                            disabled={ autoGenerateRef }
+                            disabled={ autoGenerateRef || isEdit }
                         />
                         <RHFAutoComplete
                             rhfControl={ control }

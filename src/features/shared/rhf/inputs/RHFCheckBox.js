@@ -20,7 +20,8 @@ const RHFCheckBox = React.memo(function RHFCheckBox(
         label,
         rhfControl: control,
         labelPlacement = 'start',
-        className
+        className,
+        disabled
     }) {
     const classes = useStyles();
 
@@ -36,6 +37,7 @@ const RHFCheckBox = React.memo(function RHFCheckBox(
                     className={ clsx(classes.root, className) }
                     onChange={ e => onChange(e.target.checked) }
                     checked={ value }
+                    disabled={ disabled }
                 />
             }
             control={ control }
@@ -48,7 +50,8 @@ RHFCheckBox.propTypes = {
     label: PropTypes.node.isRequired,
     rhfControl: PropTypes.object,
     labelPlacement: PropTypes.oneOf(['bottom', 'end', 'start', 'top']),
-    className: PropTypes.string
+    className: PropTypes.string,
+    disabled: PropTypes.bool
 };
 
 export default RHFCheckBox;

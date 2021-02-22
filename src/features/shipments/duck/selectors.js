@@ -71,6 +71,18 @@ export const selectAllShipments = createSelector(
                 if (document.consigneeAdd)
                     doc.consigneeAdd = { ...document.consigneeAdd, country: countriesMap[document.consigneeAdd.country] };
                 if (document.coo) doc.coo = countriesMap[document.coo];
+                if (document.items) doc.items = doc.items.map(item => {
+                    const temp = {
+                        ...item
+                    };
+                    if (item.unit) temp.unit = itemUnitsMap[item.unit];
+                    if (item.pUnit) temp.pUnit = packageUnitsMap[item.pUnit];
+                    if (item.coo) temp.coo = countriesMap[item.coo];
+                    if (item.fdc) temp.fdc = itemUnitsMap[item.fdc];
+                    if (item.dop) temp.dop = itemUnitsMap[item.dop];
+                    return temp;
+                })
+                if (document.currency) doc.currency = currenciesMap[shipment.currency];
                 return doc;
             }
         )
