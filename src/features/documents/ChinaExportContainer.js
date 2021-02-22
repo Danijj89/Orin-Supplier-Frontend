@@ -43,15 +43,11 @@ const ChinaExportContainer = React.memo(function ChinaExportContainer() {
     );
     const errors = getErrors(homeError, shipmentError, clientError, productError);
 
-    const fetched = useRef(false);
     useEffect(() => {
-        if (!fetched.current) {
-            if (shipmentDataStatus === 'IDLE') dispatch(fetchShipments());
-            if (clientDataStatus === 'IDLE') dispatch(fetchClients());
-            if (productDataStatus === 'IDLE') dispatch(fetchProducts());
-            if (homeDataStatus === 'IDLE') dispatch(fetchCurrentCompany());
-            fetched.current = true;
-        }
+        if (shipmentDataStatus === 'IDLE') dispatch(fetchShipments());
+        if (clientDataStatus === 'IDLE') dispatch(fetchClients());
+        if (productDataStatus === 'IDLE') dispatch(fetchProducts());
+        if (homeDataStatus === 'IDLE') dispatch(fetchCurrentCompany());
     }, [
         dispatch,
         shipmentDataStatus,

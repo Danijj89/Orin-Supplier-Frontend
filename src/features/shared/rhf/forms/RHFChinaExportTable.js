@@ -180,7 +180,7 @@ const RHFChinaExportTable = React.memo(function RHFChinaExportTable(
             headerName: tableHeaderLabels.hsc,
             editType: 'autocomplete',
             options: products,
-            getOptionLabel: product => product.hsc || product,
+            getOptionLabel: product => product.hsc != null ? product.hsc : product,
             width: 140
         },
         {

@@ -73,20 +73,23 @@ export const selectAllShipments = createSelector(
                 if (document.shipAdd)
                     doc.shipAdd = { ...shipment.shipAdd, country: countriesMap[shipment.shipAdd?.country] };
                 if (document.coo) doc.coo = countriesMap[document.coo];
-                if (document.items) doc.items = doc.items.map(item => {
+                if (document.items) doc.items = document.items.map(item => {
                     const temp = {
                         ...item
                     };
                     if (item.unit) temp.unit = itemUnitsMap[item.unit];
                     if (item.pUnit) temp.pUnit = packageUnitsMap[item.pUnit];
                     if (item.coo) temp.coo = countriesMap[item.coo];
-                    if (item.fdc) temp.fdc = itemUnitsMap[item.fdc];
-                    if (item.dop) temp.dop = itemUnitsMap[item.dop];
+                    if (item.fdc) temp.fdc = countriesMap[item.fdc];
+                    if (item.currency) temp.currency = currenciesMap[item.currency];
                     return temp;
                 })
                 if (document.currency) doc.currency = currenciesMap[shipment.currency];
                 if (document.measurementUnit) doc.measurementUnit = measurementUnitsMap[shipment.measurementUnit];
                 if (document.weightUnit) doc.weightUnit = weightUnitsMap[shipment.weightUnit];
+                if (document.tradingCountry) doc.tradingCountry = countriesMap[document.tradingCountry];
+                if (document.destCountry) doc.destCountry = countriesMap[document.destCountry];
+                if (document.del) doc.del = deliveryMethodsMap[document.del];
                 return doc;
             }
         )

@@ -23,6 +23,7 @@ import {
 import { getOptionLabel } from 'app/utils/options/getters.js';
 import { makeStyles } from '@material-ui/core/styles';
 import Title5 from 'features/shared/display/Title5.js';
+import { getDocumentUrl } from 'features/documents/utils/urls.js';
 
 const {
     titleLabel,
@@ -47,8 +48,8 @@ const fieldNames = {
     packageUnits: 'packageUnits',
     pol: 'pol',
     pod: 'pod',
-    netWeight: 'netWeight',
-    grossWeight: 'grossWeight',
+    totNetWeight: 'totNetWeight',
+    totGrossWeight: 'totGrossWeight',
     incoterm: 'incoterm',
 };
 
@@ -63,12 +64,15 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const ChinaExportDetails = React.memo(function ChinaExportDetails({
-                                                                      chinaExport,
-                                                                      setChinaExport,
-                                                                      shipmentId,
-                                                                      consigneeId,
-                                                                  }) {
+const ChinaExportDetails = React.memo(function ChinaExportDetails(
+    {
+        chinaExport,
+        setChinaExport,
+        shipmentId,
+        consigneeId,
+        documentId,
+        isEdit
+    }) {
     const history = useHistory();
     const classes = useStyles();
     const companyAddresses = useSelector(selectActiveCompanyAddresses);
@@ -99,8 +103,8 @@ const ChinaExportDetails = React.memo(function ChinaExportDetails({
             [fieldNames.packageUnits]: chinaExport.packageUnits,
             [fieldNames.pol]: chinaExport.pol,
             [fieldNames.pod]: chinaExport.pod,
-            [fieldNames.netWeight]: chinaExport.netWeight,
-            [fieldNames.grossWeight]: chinaExport.grossWeight,
+            [fieldNames.totNetWeight]: chinaExport.totNetWeight,
+            [fieldNames.totGrossWeight]: chinaExport.totGrossWeight,
             [fieldNames.incoterm]: chinaExport.incoterm,
         },
     });
@@ -111,9 +115,12 @@ const ChinaExportDetails = React.memo(function ChinaExportDetails({
 
     const onNextClick = (data) => {
         setChinaExport((prev) => ({ ...prev, ...data }));
-        history.push(
-            `/home/documents/ce/new?step=optional&shipment=${ shipmentId }`
-        );
+        const urlOptions = {
+            edit: isEdit,
+            step: 'optional'
+        };
+        if (isEdit) urlOptions.document = documentId;
+        history.push(getDocumentUrl('CE', shipmentId, urlOptions));
     };
 
     return (
@@ -132,6 +139,7 @@ const ChinaExportDetails = React.memo(function ChinaExportDetails({
                             name={ fieldNames.autoGenerateRef }
                             label={ formLabels.autoGenerateRef }
                             rhfControl={ control }
+                            disabled={ isEdit }
                         />
                         <SideTextField
                             name={ fieldNames.ref }
@@ -139,7 +147,7 @@ const ChinaExportDetails = React.memo(function ChinaExportDetails({
                             inputRef={ register({ required: !autoGenerateRef }) }
                             error={ !!errors[fieldNames.ref] }
                             required={ !autoGenerateRef }
-                            disabled={ autoGenerateRef }
+                            disabled={ autoGenerateRef || isEdit }
                         />
                         <RHFAutoComplete
                             rhfControl={ control }
@@ -147,9 +155,9 @@ const ChinaExportDetails = React.memo(function ChinaExportDetails({
                             label={ formLabels.sName }
                             options={ companyAddresses }
                             error={ !!errors[fieldNames.sName] }
-                            getOptionLabel={ (option) => option.name }
+                            getOptionLabel={ (option) => option.name || option }
                             getOptionSelected={ (option, value) =>
-                                option._id === value._id
+                                option._id === value._id || typeof value === 'string'
                             }
                             required
                         />
@@ -166,9 +174,9 @@ const ChinaExportDetails = React.memo(function ChinaExportDetails({
                             label={ formLabels.mName }
                             options={ companyAddresses }
                             error={ !!errors[fieldNames.mName] }
-                            getOptionLabel={ (option) => option.name }
+                            getOptionLabel={ (option) => option.name || option }
                             getOptionSelected={ (option, value) =>
-                                option._id === value._id
+                                option._id === value._id || typeof value === 'string'
                             }
                             required
                         />
@@ -185,9 +193,9 @@ const ChinaExportDetails = React.memo(function ChinaExportDetails({
                             label={ formLabels.cName }
                             options={ consigneeAddresses }
                             error={ !!errors[fieldNames.cName] }
-                            getOptionLabel={ (option) => option.name }
+                            getOptionLabel={ (option) => option.name || option }
                             getOptionSelected={ (option, value) =>
-                                option._id === value._id
+                                option._id === value._id || typeof value === 'string'
                             }
                             required
                         />
@@ -275,19 +283,19 @@ const ChinaExportDetails = React.memo(function ChinaExportDetails({
                             required
                         />
                         <SideTextField
-                            name={ fieldNames.grossWeight }
-                            label={ formLabels.grossWeight }
+                            name={ fieldNames.totGrossWeight }
+                            label={ formLabels.totGrossWeight }
                             type="number"
                             inputRef={ register({ required: true }) }
-                            error={ !!errors[fieldNames.grossWeight] }
+                            error={ !!errors[fieldNames.totGrossWeight] }
                             required
                         />
                         <SideTextField
-                            name={ fieldNames.netWeight }
-                            label={ formLabels.netWeight }
+                            name={ fieldNames.totNetWeight }
+                            label={ formLabels.totNetWeight }
                             type="number"
                             inputRef={ register({ required: true }) }
-                            error={ !!errors[fieldNames.netWeight] }
+                            error={ !!errors[fieldNames.totNetWeight] }
                             required
                         />
                         <RHFAutoComplete

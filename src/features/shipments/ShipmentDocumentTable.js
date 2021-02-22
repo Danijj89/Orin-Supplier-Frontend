@@ -37,8 +37,13 @@ const ShipmentDocumentTable = React.memo(function ShipmentDocumentTable(
     const onCloseDrawer = useCallback(() => setIsDrawerOpen(false), []);
 
     const onEditDocument = useCallback(
-        () => history.push(getDocumentUrl(getOptionId(drawerData.type), shipmentId, { document: drawerData._id })),
-        [history, shipmentId, drawerData]);
+        () => history.push(
+            getDocumentUrl(
+                getOptionId(drawerData.type),
+                shipmentId,
+                { document: drawerData._id, edit: true }
+            )
+        ), [history, shipmentId, drawerData]);
 
     const onRowClick = useCallback(row => {
         setDrawerData(documents.find(doc => doc._id === row.id));

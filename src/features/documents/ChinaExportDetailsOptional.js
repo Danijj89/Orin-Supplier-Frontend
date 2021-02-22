@@ -13,6 +13,7 @@ import Footer from '../shared/components/Footer.js';
 import { useHistory } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Title5 from 'features/shared/display/Title5.js';
+import { getDocumentUrl } from 'features/documents/utils/urls.js';
 
 const {
     titleLabel,
@@ -30,7 +31,7 @@ const fieldNames = {
 };
 
 const ChinaExportDetailsOptional = React.memo(function ChinaExportDetailsOptional(
-    { chinaExport, setChinaExport, shipmentId }) {
+    { chinaExport, setChinaExport, shipmentId, documentId, isEdit }) {
     const history = useHistory();
     const companyPorts = useSelector(selectCompanyPorts);
     const deliveryMethods = useSelector(selectDeliveryMethods);
@@ -50,13 +51,23 @@ const ChinaExportDetailsOptional = React.memo(function ChinaExportDetailsOptiona
 
     const onPrevClick = () => {
         setChinaExport(prev => ({ ...prev, ...getValues() }));
-        history.push(`/home/documents/ce/new?step=details&shipment=${ shipmentId }`);
+        const urlOptions = {
+            edit: isEdit,
+            step: 'details'
+        };
+        if (isEdit) urlOptions.document = documentId;
+        history.push(getDocumentUrl('CE', shipmentId, urlOptions));
     };
 
 
     const onNextClick = (data) => {
         setChinaExport(prev => ({ ...prev, ...data }));
-        history.push(`/home/documents/ce/new?step=products&shipment=${ shipmentId }`);
+        const urlOptions = {
+            edit: isEdit,
+            step: 'products'
+        };
+        if (isEdit) urlOptions.document = documentId;
+        history.push(getDocumentUrl('CE', shipmentId, urlOptions));
     };
 
     return (

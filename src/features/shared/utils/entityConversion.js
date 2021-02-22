@@ -63,7 +63,7 @@ export const tableItemsToItems = (tableItems) =>
 export const itemsToConsolidationItems =
     (items, currency, countryOfOrigin, destinationCountry) =>
         items.map(item => ({
-            hsc: item.hsc,
+            hsc: item.hsc || null,
             localD: item.localD,
             quantity: item.quantity,
             unit: item.unit,
@@ -207,48 +207,74 @@ export const shipmentToSalesContract = (shipment, documentId) => {
     return initialDoc;
 };
 
-export const shipmentToChinaExport = (shipment) => {
-    const packageTypes = new Set();
-    let packageUnits = 0;
-    for (const [unit, quantity] of Object.entries(shipment.package)) {
-        packageTypes.add(unit);
-        packageUnits += quantity;
-    }
-    return {
-        autoGenerateRef: true,
-        ref: null,
+export const shipmentToChinaExport = (shipment, documentId) => {
+    let source = shipment;
+    if (documentId) source = shipment.documents.find(doc => doc._id === documentId);
+    const initialDoc = {
+        pol: source.pol || null,
+        pod: source.pod || null,
+        incoterm: source.incoterm,
         sName: null,
-        sTaxCode: shipment.seller.taxNumber,
         mName: null,
         mTaxCode: null,
-        cName: shipment.consigneeAdd,
         supervision: null,
         exemption: null,
-        tradingCountry: shipment.sellerAdd.country,
-        destCountry: shipment.consigneeAdd.country,
-        pol: shipment.pol || null,
-        pod: shipment.pod || null,
-        packageTypes: Array.from(packageTypes).join(','),
-        packageUnits: packageUnits,
-        netWeight: shipment.netWeight,
-        grossWeight: shipment.grossWeight,
-        incoterm: shipment.incoterm,
         containerNum: null,
-        scRef: shipment.scRef,
         exPort: null,
-        del: shipment.del,
-        bol: shipment.bol,
-        coItems: itemsToConsolidationItems(
-            shipment.items,
-            shipment.currency,
-            shipment.sellerAdd.country,
-            shipment.consigneeAdd.country
-        ),
-        quantity: shipment.quantity,
-        totalAmount: { [getOptionId(shipment.currency)]: shipment.total },
-        marks: shipment.marks
+        scRef: source.scRef,
+        del: source.del,
+        bol: source.bol,
+        quantity: source.quantity,
+        totalAmount: { [getOptionId(source.currency)]: source.total },
+        marks: source.marks
     };
-}
+    if (documentId) {
+        initialDoc.totNetWeight = source.totNetWeight;
+        initialDoc.totGrossWeight = source.totGrossWeight;
+        initialDoc.cName = source.cName;
+        initialDoc.autoGenerateRef = false;
+        initialDoc.ref = source.ref;
+        initialDoc.notes = source.notes;
+        initialDoc.sName = source.sName;
+        initialDoc.sTaxCode = source.sTaxCode;
+        initialDoc.mName = source.mName || null;
+        initialDoc.mTaxCode = source.mTaxCode || null;
+        initialDoc.supervision = source.supervision || null;
+        initialDoc.exemption = source.exemption || null;
+        initialDoc.containerNum = source.containerNum || null;
+        initialDoc.exPort = source.exPort || null;
+        initialDoc.packageTypes = source.packageTypes;
+        initialDoc.packageUnits = source.packageUnits;
+        initialDoc.tradingCountry = source.tradingCountry;
+        initialDoc.destCountry = source.destCountry;
+        initialDoc.coItems = source.items;
+    } else {
+        initialDoc.autoGenerateRef = true;
+        initialDoc.ref = null;
+        initialDoc.notes = null;
+        initialDoc.sTaxCode = source.seller.taxNumber;
+        initialDoc.tradingCountry = source.sellerAdd.country;
+        initialDoc.destCountry = source.consigneeAdd.country;
+        initialDoc.cName = source.consigneeAdd;
+        initialDoc.totNetWeight = source.netWeight;
+        initialDoc.totGrossWeight = source.grossWeight;
+        const packageTypes = new Set();
+        let packageUnits = 0;
+        for (const [unit, quantity] of Object.entries(shipment.package)) {
+            packageTypes.add(unit);
+            packageUnits += quantity;
+        }
+        initialDoc.packageTypes = Array.from(packageTypes).join(',');
+        initialDoc.packageUnits = packageUnits;
+        initialDoc.coItems = itemsToConsolidationItems(
+            source.items,
+            source.currency,
+            source.sellerAdd.country,
+            source.consigneeAdd.country
+        );
+    }
+    return initialDoc;
+};
 
 export const prepareShippingSplits = shippingSplits =>
     shippingSplits.map(split => {
