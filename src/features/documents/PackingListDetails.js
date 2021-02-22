@@ -107,6 +107,7 @@ const PackingListDetails = React.memo(function PackingListDetails(
                             name={ fieldNames.autoGenerateRef }
                             label={ formLabels.autoGenerateRef }
                             rhfControl={ control }
+                            disabled={ isEdit }
                         />
                         <SideTextField
                             name={ fieldNames.ref }
@@ -114,7 +115,7 @@ const PackingListDetails = React.memo(function PackingListDetails(
                             inputRef={ register }
                             error={ !!errors[fieldNames.ref] }
                             required={ !autoGenerateRef }
-                            disabled={ autoGenerateRef }
+                            disabled={ autoGenerateRef || isEdit }
                         />
                         <RHFAutoComplete
                             rhfControl={ control }

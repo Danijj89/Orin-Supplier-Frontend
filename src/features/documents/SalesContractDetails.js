@@ -21,6 +21,7 @@ import Footer from '../shared/components/Footer.js';
 import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Title5 from 'features/shared/display/Title5.js';
+import { getDocumentUrl } from 'features/documents/utils/urls.js';
 
 const {
     titleLabel,
@@ -56,11 +57,14 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const SalesContractDetails = React.memo(function SalesContractDetails({
-                                                                          salesContract,
-                                                                          setSalesContract,
-                                                                          shipmentId,
-                                                                      }) {
+const SalesContractDetails = React.memo(function SalesContractDetails(
+    {
+        salesContract,
+        setSalesContract,
+        shipmentId,
+        documentId,
+        isEdit
+    }) {
     const history = useHistory();
     const companyAddresses = useSelector(selectActiveCompanyAddresses);
     const consigneeAddresses = useSelector((state) =>
@@ -96,9 +100,12 @@ const SalesContractDetails = React.memo(function SalesContractDetails({
 
     const onNextClick = (data) => {
         setSalesContract((prev) => ({ ...prev, ...data }));
-        history.push(
-            `/home/documents/sc/new?step=products&shipment=${ shipmentId }`
-        );
+        const urlOptions = {
+            edit: isEdit,
+            step: 'products'
+        };
+        if (isEdit) urlOptions.document = documentId;
+        history.push(getDocumentUrl('SC', shipmentId, urlOptions));
     };
 
     return (
@@ -117,6 +124,7 @@ const SalesContractDetails = React.memo(function SalesContractDetails({
                             name={ fieldNames.autoGenerateRef }
                             label={ formLabels.autoGenerateRef }
                             rhfControl={ control }
+                            disabled={ isEdit }
                         />
                         <SideTextField
                             name={ fieldNames.ref }
@@ -124,7 +132,7 @@ const SalesContractDetails = React.memo(function SalesContractDetails({
                             inputRef={ register({ required: !autoGenerateRef }) }
                             error={ !!errors[fieldNames.ref] }
                             required={ !autoGenerateRef }
-                            disabled={ autoGenerateRef }
+                            disabled={ autoGenerateRef || isEdit }
                         />
                         <RHFAutoComplete
                             rhfControl={ control }

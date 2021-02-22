@@ -16,6 +16,9 @@ import { cleanShipmentState } from '../shipments/duck/slice.js';
 import { CREATE_ANY, CREATE_OWN } from '../admin/utils/actions.js';
 import { fetchCurrentCompany } from 'features/home/duck/home/thunks.js';
 import ShipmentPermission from '../shared/permissions/ShipmentPermission.js';
+import { selectOrderDataStatus, selectOrderError } from 'features/orders/duck/selectors.js';
+import { fetchOrders } from 'features/orders/duck/thunks.js';
+import { cleanOrderState } from 'features/orders/duck/slice.js';
 
 const SalesContractContainer = React.memo(function SalesContractContainer() {
     const dispatch = useDispatch();
@@ -26,9 +29,11 @@ const SalesContractContainer = React.memo(function SalesContractContainer() {
     const shipmentError = useSelector(selectShipmentError);
     const clientDataStatus = useSelector(selectClientDataStatus);
     const clientError = useSelector(selectClientError);
+    const orderDataStatus = useSelector(selectOrderDataStatus);
+    const orderError = useSelector(selectOrderError);
 
-    const status = determineStatus(homeDataStatus, shipmentDataStatus, clientDataStatus);
-    const errors = getErrors(homeError, shipmentError, clientError);
+    const status = determineStatus(homeDataStatus, shipmentDataStatus, clientDataStatus, orderDataStatus);
+    const errors = getErrors(homeError, shipmentError, clientError, orderError);
 
     const fetched = useRef(false);
     useEffect(() => {
@@ -36,9 +41,10 @@ const SalesContractContainer = React.memo(function SalesContractContainer() {
             if (shipmentDataStatus === 'IDLE') dispatch(fetchShipments());
             if (clientDataStatus === 'IDLE') dispatch(fetchClients());
             if (homeDataStatus === 'IDLE') dispatch(fetchCurrentCompany());
+            if (orderDataStatus === 'IDLE') dispatch(fetchOrders());
             fetched.current = true;
         }
-    }, [dispatch, shipmentDataStatus, clientDataStatus, homeDataStatus]);
+    }, [dispatch, shipmentDataStatus, clientDataStatus, homeDataStatus, orderDataStatus]);
 
     useEffect(() => {
         return () => {
@@ -46,6 +52,7 @@ const SalesContractContainer = React.memo(function SalesContractContainer() {
                 dispatch(cleanHomeState());
                 dispatch(cleanShipmentState());
                 dispatch(cleanClientState());
+                dispatch(cleanOrderState());
             }
             dispatch(cleanNewDocument());
         }

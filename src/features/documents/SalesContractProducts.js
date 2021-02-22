@@ -6,10 +6,11 @@ import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { addressToDocAddress, tableItemsToItems } from '../shared/utils/entityConversion.js';
-import { createDocument } from '../shipments/duck/thunks.js';
+import { createDocument, updateDocument } from '../shipments/duck/thunks.js';
 import { selectSessionUserCompanyId, selectSessionUserId } from 'app/duck/selectors.js';
 import { getOptionId } from 'app/utils/options/getters.js';
 import Title5 from 'features/shared/display/Title5.js';
+import { getDocumentUrl } from 'features/documents/utils/urls.js';
 
 const {
     titleLabel,
@@ -28,7 +29,7 @@ const fieldNames = {
 const DOCUMENT_TYPE = 'SC';
 
 const SalesContractProducts = React.memo(function SalesContractProducts(
-    { salesContract, setSalesContract, shipmentId }) {
+    { salesContract, setSalesContract, shipmentId, documentId, isEdit }) {
     const dispatch = useDispatch();
     const history = useHistory();
     const companyId = useSelector(selectSessionUserCompanyId);
@@ -53,7 +54,12 @@ const SalesContractProducts = React.memo(function SalesContractProducts(
 
     const onPrevClick = () => {
         setSalesContract(prev => ({ ...prev, ...getValues() }));
-        history.push(`/home/documents/sc/new?step=details&shipment=${ shipmentId }`);
+        const urlOptions = {
+            edit: isEdit,
+            step: 'details'
+        };
+        if (isEdit) urlOptions.document = documentId;
+        history.push(getDocumentUrl('SC', shipmentId, urlOptions));
     };
 
     const onSubmit = (productData) => {
@@ -66,7 +72,8 @@ const SalesContractProducts = React.memo(function SalesContractProducts(
         document.currency = getOptionId(document.currency);
         document.items = tableItemsToItems(document.items);
         document.createdBy = userId;
-        dispatch(createDocument({ shipmentId, document }))
+        if (isEdit) dispatch(updateDocument({ shipmentId, documentId, update: document }));
+        else dispatch(createDocument({ shipmentId, document }));
         history.push(`/home/shipments/${ shipmentId }?tab=documents`);
     };
 

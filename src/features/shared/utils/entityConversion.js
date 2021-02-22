@@ -173,28 +173,39 @@ export const shipmentToPackingList = (shipment, documentId) => {
     return initialDoc;
 };
 
-export const shipmentToSalesContract = (shipment) => ({
-    autoGenerateRef: true,
-    ref: null,
-    sellerAdd: shipment.sellerAdd,
-    consignee: shipment.consignee,
-    consigneeAdd: shipment.consigneeAdd,
-    date: new Date(),
-    bankDetails: null,
-    termsOfPayment: null,
-    timeOfShipment: null,
-    insurance: null,
-    customText: null,
-    pol: shipment.pol || null,
-    pod: shipment.pod || null,
-    notes: null,
-    currency: shipment.currency,
-    items: shipment.items,
-    quantity: shipment.quantity,
-    total: shipment.total,
-    custom1: shipment.ciCustom1,
-    custom2: shipment.ciCustom2
-});
+export const shipmentToSalesContract = (shipment, documentId) => {
+    let source = shipment;
+    if (documentId) source = shipment.documents.find(doc => doc._id === documentId);
+    const initialDoc = {
+        sellerAdd: source.sellerAdd,
+        consignee: shipment.consignee,
+        consigneeAdd: source.consigneeAdd,
+        date: new Date(),
+        bankDetails: null,
+        termsOfPayment: null,
+        timeOfShipment: null,
+        insurance: null,
+        customText: null,
+        pol: source.pol || null,
+        pod: source.pod || null,
+        currency: source.currency,
+        items: source.items,
+        quantity: source.quantity,
+        total: source.total,
+        custom1: source.ciCustom1,
+        custom2: source.ciCustom2
+    };
+    if (documentId) {
+        initialDoc.autoGenerateRef = false;
+        initialDoc.ref = source.ref;
+        initialDoc.notes = source.notes;
+    } else {
+        initialDoc.autoGenerateRef = true;
+        initialDoc.ref = null;
+        initialDoc.notes = null;
+    }
+    return initialDoc;
+};
 
 export const shipmentToChinaExport = (shipment) => {
     const packageTypes = new Set();
