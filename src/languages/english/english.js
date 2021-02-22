@@ -657,7 +657,6 @@ export const ENGLISH = {
             buttons: {
                 editShipment: 'Edit Shipment Information',
                 editShipmentOrders: 'Edit Included Orders',
-                editDocument: 'Edit'
             },
             titles: {
                 shipmentInfo: 'Shipment Information',
@@ -693,7 +692,7 @@ export const ENGLISH = {
                 createdAt: 'Created At',
                 createdBy: 'Created By',
                 excel: 'Download Excel',
-                pdf: 'Download PDF',
+                pdf: 'Download PDF'
             },
             documentButton: {
                 buttonLabel: 'Generate Document',

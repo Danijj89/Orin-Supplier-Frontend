@@ -652,8 +652,7 @@ export const CHINESE = {
             },
             buttons: {
                 editShipment: '编辑运输信息',
-                editShipmentOrders: '改变已包括的订单',
-                editDocument: '编辑'
+                editShipmentOrders: '改变已包括的订单'
             },
             titles: {
                 shipmentInfo: '运输信息',
