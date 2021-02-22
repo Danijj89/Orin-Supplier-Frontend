@@ -50,11 +50,6 @@ export default function ProductTable() {
             type: 'date',
         },
         {
-            field: 'salesYTD',
-            headerName: tableHeadersMap.salesYTD,
-            type: 'number',
-        },
-        {
             field: 'orderCountYTD',
             headerName: tableHeadersMap.orderCountYTD,
             type: 'number',
@@ -68,7 +63,6 @@ export default function ProductTable() {
         name: product.name,
         description: product.description,
         lastOrder: product.lastOrder,
-        salesYTD: product.salesYTD,
         orderCountYTD: product.orderCountYTD,
         hsc: product.hsc,
     })), [products]);
@@ -80,8 +74,7 @@ export default function ProductTable() {
             options: {
                 sessionKey: SESSION_PRODUCT_TABLE_FILTERS,
                 filters: [
-                    { field: 'lastOrder', type: 'date', label: tableHeadersMap.lastOrder },
-                    { field: 'salesYTD', type: 'range', label: tableHeadersMap.salesYTD }
+                    { field: 'lastOrder', type: 'date', label: tableHeadersMap.lastOrder }
                 ]
             }
         }

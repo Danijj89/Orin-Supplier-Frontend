@@ -306,7 +306,6 @@ export const CHINESE = {
                 contactName: '联系人姓名',
                 contactEmail: '邮件',
                 lastOrder: '最近订单',
-                salesYTD: '年度销售量',
                 orderCountYTD: '年度订单量',
                 assignedTo: '业务员',
                 notes: '备注',
@@ -385,7 +384,6 @@ export const CHINESE = {
                     name: '产品名称',
                     description: '产品描述',
                     lastOrder: '最近订单',
-                    salesYTD: '年度销售',
                     orderCountYTD: '年度订单',
                     hsc: 'HS 编码',
                 },
@@ -652,8 +650,7 @@ export const CHINESE = {
             },
             buttons: {
                 editShipment: '编辑运输信息',
-                editShipmentOrders: '改变已包括的订单',
-                editDocument: '编辑'
+                editShipmentOrders: '改变已包括的订单'
             },
             titles: {
                 shipmentInfo: '运输信息',
@@ -718,6 +715,7 @@ export const CHINESE = {
                 orderInfo: '订单信息',
                 shipping: '运输信息',
                 containers: '货柜类型',
+                documentStatus: 'Document Status'
             },
             buttons: {
                 back: '回上一页',
@@ -734,7 +732,6 @@ export const CHINESE = {
                 incoterm: '贸易条款',
                 clientRef: '客户订单号.',
                 payRefs: '付款编号',
-                bolType: '提单类型',
                 coo: '制造国家',
                 clientRefs: '客户其他编号',
                 del: '运输模式',
@@ -743,6 +740,10 @@ export const CHINESE = {
                 carrier: '货代',
                 eta: '预计到达',
                 etd: '预计出发',
+                docCutOff: 'Doc. Cut Off',
+                bol: 'Bill of Landing',
+                bolType: '提单类型',
+                released: 'Released',
             },
             tableHeaderLabels: {
                 type: '货柜类型',

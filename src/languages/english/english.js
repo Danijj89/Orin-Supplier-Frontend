@@ -308,7 +308,6 @@ export const ENGLISH = {
                 contactName: 'Contact',
                 contactEmail: 'Email',
                 lastOrder: 'Last order',
-                salesYTD: 'Sales YTD',
                 orderCountYTD: 'Order Count YTD',
                 assignedTo: 'Sales',
                 notes: 'Notes',
@@ -387,7 +386,6 @@ export const ENGLISH = {
                     name: 'Product Name',
                     description: 'Product Description',
                     lastOrder: 'Last Order',
-                    salesYTD: 'Sales YTD',
                     orderCountYTD: 'Order Count YTD',
                     hsc: 'HS Code',
                 },
@@ -657,7 +655,6 @@ export const ENGLISH = {
             buttons: {
                 editShipment: 'Edit Shipment Information',
                 editShipmentOrders: 'Edit Included Orders',
-                editDocument: 'Edit'
             },
             titles: {
                 shipmentInfo: 'Shipment Information',
@@ -693,7 +690,7 @@ export const ENGLISH = {
                 createdAt: 'Created At',
                 createdBy: 'Created By',
                 excel: 'Download Excel',
-                pdf: 'Download PDF',
+                pdf: 'Download PDF'
             },
             documentButton: {
                 buttonLabel: 'Generate Document',
@@ -722,6 +719,7 @@ export const ENGLISH = {
                 orderInfo: 'Order Information',
                 shipping: 'Shipping Information',
                 containers: 'Select Containers',
+                documentStatus: 'Document Status'
             },
             buttons: {
                 back: 'Back',
@@ -738,7 +736,6 @@ export const ENGLISH = {
                 incoterm: 'Incoterm',
                 clientRef: 'Client Order Ref.',
                 payRefs: 'Payment References',
-                bolType: 'Bill of Landing Type',
                 coo: 'Country of Manufacture',
                 clientRefs: 'Client References',
                 del: 'Delivery Method',
@@ -747,6 +744,10 @@ export const ENGLISH = {
                 carrier: 'Freight Forwarder',
                 eta: 'ETA',
                 etd: 'ETD',
+                docCutOff: 'Doc. Cut Off',
+                bol: 'Bill of Landing',
+                bolType: 'Bill of Landing Type',
+                released: 'Released',
             },
             tableHeaderLabels: {
                 type: 'Container Type',

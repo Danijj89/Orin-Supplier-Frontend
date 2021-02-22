@@ -30,6 +30,7 @@ import {
 import { selectClientActiveAddresses } from '../clients/duck/selectors.js';
 import ContainerSelectorButton from './ContainersInfoDialog.js';
 import Footer from '../shared/components/Footer.js';
+import RHFCheckBox from 'features/shared/rhf/inputs/RHFCheckBox.js';
 
 const {
     titles,
@@ -80,7 +81,6 @@ const ShipmentInfo = React.memo(function ShipmentInfo({ onCancel }) {
             shipAdd: shipment.shipAdd || null,
             crd: shipment.crd || null,
             incoterm: shipment.incoterm || null,
-            bolType: shipment.bolType || null,
             coo: shipment.coo,
             clientRefs: shipment.clientRefs,
             payRefs: shipment.payRefs,
@@ -90,6 +90,10 @@ const ShipmentInfo = React.memo(function ShipmentInfo({ onCancel }) {
             carrier: shipment.carrier,
             eta: shipment.eta || null,
             etd: shipment.etd || null,
+            docCutOff: shipment.docCutOff || null,
+            bol: shipment.bol,
+            bolType: shipment.bolType || null,
+            released: shipment.released
         },
     });
 
@@ -105,7 +109,7 @@ const ShipmentInfo = React.memo(function ShipmentInfo({ onCancel }) {
 
     return (
         <>
-            
+
             <form onSubmit={ handleSubmit(onSubmit) } autoComplete="off">
                 <InfoCard
                     title={ titles.parties }
@@ -191,18 +195,6 @@ const ShipmentInfo = React.memo(function ShipmentInfo({ onCancel }) {
                                 />
                             </Grid>
                             <Grid container item justify="flex-end" xs={ 6 }>
-                                <RHFAutoComplete
-                                    rhfControl={ control }
-                                    name="bolType"
-                                    label={ formLabels.bolType }
-                                    options={ billOfLandingTypeOptions }
-                                    getOptionLabel={ (option) =>
-                                        getOptionLabel(option)
-                                    }
-                                    getOptionSelected={ (option, value) =>
-                                        option.id === value.id
-                                    }
-                                />
                                 <SideTextField
                                     label={ formLabels.payRefs }
                                     name="payRefs"
@@ -224,18 +216,16 @@ const ShipmentInfo = React.memo(function ShipmentInfo({ onCancel }) {
                         </Grid>
                     }
                 />
-                <Grid container justify="flex-end">
-                    <Grid item>
-                        <ContainerSelectorButton
-                        shipmentId={ shipmentId }
-                        containerQ={ shipment.containerQ }
-                        className={ classes.containerButton }
-                        />
-                    </Grid>
-                </Grid>
                 <InfoCard
-                    className={ classes.lastShipmentCard }
+                    className={ classes.shipmentCards }
                     title={ titles.shipping }
+                    tools={
+                        <ContainerSelectorButton
+                            shipmentId={ shipmentId }
+                            containerQ={ shipment.containerQ }
+                            className={ classes.containerButton }
+                        />
+                    }
                     content={
                         <Grid container>
                             <Grid container item justify="flex-end" xs={ 6 }>
@@ -283,6 +273,45 @@ const ShipmentInfo = React.memo(function ShipmentInfo({ onCancel }) {
                                     rhfControl={ control }
                                     name="eta"
                                     label={ formLabels.eta }
+                                />
+                            </Grid>
+                        </Grid>
+                    }
+                />
+                <InfoCard
+                    className={ classes.lastShipmentCard }
+                    title={ titles.documentStatus }
+                    content={
+                        <Grid container>
+                            <Grid container item justify="flex-end" xs={ 6 }>
+                                <SideTextField
+                                    label={ formLabels.bol }
+                                    name="bol"
+                                    inputRef={ register }
+                                />
+                                <RHFAutoComplete
+                                    rhfControl={ control }
+                                    name="bolType"
+                                    label={ formLabels.bolType }
+                                    options={ billOfLandingTypeOptions }
+                                    getOptionLabel={ (option) =>
+                                        getOptionLabel(option)
+                                    }
+                                    getOptionSelected={ (option, value) =>
+                                        option.id === value.id
+                                    }
+                                />
+                            </Grid>
+                            <Grid container item direction="column" alignItems="flex-end" justify="flex-end" xs={ 6 }>
+                                <RHFCheckBox
+                                    name="released"
+                                    label={ formLabels.released }
+                                    rhfControl={ control }
+                                />
+                                <RHFDateField
+                                    rhfControl={ control }
+                                    name="docCutOff"
+                                    label={ formLabels.docCutOff }
                                 />
                             </Grid>
                         </Grid>

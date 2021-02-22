@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import Table from 'features/shared/components/table/Table.js';
@@ -13,16 +13,12 @@ import { deleteDocument } from 'features/shipments/duck/thunks.js';
 import { CREATE_ANY, CREATE_OWN, DELETE_ANY, DELETE_OWN, READ_ANY, READ_OWN } from 'features/admin/utils/actions.js';
 import ShipmentPermission from 'features/shared/permissions/ShipmentPermission.js';
 import ThemedButton from 'features/shared/buttons/ThemedButton.js';
-import Drawer from '@material-ui/core/Drawer';
-import DocumentPreview from 'features/shipments/DocumentPreview.js';
-import InfoCard from 'features/shared/wrappers/InfoCard.js';
 import { getDocumentUrl } from 'features/documents/utils/urls.js';
 import { getOptionId } from 'app/utils/options/getters.js';
 
 const {
     documentTableHeaders,
-    messages,
-    buttons
+    messages
 } = LANGUAGE.shipment.shipment;
 
 const ShipmentDocumentTable = React.memo(function ShipmentDocumentTable(
@@ -31,24 +27,15 @@ const ShipmentDocumentTable = React.memo(function ShipmentDocumentTable(
     const history = useHistory();
     const documents = useSelector(state => selectShipmentDocuments(state, { shipmentId }));
     const usersMap = useSelector(selectUsersMap);
-    const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-    const [drawerData, setDrawerData] = useState(null);
-
-    const onCloseDrawer = useCallback(() => setIsDrawerOpen(false), []);
 
     const onEditDocument = useCallback(
-        () => history.push(
+        (docType, documentId) => history.push(
             getDocumentUrl(
-                getOptionId(drawerData.type),
+                getOptionId(docType),
                 shipmentId,
-                { document: drawerData._id, edit: true }
+                { document: documentId, edit: true }
             )
-        ), [history, shipmentId, drawerData]);
-
-    const onRowClick = useCallback(row => {
-        setDrawerData(documents.find(doc => doc._id === row.id));
-        setIsDrawerOpen(true);
-    }, [documents]);
+        ), [history, shipmentId]);
 
     const onDownload = useCallback(
         (documentId, ext) => dispatch(downloadShipmentDocument({ shipmentId, documentId, ext })),
@@ -73,7 +60,19 @@ const ShipmentDocumentTable = React.memo(function ShipmentDocumentTable(
                     />
                 </ShipmentPermission>
         },
-        { field: 'ref', headerName: documentTableHeaders.ref },
+        {
+            field: 'ref',
+            headerName: documentTableHeaders.ref,
+            renderCell: params =>
+                <ShipmentPermission action={ [CREATE_ANY, CREATE_OWN] } shipmentId={ shipmentId }>
+                    <ThemedButton
+                        onClick={ () => onEditDocument(params.type, params.id) }
+                        variant="text"
+                    >
+                        { params.ref }
+                    </ThemedButton>
+                </ShipmentPermission>
+        },
         { field: 'type', headerName: documentTableHeaders.type, type: 'option' },
         { field: 'createdAt', headerName: documentTableHeaders.createdAt, type: 'datetime' },
         { field: 'createdBy', headerName: documentTableHeaders.createdBy },
@@ -103,7 +102,7 @@ const ShipmentDocumentTable = React.memo(function ShipmentDocumentTable(
             align: 'center',
             width: 50
         }
-    ], [onDownload, createDeleteHandler, shipmentId]);
+    ], [onDownload, createDeleteHandler, shipmentId, onEditDocument]);
 
     const rows = useMemo(() => documents.map(doc => ({
         id: doc._id,
@@ -126,48 +125,20 @@ const ShipmentDocumentTable = React.memo(function ShipmentDocumentTable(
         },
         body: {
             maxEmptyRows,
-            onRowClick
+            hover: false
         },
         foot: {
             pagination: 'hide'
         }
-    }), [maxEmptyRows, className, onRowClick]);
+    }), [maxEmptyRows, className]);
 
     return (
-        <ShipmentPermission
-            action={ [READ_ANY, READ_OWN] }
-            shipmentId={ shipmentId }
-        >
+        <ShipmentPermission action={ [READ_ANY, READ_OWN] } shipmentId={ shipmentId }>
             <Table
                 rows={ rows }
                 columns={ columns }
                 options={ options }
             />
-            <Drawer
-                anchor={ 'right' }
-                open={ isDrawerOpen }
-                onClose={ onCloseDrawer }
-                transitionDuration={ 500 }
-            >
-                { drawerData &&
-                <InfoCard
-                    title={ drawerData.ref }
-                    tools={
-                        <ShipmentPermission
-                            action={ [CREATE_ANY, CREATE_OWN] }
-                            shipmentId={ shipmentId }
-                        >
-                            <ThemedButton onClick={ onEditDocument }>
-                                { buttons.editDocument }
-                            </ThemedButton>
-                        </ShipmentPermission>
-                    }
-                    content={
-                        <DocumentPreview document={ drawerData }/>
-                    }
-                />
-                }
-            </Drawer>
         </ShipmentPermission>
     );
 });
