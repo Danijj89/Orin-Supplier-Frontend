@@ -669,6 +669,8 @@ export const CHINESE = {
                 bol: '提单号码',
                 bolType: '提单放行类型',
                 released: '提单放行',
+                releasedYes: 'Yes',
+                releasedNo: 'No'
             },
             tableHeaderLabels: {
                 ref: '销售订单',

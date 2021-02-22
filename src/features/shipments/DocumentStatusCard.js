@@ -8,6 +8,7 @@ import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectShipmentById } from './duck/selectors.js';
 import { getOptionLabel } from 'app/utils/options/getters.js';
+import { dateToLocaleDate } from 'features/shared/utils/format.js';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -31,10 +32,10 @@ const DocumentStatusCard = React.memo(function DocumentStatusCard() {
     const shipment = useSelector(state => selectShipmentById(state, { shipmentId }));
 
     const data = useMemo(() => [
-        { label: labels.docCutOff, value: shipment.docCutOff },
+        { label: labels.docCutOff, value: dateToLocaleDate(shipment.docCutOff) },
         { label: labels.bol, value: shipment.bol },
         { label: labels.bolType, value: getOptionLabel(shipment.bolType, LOCALE) },
-        { label: labels.released, value: shipment.released }
+        { label: labels.released, value: shipment.released ? labels.releasedYes : labels.releasedNo }
     ], [
         shipment.docCutOff,
         shipment.bol,

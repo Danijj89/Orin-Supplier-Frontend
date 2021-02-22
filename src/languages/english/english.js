@@ -673,6 +673,8 @@ export const ENGLISH = {
                 bol: 'Bill of Landing No',
                 bolType: 'Bill Release Type',
                 released: 'Released',
+                releasedYes: 'Yes',
+                releasedNo: 'No'
             },
             tableHeaderLabels: {
                 ref: 'Sales Order',
