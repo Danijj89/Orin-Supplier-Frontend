@@ -43,26 +43,26 @@ const OrderOverview = React.memo(function OrderOverview() {
     const getUrl = useCallback(order => getOrderURL(order._id), []);
 
     const getOptionLabel = useCallback(
-        order => `${order.ref} - ${clients[order.to]?.name}`,
+        order => `${ order.ref } - ${ clients[order.to]?.name }`,
         [clients]);
 
     return (
-        <OrderPermission action={ [CREATE_ANY, CREATE_OWN] }>
-            <Paper className={ classes.container }>
-                <Box className={ classes.topRow }>
+        <Paper className={ classes.container }>
+            <Box className={ classes.topRow }>
+                <OrderPermission action={ [CREATE_ANY, CREATE_OWN] }>
                     <ThemedButton onClick={ onNewOrderClick }>
                         { newOrderButtonLabel }
                     </ThemedButton>
-                    <SearchBar
-                        options={ orders }
-                        getOptionLabel={ getOptionLabel }
-                        getOptionSelected={ (order, value) => order._id === value._id }
-                        getUrl={ getUrl }
-                    />
-                </Box>
-                <OrdersTable/>
-            </Paper>
-        </OrderPermission>
+                </OrderPermission>
+                <SearchBar
+                    options={ orders }
+                    getOptionLabel={ getOptionLabel }
+                    getOptionSelected={ (order, value) => order._id === value._id }
+                    getUrl={ getUrl }
+                />
+            </Box>
+            <OrdersTable/>
+        </Paper>
     );
 });
 

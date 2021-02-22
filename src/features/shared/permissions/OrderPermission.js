@@ -8,7 +8,9 @@ import Permission from './Permission.js';
 const ORDER_RESOURCE = 'order';
 
 const OrderPermission = React.memo(function OrderPermission(
-    { action = [], orderId, children }) {
+    { action = [], orderId, children, ...rest }) {
+    let childrenArray = Array.isArray(children) ? children : [children];
+    childrenArray = childrenArray.filter(child => child);
     const orderOwner = useSelector(state => selectOrderOwnerById(state, { orderId }));
     const sessionUserId = useSelector(selectSessionUserId);
     const isOwner = useMemo(
@@ -17,7 +19,12 @@ const OrderPermission = React.memo(function OrderPermission(
 
     return (
         <Permission resource={ ORDER_RESOURCE } action={ action } isOwner={ isOwner }>
-            { children }
+            { children && childrenArray.map((child, idx) =>
+                React.cloneElement(child, {
+                    key: idx,
+                    ...rest
+                })
+            ) }
         </Permission>
     );
 });

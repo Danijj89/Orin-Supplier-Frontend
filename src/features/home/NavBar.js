@@ -42,7 +42,6 @@ import ShipmentPermission from '../shared/permissions/ShipmentPermission.js';
 import ProductPermission from '../shared/permissions/ProductPermission.js';
 import PermissionPermission from '../shared/permissions/PermissionPermission.js';
 import DashboardPermission from '../shared/permissions/DashboardPermission.js';
-import { AuthenticationClient } from 'authing-js-sdk';
 import { signOut } from 'app/duck/thunks.js';
 
 const useStyles = makeStyles((theme) => ({

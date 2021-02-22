@@ -31,21 +31,20 @@ const EditOrderProductsButton = React.memo(function EditOrderProductsButton({ or
 
     return (
         <OrderPermission action={ [UPDATE_ANY, UPDATE_OWN] } orderId={ order._id }>
-            <Box className={ className }>
-                <ThemedButton
-                    onClick={ onEdit }
-                >
-                    { buttons.editProducts }
-                </ThemedButton>
-                <OrderProductsDialog
-                    order={ order }
-                    isOpen={ isEdit }
-                    titleLabel={ titles.editProductsDialog }
-                    submitLabel={ buttons.submitProducts }
-                    onCancel={ onCancel }
-                    onSubmit={ onSubmit }
-                />
-            </Box>
+            <ThemedButton
+                onClick={ onEdit }
+                className={ className }
+            >
+                { buttons.editProducts }
+            </ThemedButton>
+            <OrderProductsDialog
+                order={ order }
+                isOpen={ isEdit }
+                titleLabel={ titles.editProductsDialog }
+                submitLabel={ buttons.submitProducts }
+                onCancel={ onCancel }
+                onSubmit={ onSubmit }
+            />
         </OrderPermission>
     )
 });

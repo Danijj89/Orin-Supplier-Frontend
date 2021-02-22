@@ -20,6 +20,9 @@ import ShipmentPermission from '../shared/permissions/ShipmentPermission.js';
 import StatusHandler from 'features/shared/status/StatusHandler.js';
 import { resetShipmentStatus } from 'features/shipments/duck/slice.js';
 import { LANGUAGE } from 'app/utils/constants.js';
+import { selectUserDataStatus, selectUserError } from 'features/home/duck/users/selectors.js';
+import { fetchUsers } from 'features/home/duck/users/thunks.js';
+import { cleanUserState } from 'features/home/duck/users/slice.js';
 
 const {
     errorMessages
@@ -33,9 +36,11 @@ const ShipmentContainer = React.memo(function ShipmentContainer() {
     const shipmentError = useSelector(selectShipmentError);
     const orderDataStatus = useSelector(selectOrderDataStatus);
     const orderError = useSelector(selectOrderError);
+    const userDataStatus = useSelector(selectUserDataStatus);
+    const userError = useSelector(selectUserError);
 
-    const status = determineStatus(shipmentDataStatus, orderDataStatus);
-    const errors = getErrors(shipmentError, orderError);
+    const status = determineStatus(shipmentDataStatus, orderDataStatus, userDataStatus);
+    const errors = getErrors(shipmentError, orderError, userError);
 
     const shipmentStatus = useSelector(selectShipmentStatus);
 
@@ -52,15 +57,17 @@ const ShipmentContainer = React.memo(function ShipmentContainer() {
         if (!fetched.current) {
             if (shipmentDataStatus === 'IDLE') dispatch(fetchShipments());
             if (orderDataStatus === 'IDLE') dispatch(fetchOrders());
+            if (userDataStatus === 'IDLE') dispatch(fetchUsers());
             fetched.current = true;
         }
-    }, [dispatch, shipmentDataStatus, orderDataStatus]);
+    }, [dispatch, shipmentDataStatus, orderDataStatus, userDataStatus]);
 
     useEffect(() => {
         return () => {
             if (errors.length > 0) {
                 dispatch(cleanOrderState());
                 dispatch(cleanShipmentState());
+                dispatch(cleanUserState());
             }
             dispatch(cleanCurrentShipmentId());
         }

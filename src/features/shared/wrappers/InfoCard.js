@@ -12,8 +12,6 @@ const useStyles = makeStyles((theme) => ({
         flex: '1 1 auto',
     },
     topPanel: {
-        paddingTop: theme.spacing(1.5),
-        paddingBottom: theme.spacing(1.5),
         paddingLeft: theme.spacing(2),
         paddingRight: theme.spacing(2),
         color: theme.palette.tertiary['700'],
@@ -24,12 +22,16 @@ const useStyles = makeStyles((theme) => ({
         height: 52,
     },
     title: {
-        fontWeight: 'bold',
+        fontWeight: 'bold'
     },
     bottomPanel: {
         display: 'flex',
         flexFlow: 'column',
         flex: '1 1 auto'
+    },
+    buttons: {
+        minWidth: 0,
+        height: 30
     }
 }));
 
@@ -52,7 +54,8 @@ const InfoCard = React.memo(function InfoCard(
                 <Grid container justify="flex-end" alignItems="center" item xs>
                     { tools && toolsArray.map((tool, idx) =>
                         React.cloneElement(tool, {
-                            key: `${ title }-card-${ idx }`
+                            key: `${ title }-card-${ idx }`,
+                            className: classes.buttons
                         })
                     ) }
                 </Grid>
