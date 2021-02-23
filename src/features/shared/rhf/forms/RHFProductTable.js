@@ -309,7 +309,7 @@ const RHFProductTable = React.memo(function RHFProductTable(
             options: itemUnitOptions,
             getOptionLabel: option => getOptionLabel(option, LOCALE),
             getOptionSelected: (option, value) => option.id === value.id,
-            width: 50
+            width: 100
         },
         {
             field: 'price',

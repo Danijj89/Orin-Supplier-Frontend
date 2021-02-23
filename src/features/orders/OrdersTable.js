@@ -120,7 +120,7 @@ export default function OrdersTable() {
             headerName: ordersTableHeadersMap.notes,
             renderCell: notesPopoverRenderer,
             align: 'center',
-            width: 50
+            width: 100
         }
     ], [
         createStatusDropdownRenderer,

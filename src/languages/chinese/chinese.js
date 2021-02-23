@@ -491,7 +491,7 @@ export const CHINESE = {
         createOrder: {
             stepLabelsMap: {
                 details: '订单',
-                products: '长跑',
+                products: '产品',
             },
             titleLabel: '新订单',
             createOrderDetails: {
@@ -506,7 +506,7 @@ export const CHINESE = {
         order: {
             tabsLabelsMap: {
                 details: '订单详情',
-                documents: '单证',
+                products: '产品',
             },subTabsLabels: {
                 products: '产品',
                 documents: '单证',
@@ -558,7 +558,7 @@ export const CHINESE = {
                 editSplitStatus: '编辑',
                 submitSplitStatus: '更新',
                 generateExcel: '生成 Excel',
-                generatePdf: '验检 PDF',
+                generatePdf: '生成 PDF',
             },
             orderProductTable: {
                 tableHeaderLabelsMap: {
