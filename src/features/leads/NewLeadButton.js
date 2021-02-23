@@ -1,11 +1,10 @@
 import React, { useCallback, useState } from 'react';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
-import { LANGUAGE } from '../../app/utils/constants.js';
+import { LANGUAGE } from 'app/utils/constants.js';
 import LeadDialog from './LeadDialog.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { createLead } from './duck/thunks.js';
-import { selectSessionUserCompanyId, selectSessionUserId } from '../../app/duck/selectors.js';
-import { makeStyles } from '@material-ui/core/styles';
+import { selectSessionUserCompanyId, selectSessionUserId } from 'app/duck/selectors.js';
 import { CREATE_ANY, CREATE_OWN } from '../admin/utils/actions.js';
 import LeadPermission from '../shared/permissions/LeadPermission.js';
 
@@ -15,14 +14,7 @@ const {
     dialogSubmitLabel,
 } = LANGUAGE.lead.overview.newLeadButton;
 
-const useStyles = makeStyles((theme) => ({
-    newLead: {
-        margin: theme.spacing(2),
-    },
-}));
-
 const NewLeadButton = React.memo(function NewLeadButton() {
-    const classes = useStyles();
     const dispatch = useDispatch();
     const [isOpen, setIsOpen] = useState(false);
     const companyId = useSelector(selectSessionUserCompanyId);
@@ -49,7 +41,7 @@ const NewLeadButton = React.memo(function NewLeadButton() {
 
     return (
         <LeadPermission action={ [CREATE_ANY, CREATE_OWN] }>
-            <ThemedButton onClick={ onButtonClick } className={ classes.newLead }>
+            <ThemedButton onClick={ onButtonClick }>
                 { buttonLabel }
             </ThemedButton>
             <LeadDialog

@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import NewRoleButton from './NewRoleButton.js';
-import { LANGUAGE } from '../../app/utils/constants.js';
+import { LANGUAGE } from 'app/utils/constants.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectAllRoles } from './duck/roles/selectors.js';
 import Table from '../shared/components/table/Table.js';
@@ -44,7 +44,7 @@ const Roles = React.memo(function Roles() {
     const { register, getValues, setValue, watch, handleSubmit } = useForm({
         mode: 'onSubmit',
         defaultValues: {
-            permission: []
+            permissions: []
         }
     });
 
@@ -67,6 +67,7 @@ const Roles = React.memo(function Roles() {
     }, []);
 
     const onEditSubmit = useCallback((data) => {
+        console.log(data)
         dispatch(updateRole({ roleId: role._id, update: data }));
         setRole(null);
         setIsEdit(false);
