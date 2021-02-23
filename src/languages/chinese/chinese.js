@@ -314,7 +314,7 @@ export const CHINESE = {
         clientDetails: {
             clientDetailsDataDisplay: {
                 formLabels: {
-                    assignedTo: '分配人员',
+                    assignedTo: '业务员',
                     primaryContact: '主要联络人',
                     contactEmail: '邮件',
                     taxNumber: '企业或税号',
@@ -669,8 +669,8 @@ export const CHINESE = {
                 bol: '提单号码',
                 bolType: '提单放行类型',
                 released: '提单放行',
-                releasedYes: 'Yes',
-                releasedNo: 'No'
+                releasedYes: '是',
+                releasedNo: '否'
             },
             tableHeaderLabels: {
                 ref: '销售订单',
@@ -717,7 +717,7 @@ export const CHINESE = {
                 orderInfo: '订单信息',
                 shipping: '运输信息',
                 containers: '货柜类型',
-                documentStatus: 'Document Status'
+                documentStatus: '单证状态'
             },
             buttons: {
                 back: '回上一页',
@@ -742,10 +742,10 @@ export const CHINESE = {
                 carrier: '货代',
                 eta: '预计到达',
                 etd: '预计出发',
-                docCutOff: 'Doc. Cut Off',
-                bol: 'Bill of Landing',
+                docCutOff: '单证截日',
+                bol: '提单',
                 bolType: '提单类型',
-                released: 'Released',
+                released: '已放行',
             },
             tableHeaderLabels: {
                 type: '货柜类型',
@@ -939,7 +939,7 @@ export const CHINESE = {
             },
             clientDialog: {
                 nameLabel: '公司名称',
-                assignedToLabel: '分配',
+                assignedToLabel: '业务员',
                 contactNameLabel: '主要联系人姓名',
                 contactEmailLabel: '联系人邮件',
                 taxNumberLabel: '企业号',
