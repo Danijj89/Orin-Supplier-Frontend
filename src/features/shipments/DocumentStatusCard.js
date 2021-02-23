@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.down('md')]: {
             marginLeft: theme.spacing(0),
             marginBottom: theme.spacing(2),
-    },
+        },
     }
 }));
 
@@ -46,11 +46,11 @@ const DocumentStatusCard = React.memo(function DocumentStatusCard() {
     const content = useMemo(
         () =>
             <Grid container>
-                <Grid container item md={7}>
+                <Grid container item md={ 7 }>
                     <DividerDataDisplay data={ data }/>
                 </Grid>
             </Grid>
-    , [data]);
+        , [data]);
 
     return (
         <InfoCard
