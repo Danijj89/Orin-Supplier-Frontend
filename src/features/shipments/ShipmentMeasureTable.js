@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import RHFMeasureTable, {
     validateItemMeasures,
 } from '../shared/rhf/forms/RHFMeasureTable.js';
@@ -13,6 +14,7 @@ import { useParams } from 'react-router-dom';
 import { selectShipmentById } from './duck/selectors.js';
 import { getOptionId } from 'app/utils/options/getters.js';
 import Footer from '../shared/components/Footer.js';
+import { getShipmentURL } from 'features/shipments/utils/urls.js';
 
 const measureTableFieldNames = {
     custom1: 'plCustom1',
@@ -40,6 +42,7 @@ const ShipmentMeasureTable = React.memo(function ShipmentMeasureTable({
     onCancel,
 }) {
     const classes = useStyles();
+    const history = useHistory();
     const dispatch = useDispatch();
     const { id: shipmentId } = useParams();
     const shipment = useSelector((state) =>
@@ -76,7 +79,8 @@ const ShipmentMeasureTable = React.memo(function ShipmentMeasureTable({
         data.weightUnit = getOptionId(data.weightUnit);
         data.measurementUnit = getOptionId(data.measurementUnit);
         dispatch(updateShipment({ shipmentId, update: data }));
-    }, [dispatch, shipmentId]);
+        history.push(getShipmentURL(shipmentId));
+    }, [history, dispatch, shipmentId]);
 
     return (
         <Paper>

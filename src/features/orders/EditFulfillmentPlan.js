@@ -19,6 +19,7 @@ import ErrorSnackbar from 'features/shared/components/ErrorSnackbar.js';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import FulfillmentPlanProgressBar from 'features/orders/FulfillmentPlanProgressBar.js';
+import { getOrderURL } from 'features/orders/utils/urls.js';
 
 const useStyles = makeStyles(theme => ({
     newSplitButton: {
@@ -134,8 +135,9 @@ const EditFulfillmentPlan = React.memo(function EditFulfillmentPlan({ orderId })
 
     const onSubmit = useCallback(data => {
         const shippingSplits = prepareShippingSplits(data.shippingSplits);
-        dispatch(updateOrder({ orderId: order._id, update: { shippingSplits } }));
-    }, [dispatch, order._id]);
+        dispatch(updateOrder({ orderId, update: { shippingSplits } }));
+        history.push(getOrderURL(orderId));
+    }, [history, dispatch, orderId]);
 
     const onNewSplit = useCallback(() => {
         const newSplit = { crd: null, items: [] };

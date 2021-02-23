@@ -1,4 +1,5 @@
 import React, { useCallback } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -31,6 +32,7 @@ import { selectClientActiveAddresses } from '../clients/duck/selectors.js';
 import ContainerSelectorButton from './ContainersInfoDialog.js';
 import Footer from '../shared/components/Footer.js';
 import RHFCheckBox from 'features/shared/rhf/inputs/RHFCheckBox.js';
+import { getShipmentURL } from 'features/shipments/utils/urls.js';
 
 const {
     titles,
@@ -56,6 +58,7 @@ const useStyles = makeStyles((theme) => ({
 
 const ShipmentInfo = React.memo(function ShipmentInfo({ onCancel }) {
     const classes = useStyles();
+    const history = useHistory();
     const dispatch = useDispatch();
     const { id: shipmentId } = useParams();
 
@@ -105,7 +108,8 @@ const ShipmentInfo = React.memo(function ShipmentInfo({ onCancel }) {
         if (data.bolType) data.bolType = getOptionId(data.bolType);
         if (data.coo) data.coo = getOptionId(data.coo);
         dispatch(updateShipment({ shipmentId, update: data }));
-    }, [dispatch, shipmentId]);
+        history.push(getShipmentURL(shipmentId));
+    }, [history, dispatch, shipmentId]);
 
     return (
         <>
