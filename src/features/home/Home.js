@@ -6,10 +6,8 @@ import NavBar from './NavBar.js';
 import Route from '../shared/components/AppRoute.js';
 import { Switch, Redirect } from 'react-router-dom';
 import Suspense from '../shared/components/Suspense.js';
+import OrderOverviewContainer from 'features/orders/OrderOverviewContainer.js';
 
-const OrderOverviewContainer = lazy(() =>
-    import('../orders/OrderOverviewContainer.js')
-);
 const CreateOrderContainer = lazy(() =>
     import('../orders/CreateOrderContainer.js')
 );
@@ -91,9 +89,7 @@ const Home = React.memo(function Home() {
                         path={ [`${ match.path }`, `${ match.path }/orders`] }
                         isPrivate
                     >
-                        <Suspense>
-                            <OrderOverviewContainer/>
-                        </Suspense>
+                        <OrderOverviewContainer/>
                     </Route>
                     <Route exact path={ `${ match.url }/orders/new` } isPrivate>
                         <Suspense>

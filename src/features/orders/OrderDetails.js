@@ -46,7 +46,7 @@ const OrderDetails = React.memo(function OrderDetails({ order }) {
                 component={ Paper }
             />
             { tab === 'details' && <DetailsInfoCard order={ order }/> }
-            { tab === 'product' &&
+            { tab === 'products' &&
             <InfoCard
                 title={ titles.productTable }
                 tools={ <EditOrderProductsButton order={ order }/> }

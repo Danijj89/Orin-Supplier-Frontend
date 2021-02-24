@@ -508,7 +508,7 @@ export const ENGLISH = {
         order: {
             tabsLabelsMap: {
                 details: 'Details',
-                product: 'Products'
+                products: 'Products'
             },
             subTabsLabels: {
                 products: 'Products',
