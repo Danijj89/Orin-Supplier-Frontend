@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectHomeError, selectHomeDataStatus } from 'features/home/duck/home/selectors.js';
 import { determineStatus, getErrors } from '../shared/utils/state.js';

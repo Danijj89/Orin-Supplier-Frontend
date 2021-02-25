@@ -1,5 +1,4 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import Box from '@material-ui/core/Box';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import FormDialog from '../shared/wrappers/FormDialog.js';
 import { LANGUAGE } from 'app/utils/constants.js';
