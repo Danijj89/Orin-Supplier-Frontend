@@ -57,7 +57,7 @@ const NewClientButton = React.memo(function NewClientButton() {
 
         dispatch(createClient({ client: data }));
         setIsDialogOpen(false);
-    }, [dispatch, companyId, userId, clients]);
+    }, [dispatch, companyId, userId, clients, usersMap]);
 
     return (
         <ClientPermission action={ [CREATE_ANY, CREATE_OWN] }>
