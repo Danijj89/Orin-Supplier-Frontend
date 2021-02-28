@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import Table from 'features/shared/components/table/Table.js';
@@ -15,6 +15,9 @@ import ShipmentPermission from 'features/shared/permissions/ShipmentPermission.j
 import ThemedButton from 'features/shared/buttons/ThemedButton.js';
 import { getDocumentUrl } from 'features/documents/utils/urls.js';
 import { getOptionId } from 'app/utils/options/getters.js';
+import InfoCard from 'features/shared/wrappers/InfoCard.js';
+import Drawer from '@material-ui/core/Drawer';
+import DocumentPreview from 'features/shipments/DocumentPreview.js';
 
 const {
     documentTableHeaders,
@@ -27,6 +30,8 @@ const ShipmentDocumentTable = React.memo(function ShipmentDocumentTable(
     const history = useHistory();
     const documents = useSelector(state => selectShipmentDocuments(state, { shipmentId }));
     const usersMap = useSelector(selectUsersMap);
+    const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+    const [drawerData, setDrawerData] = useState(null);
 
     const onEditDocument = useCallback(
         (docType, documentId) => history.push(
@@ -36,6 +41,15 @@ const ShipmentDocumentTable = React.memo(function ShipmentDocumentTable(
                 { document: documentId, edit: true }
             )
         ), [history, shipmentId]);
+
+    const onRowClick = useCallback(
+        row => {
+            setDrawerData(row.doc);
+            setIsDrawerOpen(true);
+        },
+        []);
+
+    const onCloseDrawer = useCallback(() => setIsDrawerOpen(false), []);
 
     const onDownload = useCallback(
         (documentId, ext) => dispatch(downloadShipmentDocument({ shipmentId, documentId, ext })),
@@ -106,6 +120,7 @@ const ShipmentDocumentTable = React.memo(function ShipmentDocumentTable(
 
     const rows = useMemo(() => documents.map(doc => ({
         id: doc._id,
+        doc: doc,
         ref: doc.ref,
         type: doc.type,
         createdAt: doc.createdAt,
@@ -125,12 +140,12 @@ const ShipmentDocumentTable = React.memo(function ShipmentDocumentTable(
         },
         body: {
             maxEmptyRows,
-            hover: false
+            onRowClick
         },
         foot: {
             pagination: 'hide'
         }
-    }), [maxEmptyRows, className]);
+    }), [maxEmptyRows, className, onRowClick]);
 
     return (
         <ShipmentPermission action={ [READ_ANY, READ_OWN] } shipmentId={ shipmentId }>
@@ -139,6 +154,19 @@ const ShipmentDocumentTable = React.memo(function ShipmentDocumentTable(
                 columns={ columns }
                 options={ options }
             />
+            <Drawer
+                anchor={ 'right' }
+                open={ isDrawerOpen }
+                onClose={ onCloseDrawer }
+                transitionDuration={ 500 }
+            >
+                { drawerData && <InfoCard
+                    title={ drawerData.ref }
+                    content={
+                        <DocumentPreview document={ drawerData }/>
+                    }
+                /> }
+            </Drawer>
         </ShipmentPermission>
     );
 });
