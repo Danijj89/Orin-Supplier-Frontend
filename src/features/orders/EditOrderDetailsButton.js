@@ -1,4 +1,5 @@
 import React, { useCallback, useState } from 'react';
+import { useHistory }  from 'react-router-dom';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { LANGUAGE } from 'app/utils/constants.js';
 import OrderDetailsDialog from '../shared/forms/OrderDetailsDialog.js';
@@ -16,14 +17,18 @@ const {
 
 const EditOrderDetailsButton = React.memo(function EditOrderDetailsButton({ order, className }) {
     const dispatch = useDispatch();
+    const history = useHistory();
     const [isEdit, setIsEdit] = useState(false);
 
     const onEdit = useCallback(() => setIsEdit(true), []);
     const onCancel = useCallback(() => setIsEdit(false), []);
 
     const onDelete = useCallback(
-        () => dispatch(deleteOrder({ orderId: order._id })),
-        [dispatch, order._id]);
+        () => {
+            dispatch(deleteOrder({ orderId: order._id }));
+            history.push('/home/orders');
+        },
+        [history, dispatch, order._id]);
 
     const onSubmit = useCallback((data) => {
         data.to = data.to._id;
