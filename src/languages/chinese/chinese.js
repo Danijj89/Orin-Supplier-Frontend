@@ -298,6 +298,15 @@ export const CHINESE = {
     },
     client: {
         clientOverview: {
+            messages: {
+                duplicate: 'This client might already exist.',
+                duplicate2: 'Please request a manager to confirm that this client is new.',
+                duplicateCreate: 'These are the potential matches: Create anyway?'
+            },
+            buttons: {
+                duplicateCancel: 'Go Back',
+                duplicateSubmit: 'Create'
+            },
             newClientButtonLabel: '新客户',
             newClientDialogTitleLabel: '添加新客户',
             newClientSubmitButtonLabel: '添加新客户',

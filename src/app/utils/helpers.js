@@ -9,8 +9,7 @@ export function getCurrentLocale() {
     return 'en';
 }
 
-export const initGA = () => {        
-   console.log('initialized');
+export const initGA = () => {
    ReactGA.initialize('UA-45960652-4'); 
 }
 

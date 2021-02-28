@@ -300,6 +300,15 @@ export const ENGLISH = {
     },
     client: {
         clientOverview: {
+            messages: {
+                duplicate: 'This client might already exist.',
+                duplicate2: 'Please request a manager to confirm that this client is new.',
+                duplicateCreate: 'These are the potential matches: Create anyway?'
+            },
+            buttons: {
+                duplicateCancel: 'Go Back',
+                duplicateSubmit: 'Create'
+            },
             newClientButtonLabel: 'New Client',
             newClientDialogTitleLabel: 'Add new client',
             newClientSubmitButtonLabel: 'Add Client',
