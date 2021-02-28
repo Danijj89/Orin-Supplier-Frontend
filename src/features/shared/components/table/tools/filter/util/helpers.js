@@ -56,7 +56,7 @@ export function filterRows(rows, filters) {
                 break;
             case 'text':
                 filteredRows = filteredRows.filter((row) =>
-                    row[filter.field].includes(filter.value)
+                    new RegExp(filter.value, 'i').test(row[filter.field])
                 );
                 break;
             case 'dropdown':
