@@ -8,7 +8,7 @@ const {
     includeLabel
 } = LANGUAGE.shared.components.table.tools.archive;
 
-const ArchiveSelector = React.memo(function ArchivedCheckbox({ options }) {
+const ArchiveSelector = React.memo(function ArchivedCheckbox({ options, className }) {
     const { sessionKey, fetchData, fetchArchivedData } = options;
     const [includeArchived, setIncludeArchived] = useLocalStorage(sessionKey, false);
     const onChange = useCallback(
@@ -34,6 +34,7 @@ const ArchiveSelector = React.memo(function ArchivedCheckbox({ options }) {
             labelPlacement="end"
             onChange={ onChange }
             checked={ includeArchived }
+            className={ className }
         />
     );
 });
@@ -43,7 +44,8 @@ ArchiveSelector.propTypes = {
         sessionKey: PropTypes.string.isRequired,
         fetchData: PropTypes.func.isRequired,
         fetchArchivedData: PropTypes.func.isRequired
-    }).isRequired
+    }).isRequired,
+    className: PropTypes.string
 };
 
 export default ArchiveSelector;

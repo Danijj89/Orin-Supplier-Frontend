@@ -9,7 +9,7 @@ import {
     Box
 } from '@material-ui/core';
 import ThemedButton from '../buttons/ThemedButton.js';
-import { LANGUAGE } from '../../../app/utils/constants.js';
+import { LANGUAGE } from 'app/utils/constants.js';
 import { makeStyles } from '@material-ui/core/styles';
 import DeleteButton from '../buttons/DeleteButton.js';
 
@@ -58,13 +58,12 @@ const FormDialog = React.memo(function FormDialog(
         titleLabel,
         submitLabel,
         className,
-        onClose,
+        onClose
     }) {
     const classes = useStyles({ onDelete });
 
     return (
         <Dialog
-            onClose={ onClose }
             open={ isOpen }
             classes={ { paper: classes.dialogPaper } }
             className={ className }
@@ -112,10 +111,9 @@ FormDialog.propTypes = {
     titleLabel: PropTypes.string.isRequired,
     submitLabel: PropTypes.string.isRequired,
     className: PropTypes.string,
-    onClose: PropTypes.func,
     children: PropTypes.node,
     onDelete: PropTypes.func,
-    deleteMessage: PropTypes.string,
+    deleteMessage: PropTypes.string
 };
 
 export default FormDialog;

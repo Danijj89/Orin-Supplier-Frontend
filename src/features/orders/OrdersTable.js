@@ -153,6 +153,15 @@ export default function OrdersTable() {
 
     const tools = useMemo(() => [
         {
+            id: 'orders-table-archive',
+            type: 'archive',
+            options: {
+                sessionKey: SESSION_ORDER_TABLE_ARCHIVE,
+                fetchData: () => dispatch(fetchTableOrders()),
+                fetchArchivedData: () => dispatch(fetchAllTableOrders())
+            }
+        },
+        {
             id: 'orders-table-filters',
             type: 'filter',
             options: {
@@ -174,15 +183,6 @@ export default function OrdersTable() {
                     },
                     { field: 'qa', type: 'option', options: orderStatuses, label: ordersTableHeadersMap.qa },
                 ]
-            }
-        },
-        {
-            id: 'orders-table-archive',
-            type: 'archive',
-            options: {
-                sessionKey: SESSION_ORDER_TABLE_ARCHIVE,
-                fetchData: () => dispatch(fetchTableOrders()),
-                fetchArchivedData: () => dispatch(fetchAllTableOrders())
             }
         }
     ], [orderStatuses, dispatch]);

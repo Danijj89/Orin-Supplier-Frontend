@@ -2,10 +2,18 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import { Autocomplete } from '@material-ui/lab';
-import { Typography } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
+import Title7 from 'features/shared/display/Title7.js';
+import makeStyles from '@material-ui/core/styles/makeStyles.js';
 
-const DropdownFilter = React.memo(function DropdownFilter({ filterIdx, filter, setFilters }) {
+const useStyles = makeStyles(theme => ({
+    selector: {
+        marginTop: theme.spacing(2)
+    }
+}));
+
+const DropdownFilter = React.memo(function DropdownFilter({ filterIdx, filter, setFilters, className }) {
+    const classes = useStyles();
 
     const onOptionChange = useCallback(
         (_, data) => setFilters(prevFilters => {
@@ -21,15 +29,19 @@ const DropdownFilter = React.memo(function DropdownFilter({ filterIdx, filter, s
             item
             direction="column"
             alignItems="center"
+            className={ className }
             md
         >
-            <Typography variant="subtitle1">{ filter.label }</Typography>
+            <Title7 title={ filter.label }/>
             <Autocomplete
                 options={ filter.options }
                 renderInput={ (params) => (
                     <TextField
                         { ...params }
                         label={ filter.label }
+                        variant="outlined"
+                        size="small"
+                        className={ classes.selector }
                     />
                 ) }
                 onChange={ onOptionChange }
@@ -42,7 +54,8 @@ const DropdownFilter = React.memo(function DropdownFilter({ filterIdx, filter, s
 DropdownFilter.propTypes = {
     filterIdx: PropTypes.number.isRequired,
     filter: PropTypes.object.isRequired,
-    setFilters: PropTypes.func.isRequired
+    setFilters: PropTypes.func.isRequired,
+    className: PropTypes.string
 };
 
 export default DropdownFilter;

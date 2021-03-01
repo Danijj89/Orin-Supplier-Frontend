@@ -3,14 +3,22 @@ import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import { LANGUAGE } from 'app/utils/constants.js';
-import { Typography } from '@material-ui/core';
+import Title7 from 'features/shared/display/Title7.js';
+import makeStyles from '@material-ui/core/styles/makeStyles.js';
+
+const useStyles = makeStyles(theme => ({
+    selector: {
+        marginTop: theme.spacing(2)
+    }
+}));
 
 const {
     minLabel,
     maxLabel
 } = LANGUAGE.shared.components.table.tools.filter.filters.rangeFilter;
 
-const RangeFilter = React.memo(function RangeFilter({ filterIdx, filter, setFilters }) {
+const RangeFilter = React.memo(function RangeFilter({ filterIdx, filter, setFilters, className }) {
+    const classes = useStyles();
 
     const onMinRangeChange = useCallback(
         (e) => {
@@ -38,20 +46,23 @@ const RangeFilter = React.memo(function RangeFilter({ filterIdx, filter, setFilt
             item
             direction="column"
             alignItems="center"
+            className={ className }
             md
         >
-            <Typography variant="subtitle1">{ filter.label }</Typography>
+            <Title7 title={ filter.label }/>
             <TextField
                 label={ minLabel }
                 onChange={ onMinRangeChange }
                 value={ filter.min }
                 type="number"
+                className={ classes.selector }
             />
             <TextField
                 label={ maxLabel }
                 onChange={ onMaxRangeChange }
                 value={ filter.max }
                 type="number"
+                className={ classes.selector }
             />
         </Grid>
     );
@@ -60,7 +71,8 @@ const RangeFilter = React.memo(function RangeFilter({ filterIdx, filter, setFilt
 RangeFilter.propTypes = {
     filterIdx: PropTypes.number.isRequired,
     filter: PropTypes.object.isRequired,
-    setFilters: PropTypes.func.isRequired
+    setFilters: PropTypes.func.isRequired,
+    className: PropTypes.string
 };
 
 export default RangeFilter;

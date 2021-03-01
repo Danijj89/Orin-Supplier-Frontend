@@ -299,7 +299,7 @@ const NavBar = React.memo(function NavBar() {
                                 onClick={ () =>
                                     onTabClick('orders', '/home/orders')
                                 }
-                                selected={ currentTab === 'orders' }
+                                selected={ currentTab === 'orders' || !currentTab }
                                 classes={ {
                                     root: classes.menuButtons,
                                     selected: classes.selected,

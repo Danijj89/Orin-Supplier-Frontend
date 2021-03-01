@@ -6,6 +6,9 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles(theme => ({
     adornedEnd: {
         padding: 0
+    },
+    input: {
+        fontSize: '0.875rem'
     }
 }))
 
@@ -23,7 +26,7 @@ const DateField = React.memo(function DateField(
             label={ label }
             size="small"
             className={ className }
-            InputProps={{ classes: { adornedEnd: classes.adornedEnd }}}
+            InputProps={ { classes: { adornedEnd: classes.adornedEnd, root: classes.input } } }
             clearable
         />
     );
