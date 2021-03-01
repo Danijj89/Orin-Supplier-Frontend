@@ -23,11 +23,15 @@ import { filterRows, prepareFilters } from 'features/shared/components/table/too
 
 const useStyles = makeStyles((theme) => ({
     popover: {
-        padding: theme.spacing(3),
+        padding: theme.spacing(3)
     },
     actionButtons: {
         marginTop: theme.spacing(3),
     },
+    filter: {
+        marginLeft: theme.spacing(1),
+        marginRight: theme.spacing(1)
+    }
 }));
 
 const {
@@ -36,13 +40,10 @@ const {
     saveButtonLabel
 } = LANGUAGE.shared.components.table.tools.filter;
 
-const FilterSelector = React.memo(function FilterSelector({
-    options,
-    rows,
-    setRows,
-}) {
-    const classes = useStyles();
+const FilterSelector = React.memo(function FilterSelector(
+    { options, rows, setRows, className }) {
     const { filters: initialFilters, sessionKey } = options;
+    const classes = useStyles();
     const preparedFilters = useMemo(
         () => prepareFilters(initialFilters),
         [initialFilters]
@@ -107,106 +108,109 @@ const FilterSelector = React.memo(function FilterSelector({
     return (
         <>
             <ThemedButton
-                onClick={onClick}
-                variant={'text'}
+                onClick={ onClick }
+                variant={ 'text' }
+                className={ className }
                 startIcon={
                     <Badge
                         color="secondary"
-                        badgeContent={numActiveFilters}
-                        anchorOrigin={{
+                        badgeContent={ numActiveFilters }
+                        anchorOrigin={ {
                             vertical: 'top',
                             horizontal: 'left',
-                        }}
+                        } }
                     >
-                        <IconFilterList />
+                        <IconFilterList/>
                     </Badge>
                 }
             >
-                {filterPopoverButtonLabel}
+                { filterPopoverButtonLabel }
             </ThemedButton>
             <Popover
-                open={Boolean(anchorEl)}
-                anchorEl={anchorEl}
-                onClose={onCancel}
-                anchorOrigin={{
+                open={ Boolean(anchorEl) }
+                anchorEl={ anchorEl }
+                onClose={ onCancel }
+                anchorOrigin={ {
                     vertical: 'bottom',
-                    horizontal: 'left',
-                }}
-                transformOrigin={{
+                    horizontal: 'right',
+                } }
+                transformOrigin={ {
                     vertical: 'top',
                     horizontal: 'right',
-                }}
+                } }
             >
-                <Grid container className={classes.popover}>
-                    <Grid>
-
-                    </Grid>
-                    <Grid container item xs={12}>
-                        {filters.map((filter, idx) => {
+                <Grid container className={ classes.popover }>
+                    <Grid container item xs={ 12 }>
+                        { filters.map((filter, idx) => {
                             switch (filter.type) {
                                 case 'date':
                                     return (
                                         <DateFilter
-                                            key={filter.field}
-                                            filterIdx={idx}
-                                            filter={filter}
-                                            setFilters={setFilters}
+                                            key={ filter.field }
+                                            filterIdx={ idx }
+                                            filter={ filter }
+                                            setFilters={ setFilters }
+                                            className={ classes.filter }
                                         />
                                     );
                                 case 'option':
                                     return (
                                         <OptionFilter
-                                            key={filter.field}
-                                            filterIdx={idx}
-                                            filter={filter}
-                                            setFilters={setFilters}
+                                            key={ filter.field }
+                                            filterIdx={ idx }
+                                            filter={ filter }
+                                            setFilters={ setFilters }
+                                            className={ classes.filter }
                                         />
                                     );
                                 case 'text':
                                     return (
                                         <TextFilter
-                                            key={filter.field}
-                                            filterIdx={idx}
-                                            filter={filter}
-                                            setFilters={setFilters}
+                                            key={ filter.field }
+                                            filterIdx={ idx }
+                                            filter={ filter }
+                                            setFilters={ setFilters }
+                                            className={ classes.filter }
                                         />
                                     );
                                 case 'dropdown':
                                     return (
                                         <DropdownFilter
-                                            key={filter.field}
-                                            filterIdx={idx}
-                                            filter={filter}
-                                            setFilters={setFilters}
+                                            key={ filter.field }
+                                            filterIdx={ idx }
+                                            filter={ filter }
+                                            setFilters={ setFilters }
+                                            className={ classes.filter }
                                         />
                                     );
                                 case 'range':
                                     return (
                                         <RangeFilter
-                                            key={filter.field}
-                                            filterIdx={idx}
-                                            filter={filter}
-                                            setFilters={setFilters}
+                                            key={ filter.field }
+                                            filterIdx={ idx }
+                                            filter={ filter }
+                                            setFilters={ setFilters }
+                                            className={ classes.filter }
                                         />
                                     );
                                 default:
                                     return null;
                             }
-                        })}
+                        }) }
                     </Grid>
-                    <Grid container item xs={12} justify="space-between">
+                    <Grid container item xs={ 12 } justify="space-between">
                         <ThemedButton
-                            className={classes.actionButtons}
-                            onClick={onClear}
-                            variant={'outlined'}
+                            className={ classes.actionButtons }
+                            onClick={ onClear }
+                            variant={ 'outlined' }
                         >
-                            {clearButtonLabel}
+                            { clearButtonLabel }
                         </ThemedButton>
                         <ThemedButton
-                            className={classes.actionButtons}
-                            onClick={onSubmit}
+                            className={ classes.actionButtons }
+                            onClick={ onSubmit }
                         >
-                            {saveButtonLabel}
+                            { saveButtonLabel }
                         </ThemedButton>
                     </Grid>
                 </Grid>
@@ -221,7 +225,8 @@ FilterSelector.propTypes = {
         filters: PropTypes.array.isRequired,
     }).isRequired,
     rows: PropTypes.array.isRequired,
-    setRows: PropTypes.func.isRequired
+    setRows: PropTypes.func.isRequired,
+    className: PropTypes.string
 };
 
 export default FilterSelector;

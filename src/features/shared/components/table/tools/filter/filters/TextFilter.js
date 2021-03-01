@@ -1,22 +1,26 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import TextField from '@material-ui/core/TextField';
-import { Typography } from '@material-ui/core';
 import { LANGUAGE } from 'app/utils/constants.js';
 import Grid from '@material-ui/core/Grid';
-import { makeStyles } from '@material-ui/core/styles';
+import Title7 from 'features/shared/display/Title7.js';
+import makeStyles from '@material-ui/core/styles/makeStyles.js';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
     selector: {
         marginTop: theme.spacing(2),
+        maxWidth: 180
     },
+    input: {
+        fontSize: '0.875rem'
+    }
 }));
 
 const {
     searchTermLabel
 } = LANGUAGE.shared.components.table.tools.filter.filters.textFilter;
 
-const TextFilter = React.memo(function TextFilter({ filterIdx, filter, setFilters }) {
+const TextFilter = React.memo(function TextFilter({ filterIdx, filter, setFilters, className }) {
     const classes = useStyles();
 
     const onTextChange = useCallback(
@@ -36,9 +40,10 @@ const TextFilter = React.memo(function TextFilter({ filterIdx, filter, setFilter
             item
             direction="column"
             alignItems="center"
+            className={ className }
             md
         >
-            <Typography variant="h6">{ filter.label }</Typography>
+            <Title7 title={ filter.label }/>
             <TextField
                 label={ searchTermLabel }
                 value={ filter.value }
@@ -46,6 +51,7 @@ const TextFilter = React.memo(function TextFilter({ filterIdx, filter, setFilter
                 variant="outlined"
                 size="small"
                 className={ classes.selector }
+                InputProps={ { classes: { root: classes.input } } }
             />
         </Grid>
     );
@@ -54,7 +60,8 @@ const TextFilter = React.memo(function TextFilter({ filterIdx, filter, setFilter
 TextFilter.propTypes = {
     filterIdx: PropTypes.number.isRequired,
     filter: PropTypes.object.isRequired,
-    setFilters: PropTypes.func.isRequired
+    setFilters: PropTypes.func.isRequired,
+    className: PropTypes.string
 };
 
 export default TextFilter;

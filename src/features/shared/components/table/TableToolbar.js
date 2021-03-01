@@ -3,8 +3,16 @@ import PropTypes from 'prop-types';
 import { Grid } from '@material-ui/core';
 import FilterSelector from './tools/filter/FilterSelector.js';
 import ArchiveSelector from 'features/shared/components/table/tools/archive/ArchiveSelector.js';
+import makeStyles from '@material-ui/core/styles/makeStyles.js';
+
+const useStyles = makeStyles(theme => ({
+    tool: {
+        margin: theme.spacing(1)
+    }
+}));
 
 const TableToolbar = React.memo(function TableToolbar({ tools, rows, setRows }) {
+    const classes = useStyles();
     const renderedTools = useMemo(() => tools.map(tool => {
         const { id, type, options } = tool;
         switch (type) {
@@ -15,6 +23,7 @@ const TableToolbar = React.memo(function TableToolbar({ tools, rows, setRows }) 
                         options={ options }
                         rows={ rows }
                         setRows={ setRows }
+                        className={ classes.tool }
                     />
                 );
             case 'archive':
@@ -27,7 +36,7 @@ const TableToolbar = React.memo(function TableToolbar({ tools, rows, setRows }) 
             default:
                 return null;
         }
-    }), [rows, setRows, tools])
+    }), [rows, setRows, tools, classes])
 
     return (
         <Grid
