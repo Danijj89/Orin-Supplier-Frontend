@@ -403,6 +403,15 @@ export const CHINESE = {
     },
     lead: {
         overview: {
+            messages: {
+                duplicate: 'This lead might already exist.',
+                duplicate2: 'Please request a manager to confirm that this lead is new.',
+                duplicateCreate: 'These are the potential matches: Create anyway?'
+            },
+            buttons: {
+                duplicateCancel: 'Go Back',
+                duplicateSubmit: 'Create'
+            },
             newLeadButton: {
                 buttonLabel: '新销售线索',
                 dialogTitleLabel: '新销售线索',
