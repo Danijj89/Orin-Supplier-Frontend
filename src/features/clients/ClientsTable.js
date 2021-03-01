@@ -75,7 +75,8 @@ const ClientsTable = React.memo(function ClientsTable() {
                         options: users
                     },
                     { field: 'lastOrder', type: 'date', label: clientTableHeadersMap.lastOrder },
-                    { field: 'orderCountYTD', type: 'range', label: clientTableHeadersMap.orderCountYTD }
+                    { field: 'orderCountYTD', type: 'range', label: clientTableHeadersMap.orderCountYTD },
+                    { field: 'name', type: 'text', label: clientTableHeadersMap.name }
                 ]
             },
         }
