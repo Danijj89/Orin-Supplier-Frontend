@@ -15,7 +15,6 @@ import ShipmentPermission from 'features/shared/permissions/ShipmentPermission.j
 import ThemedButton from 'features/shared/buttons/ThemedButton.js';
 import { getDocumentUrl } from 'features/documents/utils/urls.js';
 import { getOptionId } from 'app/utils/options/getters.js';
-import InfoCard from 'features/shared/wrappers/InfoCard.js';
 import Drawer from '@material-ui/core/Drawer';
 import DocumentPreview from 'features/shipments/DocumentPreview.js';
 
@@ -160,12 +159,7 @@ const ShipmentDocumentTable = React.memo(function ShipmentDocumentTable(
                 onClose={ onCloseDrawer }
                 transitionDuration={ 500 }
             >
-                { drawerData && <InfoCard
-                    title={ drawerData.ref }
-                    content={
-                        <DocumentPreview document={ drawerData }/>
-                    }
-                /> }
+                { drawerData && <DocumentPreview document={ drawerData }/> }
             </Drawer>
         </ShipmentPermission>
     );
