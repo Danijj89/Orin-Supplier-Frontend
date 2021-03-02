@@ -299,13 +299,13 @@ export const CHINESE = {
     client: {
         clientOverview: {
             messages: {
-                duplicate: 'This client might already exist.',
-                duplicate2: 'Please request a manager to confirm that this client is new.',
-                duplicateCreate: 'These are the potential matches: Create anyway?'
+                duplicate: '这个客户有可能已存在',
+                duplicate2: '请让业务经理确认这是新客户',
+                duplicateCreate: '这是接近的客户名: 确定要添加吗?'
             },
             buttons: {
-                duplicateCancel: 'Go Back',
-                duplicateSubmit: 'Create'
+                duplicateCancel: '回去',
+                duplicateSubmit: '添加'
             },
             newClientButtonLabel: '新客户',
             newClientDialogTitleLabel: '添加新客户',
@@ -404,13 +404,13 @@ export const CHINESE = {
     lead: {
         overview: {
             messages: {
-                duplicate: 'This lead might already exist.',
-                duplicate2: 'Please request a manager to confirm that this lead is new.',
-                duplicateCreate: 'These are the potential matches: Create anyway?'
+                duplicate: '这个销售线索有可能已存在',
+                duplicate2: '请让业务经理确认这是新销售线索',
+                duplicateCreate: '这是接近的销售线索: 确定要添加吗?'
             },
             buttons: {
-                duplicateCancel: 'Go Back',
-                duplicateSubmit: 'Create'
+                duplicateCancel: '回去',
+                duplicateSubmit: '添加'
             },
             newLeadButton: {
                 buttonLabel: '新销售线索',
