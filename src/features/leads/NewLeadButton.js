@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import { LANGUAGE } from 'app/utils/constants.js';
 import LeadDialog from './LeadDialog.js';
@@ -7,6 +7,10 @@ import { createLead } from './duck/thunks.js';
 import { selectSessionUserCompanyId, selectSessionUserId } from 'app/duck/selectors.js';
 import { CREATE_ANY, CREATE_OWN } from '../admin/utils/actions.js';
 import LeadPermission from '../shared/permissions/LeadPermission.js';
+import DuplicateLeadDialog from 'features/leads/DuplicateLeadDialog.js';
+import { selectAllLeads } from 'features/leads/duck/selectors.js';
+import { isWithinPercentageEditDistance } from 'app/utils/algoritms/helpers.js';
+import { selectUsersMap } from 'features/home/duck/users/selectors.js';
 
 const {
     buttonLabel,
@@ -17,27 +21,55 @@ const {
 const NewLeadButton = React.memo(function NewLeadButton() {
     const dispatch = useDispatch();
     const [isOpen, setIsOpen] = useState(false);
+    const [duplicates, setDuplicates] = useState([]);
+    const [data, setData] = useState(null);
+
     const companyId = useSelector(selectSessionUserCompanyId);
     const userId = useSelector(selectSessionUserId);
+    const leads = useSelector(selectAllLeads);
+    const usersMap = useSelector(selectUsersMap)
+
+    const isDuplicateOpen = useMemo(() => duplicates.length > 0, [duplicates]);
+    const onDuplicateCancel = useCallback(() => setDuplicates([]), []);
+
+    const onDuplicateSubmit = useCallback(() => {
+        dispatch(createLead({ data }));
+        setData(null);
+        setDuplicates([]);
+        setIsOpen(false);
+    }, [data, dispatch]);
 
     const onCancel = useCallback(() => setIsOpen(false), []);
     const onButtonClick = useCallback(() => setIsOpen(true), []);
     const onSubmit = useCallback(
         (data) => {
-            const { contactName, contactEmail, phone, ...lead } = data;
-            lead.contact = {
+            const { contactName, contactEmail, phone, ...newLead } = data;
+            newLead.contact = {
                 name: contactName,
                 email: contactEmail,
                 phone: phone,
             };
-            lead.company = companyId;
-            lead.createdBy = userId;
-            if (lead.assignedTo) lead.assignedTo = lead.assignedTo._id;
-            dispatch(createLead({ data: lead }));
+            newLead.company = companyId;
+            newLead.createdBy = userId;
+            if (newLead.assignedTo) newLead.assignedTo = newLead.assignedTo._id;
+
+            const duplicateLeads = [];
+            for (const lead of leads) {
+                if (isWithinPercentageEditDistance(data.name, lead.name)) {
+                    duplicateLeads.push({ primaryText: lead.name, secondaryText: usersMap[lead.assignedTo]?.name });
+                }
+            }
+
+            if (duplicateLeads.length > 0) {
+                setData(data);
+                setDuplicates(duplicateLeads);
+                return;
+            }
+
+            dispatch(createLead({ data: newLead }));
             setIsOpen(false);
         },
-        [dispatch, companyId, userId]
-    );
+        [dispatch, companyId, userId, leads, usersMap]);
 
     return (
         <LeadPermission action={ [CREATE_ANY, CREATE_OWN] }>
@@ -50,6 +82,12 @@ const NewLeadButton = React.memo(function NewLeadButton() {
                 onCancel={ onCancel }
                 submitLabel={ dialogSubmitLabel }
                 titleLabel={ dialogTitleLabel }
+            />
+            <DuplicateLeadDialog
+                onSubmit={ onDuplicateSubmit }
+                onCancel={ onDuplicateCancel }
+                isOpen={ isDuplicateOpen }
+                duplicates={ duplicates }
             />
         </LeadPermission>
     );

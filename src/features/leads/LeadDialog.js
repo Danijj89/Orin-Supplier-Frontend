@@ -1,9 +1,9 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
-import { selectCurrentUser } from '../../app/duck/selectors.js';
+import { selectCurrentUser } from 'app/duck/selectors.js';
 import SideTextField from '../shared/inputs/SideTextField.js';
-import { LANGUAGE } from '../../app/utils/constants.js';
+import { LANGUAGE } from 'app/utils/constants.js';
 import RHFAutoComplete from '../shared/rhf/inputs/RHFAutoComplete.js';
 import { selectAllActiveUsers } from 'features/home/duck/users/selectors.js';
 import FormDialog from '../shared/wrappers/FormDialog.js';

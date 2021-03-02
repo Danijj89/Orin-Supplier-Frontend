@@ -39,7 +39,6 @@ const NewClientButton = React.memo(function NewClientButton() {
     }, [data, dispatch]);
 
     const onSubmit = useCallback(data => {
-        setData(data);
         if (data.assignedTo) data.assignedTo = data.assignedTo?._id;
         data.createdBy = userId;
         data.company = companyId;
@@ -50,11 +49,12 @@ const NewClientButton = React.memo(function NewClientButton() {
                 duplicatesClients.push({ primaryText: client.name, secondaryText: usersMap[client.assignedTo]?.name });
             }
         }
+
         if (duplicatesClients.length > 0) {
+            setData(data);
             setDuplicates(duplicatesClients);
             return;
         }
-
         dispatch(createClient({ client: data }));
         setIsDialogOpen(false);
     }, [dispatch, companyId, userId, clients, usersMap]);
