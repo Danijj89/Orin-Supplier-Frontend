@@ -1,6 +1,8 @@
 import { levenshteinDistance } from 'app/utils/algoritms/leveinshteinDistance.js';
 
-const suffixes = ['inc', 'ltd', 'spa', 'limited', 'company', 'international', 'co', 'corp', 'enterprise', 'gmbh', 'llc', 'llp', 'lp', 'manufacturing', 'technology', 'corporation', 'association', 'intl', 'import', 'export', 'incorporated', 'lc', 'pc', 'foundation', 'fund', 'university', 'club' ];
+const suffixes = ['inc', 'ltd', 'spa', 'limited', 'company', 'international', 'co', 'corp',
+    'enterprise', 'gmbh', 'llc', 'llp', 'lp', 'manufacturing', 'technology', 'corporation', 'association',
+    'intl', 'import', 'export', 'incorporated', 'lc', 'pc', 'foundation', 'fund', 'university', 'club' ];
 
 export const isWithinPercentageEditDistance = (str1, str2, percentage = 0.8) => {
     let pattern;
