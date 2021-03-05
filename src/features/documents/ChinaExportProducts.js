@@ -60,9 +60,9 @@ const ChinaExportProducts = React.memo(function ChinaExportProducts(
         document.type = DOCUMENT_TYPE;
         document.companyId = companyId;
         document.createdBy = userId;
-        if (typeof document.sName !== 'string') getAddressName(document.sName);
-        if (typeof document.mName !== 'string') getAddressName(document.mName);
-        if (typeof document.cName !== 'string') getAddressName(document.cName);
+        if (typeof document.sName !== 'string') document.sName = getAddressName(document.sName);
+        if (typeof document.mName !== 'string') document.mName = getAddressName(document.mName);
+        if (typeof document.cName !== 'string') document.cName = getAddressName(document.cName);
         document.tradingCountry = getOptionId(document.tradingCountry);
         document.destCountry = getOptionId(document.destCountry);
         if (document.del) document.del = getOptionId(document.del);
