@@ -789,6 +789,14 @@ export const ENGLISH = {
                 submitButtonLabel: 'Submit',
             },
         },
+        previewDocs: {
+            docsTitles: {
+                ciTitle: 'Commercial Invoice Preview',
+                plTitle: 'Packing List Preview',
+                scTitle: 'Sales Contract Preview',
+                ceTitle: 'China Export Form Preview'
+            }
+        }
     },
     documents: {
         ci: {

@@ -17,6 +17,14 @@ import { getDocumentUrl } from 'features/documents/utils/urls.js';
 import { getOptionId } from 'app/utils/options/getters.js';
 import Drawer from '@material-ui/core/Drawer';
 import DocumentPreview from 'features/shipments/DocumentPreview.js';
+import { makeStyles } from '@material-ui/core/styles';
+
+
+const useStyles = makeStyles((theme) => ({
+    paper: {
+        maxWidth: '80%',
+    }
+}));
 
 const {
     documentTableHeaders,
@@ -25,6 +33,7 @@ const {
 
 const ShipmentDocumentTable = React.memo(function ShipmentDocumentTable(
     { shipmentId, maxEmptyRows, className }) {
+    const classes = useStyles();
     const dispatch = useDispatch();
     const history = useHistory();
     const documents = useSelector(state => selectShipmentDocuments(state, { shipmentId }));
@@ -158,6 +167,7 @@ const ShipmentDocumentTable = React.memo(function ShipmentDocumentTable(
                 open={ isDrawerOpen }
                 onClose={ onCloseDrawer }
                 transitionDuration={ 500 }
+                classes={{paper: classes.paper}}
             >
                 { drawerData && <DocumentPreview document={ drawerData }/> }
             </Drawer>

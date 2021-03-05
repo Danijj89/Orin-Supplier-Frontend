@@ -67,7 +67,6 @@ const Roles = React.memo(function Roles() {
     }, []);
 
     const onEditSubmit = useCallback((data) => {
-        console.log(data)
         dispatch(updateRole({ roleId: role._id, update: data }));
         setRole(null);
         setIsEdit(false);

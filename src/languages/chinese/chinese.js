@@ -785,6 +785,14 @@ export const CHINESE = {
                 submitButtonLabel: '确定',
             },
         },
+        previewDocs: {
+            docsTitles: {
+                ciTitle: '商业发票预览',
+                plTitle: '装箱单预览',
+                scTitle: '销售合同预览',
+                ceTitle: '中国出口单预览'
+            }
+        }
     },
     documents: {
         ci: {
