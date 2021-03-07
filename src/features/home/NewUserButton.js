@@ -4,7 +4,7 @@ import SideTextField from 'features/shared/inputs/SideTextField.js';
 import { LANGUAGE } from 'app/utils/constants.js';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectAllRoleIds } from 'features/admin/duck/roles/selectors.js';
+import { selectCompanyRoleIds } from 'features/admin/duck/roles/selectors.js';
 import ThemedButton from 'features/shared/buttons/ThemedButton.js';
 import { Add as IconAdd } from '@material-ui/icons';
 import ErrorSnackbar from 'features/shared/components/ErrorSnackbar.js';
@@ -21,10 +21,9 @@ const {
 
 const NewUserButton = React.memo(function NewUserDialog() {
     const dispatch = useDispatch();
-    const roleIds = useSelector(selectAllRoleIds);
+    const roleIds = useSelector(selectCompanyRoleIds);
     const sessionCompanyId = useSelector(selectSessionUserCompanyId);
     const [isOpen, setIsOpen] = useState(false);
-
 
     const { register, errors, handleSubmit, watch, getValues, setValue } = useForm({
         mode: 'onSubmit',
