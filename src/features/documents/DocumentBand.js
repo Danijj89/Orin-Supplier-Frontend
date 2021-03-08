@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const DocumentBand = React.memo(function DocumentBand({createdAt, type, reference}){
+const DocumentBand = React.memo(function DocumentBand({createdAt, type, reference}) {
     const classes = useStyles();
     return <Box bgcolor="grey.main" className={classes.band}>
         <Grid container item direction="row"

@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const LongBox = React.memo(function LongBox({label1, value1, label2, value2}){
+const LongBox = React.memo(function LongBox({label1, value1, label2, value2}) {
     const classes = useStyles();
     return <Grid container>
         <Grid item xs={2}>

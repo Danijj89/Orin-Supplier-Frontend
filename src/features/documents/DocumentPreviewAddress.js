@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const DocumentPreviewAddress = React.memo(function DocumentPreviewAddress({label, add}){
+const DocumentPreviewAddress = React.memo(function DocumentPreviewAddress({label, add}) {
     const classes = useStyles();
     return <Grid item xs={12} sm={6}>
         <Box border={1} borderColor="grey.main" className={classes.tableBox}>
@@ -30,7 +30,7 @@ const DocumentPreviewAddress = React.memo(function DocumentPreviewAddress({label
                 <Grid item xs={9}>
                     <Typography component="div" className={classes.box}>
                         <Box lineHeight={1.2} borderColor="grey.main">
-                           <PreviewAddress add={add} />
+                            <PreviewAddress add={add}/>
                         </Box>
                     </Typography>
                 </Grid>

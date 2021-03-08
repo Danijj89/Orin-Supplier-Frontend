@@ -59,8 +59,6 @@ const ChinaExportPreview = React.memo(function ChinaExportPreview({document}) {
         totalAmount,
         tradingCountry,
     } = document
-    console.log(document)
-    console.log(document.items)
     let quantityString = ""
     for (const [key, value] of Object.entries(quantity)) {
         quantityString += `${key}: ${value} `

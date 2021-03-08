@@ -14,14 +14,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const InfoBox = React.memo(function InfoBox({label, value}){
+const InfoBox = React.memo(function InfoBox({label, value}) {
     const classes = useStyles();
     return <Box height="100%" border={1} borderColor="grey.main">
-        <Typography component="div" variant="caption" style={{ wordWrap: "break-word" }}>
+        <Typography component="div" variant="caption" style={{wordWrap: "break-word"}}>
             <Box fontWeight="fontWeightBold" lineHeight={1.2} className={classes.tableBox}>
                 {label}
             </Box></Typography>
-        <Typography component="div" display="inline"  style={{ wordWrap: "break-word" }}>
+        <Typography component="div" display="inline" style={{wordWrap: "break-word"}}>
             <Box lineHeight={1.2} className={classes.tableBox}>
                 {value}
             </Box>

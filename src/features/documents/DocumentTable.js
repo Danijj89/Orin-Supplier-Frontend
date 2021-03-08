@@ -15,7 +15,7 @@ const docTableHeaders = {
     'CI': ['Item Ref', 'Product Description', 'Quantity', 'Unit', 'Unit price', 'Amount'],
     'PL': ['Item Ref', 'Product Description', 'Packing', 'Unit', 'Net wt', 'Gross wt', 'Dimension'],
     'SC': ['Product | 产品', 'Quantity | 数量', 'Unit price | 单价', 'Amount | 金额'],
-    'CE': ['项号', '商品编号', ' 品名', '数量单位', '单价','总价','币制','原产国','目的国','货源地','征免',],
+    'CE': ['项号', '商品编号', ' 品名', '数量单位', '单价', '总价', '币制', '原产国', '目的国', '货源地', '征免',],
 }
 
 const docHeaderSizes = {
@@ -33,7 +33,7 @@ const docKeys = {
 }
 
 
-const DocumentTable = React.memo(function DocumentTable({type, items, custom1, custom2, currency}){
+const DocumentTable = React.memo(function DocumentTable({type, items, custom1, custom2, currency}) {
     const classes = useStyles();
     let localHeaders = [...docTableHeaders[type]];
     let localSizes = [...docHeaderSizes[type]];
@@ -72,7 +72,8 @@ const DocumentTable = React.memo(function DocumentTable({type, items, custom1, c
                 itemRow.push(
                     <Grid item xs={localSizes[index]} key={index + 'unit'}>
                         <Box border={1} borderColor="grey.light" className={classes.tableBox}>
-                            <Typography className={classes.box} display="inline" variant="caption" style={{ wordWrap: "break-word" }}>
+                            <Typography className={classes.box} display="inline" variant="caption"
+                                        style={{wordWrap: "break-word"}}>
                                 {item[key].id}
                             </Typography>
                         </Box>
@@ -81,8 +82,8 @@ const DocumentTable = React.memo(function DocumentTable({type, items, custom1, c
                 itemRow.push(
                     <Grid item xs={localSizes[index]} key={index + 'price'}>
                         <Box border={1} borderColor="grey.light" className={classes.tableBox}>
-                            <Typography variant="caption" display="inline" style={{ wordWrap: "break-word" }}>
-                                {currency?  currency.symbol + ' ' + item[key] : item[key]}
+                            <Typography variant="caption" display="inline" style={{wordWrap: "break-word"}}>
+                                {currency ? currency.symbol + ' ' + item[key] : item[key]}
                             </Typography>
                         </Box>
                     </Grid>)
@@ -99,7 +100,7 @@ const DocumentTable = React.memo(function DocumentTable({type, items, custom1, c
                 itemRow.push(
                     <Grid item xs={localSizes[index]} key={index + 'a'}>
                         <Box border={1} borderColor="grey.light" className={classes.tableBox}>
-                            <Typography display="inline" variant="caption" style={{ wordWrap: "break-word" }}>
+                            <Typography display="inline" variant="caption" style={{wordWrap: "break-word"}}>
                                 {item[key]}
                             </Typography>
                         </Box>
