@@ -7,6 +7,7 @@ const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(2)
     },
     box: {
+        marginTop: theme.spacing(0.5),
         marginLeft: theme.spacing(0.5),
     },
 }));

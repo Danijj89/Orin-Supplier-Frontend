@@ -1033,7 +1033,7 @@ export const CHINESE = {
                     notInOrderLabel: '无',
                     tableHeaderLabels: {
                         order: '订单号',
-                        ref: '产品编号',
+                        ref: '编号',
                         description: '产品描述',
                         quantity: '数量',
                         unit: '单位',
@@ -1054,10 +1054,10 @@ export const CHINESE = {
                         weightUnit: '重量单位',
                     },
                     tableHeaderLabels: {
-                        ref: '产品编号',
+                        ref: '编号',
                         description: '产品描述',
                         package: '包装',
-                        pUnit: '包装单位',
+                        pUnit: '单位',
                         netW: '淨重',
                         grossW: '毛重',
                         dim: '尺寸',

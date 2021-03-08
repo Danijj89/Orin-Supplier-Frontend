@@ -9,6 +9,9 @@ import DocumentPreviewAddress from "./DocumentPreviewAddress";
 import InfoBox from './InfoBox'
 import DocumentTable from "./DocumentTable";
 import DocumentFooter from "./DocumentFooter";
+import {
+    GeneratePLTotal
+} from './utils/helpers.js';
 
 const {
     plTitle,
@@ -38,6 +41,7 @@ const PackingListPreview = React.memo(function PackingListPreview({document}) {
         dimension,
         notes
     } = document
+    console.log(document)
     return (
         <Grid className={classes.root}>
             <Grid container direction="column">
@@ -65,6 +69,7 @@ const PackingListPreview = React.memo(function PackingListPreview({document}) {
                 </Grid>
             </Grid>
             <DocumentTable type={'PL'} items={items} custom1={custom1} custom2={custom2}/>
+            {GeneratePLTotal(document.package, netWeight, grossWeight, dimension)}
             <DocumentFooter label1={"Notes"} text1={notes} label2={"Company Chop"} text2={""}/>
 
         </Grid>

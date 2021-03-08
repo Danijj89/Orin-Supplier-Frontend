@@ -255,7 +255,7 @@ const RHFMeasureTable = React.memo(function RHFMeasureTable(
             options: packageUnitOptions,
             getOptionLabel: option => getOptionLabel(option, LOCALE),
             getOptionSelected: (option, value) => option.id === value.id,
-            width: 50,
+            width: 70,
         },
         {
             field: 'netW',

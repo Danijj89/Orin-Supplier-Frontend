@@ -121,7 +121,7 @@ const DocumentTable = React.memo(function DocumentTable({type, items, custom1, c
             itemRows.push(
                 <Grid container key={i + 'empty'}>
                     <Grid item xs={12}>
-                        <Box border={1}>
+                        <Box border={1} height={"24px"} borderColor="grey.light">
                             <Typography className={classes.box} variant="caption">
                             </Typography>
                         </Box>
