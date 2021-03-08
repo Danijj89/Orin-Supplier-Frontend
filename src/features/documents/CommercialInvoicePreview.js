@@ -2,17 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Grid, Typography} from '@material-ui/core';
 import {
-    GenerateTitleHead,
-    GenerateDocBand,
-    InfoBox,
-    GenerateAddress,
-    GenerateTable,
     GenerateFooter,
     GenerateCITotal
 } from './utils/helpers.js';
 import {makeStyles} from '@material-ui/core/styles';
 import {format} from 'date-fns';
 import {LANGUAGE} from 'app/utils/constants.js';
+import DocumentTitleHead from "./DocumentTitleHead";
+import DocumentBand from "./DocumentBand";
+import DocumentPreviewAddress from "./DocumentPreviewAddress";
+import InfoBox from './InfoBox'
+import DocumentTable from "./DocumentTable";
+import DocumentFooter from "./DocumentFooter";
 
 const {
     ciTitle,
@@ -50,29 +51,42 @@ const CommercialInvoicePreview = React.memo(function CommercialInvoicePreview({d
         <Grid className={classes.root}>
             <Grid container direction="column">
                 <Grid item><Typography variant="h5">{ciTitle}</Typography></Grid>
-                {GenerateTitleHead(sellerAdd)}
-                {GenerateDocBand(document.createdAt, document.type, document.ref)}
+                <DocumentTitleHead add={sellerAdd}/>
+                <DocumentBand createdAt={document.createdAt} type={document.type} reference={document.ref}/>
             </Grid>
             <Grid container>
-                {GenerateAddress("Seller", sellerAdd)}
-                {GenerateAddress("Buyer", consigneeAdd)}
+                <DocumentPreviewAddress label={"Seller"} add={sellerAdd}/>
+                <DocumentPreviewAddress label={"Buyer"} add={consigneeAdd}/>
             </Grid>
             <Grid container>
                 <Grid item xs={12} sm={3}>
-                    {InfoBox("Cargo Ready", document.crd ? format(new Date(Date.parse(document.crd)), 'd/M/yyy') : ' ')}
+                    < InfoBox label={"Cargo Ready"}
+                              value={document.crd ? format(new Date(Date.parse(document.crd)), 'd/M/yyy') : ' '}/>
                 </Grid>
-                <Grid item xs={12} sm={3}>{InfoBox("Order Reference", clientRefs ? clientRefs : ' ')}</Grid>
-                <Grid item xs={12} sm={3}>{InfoBox("Port of Loading", pol ? pol : ' ')}</Grid>
-                <Grid item xs={12} sm={3}>{InfoBox("Port of Discharge", pod ? pod : ' ')}</Grid>
+                <Grid item xs={12} sm={3}>
+                    <InfoBox label={"Order Reference"} value={clientRefs ? clientRefs : ' '}/>
+                </Grid>
+                <Grid item xs={12} sm={3}>
+                    <InfoBox label={"Port of Loading"} value={pol ? pol : ' '}/>
+                </Grid>
+                <Grid item xs={12} sm={3}>
+                    <InfoBox label={"Port of Discharge"} value={pod ? pod : ' '}/>
+                </Grid>
             </Grid>
             <Grid container>
-                <Grid item xs={12} sm={3}>{InfoBox("Incoterm", incoterm ? incoterm : ' ')}</Grid>
-                <Grid item xs={12} sm={3}>{InfoBox("Country of Manufacture", coo ? coo.label.en : ' ')}</Grid>
-                <Grid item xs={12} sm={6}>{InfoBox("Payment No.:", payRefs ? payRefs : ' ')}</Grid>
+                <Grid item xs={12} sm={3}>
+                    <InfoBox label={"Incoterm"} value={incoterm ? incoterm : ' '}/>
+                </Grid>
+                <Grid item xs={12} sm={3}>
+                    <InfoBox label={"Country of Manufacture"} value={coo ? coo.label.en : ' '}/>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                    <InfoBox label={"Payment No.:"} value={payRefs ? payRefs : ' '}/>
+                </Grid>
             </Grid>
-            {GenerateTable('CI', items, custom1, custom2, currency)}
+            <DocumentTable type={'CI'} items={items} custom1={custom1} custom2={custom2} currency={currency}/>
             {GenerateCITotal(quantity, total, currency)}
-            {GenerateFooter("Marks", marks)}
+            <DocumentFooter label1={"Marks"} text1={marks} label2={"Company Chop"} text2={""} />
         </Grid>
     );
 });

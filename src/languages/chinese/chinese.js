@@ -905,7 +905,7 @@ export const CHINESE = {
             optional: {
                 titleLabel: '海关出口单 (可选)',
                 formLabels: {
-                    exPort: '出口口岸',
+                    exPort: '出境关别',
                     del: '运输方式',
                     bol: '提运单号',
                     scRef: '合同协议号',
