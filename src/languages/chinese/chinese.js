@@ -613,6 +613,7 @@ export const CHINESE = {
             },
             errorMessages: {
                 orderWasDeleted: '您选的订单已不存在.',
+                updateFailed: '更新订单失败， 如果没管理权限只能更新自己的订单。'
             },
         },
     },

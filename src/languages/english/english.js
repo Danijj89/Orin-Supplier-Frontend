@@ -617,6 +617,7 @@ export const ENGLISH = {
             errorMessages: {
                 orderWasDeleted:
                     'The order you selected is no longer existent.',
+                updateFailed: 'Failed to update Order. If you don\'t have a manager user role, you can only update your own order'
             },
         },
     },

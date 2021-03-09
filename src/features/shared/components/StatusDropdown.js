@@ -20,7 +20,7 @@ const primaryColor = 'rgb(16, 156, 241, 0.75)';
 const SHIPMENT_COLOR_MAP = {
     Unbooked: {
         background: '#F1F1F1',
-        color: 'black'
+        color: 'darkgrey'
     },
     Booked: {
         background: '#032B43',
@@ -47,7 +47,7 @@ const SHIPMENT_COLOR_MAP = {
 const ORDER_COLOR_MAP = {
     'Not Started': {
         background: '#F1F1F1',
-        color: 'black'
+        color: 'darkgrey'
     },
     'In Progress': {
         background: primaryColor,

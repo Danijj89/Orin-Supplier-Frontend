@@ -6,6 +6,11 @@ import {
     updateOrder, updateSplit
 } from './thunks.js';
 import { SESSION_NEW_ORDER } from 'app/sessionKeys.js';
+import { LANGUAGE } from 'app/utils/constants.js';
+
+const {
+    updateFailed,
+} = LANGUAGE.order.order.errorMessages;
 
 export const ordersAdapter = createEntityAdapter({
     selectId: order => order._id,
@@ -111,7 +116,7 @@ const ordersSlice = createSlice({
         },
         [updateSplit.rejected]: (state, action) => {
             state.status = 'REJECTED';
-            state.error = action.payload.message;
+            state.error = updateFailed;
         },
         [fetchTableOrders.pending]: (state) => {
             state.status = 'PENDING';
