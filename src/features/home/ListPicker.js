@@ -9,6 +9,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import { LANGUAGE } from 'app/utils/constants.js';
 import makeStyles from '@material-ui/core/styles/makeStyles.js';
 import { Typography } from '@material-ui/core';
+import ToolTip from "../shared/buttons/ToolTip";
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -39,7 +40,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const {
-    titles
+    titles,
+    roles,
+    hints
 } = LANGUAGE.home.newUserButton;
 
 const ListPicker = React.memo(function RolePicker({ items, chosenItems, onSelect, required, error }) {
@@ -62,7 +65,10 @@ const ListPicker = React.memo(function RolePicker({ items, chosenItems, onSelect
                                 color="primary"
                             />
                         </ListItemIcon>
-                        <ListItemText primary={ item }/>
+                        <ListItemText primary={ roles[item] }/>
+                        <ListItemIcon>
+                            <ToolTip hint={hints[item]} />
+                        </ListItemIcon>
                     </ListItem>
                 ) }
             </List>

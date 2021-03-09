@@ -55,6 +55,11 @@ let appTheme = createMuiTheme({
             head: {
                 fontWeight: 'bold',
             }
+        },
+        MuiTooltip: {
+            tooltip: {
+                fontSize: "1em",
+            }
         }
     },
 });

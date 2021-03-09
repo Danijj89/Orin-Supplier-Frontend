@@ -293,6 +293,20 @@ export const CHINESE = {
                 missingPassword: '请填写新用户首次密码.',
                 confirmPasswordMismatch: '密码和确认密内容值不符合.',
                 missingRole: '请填写新用户职位.'
+            },
+            roles: {
+                sales: "业务员",
+                production: "生产",
+                manager: "经理",
+                export_ops: "单证",
+                company_admin: "管理员"
+            },
+            hints: {
+                sales: "可看和创建新订单和单证。 只能看被分配的客户。 只能编辑自己的订单。",
+                production: "可看和编辑订单状态但是不能自己创建新订单",
+                manager: "可看、创建、编辑所有订单和单证。 可使用数据仪表。",
+                export_ops: "只能可看订单和创建新单证。",
+                company_admin: "拥有所有功能。 可编辑公司信息和邀请新人员用户。"
             }
         }
     },

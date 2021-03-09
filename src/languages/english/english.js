@@ -295,6 +295,20 @@ export const ENGLISH = {
                 missingPassword: 'New user password is required.',
                 confirmPasswordMismatch: 'The confirm password doesn\'t match the password.',
                 missingRole: 'New user role is required.'
+            },
+            roles: {
+                sales: "Sales",
+                production: "Production",
+                manager: "Manager",
+                export_ops: "Documentation",
+                company_admin: "Admin"
+            },
+            hints: {
+                sales: "Can VIEW, CREATE, and UPDATE Orders and Documents. Can only see own Clients and Leads. Can only update own Orders.",
+                production: "Can VIEW and UPDATE Order Statuses but can't create new Orders or Documents",
+                manager: "Can VIEW, CREATE, and UPDATE any order or documents. Is able to see the Dashboard",
+                export_ops: "Can only VIEW Orders and CREATE or Update Documents",
+                company_admin: "Full access to all actions. Is able to change Company info and invite new Users"
             }
         }
     },
