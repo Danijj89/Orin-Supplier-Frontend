@@ -4,7 +4,9 @@ import {
     fetchUsers,
     resetPassword,
     sendResetCode,
-    updateUser, updateUserStatus
+    updateUser,
+    updateUserStatus,
+    updateCompanyUserRoles
 } from 'features/home/duck/users/thunks.js';
 
 export const usersAdapter = createEntityAdapter({
@@ -97,10 +99,24 @@ const usersSlice = createSlice({
         [resetPassword.rejected]: (state, action) => {
             state.status = 'REJECTED';
             state.error = action.payload.message;
+        },
+        [updateCompanyUserRoles.pending]: (state) => {
+            state.status = 'PENDING';
+        },
+        [updateCompanyUserRoles.fulfilled]: (state, action) => {
+            const { userId: id, update } = action.payload;
+            usersAdapter.updateOne(state, { id, changes: { roles: update.roles } });
+            state.status = 'FULFILLED';
+        },
+        [updateCompanyUserRoles.rejected]: (state, action) => {
+            state.status = 'REJECTED';
+            state.error = action.payload.message;
         }
+
     }
 });
 
 export const { cleanUserState, resetUserStatus } = usersSlice.actions;
 
 export default usersSlice.reducer;
+

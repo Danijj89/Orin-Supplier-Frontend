@@ -299,7 +299,8 @@ export const CHINESE = {
                 production: "生产",
                 manager: "经理",
                 export_ops: "单证",
-                company_admin: "管理员"
+                company_admin: "管理员",
+                super_user: "超级用户",
             },
             hints: {
                 sales: "可看和创建新订单和单证。 只能看被分配的客户。 只能编辑自己的订单。",

@@ -25,8 +25,6 @@ const LeadsTable = React.memo(function LeadsTable() {
     const leads = useSelector(selectSessionLeads);
     const usersName = useSelector(selectAllActiveUserNames);
 
-    console.log(leads)
-
     const onRowClick = useCallback(
         (row) => history.push(`/home/leads/${ row.id }?tab=details`),
         [history]);

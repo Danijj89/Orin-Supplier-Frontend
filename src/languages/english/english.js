@@ -301,7 +301,8 @@ export const ENGLISH = {
                 production: "Production",
                 manager: "Manager",
                 export_ops: "Documentation",
-                company_admin: "Admin"
+                company_admin: "Admin",
+                super_user: "Super User",
             },
             hints: {
                 sales: "Can VIEW, CREATE, and UPDATE Orders and Documents. Can only see own Clients and Leads. Can only update own Orders.",

@@ -140,7 +140,8 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: ({ colorMap, status }) => getStatusBackgroundColor(status, colorMap),
         color: ({ colorMap, status }) => getStatusColor(status, colorMap),
         flex: 1,
-        whiteSpace: 'nowrap'
+        whiteSpace: 'nowrap',
+        height: theme.spacing(3.5)
     }
 }));
 

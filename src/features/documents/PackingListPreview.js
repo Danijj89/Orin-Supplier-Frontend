@@ -41,7 +41,6 @@ const PackingListPreview = React.memo(function PackingListPreview({document}) {
         dimension,
         notes
     } = document
-    console.log(document)
     return (
         <Grid className={classes.root}>
             <Grid container direction="column">

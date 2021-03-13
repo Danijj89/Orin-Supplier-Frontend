@@ -60,3 +60,13 @@ export const resetPassword = createAsyncThunk('users/resetPassword',
             return rejectWithValue(err);
         }
     });
+
+export const updateCompanyUserRoles = createAsyncThunk('users/updateCompanyUserRoles',
+    async ({ companyId, userId, update }, { rejectWithValue }) => {
+        try {
+            await UserService.updateUserRoles(userId, update);
+            return { companyId, userId, update };
+        } catch (err) {
+            return rejectWithValue(err.response.data);
+        }
+    });
