@@ -22,6 +22,9 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         justifyContent: 'space-between',
         padding: theme.spacing(2)
+    },
+    button: {
+        marginRight: theme.spacing(1)
     }
 }));
 
@@ -47,7 +50,7 @@ const ShipmentOverview = React.memo(function ShipmentOverview() {
         <ShipmentPermission action={ [CREATE_ANY, CREATE_OWN] }>
             <Paper className={ classes.container }>
                 <Box className={ classes.topRow }>
-                    <ThemedButton onClick={ onNewOrderClick }>
+                    <ThemedButton onClick={ onNewOrderClick } className={classes.button}>
                         { newShipmentButtonLabel }
                     </ThemedButton>
                     <SearchBar

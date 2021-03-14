@@ -18,7 +18,7 @@ const {
     dialogSubmitLabel,
 } = LANGUAGE.lead.overview.newLeadButton;
 
-const NewLeadButton = React.memo(function NewLeadButton() {
+const NewLeadButton = React.memo(function NewLeadButton({className}) {
     const dispatch = useDispatch();
     const [isOpen, setIsOpen] = useState(false);
     const [duplicates, setDuplicates] = useState([]);
@@ -73,7 +73,7 @@ const NewLeadButton = React.memo(function NewLeadButton() {
 
     return (
         <LeadPermission action={ [CREATE_ANY, CREATE_OWN] }>
-            <ThemedButton onClick={ onButtonClick }>
+            <ThemedButton onClick={ onButtonClick } className={className}>
                 { buttonLabel }
             </ThemedButton>
             <LeadDialog

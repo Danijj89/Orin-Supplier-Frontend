@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { Paper } from '@material-ui/core';
+import { Paper, Grid } from '@material-ui/core';
 import DetailsInfoCard from './DetailsInfoCard.js';
 import { LANGUAGE } from 'app/utils/constants.js';
 import OrderProductTable from './OrderProductTable.js';
@@ -37,7 +37,8 @@ const OrderDetails = React.memo(function OrderDetails({ order }) {
         [history, mode, split, subTab, order._id]);
 
     return (
-        <>
+        <Grid container>
+            <Grid item xs={12}>
             <NavTabs
                 tabsLabelsMap={ tabsLabelsMap }
                 tabValue={ tab }
@@ -45,7 +46,11 @@ const OrderDetails = React.memo(function OrderDetails({ order }) {
                 className={ classes.navTabs }
                 component={ Paper }
             />
+            </Grid>
+            <Grid item>
             { tab === 'details' && <DetailsInfoCard order={ order }/> }
+            </Grid>
+            <Grid item>
             { tab === 'products' &&
             <InfoCard
                 title={ titles.productTable }
@@ -62,8 +67,11 @@ const OrderDetails = React.memo(function OrderDetails({ order }) {
                 }
             />
             }
+            </Grid>
+            <Grid item>
             <OrderFulfillmentPlan className={ classes.fulfillmentTable } order={ order }/>
-        </>
+            </Grid>
+        </Grid>
     );
 });
 

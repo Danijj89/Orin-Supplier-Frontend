@@ -17,6 +17,9 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         justifyContent: 'space-between',
         padding: theme.spacing(2)
+    },
+    button: {
+        marginRight: theme.spacing(1)
     }
 }));
 
@@ -35,7 +38,7 @@ export default function ClientOverview() {
     return (
         <Paper className={ classes.container }>
             <Box className={ classes.topRow }>
-                <NewClientButton/>
+                <NewClientButton className={classes.button}/>
                 <SearchBar
                     options={ clients }
                     getOptionLabel={ getOptionLabel }

@@ -7,7 +7,7 @@ import ErrorSnackbar from 'features/shared/components/ErrorSnackbar.js';
 import ThemedButton from '../features/shared/buttons/ThemedButton.js';
 import { useForm } from 'react-hook-form';
 import { makeStyles } from '@material-ui/core/styles';
-import loginImg from '../images/login.png';
+import loginImg from '../images/login.svg';
 import { signIn } from './duck/thunks.js';
 import Title3 from 'features/shared/display/Title3.js';
 
@@ -107,7 +107,7 @@ const LoginPage = React.memo(function LoginPage() {
 
     return (
         <Grid container className={ classes.container }>
-            <Grid item xs={ 5 } className={ classes.leftPanel }>
+            <Grid item xs={ 12 } sm={ 5 } className={ classes.leftPanel }>
                 <CardMedia className={ classes.logo } component="img" src={ logo } alt="Logo"/>
                 <Title3 title={ title }/>
                 <form className={ classes.form } onSubmit={ handleSubmit(onSignInClick) } autoComplete="off" noValidate>

@@ -14,7 +14,7 @@ import DuplicateClientDialog from 'features/clients/DuplicateClientDialog.js';
 
 const { newClientButtonLabel, newClientDialogTitleLabel, newClientSubmitButtonLabel } = LANGUAGE.client.clientOverview;
 
-const NewClientButton = React.memo(function NewClientButton() {
+const NewClientButton = React.memo(function NewClientButton({className}) {
     const dispatch = useDispatch();
     const companyId = useSelector(selectSessionUserCompanyId);
     const users = useSelector(selectAllActiveUsers);
@@ -63,6 +63,7 @@ const NewClientButton = React.memo(function NewClientButton() {
         <ClientPermission action={ [CREATE_ANY, CREATE_OWN] }>
             <ThemedButton
                 onClick={ onClick }
+                className={ className }
             >{ newClientButtonLabel }</ThemedButton>
             <ClientDialog
                 isOpen={ isDialogOpen }

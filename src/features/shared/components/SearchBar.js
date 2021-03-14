@@ -10,7 +10,7 @@ import clsx from 'clsx';
 
 const useStyles = makeStyles(theme => ({
     root: {
-        minWidth: 320,
+        minWidth: 180,
         maxWidth: 480,
         backgroundColor: theme.palette.backgroundPrimary.main,
         borderWidth: 1,

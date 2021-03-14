@@ -32,8 +32,13 @@ const useStyles = makeStyles((theme) => ({
     },
     editShipmentButton: {
         marginRight: theme.spacing(2),
+    },
+    mobilePadding: {
+        [theme.breakpoints.down('xs')]: {
+            marginTop: theme.spacing(1),
+            marginBottom: theme.spacing(1)
+        }
     }
-
 }));
 
 const {
@@ -58,19 +63,19 @@ const Shipment = React.memo(function Shipment() {
 
     return (
         <Grid container className={ classes.root }>
-            <Grid item lg={ 6 } sm={ 12 }>
+            <Grid item lg={ 6 } sm={ 12 } className={classes.mobilePadding}>
                 <ShipmentInfoCard/>
             </Grid>
             <Grid item lg={ 6 } sm={ 12 }>
                 <DocumentStatusCard/>
             </Grid>
-            <Grid container item xs={ 12 } className={ classes.shipmentActions }>
+            <Grid container item xs={ 12 } className={ classes.shipmentActions } >
                 <ShipmentPermission action={ [UPDATE_ANY, UPDATE_OWN] } shipmentId={ shipmentId }>
                     <ThemedButton className={ classes.editShipmentButton } onClick={ onEditShipmentInfo }>
                         { buttons.editShipment }
                     </ThemedButton>
                 </ShipmentPermission>
-                <DocumentButton/>
+                <DocumentButton className={classes.mobilePadding}/>
             </Grid>
             <Grid item xs={ 12 }>
                 <Card>

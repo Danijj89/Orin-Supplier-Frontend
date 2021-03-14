@@ -12,6 +12,11 @@ const useStyles = makeStyles(theme => ({
         paddingBottom: theme.spacing(4),
         paddingRight: theme.spacing(4),
         minHeight: '40vh'
+    },
+    split: {
+        [theme.breakpoints.down('xs')]: {
+            padding: theme.spacing(1),
+        },
     }
 }));
 
@@ -33,14 +38,14 @@ const FulfillmentPlan = React.memo(function FulfillmentPlan({ order }) {
 
     return (
         <Grid container className={ classes.container }>
-            <Grid container item xs={ 3 }>
+            <Grid container item xs={ 12 } sm={3}>
                 <SplitTabs
                     splits={ shippingSplits }
                     activeSplit={ activeSplit }
                     onSplitChange={ onSplitChange }
                 />
             </Grid>
-            <Grid item xs={ 9 }>
+            <Grid item xs={ 12 } sm={9} className={classes.split}>
                 <Split
                     orderId={ orderId }
                     split={ activeSplit }

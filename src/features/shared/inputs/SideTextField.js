@@ -27,6 +27,12 @@ const useStyles = makeStyles((theme) => ({
                 : theme.palette.primary.main,
         },
         width: 320,
+        [theme.breakpoints.down('sm')]: {
+            width: 180,
+        },
+        [theme.breakpoints.down('xs')]: {
+            width: 120,
+        },
         minHeight: 36,
         borderWidth: 1,
         borderStyle: 'solid',

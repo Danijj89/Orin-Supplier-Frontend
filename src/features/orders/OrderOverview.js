@@ -25,6 +25,9 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         justifyContent: 'space-between',
         padding: theme.spacing(2)
+    },
+    button: {
+        marginRight: theme.spacing(1)
     }
 }));
 
@@ -50,7 +53,7 @@ const OrderOverview = React.memo(function OrderOverview() {
         <Paper className={ classes.container }>
             <Box className={ classes.topRow }>
                 <OrderPermission action={ [CREATE_ANY, CREATE_OWN] }>
-                    <ThemedButton onClick={ onNewOrderClick }>
+                    <ThemedButton onClick={ onNewOrderClick } className={classes.button}>
                         { newOrderButtonLabel }
                     </ThemedButton>
                 </OrderPermission>

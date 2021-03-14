@@ -20,7 +20,7 @@ const {
     formLabels
 } = LANGUAGE.shipment.shipment.documentButton;
 
-const DocumentButton = React.memo(function DocumentButton() {
+const DocumentButton = React.memo(function DocumentButton({className}) {
     const history = useHistory();
     const dispatch = useDispatch();
     const { id: shipmentId } = useParams();
@@ -59,7 +59,7 @@ const DocumentButton = React.memo(function DocumentButton() {
 
     return (
         <ShipmentPermission action={ [CREATE_ANY, CREATE_OWN] } shipmentId={shipmentId}>
-            <ThemedButton onClick={ onEdit }>{ buttonLabel }</ThemedButton>
+            <ThemedButton onClick={ onEdit } className={className}>{ buttonLabel }</ThemedButton>
             <FormDialog
                 isOpen={ isEdit }
                 titleLabel={ dialogTitleLabel }

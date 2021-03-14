@@ -29,6 +29,12 @@ const useStyles = makeStyles(theme => ({
         marginLeft: 'auto',
         marginRight: 'auto'
     },
+    paddingXs: {
+        [theme.breakpoints.down('sm')]: {
+            paddingTop: theme.spacing(2),
+            paddingBottom: theme.spacing(2)
+        },
+    }
 }));
 
 const {
@@ -333,7 +339,7 @@ const EditFulfillmentPlan = React.memo(function EditFulfillmentPlan({ orderId })
                     title={ title }
                     content={
                         <form onSubmit={ handleSubmit(onSubmit) } autoComplete="off" noValidate>
-                            <Box>
+                            <Box className={classes.paddingXs}>
                                 { splits.map((split, idx) =>
                                     <EditShippingSplit
                                         key={ `shipping-plan-${ idx }-view` }

@@ -17,6 +17,9 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         justifyContent: 'space-between',
         padding: theme.spacing(2)
+    },
+    button: {
+        marginRight: theme.spacing(1)
     }
 }));
 
@@ -33,7 +36,7 @@ const LeadOverview = React.memo(function LeadOverview() {
     return (
         <Paper className={ classes.container }>
             <Box className={ classes.topRow }>
-                <NewLeadButton/>
+                <NewLeadButton className={classes.button}/>
                 <SearchBar
                     options={ leads }
                     getOptionLabel={ getOptionLabel }
