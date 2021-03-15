@@ -15,7 +15,7 @@ import ThemedButton from 'features/shared/buttons/ThemedButton.js';
 import Drawer from '@material-ui/core/Drawer';
 import InfoCard from 'features/shared/wrappers/InfoCard.js';
 import OrderProductTable from 'features/orders/OrderProductTable.js';
-import { getFiltersFromURL, getOrderURL } from 'features/orders/utils/urls.js';
+import { getOrderTableFiltersFromURL, getOrderURL } from 'features/orders/utils/urls.js';
 import queryString from 'query-string';
 
 const { ordersTableHeadersMap } = LANGUAGE.order.ordersOverview;
@@ -168,7 +168,7 @@ export default function OrdersTable() {
             type: 'filter',
             options: {
                 sessionKey: SESSION_ORDER_TABLE_FILTERS,
-                initialValues: getFiltersFromURL(queryString.parse(location.search)),
+                initialValues: getOrderTableFiltersFromURL(queryString.parse(location.search)),
                 filters: [
                     { field: 'crd', type: 'date', label: ordersTableHeadersMap.crd },
                     { field: 'toName', type: 'text', label: ordersTableHeadersMap.toName },

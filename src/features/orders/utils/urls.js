@@ -9,13 +9,13 @@ export const getOrderURL = (orderId, options = {}) => {
     return url.concat('?', queryString.join('&'));
 };
 
-export const getFiltersFromURL = queryString => {
+export const getOrderTableFiltersFromURL = queryParams => {
     const filters = {};
-    if ('crd' in queryString) filters.crd = queryString.crd.split(',');
-    if ('toName' in queryString) filters.toName = queryString.toName;
-    if ('procurement' in queryString) filters.procurement = queryString.procurement.split(',');
-    if ('production' in queryString) filters.production = queryString.production.split(',');
-    if ('qa' in queryString) filters.qa = queryString.qa.split(',');
+    if ('crd' in queryParams) filters.crd = queryParams.crd.split(',');
+    if ('toName' in queryParams) filters.toName = queryParams.toName;
+    if ('procurement' in queryParams) filters.procurement = queryParams.procurement.split(',');
+    if ('production' in queryParams) filters.production = queryParams.production.split(',');
+    if ('qa' in queryParams) filters.qa = queryParams.qa.split(',');
     return filters;
 };
 
@@ -23,4 +23,4 @@ export const getOrderTableURL = filters =>
     filters.reduce((filter, acc) =>
         `${ acc }&${ filter.field }=${ Array.isArray(filter.value)
             ? filter.value.join(',')
-            : filter.value }`, '/home/orders/filter?');
+            : filter.value }`, '/home/orders?');
