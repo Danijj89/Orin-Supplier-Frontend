@@ -8,6 +8,9 @@ import { selectActiveProductsMap, selectAllActiveProducts } from './duck/selecto
 import { SESSION_PRODUCT_TABLE_FILTERS } from 'app/sessionKeys.js';
 import { UPDATE_ANY } from '../admin/utils/actions.js';
 import ProductPermission from '../shared/permissions/ProductPermission.js';
+import { getProductTableFiltersFromURL } from "./utils/urls";
+import queryString from 'query-string';
+import { useLocation } from "react-router-dom";
 
 const {
     tableHeadersMap,
@@ -17,6 +20,7 @@ const {
 
 export default function ProductTable() {
     const dispatch = useDispatch();
+    const location = useLocation();
     const products = useSelector(selectAllActiveProducts);
     const productsMap = useSelector(selectActiveProductsMap);
     const [isEdit, setIsEdit] = useState(false);
@@ -28,22 +32,22 @@ export default function ProductTable() {
     }, [productsMap]);
     const onEditCancel = () => setIsEdit(false);
     const onEditSubmit = (data) => {
-        const { _id: productId, autoGenerateRef, ...update } = data;
-        dispatch(updateProduct({ productId, update }));
+        const {_id: productId, autoGenerateRef, ...update} = data;
+        dispatch(updateProduct({productId, update}));
         setIsEdit(false);
     };
 
     const createDeleteHandler = useCallback(
         (productId) => () => {
-            dispatch(deleteProduct({ productId }));
+            dispatch(deleteProduct({productId}));
             setIsEdit(false);
         }, [dispatch]);
 
     const columns = useMemo(() => [
-        { field: 'id', hide: true },
-        { field: 'sku', headerName: tableHeadersMap.sku },
-        { field: 'name', headerName: tableHeadersMap.name },
-        { field: 'description', headerName: tableHeadersMap.description },
+        {field: 'id', hide: true},
+        {field: 'sku', headerName: tableHeadersMap.sku},
+        {field: 'name', headerName: tableHeadersMap.name},
+        {field: 'description', headerName: tableHeadersMap.description},
         {
             field: 'lastOrder',
             headerName: tableHeadersMap.lastOrder,
@@ -54,7 +58,7 @@ export default function ProductTable() {
             headerName: tableHeadersMap.orderCountYTD,
             type: 'number',
         },
-        { field: 'hsc', headerName: tableHeadersMap.hsc },
+        {field: 'hsc', headerName: tableHeadersMap.hsc},
     ], []);
 
     const rows = useMemo(() => products.map((product) => ({
@@ -73,12 +77,13 @@ export default function ProductTable() {
             type: 'filter',
             options: {
                 sessionKey: SESSION_PRODUCT_TABLE_FILTERS,
+                initialValues: getProductTableFiltersFromURL(queryString.parse(location.search)),
                 filters: [
-                    { field: 'lastOrder', type: 'date', label: tableHeadersMap.lastOrder }
+                    {field: 'lastOrder', type: 'date', label: tableHeadersMap.lastOrder}
                 ]
             }
         }
-    ], []);
+    ], [location.search]);
 
     const options = useMemo(() => ({
         body: {

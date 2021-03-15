@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { LANGUAGE } from 'app/utils/constants.js';
 import Table from '../shared/components/table/Table.js';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,11 +8,14 @@ import { updateClient } from './duck/thunks.js';
 import { selectAllActiveUserNames, selectUsersMap } from 'features/home/duck/users/selectors.js';
 import { SESSION_CLIENT_TABLE_FILTERS } from 'app/sessionKeys.js';
 import { selectSessionActiveClients } from './duck/selectors.js';
+import { getClientOverviewURL } from "./utils/urls";
+import queryString from 'query-string';
 
-const { clientTableHeadersMap } = LANGUAGE.client.clientOverview;
+const {clientTableHeadersMap} = LANGUAGE.client.clientOverview;
 
 const ClientsTable = React.memo(function ClientsTable() {
     const history = useHistory();
+    const location = useLocation();
     const dispatch = useDispatch();
     const clients = useSelector(selectSessionActiveClients);
     const usersMap = useSelector(selectUsersMap);
@@ -24,17 +27,17 @@ const ClientsTable = React.memo(function ClientsTable() {
 
     const createNoteSubmitHandler = useCallback(
         (clientId) =>
-            (data) => dispatch(updateClient({ clientId, update: data })),
+            (data) => dispatch(updateClient({clientId, update: data})),
         [dispatch]);
 
     const columns = useMemo(() => [
-        { field: 'id', hide: true },
-        { field: 'name', headerName: clientTableHeadersMap.name },
-        { field: 'contactName', headerName: clientTableHeadersMap.contactName },
-        { field: 'contactEmail', headerName: clientTableHeadersMap.contactEmail },
-        { field: 'lastOrder', headerName: clientTableHeadersMap.lastOrder, type: 'date' },
-        { field: 'orderCountYTD', headerName: clientTableHeadersMap.orderCountYTD, type: 'number' },
-        { field: 'assignedTo', headerName: clientTableHeadersMap.assignedTo },
+        {field: 'id', hide: true},
+        {field: 'name', headerName: clientTableHeadersMap.name},
+        {field: 'contactName', headerName: clientTableHeadersMap.contactName},
+        {field: 'contactEmail', headerName: clientTableHeadersMap.contactEmail},
+        {field: 'lastOrder', headerName: clientTableHeadersMap.lastOrder, type: 'date'},
+        {field: 'orderCountYTD', headerName: clientTableHeadersMap.orderCountYTD, type: 'number'},
+        {field: 'assignedTo', headerName: clientTableHeadersMap.assignedTo},
         {
             field: 'notes',
             headerName: clientTableHeadersMap.notes,
@@ -67,6 +70,7 @@ const ClientsTable = React.memo(function ClientsTable() {
             type: 'filter',
             options: {
                 sessionKey: SESSION_CLIENT_TABLE_FILTERS,
+                initialValues: getClientOverviewURL(queryString.parse(location.search)),
                 filters: [
                     {
                         field: 'assignedTo',
@@ -74,13 +78,13 @@ const ClientsTable = React.memo(function ClientsTable() {
                         label: clientTableHeadersMap.assignedTo,
                         options: users
                     },
-                    { field: 'lastOrder', type: 'date', label: clientTableHeadersMap.lastOrder },
-                    { field: 'orderCountYTD', type: 'range', label: clientTableHeadersMap.orderCountYTD },
-                    { field: 'name', type: 'text', label: clientTableHeadersMap.name }
+                    {field: 'lastOrder', type: 'date', label: clientTableHeadersMap.lastOrder},
+                    {field: 'orderCountYTD', type: 'range', label: clientTableHeadersMap.orderCountYTD},
+                    {field: 'name', type: 'text', label: clientTableHeadersMap.name}
                 ]
             },
         }
-    ], [users]);
+    ], [users, location.search]);
 
     const options = useMemo(() => ({
         table: {

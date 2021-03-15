@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback} from 'react';
 import {LANGUAGE} from 'app/utils/constants.js';
 import ThemedButton from 'features/shared/buttons/ThemedButton.js';
 import InfoCard from 'features/shared/wrappers/InfoCard.js';
@@ -16,19 +16,6 @@ import {selectSessionUserId} from 'app/duck/selectors.js';
 import {updateUserStatus} from 'features/home/duck/users/thunks.js';
 import NewUserButton from 'features/home/NewUserButton.js';
 import clsx from 'clsx';
-import AdminUserDialog from "../admin/AdminUserDialog";
-import {updateCompanyUserRoles} from "features/home/duck/users/thunks.js";
-
-const {
-    roles,
-} = LANGUAGE.home.newUserButton;
-
-const {
-    companyLabel,
-    dialogTitleLabel,
-    dialogSubmitLabel,
-    tableHeaderLabels
-} = LANGUAGE.admin.admin.users;
 
 
 const useStyles = makeStyles((theme) => ({
@@ -64,24 +51,6 @@ const CompanyUsers = React.memo(function CompanyUsers() {
     const classes = useStyles();
     const dispatch = useDispatch();
     const users = useSelector(selectAllUsers);
-    const [isEdit, setIsEdit] = useState(false);
-    const [user, setUser] = useState(null);
-
-    const onEditCancel = () => {
-        setUser(null);
-        setIsEdit(false);
-    };
-    const onEditSubmit = useCallback((data) => {
-        const { _id: userId, company: companyId, ...update } = data;
-        dispatch(updateCompanyUserRoles({ companyId, userId, update }));
-        setIsEdit(false);
-        setUser(null);
-    }, [dispatch, setUser]);
-
-    const onUserClick = useCallback(user => {
-        setUser(user);
-        setIsEdit(true);
-    }, [user]);
 
     const sessionUserId = useSelector(selectSessionUserId);
 
@@ -109,7 +78,6 @@ const CompanyUsers = React.memo(function CompanyUsers() {
                                 <ListItem className={classes.listItem}>
                                     <ListItemText
                                         primary={user.name}
-                                        secondary={user.roles.map(role => roles[role]).join('  |  ')}
                                         className={clsx(!user.active && classes.disabled)}
                                     />
                                     {isNotUserSession(user) &&
@@ -125,12 +93,6 @@ const CompanyUsers = React.memo(function CompanyUsers() {
                                                     : activateUserButtonLabel
                                                 }
                                             </ThemedButton>
-                                            <ThemedButton
-                                                onClick={() => onUserClick(user)}
-                                                className={classes.button}
-                                            >
-                                                Edit
-                                            </ThemedButton>
                                         </ListItemSecondaryAction>
                                     </UserPermission>
                                     }
@@ -142,15 +104,6 @@ const CompanyUsers = React.memo(function CompanyUsers() {
 
                 }
             />
-            { user &&
-            <AdminUserDialog
-                onCancel={ onEditCancel }
-                onSubmit={ onEditSubmit }
-                isOpen={ isEdit }
-                titleLabel={ dialogTitleLabel }
-                submitLabel={ dialogSubmitLabel }
-                user={ user }
-            /> }
         </UserPermission>
     );
 });

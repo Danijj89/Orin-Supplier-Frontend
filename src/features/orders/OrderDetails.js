@@ -68,7 +68,7 @@ const OrderDetails = React.memo(function OrderDetails({ order }) {
             />
             }
             </Grid>
-            <Grid item>
+            <Grid item xs={12}>
             <OrderFulfillmentPlan className={ classes.fulfillmentTable } order={ order }/>
             </Grid>
         </Grid>

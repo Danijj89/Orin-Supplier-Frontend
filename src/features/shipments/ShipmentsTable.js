@@ -9,8 +9,10 @@ import StatusDropdown from '../shared/components/StatusDropdown.js';
 import { selectDeliveryMethods, selectShipmentStatuses } from 'app/duck/selectors.js';
 import { updateShipment } from './duck/thunks.js';
 import { SESSION_SHIPMENT_TABLE_FILTERS } from 'app/sessionKeys.js';
+import queryString from 'query-string';
+import { getShipmentTableFiltersFromURL } from "./utils/urls";
 
-const { tableHeadersMap } = LANGUAGE.shipment.overview.shipmentsTable;
+const {tableHeadersMap} = LANGUAGE.shipment.overview.shipmentsTable;
 
 function getContainerQuantityString(containerQ) {
     if (!containerQ) return null;
@@ -36,15 +38,15 @@ const ShipmentsTable = React.memo(function ShipmentsTable() {
         (shipmentId) => (newStatus) =>
             dispatch(updateShipment({
                 shipmentId,
-                update: { status: getOptionId(newStatus) }
+                update: {status: getOptionId(newStatus)}
             })),
         [dispatch]);
 
     const columns = useMemo(() => [
-        { field: 'id', hide: true },
-        { field: 'ref', headerName: tableHeadersMap.ref },
-        { field: 'consignee', headerName: tableHeadersMap.consignee },
-        { field: 'crd', headerName: tableHeadersMap.crd, type: 'date' },
+        {field: 'id', hide: true},
+        {field: 'ref', headerName: tableHeadersMap.ref},
+        {field: 'consignee', headerName: tableHeadersMap.consignee},
+        {field: 'crd', headerName: tableHeadersMap.crd, type: 'date'},
         {
             field: 'status',
             headerName: tableHeadersMap.status,
@@ -58,9 +60,9 @@ const ShipmentsTable = React.memo(function ShipmentsTable() {
             align: 'center',
             width: 140
         },
-        { field: 'pod', headerName: tableHeadersMap.pod },
-        { field: 'del', headerName: tableHeadersMap.del, type: 'option' },
-        { field: 'containerQ', headerName: tableHeadersMap.containerQ }
+        {field: 'pod', headerName: tableHeadersMap.pod},
+        {field: 'del', headerName: tableHeadersMap.del, type: 'option'},
+        {field: 'containerQ', headerName: tableHeadersMap.containerQ}
     ], [shipmentStatusOptions, createStatusChangeHandler]);
 
     const rows = useMemo(() => shipments.map(shipment => ({
@@ -80,15 +82,16 @@ const ShipmentsTable = React.memo(function ShipmentsTable() {
             type: 'filter',
             options: {
                 sessionKey: SESSION_SHIPMENT_TABLE_FILTERS,
+                initialValues: getShipmentTableFiltersFromURL(queryString.parse(location.search)),
                 filters: [
-                    { field: 'consignee', type: 'text', label: tableHeadersMap.consignee },
-                    { field: 'crd', type: 'date', label: tableHeadersMap.crd },
-                    { field: 'status', type: 'option', options: shipmentStatusOptions, label: tableHeadersMap.status },
-                    { field: 'del', type: 'option', options: deliveryMethodOptions, label: tableHeadersMap.del }
+                    {field: 'consignee', type: 'text', label: tableHeadersMap.consignee},
+                    {field: 'crd', type: 'date', label: tableHeadersMap.crd},
+                    {field: 'status', type: 'option', options: shipmentStatusOptions, label: tableHeadersMap.status},
+                    {field: 'del', type: 'option', options: deliveryMethodOptions, label: tableHeadersMap.del}
                 ]
             }
         }
-    ], [deliveryMethodOptions, shipmentStatusOptions]);
+    ], [deliveryMethodOptions, shipmentStatusOptions, location.search]);
 
     const options = useMemo(() => ({
         table: {

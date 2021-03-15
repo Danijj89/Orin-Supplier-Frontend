@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from 'react'
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectSessionLeads } from './duck/selectors.js';
 import Table from '../shared/components/table/Table.js';
@@ -11,6 +11,8 @@ import { getOptionId } from 'app/utils/options/getters.js';
 import { selectAllActiveUserNames, selectUsersMap } from 'features/home/duck/users/selectors.js';
 import PopoverNotes from '../shared/components/PopoverNotes.js';
 import { SESSION_LEAD_TABLE_ARCHIVE, SESSION_LEAD_TABLE_FILTERS } from 'app/sessionKeys.js';
+import queryString from 'query-string';
+import { getLeadTableFiltersFromURL } from "./utils/urls";
 
 const {
     tableHeaders
@@ -19,6 +21,7 @@ const {
 const LeadsTable = React.memo(function LeadsTable() {
     const dispatch = useDispatch();
     const history = useHistory();
+    const location = useLocation();
     const salesStatusOptions = useSelector(selectSalesStatuses);
     const leadTypeOptions = useSelector(selectLeadTypes);
     const usersMap = useSelector(selectUsersMap);
@@ -33,7 +36,7 @@ const LeadsTable = React.memo(function LeadsTable() {
         (leadId) => (newStatus) =>
             dispatch(updateLead({
                 leadId,
-                update: { salesStatus: getOptionId(newStatus) }
+                update: {salesStatus: getOptionId(newStatus)}
             })),
         [dispatch]);
 
@@ -41,19 +44,19 @@ const LeadsTable = React.memo(function LeadsTable() {
         (leadId) => (newStatus) =>
             dispatch(updateLead({
                 leadId,
-                update: { leadType: getOptionId(newStatus) }
+                update: {leadType: getOptionId(newStatus)}
             })),
         [dispatch]);
 
     const createNotesSubmitHandler = useCallback(
         (leadId) => (data) =>
-            dispatch(updateLead({ leadId, update: data })),
+            dispatch(updateLead({leadId, update: data})),
         [dispatch]);
 
     const columns = [
-        { field: 'name', headerName: tableHeaders.name },
-        { field: 'contactName', headerName: tableHeaders.contactName },
-        { field: 'contactEmail', headerName: tableHeaders.contactEmail },
+        {field: 'name', headerName: tableHeaders.name},
+        {field: 'contactName', headerName: tableHeaders.contactName},
+        {field: 'contactEmail', headerName: tableHeaders.contactEmail},
         {
             field: 'salesStatus',
             headerName: tableHeaders.salesStatus,
@@ -80,11 +83,11 @@ const LeadsTable = React.memo(function LeadsTable() {
             align: 'center',
             width: 140
         },
-        { field: 'source', headerName: tableHeaders.source },
-        { field: 'quotation', headerName: tableHeaders.quotation, type: 'date' },
-        { field: 'sample', headerName: tableHeaders.sample, type: 'date' },
-        { field: 'lastContact', headerName: tableHeaders.lastContact, type: 'date' },
-        { field: 'assignedTo', headerName: tableHeaders.assignedTo },
+        {field: 'source', headerName: tableHeaders.source},
+        {field: 'quotation', headerName: tableHeaders.quotation, type: 'date'},
+        {field: 'sample', headerName: tableHeaders.sample, type: 'date'},
+        {field: 'lastContact', headerName: tableHeaders.lastContact, type: 'date'},
+        {field: 'assignedTo', headerName: tableHeaders.assignedTo},
         {
             field: 'notes',
             headerName: tableHeaders.notes,
@@ -117,6 +120,7 @@ const LeadsTable = React.memo(function LeadsTable() {
             type: 'filter',
             options: {
                 sessionKey: SESSION_LEAD_TABLE_FILTERS,
+                initialValues: getLeadTableFiltersFromURL(queryString.parse(location.search)),
                 filters: [
                     {
                         field: 'salesStatus',
@@ -124,12 +128,12 @@ const LeadsTable = React.memo(function LeadsTable() {
                         options: salesStatusOptions,
                         label: tableHeaders.salesStatus
                     },
-                    { field: 'leadType', type: 'option', options: leadTypeOptions, label: tableHeaders.leadType },
-                    { field: 'source', type: 'text', label: tableHeaders.source },
-                    { field: 'quotation', type: 'date', label: tableHeaders.quotation },
-                    { field: 'sample', type: 'date', label: tableHeaders.sample },
-                    { field: 'lastContact', type: 'date', label: tableHeaders.lastContact },
-                    { field: 'assignedTo', type: 'dropdown', options: usersName, label: tableHeaders.assignedTo }
+                    {field: 'leadType', type: 'option', options: leadTypeOptions, label: tableHeaders.leadType},
+                    {field: 'source', type: 'text', label: tableHeaders.source},
+                    {field: 'quotation', type: 'date', label: tableHeaders.quotation},
+                    {field: 'sample', type: 'date', label: tableHeaders.sample},
+                    {field: 'lastContact', type: 'date', label: tableHeaders.lastContact},
+                    {field: 'assignedTo', type: 'dropdown', options: usersName, label: tableHeaders.assignedTo}
                 ]
             }
         },
@@ -142,7 +146,7 @@ const LeadsTable = React.memo(function LeadsTable() {
                 fetchArchivedData: () => dispatch(fetchAllTableLeads())
             }
         }
-    ], [dispatch, leadTypeOptions, salesStatusOptions, usersName]);
+    ], [dispatch, leadTypeOptions, salesStatusOptions, usersName, location.search]);
 
     const options = useMemo(() => ({
         table: {
