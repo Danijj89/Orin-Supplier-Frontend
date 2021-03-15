@@ -1,25 +1,25 @@
 import { getOptionId } from 'app/utils/options/getters.js';
 
-export function prepareFilters(filters) {
+export function prepareFilters(filters, initialValues) {
     return filters.map(filter => {
         const preparedFilter = { ...filter };
         switch (filter.type) {
             case 'date':
-                preparedFilter.start = null;
-                preparedFilter.end = null;
+                preparedFilter.start = filter.field in initialValues ? initialValues[filter.field][0] : null;
+                preparedFilter.end = filter.field in initialValues ? initialValues[filter.field][1] : null;
                 break;
             case 'option':
-                preparedFilter.values = [];
+                preparedFilter.values = filter.field in initialValues ? initialValues[filter.field] : [];
                 break;
             case 'dropdown':
-                preparedFilter.value = null;
+                preparedFilter.value = filter.field in initialValues ? initialValues[filter.field] : null;
                 break;
             case 'range':
-                preparedFilter.min = '';
-                preparedFilter.max = '';
+                preparedFilter.min = filter.field in initialValues ? initialValues[filter.field] : '';
+                preparedFilter.max = filter.field in initialValues ? initialValues[filter.field] : '';
                 break;
             default:
-                preparedFilter.value = '';
+                preparedFilter.value = filter.field in initialValues ? initialValues[filter.field] : '';
         }
         return preparedFilter;
     });

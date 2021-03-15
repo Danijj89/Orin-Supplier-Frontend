@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Table as MuiTable, TableContainer } from '@material-ui/core';
 import TableHeader from './TableHeader.js';
@@ -6,7 +6,6 @@ import TableFooter from './TableFooter.js';
 import TableBody from './TableBody.js';
 import { getComparator, stableSort } from './utils/helpers.js';
 import TableToolbar from './TableToolbar.js';
-import useUpdatedState from 'features/shared/hooks/useUpdatedState.js';
 
 const Table = React.memo(function Table({ rows, columns, footer, tools, options = {}}) {
     const {
@@ -18,11 +17,17 @@ const Table = React.memo(function Table({ rows, columns, footer, tools, options 
     const { dense, collapse = false, isEdit = false, classes = {} } = tableOptions;
     const { pagination = 'permanent', initialRowsPerPage = 10 } = footOptions;
     const tableSize = useMemo(() => dense ? 'small' : 'medium', [dense]);
-    const [processedRows, setProcessedRows] = useUpdatedState(rows || []);
+    const [processedRows, setProcessedRows] = useState(rows || []);
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState();
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(pagination !== 'none' ? initialRowsPerPage : 0);
+
+    const mounted = useRef(false);
+    useEffect(() => {
+        if (!mounted.current) mounted.current = true;
+        else setProcessedRows(rows);
+    }, [rows]);
 
     const onSort = useCallback((field) => {
         const isAsc = orderBy === field && order === 'asc';

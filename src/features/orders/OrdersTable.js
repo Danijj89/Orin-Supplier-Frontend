@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { LANGUAGE, LOCALE } from 'app/utils/constants.js';
 import PopoverNotes from '../shared/components/PopoverNotes.js';
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,12 +15,14 @@ import ThemedButton from 'features/shared/buttons/ThemedButton.js';
 import Drawer from '@material-ui/core/Drawer';
 import InfoCard from 'features/shared/wrappers/InfoCard.js';
 import OrderProductTable from 'features/orders/OrderProductTable.js';
-import { getOrderURL } from 'features/orders/utils/urls.js';
+import { getFiltersFromURL, getOrderURL } from 'features/orders/utils/urls.js';
+import queryString from 'query-string';
 
 const { ordersTableHeadersMap } = LANGUAGE.order.ordersOverview;
 
 export default function OrdersTable() {
     const history = useHistory();
+    const location = useLocation();
     const dispatch = useDispatch();
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [drawerData, setDrawerData] = useState(null);
@@ -166,6 +168,7 @@ export default function OrdersTable() {
             type: 'filter',
             options: {
                 sessionKey: SESSION_ORDER_TABLE_FILTERS,
+                initialValues: getFiltersFromURL(queryString.parse(location.search)),
                 filters: [
                     { field: 'crd', type: 'date', label: ordersTableHeadersMap.crd },
                     { field: 'toName', type: 'text', label: ordersTableHeadersMap.toName },
@@ -185,7 +188,7 @@ export default function OrdersTable() {
                 ]
             }
         }
-    ], [orderStatuses, dispatch]);
+    ], [orderStatuses, dispatch, location.search]);
 
     const options = useMemo(() => ({
         table: {

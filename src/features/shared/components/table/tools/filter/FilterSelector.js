@@ -20,6 +20,7 @@ import Badge from '@material-ui/core/Badge';
 import { FilterList as IconFilterList } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 import { filterRows, prepareFilters } from 'features/shared/components/table/tools/filter/util/helpers.js';
+import _ from 'lodash';
 
 const useStyles = makeStyles((theme) => ({
     popover: {
@@ -42,15 +43,18 @@ const {
 
 const FilterSelector = React.memo(function FilterSelector(
     { options, rows, setRows, className }) {
-    const { filters: initialFilters, sessionKey } = options;
+    const { filters: filterConfigs, sessionKey, initialValues } = options;
     const classes = useStyles();
     const preparedFilters = useMemo(
-        () => prepareFilters(initialFilters),
-        [initialFilters]
+        () => prepareFilters(filterConfigs, {}),
+        [filterConfigs]
     );
+    const preparedFiltersWithInitialVales = useMemo(
+        () => prepareFilters(filterConfigs, initialValues),
+        [filterConfigs, initialValues]);
     const [filters, setFilters] = useLocalStorage(
         sessionKey,
-        preparedFilters
+        preparedFiltersWithInitialVales
     );
     const [numActiveFilters, setNumActiveFilters] = useState(0);
     const [anchorEl, setAnchorEl] = useState(false);
@@ -96,6 +100,8 @@ const FilterSelector = React.memo(function FilterSelector(
     const prevRows = useRef(rows);
     useEffect(() => {
         if (!mounted.current) {
+            // Refresh the localstorage if initialValues is set
+            if (!_.isEmpty(initialValues)) localStorage.removeItem(sessionKey);
             onSubmit();
             mounted.current = true;
             prevRows.current = rows;
@@ -103,7 +109,7 @@ const FilterSelector = React.memo(function FilterSelector(
             onSubmit();
             prevRows.current = rows;
         }
-    }, [onSubmit, rows]);
+    }, [onSubmit, rows, initialValues, sessionKey]);
 
     return (
         <>
@@ -222,6 +228,7 @@ const FilterSelector = React.memo(function FilterSelector(
 FilterSelector.propTypes = {
     options: PropTypes.exact({
         sessionKey: PropTypes.string.isRequired,
+        initialValues: PropTypes.object,
         filters: PropTypes.array.isRequired,
     }).isRequired,
     rows: PropTypes.array.isRequired,
