@@ -93,14 +93,6 @@ const CompanyUsers = React.memo(function CompanyUsers() {
             dispatch(updateUserStatus({userId, update: {active: !active}})),
         [dispatch]);
 
-    function returnString(list) {
-        let result = ""
-        for (let index in list) {
-            result += roles[list[index]] + "  |  "
-        }
-        return result
-    }
-
     return (
         <UserPermission action={READ_ANY}>
             <InfoCard
@@ -117,7 +109,7 @@ const CompanyUsers = React.memo(function CompanyUsers() {
                                 <ListItem className={classes.listItem}>
                                     <ListItemText
                                         primary={user.name}
-                                        secondary={returnString(user.roles)}
+                                        secondary={user.roles.map(role => roles[role]).join('  |  ')}
                                         className={clsx(!user.active && classes.disabled)}
                                     />
                                     {isNotUserSession(user) &&
