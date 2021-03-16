@@ -1,6 +1,7 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { Card, Typography, Divider, Grid } from '@material-ui/core';
+import { Card, Typography, Divider, Grid, Link } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 
@@ -68,6 +69,7 @@ const MetricsCard = React.memo(function MetricsCard({
     className,
 }) {
     const classes = useStyles();
+    const history = useHistory();
 
     return (
         <Card className={clsx(classes.container, className)}>
@@ -78,6 +80,7 @@ const MetricsCard = React.memo(function MetricsCard({
             <Grid container justify="space-around" alignItems="center">
                 {metrics.map((metric) => (
                     <Grid className={classes.metric} item key={metric.metricId}>
+                        <Link onClick={() => history.push(metric.filter)}>
                         <Typography
                             variant={'h3'}
                             align="center"
@@ -89,6 +92,7 @@ const MetricsCard = React.memo(function MetricsCard({
                         <Typography variant="subtitle1" align="center">
                             {metric.metricId}
                         </Typography>
+                        </Link>
                     </Grid>
                 ))}
                 {dangerMetric && (

@@ -69,6 +69,7 @@ const Dashboard = React.memo(function Dashboard() {
         {
             metricId: ordersStats.new,
             value: dashboardData.newOrders,
+            filter: 'orders?production=Not+Started&procurement=Not+Started&qa=Not+Started'
         },
         {
             metricId: ordersStats.inProcurement,
