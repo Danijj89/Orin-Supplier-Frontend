@@ -11,7 +11,6 @@ import ThemedButton from '../../../../buttons/ThemedButton.js';
 import Popover from '@material-ui/core/Popover';
 import DateFilter from './filters/DateFilter.js';
 import OptionFilter from './filters/OptionFilter.js';
-import useLocalStorage from 'features/shared/hooks/useLocalStorage.js';
 import TextFilter from './filters/TextFilter.js';
 import { LANGUAGE } from 'app/utils/constants.js';
 import DropdownFilter from './filters/DropdownFilter.js';
@@ -21,6 +20,7 @@ import { FilterList as IconFilterList } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 import { filterRows, prepareFilters } from 'features/shared/components/table/tools/filter/util/helpers.js';
 import _ from 'lodash';
+import usePreparedFilters from 'features/shared/components/table/tools/filter/util/usePreparedFilters.js';
 
 const useStyles = makeStyles((theme) => ({
     popover: {
@@ -43,7 +43,7 @@ const {
 
 const FilterSelector = React.memo(function FilterSelector(
     { options, rows, setRows, className }) {
-    const { filters: filterConfigs, sessionKey, initialValues } = options;
+    const { filters: filterConfigs, sessionKey, initialValues = {} } = options;
     const classes = useStyles();
     const preparedFilters = useMemo(
         () => prepareFilters(filterConfigs, {}),
@@ -52,10 +52,12 @@ const FilterSelector = React.memo(function FilterSelector(
     const preparedFiltersWithInitialVales = useMemo(
         () => prepareFilters(filterConfigs, initialValues),
         [filterConfigs, initialValues]);
-    const [filters, setFilters] = useLocalStorage(
+    const [filters, setFilters] = usePreparedFilters(
         sessionKey,
-        preparedFiltersWithInitialVales
+        preparedFiltersWithInitialVales,
+        !_.isEmpty(initialValues)
     );
+
     const [numActiveFilters, setNumActiveFilters] = useState(0);
     const [anchorEl, setAnchorEl] = useState(false);
 
