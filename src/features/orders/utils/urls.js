@@ -16,11 +16,12 @@ export const getOrderTableFiltersFromURL = queryParams => {
     if ('procurement' in queryParams) filters.procurement = queryParams.procurement.split(',');
     if ('production' in queryParams) filters.production = queryParams.production.split(',');
     if ('qa' in queryParams) filters.qa = queryParams.qa.split(',');
+
     return filters;
 };
 
 export const getOrderTableURL = filters =>
-    filters.reduce((filter, acc) =>
+    filters.reduce((acc, filter) =>
         `${ acc }&${ filter.field }=${ Array.isArray(filter.value)
             ? filter.value.join(',')
             : filter.value }`, '/home/orders?');

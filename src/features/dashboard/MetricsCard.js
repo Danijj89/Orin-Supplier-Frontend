@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Card, Typography, Divider, Grid, Link } from '@material-ui/core';
@@ -61,77 +61,97 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+const ConditionalWrapper = ({condition, wrapper, children}) =>
+    condition ? wrapper(children) : children;
+
 const MetricsCard = React.memo(function MetricsCard({
-    titleLabel,
-    metrics,
-    dangerMetric,
-    accentMetric,
-    className,
-}) {
+                                                        titleLabel,
+                                                        metrics,
+                                                        dangerMetric,
+                                                        accentMetric,
+                                                        className,
+                                                    }) {
     const classes = useStyles();
     const history = useHistory();
 
     return (
-        <Card className={clsx(classes.container, className)}>
-            <Typography variant="h6" className={classes.title}>
-                {titleLabel}
+        <Card className={ clsx(classes.container, className) }>
+            <Typography variant="h6" className={ classes.title }>
+                { titleLabel }
             </Typography>
-            <Divider />
+            <Divider/>
             <Grid container justify="space-around" alignItems="center">
-                {metrics.map((metric) => (
-                    <Grid className={classes.metric} item key={metric.metricId}>
-                        <Link onClick={() => history.push(metric.filter)}>
-                        <Typography
-                            variant={'h3'}
-                            align="center"
-                            color="primary"
-                            className={classes.number}
-                        >
-                            {metric.value}
-                        </Typography>
-                        <Typography variant="subtitle1" align="center">
-                            {metric.metricId}
-                        </Typography>
-                        </Link>
-                    </Grid>
-                ))}
-                {dangerMetric && (
-                    <Grid className={classes.metric} item>
-                        <Typography
-                            variant={'h3'}
-                            align="center"
-                            className={classes.dangerAccent}
-                        >
-                            {dangerMetric.value}
-                        </Typography>
-                        <Typography variant="subtitle1" align="center">
-                            {dangerMetric.metricId}
-                        </Typography>
-                    </Grid>
-                )}
+                { metrics.map((metric) => (
+                    <Grid className={ classes.metric } item key={ metric.metricId }>
 
-                {accentMetric && (
+                        <ConditionalWrapper
+                            condition={ metric.filter }
+                            wrapper={ children => <Link
+                                onClick={ () => history.push(metric.filter) }>{ children }</Link> }
+                        >
+                            <Fragment>
+                                <Typography
+                                    variant={ 'h3' }
+                                    align="center"
+                                    color="primary"
+                                    className={ classes.number }
+                                >
+                                    { metric.value }
+                                </Typography>
+                                <Typography variant="subtitle1" align="center">
+                                    { metric.metricId }
+                                </Typography>
+                            </Fragment>
+
+                        </ConditionalWrapper>
+
+                    </Grid>
+                )) }
+                { dangerMetric && (
+                    <Grid className={ classes.metric } item>
+                        <ConditionalWrapper
+                            condition={ dangerMetric.filter }
+                            wrapper={ children => <Link
+                                onClick={ () => history.push(dangerMetric.filter) }>{ children }</Link> }
+                        >
+                            <Fragment>
+                                <Typography
+                                    variant={ 'h3' }
+                                    align="center"
+                                    className={ classes.dangerAccent }
+                                >
+                                    { dangerMetric.value }
+                                </Typography>
+                                <Typography variant="subtitle1" align="center">
+                                    { dangerMetric.metricId }
+                                </Typography>
+                            </Fragment>
+                        </ConditionalWrapper>
+                    </Grid>
+                ) }
+
+                { accentMetric && (
                     <Divider
                         orientation="vertical"
-                        className={classes.divider}
+                        className={ classes.divider }
                         variant="middle"
                     />
-                )}
+                ) }
 
-                {accentMetric && (
-                    <Grid className={classes.metric} item>
+                { accentMetric && (
+                    <Grid className={ classes.metric } item>
                         <Typography
-                            variant={'h3'}
+                            variant={ 'h3' }
                             align="center"
-                            className={classes.sucessAccent}
+                            className={ classes.sucessAccent }
                         >
-                            {accentMetric.value}
+                            { accentMetric.value }
                         </Typography>
                         <Typography variant="subtitle1" align="center">
-                            {accentMetric.metricId}
+                            { accentMetric.metricId }
                         </Typography>
                     </Grid>
-                )}
+                ) }
             </Grid>
         </Card>
     );
