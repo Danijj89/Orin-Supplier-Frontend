@@ -1,5 +1,5 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import { createRole, fetchRoles, updateRole } from './thunks.js';
+import { createRole, fetchRoles, updateRole, updateRoleDescription } from './thunks.js';
 
 export const rolesAdapter = createEntityAdapter({
     selectId: role => role._id,
@@ -54,6 +54,20 @@ const rolesSlice = createSlice({
             state.status = 'FULFILLED';
         },
         [updateRole.rejected]: (state, action) => {
+            state.status = 'REJECTED';
+            state.error = action.payload.message;
+        },
+        [updateRoleDescription.pending]: (state) => {
+            state.status = 'PENDING';
+        },
+        [updateRoleDescription.fulfilled]: (state, action) => {
+            const { roleId: id, update } = action.payload;
+            const description = { ...state.entities[id].description };
+            description.label[update.language] = update.description;
+            rolesAdapter.updateOne(state, { id, changes: { description } });
+            state.status = 'FULFILLED';
+        },
+        [updateRoleDescription.rejected]: (state, action) => {
             state.status = 'REJECTED';
             state.error = action.payload.message;
         }

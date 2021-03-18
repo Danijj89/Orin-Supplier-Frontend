@@ -16,6 +16,9 @@ import makeStyles from '@material-ui/core/styles/makeStyles.js';
 import { selectAllPermissionsIds } from './duck/permissions/selectors.js';
 import { updateRole } from './duck/roles/thunks.js';
 import { useForm } from 'react-hook-form';
+import NewRoleDescriptionButton from 'features/admin/NewRoleDescriptionButton.js';
+import { getOptionLabel } from 'app/utils/options/getters.js';
+import { selectCompaniesMap } from 'features/admin/duck/companies/selectors.js';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -28,9 +31,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const {
-    dialogTitleLabel,
-    dialogSubmitLabel,
-    tableHeaderLabels
+    titles,
+    buttons,
+    tableHeaders,
 } = LANGUAGE.admin.admin.roles;
 
 const Roles = React.memo(function Roles() {
@@ -38,6 +41,7 @@ const Roles = React.memo(function Roles() {
     const dispatch = useDispatch();
     const roles = useSelector(selectAllRoles);
     const permissionIds = useSelector(selectAllPermissionsIds);
+    const companiesMap = useSelector(selectCompaniesMap);
     const [isEdit, setIsEdit] = useState(false);
     const [role, setRole] = useState(null);
 
@@ -82,13 +86,32 @@ const Roles = React.memo(function Roles() {
         }, [getValues, setValue]);
 
     const columns = useMemo(() => [
-        { field: '_id', headerName: tableHeaderLabels._id },
-    ], []);
+        { field: '_id', headerName: tableHeaders._id },
+        {
+            field: 'description',
+            headerName: tableHeaders.description,
+            format: row => getOptionLabel(row.description)
+        },
+        {
+            field: 'company',
+            headerName: tableHeaders.company,
+            format: row => row.company
+                ? companiesMap[row.company]?.addresses.find(address => address.legal).name
+                : ''
+        },
+        {
+            field: 'action',
+            renderCell: row => <NewRoleDescriptionButton role={ row.role }/>,
+            align: 'right'
+        }
+    ], [companiesMap]);
 
     const rows = useMemo(() =>
         roles.map(role => ({
             role: role,
-            _id: role._id
+            _id: role._id,
+            description: role.description,
+            company: role.company
         })), [roles]);
 
     const options = useMemo(() => ({
@@ -116,8 +139,8 @@ const Roles = React.memo(function Roles() {
                 { role &&
                 <FormDialog
                     isOpen={ isEdit }
-                    titleLabel={ dialogTitleLabel }
-                    submitLabel={ dialogSubmitLabel }
+                    titleLabel={ titles.role }
+                    submitLabel={ buttons.updateRoleSubmit }
                     onCancel={ onEditCancel }
                     onSubmit={ handleSubmit(onEditSubmit) }
                 >

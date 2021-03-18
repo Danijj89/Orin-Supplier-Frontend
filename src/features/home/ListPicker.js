@@ -45,7 +45,7 @@ const {
     hints
 } = LANGUAGE.home.newUserButton;
 
-const ListPicker = React.memo(function RolePicker({ items, chosenItems, onSelect, required, error }) {
+const ListPicker = React.memo(function ListPicker({ items, chosenItems, onSelect, required, error }) {
     const classes = useStyles({ error });
 
     return (

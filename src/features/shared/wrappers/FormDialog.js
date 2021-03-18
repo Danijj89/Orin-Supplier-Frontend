@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import {
     Dialog,
@@ -62,11 +62,14 @@ const FormDialog = React.memo(function FormDialog(
     }) {
     const classes = useStyles({ onDelete });
 
+    const onClick = useCallback(e => e.stopPropagation(), []);
+
     return (
         <Dialog
             open={ isOpen }
             classes={ { paper: classes.dialogPaper } }
             className={ className }
+            onClick={ onClick }
             scroll='paper'
         >
             <form onSubmit={ onSubmit } autoComplete="off" noValidate>

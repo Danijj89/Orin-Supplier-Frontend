@@ -29,10 +29,21 @@ const updateRole = async (roleId, update) => {
     return data;
 };
 
+const updateRoleDescription = async (roleId, update) => {
+    const configs = {
+        method: 'put',
+        url: `roles/${roleId}/description`,
+        data: update
+    };
+    const { data } = await fetchWithAuth(configs);
+    return data;
+};
+
 const RoleService = {
     fetchRoles,
     createRole,
-    updateRole
+    updateRole,
+    updateRoleDescription
 };
 
 export default RoleService

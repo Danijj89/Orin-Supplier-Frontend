@@ -28,3 +28,13 @@ export const updateRole = createAsyncThunk('roles/updateRole',
             return rejectWithValue(err.response.data);
         }
     });
+
+export const updateRoleDescription = createAsyncThunk('roles/updateRoleDescription',
+    async ({ roleId, update }, { rejectWithValue }) => {
+        try {
+            await RoleService.updateRoleDescription(roleId, update);
+            return { roleId, update };
+        } catch (err) {
+            return rejectWithValue(err.response.data);
+        }
+    });

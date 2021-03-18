@@ -110,20 +110,29 @@ export const ENGLISH = {
                 },
             },
             roles: {
-                newRoleButton: {
-                    buttonLabel: 'New Role',
-                    dialogTitle: 'Role Info',
-                    dialogSubmit: 'Create',
-                    formLabels: {
-                        _id: 'Role Name',
-                        company: 'Company',
-                    },
-                },
-                tableHeaderLabels: {
+                tableHeaders: {
                     _id: 'Role Name',
+                    description: 'Description',
+                    company: 'Company'
                 },
-                dialogTitleLabel: 'Role Permissions',
-                dialogSubmitLabel: 'Update',
+                titles: {
+                    role: 'Role Permissions',
+                    newRole: 'Role Info',
+                    description: 'New Description'
+                },
+                buttons: {
+                    updateRoleSubmit: 'Update',
+                    newDescription: 'Add Description',
+                    descriptionSubmit: 'Save',
+                    newRoleSubmit: 'Create',
+                    newRole: 'New Role'
+                },
+                formLabels: {
+                    _id: 'Role Name',
+                    company: 'Company',
+                    language: 'Language',
+                    description: 'Description'
+                }
             },
             users: {
                 companyLabel: 'Company',
