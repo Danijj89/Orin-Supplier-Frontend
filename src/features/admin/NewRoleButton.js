@@ -98,7 +98,7 @@ const NewRoleButton = React.memo(function NewRoleButton() {
                     required
                 />
                 <SideTextField
-                    label={ formLabels.description }
+                    label={ formLabels.enDescription }
                     name="description"
                     inputRef={ register({ required: true }) }
                     error={ !!errors.description }

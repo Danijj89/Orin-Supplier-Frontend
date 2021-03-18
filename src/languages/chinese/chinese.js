@@ -129,7 +129,8 @@ export const CHINESE = {
                     _id: 'Role Name',
                     company: 'Company',
                     language: 'Language',
-                    description: 'Description'
+                    description: 'Description',
+                    enDescription: 'Description (EN)'
                 }
             },
             users: {

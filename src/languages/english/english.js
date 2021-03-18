@@ -131,7 +131,8 @@ export const ENGLISH = {
                     _id: 'Role Name',
                     company: 'Company',
                     language: 'Language',
-                    description: 'Description'
+                    description: 'Description',
+                    enDescription: 'Description (EN)'
                 }
             },
             users: {
