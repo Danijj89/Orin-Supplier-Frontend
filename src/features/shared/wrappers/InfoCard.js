@@ -32,9 +32,6 @@ const useStyles = makeStyles((theme) => ({
     buttons: {
         minWidth: 0,
         height: 30
-    },
-    tools: {
-        justify: "flex-end"
     }
 }));
 
@@ -54,7 +51,7 @@ const InfoCard = React.memo(function InfoCard(
                 <Typography variant="subtitle1" className={ classes.title }>
                     { title }
                 </Typography>
-                <Grid container justify="flex-end" alignItems="center" item xs clas>
+                <Grid container justify="flex-end" alignItems="center" item xs>
                     { tools && toolsArray.map((tool, idx) =>
                         React.cloneElement(tool, {
                             key: `${ title }-card-${ idx }`,
