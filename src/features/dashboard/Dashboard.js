@@ -19,7 +19,6 @@ const {
     orderRevenueGraph,
     leads,
     clients,
-    // crdStats,
 } = LANGUAGE.dashboard;
 
 const optionsOrderCount = {
@@ -67,59 +66,40 @@ const useStyles = makeStyles((theme) => ({
 const Dashboard = React.memo(function Dashboard() {
     const classes = useStyles();
     const dashboardData = useSelector(selectDashboardData);
-    const newOrderUrl = useMemo(() => getOrderTableURL(
-        [{field: "procurement", value: "Not+Started"}, {field: "production", value: "Not+Started"}, {
-            field: "qa",
-            value: "Not+Started"
-        }]
-    ), [])
-
-    const inProcOrderUrl = useMemo(() => getOrderTableURL(
-        [{field: "procurement", value: "In+Progress"},]
-    ), [])
-
-    const inProdOrderUrl = useMemo(() => getOrderTableURL(
-        [{field: "production", value: "In+Progress"},]
-    ), [])
-
-    const inQaOrderUrl = useMemo(() => getOrderTableURL(
-        [{field: "qa", value: "In+Progress"},]
-    ), [])
-
-    const newLeadsUrl = useMemo(() => getLeadsTableURL(
-        [{field: "salesStatus", value: "1"}]
-    ), [])
-
-    const workingLeadsUrl = useMemo(() => getLeadsTableURL(
-        [{field: "salesStatus", value: "2"}]
-    ), [])
-
-    const blockedLeadsUrl = useMemo(() => getLeadsTableURL(
-        [{field: "salesStatus", value: "4"}]
-    ), [])
 
     const orderMetrics = useMemo(() => [
         {
             metricId: ordersStats.new,
             value: dashboardData.newOrders,
-            filter: newOrderUrl,
+            filter: getOrderTableURL(
+                [{field: "procurement", value: "Not+Started"}, {field: "production", value: "Not+Started"}, {
+                    field: "qa",
+                    value: "Not+Started"
+                }]
+            ),
         },
         {
             metricId: ordersStats.inProcurement,
             value: dashboardData.inProc,
-            filter: inProcOrderUrl
+            filter: getOrderTableURL(
+                [{field: "procurement", value: "In+Progress"},]
+            )
         },
         {
             metricId: ordersStats.inProduction,
             value: dashboardData.inProd,
-            filter: inProdOrderUrl
+            filter: getOrderTableURL(
+                [{field: "production", value: "In+Progress"},]
+            )
         },
         {
             metricId: ordersStats.inQA,
             value: dashboardData.inQA,
-            filter: inQaOrderUrl
+            filter: getOrderTableURL(
+                [{field: "qa", value: "In+Progress"},]
+            )
         },
-    ], [dashboardData.newOrders, dashboardData.inProc, dashboardData.inProd, dashboardData.inQA, inProcOrderUrl, inProdOrderUrl, inQaOrderUrl, newOrderUrl]);
+    ], [dashboardData.newOrders, dashboardData.inProc, dashboardData.inProd, dashboardData.inQA]);
 
     const orderAccentCompleted = useMemo(() => {
         return {
@@ -139,22 +119,28 @@ const Dashboard = React.memo(function Dashboard() {
         return {
             metricId: leads.blockedLeads,
             value: dashboardData.blockedLeads,
-            filter: blockedLeadsUrl
+            filter: getLeadsTableURL(
+                [{field: "salesStatus", value: "4"}]
+            )
         }
-    }, [dashboardData.blockedLeads, blockedLeadsUrl]);
+    }, [dashboardData.blockedLeads]);
 
     const leadsMetrics = useMemo(() => [
         {
             metricId: leads.newLeads,
             value: dashboardData.newLeadsCount,
-            filter: newLeadsUrl
+            filter: getLeadsTableURL(
+                [{field: "salesStatus", value: "1"}]
+            )
         },
         {
             metricId: leads.wipLeads,
             value: dashboardData.wipLeads,
-            filter: workingLeadsUrl
+            filter: getLeadsTableURL(
+                [{field: "salesStatus", value: "2"}]
+            )
         },
-    ], [dashboardData.newLeadsCount, dashboardData.wipLeads, newLeadsUrl, workingLeadsUrl]);
+    ], [dashboardData.newLeadsCount, dashboardData.wipLeads]);
 
 
     const clientMetrics = useMemo(() => [
@@ -171,19 +157,6 @@ const Dashboard = React.memo(function Dashboard() {
         }
     }, [dashboardData.totClients]);
 
-
-    // const crdMetrics = [
-    //     {
-    //         metricId: crdStats.crdOT,
-    //         value: 10,
-    //         // value: (crdPerf.toFixed(2) * 100).toString() + '%',
-    //     },
-    //     {
-    //         metricId: crdStats.crdDiff,
-    //         value: 5,
-    //         // value: crdDiff,
-    //     },
-    // ];
 
     const orderCounts = {
         labels: Object.keys(dashboardData.newOrdersByDay).reverse(),
@@ -275,12 +248,7 @@ const Dashboard = React.memo(function Dashboard() {
                         accentMetric={ clientAccentAll }
                     />
                 </Grid>
-                {/* <Grid xs={12} md={4} item>
-                    <MetricCard
-                        titleLabel={crdStats.title}
-                        metrics={crdMetrics}
-                    />
-                </Grid> */ }
+
             </Grid>
         </Grid>
     );

@@ -114,7 +114,7 @@ const MetricsCard = React.memo(function MetricsCard({
                             wrapper={ children => <Link
                                 onClick={ () => history.push(dangerMetric.filter) }>{ children }</Link> }
                         >
-                            <Fragment>
+                            <>
                                 <Typography
                                     variant={ 'h3' }
                                     align="center"
@@ -125,7 +125,7 @@ const MetricsCard = React.memo(function MetricsCard({
                                 <Typography variant="subtitle1" align="center">
                                     { dangerMetric.metricId }
                                 </Typography>
-                            </Fragment>
+                            </>
                         </ConditionalWrapper>
                     </Grid>
                 ) }
