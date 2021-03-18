@@ -72,6 +72,9 @@ const OrderProductTable = React.memo(function OrderProductTable(
                 container: className
             }
         },
+        body: {
+            maxEmptyRows: 5
+        },
         foot: {
             pagination: 'none'
         }

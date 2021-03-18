@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { Paper, Grid } from '@material-ui/core';
+import { Paper } from '@material-ui/core';
 import DetailsInfoCard from './DetailsInfoCard.js';
 import { LANGUAGE } from 'app/utils/constants.js';
 import OrderProductTable from './OrderProductTable.js';
@@ -33,12 +33,11 @@ const OrderDetails = React.memo(function OrderDetails({ order }) {
     const { tab = 'details', mode = 'view', split, subTab } = queryString.parse(location.search);
 
     const setTabValue = useCallback(newValue =>
-        history.push(getOrderURL(order._id, { mode, tab: newValue, split, subTab })),
+            history.push(getOrderURL(order._id, { mode, tab: newValue, split, subTab })),
         [history, mode, split, subTab, order._id]);
 
     return (
-        <Grid container>
-            <Grid item xs={12}>
+        <>
             <NavTabs
                 tabsLabelsMap={ tabsLabelsMap }
                 tabValue={ tab }
@@ -46,11 +45,7 @@ const OrderDetails = React.memo(function OrderDetails({ order }) {
                 className={ classes.navTabs }
                 component={ Paper }
             />
-            </Grid>
-            <Grid item>
             { tab === 'details' && <DetailsInfoCard order={ order }/> }
-            </Grid>
-            <Grid item>
             { tab === 'products' &&
             <InfoCard
                 title={ titles.productTable }
@@ -67,11 +62,8 @@ const OrderDetails = React.memo(function OrderDetails({ order }) {
                 }
             />
             }
-            </Grid>
-            <Grid item xs={12}>
             <OrderFulfillmentPlan className={ classes.fulfillmentTable } order={ order }/>
-            </Grid>
-        </Grid>
+        </>
     );
 });
 

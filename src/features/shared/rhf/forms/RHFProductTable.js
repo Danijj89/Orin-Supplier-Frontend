@@ -182,7 +182,7 @@ const RHFProductTable = React.memo(function RHFProductTable(
                 }
                 break;
             case 'quantity':
-                newValue = newValue === '' ? newValue : parseInt(newValue);
+                newValue = newValue === '' ? newValue : roundToNDecimal(Number(newValue), 2);
                 diff = newValue - newItem.quantity;
                 setItemsData(prevData => {
                     const newTotalQ = new UnitCounter(prevData.quantity);
