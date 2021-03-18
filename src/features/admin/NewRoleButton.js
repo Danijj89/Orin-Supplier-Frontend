@@ -43,7 +43,7 @@ const NewRoleButton = React.memo(function NewRoleButton() {
     const { register, control, errors, handleSubmit, setValue, watch, getValues } = useForm({
         mode: 'onSubmit',
         defaultValues: {
-            _id: null,
+            name: null,
             description: null,
             company: null,
             permissions: []
@@ -91,10 +91,10 @@ const NewRoleButton = React.memo(function NewRoleButton() {
                 submitLabel={ buttons.newRoleSubmit }
             >
                 <SideTextField
-                    label={ formLabels._id }
-                    name="_id"
+                    label={ formLabels.name }
+                    name="name"
                     inputRef={ register({ required: true }) }
-                    error={ !!errors._id }
+                    error={ !!errors.name }
                     required
                 />
                 <SideTextField

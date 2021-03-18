@@ -111,7 +111,7 @@ export const ENGLISH = {
             },
             roles: {
                 tableHeaders: {
-                    _id: 'Role Name',
+                    name: 'Role Name',
                     description: 'Description',
                     company: 'Company'
                 },
@@ -128,7 +128,7 @@ export const ENGLISH = {
                     newRole: 'New Role'
                 },
                 formLabels: {
-                    _id: 'Role Name',
+                    name: 'Role Name',
                     company: 'Company',
                     language: 'Language',
                     description: 'Description',
