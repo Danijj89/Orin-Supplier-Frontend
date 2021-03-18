@@ -75,9 +75,9 @@ function validateSplits(splits, totalItems) {
         }
     }
     for (const allocationStatus of Object.values(allocationMap)) {
-        const diff = allocationStatus.quantity - allocationStatus.allocated;
-        if (diff > 0) return errorMessages.itemTooFew(allocationStatus.ref, diff);
-        if (diff < 0) return errorMessages.itemOverflow(allocationStatus.ref, diff);
+        const diff = roundToNDecimal(allocationStatus.quantity - allocationStatus.allocated, 2);
+        if (diff > 0) return errorMessages.itemTooFew(allocationStatus.ref, Math.abs(diff));
+        if (diff < 0) return errorMessages.itemOverflow(allocationStatus.ref, Math.abs(diff));
     }
     return true;
 }
@@ -216,7 +216,7 @@ const EditFulfillmentPlan = React.memo(function EditFulfillmentPlan({ orderId })
         switch (key) {
             case 'ref':
                 const { quantity, allocated } = allocationMap[newValue._id];
-                const remaining = quantity - allocated;
+                const remaining = roundToNDecimal(quantity - allocated, 2);
                 newSplit.items[rowIdx] = {
                     ...newValue,
                     quantity: remaining,
@@ -243,7 +243,7 @@ const EditFulfillmentPlan = React.memo(function EditFulfillmentPlan({ orderId })
                 });
                 break;
             case 'quantity':
-                newValue = newValue === '' ? newValue : parseInt(newValue);
+                newValue = newValue === '' ? newValue : roundToNDecimal(Number(newValue), 2);
                 const diff = newValue - item.quantity;
                 if (item._id) {
                     setAllocationMap(prevItemsMap => {

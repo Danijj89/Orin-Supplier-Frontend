@@ -355,14 +355,24 @@ const RHFProductTable = React.memo(function RHFProductTable(
     })), [items, fieldNames, ordersMapWithDefault]);
 
     const footer = useMemo(() => [[
-        { field: 'label', value: totalLabel, colSpan: numColumns - 4, align: 'right' },
+        {
+            field: 'label',
+            value: totalLabel,
+            colSpan: numColumns - 4,
+            align: 'right'
+        },
         {
             field: 'quantity',
             value: formatItemsTotalQuantities(itemsData.quantity, itemUnitsMap, LOCALE),
             colSpan: 3,
             align: 'center'
         },
-        { field: 'total', value: formatCurrency(itemsData.total, currency), colSpan: 1, align: 'right' }
+        {
+            field: 'total',
+            value: formatCurrency(roundToNDecimal(itemsData.total, 2), currency),
+            colSpan: 1,
+            align: 'right'
+        }
     ]], [numColumns, currency, itemsData.quantity, itemsData.total, itemUnitsMap]);
 
     const options = useMemo(() => ({
