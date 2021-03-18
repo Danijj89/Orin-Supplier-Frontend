@@ -9,6 +9,8 @@ import { LANGUAGE } from 'app/utils/constants.js';
 import {
     selectDashboardData,
 } from './duck/selectors';
+import { getOrderTableURL } from "../orders/utils/urls";
+import { getLeadsTableURL } from "../leads/utils/urls";
 
 const {
     dashboard,
@@ -17,7 +19,6 @@ const {
     orderRevenueGraph,
     leads,
     clients,
-    // crdStats,
 } = LANGUAGE.dashboard;
 
 const optionsOrderCount = {
@@ -61,6 +62,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+
 const Dashboard = React.memo(function Dashboard() {
     const classes = useStyles();
     const dashboardData = useSelector(selectDashboardData);
@@ -69,53 +71,76 @@ const Dashboard = React.memo(function Dashboard() {
         {
             metricId: ordersStats.new,
             value: dashboardData.newOrders,
-            filter: 'orders?production=Not+Started&procurement=Not+Started&qa=Not+Started'
+            filter: getOrderTableURL(
+                [{field: "procurement", value: "Not+Started"}, {field: "production", value: "Not+Started"}, {
+                    field: "qa",
+                    value: "Not+Started"
+                }]
+            ),
         },
         {
             metricId: ordersStats.inProcurement,
             value: dashboardData.inProc,
+            filter: getOrderTableURL(
+                [{field: "procurement", value: "In+Progress"},]
+            )
         },
         {
             metricId: ordersStats.inProduction,
             value: dashboardData.inProd,
+            filter: getOrderTableURL(
+                [{field: "production", value: "In+Progress"},]
+            )
         },
         {
             metricId: ordersStats.inQA,
             value: dashboardData.inQA,
+            filter: getOrderTableURL(
+                [{field: "qa", value: "In+Progress"},]
+            )
         },
-    ], [ dashboardData.newOrders, dashboardData.inProc, dashboardData.inProd, dashboardData.inQA ]);
+    ], [dashboardData.newOrders, dashboardData.inProc, dashboardData.inProd, dashboardData.inQA]);
 
-    const orderAccentCompleted = useMemo(() => { 
+    const orderAccentCompleted = useMemo(() => {
         return {
             metricId: ordersStats.completed,
             value: dashboardData.completedOrders,
-        } 
-    }, [dashboardData.completedOrders] ); 
+        }
+    }, [dashboardData.completedOrders]);
 
     const orderExceptionMetric = useMemo(() => {
         return {
-        metricId: ordersStats.exception,
-        value: dashboardData.withException,
-    }
-    }, [dashboardData.withException] );
+            metricId: ordersStats.exception,
+            value: dashboardData.withException,
+        }
+    }, [dashboardData.withException]);
 
     const leadsExceptionMetric = useMemo(() => {
         return {
-        metricId: leads.blockedLeads,
-        value: dashboardData.blockedLeads,
-    }
-    }, [dashboardData.blockedLeads] );
+            metricId: leads.blockedLeads,
+            value: dashboardData.blockedLeads,
+            filter: getLeadsTableURL(
+                [{field: "salesStatus", value: "4"}]
+            )
+        }
+    }, [dashboardData.blockedLeads]);
 
     const leadsMetrics = useMemo(() => [
         {
             metricId: leads.newLeads,
             value: dashboardData.newLeadsCount,
+            filter: getLeadsTableURL(
+                [{field: "salesStatus", value: "1"}]
+            )
         },
         {
             metricId: leads.wipLeads,
             value: dashboardData.wipLeads,
+            filter: getLeadsTableURL(
+                [{field: "salesStatus", value: "2"}]
+            )
         },
-    ], [ dashboardData.newLeadsCount ,dashboardData.wipLeads ]);
+    ], [dashboardData.newLeadsCount, dashboardData.wipLeads]);
 
 
     const clientMetrics = useMemo(() => [
@@ -123,26 +148,15 @@ const Dashboard = React.memo(function Dashboard() {
             metricId: clients.newClients,
             value: dashboardData.newClients,
         },
-        {
+    ], [dashboardData.newClients]);
+
+    const clientAccentAll = useMemo(() => {
+        return {
             metricId: clients.totClients,
             value: dashboardData.totClients,
-        },
-    ], [ dashboardData.newClients, dashboardData.totClients ]);
+        }
+    }, [dashboardData.totClients]);
 
-    
-
-    // const crdMetrics = [
-    //     {
-    //         metricId: crdStats.crdOT,
-    //         value: 10,
-    //         // value: (crdPerf.toFixed(2) * 100).toString() + '%',
-    //     },
-    //     {
-    //         metricId: crdStats.crdDiff,
-    //         value: 5,
-    //         // value: crdDiff,
-    //     },
-    // ];
 
     const orderCounts = {
         labels: Object.keys(dashboardData.newOrdersByDay).reverse(),
@@ -181,64 +195,60 @@ const Dashboard = React.memo(function Dashboard() {
         ],
     };
 
-    
+
     return (
         <Grid container direction="column">
             <Grid item>
-                <Typography className={classes.title} variant="h4">
-                    {dashboard.title}
+                <Typography className={ classes.title } variant="h4">
+                    { dashboard.title }
                 </Typography>
             </Grid>
 
             <Grid item>
                 <MetricCard
-                    titleLabel={ordersStats.title}
-                    metrics={orderMetrics}
-                    accentMetric={orderAccentCompleted}
-                    dangerMetric={orderExceptionMetric}
+                    titleLabel={ ordersStats.title }
+                    metrics={ orderMetrics }
+                    accentMetric={ orderAccentCompleted }
+                    dangerMetric={ orderExceptionMetric }
                 />
             </Grid>
 
             <Grid container item>
-                <Grid xs={12} md={6} item className={classes.graph}>
+                <Grid xs={ 12 } md={ 6 } item className={ classes.graph }>
                     <Line
-                        data={orderCounts}
-                        width={40}
-                        height={15}
-                        options={optionsOrderCount}
+                        data={ orderCounts }
+                        width={ 40 }
+                        height={ 15 }
+                        options={ optionsOrderCount }
                     />
                 </Grid>
-                <Grid xs={12} md={6} item className={classes.graph}>
+                <Grid xs={ 12 } md={ 6 } item className={ classes.graph }>
                     <Bar
-                        data={orderRev}
-                        width={40}
-                        height={15}
-                        options={optionsRevGraph}
+                        data={ orderRev }
+                        width={ 40 }
+                        height={ 15 }
+                        options={ optionsRevGraph }
                     />
                 </Grid>
             </Grid>
 
             <Grid container item>
-                <Grid xs={12} md={6} item>
+                <Grid xs={ 12 } md={ 6 } item>
                     <MetricCard
-                        titleLabel={leads.title}
-                        metrics={leadsMetrics}
-                        dangerMetric={leadsExceptionMetric}
+                        titleLabel={ leads.title }
+                        metrics={ leadsMetrics }
+                        dangerMetric={ leadsExceptionMetric }
                     />
                 </Grid>
 
-                <Grid xs={12} md={6} item>
+                <Grid xs={ 12 } md={ 6 } item>
                     <MetricCard
-                        titleLabel={clients.title}
-                        metrics={clientMetrics}
+                        titleLabel={ clients.title }
+                        metrics={ clientMetrics }
+                        accentMetric={ clientAccentAll }
                     />
                 </Grid>
-                {/* <Grid xs={12} md={4} item>
-                    <MetricCard
-                        titleLabel={crdStats.title}
-                        metrics={crdMetrics}
-                    />
-                </Grid> */}
+
             </Grid>
         </Grid>
     );

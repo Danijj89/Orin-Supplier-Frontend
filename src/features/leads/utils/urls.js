@@ -5,7 +5,9 @@ export const getLeadURL = leadId => {
 
 export const getLeadTableFiltersFromURL = queryParams => {
     const filters = {};
-    if ('salesStatus' in queryParams) filters.salesStatus = queryParams.salesStatus.split(',');
+    if ('salesStatus' in queryParams) filters.salesStatus = queryParams.salesStatus.split(',').map(id => {
+        return parseInt(id, 10)
+    });
     if ('leadType' in queryParams) filters.leadType = queryParams.leadType.split(',');
     if ('source' in queryParams) filters.source = queryParams.source;
     if ('quotation' in queryParams) filters.quotation = queryParams.quotation.split(',');
@@ -15,3 +17,9 @@ export const getLeadTableFiltersFromURL = queryParams => {
 
     return filters;
 };
+
+export const getLeadsTableURL = filters =>
+    filters.reduce((acc, filter) =>
+        `${ acc }&${ filter.field }=${ Array.isArray(filter.value)
+            ? filter.value.join(',')
+            : filter.value }`, '/home/leads?');
