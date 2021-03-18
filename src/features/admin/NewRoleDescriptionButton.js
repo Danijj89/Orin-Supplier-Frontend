@@ -40,7 +40,10 @@ const NewRoleDescriptionButton = React.memo(function NewRoleDescriptionButton({ 
     const language = watch(fieldNames.language);
 
     useEffect(() => {
-        if (language) setValue(fieldNames.description, getOptionLabel(role.description, getOptionId(language)));
+        if (language) {
+            setValue(fieldNames.name, getOptionLabel(role.name, getOptionId(language)))
+            setValue(fieldNames.description, getOptionLabel(role.description, getOptionId(language)));
+        }
     }, [language, setValue, role.description]);
 
     const onOpen = useCallback(() => setIsOpen(true), []);
