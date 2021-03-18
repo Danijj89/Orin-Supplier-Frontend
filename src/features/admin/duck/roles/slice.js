@@ -62,9 +62,11 @@ const rolesSlice = createSlice({
         },
         [updateRoleDescription.fulfilled]: (state, action) => {
             const { roleId: id, update } = action.payload;
+            const name = { ...state.entities[id].name };
+            name.label[update.language] = update.name;
             const description = { ...state.entities[id].description };
             description.label[update.language] = update.description;
-            rolesAdapter.updateOne(state, { id, changes: { description } });
+            rolesAdapter.updateOne(state, { id, changes: { name, description } });
             state.status = 'FULFILLED';
         },
         [updateRoleDescription.rejected]: (state, action) => {

@@ -19,6 +19,7 @@ const {
 
 const fieldNames = {
     language: 'language',
+    name: 'name',
     description: 'description'
 };
 
@@ -31,6 +32,7 @@ const NewRoleDescriptionButton = React.memo(function NewRoleDescriptionButton({ 
         mode: 'onSubmit',
         defaultValues: {
             language: null,
+            name: null,
             description: null
         }
     });
@@ -73,6 +75,13 @@ const NewRoleDescriptionButton = React.memo(function NewRoleDescriptionButton({ 
                     required
                 />
                 <SideTextField
+                    name={ fieldNames.name }
+                    label={ formLabels.name }
+                    inputRef={ register({ required: true }) }
+                    error={ !!errors[fieldNames.name] }
+                    required
+                />
+                <SideTextField
                     name={ fieldNames.description }
                     label={ formLabels.description }
                     inputRef={ register({ required: true }) }
@@ -84,6 +93,8 @@ const NewRoleDescriptionButton = React.memo(function NewRoleDescriptionButton({ 
     );
 });
 
-NewRoleDescriptionButton.propTypes = {};
+NewRoleDescriptionButton.propTypes = {
+    role: PropTypes.object.isRequired
+};
 
 export default NewRoleDescriptionButton;
