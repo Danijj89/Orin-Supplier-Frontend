@@ -75,19 +75,9 @@ const AdminUserDialog = React.memo(function AdminUserDialog(
         }, [getValues, setValue]);
 
     const onFormSubmit = useCallback((data) => {
-        let actualData;
-        if (isEdit) {
-            actualData = {
-                _id: data._id,
-                roles: data.roles,
-                company: data.company,
-                email: data.email
-            };
-        } else {
-            const { _id, ...rest } = data;
-            actualData = rest;
-            actualData.company = actualData.company._id;
-        }
+        const { _id, ...actualData } = data;
+        if (!isEdit) actualData.company = data.company._id;
+        if (isEdit) actualData._id = _id;
         onSubmit(actualData);
         setValue('roles', []);
     }, [onSubmit, isEdit, setValue]);
@@ -106,7 +96,6 @@ const AdminUserDialog = React.memo(function AdminUserDialog(
                 inputRef={ register({ required: !isEdit }) }
                 error={ !!errors.name }
                 required={ !isEdit }
-                disabled={ isEdit }
             />
             <SideTextField
                 label={ formLabels.email }
@@ -114,24 +103,27 @@ const AdminUserDialog = React.memo(function AdminUserDialog(
                 type="email"
                 inputRef={ register({ required: !isEdit }) }
                 error={ !!errors.email }
-                required
+                required={ !isEdit }
             />
-            { !isEdit && <SideTextField
+            <SideTextField
                 label={ formLabels.password }
                 name="password"
                 type="password"
                 inputRef={ register({ required: !isEdit }) }
                 error={ !!errors.password }
-                required
-            /> }
-            { !isEdit && <SideTextField
+                required={ !isEdit }
+            />
+            <SideTextField
                 label={ formLabels.confirmPassword }
                 name="confirmPassword"
                 type="password"
-                inputRef={ register({ required: !isEdit }) }
+                inputRef={ register({
+                    required: !isEdit,
+                    validate: confirmPass => getValues('password') === confirmPass
+                }) }
                 error={ !!errors.confirmPassword }
-                required
-            /> }
+                required={ !isEdit }
+            />
             { !isEdit && <RHFAutoComplete
                 rhfControl={ control }
                 name="company"
