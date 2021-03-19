@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { LANGUAGE } from 'app/utils/constants.js';
 import InfoCard from 'features/shared/wrappers/InfoCard.js';
 import { makeStyles } from '@material-ui/core/styles';
@@ -30,6 +30,9 @@ const CompanyUsers = React.memo(function CompanyUsers() {
     const dispatch = useDispatch();
     const users = useSelector(selectAllUsers);
     const sessionUserId = useSelector(selectSessionUserId);
+    const [user, setUser] = useState(null);
+
+    const createUserClickHandler = useCallback(user => setUser(user), []);
 
     const createChangeUserStatusHandler = useCallback(
         (userId, active) => () =>
@@ -51,7 +54,8 @@ const CompanyUsers = React.memo(function CompanyUsers() {
                             <CompanyUser
                                 key={ `company-users-table-user-${ user._id }` }
                                 isCurrentUser={ user._id === sessionUserId }
-                                onUserStatusChange={ createChangeUserStatusHandler }
+                                onUserStatusChange={ createChangeUserStatusHandler(user._id, user.active) }
+                                onUserClick={ createUserClickHandler(user) }
                                 user={ user }
                             />
                         ) }

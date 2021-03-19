@@ -37,7 +37,7 @@ const {
 } = LANGUAGE.home.companyUsers;
 
 const CompanyUser = React.memo(function CompanyUser(
-    { isCurrentUser, user, onUserStatusChange }) {
+    { isCurrentUser, user, onUserStatusChange, onUserClick }) {
     const classes = useStyles();
     const secondaryText = useMemo(() => {
         let result = [];
@@ -50,7 +50,7 @@ const CompanyUser = React.memo(function CompanyUser(
     }, [user.email, user.roles]);
 
     return (
-        <ListItem className={ classes.listItem }>
+        <ListItem className={ classes.listItem } onClick={ onUserClick }>
             <ListItemText
                 primary={ user.name }
                 secondary={ secondaryText }
@@ -60,7 +60,7 @@ const CompanyUser = React.memo(function CompanyUser(
             <UserPermission action={ DELETE_ANY }>
                 <ListItemSecondaryAction>
                     <ThemedButton
-                        onClick={ onUserStatusChange(user._id, user.active) }
+                        onClick={ onUserStatusChange }
                         className={ classes.button }
                         variant={ "outlined" }
                     >
