@@ -10,6 +10,8 @@ import ThemedButton from 'features/shared/buttons/ThemedButton.js';
 import { LANGUAGE } from 'app/utils/constants.js';
 import { getOptionLabel } from 'app/utils/options/getters.js';
 import { makeStyles } from '@material-ui/core/styles';
+import { useSelector } from 'react-redux';
+import { selectRolesMap } from 'features/admin/duck/roles/selectors.js';
 
 const useStyles = makeStyles((theme) => ({
     listItem: {
@@ -38,15 +40,16 @@ const {
 const CompanyUser = React.memo(function CompanyUser(
     { isCurrentUser, user, onUserStatusChange, onUserClick }) {
     const classes = useStyles();
+    const rolesMap = useSelector(selectRolesMap);
     const secondaryText = useMemo(() => {
         let result = [];
         if (user.email) result.push(user.email);
         result.push(user.roles.reduce((arr, role) => {
-            if (role?.name) arr.push(getOptionLabel(role.name));
+            arr.push(getOptionLabel(rolesMap[role].name));
             return arr;
         }, []).join(' - '));
         return result.join(' | ');
-    }, [user.email, user.roles]);
+    }, [user.email, user.roles, rolesMap]);
 
     return (
         <ListItem className={ classes.listItem } onClick={ onUserClick }>

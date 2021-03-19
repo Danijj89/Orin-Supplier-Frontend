@@ -31,7 +31,7 @@ const CompanyUserDialog = React.memo(function CompanyUserDialog(
         defaultValues: {
             name: user?.name,
             email: user?.email,
-            roles: user?.roles || []
+            roles: user?.roles.map(role => role._id) || []
         }
     });
 
