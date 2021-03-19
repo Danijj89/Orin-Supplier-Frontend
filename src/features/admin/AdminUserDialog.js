@@ -15,7 +15,7 @@ import { LANGUAGE } from 'app/utils/constants.js';
 import { useSelector } from 'react-redux';
 import { selectAllCompanies } from './duck/companies/selectors.js';
 import makeStyles from '@material-ui/core/styles/makeStyles.js';
-import { selectAllRoleIds } from './duck/roles/selectors.js';
+import { selectAllActiveRoleIds } from './duck/roles/selectors.js';
 import Title6 from 'features/shared/display/Title6.js';
 
 const useStyles = makeStyles((theme) => ({
@@ -36,7 +36,7 @@ const AdminUserDialog = React.memo(function AdminUserDialog(
     { user, onCancel, onSubmit, isOpen, titleLabel, submitLabel }) {
     const classes = useStyles();
     const companies = useSelector(selectAllCompanies);
-    const roleIds = useSelector(selectAllRoleIds);
+    const roleIds = useSelector(selectAllActiveRoleIds);
     const isEdit = useMemo(() => Boolean(user), [user]);
 
     const { register, control, errors, handleSubmit, setValue, watch, getValues } = useForm({

@@ -4,13 +4,14 @@ import SideTextField from 'features/shared/inputs/SideTextField.js';
 import { LANGUAGE } from 'app/utils/constants.js';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectCompanyRoleIds } from 'features/admin/duck/roles/selectors.js';
+import { selectAllActiveRoles } from 'features/admin/duck/roles/selectors.js';
 import ThemedButton from 'features/shared/buttons/ThemedButton.js';
 import { Add as IconAdd } from '@material-ui/icons';
 import ErrorSnackbar from 'features/shared/components/ErrorSnackbar.js';
 import ListPicker from 'features/home/ListPicker.js';
 import { createUser } from 'features/home/duck/users/thunks.js';
 import { selectSessionUserCompanyId } from 'app/duck/selectors.js';
+import { getOptionLabel } from 'app/utils/options/getters.js';
 
 const {
     formLabels,
@@ -21,9 +22,14 @@ const {
 
 const NewUserButton = React.memo(function NewUserDialog() {
     const dispatch = useDispatch();
-    const roleIds = useSelector(selectCompanyRoleIds);
+    const roles = useSelector(selectAllActiveRoles);
     const sessionCompanyId = useSelector(selectSessionUserCompanyId);
     const [isOpen, setIsOpen] = useState(false);
+    const pickerRoles = useMemo(() => roles.map(role => ({
+        value: role._id,
+        primary: getOptionLabel(role.name),
+        tooltip: getOptionLabel(role.description)
+    })), [roles]);
 
     const { register, errors, handleSubmit, watch, getValues, setValue } = useForm({
         mode: 'onSubmit',
@@ -109,7 +115,7 @@ const NewUserButton = React.memo(function NewUserDialog() {
                     type="password"
                 />
                 <ListPicker
-                    items={ roleIds }
+                    items={ pickerRoles }
                     chosenItems={ chosenRoles }
                     onSelect={ onSelect }
                     required
