@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { List } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectAllUsers } from 'features/home/duck/users/selectors.js';
-import { CREATE_OWN, READ_ANY } from 'features/admin/utils/actions.js';
+import { CREATE_ANY, CREATE_OWN, READ_ANY } from 'features/admin/utils/actions.js';
 import UserPermission from 'features/shared/permissions/UserPermission.js';
 import { selectSessionUserId } from 'app/duck/selectors.js';
 import { updateUser, updateUserStatus } from 'features/home/duck/users/thunks.js';
@@ -53,7 +53,7 @@ const CompanyUsers = React.memo(function CompanyUsers() {
             <InfoCard
                 title={ titles.companyUsers }
                 tools={
-                    <UserPermission action={ CREATE_OWN }>
+                    <UserPermission action={ [CREATE_ANY, CREATE_OWN] }>
                         <NewUserButton/>
                     </UserPermission>
                 }
@@ -72,7 +72,7 @@ const CompanyUsers = React.memo(function CompanyUsers() {
                 }
             />
             { user &&
-            <UserPermission action={ CREATE_OWN }>
+            <UserPermission action={ [CREATE_ANY, CREATE_OWN] }>
                 <CompanyUserDialog
                     onSubmit={ onUpdateUser }
                     onCancel={ onDialogClose }
