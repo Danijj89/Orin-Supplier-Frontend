@@ -5,12 +5,14 @@ import { makeStyles } from '@material-ui/core/styles';
 import { List } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectAllUsers } from 'features/home/duck/users/selectors.js';
-import { CREATE_ANY, READ_ANY } from 'features/admin/utils/actions.js';
+import { CREATE_OWN, READ_ANY } from 'features/admin/utils/actions.js';
 import UserPermission from 'features/shared/permissions/UserPermission.js';
 import { selectSessionUserId } from 'app/duck/selectors.js';
-import { updateUserStatus } from 'features/home/duck/users/thunks.js';
+import { updateUser, updateUserStatus } from 'features/home/duck/users/thunks.js';
 import NewUserButton from 'features/home/NewUserButton.js';
 import CompanyUser from 'features/home/CompanyUser.js';
+import CompanyUserDialog from 'features/home/CompanyUserDialog.js';
+import Users from 'features/admin/Users.js';
 
 const useStyles = makeStyles(() => ({
     list: {
@@ -22,7 +24,8 @@ const useStyles = makeStyles(() => ({
 }));
 
 const {
-    titleLabel
+    titles,
+    buttons
 } = LANGUAGE.home.companyUsers;
 
 const CompanyUsers = React.memo(function CompanyUsers() {
@@ -32,7 +35,13 @@ const CompanyUsers = React.memo(function CompanyUsers() {
     const sessionUserId = useSelector(selectSessionUserId);
     const [user, setUser] = useState(null);
 
-    const createUserClickHandler = useCallback(user => setUser(user), []);
+    const createUserClickHandler = useCallback(user => () => setUser(user), []);
+    const onDialogClose = useCallback(() => setUser(null), []);
+
+    const onUpdateUser = useCallback(data => {
+        dispatch(updateUser({ userId: user._id, update: data }));
+        setUser(null);
+    }, [user, dispatch]);
 
     const createChangeUserStatusHandler = useCallback(
         (userId, active) => () =>
@@ -42,9 +51,9 @@ const CompanyUsers = React.memo(function CompanyUsers() {
     return (
         <UserPermission action={ READ_ANY }>
             <InfoCard
-                title={ titleLabel }
+                title={ titles.companyUsers }
                 tools={
-                    <UserPermission action={ CREATE_ANY }>
+                    <UserPermission action={ CREATE_OWN }>
                         <NewUserButton/>
                     </UserPermission>
                 }
@@ -62,6 +71,17 @@ const CompanyUsers = React.memo(function CompanyUsers() {
                     </List>
                 }
             />
+            { user &&
+            <UserPermission action={ CREATE_OWN }>
+                <CompanyUserDialog
+                    onSubmit={ onUpdateUser }
+                    onCancel={ onDialogClose }
+                    isOpen={ Boolean(user) }
+                    titleLabel={ titles.updateUser }
+                    submitLabel={ buttons.updateSubmit }
+                    user={ user }
+                />
+            </UserPermission> }
         </UserPermission>
     );
 });

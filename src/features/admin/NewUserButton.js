@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
-import { LANGUAGE } from '../../app/utils/constants.js';
+import { LANGUAGE } from 'app/utils/constants.js';
 import AdminUserDialog from './AdminUserDialog.js';
 import { useDispatch } from 'react-redux';
 import { createUser } from './duck/companies/thunks.js';

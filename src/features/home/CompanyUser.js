@@ -32,8 +32,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const {
-    inactivateUserButtonLabel,
-    activateUserButtonLabel
+    buttons
 } = LANGUAGE.home.companyUsers;
 
 const CompanyUser = React.memo(function CompanyUser(
@@ -43,7 +42,7 @@ const CompanyUser = React.memo(function CompanyUser(
         let result = [];
         if (user.email) result.push(user.email);
         result.push(user.roles.reduce((arr, role) => {
-            arr.push(getOptionLabel(role.name));
+            if (role?.name) arr.push(getOptionLabel(role.name));
             return arr;
         }, []).join(' - '));
         return result.join(' | ');
@@ -65,8 +64,8 @@ const CompanyUser = React.memo(function CompanyUser(
                         variant={ "outlined" }
                     >
                         { user.active
-                            ? inactivateUserButtonLabel
-                            : activateUserButtonLabel
+                            ? buttons.inactivate
+                            : buttons.reactivate
                         }
                     </ThemedButton>
                 </ListItemSecondaryAction>

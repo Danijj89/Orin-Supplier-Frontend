@@ -109,6 +109,7 @@ export const CHINESE = {
             },
             roles: {
                 tableHeaders: {
+                    _id: 'Role ID',
                     name: 'Role Name',
                     description: 'Description',
                     company: 'Company'
@@ -277,11 +278,6 @@ export const CHINESE = {
             confirmPasswordLabel: '确认新密码',
         },
         companyUsers: {
-            titleLabel: '公司人员设置',
-            inactivateUserButtonLabel: '取消账户',
-            activateUserButtonLabel: '激活账户'
-        },
-        newUserButton: {
             formLabels: {
                 name: '姓名',
                 email: '邮件',
@@ -290,12 +286,15 @@ export const CHINESE = {
                 role: '职位'
             },
             titles: {
+                companyUsers: '公司人员设置',
                 newUser: '新用户',
                 rolePicker: '职位'
             },
             buttons: {
                 newUser: '要求新用户',
-                newUserSubmit: '要求'
+                newUserSubmit: '要求',
+                inactivate: '取消账户',
+                reactivate: '激活账户',
             },
             errorMessages: {
                 missingName: '请填写新用户姓名.',
@@ -304,6 +303,8 @@ export const CHINESE = {
                 confirmPasswordMismatch: '密码和确认密内容值不符合.',
                 missingRole: '请填写新用户职位.'
             },
+        },
+        newUserButton: {
             roles: {
                 sales: "业务员",
                 production: "生产",

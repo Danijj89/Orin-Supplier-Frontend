@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
 
 const {
     titles
-} = LANGUAGE.home.newUserButton;
+} = LANGUAGE.home.companyUsers;
 
 const ListPicker = React.memo(function ListPicker({ items, chosenItems, onSelect, required, error }) {
     const classes = useStyles({ error });

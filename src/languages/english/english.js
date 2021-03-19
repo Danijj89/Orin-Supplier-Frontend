@@ -111,6 +111,7 @@ export const ENGLISH = {
             },
             roles: {
                 tableHeaders: {
+                    _id: 'Role ID',
                     name: 'Role Name',
                     description: 'Description',
                     company: 'Company'
@@ -279,11 +280,6 @@ export const ENGLISH = {
             confirmPasswordLabel: 'Confirm Password'
         },
         companyUsers: {
-            titleLabel: 'Colleagues preferences',
-            inactivateUserButtonLabel: 'Inactivate',
-            activateUserButtonLabel: 'Reactivate'
-        },
-        newUserButton: {
             formLabels: {
                 name: 'Name',
                 email: 'Email',
@@ -292,12 +288,17 @@ export const ENGLISH = {
                 role: 'Role'
             },
             titles: {
+                companyUsers: 'Colleagues Preferences',
                 newUser: 'New User',
-                rolePicker: 'Roles'
+                rolePicker: 'Roles',
+                updateUser: 'Update User'
             },
             buttons: {
                 newUser: 'Invite New',
-                newUserSubmit: 'invite'
+                newUserSubmit: 'invite',
+                inactivate: 'Inactivate',
+                reactivate: 'Reactivate',
+                updateSubmit: 'Update'
             },
             errorMessages: {
                 missingName: 'New user name is required.',
@@ -306,6 +307,8 @@ export const ENGLISH = {
                 confirmPasswordMismatch: 'The confirm password doesn\'t match the password.',
                 missingRole: 'New user role is required.'
             },
+        },
+        newUserButton: {
             roles: {
                 sales: "Sales",
                 production: "Production",

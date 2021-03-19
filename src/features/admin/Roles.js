@@ -87,6 +87,10 @@ const Roles = React.memo(function Roles() {
 
     const columns = useMemo(() => [
         {
+            field: '_id',
+            headerName: tableHeaders._id
+        },
+        {
             field: 'name',
             headerName: tableHeaders.name,
             format: row => getOptionLabel(row.name)
@@ -113,6 +117,7 @@ const Roles = React.memo(function Roles() {
     const rows = useMemo(() =>
         roles.map(role => ({
             role: role,
+            _id: role._id,
             name: role.name,
             description: role.description,
             company: role.company
