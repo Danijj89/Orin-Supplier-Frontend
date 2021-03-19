@@ -1,6 +1,6 @@
 import { companiesAdapter } from './slice.js';
 import { createSelector } from '@reduxjs/toolkit';
-import { selectCountriesMap, selectCurrenciesMap, selectIndustriesMap } from '../../../../app/duck/selectors.js';
+import { selectCountriesMap, selectCurrenciesMap, selectIndustriesMap } from 'app/duck/selectors.js';
 
 export const {
     selectAll,

@@ -124,6 +124,12 @@ export const selectLeadPotentialsMap = createSelector(
     getOptionsMap
 );
 
+export const selectLanguages = state => state.app.appData.languages;
+export const selectLanguagesMap = createSelector(
+    selectLanguages,
+    getOptionsMap
+);
+
 export const selectDefaultRowItem = createSelector(
     selectItemUnits,
     selectPackageUnits,

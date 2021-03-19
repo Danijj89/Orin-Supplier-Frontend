@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import ThemedButton from '../shared/buttons/ThemedButton.js';
 import FormDialog from '../shared/wrappers/FormDialog.js';
 import SideTextField from '../shared/inputs/SideTextField.js';
-import { LANGUAGE } from '../../app/utils/constants.js';
+import { LANGUAGE } from 'app/utils/constants.js';
 import RHFAutoComplete from '../shared/rhf/inputs/RHFAutoComplete.js';
 import { selectAllCompanies } from './duck/companies/selectors.js';
 import { selectAllPermissionsIds } from './duck/permissions/selectors.js';
@@ -28,11 +28,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const {
-    buttonLabel,
-    dialogTitle,
-    dialogSubmit,
+    titles,
+    buttons,
     formLabels
-} = LANGUAGE.admin.admin.roles.newRoleButton;
+} = LANGUAGE.admin.admin.roles;
 
 const NewRoleButton = React.memo(function NewRoleButton() {
     const classes = useStyles();
@@ -44,7 +43,8 @@ const NewRoleButton = React.memo(function NewRoleButton() {
     const { register, control, errors, handleSubmit, setValue, watch, getValues } = useForm({
         mode: 'onSubmit',
         defaultValues: {
-            _id: null,
+            name: null,
+            description: null,
             company: null,
             permissions: []
         }
@@ -81,20 +81,27 @@ const NewRoleButton = React.memo(function NewRoleButton() {
     return (
         <>
             <ThemedButton onClick={ onClick }>
-                { buttonLabel }
+                { buttons.newRole }
             </ThemedButton>
             <FormDialog
                 onSubmit={ handleSubmit(onSubmit) }
                 onCancel={ onCancel }
                 isOpen={ open }
-                titleLabel={ dialogTitle }
-                submitLabel={ dialogSubmit }
+                titleLabel={ titles.newRole }
+                submitLabel={ buttons.newRoleSubmit }
             >
                 <SideTextField
-                    label={ formLabels._id }
-                    name="_id"
+                    label={ formLabels.name }
+                    name="name"
                     inputRef={ register({ required: true }) }
-                    error={ !!errors._id }
+                    error={ !!errors.name }
+                    required
+                />
+                <SideTextField
+                    label={ formLabels.enDescription }
+                    name="description"
+                    inputRef={ register({ required: true }) }
+                    error={ !!errors.description }
                     required
                 />
                 <RHFAutoComplete

@@ -11,13 +11,18 @@ export const selectRoleDataStatus = state => state.roles.dataStatus;
 export const selectRoleStatus = state => state.roles.status;
 export const selectRoleError = state => state.roles.error;
 
-export const selectAllRoleIds = createSelector(
+export const selectAllActiveRoles = createSelector(
     selectAllRoles,
+    roles => roles.filter(role => role.active)
+);
+
+export const selectAllActiveRoleIds = createSelector(
+    selectAllActiveRoles,
     roles => roles.map(role => role._id)
 );
 
-export const selectCompanyRoleIds = createSelector(
-    selectAllRoleIds,
+export const selectActiveCompanyRoleIds = createSelector(
+    selectAllActiveRoleIds,
     roles => roles.filter(role => !excludedRoles.includes(role))
 );
 

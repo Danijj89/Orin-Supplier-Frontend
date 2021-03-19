@@ -15,7 +15,7 @@ import { LANGUAGE } from 'app/utils/constants.js';
 import { useSelector } from 'react-redux';
 import { selectAllCompanies } from './duck/companies/selectors.js';
 import makeStyles from '@material-ui/core/styles/makeStyles.js';
-import { selectAllRoleIds } from './duck/roles/selectors.js';
+import { selectAllActiveRoleIds } from './duck/roles/selectors.js';
 import Title6 from 'features/shared/display/Title6.js';
 
 const useStyles = makeStyles((theme) => ({
@@ -36,7 +36,7 @@ const AdminUserDialog = React.memo(function AdminUserDialog(
     { user, onCancel, onSubmit, isOpen, titleLabel, submitLabel }) {
     const classes = useStyles();
     const companies = useSelector(selectAllCompanies);
-    const roleIds = useSelector(selectAllRoleIds);
+    const roleIds = useSelector(selectAllActiveRoleIds);
     const isEdit = useMemo(() => Boolean(user), [user]);
 
     const { register, control, errors, handleSubmit, setValue, watch, getValues } = useForm({
@@ -75,18 +75,9 @@ const AdminUserDialog = React.memo(function AdminUserDialog(
         }, [getValues, setValue]);
 
     const onFormSubmit = useCallback((data) => {
-        let actualData;
-        if (isEdit) {
-            actualData = {
-                _id: data._id,
-                roles: data.roles,
-                company: data.company
-            };
-        } else {
-            const { _id, ...rest } = data;
-            actualData = rest;
-            actualData.company = actualData.company._id;
-        }
+        const { _id, ...actualData } = data;
+        if (!isEdit) actualData.company = data.company._id;
+        if (isEdit) actualData._id = _id;
         onSubmit(actualData);
         setValue('roles', []);
     }, [onSubmit, isEdit, setValue]);
@@ -105,32 +96,34 @@ const AdminUserDialog = React.memo(function AdminUserDialog(
                 inputRef={ register({ required: !isEdit }) }
                 error={ !!errors.name }
                 required={ !isEdit }
-                disabled={ isEdit }
             />
-            { !isEdit && <SideTextField
+            <SideTextField
                 label={ formLabels.email }
                 name="email"
                 type="email"
                 inputRef={ register({ required: !isEdit }) }
                 error={ !!errors.email }
-                required
-            /> }
-            { !isEdit && <SideTextField
+                required={ !isEdit }
+            />
+            <SideTextField
                 label={ formLabels.password }
                 name="password"
                 type="password"
                 inputRef={ register({ required: !isEdit }) }
                 error={ !!errors.password }
-                required
-            /> }
-            { !isEdit && <SideTextField
+                required={ !isEdit }
+            />
+            <SideTextField
                 label={ formLabels.confirmPassword }
                 name="confirmPassword"
                 type="password"
-                inputRef={ register({ required: !isEdit }) }
+                inputRef={ register({
+                    required: !isEdit,
+                    validate: confirmPass => getValues('password') === confirmPass
+                }) }
                 error={ !!errors.confirmPassword }
-                required
-            /> }
+                required={ !isEdit }
+            />
             { !isEdit && <RHFAutoComplete
                 rhfControl={ control }
                 name="company"

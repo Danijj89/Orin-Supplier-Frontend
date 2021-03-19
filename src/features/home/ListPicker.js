@@ -40,12 +40,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const {
-    titles,
-    roles,
-    hints
-} = LANGUAGE.home.newUserButton;
+    titles
+} = LANGUAGE.home.companyUsers;
 
-const ListPicker = React.memo(function RolePicker({ items, chosenItems, onSelect, required, error }) {
+const ListPicker = React.memo(function ListPicker({ items, chosenItems, onSelect, required, error }) {
     const classes = useStyles({ error });
 
     return (
@@ -56,19 +54,19 @@ const ListPicker = React.memo(function RolePicker({ items, chosenItems, onSelect
             </Typography>
             <List className={ classes.root } dense component="div" role="list">
                 { items.map((item) =>
-                    <ListItem key={ item } role="listitem" button onClick={ onSelect(item) }>
+                    <ListItem key={ item.value } role="listitem" button onClick={ onSelect(item.value) }>
                         <ListItemIcon>
                             <Checkbox
-                                checked={ chosenItems?.indexOf(item) !== -1 }
+                                checked={ chosenItems?.indexOf(item.value) !== -1 }
                                 tabIndex={ -1 }
                                 disableRipple
                                 color="primary"
                             />
                         </ListItemIcon>
-                        <ListItemText primary={ roles[item] }/>
-                        <ListItemIcon>
-                            <ToolTip hint={hints[item]} />
-                        </ListItemIcon>
+                        <ListItemText primary={ item.primary }/>
+                        { item.tooltip && <ListItemIcon>
+                            <ToolTip hint={ item.tooltip }/>
+                        </ListItemIcon> }
                     </ListItem>
                 ) }
             </List>
@@ -77,7 +75,11 @@ const ListPicker = React.memo(function RolePicker({ items, chosenItems, onSelect
 });
 
 ListPicker.propTypes = {
-    items: PropTypes.arrayOf(PropTypes.string).isRequired,
+    items: PropTypes.arrayOf(PropTypes.exact({
+        value: PropTypes.string.isRequired,
+        primary: PropTypes.string,
+        tooltip: PropTypes.string
+    })).isRequired,
     chosenItems: PropTypes.arrayOf(PropTypes.string).isRequired,
     onSelect: PropTypes.func.isRequired,
     required: PropTypes.bool,

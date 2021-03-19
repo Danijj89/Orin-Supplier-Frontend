@@ -50,7 +50,7 @@ export function formatQuantityWithUnit(quantity, unit) {
 export function formatItemsTotalQuantities(unitObj, unitsMap, locale = 'en') {
     let entries = Object.entries(unitObj);
     if (entries.length > 1) entries = entries.filter(([_, quantity]) => quantity !== 0);
-    return entries.map(([unit, quantity]) => `${ quantity } ${ getOptionLabel(unitsMap[unit], locale) }`)
+    return entries.map(([unit, quantity]) => `${ roundToNDecimal(quantity, 2) } ${ getOptionLabel(unitsMap[unit], locale) }`)
         .join(' + ');
 }
 
