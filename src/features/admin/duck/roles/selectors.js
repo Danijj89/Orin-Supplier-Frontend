@@ -4,7 +4,8 @@ import { createSelector } from '@reduxjs/toolkit';
 const excludedRoles = ['super_user', 'company_admin'];
 
 export const {
-    selectAll: selectAllRoles
+    selectAll: selectAllRoles,
+    selectEntities: selectRolesMap
 } = ordersAdapter.getSelectors(state => state.roles);
 
 export const selectRoleDataStatus = state => state.roles.dataStatus;
