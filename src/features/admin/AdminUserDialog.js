@@ -80,7 +80,8 @@ const AdminUserDialog = React.memo(function AdminUserDialog(
             actualData = {
                 _id: data._id,
                 roles: data.roles,
-                company: data.company
+                company: data.company,
+                email: data.email
             };
         } else {
             const { _id, ...rest } = data;
@@ -107,14 +108,14 @@ const AdminUserDialog = React.memo(function AdminUserDialog(
                 required={ !isEdit }
                 disabled={ isEdit }
             />
-            { !isEdit && <SideTextField
+            <SideTextField
                 label={ formLabels.email }
                 name="email"
                 type="email"
                 inputRef={ register({ required: !isEdit }) }
                 error={ !!errors.email }
                 required
-            /> }
+            />
             { !isEdit && <SideTextField
                 label={ formLabels.password }
                 name="password"
