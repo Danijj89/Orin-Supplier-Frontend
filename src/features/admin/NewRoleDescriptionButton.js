@@ -44,7 +44,7 @@ const NewRoleDescriptionButton = React.memo(function NewRoleDescriptionButton({ 
             setValue(fieldNames.name, getOptionLabel(role.name, getOptionId(language)))
             setValue(fieldNames.description, getOptionLabel(role.description, getOptionId(language)));
         }
-    }, [language, setValue, role.description]);
+    }, [language, setValue, role.description, role.name]);
 
     const onOpen = useCallback(() => setIsOpen(true), []);
     const onCancel = useCallback(() => setIsOpen(false), []);

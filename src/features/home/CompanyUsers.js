@@ -12,7 +12,6 @@ import { updateUser, updateUserStatus } from 'features/home/duck/users/thunks.js
 import NewUserButton from 'features/home/NewUserButton.js';
 import CompanyUser from 'features/home/CompanyUser.js';
 import CompanyUserDialog from 'features/home/CompanyUserDialog.js';
-import Users from 'features/admin/Users.js';
 
 const useStyles = makeStyles(() => ({
     list: {
